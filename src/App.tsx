@@ -69,7 +69,22 @@ export default function App() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_ADSENSE) || localStorage.getItem('juniordevhub_adsense_v1');
       if (saved) {
-        return { ...DEFAULT_ADSENSE_CONFIG, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        // Force reset if publisherId is placeholder or testMode is on so frontend remains clean
+        if (
+          !parsed.publisherId ||
+          parsed.publisherId === 'ca-pub-9876543210123456' ||
+          parsed.publisherId.includes('configured-in-admin') ||
+          parsed.testMode
+        ) {
+          return {
+            ...DEFAULT_ADSENSE_CONFIG,
+            enabled: false,
+            testMode: false,
+            publisherId: '',
+          };
+        }
+        return { ...DEFAULT_ADSENSE_CONFIG, ...parsed };
       }
     } catch (e) {
       console.warn('Could not read AdSense config from localStorage', e);
@@ -270,8 +285,8 @@ export default function App() {
         {/* VIEW 1: JOB SEARCH PORTAL */}
         {activeTab === 'jobs' && (
           <div>
-            {/* Top Leaderboard Ad Slot (Policy compliant, clear label) */}
-            {adConfig.headerAd && (
+            {/* Top Leaderboard Ad Slot */}
+            {adConfig.enabled && adConfig.headerAd && (
               <div className="max-w-7xl mx-auto px-4 pt-4">
                 <AdSlot type="leaderboard" config={adConfig} />
               </div>
@@ -441,7 +456,7 @@ export default function App() {
                   </div>
 
                   {/* Compliant In-Feed Ad Unit (Inserted seamlessly between job cards with clear margin) */}
-                  {adConfig.inFeedAd && (
+                  {adConfig.enabled && adConfig.inFeedAd && (
                     <div className="py-2">
                       <AdSlot type="in-feed" config={adConfig} />
                     </div>
@@ -534,7 +549,7 @@ export default function App() {
       </main>
 
       {/* Footer Leaderboard Ad */}
-      {adConfig.footerAd && activeTab === 'jobs' && (
+      {adConfig.enabled && adConfig.footerAd && activeTab === 'jobs' && (
         <div className="max-w-7xl mx-auto px-4 pb-4">
           <AdSlot type="leaderboard" config={adConfig} />
         </div>
@@ -597,7 +612,7 @@ export default function App() {
               onClick={() => setLegalModalType('privacy')}
               className="hover:text-slate-900 transition-colors"
             >
-              Privacy Policy (AdSense &amp; Cookies)
+              Privacy &amp; Cookie Policy
             </button>
             <button
               onClick={() => setLegalModalType('terms')}
@@ -609,13 +624,7 @@ export default function App() {
               onClick={() => setLegalModalType('disclaimer')}
               className="hover:text-slate-900 transition-colors"
             >
-              Scraping &amp; ATS Disclaimer
-            </button>
-            <button
-              onClick={() => setActiveTab('adsense-policy')}
-              className="text-amber-700 font-semibold hover:underline"
-            >
-              AdSense Compliance Center
+              ATS Direct Application Standards
             </button>
             {/* Show owner shortcut only when authenticated */}
             {isAdminAuthenticated && (
@@ -632,7 +641,7 @@ export default function App() {
 
         <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
           <div className="flex items-center gap-2">
-            <span>&copy; {new Date().getFullYear()} FreshCommits (freshcommits.com). Built for high performance, lightweight loading, and full Google AdSense policy alignment.</span>
+            <span>&copy; {new Date().getFullYear()} FreshCommits (freshcommits.com). Strictly verified 0–2 YoE software engineering opportunities.</span>
             <span>&bull;</span>
             <button
               onClick={() => {

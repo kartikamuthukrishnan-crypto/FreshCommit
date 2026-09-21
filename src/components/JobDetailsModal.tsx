@@ -193,7 +193,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               </div>
 
               {/* Google AdSense policy-compliant in-modal banner (guaranteed margin from buttons) */}
-              {adConfig.detailSidebarAd && (
+              {adConfig.enabled && adConfig.detailSidebarAd && (
                 <div className="pt-2">
                   <AdSlot type="in-feed" config={adConfig} />
                 </div>

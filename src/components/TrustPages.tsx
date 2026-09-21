@@ -88,7 +88,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
             </div>
             <h3 className="font-bold text-slate-900 text-base">Always 100% Free for Jobseekers</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Access to our job feed, salary benchmarks, and technical guides is completely free. We sustain operations through transparent, policy-compliant Google AdSense advertising.
+              Access to our job feed, salary benchmarks, and career tools is completely free for all early-career jobseekers. We sustain our platform infrastructure through non-intrusive, privacy-compliant sponsorships.
             </p>
           </div>
         </div>
@@ -98,7 +98,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
       <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Users className="w-5 h-5 text-indigo-600" />
+            <Users className="w-5 h-5 text-emerald-600" />
             Editorial Team &amp; Governance
           </h2>
           <p className="text-xs text-slate-500 mt-1">

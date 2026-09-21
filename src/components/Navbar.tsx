@@ -96,18 +96,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </button>
 
-            <button
-              id="nav-tab-policy"
-              onClick={() => setActiveTab('adsense-policy')}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
-                activeTab === 'adsense-policy'
-                  ? 'bg-slate-100 text-slate-900 font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <Shield className="w-4 h-4 text-amber-600" />
-              <span>Policy &amp; Trust</span>
-            </button>
 
             <button
               id="nav-tab-about"
@@ -118,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
-              <Users className="w-4 h-4 text-indigo-600" />
+              <Users className="w-4 h-4 text-emerald-600" />
               <span>About Us</span>
             </button>
 
@@ -242,19 +230,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => {
-              setActiveTab('adsense-policy');
-              setIsMobileMenuOpen(false);
-            }}
-            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium ${
-              activeTab === 'adsense-policy' ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-600'
-            }`}
-          >
-            <Shield className="w-4 h-4 text-amber-600" />
-            AdSense Policy &amp; Trust
-          </button>
-
-          <button
-            onClick={() => {
               setActiveTab('about');
               setIsMobileMenuOpen(false);
             }}
@@ -262,7 +237,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               activeTab === 'about' ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-600'
             }`}
           >
-            <Users className="w-4 h-4 text-indigo-600" />
+            <Users className="w-4 h-4 text-emerald-600" />
             About Us &amp; Editorial Standards
           </button>
 
