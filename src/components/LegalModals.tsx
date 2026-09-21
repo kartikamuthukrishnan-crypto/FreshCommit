@@ -80,13 +80,13 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
           {type === 'disclaimer' && (
             <>
-              <h3 className="font-bold text-slate-900 text-sm">Authentic Unparaphrased Text Policy</h3>
+              <h3 className="font-bold text-slate-900 text-sm">Authentic Job Data Verification</h3>
               <p>
-                In strict adherence to Google AdSense guidelines and authentic job verification standards, job requirements and responsibilities are published verbatim from verified company career feeds (such as Greenhouse, Lever, and Ashby) without AI paraphrasing.
+                Job requirements and technical responsibilities are published verbatim from verified company career feeds (such as Greenhouse, Lever, and Ashby) without AI paraphrasing or synthetic rewriting.
               </p>
-              <h3 className="font-bold text-slate-900 text-sm">Employer Removal Requests</h3>
+              <h3 className="font-bold text-slate-900 text-sm">Employer Listing Updates &amp; Removals</h3>
               <p>
-                If you are an employer and wish to update, modify, or remove your listing from FreshCommits, please email our support team with your company domain email (support@freshcommits.com) for immediate processing within 24 hours.
+                If you are an employer and wish to update, modify, or remove your listing from FreshCommits, please submit an official inquiry via our Contact Desk using your verified company email for expedited processing within 24 hours.
               </p>
             </>
           )}
