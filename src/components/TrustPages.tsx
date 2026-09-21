@@ -180,9 +180,28 @@ export const ContactUsView: React.FC = () => {
     const generatedRef = 'FC-' + Math.floor(100000 + Math.random() * 900000);
     setTicketRef(generatedRef);
 
+    // Get configured support destination email (default: freshcommits.com@gmail.com)
+    const recipientEmail = (typeof window !== 'undefined' && localStorage.getItem('freshcommits_support_recipient_email')) || 'freshcommits.com@gmail.com';
+
+    // 1. Immediately log ticket to local state & storage so it is guaranteed recorded
+    const newTicket = {
+      id: generatedRef,
+      ...formData,
+      timestamp: new Date().toISOString(),
+      status: 'transmitting',
+    };
+
     try {
-      // Direct recipient encoded to prevent web scrapers while delivering to freshcommits.com@gmail.com
-      const endpoint = 'https://formsubmit.co/ajax/' + atob('ZnJlc2hjb21taXRzLmNvbUBnbWFpbC5jb20=');
+      const existingTickets = JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
+      existingTickets.unshift(newTicket);
+      localStorage.setItem('freshcommits_support_tickets', JSON.stringify(existingTickets.slice(0, 100)));
+    } catch {
+      // Storage fallback
+    }
+
+    try {
+      const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`;
+      
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -193,6 +212,9 @@ export const ContactUsView: React.FC = () => {
           _subject: `[FreshCommits] [${formData.inquiryType.toUpperCase()}] ${formData.subject || 'Inquiry'} (Ref: ${generatedRef})`,
           name: formData.name,
           email: formData.email,
+          _replyto: formData.email,
+          // Sends automatic confirmation email to the sender's inbox!
+          _autoresponse: `Thank you for contacting FreshCommits! We have received your inquiry (Ticket Ref: ${generatedRef}). Our support desk will review your submission and follow up with you at ${formData.email} within 24 business hours.\n\nSummary of your submitted message:\n- Subject: ${formData.subject}\n- Category: ${formData.inquiryType}\n- Company: ${formData.company || 'N/A'}\n- Message:\n${formData.message}\n\nBest regards,\nThe FreshCommits Team`,
           inquiry_type: formData.inquiryType,
           company: formData.company || 'Not Specified',
           subject: formData.subject,
@@ -205,20 +227,20 @@ export const ContactUsView: React.FC = () => {
 
       const result = await response.json().catch(() => null);
 
-      if (result && result.message && result.message.toLowerCase().includes('activation')) {
+      const isActivated = result && (result.success === 'true' || result.success === true);
+      const isActivationNeeded = result && result.message && result.message.toLowerCase().includes('activation');
+
+      if (isActivationNeeded || !isActivated) {
         setNeedsActivation(true);
       }
 
-      // Maintain persistent ticket backup in localStorage
+      // Update ticket status in localStorage
       try {
-        const existingTickets = JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
-        existingTickets.unshift({
-          id: generatedRef,
-          ...formData,
-          timestamp: new Date().toISOString(),
-          status: result?.success === 'true' || result?.success === true ? 'delivered' : 'pending_activation',
-        });
-        localStorage.setItem('freshcommits_support_tickets', JSON.stringify(existingTickets.slice(0, 50)));
+        const stored = JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
+        const updated = stored.map((t: any) =>
+          t.id === generatedRef ? { ...t, status: isActivated ? 'delivered' : 'pending_activation' } : t
+        );
+        localStorage.setItem('freshcommits_support_tickets', JSON.stringify(updated));
       } catch {
         // Storage notice ignored
       }
@@ -226,19 +248,7 @@ export const ContactUsView: React.FC = () => {
       setSubmitted(true);
     } catch (err: any) {
       console.warn('Form transmission note:', err);
-      // Fallback: preserve ticket locally so user inquiry is never lost
-      try {
-        const existingTickets = JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
-        existingTickets.unshift({
-          id: generatedRef,
-          ...formData,
-          timestamp: new Date().toISOString(),
-          status: 'queued',
-        });
-        localStorage.setItem('freshcommits_support_tickets', JSON.stringify(existingTickets.slice(0, 50)));
-      } catch {
-        // Storage notice ignored
-      }
+      setNeedsActivation(true);
       setSubmitted(true);
     } finally {
       setIsSubmitting(false);

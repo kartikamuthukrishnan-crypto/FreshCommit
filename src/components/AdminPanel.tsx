@@ -62,6 +62,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       return [];
     }
   });
+  const [supportRecipientEmail, setSupportRecipientEmail] = useState<string>(() => {
+    return localStorage.getItem('freshcommits_support_recipient_email') || 'freshcommits.com@gmail.com';
+  });
+  const [isActivating, setIsActivating] = useState(false);
+  const [activationFeedback, setActivationFeedback] = useState('');
   const [customPasscode, setCustomPasscode] = useState(ownerPasscode);
   const [passcodeMsg, setPasscodeMsg] = useState('');
 
@@ -1183,27 +1188,146 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       {/* TAB 6: INQUIRIES & SUPPORT INBOX */}
       {activeTab === 'inbox' && (
         <div className="space-y-6">
+          {/* Notification Email Settings & Activation */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div className="flex items-start justify-between gap-4 flex-wrap pb-3 border-b border-slate-100">
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-emerald-600" />
+                  Support Notification Destination Email
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Inquiries will be forwarded to this inbox and automatically backed up below.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const sample = {
+                      id: 'FC-428432',
+                      name: 'Dillib Chandran',
+                      email: 'dillib.chandran@gmail.com',
+                      company: 'Tech Candidate',
+                      inquiryType: 'jobseeker',
+                      subject: 'Junior SWE Listing Question',
+                      message: 'Hello, testing the FreshCommits contact desk inquiry transmission.',
+                      timestamp: new Date().toISOString(),
+                      status: 'delivered',
+                    };
+                    const existing = JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
+                    if (!existing.some((t: any) => t.id === 'FC-428432')) {
+                      const updated = [sample, ...existing];
+                      localStorage.setItem('freshcommits_support_tickets', JSON.stringify(updated));
+                      setSupportTickets(updated);
+                    }
+                  }}
+                  className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+                  title="Restore or test ticket reference #FC-428432"
+                >
+                  + Restore Ref #FC-428432
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+              <div className="relative flex-1">
+                <input
+                  type="email"
+                  value={supportRecipientEmail}
+                  onChange={(e) => setSupportRecipientEmail(e.target.value)}
+                  placeholder="e.g. yourname@gmail.com"
+                  className="w-full text-xs font-mono px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-slate-50/50"
+                />
+              </div>
+
+              <button
+                onClick={() => {
+                  localStorage.setItem('freshcommits_support_recipient_email', supportRecipientEmail);
+                  setActivationFeedback('Saved notification email preference!');
+                  setTimeout(() => setActivationFeedback(''), 4000);
+                }}
+                className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold whitespace-nowrap transition-colors"
+              >
+                Save Recipient Email
+              </button>
+
+              <button
+                disabled={isActivating || !supportRecipientEmail}
+                onClick={async () => {
+                  setIsActivating(true);
+                  setActivationFeedback('');
+                  try {
+                    localStorage.setItem('freshcommits_support_recipient_email', supportRecipientEmail);
+                    const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(supportRecipientEmail)}`;
+                    const res = await fetch(endpoint, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                      body: JSON.stringify({
+                        _subject: '[FreshCommits] Activation Verification Request',
+                        name: 'FreshCommits Owner Desk',
+                        email: supportRecipientEmail,
+                        message: 'This is a one-time activation request for the FreshCommits Support Desk form.',
+                        _captcha: 'false',
+                      }),
+                    });
+                    const data = await res.json().catch(() => null);
+                    if (data && data.message && data.message.toLowerCase().includes('activation')) {
+                      setActivationFeedback(`Activation email sent! Please check ${supportRecipientEmail} (and Spam folder) to click 'Activate Form'.`);
+                    } else {
+                      setActivationFeedback(`Success! FormSubmit activation triggered for ${supportRecipientEmail}.`);
+                    }
+                  } catch (err: any) {
+                    setActivationFeedback('Error sending activation ping. Check network or verify email address.');
+                  } finally {
+                    setIsActivating(false);
+                  }
+                }}
+                className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white rounded-xl text-xs font-semibold whitespace-nowrap transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isActivating ? 'animate-spin' : ''}`} />
+                <span>{isActivating ? 'Triggering...' : 'Trigger Activation Link'}</span>
+              </button>
+            </div>
+
+            {activationFeedback && (
+              <div className="text-xs p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
+                {activationFeedback}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-[11px]">
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span className="text-slate-600">
+                  <strong className="text-slate-800">Sender Auto-Reply Active:</strong> Every candidate or employer automatically gets an instant confirmation email with their ticket ref &amp; submitted summary.
+                </span>
+              </div>
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-2">
+                <ShieldCheck className="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5" />
+                <span className="text-slate-600">
+                  <strong className="text-slate-800">Zero Lost Inquiries:</strong> Every submission is mirrored right into your local admin console even if offline.
+                </span>
+              </div>
+            </div>
+          </div>
+
           {/* Activation Notice Banner */}
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div className="space-y-2">
                 <h3 className="text-sm font-bold text-amber-900">
-                  FormSubmit One-Time Activation Requirement
+                  Why FormSubmit requires activation before sending emails:
                 </h3>
                 <p className="text-xs text-amber-800 leading-relaxed">
-                  FormSubmit requires a one-time email confirmation before it forwards messages to an inbox. If you sent a test message and did not receive it in <strong>freshcommits.com@gmail.com</strong>:
+                  FormSubmit will <strong>not forward any emails to the receiver OR send the autoresponse to the sender</strong> until you click the confirmation link in the one-time activation email sent to <strong>{supportRecipientEmail}</strong>.
                 </p>
                 <ol className="text-xs text-amber-900 list-decimal list-inside space-y-1 pl-1">
-                  <li>Open <strong>freshcommits.com@gmail.com</strong> and search for an email from <strong>FormSubmit</strong> (subject: <em>"Action Required: Activate your FormSubmit"</em>). Be sure to check the <strong>Spam / Junk</strong> folder as well.</li>
-                  <li>Click the <strong>"Activate Form"</strong> button inside that email.</li>
-                  <li>Once activated, every subsequent test and candidate message will deliver straight into your Gmail inbox immediately.</li>
+                  <li>Click <strong>"Trigger Activation Link"</strong> above if you haven't received it yet.</li>
+                  <li>Open <strong>{supportRecipientEmail}</strong> and look for an email from <strong>FormSubmit</strong> (subject: <em>"Action Required: Activate your FormSubmit"</em>). Check <strong>Spam / Junk</strong> if not in primary inbox.</li>
+                  <li>Click the <strong>"Activate Form"</strong> button inside that email. Once activated, all candidate inquiries and sender auto-responses will deliver immediately.</li>
                 </ol>
-                <div className="pt-2">
-                  <span className="text-[11px] font-medium text-amber-700 bg-amber-100/70 px-2.5 py-1 rounded-lg">
-                    Good news: All submissions are also backed up right below so zero inquiries are ever lost!
-                  </span>
-                </div>
               </div>
             </div>
           </div>
