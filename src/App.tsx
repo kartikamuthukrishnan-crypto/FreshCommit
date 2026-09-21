@@ -7,6 +7,7 @@ import { JobDetailsModal } from './components/JobDetailsModal';
 import { AdminPanel } from './components/AdminPanel';
 import { AdSlot } from './components/AdSlot';
 import { SalaryGuideView, AdSensePolicyView, CareerInsightsView } from './components/OriginalGuides';
+import { InteractiveToolsView } from './components/InteractiveTools';
 import { AboutUsView, ContactUsView } from './components/TrustPages';
 import { LegalModal } from './components/LegalModals';
 import { AdminLoginModal } from './components/AdminLoginModal';
@@ -93,7 +94,7 @@ export default function App() {
   }, [adConfig]);
 
   // View state
-  const [activeTab, setActiveTab] = useState<'jobs' | 'salary-guide' | 'insights' | 'adsense-policy' | 'about' | 'contact' | 'admin'>('jobs');
+  const [activeTab, setActiveTab] = useState<'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin'>('jobs');
   const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
   const [legalModalType, setLegalModalType] = useState<'privacy' | 'terms' | 'disclaimer' | null>(null);
   const [syncLogs, setSyncLogs] = useState<SyncLog[]>([]);
@@ -142,16 +143,24 @@ export default function App() {
     }
   };
 
-  // Listen for ?admin=true in URL or #admin
+  // Listen for hash routes and ?admin=true in URL
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('admin') === 'true' || window.location.hash === '#admin') {
+    const hash = window.location.hash.toLowerCase();
+
+    if (urlParams.get('admin') === 'true' || hash === '#admin') {
       if (isAdminAuthenticated) {
         setActiveTab('admin');
       } else {
         setIsAdminLoginOpen(true);
       }
+    } else if (hash === '#tools' || hash === '#calculator' || hash === '#tc-calculator') {
+      setActiveTab('tools');
+    } else if (hash === '#insights' || hash === '#guides') {
+      setActiveTab('insights');
+    } else if (hash === '#salary' || hash === '#salary-guide') {
+      setActiveTab('salary-guide');
     }
   }, [isAdminAuthenticated]);
 
@@ -464,7 +473,10 @@ export default function App() {
         {/* VIEW 3: CAREER INSIGHTS & ENGINEERING ARTICLES */}
         {activeTab === 'insights' && <CareerInsightsView />}
 
-        {/* VIEW 4: ADSENSE POLICY & TRUST CENTER */}
+        {/* VIEW 4: INTERACTIVE DEVELOPER TOOLS & TC CALCULATOR */}
+        {activeTab === 'tools' && <InteractiveToolsView />}
+
+        {/* VIEW 5: ADSENSE POLICY & TRUST CENTER */}
         {activeTab === 'adsense-policy' && <AdSensePolicyView />}
 
         {/* VIEW 4: ADMIN PANEL - RESTRICTED TO OWNER ONLY */}
@@ -555,6 +567,24 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-5 flex-wrap text-xs">
+            <button
+              onClick={() => setActiveTab('tools')}
+              className="text-emerald-700 font-bold hover:underline transition-colors"
+            >
+              Career Tools &amp; TC Calculator
+            </button>
+            <button
+              onClick={() => setActiveTab('insights')}
+              className="text-slate-700 font-semibold hover:text-indigo-600 transition-colors"
+            >
+              Career Insights
+            </button>
+            <button
+              onClick={() => setActiveTab('salary-guide')}
+              className="text-slate-700 font-semibold hover:text-indigo-600 transition-colors"
+            >
+              Salary Benchmarks
+            </button>
             <button
               onClick={() => setActiveTab('about')}
               className="text-slate-700 font-semibold hover:text-indigo-600 transition-colors"

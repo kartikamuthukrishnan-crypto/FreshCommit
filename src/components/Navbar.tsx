@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { GitCommit, Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase } from 'lucide-react';
+import { GitCommit, Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'jobs' | 'salary-guide' | 'insights' | 'adsense-policy' | 'about' | 'contact' | 'admin';
-  setActiveTab: (tab: 'jobs' | 'salary-guide' | 'insights' | 'adsense-policy' | 'about' | 'contact' | 'admin') => void;
+  activeTab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin';
+  setActiveTab: (tab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin') => void;
   jobCount: number;
   isAdminAuthenticated: boolean;
   onLogoutAdmin: () => void;
@@ -87,6 +87,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <BookOpen className="w-4 h-4 text-violet-600" />
               <span>Career Insights</span>
+            </button>
+
+            <button
+              id="nav-tab-tools"
+              onClick={() => setActiveTab('tools')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
+                activeTab === 'tools'
+                  ? 'bg-slate-100 text-slate-900 font-semibold'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              <Calculator className="w-4 h-4 text-emerald-600" />
+              <span>Career Tools</span>
+              <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                New
+              </span>
             </button>
 
             <button
@@ -213,6 +229,24 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <BookOpen className="w-4 h-4 text-violet-600" />
             Career Insights &amp; Articles
+          </button>
+
+          <button
+            onClick={() => {
+              setActiveTab('tools');
+              setIsMobileMenuOpen(false);
+            }}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium ${
+              activeTab === 'tools' ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-600'
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <Calculator className="w-4 h-4 text-emerald-600" />
+              Career Tools &amp; TC Calculator
+            </span>
+            <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+              New
+            </span>
           </button>
 
           <button
