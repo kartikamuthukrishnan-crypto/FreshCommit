@@ -23,7 +23,10 @@ import {
   Briefcase,
   Layers,
   ArrowRight,
-  Database
+  Database,
+  Inbox,
+  Mail,
+  Clock
 } from 'lucide-react';
 
 interface AdminPanelProps {
@@ -51,7 +54,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onUpdatePasscode,
   onLogout,
 }) => {
-  const [activeTab, setActiveTab] = useState<'post' | 'sync' | 'manage' | 'adsense' | 'schema-tester'>('post');
+  const [activeTab, setActiveTab] = useState<'post' | 'sync' | 'manage' | 'adsense' | 'schema-tester' | 'inbox'>('post');
+  const [supportTickets, setSupportTickets] = useState<any[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
+    } catch {
+      return [];
+    }
+  });
   const [customPasscode, setCustomPasscode] = useState(ownerPasscode);
   const [passcodeMsg, setPasscodeMsg] = useState('');
 
@@ -285,6 +295,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         >
           <Settings className="w-4 h-4 text-amber-600" />
           <span>Google AdSense Settings</span>
+        </button>
+
+        <button
+          onClick={() => {
+            try {
+              setSupportTickets(JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]'));
+            } catch {
+              // Ignore
+            }
+            setActiveTab('inbox');
+          }}
+          className={`pb-4 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors ${
+            activeTab === 'inbox'
+              ? 'border-indigo-600 text-indigo-600'
+              : 'border-transparent text-slate-500 hover:text-slate-900'
+          }`}
+        >
+          <Inbox className="w-4 h-4 text-emerald-600" />
+          <span>Inquiries &amp; Support Inbox ({supportTickets.length})</span>
         </button>
       </div>
 
@@ -1123,6 +1152,123 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 6: INQUIRIES & SUPPORT INBOX */}
+      {activeTab === 'inbox' && (
+        <div className="space-y-6">
+          {/* Activation Notice Banner */}
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+              <div className="space-y-2">
+                <h3 className="text-sm font-bold text-amber-900">
+                  FormSubmit One-Time Activation Requirement
+                </h3>
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  FormSubmit requires a one-time email confirmation before it forwards messages to an inbox. If you sent a test message and did not receive it in <strong>freshcommits.com@gmail.com</strong>:
+                </p>
+                <ol className="text-xs text-amber-900 list-decimal list-inside space-y-1 pl-1">
+                  <li>Open <strong>freshcommits.com@gmail.com</strong> and search for an email from <strong>FormSubmit</strong> (subject: <em>"Action Required: Activate your FormSubmit"</em>). Be sure to check the <strong>Spam / Junk</strong> folder as well.</li>
+                  <li>Click the <strong>"Activate Form"</strong> button inside that email.</li>
+                  <li>Once activated, every subsequent test and candidate message will deliver straight into your Gmail inbox immediately.</li>
+                </ol>
+                <div className="pt-2">
+                  <span className="text-[11px] font-medium text-amber-700 bg-amber-100/70 px-2.5 py-1 rounded-lg">
+                    Good news: All submissions are also backed up right below so zero inquiries are ever lost!
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Inquiries List */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <Inbox className="w-5 h-5 text-emerald-600" />
+                  Received Support &amp; Employer Inquiries ({supportTickets.length})
+                </h2>
+                <p className="text-xs text-slate-500">
+                  Complete record of all messages submitted via the Contact Desk.
+                </p>
+              </div>
+
+              {supportTickets.length > 0 && (
+                <button
+                  onClick={() => {
+                    if (confirm('Clear all stored inquiries from local console?')) {
+                      localStorage.removeItem('freshcommits_support_tickets');
+                      setSupportTickets([]);
+                    }
+                  }}
+                  className="text-xs text-rose-600 hover:text-rose-700 flex items-center gap-1 font-medium px-3 py-1.5 rounded-lg hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Clear Inquiries
+                </button>
+              )}
+            </div>
+
+            {supportTickets.length === 0 ? (
+              <div className="text-center py-12 text-slate-400 text-xs">
+                No inquiries received yet. Submit an inquiry through the Contact Desk on the site to see it logged here.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {supportTickets.map((ticket, idx) => (
+                  <div
+                    key={ticket.id || idx}
+                    className="p-4 rounded-xl border border-slate-200 hover:border-slate-300 transition-colors bg-slate-50/50 space-y-3"
+                  >
+                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+                          #{ticket.id}
+                        </span>
+                        <span className="text-xs font-bold text-slate-900">{ticket.name}</span>
+                        <span className="text-xs text-slate-500 font-mono">({ticket.email})</span>
+                        {ticket.company && ticket.company !== 'Not Specified' && (
+                          <span className="text-[11px] text-slate-600 bg-slate-200/80 px-2 py-0.5 rounded-full">
+                            {ticket.company}
+                          </span>
+                        )}
+                        <span className="text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded uppercase">
+                          {ticket.inquiryType || 'General'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-400 font-mono">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>{ticket.timestamp ? new Date(ticket.timestamp).toLocaleString() : 'Recent'}</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-xs font-bold text-slate-800 mb-1">
+                        {ticket.subject || '(No Subject)'}
+                      </div>
+                      <p className="text-xs text-slate-600 whitespace-pre-wrap leading-relaxed bg-white p-3 rounded-lg border border-slate-200">
+                        {ticket.message}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                      <span>Status: <strong className="text-emerald-700">{ticket.status || 'Received'}</strong></span>
+                      <a
+                        href={`mailto:${ticket.email}?subject=Re: [FreshCommits] ${encodeURIComponent(ticket.subject || 'Inquiry Ref: #' + ticket.id)}`}
+                        className="text-emerald-600 hover:underline font-semibold flex items-center gap-1"
+                      >
+                        <Mail className="w-3.5 h-3.5" />
+                        Reply to Candidate
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

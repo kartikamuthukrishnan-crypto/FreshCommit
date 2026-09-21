@@ -168,10 +168,14 @@ export const ContactUsView: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [ticketRef, setTicketRef] = useState('');
+  const [needsActivation, setNeedsActivation] = useState(false);
+  const [submissionError, setSubmissionError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmissionError('');
+    setNeedsActivation(false);
 
     const generatedRef = 'FC-' + Math.floor(100000 + Math.random() * 900000);
     setTicketRef(generatedRef);
@@ -179,7 +183,7 @@ export const ContactUsView: React.FC = () => {
     try {
       // Direct recipient encoded to prevent web scrapers while delivering to freshcommits.com@gmail.com
       const endpoint = 'https://formsubmit.co/ajax/' + atob('ZnJlc2hjb21taXRzLmNvbUBnbWFpbC5jb20=');
-      await fetch(endpoint, {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -199,6 +203,12 @@ export const ContactUsView: React.FC = () => {
         }),
       });
 
+      const result = await response.json().catch(() => null);
+
+      if (result && result.message && result.message.toLowerCase().includes('activation')) {
+        setNeedsActivation(true);
+      }
+
       // Maintain persistent ticket backup in localStorage
       try {
         const existingTickets = JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
@@ -206,7 +216,7 @@ export const ContactUsView: React.FC = () => {
           id: generatedRef,
           ...formData,
           timestamp: new Date().toISOString(),
-          status: 'transmitted',
+          status: result?.success === 'true' || result?.success === true ? 'delivered' : 'pending_activation',
         });
         localStorage.setItem('freshcommits_support_tickets', JSON.stringify(existingTickets.slice(0, 50)));
       } catch {
@@ -214,7 +224,7 @@ export const ContactUsView: React.FC = () => {
       }
 
       setSubmitted(true);
-    } catch (err) {
+    } catch (err: any) {
       console.warn('Form transmission note:', err);
       // Fallback: preserve ticket locally so user inquiry is never lost
       try {
@@ -316,10 +326,22 @@ export const ContactUsView: React.FC = () => {
               <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
                 <CheckCircle className="w-8 h-8" />
               </div>
-              <h2 className="text-xl font-bold text-slate-900">Message Received</h2>
+              <h2 className="text-xl font-bold text-slate-900">Inquiry Transmitted</h2>
               <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
-                Thank you for contacting FreshCommits. Your inquiry has been routed to our team (Ticket Ref: <strong>#{ticketRef}</strong>). We will follow up at <strong>{formData.email}</strong> within 24 business hours.
+                Thank you for contacting FreshCommits. Your inquiry has been logged (Ticket Ref: <strong>#{ticketRef}</strong>). We will follow up at <strong>{formData.email}</strong> within 24 business hours.
               </p>
+
+              {needsActivation && (
+                <div className="max-w-md mx-auto p-3.5 bg-amber-50 border border-amber-200 rounded-xl text-left text-xs text-amber-900 space-y-1">
+                  <div className="font-semibold flex items-center gap-1.5 text-amber-800">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                    First-Time Form Activation Required
+                  </div>
+                  <p className="text-[11px] text-amber-700 leading-relaxed">
+                    FormSubmit sent an initial confirmation email titled <strong>"Action Required: Activate your FormSubmit"</strong> to the site inbox (check Inbox &amp; Spam). Click the activation link in that email to receive all forwarded inquiries.
+                  </p>
+                </div>
+              )}
               <button
                 onClick={() => {
                   setSubmitted(false);
