@@ -40,7 +40,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
               </p>
               <h3 className="font-bold text-slate-900 text-sm">Google AdSense & DoubleClick Cookie</h3>
               <p>
-                Google, as a third-party vendor, uses cookies to serve ads on FreshCommit. Google&apos;s use of the DART cookie enables it to serve ads to our users based on their visit to our site and other sites on the Internet. Users may opt out of the use of the DART cookie by visiting the Google Ad and Content Network Privacy Policy at{' '}
+                Google, as a third-party vendor, uses cookies to serve ads on FreshCommits (freshcommits.com). Google&apos;s use of the DART cookie enables it to serve ads to our users based on their visit to our site and other sites on the Internet. Users may opt out of the use of the DART cookie by visiting the Google Ad and Content Network Privacy Policy at{' '}
                 <a
                   href="https://policies.google.com/technologies/ads"
                   target="_blank"
@@ -53,7 +53,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
               </p>
               <h3 className="font-bold text-slate-900 text-sm">Data Collection & Storage</h3>
               <p>
-                FreshCommit does not sell, rent, or trade user personal information. We do not require account creation for browsing or applying to software developer jobs. All job applications are routed directly to the verified employer’s Applicant Tracking System (ATS).
+                FreshCommits does not sell, rent, or trade user personal information. We do not require account creation for browsing or applying to software developer jobs. All job applications are routed directly to the verified employer’s Applicant Tracking System (ATS).
               </p>
               <h3 className="font-bold text-slate-900 text-sm">GDPR & CCPA Rights</h3>
               <p>
@@ -65,7 +65,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
           {type === 'terms' && (
             <>
               <p>
-                By using FreshCommit, you agree to access job listings and information for lawful personal job-seeking purposes only.
+                By using FreshCommits, you agree to access job listings and information for lawful personal job-seeking purposes only.
               </p>
               <h3 className="font-bold text-slate-900 text-sm">Employer Intellectual Property</h3>
               <p>
@@ -73,7 +73,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
               </p>
               <h3 className="font-bold text-slate-900 text-sm">Direct Application Responsibility</h3>
               <p>
-                FreshCommit is not an employment agency. We do not participate in employment negotiations, background checks, or hiring decisions.
+                FreshCommits is not an employment agency. We do not participate in employment negotiations, background checks, or hiring decisions.
               </p>
             </>
           )}
@@ -86,7 +86,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
               </p>
               <h3 className="font-bold text-slate-900 text-sm">Employer Removal Requests</h3>
               <p>
-                If you are an employer and wish to update, modify, or remove your listing from FreshCommit, please email our support team with your company domain email for immediate processing within 24 hours.
+                If you are an employer and wish to update, modify, or remove your listing from FreshCommits, please email our support team with your company domain email (support@freshcommits.com) for immediate processing within 24 hours.
               </p>
             </>
           )}

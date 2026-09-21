@@ -41,7 +41,7 @@ export const CAREER_ARTICLES: CareerArticle[] = [
     readTime: '6 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Staff Infrastructure & Developer Experience'
     },
     title: 'Git Commit & Branch Hygiene: What Senior Engineers Expect on Day One',
@@ -141,7 +141,7 @@ git rebase -i HEAD~4
     readTime: '8 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Compensation Research & Industry Benchmarks'
     },
     title: 'Decoding New Grad Tech Offers: Base Salary vs. RSUs vs. Sign-On Bonuses',
@@ -224,7 +224,7 @@ and look forward to hearing your thoughts!"`
     readTime: '7 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Hiring Committee & Senior Staff Engineers'
     },
     title: 'Beyond Todo Lists: 4 Production-Grade Projects That Get You Screened',
@@ -313,7 +313,7 @@ app.post('/api/webhooks', async (req, res) => {
     readTime: '5 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Career Coaching & Engineering Mentorship'
     },
     title: 'Reverse-Interviewing Engineering Teams: Questions to Identify Mentorship Culture',
@@ -401,7 +401,7 @@ that fix takes from my local laptop to live production?"`
     readTime: '7 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Technical Hiring & Resume Advisory'
     },
     title: 'The 1-Page Junior SWE Resume: Formatting, Metric Formulas & ATS Pass Rates',
@@ -482,7 +482,7 @@ that fix takes from my local laptop to live production?"`
     readTime: '9 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Distributed Systems & Architecture Mentorship'
     },
     title: 'System Design for Entry-Level Engineers: The 5 Concepts You Actually Need',
@@ -571,7 +571,7 @@ async function getUserProfile(userId: string): Promise<UserProfile> {
     readTime: '6 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Technical Interviewing & Coding Coaches'
     },
     title: 'Passing the Modern Technical Screen: Beyond Blind LeetCode Grinding',
@@ -641,7 +641,7 @@ async function getUserProfile(userId: string): Promise<UserProfile> {
     readTime: '6 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Engineering Management & Team Leadership'
     },
     title: 'The First 90 Days: How Junior Developers Build Immediate Engineering Velocity',
@@ -711,7 +711,7 @@ Attaching the terminal log below."`
     readTime: '8 min read',
     publishedDate: 'Updated September 2026',
     author: {
-      name: 'FreshCommit Editorial Team',
+      name: 'FreshCommits Editorial Team',
       role: 'Site Reliability & Production Engineering'
     },
     title: 'Production Observability: How Junior Developers Debug Real-World Incidents',

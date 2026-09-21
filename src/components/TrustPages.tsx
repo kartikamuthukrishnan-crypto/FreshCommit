@@ -28,7 +28,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
           Empowering the Next Generation of Software Engineers
         </h1>
         <p className="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
-          FreshCommit was established with a singular objective: to eradicate the &ldquo;entry-level paradox&rdquo; by building an honest, rigorously verified job directory exclusively for developers with 0 to 2 years of experience.
+          FreshCommits was established with a singular objective: to eradicate the &ldquo;entry-level paradox&rdquo; by building an honest, rigorously verified job directory exclusively for developers with 0 to 2 years of experience.
         </p>
       </div>
 
@@ -42,7 +42,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
           On mainstream job aggregators, over 65% of listings tagged as &ldquo;entry-level&rdquo; secretly demand 3 to 5+ years of production experience in their fine print. New computer science graduates, bootcamp alumni, and self-taught developers waste countless hours applying to roles that were never meant for early-career talent.
         </p>
         <p className="text-sm text-slate-600 leading-relaxed">
-          FreshCommit solves this with a zero-tolerance policy. Every listing published or aggregated on this platform must strictly pass our early-career qualification filters. If a role demands senior qualifications, it is instantly filtered out.
+          FreshCommits solves this with a zero-tolerance policy. Every listing published or aggregated on this platform must strictly pass our early-career qualification filters. If a role demands senior qualifications, it is instantly filtered out.
         </p>
       </div>
 
@@ -102,7 +102,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
             Editorial Team &amp; Governance
           </h2>
           <p className="text-xs text-slate-500 mt-1">
-            FreshCommit is maintained by dedicated software engineering professionals committed to transparent early-career recruitment.
+            FreshCommits is maintained by dedicated software engineering professionals committed to transparent early-career recruitment.
           </p>
         </div>
 
@@ -178,7 +178,7 @@ export const ContactUsView: React.FC = () => {
           <Mail className="w-3.5 h-3.5 text-emerald-600" />
           Get in Touch
         </span>
-        <h1 className="text-3xl font-extrabold text-slate-900 mt-3">Contact FreshCommit Support</h1>
+        <h1 className="text-3xl font-extrabold text-slate-900 mt-3">Contact FreshCommits Support</h1>
         <p className="text-sm text-slate-600 mt-2">
           We welcome inquiries from candidates, engineering hiring teams, and partners. All requests are answered within 24–48 business hours.
         </p>
@@ -196,30 +196,30 @@ export const ContactUsView: React.FC = () => {
               <div>
                 <div className="font-semibold text-slate-900">General &amp; Jobseeker Help</div>
                 <a
-                  href="mailto:support@freshcommit.dev"
+                  href="mailto:support@freshcommits.com"
                   className="text-emerald-600 hover:underline font-mono"
                 >
-                  support@freshcommit.dev
+                  support@freshcommits.com
                 </a>
               </div>
 
               <div>
                 <div className="font-semibold text-slate-900">Employer Listings Desk</div>
                 <a
-                  href="mailto:hiring@freshcommit.dev"
+                  href="mailto:hiring@freshcommits.com"
                   className="text-emerald-600 hover:underline font-mono"
                 >
-                  hiring@freshcommit.dev
+                  hiring@freshcommits.com
                 </a>
               </div>
 
               <div>
                 <div className="font-semibold text-slate-900">24-Hour Takedowns &amp; DMCA</div>
                 <a
-                  href="mailto:takedowns@freshcommit.dev"
+                  href="mailto:takedowns@freshcommits.com"
                   className="text-emerald-600 hover:underline font-mono"
                 >
-                  takedowns@freshcommit.dev
+                  takedowns@freshcommits.com
                 </a>
               </div>
             </div>
@@ -241,7 +241,7 @@ export const ContactUsView: React.FC = () => {
               Mailing Address
             </h2>
             <address className="not-italic text-slate-500 space-y-0.5">
-              <div>FreshCommit Editorial Office</div>
+              <div>FreshCommits Editorial Office</div>
               <div>548 Market Street, Suite 82000</div>
               <div>San Francisco, CA 94104</div>
               <div>United States</div>
@@ -258,7 +258,7 @@ export const ContactUsView: React.FC = () => {
               </div>
               <h2 className="text-xl font-bold text-slate-900">Message Received</h2>
               <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
-                Thank you for contacting FreshCommit. Your inquiry has been routed to our team (Ticket Ref: #{Math.floor(100000 + Math.random() * 900000)}). We will follow up at <strong>{formData.email}</strong> within 24 business hours.
+                Thank you for contacting FreshCommits. Your inquiry has been routed to our team (Ticket Ref: #{Math.floor(100000 + Math.random() * 900000)}). We will follow up at <strong>{formData.email}</strong> within 24 business hours.
               </p>
               <button
                 onClick={() => {

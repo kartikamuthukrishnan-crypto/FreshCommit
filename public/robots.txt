@@ -1,0 +1,6 @@
+# robots.txt for https://freshcommits.com
+User-agent: *
+Allow: /
+
+# Direct sitemap index for search engines & job crawlers
+Sitemap: https://freshcommits.com/sitemap.xml

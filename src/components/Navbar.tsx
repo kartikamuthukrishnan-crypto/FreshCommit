@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { GitCommit, Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator } from 'lucide-react';
+import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator } from 'lucide-react';
+import { FreshCommitsLogo } from './FreshCommitsLogo';
 
 interface NavbarProps {
   activeTab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin';
@@ -28,21 +29,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-3 cursor-pointer group select-none"
             id="nav-brand"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-emerald-100 group-hover:scale-105 transition-transform">
-              <GitCommit className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-extrabold text-slate-900 tracking-tight">FreshCommit</span>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">
-                  <Sparkles className="w-3 h-3 text-emerald-600" />
-                  0–2 YoE Only
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-500 hidden sm:block">
-                Curated Entry-Level &amp; New Grad SWE Roles
-              </p>
-            </div>
+            <FreshCommitsLogo size="md" showWordmark={true} showDomainBadge={true} />
+            <span className="hidden lg:inline-flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">
+              <Sparkles className="w-3 h-3 text-emerald-600" />
+              0–2 YoE Only
+            </span>
           </div>
 
           {/* Desktop Navigation Links */}

@@ -152,7 +152,7 @@ export const SalaryGuideView: React.FC = () => {
               Direct ATS Submissions Over InMail
             </h3>
             <p className="text-xs text-slate-600">
-              All listings on FreshCommit point directly to official company Greenhouse, Lever, and Ashby ATS portals. Submitting directly through verified early-career ATS pipelines significantly speeds recruiter review compared to 3rd-party aggregators.
+              All listings on FreshCommits point directly to official company Greenhouse, Lever, and Ashby ATS portals. Submitting directly through verified early-career ATS pipelines significantly speeds recruiter review compared to 3rd-party aggregators.
             </p>
           </div>
         </div>
@@ -170,7 +170,7 @@ export const AdSensePolicyView: React.FC = () => {
         </span>
         <h1 className="text-3xl font-extrabold text-slate-900 mt-3">Google AdSense Policy Center</h1>
         <p className="text-sm text-slate-600 mt-2">
-          How FreshCommit upholds Google publisher policies, protects user experience, and enforces strict editorial guidelines.
+          How FreshCommits upholds Google publisher policies, protects user experience, and enforces strict editorial guidelines.
         </p>
       </div>
 
@@ -196,7 +196,7 @@ export const AdSensePolicyView: React.FC = () => {
             2. Anti-Thin Content & Original Value Commitment
           </h2>
           <p>
-            Google AdSense enforces strict guidelines against low-value or scraped content. FreshCommit combats thin aggregation by providing:
+            Google AdSense enforces strict guidelines against low-value or scraped content. FreshCommits combats thin aggregation by providing:
           </p>
           <ul className="list-disc list-inside space-y-1.5 text-xs text-slate-600">
             <li>Original salary index research across Silicon Valley, NYC, Seattle, Austin, Boston, and Remote tech centers.</li>
@@ -292,7 +292,7 @@ export const CareerInsightsView: React.FC = () => {
       <div className="text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 mb-3">
           <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
-          FreshCommit Career Insights &bull; {CAREER_ARTICLES.length} Editorial Field Guides
+          FreshCommits Career Insights &bull; {CAREER_ARTICLES.length} Editorial Field Guides
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
           Engineering Career Guides &amp; Practical Field Notes

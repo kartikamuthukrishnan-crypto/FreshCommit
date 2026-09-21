@@ -82,7 +82,7 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
 
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-[11px] text-slate-400 mt-6 mb-4 overflow-x-auto">
-        <span>FreshCommit</span>
+        <span>FreshCommits</span>
         <ChevronRight className="w-3 h-3 text-slate-300 flex-shrink-0" />
         <button onClick={onBack} className="hover:text-slate-700 transition-colors whitespace-nowrap">
           Career Insights

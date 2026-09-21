@@ -1294,7 +1294,7 @@ const ReverseInterviewGenerator: React.FC = () => {
 
   // Copy all active questions in battlecard format
   const handleCopyAll = () => {
-    const header = `# REVERSE-INTERVIEW BATTLECARD: ${targetAudience.toUpperCase()} (${companyName.trim() || 'Software Engineering Role'})\nGenerated via FreshCommit Career Tools (freshcommit.dev)\n\n`;
+    const header = `# REVERSE-INTERVIEW BATTLECARD: ${targetAudience.toUpperCase()} (${companyName.trim() || 'Software Engineering Role'})\nGenerated via FreshCommits Career Tools (freshcommits.com)\n\n`;
     const body = filteredQuestions
       .map((item, idx) => {
         return `## Question ${idx + 1}: ${item.headline}\n"${personalizeText(item.q)}"\n\n- How to naturally ask:\n  "${personalizeText(item.elaboration.conversationalOpener)}"\n- If they give a vague answer, counter with:\n  "${item.elaboration.counterProbe}"\n- Signals to listen for:\n  [+] Green: ${item.greenFlag}\n  [-] Red Flag: ${item.redFlag}\n`;
