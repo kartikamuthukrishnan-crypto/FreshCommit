@@ -218,7 +218,26 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <button
+            onClick={() => {
+              try {
+                setSupportTickets(JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]'));
+              } catch {
+                // Ignore
+              }
+              setActiveTab('inbox');
+            }}
+            className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm ${
+              activeTab === 'inbox'
+                ? 'bg-emerald-500 text-slate-950 font-extrabold'
+                : 'bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-400/40'
+            }`}
+            title="Open Received Inquiries Inbox"
+          >
+            <Inbox className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Support Inbox ({supportTickets.length})</span>
+          </button>
           <button
             onClick={onClose}
             className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition-colors border border-slate-700"
@@ -236,65 +255,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b border-slate-200 mb-8 overflow-x-auto">
+      <div className="flex border-b border-slate-200 mb-8 overflow-x-auto pb-1 gap-2 scrollbar-thin">
         <button
           onClick={() => setActiveTab('post')}
-          className={`pb-4 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors ${
+          className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
             activeTab === 'post'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
+              ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50'
+              : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
           }`}
         >
           <PlusCircle className="w-4 h-4" />
           <span>Manual Job Posting</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('sync')}
-          className={`pb-4 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors ${
-            activeTab === 'sync'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
-          }`}
-        >
-          <RefreshCw className={`w-4 h-4 ${syncLoading ? 'animate-spin text-indigo-600' : ''}`} />
-          <span>Automated ATS Aggregator</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('manage')}
-          className={`pb-4 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors ${
-            activeTab === 'manage'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
-          }`}
-        >
-          <ListFilter className="w-4 h-4" />
-          <span>Manage Listings ({jobs.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('schema-tester')}
-          className={`pb-4 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors ${
-            activeTab === 'schema-tester'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
-          }`}
-        >
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
-          <span>Google Schema Inspector</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('adsense')}
-          className={`pb-4 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors ${
-            activeTab === 'adsense'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
-          }`}
-        >
-          <Settings className="w-4 h-4 text-amber-600" />
-          <span>Google AdSense Settings</span>
         </button>
 
         <button
@@ -306,14 +277,67 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             }
             setActiveTab('inbox');
           }}
-          className={`pb-4 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors ${
+          className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
             activeTab === 'inbox'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
+              ? 'border-emerald-600 text-emerald-700 bg-emerald-50/60 font-bold'
+              : 'border-transparent text-slate-700 hover:text-emerald-700 hover:bg-emerald-50/30'
           }`}
         >
           <Inbox className="w-4 h-4 text-emerald-600" />
-          <span>Inquiries &amp; Support Inbox ({supportTickets.length})</span>
+          <span>Inquiries &amp; Support Inbox</span>
+          <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
+            supportTickets.length > 0 ? 'bg-emerald-500 text-white' : 'bg-slate-200 text-slate-700'
+          }`}>
+            {supportTickets.length}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('sync')}
+          className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
+            activeTab === 'sync'
+              ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50'
+              : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          }`}
+        >
+          <RefreshCw className={`w-4 h-4 ${syncLoading ? 'animate-spin text-indigo-600' : ''}`} />
+          <span>Automated ATS Aggregator</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('manage')}
+          className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
+            activeTab === 'manage'
+              ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50'
+              : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          }`}
+        >
+          <ListFilter className="w-4 h-4" />
+          <span>Manage Listings ({jobs.length})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('schema-tester')}
+          className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
+            activeTab === 'schema-tester'
+              ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50'
+              : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          }`}
+        >
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <span>Google Schema Inspector</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('adsense')}
+          className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
+            activeTab === 'adsense'
+              ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50'
+              : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          }`}
+        >
+          <Settings className="w-4 h-4 text-amber-600" />
+          <span>Google AdSense Settings</span>
         </button>
       </div>
 
