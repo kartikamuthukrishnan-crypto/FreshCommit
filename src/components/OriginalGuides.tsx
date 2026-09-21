@@ -1,5 +1,20 @@
-import React from 'react';
-import { DollarSign, MapPin, CheckCircle, BookOpen, ShieldAlert, Award, ArrowUpRight, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import {
+  DollarSign,
+  MapPin,
+  CheckCircle,
+  BookOpen,
+  ShieldAlert,
+  Award,
+  ArrowUpRight,
+  TrendingUp,
+  ArrowRight,
+  Clock,
+  Sparkles,
+  User
+} from 'lucide-react';
+import { CAREER_ARTICLES } from '../data/careerArticles';
+import { CareerArticleReader } from './CareerArticleReader';
 
 export const SalaryGuideView: React.FC = () => {
   const hubs = [
@@ -215,105 +230,121 @@ export const AdSensePolicyView: React.FC = () => {
 };
 
 export const CareerInsightsView: React.FC = () => {
-  const articles = [
-    {
-      id: 'git-hygiene-day-one',
-      tag: 'Engineering Culture',
-      readTime: '6 min read',
-      title: 'Git Commit & Branch Hygiene: What Senior Engineers Expect on Day One',
-      summary: 'Why your commit history tells interviewers and team leads more about your engineering maturity than your LeetCode ranking.',
-      highlights: [
-        'Atomic commits with imperative mood ("feat: implement retry backoff" vs "fixed bug")',
-        'Interactive rebasing to squash experimental commits before requesting PR review',
-        'How semantic release and conventional commits drive automated deployment pipelines'
-      ]
-    },
-    {
-      id: 'rsu-base-equity-decoded',
-      tag: 'Compensation',
-      readTime: '8 min read',
-      title: 'Decoding New Grad Tech Offers: Base Salary vs. RSUs vs. Sign-On Bonuses',
-      summary: 'A mathematical walkthrough of total compensation (TC), 4-year vesting schedules, 1-year cliffs, and tax implications across US hubs.',
-      highlights: [
-        'Why a $130K base with 10% bonus can beat a volatile $160K TC offer in a bear market',
-        'Understanding double-trigger RSUs at pre-IPO startups vs. liquid public RSUs',
-        'Negotiation levers available to entry-level engineers without competing offers'
-      ]
-    },
-    {
-      id: 'standout-portfolio-architecture',
-      tag: 'Portfolio Strategy',
-      readTime: '7 min read',
-      title: 'Beyond Todo Lists: 4 Production-Grade Projects That Get You Screened',
-      summary: 'Hiring managers filter out generic bootcamp clones in seconds. Here are 4 architectures that demonstrate distributed systems, rate limiting, and caching.',
-      highlights: [
-        'Building an idempotent payment webhook receiver with Redis deduplication',
-        'A lightweight event-driven log ingestion daemon with SQLite & backpressure handling',
-        'Integrating OpenTelemetry metrics and structured JSON logging into your personal projects'
-      ]
-    },
-    {
-      id: 'reverse-interviewing-engineering-teams',
-      tag: 'Interview Prep',
-      readTime: '5 min read',
-      title: 'Reverse-Interviewing Engineering Teams: Questions to Identify Mentorship Culture',
-      summary: 'The single highest-risk factor for early-career developers is landing on a team with zero bandwidth for mentorship. Here is how to test for it.',
-      highlights: [
-        '"How do you structure PR reviews and onboarding buddies for the first 90 days?"',
-        '"What was the last production incident caused by a junior engineer, and how did post-mortem handle it?"',
-        'Red flags: absence of automated testing, no staging environments, or solo hero engineering'
-      ]
+  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (CAREER_ARTICLES.some((a) => a.id === hash)) {
+      return hash;
     }
-  ];
+    return null;
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (CAREER_ARTICLES.some((a) => a.id === hash)) {
+        setSelectedArticleId(hash);
+      } else if (!hash) {
+        setSelectedArticleId(null);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const handleSelectArticle = (id: string) => {
+    setSelectedArticleId(id);
+    window.location.hash = id;
+  };
+
+  const handleBackToOverview = () => {
+    setSelectedArticleId(null);
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  };
+
+  const selectedArticle = selectedArticleId
+    ? CAREER_ARTICLES.find((a) => a.id === selectedArticleId)
+    : null;
+
+  // If user selected an article, show the full in-depth article view
+  if (selectedArticle) {
+    return (
+      <CareerArticleReader
+        article={selectedArticle}
+        onBack={handleBackToOverview}
+        onSelectArticle={handleSelectArticle}
+        allArticles={CAREER_ARTICLES}
+      />
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
       <div className="text-center max-w-3xl mx-auto">
         <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-flex items-center gap-1.5">
           <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
-          FreshCommit Career Insights
+          FreshCommit Career Insights &amp; Field Guides
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
           Engineering Career Guides &amp; Practical Field Notes
         </h1>
         <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
-          Original editorial advice on technical resume optimization, compensation structures, git workflows, and mentorship evaluation for 0–2 YoE developers.
+          In-depth technical guides on software compensation math, professional git branch hygiene, production-grade portfolio architectures, and team mentorship evaluation for 0–2 YoE developers.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {articles.map((art) => (
+        {CAREER_ARTICLES.map((art) => (
           <article
             key={art.id}
-            className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-between"
+            className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-between group cursor-pointer"
+            onClick={() => handleSelectArticle(art.id)}
           >
             <div>
               <div className="flex items-center justify-between text-xs mb-3">
                 <span className="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
                   {art.tag}
                 </span>
-                <span className="text-slate-400 font-medium">{art.readTime}</span>
+                <span className="text-slate-400 font-medium flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5" />
+                  {art.readTime}
+                </span>
               </div>
 
-              <h2 className="text-lg font-bold text-slate-900 tracking-tight leading-snug hover:text-emerald-700 transition-colors">
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight leading-snug group-hover:text-emerald-700 transition-colors">
                 {art.title}
               </h2>
 
-              <p className="text-xs text-slate-600 mt-2.5 leading-relaxed">
+              <p className="text-xs text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
                 {art.summary}
               </p>
 
               <div className="mt-4 pt-4 border-t border-slate-100 space-y-1.5">
                 <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                  Key Takeaways
+                  Core Topics Covered
                 </div>
-                {art.highlights.map((h, i) => (
+                {art.highlights.slice(0, 3).map((h, i) => (
                   <div key={i} className="flex items-start gap-2 text-xs text-slate-700">
                     <CheckCircle className="w-3.5 h-3.5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                    <span>{h}</span>
+                    <span className="line-clamp-1">{h}</span>
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSelectArticle(art.id);
+                }}
+                className="w-full py-2.5 px-4 rounded-xl bg-slate-900 group-hover:bg-emerald-600 text-white text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2"
+              >
+                <span>Read Full Field Guide</span>
+                <ArrowRight className="w-3.5 h-3.5 text-emerald-400 group-hover:text-white group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
           </article>
         ))}
