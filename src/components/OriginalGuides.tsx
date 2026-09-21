@@ -279,23 +279,51 @@ export const CareerInsightsView: React.FC = () => {
     );
   }
 
+  const [selectedTag, setSelectedTag] = useState<string>('All');
+
+  const allTags = ['All', ...Array.from(new Set(CAREER_ARTICLES.map((a) => a.tag)))];
+
+  const filteredArticles = selectedTag === 'All'
+    ? CAREER_ARTICLES
+    : CAREER_ARTICLES.filter((a) => a.tag === selectedTag);
+
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
       <div className="text-center max-w-3xl mx-auto">
-        <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-flex items-center gap-1.5">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 mb-3">
           <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
-          FreshCommit Career Insights &amp; Field Guides
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
+          FreshCommit Career Insights &bull; {CAREER_ARTICLES.length} Editorial Field Guides
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
           Engineering Career Guides &amp; Practical Field Notes
         </h1>
         <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
-          In-depth technical guides on software compensation math, professional git branch hygiene, production-grade portfolio architectures, and team mentorship evaluation for 0–2 YoE developers.
+          Comprehensive, original editorial guides on compensation math, professional git hygiene, production-grade portfolio architectures, system design fundamentals, and team mentorship evaluation for 0–2 YoE developers.
         </p>
       </div>
 
+      {/* Category Filter Chips */}
+      <div className="flex items-center justify-center gap-2 flex-wrap pt-2">
+        {allTags.map((tag) => {
+          const isActive = selectedTag === tag;
+          return (
+            <button
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                isActive
+                  ? 'bg-slate-900 text-white shadow-sm'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+              }`}
+            >
+              {tag} {tag === 'All' ? `(${CAREER_ARTICLES.length})` : ''}
+            </button>
+          );
+        })}
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {CAREER_ARTICLES.map((art) => (
+        {filteredArticles.map((art) => (
           <article
             key={art.id}
             className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-between group cursor-pointer"

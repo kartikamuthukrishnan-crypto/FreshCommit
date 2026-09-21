@@ -394,5 +394,405 @@ that fix takes from my local laptop to live production?"`
         ]
       }
     ]
+  },
+  {
+    id: 'junior-swe-resume-ats-formula',
+    tag: 'Resume & Screening',
+    readTime: '7 min read',
+    publishedDate: 'Updated September 2026',
+    author: {
+      name: 'FreshCommit Editorial Team',
+      role: 'Technical Hiring & Resume Advisory'
+    },
+    title: 'The 1-Page Junior SWE Resume: Formatting, Metric Formulas & ATS Pass Rates',
+    subtitle: 'How engineering managers scan resumes in 6 seconds, and how the Google XYZ formula transforms generic project bullets into interview invitations.',
+    summary: 'Most entry-level software engineering resumes fail before a human ever reads them. They get tripped up by multi-column graphical templates that scramble ATS parsers, or they list passive task descriptions ("Worked on frontend using React"). To pass modern automated screening and capture the attention of a time-strapped engineering manager, every bullet point must demonstrate measurable engineering impact.',
+    highlights: [
+      'The Google XYZ formula: "Accomplished [X] as measured by [Y] by doing [Z]"',
+      'Why two-column Canva designs fail automated ATS parsing and plain text/LaTeX wins',
+      'Real before/after bullet revisions for frontend, backend, and full-stack projects',
+      'Strategic skills grouping to maximize semantic keyword relevance without keyword stuffing'
+    ],
+    sections: [
+      {
+        heading: '1. The 6-Second Scan: What Engineering Managers Actually Look For',
+        content: [
+          'Engineering managers review dozens of resumes between meetings. They do not read your resume top-to-bottom like a novel; they scan in an "F-pattern":',
+          '• **First 2 seconds**: Technical Skills section to verify core stack alignment (e.g., TypeScript, Python, PostgreSQL, AWS).',
+          '• **Next 2 seconds**: Project or Work Experience titles, company names, and date ranges.',
+          '• **Last 2 seconds**: The first bullet point of your most complex project to evaluate engineering maturity and quantifiable results.'
+        ]
+      },
+      {
+        heading: '2. The Google XYZ Formula: Turning Passive Tasks into Engineering Achievements',
+        content: [
+          'Developed by Google\'s former SVP of People Operations Laszlo Bock, the XYZ formula is the single most effective structure for technical resumes:',
+          '**"Accomplished [X], as measured by [Y], by doing [Z]"**',
+          'Instead of merely stating what technology you touched, XYZ tells the reader the challenge, the concrete metric, and your specific technical contribution.'
+        ],
+        table: {
+          headers: ['Weak / Passive Bullet Point', 'Transformed with XYZ Formula', 'Why the Revision Wins'],
+          rows: [
+            [
+              'Built a dashboard in React and Node.js for managing user tasks.',
+              'Engineered a real-time task analytics dashboard reducing query latency by 45% (280ms to 154ms) by implementing Redis caching and optimistic UI updates.',
+              'Quantifies performance improvement and highlights caching & UX architecture.'
+            ],
+            [
+              'Helped optimize database queries for our student project app.',
+              'Refactored 14 unindexed PostgreSQL queries and introduced composite B-Tree indexes, cutting p95 checkout response times from 1.2s to 310ms.',
+              'Demonstrates direct knowledge of database indexing, query profiling, and latency percentiles.'
+            ],
+            [
+              'Wrote unit tests using Jest to test user authentication.',
+              'Increased backend test coverage from 38% to 84% using Jest and Supertest, preventing 6 regression bugs in the CI/CD deployment pipeline.',
+              'Shows software reliability focus, automated testing discipline, and CI/CD integration.'
+            ]
+          ]
+        }
+      },
+      {
+        heading: '3. ATS Traps: Why Fancy Templates Hurt You',
+        content: [
+          'Many university students use graphical resume templates from Canva or Figma featuring two columns, progress bars for skills (e.g., "Python: 80%"), and embedded icons.',
+          'Applicant Tracking Systems (Greenhouse, Lever, Workday, Taleo) parse resumes into plain text streams. When an ATS encounters two columns, it often reads across horizontal rows, interleaving your skills with your education, producing garbled gibberish that scores zero in semantic matching.'
+        ],
+        callout: {
+          type: 'warning',
+          title: 'Never Put Progress Bars on Skills',
+          text: 'What does "Java: 75%" mean? Does it mean you know 75% of the JVM internals, or you forget 25% of the syntax? Senior engineers despise arbitrary percentage bars. Simply list your languages and tools categorized clearly by proficiency.'
+        }
+      },
+      {
+        heading: '4. The Ideal 1-Page Layout Order for 0–2 YoE Developers',
+        content: [
+          'Keep your resume strictly to 1 page. Organize sections in this descending priority order:',
+          '1. **Header**: Name, Location (City, State), Email, Phone, Clean GitHub URL, Clean LinkedIn URL, Personal Portfolio / Domain URL.',
+          '2. **Technical Skills**: Grouped neatly into: Languages, Frameworks & Libraries, Databases & Storage, Developer Tools & Cloud (AWS/GCP/Docker).',
+          '3. **Work Experience**: Internships, freelance contracts, open-source maintainer roles, or previous relevant technical roles.',
+          '4. **Key Engineering Projects**: 2–3 in-depth projects with live URLs, GitHub repos, and 3 XYZ bullets each.',
+          '5. **Education**: Degree, University, Graduation Year, Relevant Coursework (Algorithms, Distributed Systems, Operating Systems).'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'entry-level-system-design',
+    tag: 'System Design',
+    readTime: '9 min read',
+    publishedDate: 'Updated September 2026',
+    author: {
+      name: 'FreshCommit Editorial Team',
+      role: 'Distributed Systems & Architecture Mentorship'
+    },
+    title: 'System Design for Entry-Level Engineers: The 5 Concepts You Actually Need',
+    subtitle: 'You won\'t be asked to design Netflix from scratch. Here is what interviewers actually expect 0–2 YoE candidates to know about scale, caching, and databases.',
+    summary: 'Junior candidates often panic about System Design interviews, imagining they will be expected to architect global multi-region distributed consensus protocols like Paxos or Raft. In reality, entry-level system design rounds test for foundational architectural intuition: Do you understand where bottlenecks happen? Do you know when to introduce a cache? Can you explain the difference between SQL and NoSQL?',
+    highlights: [
+      'Read-Heavy vs. Write-Heavy workloads and choosing SQL vs. NoSQL',
+      'Caching layers (In-memory, Redis, CDN) and eviction policies (LRU, TTL)',
+      'Horizontal vs. Vertical scaling and stateless application servers',
+      'Database indexing fundamentals: B-Trees, primary keys, and slow query profiling'
+    ],
+    sections: [
+      {
+        heading: '1. The Core Mental Model: The Anatomy of a Modern Web Request',
+        content: [
+          'Before diving into buzzwords, make sure you can walk an interviewer through the complete lifecycle of a web request from keystroke to database and back:',
+          '1. **DNS Lookup**: Browser resolves domain name to an IP address.',
+          '2. **CDN / Edge Network**: Static assets (images, CSS, JS bundles) are served from edge points of presence near the user.',
+          '3. **Load Balancer (Nginx / AWS ALB)**: Distributes incoming TCP/HTTP connections across multiple stateless backend application instances using Round Robin or Least Connections.',
+          '4. **Application Server**: Runs business logic, checks cache, authenticates JWTs.',
+          '5. **Cache Tier (Redis / Memcached)**: Returns hot data in sub-millisecond memory lookups.',
+          '6. **Database Tier (PostgreSQL / MySQL)**: Persists durable records to disk with ACID transaction guarantees.'
+        ]
+      },
+      {
+        heading: '2. SQL vs. NoSQL: How to Answer the Database Question',
+        content: [
+          'Never say "NoSQL is faster than SQL" or "SQL is outdated". Both database paradigms have clear mathematical trade-offs that interviewers want you to articulate.'
+        ],
+        table: {
+          headers: ['Criteria', 'Relational (SQL) - Postgres/MySQL', 'Document / Key-Value (NoSQL) - Mongo/Redis'],
+          rows: [
+            ['Data Model', 'Structured tables with strict foreign keys & schemas', 'Flexible JSON documents or key-value pairs'],
+            ['Transactions', 'Full ACID guarantees (Atomicity, Consistency, Isolation, Durability)', 'Eventual consistency or document-level isolation'],
+            ['Best Use Cases', 'Financial transactions, e-commerce orders, user permissions, complex joins', 'Real-time telemetry, IoT feeds, rapid prototyping, unstructured event logs'],
+            ['Scaling Pattern', 'Vertical scaling (bigger instances) + Read Replicas', 'Horizontal sharding across commodity clusters']
+          ]
+        }
+      },
+      {
+        heading: '3. Caching Strategies & The Cache-Aside Pattern',
+        content: [
+          'The most common caching pattern taught and tested in tech screens is **Cache-Aside (Lazy Loading)**. When a client requests data, the server checks Redis first. If found (cache hit), it returns immediately. If missing (cache miss), it queries the database, writes the result to Redis with a TTL (Time-To-Live), and returns to the client.',
+          'Always mention cache invalidation: What happens when the user updates their profile? You must either invalidate (delete) the cached key or update the cache synchronously to prevent serving stale data.'
+        ],
+        codeBlock: {
+          language: 'typescript',
+          code: `// Cache-Aside Pattern Implementation
+async function getUserProfile(userId: string): Promise<UserProfile> {
+  const cacheKey = \`user:\${userId}\`;
+  
+  // 1. Try reading from fast in-memory cache
+  const cached = await redis.get(cacheKey);
+  if (cached) {
+    return JSON.parse(cached); // Sub-millisecond return
+  }
+
+  // 2. Cache miss: Fetch from persistent database
+  const user = await db.users.findById(userId);
+  if (!user) throw new NotFoundError('User not found');
+
+  // 3. Populate cache with a 15-minute Time-To-Live (TTL)
+  await redis.set(cacheKey, JSON.stringify(user), 'EX', 900);
+
+  return user;
+}`
+        }
+      },
+      {
+        heading: '4. Database Indexing: Why Queries Slow Down at Scale',
+        content: [
+          'Without an index, finding a user by email (`SELECT * FROM users WHERE email = ?`) requires a **Full Table Scan**—scanning every single row on disk (O(N) time complexity). If you have 5 million users, this crashes query throughput.',
+          'Creating a B-Tree index on `email` (`CREATE INDEX idx_users_email ON users(email)`) organizes keys into a balanced tree, allowing lookups in O(log N) disk reads. However, indexes carry trade-offs: every `INSERT` or `UPDATE` must also update the index, which slightly slows down write throughput and consumes disk space.'
+        ],
+        callout: {
+          type: 'tip',
+          title: 'The Golden Rule for Junior Candidates',
+          text: 'In any system design interview, never prematurely suggest microservices or Kafka unless the requirements explicitly call for hundreds of thousands of events per second. Starting with a clean, modular monolith with read replicas and Redis caching shows mature engineering restraint.'
+        }
+      }
+    ]
+  },
+  {
+    id: 'acing-technical-screens',
+    tag: 'Interview Strategy',
+    readTime: '6 min read',
+    publishedDate: 'Updated September 2026',
+    author: {
+      name: 'FreshCommit Editorial Team',
+      role: 'Technical Interviewing & Coding Coaches'
+    },
+    title: 'Passing the Modern Technical Screen: Beyond Blind LeetCode Grinding',
+    subtitle: 'Why solving the algorithmic problem correctly is only 40% of the rubric, and how to communicate like a future teammate while writing code.',
+    summary: 'Every year, thousands of candidates solve all test cases in a coding screen and still receive a rejection email 48 hours later. Why? Because live technical screens are not automated compilers; they are simulations of working with you on a real engineering problem. Interviewers evaluate code cleanliness, how you handle ambiguity, whether you ask clarifying questions, and how you receive feedback.',
+    highlights: [
+      'The 5-step problem solving framework (Clarify -> Constraints -> Brute Force -> Optimize -> Test)',
+      'How to talk out loud without freezing, rambling, or losing your train of thought',
+      'Uncovering hidden edge cases: null inputs, empty arrays, duplicates, and integer overflows',
+      'Gracefully recovering when your solution fails a test case without panicking'
+    ],
+    sections: [
+      {
+        heading: '1. The 5-Step Live Coding Framework',
+        content: [
+          'When given a coding challenge, junior candidates often make the fatal mistake of immediately typing code in line 1. Instead, spend the first 6–8 minutes following this structured cadence:',
+          '• **Step 1: Clarify Requirements**: Rephrase the problem in your own words. Ask about data scale and input boundaries.',
+          '• **Step 2: Propose Test Cases**: Provide 1 happy path example, 1 edge case (empty string / single element), and 1 invalid input.',
+          '• **Step 3: State the Brute Force**: Briefly explain the naive O(N²) solution to ensure you have a baseline working approach.',
+          '• **Step 4: Optimize & Agree**: Propose the optimal approach (e.g., hash map or two-pointer technique) and get verbal confirmation from the interviewer before writing code.',
+          '• **Step 5: Code Cleanly & Dry Run**: Write modular code with clear variable names, then manually step through line-by-line using your test cases.'
+        ]
+      },
+      {
+        heading: '2. High-Signal Clarifying Questions to Ask in Minute 2',
+        content: [
+          'Interviewers deliberately leave problem prompts vague to test whether you think about production edge cases before writing code.'
+        ],
+        codeBlock: {
+          language: 'text',
+          code: `// Clarifying Question Checklist to Memorize:
+
+1. Input Bounds & Types:
+   "Can the input array be empty or null? If so, what should we return?"
+   "Are the integers strictly positive, or can there be negatives and zeros?"
+
+2. Ordering & Uniqueness:
+   "Is the input sorted beforehand?"
+   "Can there be duplicate elements, and should duplicates be handled uniquely?"
+
+3. Memory & Scale Constraints:
+   "What is the expected maximum size of N? Does it fit comfortably in memory, 
+   or should we consider streaming / external sorting for massive inputs?"`
+        }
+      },
+      {
+        heading: '3. How to Talk Out Loud While Thinking',
+        content: [
+          'Silence is your enemy in technical screens. If you sit in silence for 4 minutes staring at the screen, the interviewer has zero data on your thought process. They cannot tell if you are analyzing trade-offs or completely lost.',
+          'Use bridge phrases: "I am currently considering two options here: we could either sort the array first in O(N log N) time, or use a frequency hash map for O(N) time with O(N) auxiliary space. Given our memory constraint, the hash map seems like the right trade-off. What do you think?"',
+          'Notice that this invites the interviewer into your process. Great interviewers will drop subtle hints: "Yes, let\'s explore the hash map approach."'
+        ]
+      },
+      {
+        heading: '4. What to Do When Your Code Hits a Bug or Fails a Test Case',
+        content: [
+          'When your solution produces the wrong output during a test run, your reaction is the single biggest behavioral test of the interview:',
+          '❌ **Wrong Reaction**: Panicking, hastily changing random `+ 1` and `- 1` off-by-one indices, or restarting the entire function from scratch.',
+          '✅ **Senior Reaction**: Calmly pause. State: "Let\'s trace the state with a small example to see where the pointer diverges." Step through variables row-by-row on the screen. Identifying your own bug methodically often scores higher than getting it right accidentally on the first try.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'first-90-days-onboarding',
+    tag: 'Career Growth',
+    readTime: '6 min read',
+    publishedDate: 'Updated September 2026',
+    author: {
+      name: 'FreshCommit Editorial Team',
+      role: 'Engineering Management & Team Leadership'
+    },
+    title: 'The First 90 Days: How Junior Developers Build Immediate Engineering Velocity',
+    subtitle: 'How to ask senior engineers questions without being annoying, document onboarding friction, and ship your first production PR in week one.',
+    summary: 'The difference between junior engineers who get promoted within 18 months and those who struggle is rarely raw algorithmic talent. It comes down to communication hygiene, proactive ownership, and onboarding momentum. Here is the field-tested playbook for navigating your first 90 days on an engineering team.',
+    highlights: [
+      'The "15-Minute Rule" before asking questions to senior engineers',
+      'Asynchronous communication etiquette on Slack / Teams',
+      'Turning setup roadblocks into documentation PRs for future new hires',
+      'How to participate in code reviews respectfully as an entry-level contributor'
+    ],
+    sections: [
+      {
+        heading: '1. The 15-Minute Rule for Technical Questions',
+        content: [
+          'Senior engineers are happy to mentor juniors, but they get frustrated by questions that could be answered with a 2-minute search of the internal repo or documentation.',
+          'Adopt the **15-Minute Rule**:',
+          '• When you hit an error, spend 15 minutes investigating yourself: search Slack history for the error message, check repo commit logs, read internal Confluence/Notion docs, and inspect stack traces.',
+          '• If you are still stuck after 15 minutes, ask for help immediately. Do not sit stuck for 6 hours in silence out of fear of looking inexperienced.'
+        ],
+        codeBlock: {
+          language: 'text',
+          code: `// ❌ Bad Slack Message (Low Signal, Interruptive, Demands High Effort):
+"Hey, the auth service is broken on my laptop. Can you help?"
+
+// ✅ High-Signal Slack Message (Shows Effort, Saves Senior Time):
+"Hey [Senior Name], I'm getting an \`ECONNREFUSED\` error when starting the auth service 
+locally against the Docker Postgres instance. 
+
+Here is what I've tried:
+1. Verified Docker is running and port 5432 is bound.
+2. Ran \`npm run db:migrate\` (failed with auth role 'app_dev' does not exist).
+3. Checked Slack #dev-environment history but didn't find this specific role error.
+
+Is there a seed script or local secret file for the dev database I should run? 
+Attaching the terminal log below."`
+        }
+      },
+      {
+        heading: '2. The "Leave the Campfire Cleaner" Onboarding Trick',
+        content: [
+          'Every engineering company has outdated onboarding docs. You will inevitably encounter a setup command in the README that fails because of a deprecated Node version or missing environment variable.',
+          'Do not just fix it locally and move on. **Open a Pull Request updating the README or setup script on your very first week.**',
+          'This accomplishes three major things: you demonstrate proactive initiative, you ship a real PR to the main branch early, and every engineer who joins after you will thank you.'
+        ]
+      },
+      {
+        heading: '3. Conducting Code Reviews as a Junior Engineer',
+        content: [
+          'Many entry-level developers think code review is only for senior engineers to critique junior code. In high-performing engineering cultures, everyone reviews PRs.',
+          'When reviewing senior engineer PRs, you do not need to spot complex race conditions. Instead, review PRs to learn:',
+          '• Ask genuine curiosity questions: "I noticed you used a Map instead of an Object here—is that for constant-time lookups with dynamic keys?"',
+          '• Check for readability and documentation: If you can\'t understand why a function was written, other engineers won\'t either.',
+          '• Verify test coverage: Did the PR include tests for edge cases?'
+        ],
+        callout: {
+          type: 'tip',
+          title: 'The 30-60-90 Day Milestone Target',
+          text: 'Day 30 target: ship small bug fixes and scoped tickets independently with buddy guidance. Day 60 target: participate in sprint planning and estimate tasks accurately. Day 90 target: own an end-to-end feature delivery and participate in team on-call shadow rotations.'
+        }
+      }
+    ]
+  },
+  {
+    id: 'production-observability-debugging',
+    tag: 'Production Engineering',
+    readTime: '8 min read',
+    publishedDate: 'Updated September 2026',
+    author: {
+      name: 'FreshCommit Editorial Team',
+      role: 'Site Reliability & Production Engineering'
+    },
+    title: 'Production Observability: How Junior Developers Debug Real-World Incidents',
+    subtitle: 'Moving beyond console.log: A practical guide to structured JSON logs, latency percentiles, distributed tracing, and blameless post-mortems.',
+    summary: 'In personal projects, debugging usually means dropping a console.log into your code and watching the terminal. In high-traffic production environments handling thousands of concurrent users across distributed containers, console logs become an unreadable firehose. To diagnose production bugs and latency spikes like an experienced engineer, you must master the three pillars of modern observability: structured logs, metric aggregations, and distributed tracing.',
+    highlights: [
+      'The Three Pillars of Observability: Logs, Metrics, and Traces (and when to reach for each)',
+      'Why unstructured string logs fail log search engines and how structured JSON logs enable instant queries',
+      'Understanding p50, p95, and p99 latency percentiles instead of misleading averages',
+      'The anatomy of a Blameless Post-Mortem: identifying root causes without pointing fingers'
+    ],
+    sections: [
+      {
+        heading: '1. The Three Pillars of Observability Defined',
+        content: [
+          'When an alert fires in the middle of a release, engineers do not start guessing. They correlate three distinct telemetry streams:',
+          '1. **Metrics**: Aggregated numerical counters, gauges, and histograms over time (e.g., CPU utilization at 82%, HTTP 500 error rate at 2.4%). Metrics tell you THAT there is a problem and WHERE it is located.',
+          '2. **Logs**: Timestamped, discrete event records with context (e.g., "User 8192 payment failed due to upstream timeout"). Logs tell you WHY an individual request failed.',
+          '3. **Traces**: Distributed request journeys that track a single user action as it cascades across microservices, queues, and databases. Traces show WHERE in the call stack time was spent.'
+        ],
+        table: {
+          headers: ['Telemetry Type', 'Data Format', 'Storage Cost', 'Best For'],
+          rows: [
+            ['Metrics', 'Time-series numbers (e.g., Prometheus, Datadog)', 'Very low (highly compressible)', 'Real-time alerting, dashboards, anomaly detection'],
+            ['Structured Logs', 'JSON documents (e.g., Elasticsearch, Loki)', 'Medium to High (requires retention limits)', 'Investigating specific user errors and stack traces'],
+            ['Distributed Traces', 'Spans with parent-child IDs (OpenTelemetry, Jaeger)', 'High (usually requires 1-10% sampling)', 'Identifying latency bottlenecks across microservices']
+          ]
+        }
+      },
+      {
+        heading: '2. From String Output to Structured JSON Logging',
+        content: [
+          'In production, automated log forwarders (FluentBit, Vector, Datadog Agent) ingest millions of log lines into search engines. If you log arbitrary text strings like `console.log("Payment error for user " + id)`, engineers cannot query or filter by field.',
+          'Always output logs as structured JSON objects containing consistent metadata: `timestamp`, `level` (INFO, WARN, ERROR), `correlation_id` / `request_id`, and typed error objects.'
+        ],
+        codeBlock: {
+          language: 'typescript',
+          code: `// ❌ Unstructured log (Hard to parse, impossible to query in Datadog/Kibana)
+console.log(\`Error processing payment for \${userId}: \${err.message}\`);
+
+// ✅ Structured JSON log with Pino or Winston
+logger.error({
+  event: 'payment_processing_failed',
+  user_id: userId,
+  order_id: orderId,
+  amount_cents: amount,
+  gateway: 'stripe',
+  error_code: err.code,
+  error_message: err.message,
+  trace_id: req.headers['x-trace-id'],
+  duration_ms: Date.now() - startTime
+}, 'Stripe card charge returned terminal failure');`
+        },
+        callout: {
+          type: 'warning',
+          title: 'Never Log PII (Personally Identifiable Information)',
+          text: 'Logging plain-text credit card numbers, passwords, social security numbers, or auth bearer tokens is a direct GDPR/PCI-DSS violation. Always sanitize or mask sensitive payload fields before sending to log aggregators.'
+        }
+      },
+      {
+        heading: '3. Why "Average Latency" Is a Dangerous Lie (p50 vs. p95 vs. p99)',
+        content: [
+          'When someone says "Our average API response time is 120ms", seasoned infrastructure engineers immediately ask: "What is your p99?"',
+          'Averages hide outliers. If 95 users experience a blazing fast 20ms response time, but 5 users experience a catastrophic 10,000ms database lock timeout, the mathematical average is still an innocent-looking 519ms. However, 5% of your customers just had a completely broken experience.',
+          '• **p50 (Median)**: The middle value. 50% of requests are faster than this.',
+          '• **p95**: 95% of requests are faster. Represents the user experience for frequent active users.',
+          '• **p99**: The 99th percentile. Represents your worst-case customer experience, often exposing tail latency, cache misses, or garbage collection pauses.'
+        ]
+      },
+      {
+        heading: '4. The Blameless Post-Mortem: How Elite Teams Learn from Failure',
+        content: [
+          'If you accidentally push code that triggers an outage, healthy engineering teams do not punish you. High-reliability organizations (Google, Netflix, Stripe) conduct **Blameless Post-Mortems**.',
+          'The core philosophy: Human error is the symptom of a fragile system, not the root cause. If a junior developer was able to take down production by pushing a typo, the failure lies in the lack of automated CI tests, missing canary rollouts, or absent staging environments—not the individual engineer.',
+          'A standard post-mortem document answers 4 questions:',
+          '1. **Timeline**: Exactly when did the incident begin, when was it detected by alerts, and when was recovery achieved?',
+          '2. **Impact**: How many users were affected and what was the customer-facing error rate?',
+          '3. **Root Cause**: What technical conditions allowed the failure to occur (Five Whys analysis)?',
+          '4. **Action Items (Preventative Tasks)**: What automated safeguards, alerts, or architectural changes will be implemented this sprint so this exact failure mode can never recur?'
+        ]
+      }
+    ]
   }
 ];
