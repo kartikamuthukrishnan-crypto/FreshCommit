@@ -230,7 +230,9 @@ export const AdSensePolicyView: React.FC = () => {
 };
 
 export const CareerInsightsView: React.FC = () => {
+  const [selectedTag, setSelectedTag] = useState<string>('All');
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
     const hash = window.location.hash.replace('#', '');
     if (CAREER_ARTICLES.some((a) => a.id === hash)) {
       return hash;
@@ -243,7 +245,7 @@ export const CareerInsightsView: React.FC = () => {
       const hash = window.location.hash.replace('#', '');
       if (CAREER_ARTICLES.some((a) => a.id === hash)) {
         setSelectedArticleId(hash);
-      } else if (!hash) {
+      } else if (!hash || hash === 'insights' || hash === 'guides') {
         setSelectedArticleId(null);
       }
     };
@@ -278,8 +280,6 @@ export const CareerInsightsView: React.FC = () => {
       />
     );
   }
-
-  const [selectedTag, setSelectedTag] = useState<string>('All');
 
   const allTags = ['All', ...Array.from(new Set(CAREER_ARTICLES.map((a) => a.tag)))];
 

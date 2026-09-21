@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel } from './types';
 import { INITIAL_JOBS } from './data/initialJobs';
+import { CAREER_ARTICLES } from './data/careerArticles';
 import { Navbar } from './components/Navbar';
 import { JobCard } from './components/JobCard';
 import { JobDetailsModal } from './components/JobDetailsModal';
@@ -109,8 +110,40 @@ export default function App() {
     }
   }, [adConfig]);
 
-  // View state
-  const [activeTab, setActiveTab] = useState<'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin'>('jobs');
+  // View state - parse URL query or hash immediately on mount
+  const resolveCurrentTab = (): 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin' => {
+    if (typeof window === 'undefined') return 'jobs';
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const view = urlParams.get('view');
+      if (view === 'salary-guide' || view === 'salary') return 'salary-guide';
+      if (view === 'insights' || view === 'guides') return 'insights';
+      if (view === 'tools' || view === 'calculator') return 'tools';
+      if (view === 'about') return 'about';
+      if (view === 'contact') return 'contact';
+      if (view === 'policy' || view === 'adsense-policy') return 'adsense-policy';
+
+      const rawHash = window.location.hash.replace('#', '');
+      const hash = rawHash.toLowerCase();
+      if (hash === 'admin') return 'admin';
+      if (hash === 'tools' || hash === 'calculator' || hash === 'tc-calculator') return 'tools';
+      if (hash === 'insights' || hash === 'guides') return 'insights';
+      if (hash === 'salary' || hash === 'salary-guide') return 'salary-guide';
+      if (hash === 'about') return 'about';
+      if (hash === 'contact') return 'contact';
+      if (hash === 'policy') return 'adsense-policy';
+
+      // Check if hash points to an article directly (e.g. #reverse-interviewing-engineering-teams)
+      if (rawHash && CAREER_ARTICLES.some((a) => a.id === rawHash || a.id.toLowerCase() === hash)) {
+        return 'insights';
+      }
+    } catch {
+      // Fallback
+    }
+    return 'jobs';
+  };
+
+  const [activeTab, setActiveTab] = useState<'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin'>(resolveCurrentTab);
   const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
   const [legalModalType, setLegalModalType] = useState<'privacy' | 'terms' | 'disclaimer' | null>(null);
   const [syncLogs, setSyncLogs] = useState<SyncLog[]>([]);
@@ -162,22 +195,31 @@ export default function App() {
   // Listen for hash routes and ?admin=true in URL
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const urlParams = new URLSearchParams(window.location.search);
-    const hash = window.location.hash.toLowerCase();
 
-    if (urlParams.get('admin') === 'true' || hash === '#admin') {
-      if (isAdminAuthenticated) {
-        setActiveTab('admin');
+    const syncTabFromUrl = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawHash = window.location.hash.replace('#', '');
+      const hash = rawHash.toLowerCase();
+
+      if (urlParams.get('admin') === 'true' || hash === 'admin') {
+        if (isAdminAuthenticated) {
+          setActiveTab('admin');
+        } else {
+          setIsAdminLoginOpen(true);
+        }
       } else {
-        setIsAdminLoginOpen(true);
+        const tab = resolveCurrentTab();
+        setActiveTab(tab);
       }
-    } else if (hash === '#tools' || hash === '#calculator' || hash === '#tc-calculator') {
-      setActiveTab('tools');
-    } else if (hash === '#insights' || hash === '#guides') {
-      setActiveTab('insights');
-    } else if (hash === '#salary' || hash === '#salary-guide') {
-      setActiveTab('salary-guide');
-    }
+    };
+
+    syncTabFromUrl();
+    window.addEventListener('hashchange', syncTabFromUrl);
+    window.addEventListener('popstate', syncTabFromUrl);
+    return () => {
+      window.removeEventListener('hashchange', syncTabFromUrl);
+      window.removeEventListener('popstate', syncTabFromUrl);
+    };
   }, [isAdminAuthenticated]);
 
   // Global keyboard shortcut (Ctrl+Shift+A or Cmd+Shift+A) for owner quick access
@@ -217,17 +259,19 @@ export default function App() {
 
   // Filtering Logic
   const filteredJobs = useMemo(() => {
+    if (!Array.isArray(jobs)) return [];
     return jobs.filter((job) => {
+      if (!job) return false;
       // Status
-      if (job.status !== 'ACTIVE') return false;
+      if (job.status && job.status !== 'ACTIVE') return false;
 
       // Text search
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
-        const matchesTitle = job.title.toLowerCase().includes(query);
-        const matchesCompany = job.company.toLowerCase().includes(query);
-        const matchesSkills = job.skills.some((s) => s.toLowerCase().includes(query));
-        const matchesDesc = job.description.toLowerCase().includes(query);
+        const matchesTitle = job.title ? job.title.toLowerCase().includes(query) : false;
+        const matchesCompany = job.company ? job.company.toLowerCase().includes(query) : false;
+        const matchesSkills = Array.isArray(job.skills) ? job.skills.some((s) => s && s.toLowerCase().includes(query)) : false;
+        const matchesDesc = job.description ? job.description.toLowerCase().includes(query) : false;
         if (!matchesTitle && !matchesCompany && !matchesSkills && !matchesDesc) {
           return false;
         }
@@ -239,7 +283,7 @@ export default function App() {
           if (!job.isRemote) return false;
         } else {
           const locMatch =
-            job.location.toLowerCase().includes(selectedHub.toLowerCase()) ||
+            (job.location && job.location.toLowerCase().includes(selectedHub.toLowerCase())) ||
             (job.city && job.city.toLowerCase().includes(selectedHub.toLowerCase()));
           if (!locMatch) return false;
         }
@@ -261,7 +305,7 @@ export default function App() {
       }
 
       // Minimum Salary
-      if (minSalary > 0 && job.salary.min < minSalary) {
+      if (minSalary > 0 && (!job.salary || (typeof job.salary.min === 'number' && job.salary.min < minSalary))) {
         return false;
       }
 
