@@ -8,6 +8,7 @@ import {
   ListFilter,
   Settings,
   ShieldCheck,
+  Shield,
   CheckCircle2,
   AlertTriangle,
   ExternalLink,
@@ -33,6 +34,9 @@ interface AdminPanelProps {
   syncLogs: SyncLog[];
   setSyncLogs: React.Dispatch<React.SetStateAction<SyncLog[]>>;
   onClose: () => void;
+  ownerPasscode: string;
+  onUpdatePasscode: (newCode: string) => void;
+  onLogout: () => void;
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({
@@ -43,8 +47,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   syncLogs,
   setSyncLogs,
   onClose,
+  ownerPasscode,
+  onUpdatePasscode,
+  onLogout,
 }) => {
   const [activeTab, setActiveTab] = useState<'post' | 'sync' | 'manage' | 'adsense' | 'schema-tester'>('post');
+  const [customPasscode, setCustomPasscode] = useState(ownerPasscode);
+  const [passcodeMsg, setPasscodeMsg] = useState('');
 
   // Manual Job Posting Form State
   const [title, setTitle] = useState('');
@@ -186,24 +195,32 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       {/* Top Header */}
       <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-xl">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-mono font-semibold bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-400/30">
-              Admin Control Center
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <span className="text-xs font-mono font-semibold bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-400/30 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Owner Mode: kartikamuthukrishnan@gmail.com
             </span>
-            <span className="text-xs text-slate-400">Google Schema & AdSense Management</span>
+            <span className="text-xs text-slate-400">Google Schema &amp; AdSense Management</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Admin & Job Ingestion Panel</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Admin &amp; Job Ingestion Panel</h1>
           <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-2xl">
-            Manual Google JobPosting schema creator, automated ATS job aggregator with relevancy & deduplication filters, and Google AdSense compliance configurations.
+            Manual Google JobPosting schema creator, automated ATS job aggregator with relevancy &amp; deduplication filters, and Google AdSense compliance configurations.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-semibold transition-colors border border-slate-700"
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition-colors border border-slate-700"
           >
-            Exit Admin
+            Back to Job Feed
+          </button>
+          <button
+            onClick={onLogout}
+            className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold transition-colors shadow-sm"
+            title="Lock Admin and require passcode again"
+          >
+            Lock &amp; Sign Out
           </button>
         </div>
       </div>
@@ -1001,6 +1018,62 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   />
                   <span>Footer Ad Unit</span>
                 </label>
+              </div>
+            </div>
+
+            {/* Owner Security Settings */}
+            <div className="pt-6 border-t border-slate-200">
+              <div className="flex items-center gap-2 mb-2">
+                <Shield className="w-4 h-4 text-emerald-600" />
+                <h3 className="font-bold text-slate-900 text-sm">Owner Access &amp; Secret Passcode</h3>
+              </div>
+              <p className="text-[11px] text-slate-500 mb-3 leading-relaxed">
+                The Admin Panel is completely hidden from public visitors and Google crawlers. Only the site owner can unlock it using your secret passcode or via <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-700">?admin=true</code> and <kbd className="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-700">Ctrl+Shift+A</kbd>.
+              </p>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                    Update Secret Passcode
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={customPasscode}
+                      onChange={(e) => {
+                        setCustomPasscode(e.target.value);
+                        setPasscodeMsg('');
+                      }}
+                      placeholder="Enter new admin passcode"
+                      className="flex-1 px-3 py-1.5 border border-slate-300 rounded-lg font-mono text-xs text-slate-900"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!customPasscode.trim()) {
+                          setPasscodeMsg('Passcode cannot be empty.');
+                          return;
+                        }
+                        onUpdatePasscode(customPasscode.trim());
+                        setPasscodeMsg('Saved successfully!');
+                        setTimeout(() => setPasscodeMsg(''), 3000);
+                      }}
+                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors"
+                    >
+                      Save Passcode
+                    </button>
+                  </div>
+                  {passcodeMsg && (
+                    <p className={`text-[11px] mt-1 font-semibold ${passcodeMsg.includes('Saved') ? 'text-emerald-600' : 'text-rose-600'}`}>
+                      {passcodeMsg}
+                    </p>
+                  )}
+                </div>
+
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-600">
+                  <span>Authorized Owner: </span>
+                  <strong className="text-slate-900 font-mono">kartikamuthukrishnan@gmail.com</strong>
+                </div>
               </div>
             </div>
           </div>

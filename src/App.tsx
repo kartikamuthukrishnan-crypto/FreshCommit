@@ -9,6 +9,7 @@ import { AdSlot } from './components/AdSlot';
 import { SalaryGuideView, AdSensePolicyView, CareerInsightsView } from './components/OriginalGuides';
 import { AboutUsView, ContactUsView } from './components/TrustPages';
 import { LegalModal } from './components/LegalModals';
+import { AdminLoginModal } from './components/AdminLoginModal';
 import {
   Search,
   MapPin,
@@ -30,6 +31,9 @@ import {
 
 const STORAGE_KEY_JOBS = 'freshcommit_jobs_v1';
 const STORAGE_KEY_ADSENSE = 'freshcommit_adsense_v1';
+const STORAGE_KEY_ADMIN_AUTH = 'freshcommit_admin_auth';
+const STORAGE_KEY_ADMIN_PASSCODE = 'freshcommit_admin_passcode';
+const DEFAULT_ADMIN_PASSCODE = 'freshcommit2026';
 
 const DEFAULT_ADSENSE_CONFIG: AdSenseConfig = {
   publisherId: 'ca-pub-9876543210123456', // Placeholder ready for user's publisher ID
@@ -93,6 +97,79 @@ export default function App() {
   const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
   const [legalModalType, setLegalModalType] = useState<'privacy' | 'terms' | 'disclaimer' | null>(null);
   const [syncLogs, setSyncLogs] = useState<SyncLog[]>([]);
+
+  // Owner Authentication State
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    try {
+      return (
+        localStorage.getItem(STORAGE_KEY_ADMIN_AUTH) === 'true' ||
+        sessionStorage.getItem(STORAGE_KEY_ADMIN_AUTH) === 'true'
+      );
+    } catch {
+      return false;
+    }
+  });
+  const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
+  const [adminPasscode, setAdminPasscode] = useState<string>(() => {
+    try {
+      return localStorage.getItem(STORAGE_KEY_ADMIN_PASSCODE) || DEFAULT_ADMIN_PASSCODE;
+    } catch {
+      return DEFAULT_ADMIN_PASSCODE;
+    }
+  });
+
+  // Owner Logout handler
+  const handleLogoutAdmin = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY_ADMIN_AUTH);
+      sessionStorage.removeItem(STORAGE_KEY_ADMIN_AUTH);
+    } catch (err) {
+      console.warn('Failed clearing admin auth session', err);
+    }
+    setIsAdminAuthenticated(false);
+    if (activeTab === 'admin') {
+      setActiveTab('jobs');
+    }
+  };
+
+  // Update passcode handler
+  const handleUpdatePasscode = (newCode: string) => {
+    setAdminPasscode(newCode);
+    try {
+      localStorage.setItem(STORAGE_KEY_ADMIN_PASSCODE, newCode);
+    } catch (err) {
+      console.warn('Failed persisting passcode', err);
+    }
+  };
+
+  // Listen for ?admin=true in URL or #admin
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true' || window.location.hash === '#admin') {
+      if (isAdminAuthenticated) {
+        setActiveTab('admin');
+      } else {
+        setIsAdminLoginOpen(true);
+      }
+    }
+  }, [isAdminAuthenticated]);
+
+  // Global keyboard shortcut (Ctrl+Shift+A or Cmd+Shift+A) for owner quick access
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        if (isAdminAuthenticated) {
+          setActiveTab((prev) => (prev === 'admin' ? 'jobs' : 'admin'));
+        } else {
+          setIsAdminLoginOpen(true);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isAdminAuthenticated]);
 
   // Search & Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -170,7 +247,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col selection:bg-indigo-500 selection:text-white">
       {/* Navigation */}
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} jobCount={jobs.length} />
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        jobCount={jobs.length}
+        isAdminAuthenticated={isAdminAuthenticated}
+        onLogoutAdmin={handleLogoutAdmin}
+      />
 
       {/* Main Content Area */}
       <main className="flex-1">
@@ -384,17 +467,48 @@ export default function App() {
         {/* VIEW 4: ADSENSE POLICY & TRUST CENTER */}
         {activeTab === 'adsense-policy' && <AdSensePolicyView />}
 
-        {/* VIEW 4: ADMIN PANEL */}
+        {/* VIEW 4: ADMIN PANEL - RESTRICTED TO OWNER ONLY */}
         {activeTab === 'admin' && (
-          <AdminPanel
-            jobs={jobs}
-            setJobs={setJobs}
-            adConfig={adConfig}
-            setAdConfig={setAdConfig}
-            syncLogs={syncLogs}
-            setSyncLogs={setSyncLogs}
-            onClose={() => setActiveTab('jobs')}
-          />
+          isAdminAuthenticated ? (
+            <AdminPanel
+              jobs={jobs}
+              setJobs={setJobs}
+              adConfig={adConfig}
+              setAdConfig={setAdConfig}
+              syncLogs={syncLogs}
+              setSyncLogs={setSyncLogs}
+              onClose={() => setActiveTab('jobs')}
+              ownerPasscode={adminPasscode}
+              onUpdatePasscode={handleUpdatePasscode}
+              onLogout={handleLogoutAdmin}
+            />
+          ) : (
+            <div className="max-w-md mx-auto my-16 p-8 bg-white border border-slate-200 rounded-2xl text-center space-y-4 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-slate-900 text-emerald-400 flex items-center justify-center mx-auto shadow-inner">
+                <Lock className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-xl font-extrabold text-slate-900">Restricted Owner Portal</h2>
+                <p className="text-xs text-slate-500 mt-1">
+                  This console is restricted to the site owner (<code className="font-mono text-emerald-700">kartikamuthukrishnan@gmail.com</code>).
+                </p>
+              </div>
+              <div className="pt-2 flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setActiveTab('jobs')}
+                  className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                >
+                  Return to Job Feed
+                </button>
+                <button
+                  onClick={() => setIsAdminLoginOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 shadow-md"
+                >
+                  Unlock with Passcode
+                </button>
+              </div>
+            </div>
+          )
         )}
 
         {/* VIEW 5: ABOUT US */}
@@ -477,19 +591,37 @@ export default function App() {
             >
               AdSense Compliance Center
             </button>
-            <button
-              onClick={() => setActiveTab('admin')}
-              className="text-indigo-600 font-semibold flex items-center gap-1 hover:underline"
-            >
-              <Lock className="w-3 h-3" />
-              Admin Access
-            </button>
+            {/* Show owner shortcut only when authenticated */}
+            {isAdminAuthenticated && (
+              <button
+                onClick={() => setActiveTab('admin')}
+                className="text-emerald-700 font-bold flex items-center gap-1.5 hover:underline bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+              >
+                <Lock className="w-3 h-3 text-emerald-600" />
+                <span>Owner Portal</span>
+              </button>
+            )}
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
-          <div>
-            &copy; {new Date().getFullYear()} FreshCommit. Built for high performance, lightweight loading, and full Google AdSense policy alignment.
+          <div className="flex items-center gap-2">
+            <span>&copy; {new Date().getFullYear()} FreshCommit. Built for high performance, lightweight loading, and full Google AdSense policy alignment.</span>
+            <span>&bull;</span>
+            <button
+              onClick={() => {
+                if (isAdminAuthenticated) {
+                  setActiveTab('admin');
+                } else {
+                  setIsAdminLoginOpen(true);
+                }
+              }}
+              className="text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1 cursor-pointer"
+              title="Site Owner Login (kartikamuthukrishnan@gmail.com)"
+            >
+              <Lock className="w-2.5 h-2.5 opacity-50" />
+              <span>Owner Access</span>
+            </button>
           </div>
           <div className="flex items-center gap-2">
             <span>Direct ATS Routing</span>
@@ -500,6 +632,18 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Owner Login Modal */}
+      <AdminLoginModal
+        isOpen={isAdminLoginOpen}
+        onClose={() => setIsAdminLoginOpen(false)}
+        onSuccess={() => {
+          setIsAdminAuthenticated(true);
+          setIsAdminLoginOpen(false);
+          setActiveTab('admin');
+        }}
+        storedPasscode={adminPasscode}
+      />
     </div>
   );
 }

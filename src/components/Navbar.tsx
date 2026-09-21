@@ -5,9 +5,17 @@ interface NavbarProps {
   activeTab: 'jobs' | 'salary-guide' | 'insights' | 'adsense-policy' | 'about' | 'contact' | 'admin';
   setActiveTab: (tab: 'jobs' | 'salary-guide' | 'insights' | 'adsense-policy' | 'about' | 'contact' | 'admin') => void;
   jobCount: number;
+  isAdminAuthenticated: boolean;
+  onLogoutAdmin: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, jobCount }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  activeTab,
+  setActiveTab,
+  jobCount,
+  isAdminAuthenticated,
+  onLogoutAdmin,
+}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -121,21 +129,32 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, jobCoun
             </button>
           </nav>
 
-          {/* Admin Portal Button */}
-          <div className="hidden md:flex items-center gap-2">
-            <button
-              id="nav-btn-admin"
-              onClick={() => setActiveTab('admin')}
-              className={`px-3.5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                activeTab === 'admin'
-                  ? 'bg-slate-900 text-white shadow-sm'
-                  : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400'
-              }`}
-            >
-              <Lock className="w-3.5 h-3.5 text-indigo-500" />
-              <span>Admin Panel</span>
-            </button>
-          </div>
+          {/* Admin Portal Button - Only visible when site owner is authenticated */}
+          {isAdminAuthenticated && (
+            <div className="hidden md:flex items-center gap-2">
+              <button
+                id="nav-btn-admin"
+                onClick={() => setActiveTab('admin')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  activeTab === 'admin'
+                    ? 'bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-400/30'
+                    : 'bg-slate-900 text-slate-100 hover:bg-slate-800'
+                }`}
+                title="Owner Admin Panel"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Owner Admin</span>
+              </button>
+              <button
+                onClick={onLogoutAdmin}
+                className="px-2 py-1.5 text-xs text-slate-400 hover:text-rose-600 font-semibold transition-colors"
+                title="Sign out of Admin"
+              >
+                Lock
+              </button>
+            </div>
+          )}
 
           {/* Mobile Menu Toggle */}
           <div className="flex md:hidden">
@@ -235,16 +254,36 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, jobCoun
             Contact &amp; Support Desk
           </button>
 
-          <button
-            onClick={() => {
-              setActiveTab('admin');
-              setIsMobileMenuOpen(false);
-            }}
-            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold bg-slate-900 text-white mt-2"
-          >
-            <Lock className="w-4 h-4 text-indigo-400" />
-            Admin Panel (Post Jobs & Sync)
-          </button>
+          {/* Mobile Owner Admin Button - Only shown when authenticated */}
+          {isAdminAuthenticated && (
+            <div className="pt-2 border-t border-slate-100 mt-2 space-y-1">
+              <button
+                onClick={() => {
+                  setActiveTab('admin');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold bg-slate-900 text-white"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <Lock className="w-4 h-4 text-emerald-400" />
+                  Owner Admin Panel
+                </span>
+                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono">
+                  Active
+                </span>
+              </button>
+              <button
+                onClick={() => {
+                  onLogoutAdmin();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full text-left px-3 py-1.5 text-xs text-rose-600 font-semibold hover:bg-rose-50 rounded"
+              >
+                Sign out of Admin
+              </button>
+            </div>
+          )}
         </div>
       )}
     </header>
