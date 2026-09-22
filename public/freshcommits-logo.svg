@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="512" height="512">
+  <defs>
+    <!-- Dark slate badge gradient for contrast -->
+    <linearGradient id="fc-bg-grad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0B1324" />
+      <stop offset="50%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#04121F" />
+    </linearGradient>
+
+    <!-- Deep Tech Navy / Steel Blue for the Code Bracket Diamond -->
+    <linearGradient id="fc-bracket-grad" x1="80" y1="120" x2="230" y2="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2B5B84" />
+      <stop offset="50%" stop-color="#1E3E61" />
+      <stop offset="100%" stop-color="#142B45" />
+    </linearGradient>
+
+    <!-- Metallic Gold / Brass outline gradient -->
+    <linearGradient id="fc-gold-border" x1="60" y1="60" x2="460" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F3D389" />
+      <stop offset="35%" stop-color="#D4AF37" />
+      <stop offset="70%" stop-color="#AA820A" />
+      <stop offset="100%" stop-color="#E5C158" />
+    </linearGradient>
+
+    <!-- Lush Organic Green for Central Sprout / Stem -->
+    <linearGradient id="fc-sprout-grad" x1="200" y1="480" x2="260" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2D7A47" />
+      <stop offset="45%" stop-color="#3C955A" />
+      <stop offset="100%" stop-color="#4EAA6C" />
+    </linearGradient>
+
+    <!-- Top Left Primary Leaf -->
+    <linearGradient id="fc-leaf-top" x1="180" y1="260" x2="280" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2D7647" />
+      <stop offset="40%" stop-color="#3D925A" />
+      <stop offset="85%" stop-color="#54B074" />
+      <stop offset="100%" stop-color="#6BC589" />
+    </linearGradient>
+
+    <!-- Right Side Secondary Leaf -->
+    <linearGradient id="fc-leaf-right" x1="280" y1="360" x2="440" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#266B3F" />
+      <stop offset="50%" stop-color="#378A53" />
+      <stop offset="85%" stop-color="#4CA468" />
+      <stop offset="100%" stop-color="#5EB97B" />
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow Filters -->
+    <filter id="fc-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- 1. LEFT ELEMENT: Code Bracket '<' Diamond (Navy Blue with Gold Rim & Bevel) -->
+  <g filter="url(#fc-shadow)">
+    <!-- 3D Bevel Underside Shadow of bracket -->
+    <path
+      d="M174 126 L64 266 L194 446 L204 428 L94 268 L188 142 Z"
+      fill="#0C1B2B"
+      opacity="0.8"
+    />
+
+    <!-- Main Bracket Body -->
+    <path
+      d="M176 122 L62 264 C58 269 58 277 62 282 L194 448 C198 453 206 454 211 449 L217 443 C221 438 220 430 215 425 L108 274 L196 142 C200 137 199 129 194 125 L187 120 C183 118 179 119 176 122 Z"
+      fill="url(#fc-bracket-grad)"
+      stroke="url(#fc-gold-border)"
+      stroke-width="5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Bracket Highlight Facet -->
+    <path
+      d="M174 125 L65 264 C64 265 64 267 65 268 L84 290 L188 138 Z"
+      fill="#4377A6"
+      opacity="0.5"
+    />
+  </g>
+
+  <!-- 2. CENTRAL ELEMENT: Main Sprout Stem with Gold Edge Trimming -->
+  <g filter="url(#fc-shadow)">
+    <!-- Stem Base to Y-Split -->
+    <path
+      d="M198 472 C198 472 205 385 228 290 C242 232 250 180 248 135 C242 185 224 240 200 310 C186 352 178 418 198 472 Z"
+      fill="url(#fc-sprout-grad)"
+      stroke="url(#fc-gold-border)"
+      stroke-width="4.5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Stem Ridge / Center Vein (Inner depth) -->
+    <path
+      d="M199 465 C206 380 225 300 246 140"
+      stroke="#1E5C34"
+      stroke-width="3"
+      stroke-linecap="round"
+      opacity="0.75"
+    />
+  </g>
+
+  <!-- 3. TOP VERTICAL LEAF (Curved Upward Growth with Gold Outline) -->
+  <g filter="url(#fc-shadow)">
+    <!-- Leaf Body -->
+    <path
+      d="M246 138 C238 88 210 40 186 26 C176 96 182 178 238 236 C248 196 250 162 246 138 Z"
+      fill="url(#fc-leaf-top)"
+      stroke="url(#fc-gold-border)"
+      stroke-width="5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Top Leaf Outer Flange (Left curved lobe) -->
+    <path
+      d="M186 26 C226 40 278 88 288 184 C256 188 244 162 246 138 C250 102 230 52 186 26 Z"
+      fill="url(#fc-leaf-top)"
+      stroke="url(#fc-gold-border)"
+      stroke-width="5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Leaf Central Spine Rib (Gold & dark green) -->
+    <path
+      d="M236 230 C228 175 218 105 188 32"
+      stroke="url(#fc-gold-border)"
+      stroke-width="3.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- 4. RIGHT LATERAL LEAF (Blooming Outward with Gold Outline) -->
+  <g filter="url(#fc-shadow)">
+    <!-- Right Leaf Stem Joint / Branch -->
+    <path
+      d="M235 244 C268 250 318 244 366 218 C332 260 286 288 240 292 Z"
+      fill="url(#fc-sprout-grad)"
+      stroke="url(#fc-gold-border)"
+      stroke-width="4"
+      stroke-linejoin="round"
+    />
+
+    <!-- Right Leaf Full Body -->
+    <path
+      d="M364 218 C318 200 274 212 252 236 C272 284 322 320 428 304 C440 262 422 232 364 218 Z"
+      fill="url(#fc-leaf-right)"
+      stroke="url(#fc-gold-border)"
+      stroke-width="5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Lower Lobe of Right Leaf -->
+    <path
+      d="M252 236 C284 278 338 316 428 304 C390 318 340 318 288 296 C264 284 252 258 252 236 Z"
+      fill="#296F43"
+      stroke="url(#fc-gold-border)"
+      stroke-width="4.5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Right Leaf Center Spine Rib -->
+    <path
+      d="M256 240 C306 244 362 248 424 302"
+      stroke="url(#fc-gold-border)"
+      stroke-width="3.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- 5. Fine Gold Accents & Highlights -->
+  <path
+    d="M192 36 C198 84 216 142 242 196"
+    stroke="#F9E8B2"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    opacity="0.8"
+  />
+  <path
+    d="M276 230 C316 234 366 248 410 290"
+    stroke="#F9E8B2"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    opacity="0.8"
+  />
+</svg>
