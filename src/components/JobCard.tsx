@@ -70,7 +70,11 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="font-semibold text-slate-900 text-sm">{job.company}</span>
-                {job.source === 'EMPLOYER_POST' ? (
+                {job.source === 'SMARTRECRUITERS' || job.atsProvider === 'SmartRecruiters' ? (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-teal-800 font-semibold bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200">
+                    <CheckCircle2 className="w-2.5 h-2.5 text-teal-600" /> SmartRecruiters ATS
+                  </span>
+                ) : job.source === 'EMPLOYER_POST' ? (
                   <span className="inline-flex items-center gap-0.5 text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
                     <CheckCircle2 className="w-2.5 h-2.5" /> Direct Employer
                   </span>

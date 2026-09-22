@@ -464,7 +464,10 @@ export default function App() {
         const matchesCompany = job.company ? job.company.toLowerCase().includes(query) : false;
         const matchesSkills = Array.isArray(job.skills) ? job.skills.some((s) => s && s.toLowerCase().includes(query)) : false;
         const matchesDesc = job.description ? job.description.toLowerCase().includes(query) : false;
-        if (!matchesTitle && !matchesCompany && !matchesSkills && !matchesDesc) {
+        const matchesAts =
+          (job.atsProvider && job.atsProvider.toLowerCase().includes(query)) ||
+          (job.source && job.source.toLowerCase().includes(query));
+        if (!matchesTitle && !matchesCompany && !matchesSkills && !matchesDesc && !matchesAts) {
           return false;
         }
       }

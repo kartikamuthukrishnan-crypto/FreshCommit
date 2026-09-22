@@ -1,7 +1,7 @@
 export type ExperienceLevel = 'Entry Level' | 'New Grad' | 'Fresher' | 'Internship';
 export type EmploymentType = 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN';
 export type JobCategory = 'Frontend' | 'Backend' | 'Full Stack' | 'Mobile' | 'DevOps / Cloud' | 'Data / AI' | 'QA / Test';
-export type JobSource = 'MANUAL_ADMIN' | 'AUTOMATED_SYNC' | 'EMPLOYER_POST';
+export type JobSource = 'MANUAL_ADMIN' | 'AUTOMATED_SYNC' | 'EMPLOYER_POST' | 'SMARTRECRUITERS';
 
 export interface SalaryRange {
   min: number;
@@ -36,6 +36,8 @@ export interface JobPosting {
   datePosted: string; // ISO format: YYYY-MM-DD
   validThrough: string; // ISO format: YYYY-MM-DD
   source: JobSource;
+  atsProvider?: string; // e.g. "SmartRecruiters", "Greenhouse", "Lever", "Ashby"
+  smartRecruitersId?: string;
   sourceUrl?: string;
   status: 'ACTIVE' | 'EXPIRED' | 'DRAFT';
   fingerprint: string; // company-title-location for strict deduplication
