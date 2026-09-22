@@ -11,7 +11,8 @@ import {
   CheckCircle2,
   Copy,
   Check,
-  Globe
+  Globe,
+  Link2
 } from 'lucide-react';
 
 interface JobDetailsModalProps {
@@ -22,14 +23,26 @@ interface JobDetailsModalProps {
 
 export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, adConfig }) => {
   const [copiedTitle, setCopiedTitle] = useState(false);
+  const [copiedUrl, setCopiedUrl] = useState(false);
 
-  // Injects Google JobPosting Schema into document head dynamically
+  // Injects Google JobPosting Schema into document head dynamically and syncs canonical link
   useEffect(() => {
     if (!job) return;
     const schema = generateJobPostingSchema(job);
     const cleanup = injectJobJsonLd(schema);
+
+    // Update canonical link for search engines to this dedicated job URL
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const originalHref = canonical ? canonical.href : 'https://freshcommits.com/';
+    if (canonical) {
+      canonical.href = `https://freshcommits.com/?job=${job.id}`;
+    }
+
     return () => {
       cleanup();
+      if (canonical) {
+        canonical.href = originalHref;
+      }
     };
   }, [job]);
 
@@ -39,6 +52,13 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     navigator.clipboard.writeText(job.title);
     setCopiedTitle(true);
     setTimeout(() => setCopiedTitle(false), 2000);
+  };
+
+  const handleCopyUrl = () => {
+    const jobUrl = `${window.location.origin}/?job=${job.id}`;
+    navigator.clipboard.writeText(jobUrl);
+    setCopiedUrl(true);
+    setTimeout(() => setCopiedUrl(false), 2000);
   };
 
   const richResultsUrl = `https://search.google.com/test/rich-results`;
@@ -105,6 +125,14 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={handleCopyUrl}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors shadow-2xs"
+              title="Copy direct shareable link for this job"
+            >
+              {copiedUrl ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link2 className="w-3.5 h-3.5 text-slate-500" />}
+              <span className="hidden sm:inline">{copiedUrl ? 'Copied Link!' : 'Share'}</span>
+            </button>
             <a
               href={job.applyUrl}
               target="_blank"
@@ -199,18 +227,29 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                 Direct Destination: <strong className="text-indigo-700">{atsInfo.name}</strong> ({atsInfo.host})
               </span>
             </div>
-            <div className="text-[11px] text-slate-500 mt-0.5 ml-5">
-              Direct application requisition — opens this specific opening without portal search friction.
+            <div className="text-[11px] text-slate-500 mt-0.5 ml-5 flex items-center gap-2 flex-wrap">
+              <span>Direct application requisition — opens this specific opening without portal search friction.</span>
+              <span className="font-mono text-[10px] text-slate-500 bg-slate-200/70 px-1.5 py-0.5 rounded border border-slate-300/80">
+                freshcommits.com/?job={job.id}
+              </span>
             </div>
           </div>
-          <div className="flex items-center gap-2.5 self-end sm:self-center">
+          <div className="flex items-center gap-2.5 self-end sm:self-center flex-wrap">
+            <button
+              onClick={handleCopyUrl}
+              className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs"
+              title="Copy direct shareable link for this job (?job=...)"
+            >
+              {copiedUrl ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link2 className="w-3.5 h-3.5 text-slate-500" />}
+              <span>{copiedUrl ? 'Copied URL!' : 'Share Job'}</span>
+            </button>
             <button
               onClick={handleCopyTitle}
               className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs"
               title="Copy job title to your clipboard for quick pasting on company ATS"
             >
               {copiedTitle ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
-              <span>{copiedTitle ? 'Copied Title!' : 'Copy Job Title'}</span>
+              <span>{copiedTitle ? 'Copied Title!' : 'Copy Title'}</span>
             </button>
             <button
               onClick={onClose}

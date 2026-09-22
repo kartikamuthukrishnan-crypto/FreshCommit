@@ -172,8 +172,55 @@ export default function App() {
     return 'jobs';
   };
 
+  // Helper to resolve title by active tab
+  const getTabTitle = (tab: string) => {
+    switch (tab) {
+      case 'salary-guide':
+        return '2026 Tech Salary Guide & Compensation Benchmarks – FreshCommits';
+      case 'insights':
+        return 'Engineering Career Insights & Practical Guides – FreshCommits';
+      case 'tools':
+        return 'Developer Career Tools & TC Calculator – FreshCommits';
+      case 'about':
+        return 'About Us & Verification Standards – FreshCommits';
+      case 'contact':
+        return 'Contact & Employer Support – FreshCommits';
+      case 'adsense-policy':
+        return 'Editorial & Advertising Policy – FreshCommits';
+      case 'admin':
+        return 'Owner Administration Portal – FreshCommits';
+      default:
+        return 'FreshCommits – Entry Level & New Grad Software Engineer Jobs';
+    }
+  };
+
+  // Dedicated Job URL Resolver: checks ?job=<jobId> or #job=<jobId>
+  const resolveCurrentJob = (): JobPosting | null => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      let targetJobId = urlParams.get('job') || urlParams.get('jobId');
+      const rawHash = window.location.hash.replace('#', '');
+      if (!targetJobId && rawHash) {
+        if (rawHash.startsWith('job=')) {
+          targetJobId = rawHash.replace('job=', '');
+        } else if (rawHash.startsWith('job-')) {
+          targetJobId = rawHash;
+        }
+      }
+      if (targetJobId) {
+        const found =
+          INITIAL_JOBS.find((j) => j.id.toLowerCase() === targetJobId?.toLowerCase());
+        return found || null;
+      }
+    } catch {
+      // Fallback
+    }
+    return null;
+  };
+
   const [activeTab, setActiveTab] = useState<'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin'>(resolveCurrentTab);
-  const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
+  const [selectedJob, setSelectedJob] = useState<JobPosting | null>(resolveCurrentJob);
   const [legalModalType, setLegalModalType] = useState<'privacy' | 'terms' | 'disclaimer' | null>(null);
   const [syncLogs, setSyncLogs] = useState<SyncLog[]>([]);
 
@@ -207,7 +254,7 @@ export default function App() {
     }
     setIsAdminAuthenticated(false);
     if (activeTab === 'admin') {
-      setActiveTab('jobs');
+      handleTabChange('jobs');
     }
   };
 
@@ -221,35 +268,114 @@ export default function App() {
     }
   };
 
-  // Listen for hash routes and ?admin=true in URL
+  // Dedicated Job Selection Handlers with zero-cost pushState URL routing
+  const handleSelectJob = (job: JobPosting) => {
+    setSelectedJob(job);
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('job', job.id);
+      window.history.pushState({ jobId: job.id }, '', url.toString());
+      document.title = `${job.title} at ${job.company} (0-2 YoE) – FreshCommits`;
+    } catch (e) {
+      console.warn('Failed updating job URL', e);
+    }
+  };
+
+  const handleCloseJob = () => {
+    setSelectedJob(null);
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('job');
+      url.searchParams.delete('jobId');
+      const newQuery = url.searchParams.toString();
+      const newUrl = url.pathname + (newQuery ? `?${newQuery}` : '') + (url.hash || '');
+      window.history.pushState({}, '', newUrl);
+      document.title = getTabTitle(activeTab);
+    } catch (e) {
+      console.warn('Failed clearing job URL', e);
+    }
+  };
+
+  const handleTabChange = (tab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin') => {
+    setActiveTab(tab);
+    try {
+      const url = new URL(window.location.href);
+      if (tab === 'jobs') {
+        url.searchParams.delete('view');
+      } else {
+        url.searchParams.set('view', tab);
+      }
+      if (selectedJob && tab !== 'jobs') {
+        url.searchParams.delete('job');
+        url.searchParams.delete('jobId');
+        setSelectedJob(null);
+      }
+      const newQuery = url.searchParams.toString();
+      const newUrl = url.pathname + (newQuery ? `?${newQuery}` : '') + (url.hash || '');
+      window.history.pushState({}, '', newUrl);
+      document.title = getTabTitle(tab);
+    } catch (e) {
+      console.warn('Failed updating tab URL', e);
+    }
+  };
+
+  // Listen for hash routes, ?job=, and ?admin=true in URL on browser navigation (popstate & hashchange)
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const syncTabFromUrl = () => {
+    const syncFromUrl = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const rawHash = window.location.hash.replace('#', '');
       const hash = rawHash.toLowerCase();
 
+      // 1. Sync Job selection from ?job= or #job=
+      const jobParam = urlParams.get('job') || urlParams.get('jobId');
+      let targetJobId = jobParam;
+      if (!targetJobId && rawHash) {
+        if (rawHash.startsWith('job=')) {
+          targetJobId = rawHash.replace('job=', '');
+        } else if (rawHash.startsWith('job-')) {
+          targetJobId = rawHash;
+        }
+      }
+
+      if (targetJobId) {
+        const found =
+          jobs.find((j) => j.id.toLowerCase() === targetJobId?.toLowerCase()) ||
+          INITIAL_JOBS.find((j) => j.id.toLowerCase() === targetJobId?.toLowerCase());
+        if (found) {
+          setSelectedJob(found);
+          document.title = `${found.title} at ${found.company} (0-2 YoE) – FreshCommits`;
+        }
+      } else {
+        setSelectedJob(null);
+      }
+
+      // 2. Sync Tab view
       if (urlParams.get('admin') === 'true' || hash === 'admin') {
         if (isAdminAuthenticated) {
           setActiveTab('admin');
+          document.title = getTabTitle('admin');
         } else {
           setIsAdminLoginOpen(true);
         }
       } else {
         const tab = resolveCurrentTab();
         setActiveTab(tab);
+        if (!targetJobId) {
+          document.title = getTabTitle(tab);
+        }
       }
     };
 
-    syncTabFromUrl();
-    window.addEventListener('hashchange', syncTabFromUrl);
-    window.addEventListener('popstate', syncTabFromUrl);
+    syncFromUrl();
+    window.addEventListener('hashchange', syncFromUrl);
+    window.addEventListener('popstate', syncFromUrl);
     return () => {
-      window.removeEventListener('hashchange', syncTabFromUrl);
-      window.removeEventListener('popstate', syncTabFromUrl);
+      window.removeEventListener('hashchange', syncFromUrl);
+      window.removeEventListener('popstate', syncFromUrl);
     };
-  }, [isAdminAuthenticated]);
+  }, [isAdminAuthenticated, jobs]);
 
   // Global keyboard shortcut (Ctrl+Shift+A or Cmd+Shift+A) for owner quick access
   useEffect(() => {
@@ -347,7 +473,7 @@ export default function App() {
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
         jobCount={jobs.length}
         isAdminAuthenticated={isAdminAuthenticated}
         onLogoutAdmin={handleLogoutAdmin}
@@ -522,7 +648,7 @@ export default function App() {
                       <JobCard
                         key={job.id}
                         job={job}
-                        onSelect={(j) => setSelectedJob(j)}
+                        onSelect={handleSelectJob}
                       />
                     ))}
                   </div>
@@ -541,7 +667,7 @@ export default function App() {
                         <JobCard
                           key={job.id}
                           job={job}
-                          onSelect={(j) => setSelectedJob(j)}
+                          onSelect={handleSelectJob}
                         />
                       ))}
                     </div>
@@ -610,7 +736,7 @@ export default function App() {
 
         {/* VIEW 5: ABOUT US */}
         {activeTab === 'about' && (
-          <AboutUsView onNavigateContact={() => setActiveTab('contact')} />
+          <AboutUsView onNavigateContact={() => handleTabChange('contact')} />
         )}
 
         {/* VIEW 6: CONTACT US */}
@@ -629,7 +755,7 @@ export default function App() {
       {/* Job Details Modal with Dynamic Schema.org injection */}
       <JobDetailsModal
         job={selectedJob}
-        onClose={() => setSelectedJob(null)}
+        onClose={handleCloseJob}
         adConfig={adConfig}
       />
 
@@ -650,31 +776,31 @@ export default function App() {
 
           <div className="flex items-center gap-5 flex-wrap text-xs">
             <button
-              onClick={() => setActiveTab('tools')}
+              onClick={() => handleTabChange('tools')}
               className="text-emerald-700 font-bold hover:underline transition-colors"
             >
               Career Tools &amp; TC Calculator
             </button>
             <button
-              onClick={() => setActiveTab('insights')}
+              onClick={() => handleTabChange('insights')}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
               Career Insights
             </button>
             <button
-              onClick={() => setActiveTab('salary-guide')}
+              onClick={() => handleTabChange('salary-guide')}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
               Salary Benchmarks
             </button>
             <button
-              onClick={() => setActiveTab('about')}
+              onClick={() => handleTabChange('about')}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
               About Us &amp; Standards
             </button>
             <button
-              onClick={() => setActiveTab('contact')}
+              onClick={() => handleTabChange('contact')}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
               Contact &amp; Support
