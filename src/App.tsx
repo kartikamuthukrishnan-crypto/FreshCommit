@@ -29,7 +29,10 @@ import {
   Code2,
   ExternalLink,
   ChevronRight,
-  GitCommit
+  GitCommit,
+  Linkedin,
+  Twitter,
+  Share2
 } from 'lucide-react';
 
 const STORAGE_KEY_JOBS = 'freshcommit_jobs_v4';
@@ -823,6 +826,32 @@ export default function App() {
             >
               ATS Direct Application Standards
             </button>
+
+            {/* Social channels */}
+            <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+              <a
+                href="https://www.linkedin.com/company/freshcommits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-[#0A66C2] font-semibold hover:underline"
+                title="LinkedIn community page"
+              >
+                <Linkedin className="w-3.5 h-3.5 fill-current" />
+                <span>LinkedIn</span>
+              </a>
+              <span className="text-slate-300">&bull;</span>
+              <a
+                href="https://twitter.com/freshcommits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-slate-800 font-semibold hover:underline"
+                title="X / Twitter official alerts"
+              >
+                <Twitter className="w-3.5 h-3.5 fill-current" />
+                <span>Twitter / X</span>
+              </a>
+            </div>
+
             {/* Show owner shortcut only when authenticated */}
             {isAdminAuthenticated && (
               <button

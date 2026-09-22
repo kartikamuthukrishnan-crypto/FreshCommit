@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator } from 'lucide-react';
+import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Linkedin, Twitter, MessageSquare } from 'lucide-react';
 import { FreshCommitsLogo } from './FreshCommitsLogo';
 
 interface NavbarProps {
@@ -122,6 +122,28 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Mail className="w-4 h-4 text-blue-600" />
               <span>Contact</span>
             </button>
+
+            {/* Social Channels & Share Bar */}
+            <div className="hidden xl:flex items-center gap-1.5 pl-2 ml-1 border-l border-slate-200">
+              <a
+                href="https://www.linkedin.com/company/freshcommits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-[#0A66C2] hover:bg-slate-100 transition-colors"
+                title="Follow FreshCommits on LinkedIn for daily verified 0–2 YoE SWE job alerts"
+              >
+                <Linkedin className="w-4 h-4 fill-current" />
+              </a>
+              <a
+                href="https://twitter.com/freshcommits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-black hover:bg-slate-100 transition-colors"
+                title="Follow @freshcommits on X / Twitter for instant drop alerts"
+              >
+                <Twitter className="w-4 h-4 fill-current" />
+              </a>
+            </div>
           </nav>
 
           {/* Admin Portal Button - Only visible when site owner is authenticated */}
@@ -253,6 +275,28 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Mail className="w-4 h-4 text-blue-600" />
             Contact &amp; Support Desk
           </button>
+
+          {/* Social Communities */}
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-around py-2">
+            <a
+              href="https://www.linkedin.com/company/freshcommits"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs font-semibold text-[#0A66C2] px-3 py-1.5 rounded-lg hover:bg-blue-50"
+            >
+              <Linkedin className="w-4 h-4 fill-current" />
+              <span>LinkedIn</span>
+            </a>
+            <a
+              href="https://twitter.com/freshcommits"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs font-semibold text-slate-800 px-3 py-1.5 rounded-lg hover:bg-slate-100"
+            >
+              <Twitter className="w-4 h-4 fill-current" />
+              <span>Twitter / X</span>
+            </a>
+          </div>
 
           {/* Mobile Owner Admin Button - Only shown when authenticated */}
           {isAdminAuthenticated && (

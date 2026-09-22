@@ -1,6 +1,7 @@
 import React from 'react';
 import { JobPosting } from '../types';
 import { MapPin, DollarSign, Calendar, Globe, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
+import { SocialShare } from './SocialShare';
 
 interface JobCardProps {
   job: JobPosting;
@@ -152,17 +153,20 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
           <span className="font-medium text-slate-600">Direct on {getAtsName(job.applyUrl)}</span>
         </div>
 
-        <button
-          id={`btn-view-apply-${job.id}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onSelect(job);
-          }}
-          className="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-all flex items-center gap-1.5 shadow-xs group-hover:shadow-sm"
-        >
-          <span>View & Apply</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <SocialShare job={job} compact={true} />
+          <button
+            id={`btn-view-apply-${job.id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect(job);
+            }}
+            className="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-all flex items-center gap-1.5 shadow-xs group-hover:shadow-sm"
+          >
+            <span>View & Apply</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
     </div>
   );

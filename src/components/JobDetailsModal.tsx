@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { JobPosting, AdSenseConfig } from '../types';
 import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { AdSlot } from './AdSlot';
+import { SocialShare } from './SocialShare';
 import {
   X,
   MapPin,
@@ -209,6 +210,9 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               ))}
             </div>
           </div>
+
+          {/* Social Share Engine: One-click LinkedIn, X, Reddit, WhatsApp */}
+          <SocialShare job={job} />
 
           {/* Google AdSense policy-compliant in-modal banner (guaranteed margin from buttons) */}
           {adConfig.enabled && adConfig.detailSidebarAd && (
