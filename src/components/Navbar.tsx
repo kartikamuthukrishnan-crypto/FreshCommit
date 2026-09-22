@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Linkedin, Twitter, Youtube, MessageSquare } from 'lucide-react';
 import { FreshCommitsLogo } from './FreshCommitsLogo';
+import { AppTab } from '../types';
 
 interface NavbarProps {
-  activeTab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin';
-  setActiveTab: (tab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin') => void;
+  activeTab: AppTab;
+  setActiveTab: (tab: AppTab) => void;
   jobCount: number;
   isAdminAuthenticated: boolean;
   onLogoutAdmin: () => void;

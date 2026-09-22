@@ -70,3 +70,18 @@ export interface SchemaValidationResult {
   warnings: string[];
   jsonLd: Record<string, any>;
 }
+
+export type AppTab =
+  | 'jobs'
+  | 'salary-guide'
+  | 'insights'
+  | 'tools'
+  | 'adsense-policy'
+  | 'about'
+  | 'contact'
+  | 'admin'
+  | 'terms'
+  | 'privacy'
+  | 'disclaimer'
+  | 'cookie-policy';
+

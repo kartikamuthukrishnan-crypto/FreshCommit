@@ -11,10 +11,12 @@ import { SalaryGuideView, AdSensePolicyView, CareerInsightsView } from './compon
 import { InteractiveToolsView } from './components/InteractiveTools';
 import { AboutUsView, ContactUsView } from './components/TrustPages';
 import { LegalModal } from './components/LegalModals';
+import { LegalPageView } from './components/LegalPageView';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { FreshCommitsLogo } from './components/FreshCommitsLogo';
 import { HomeEditorialContent } from './components/HomeEditorialContent';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
+import { AppTab } from './types';
 import {
   Search,
   MapPin,
@@ -150,7 +152,7 @@ export default function App() {
   }, [adConfig]);
 
   // View state - parse URL query or hash immediately on mount
-  const resolveCurrentTab = (): 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin' => {
+  const resolveCurrentTab = (): AppTab => {
     if (typeof window === 'undefined') return 'jobs';
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -161,6 +163,10 @@ export default function App() {
       if (view === 'about') return 'about';
       if (view === 'contact') return 'contact';
       if (view === 'policy' || view === 'adsense-policy') return 'adsense-policy';
+      if (view === 'terms' || view === 'tos' || view === 'terms-of-service') return 'terms';
+      if (view === 'privacy' || view === 'privacy-policy') return 'privacy';
+      if (view === 'disclaimer') return 'disclaimer';
+      if (view === 'cookie-policy' || view === 'cookies') return 'cookie-policy';
 
       const rawHash = window.location.hash.replace('#', '');
       const hash = rawHash.toLowerCase();
@@ -171,6 +177,10 @@ export default function App() {
       if (hash === 'about') return 'about';
       if (hash === 'contact') return 'contact';
       if (hash === 'policy') return 'adsense-policy';
+      if (hash === 'terms' || hash === 'tos') return 'terms';
+      if (hash === 'privacy') return 'privacy';
+      if (hash === 'disclaimer') return 'disclaimer';
+      if (hash === 'cookie-policy' || hash === 'cookies') return 'cookie-policy';
 
       // Check if hash points to an article directly (e.g. #reverse-interviewing-engineering-teams)
       if (rawHash && CAREER_ARTICLES.some((a) => a.id === rawHash || a.id.toLowerCase() === hash)) {
@@ -183,7 +193,7 @@ export default function App() {
   };
 
   // Helper to resolve title by active tab
-  const getTabTitle = (tab: string) => {
+  const getTabTitle = (tab: AppTab) => {
     switch (tab) {
       case 'salary-guide':
         return '2026 Tech Salary Guide & Compensation Benchmarks – FreshCommits';
@@ -197,6 +207,14 @@ export default function App() {
         return 'Contact & Employer Support – FreshCommits';
       case 'adsense-policy':
         return 'Editorial & Advertising Policy – FreshCommits';
+      case 'terms':
+        return 'Terms of Service & Conditions of Use – FreshCommits';
+      case 'privacy':
+        return 'Privacy Policy & DART Cookie Disclosures – FreshCommits';
+      case 'disclaimer':
+        return 'Publisher Disclaimer & Verification Standards – FreshCommits';
+      case 'cookie-policy':
+        return 'Cookie Policy & Consent Settings – FreshCommits';
       case 'admin':
         return 'Owner Administration Portal – FreshCommits';
       default:
@@ -229,7 +247,7 @@ export default function App() {
     return null;
   };
 
-  const [activeTab, setActiveTab] = useState<'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin'>(resolveCurrentTab);
+  const [activeTab, setActiveTab] = useState<AppTab>(resolveCurrentTab);
   const [selectedJob, setSelectedJob] = useState<JobPosting | null>(resolveCurrentJob);
   const [legalModalType, setLegalModalType] = useState<'privacy' | 'terms' | 'disclaimer' | null>(null);
   const [syncLogs, setSyncLogs] = useState<SyncLog[]>([]);
@@ -306,7 +324,7 @@ export default function App() {
     }
   };
 
-  const handleTabChange = (tab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'adsense-policy' | 'about' | 'contact' | 'admin') => {
+  const handleTabChange = (tab: AppTab) => {
     setActiveTab(tab);
     try {
       const url = new URL(window.location.href);
@@ -947,6 +965,14 @@ export default function App() {
         {activeTab === 'contact' && (
           <ContactUsView />
         )}
+
+        {/* VIEW 7: LEGAL, TERMS OF SERVICE & DISCLOSURES */}
+        {(activeTab === 'terms' || activeTab === 'privacy' || activeTab === 'disclaimer' || activeTab === 'cookie-policy') && (
+          <LegalPageView
+            initialSection={activeTab}
+            onNavigateTab={handleTabChange}
+          />
+        )}
       </main>
 
       {/* Footer Leaderboard Ad */}
@@ -982,42 +1008,99 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-5 flex-wrap text-xs">
-            <button
-              onClick={() => handleTabChange('tools')}
+            <a
+              href="/?view=tools"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('tools');
+              }}
               className="text-emerald-700 font-bold hover:underline transition-colors"
             >
               Career Tools &amp; TC Calculator
-            </button>
-            <button
-              onClick={() => handleTabChange('insights')}
+            </a>
+            <a
+              href="/?view=insights"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('insights');
+              }}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
               Career Insights
-            </button>
-            <button
-              onClick={() => handleTabChange('salary-guide')}
+            </a>
+            <a
+              href="/?view=salary-guide"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('salary-guide');
+              }}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
               Salary Benchmarks
-            </button>
-            <button
-              onClick={() => handleTabChange('about')}
+            </a>
+            <a
+              href="/?view=about"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('about');
+              }}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
-              About Us &amp; Standards
-            </button>
-            <button
-              onClick={() => handleTabChange('contact')}
+              About Us
+            </a>
+            <a
+              href="/?view=contact"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('contact');
+              }}
               className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
             >
-              Contact &amp; Support
-            </button>
-            <button
-              onClick={() => setLegalModalType('privacy')}
+              Contact Us
+            </a>
+            <a
+              href="/?view=terms"
+              id="footer-link-terms"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('terms');
+              }}
+              className="font-semibold text-slate-700 hover:text-slate-900 transition-colors underline decoration-slate-300"
+            >
+              Terms of Service
+            </a>
+            <a
+              href="/?view=privacy"
+              id="footer-link-privacy"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('privacy');
+              }}
+              className="font-semibold text-slate-700 hover:text-slate-900 transition-colors underline decoration-slate-300"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="/?view=disclaimer"
+              id="footer-link-disclaimer"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('disclaimer');
+              }}
               className="hover:text-slate-900 transition-colors"
             >
-              Privacy &amp; Cookie Policy
-            </button>
+              Disclaimer &amp; Ad Disclosure
+            </a>
+            <a
+              href="/?view=policy"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('adsense-policy');
+              }}
+              className="hover:text-slate-900 transition-colors"
+            >
+              AdSense Compliance
+            </a>
             <button
               onClick={() => {
                 localStorage.removeItem('freshcommits_cookie_consent_v1');
@@ -1027,18 +1110,6 @@ export default function App() {
               title="Change your cookie consent preferences"
             >
               Cookie Preferences
-            </button>
-            <button
-              onClick={() => setLegalModalType('terms')}
-              className="hover:text-slate-900 transition-colors"
-            >
-              Terms of Service
-            </button>
-            <button
-              onClick={() => setLegalModalType('disclaimer')}
-              className="hover:text-slate-900 transition-colors"
-            >
-              ATS Direct Application Standards
             </button>
 
             {/* Social channels */}
