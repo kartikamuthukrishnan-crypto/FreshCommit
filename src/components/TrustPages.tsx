@@ -180,8 +180,20 @@ export const ContactUsView: React.FC = () => {
     const generatedRef = 'FC-' + Math.floor(100000 + Math.random() * 900000);
     setTicketRef(generatedRef);
 
-    // Get configured support destination email (default: freshcommits.com@gmail.com)
-    const recipientEmail = (typeof window !== 'undefined' && localStorage.getItem('freshcommits_support_recipient_email')) || 'freshcommits.com@gmail.com';
+    // Get configured support destination email (default: freshcommitsjobs@gmail.com)
+    let recipientEmail = 'freshcommitsjobs@gmail.com';
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('freshcommits_support_recipient_email');
+        if (stored && stored !== 'freshcommits.com@gmail.com') {
+          recipientEmail = stored;
+        } else {
+          localStorage.setItem('freshcommits_support_recipient_email', 'freshcommitsjobs@gmail.com');
+        }
+      } catch {
+        // Fallback
+      }
+    }
 
     // 1. Immediately log ticket to local state & storage so it is guaranteed recorded
     const newTicket = {

@@ -63,7 +63,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   });
   const [supportRecipientEmail, setSupportRecipientEmail] = useState<string>(() => {
-    return localStorage.getItem('freshcommits_support_recipient_email') || 'freshcommits.com@gmail.com';
+    try {
+      const saved = localStorage.getItem('freshcommits_support_recipient_email');
+      if (!saved || saved === 'freshcommits.com@gmail.com') {
+        localStorage.setItem('freshcommits_support_recipient_email', 'freshcommitsjobs@gmail.com');
+        return 'freshcommitsjobs@gmail.com';
+      }
+      return saved;
+    } catch {
+      return 'freshcommitsjobs@gmail.com';
+    }
   });
   const [isActivating, setIsActivating] = useState(false);
   const [activationFeedback, setActivationFeedback] = useState('');
