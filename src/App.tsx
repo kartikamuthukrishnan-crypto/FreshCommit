@@ -13,6 +13,7 @@ import { AboutUsView, ContactUsView } from './components/TrustPages';
 import { LegalModal } from './components/LegalModals';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { FreshCommitsLogo } from './components/FreshCommitsLogo';
+import { HomeEditorialContent } from './components/HomeEditorialContent';
 import {
   Search,
   MapPin,
@@ -874,6 +875,9 @@ export default function App() {
                 </div>
               )}
             </div>
+
+            {/* Editorial Guide, Regional Salary Matrix & Comprehensive FAQs for AdSense Reviewers & Candidates */}
+            <HomeEditorialContent onNavigateTab={handleTabChange} />
           </div>
         )}
 
