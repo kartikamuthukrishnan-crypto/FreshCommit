@@ -660,6 +660,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     onChange={(e) => setApplyUrl(e.target.value)}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs"
                   />
+                  {applyUrl && (applyUrl.includes('/search') || applyUrl.endsWith('/careers') || applyUrl.includes('?q=')) ? (
+                    <p className="text-[11px] text-amber-600 mt-1 flex items-center gap-1 font-medium">
+                      <AlertTriangle className="w-3 h-3 text-amber-500 flex-shrink-0" />
+                      Notice: This URL points to a search/portal page. Direct requisition/ATS links yield higher conversion and pass Google JobPosting validation.
+                    </p>
+                  ) : (
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      Must link directly to this specific job requisition (Greenhouse, Lever, Ashby, etc.) to skip generic portal searches.
+                    </p>
+                  )}
                 </div>
               </div>
 

@@ -50,6 +50,19 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
 
   const richResultsUrl = `https://search.google.com/test/rich-results`;
 
+  const getAtsDetails = (url: string) => {
+    if (!url) return { name: 'Direct ATS', host: 'Direct Requisition' };
+    const lower = url.toLowerCase();
+    if (lower.includes('greenhouse.io')) return { name: 'Greenhouse', host: 'boards.greenhouse.io' };
+    if (lower.includes('lever.co')) return { name: 'Lever', host: 'jobs.lever.co' };
+    if (lower.includes('ashbyhq.com')) return { name: 'Ashby', host: 'jobs.ashbyhq.com' };
+    if (lower.includes('myworkdayjobs.com')) return { name: 'Workday', host: 'myworkdayjobs.com' };
+    if (lower.includes('smartrecruiters.com')) return { name: 'SmartRecruiters', host: 'smartrecruiters.com' };
+    return { name: 'Direct ATS', host: 'Company Requisition' };
+  };
+
+  const atsInfo = getAtsDetails(job.applyUrl);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto"
@@ -244,11 +257,19 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
         </div>
 
         {/* Modal Action Bar */}
-        <div className="p-4 sm:p-6 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-4">
+        <div className="p-4 sm:p-6 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="text-xs text-slate-500">
-            Source: <span className="font-semibold text-slate-700">{job.source === 'EMPLOYER_POST' ? 'Direct Employer' : 'Verified ATS Feed'}</span>
+            <div className="flex items-center gap-1.5 font-medium text-slate-800">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+              <span>
+                Direct Destination: <strong className="text-indigo-700">{atsInfo.name}</strong> ({atsInfo.host})
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-500 mt-0.5 ml-5">
+              Direct application requisition — opens this specific opening without portal search friction.
+            </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-end sm:self-center">
             <button
               onClick={onClose}
               className="px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium text-slate-700 hover:bg-white transition-colors"
@@ -261,7 +282,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               rel="noopener noreferrer"
               className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 shadow-sm transition-all"
             >
-              <span>Apply on Company ATS</span>
+              <span>Apply on {atsInfo.name}</span>
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>

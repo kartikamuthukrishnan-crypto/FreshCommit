@@ -18,6 +18,8 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
     datePosted: job.datePosted,
     validThrough: job.validThrough,
     employmentType: job.employmentType,
+    url: job.applyUrl || undefined,
+    directApply: true,
     hiringOrganization: {
       '@type': 'Organization',
       name: job.company,
@@ -145,6 +147,25 @@ export function validateJobPostingSchema(job: JobPosting): SchemaValidationResul
   }
   if (!job.companyLogo) {
     warnings.push('hiringOrganization.logo improves Google search card branding');
+  }
+
+  // Direct ATS Application URL validation
+  if (!job.applyUrl?.trim()) {
+    missingFields.push('applyUrl (direct ATS application link required for Google for Jobs)');
+  } else {
+    const urlLower = job.applyUrl.toLowerCase();
+    if (
+      urlLower.includes('/search') ||
+      urlLower.endsWith('/careers') ||
+      urlLower.endsWith('/jobs') ||
+      urlLower.endsWith('/students') ||
+      urlLower.includes('?q=') ||
+      urlLower.includes('search?q=')
+    ) {
+      warnings.push(
+        'applyUrl links to a generic search or career portal rather than a specific job requisition form. Direct ATS links (e.g. Greenhouse, Lever, Ashby, or Workday requisition ID) yield significantly higher conversion.'
+      );
+    }
   }
 
   const jsonLd = generateJobPostingSchema(job);

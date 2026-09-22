@@ -23,6 +23,17 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, onViewSchema })
     return diffDays <= 5;
   };
 
+  const getAtsName = (url: string) => {
+    if (!url) return 'Direct ATS';
+    const lower = url.toLowerCase();
+    if (lower.includes('greenhouse.io')) return 'Greenhouse';
+    if (lower.includes('lever.co')) return 'Lever';
+    if (lower.includes('ashbyhq.com')) return 'Ashby';
+    if (lower.includes('myworkdayjobs.com')) return 'Workday';
+    if (lower.includes('smartrecruiters.com')) return 'SmartRecruiters';
+    return 'Direct ATS';
+  };
+
   return (
     <div
       id={`job-card-${job.id}`}
@@ -162,9 +173,10 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, onViewSchema })
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
+            title={`Apply directly on ${getAtsName(job.applyUrl)} (opens specific job requisition application)`}
             className="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-all flex items-center gap-1 shadow-sm"
           >
-            <span>Apply Direct</span>
+            <span>Apply ({getAtsName(job.applyUrl)})</span>
             <ExternalLink className="w-3 h-3" />
           </a>
         </div>
