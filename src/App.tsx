@@ -370,7 +370,7 @@ export default function App() {
               <div className="max-w-4xl mx-auto text-center">
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold tracking-tight mb-4 border border-emerald-200/80">
                   <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                  Strictly 0–2 Years Experience • Google for Jobs Schema Validated
+                  Strictly 0–2 Years Experience • Direct Employer Applications
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -455,7 +455,7 @@ export default function App() {
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    Google for Jobs Schema Validated
+                    100% Direct ATS Links
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <TrendingUp className="w-4 h-4 text-amber-600" />
@@ -523,7 +523,6 @@ export default function App() {
                         key={job.id}
                         job={job}
                         onSelect={(j) => setSelectedJob(j)}
-                        onViewSchema={(j) => setSelectedJob(j)}
                       />
                     ))}
                   </div>
@@ -543,7 +542,6 @@ export default function App() {
                           key={job.id}
                           job={job}
                           onSelect={(j) => setSelectedJob(j)}
-                          onViewSchema={(j) => setSelectedJob(j)}
                         />
                       ))}
                     </div>
@@ -645,7 +643,7 @@ export default function App() {
             <FreshCommitsLogo size="sm" showWordmark={true} showDomainBadge={true} />
             <div className="hidden sm:block border-l border-slate-200 pl-3">
               <p className="text-[11px] text-slate-400">
-                Entry-Level &amp; New Grad Developer Job Board &bull; Validated Google JobPosting Schema
+                Entry-Level &amp; New Grad Developer Job Board &bull; Verified Direct Applications
               </p>
             </div>
           </div>

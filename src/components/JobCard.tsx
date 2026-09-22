@@ -1,14 +1,14 @@
 import React from 'react';
 import { JobPosting } from '../types';
-import { MapPin, DollarSign, Calendar, ExternalLink, Code2, Globe, Building2, CheckCircle2 } from 'lucide-react';
+import { MapPin, DollarSign, Calendar, ExternalLink, Globe, Building2, CheckCircle2 } from 'lucide-react';
 
 interface JobCardProps {
   job: JobPosting;
   onSelect: (job: JobPosting) => void;
-  onViewSchema: (job: JobPosting) => void;
+  onViewSchema?: (job: JobPosting) => void;
 }
 
-export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, onViewSchema }) => {
+export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Salary Undisclosed';
     const minK = Math.round(salary.min / 1000);
@@ -146,18 +146,10 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, onViewSchema })
 
       {/* Action Footer */}
       <div className="flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
-        <button
-          id={`btn-schema-${job.id}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onViewSchema(job);
-          }}
-          className="text-xs font-mono font-medium text-slate-500 hover:text-indigo-600 flex items-center gap-1 px-2 py-1 rounded hover:bg-slate-50 transition-colors"
-          title="Inspect Google JobPosting JSON-LD Structured Data"
-        >
-          <Code2 className="w-3.5 h-3.5" />
-          <span>Google Schema</span>
-        </button>
+        <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+          <span>Direct Requisition</span>
+        </span>
 
         <div className="flex items-center gap-2">
           <button
