@@ -27,6 +27,7 @@ interface JobDetailsModalProps {
 export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, adConfig }) => {
   const [activeTab, setActiveTab] = useState<'details' | 'schema'>('details');
   const [copied, setCopied] = useState(false);
+  const [copiedTitle, setCopiedTitle] = useState(false);
 
   // Injects Google JobPosting Schema into document head dynamically
   useEffect(() => {
@@ -46,6 +47,12 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     navigator.clipboard.writeText(schemaJson);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCopyTitle = () => {
+    navigator.clipboard.writeText(job.title);
+    setCopiedTitle(true);
+    setTimeout(() => setCopiedTitle(false), 2000);
   };
 
   const richResultsUrl = `https://search.google.com/test/rich-results`;
@@ -269,7 +276,15 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               Direct application requisition — opens this specific opening without portal search friction.
             </div>
           </div>
-          <div className="flex items-center gap-3 self-end sm:self-center">
+          <div className="flex items-center gap-2.5 self-end sm:self-center">
+            <button
+              onClick={handleCopyTitle}
+              className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs"
+              title="Copy job title to your clipboard for quick pasting on company ATS"
+            >
+              {copiedTitle ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
+              <span>{copiedTitle ? 'Copied Title!' : 'Copy Job Title'}</span>
+            </button>
             <button
               onClick={onClose}
               className="px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium text-slate-700 hover:bg-white transition-colors"

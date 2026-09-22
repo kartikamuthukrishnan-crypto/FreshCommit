@@ -37,7 +37,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Passionate about writing clean, maintainable, and high-performance code.'
     ],
     skills: ['Go', 'Java', 'Ruby', 'Distributed Systems', 'PostgreSQL', 'Docker'],
-    applyUrl: 'https://boards.greenhouse.io/stripe/jobs/6829104',
+    applyUrl: 'https://boards.greenhouse.io/stripe',
     datePosted: '2026-09-18',
     validThrough: '2026-11-30',
     source: 'EMPLOYER_POST',
@@ -84,7 +84,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Degree in Computer Science or demonstrable portfolio of web applications.'
     ],
     skills: ['React', 'TypeScript', 'D3.js', 'TailwindCSS', 'GraphQL', 'Jest'],
-    applyUrl: 'https://boards.greenhouse.io/datadog/jobs/6429105',
+    applyUrl: 'https://boards.greenhouse.io/datadog',
     datePosted: '2026-09-17',
     validThrough: '2026-11-25',
     source: 'EMPLOYER_POST',
@@ -130,7 +130,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Curiosity for distributed systems and internet scale architecture.'
     ],
     skills: ['Rust', 'Go', 'C++', 'Networking', 'Distributed Systems', 'Linux'],
-    applyUrl: 'https://boards.greenhouse.io/cloudflare/jobs/6048192',
+    applyUrl: 'https://boards.greenhouse.io/cloudflare',
     datePosted: '2026-09-16',
     validThrough: '2026-12-01',
     source: 'EMPLOYER_POST',
@@ -176,7 +176,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Strong desire to learn from peers and contribute to a supportive engineering culture.'
     ],
     skills: ['TypeScript', 'C++', 'WebAssembly', 'WebGL', 'React', 'Rust'],
-    applyUrl: 'https://jobs.lever.co/figma/8b91a742-9f30-4e2a-8c7e-9271fa910283',
+    applyUrl: 'https://boards.greenhouse.io/figma',
     datePosted: '2026-09-15',
     validThrough: '2026-12-15',
     source: 'EMPLOYER_POST',
@@ -222,7 +222,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Demonstrated enthusiasm for developer platforms and software impact.'
     ],
     skills: ['C#', '.NET', 'Azure', 'C++', 'TypeScript', 'SQL'],
-    applyUrl: 'https://jobs.careers.microsoft.com/global/en/job/1812904/Software-Engineer-College-Hire',
+    applyUrl: 'https://jobs.careers.microsoft.com/global/en/search?q=university',
     datePosted: '2026-09-14',
     validThrough: '2026-11-20',
     source: 'EMPLOYER_POST',
@@ -269,7 +269,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Strong collaborative mindset and desire for continuous learning.'
     ],
     skills: ['Java', 'React', 'TypeScript', 'AWS', 'MySQL', 'REST APIs'],
-    applyUrl: 'https://boards.greenhouse.io/hubspot/jobs/6198273',
+    applyUrl: 'https://boards.greenhouse.io/hubspot',
     datePosted: '2026-09-13',
     validThrough: '2026-11-15',
     source: 'EMPLOYER_POST',
@@ -312,7 +312,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       '0-1 year experience or strong portfolio projects.'
     ],
     skills: ['Next.js', 'React', 'TypeScript', 'Edge Functions', 'TailwindCSS'],
-    applyUrl: 'https://jobs.ashbyhq.com/vercel/9c83b102-1849-4f28-a3f2-89b12480ad82',
+    applyUrl: 'https://jobs.ashbyhq.com/vercel',
     datePosted: '2026-09-12',
     validThrough: '2026-10-31',
     source: 'EMPLOYER_POST',
@@ -358,7 +358,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Excellent analytical thinking and dedication to high quality code.'
     ],
     skills: ['C++', 'Python', 'Linux', 'Multithreading', 'Data Structures'],
-    applyUrl: 'https://careers.bloomberg.com/job/detail/Req-124982',
+    applyUrl: 'https://careers.bloomberg.com/job/search?q=engineering',
     datePosted: '2026-09-11',
     validThrough: '2026-11-15',
     source: 'EMPLOYER_POST',
@@ -404,7 +404,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Demonstrated curiosity for distributed cloud computing.'
     ],
     skills: ['Java', 'Python', 'AWS', 'DynamoDB', 'Distributed Systems'],
-    applyUrl: 'https://www.amazon.jobs/en/jobs/2849201/software-development-engineer-i-new-college-grad',
+    applyUrl: 'https://www.amazon.jobs/en/search?base_query=software+development+engineer+i',
     datePosted: '2026-09-10',
     validThrough: '2026-12-20',
     source: 'EMPLOYER_POST',
@@ -451,7 +451,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Strong communication skills and team orientation.'
     ],
     skills: ['TypeScript', 'React', 'PHP', 'GraphQL', 'MySQL', 'A/B Testing'],
-    applyUrl: 'https://jobs.smartrecruiters.com/Etsy/743999981293812-junior-full-stack-engineer',
+    applyUrl: 'https://careers.etsy.com',
     datePosted: '2026-09-10',
     validThrough: '2026-11-20',
     source: 'EMPLOYER_POST',
@@ -496,7 +496,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Eager to learn enterprise cloud operations and infrastructure as code.'
     ],
     skills: ['Python', 'Go', 'Docker', 'Kubernetes', 'Linux', 'Ansible'],
-    applyUrl: 'https://jobs.dell.com/en/job/round-rock/associate-software-engineer/375/71928301',
+    applyUrl: 'https://jobs.dell.com/en/search-jobs/software/375/1',
     datePosted: '2026-09-09',
     validThrough: '2026-11-15',
     source: 'EMPLOYER_POST',
@@ -542,7 +542,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'High level of empathy for international remittance customers.'
     ],
     skills: ['Go', 'Java', 'PostgreSQL', 'AWS', 'Microservices', 'REST'],
-    applyUrl: 'https://boards.greenhouse.io/remitly/jobs/6391028',
+    applyUrl: 'https://careers.remitly.com/',
     datePosted: '2026-09-09',
     validThrough: '2026-11-10',
     source: 'EMPLOYER_POST',
@@ -587,7 +587,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Enthusiastic team player with good communication skills.'
     ],
     skills: ['React', 'TypeScript', 'GraphQL', 'Next.js', 'Web Vitals'],
-    applyUrl: 'https://boards.greenhouse.io/wayfair/jobs/6289104',
+    applyUrl: 'https://www.wayfair.com/careers/jobs',
     datePosted: '2026-09-08',
     validThrough: '2026-11-12',
     source: 'EMPLOYER_POST',
@@ -629,7 +629,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       '0–1 year experience or recent coding graduate.'
     ],
     skills: ['TypeScript', 'Next.js', 'PostgreSQL', 'SQL', 'Open Source', 'TailwindCSS'],
-    applyUrl: 'https://jobs.ashbyhq.com/supabase/7a829104-32bc-41de-9e20-7291fa8192a0',
+    applyUrl: 'https://jobs.ashbyhq.com/supabase',
     datePosted: '2026-09-08',
     validThrough: '2026-11-28',
     source: 'EMPLOYER_POST',
@@ -675,7 +675,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Strong mathematical and problem-solving analytical mindset.'
     ],
     skills: ['Java', 'C++', 'Distributed Systems', 'Linux', 'Concurrency'],
-    applyUrl: 'https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/258912',
+    applyUrl: 'https://www.oracle.com/corporate/careers/',
     datePosted: '2026-09-07',
     validThrough: '2026-11-30',
     source: 'EMPLOYER_POST',
@@ -720,7 +720,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Enthusiasm for building resilient hardware-integrated software.'
     ],
     skills: ['Kotlin', 'Android', 'Java', 'SQLite', 'Offline-First', 'JUnit'],
-    applyUrl: 'https://boards.greenhouse.io/toast/jobs/6198204',
+    applyUrl: 'https://boards.greenhouse.io/toast',
     datePosted: '2026-09-07',
     validThrough: '2026-11-20',
     source: 'EMPLOYER_POST',
@@ -762,7 +762,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Willingness to learn in an open-source, publicly auditable development culture.'
     ],
     skills: ['Ruby on Rails', 'Go', 'PostgreSQL', 'Docker', 'Git', 'CI/CD'],
-    applyUrl: 'https://boards.greenhouse.io/gitlab/jobs/6209183',
+    applyUrl: 'https://boards.greenhouse.io/gitlab',
     datePosted: '2026-09-06',
     validThrough: '2026-11-15',
     source: 'EMPLOYER_POST',
@@ -808,7 +808,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Exceptional problem-solving abilities and resilience.'
     ],
     skills: ['TypeScript', 'Java', 'Python', 'React', 'Spark', 'Data Pipelines'],
-    applyUrl: 'https://jobs.lever.co/palantir/51829048-c920-41fa-8a19-9281a98291a1',
+    applyUrl: 'https://jobs.lever.co/palantir',
     datePosted: '2026-09-06',
     validThrough: '2026-12-01',
     source: 'EMPLOYER_POST',
@@ -851,7 +851,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Experience with CSS and responsive layout construction.'
     ],
     skills: ['React', 'JavaScript', 'TypeScript', 'Redux', 'CSS', 'WordPress'],
-    applyUrl: 'https://boards.greenhouse.io/automattic/jobs/6192804',
+    applyUrl: 'https://automattic.com/work-with-us/',
     datePosted: '2026-09-05',
     validThrough: '2026-11-15',
     source: 'EMPLOYER_POST',
@@ -896,7 +896,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Familiarity with Python for test automation.'
     ],
     skills: ['C++', 'C', 'Python', 'Linux', 'GPU Architecture', 'Computer Systems'],
-    applyUrl: 'https://careers.amd.com/careers-home/jobs/168920',
+    applyUrl: 'https://careers.amd.com/careers-home',
     datePosted: '2026-09-05',
     validThrough: '2026-11-30',
     source: 'EMPLOYER_POST',
@@ -941,7 +941,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Excitement for fast-paced, high-scale consumer sports entertainment.'
     ],
     skills: ['C#', '.NET Core', 'SQL', 'Kafka', 'AWS', 'Microservices'],
-    applyUrl: 'https://boards.greenhouse.io/draftkings/jobs/6291048',
+    applyUrl: 'https://careers.draftkings.com/',
     datePosted: '2026-09-04',
     validThrough: '2026-11-20',
     source: 'EMPLOYER_POST',
@@ -986,7 +986,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Passionate about safe and beneficial artificial intelligence.'
     ],
     skills: ['Python', 'Go', 'Kubernetes', 'Distributed Systems', 'FastAPI', 'Redis'],
-    applyUrl: 'https://boards.greenhouse.io/openai/jobs/6389201',
+    applyUrl: 'https://openai.com/careers/',
     datePosted: '2026-09-04',
     validThrough: '2026-12-15',
     source: 'EMPLOYER_POST',
@@ -1033,7 +1033,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Strong problem-solving mindset and eagerness to grow with mentors.'
     ],
     skills: ['Java', 'TypeScript', 'React', 'Elasticsearch', 'A/B Testing'],
-    applyUrl: 'https://careers.indeed.com/jobs/REQ-2026-09182',
+    applyUrl: 'https://careers.indeed.com/',
     datePosted: '2026-09-03',
     validThrough: '2026-11-20',
     source: 'EMPLOYER_POST',
@@ -1078,7 +1078,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Dedication to secure software development standards.'
     ],
     skills: ['Go', 'C++', 'Linux', 'Networking', 'Cybersecurity', 'Docker'],
-    applyUrl: 'https://f5.wd5.myworkdayjobs.com/F5Careers/job/San-Jose-California/Software-Engineer-I_JR-109283',
+    applyUrl: 'https://f5.com/about-us/careers',
     datePosted: '2026-09-03',
     validThrough: '2026-11-30',
     source: 'EMPLOYER_POST',
@@ -1120,7 +1120,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Enthusiasm for productivity tools and workflow automation.'
     ],
     skills: ['TypeScript', 'Node.js', 'Python', 'React', 'REST APIs', 'Webhooks'],
-    applyUrl: 'https://jobs.ashbyhq.com/zapier/61829041-89ab-4201-9f20-8910283fa012',
+    applyUrl: 'https://jobs.ashbyhq.com/zapier',
     datePosted: '2026-09-02',
     validThrough: '2026-11-15',
     source: 'EMPLOYER_POST',
@@ -1166,7 +1166,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Strong verbal and written technical communication.'
     ],
     skills: ['TypeScript', 'React', 'WebGL', 'D3.js', 'CSS', 'Jest'],
-    applyUrl: 'https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/Seattle-WA/Associate-Member-of-Technical-Staff_JR259012',
+    applyUrl: 'https://salesforce.wd12.myworkdayjobs.com/External_Career_Site',
     datePosted: '2026-09-02',
     validThrough: '2026-11-25',
     source: 'EMPLOYER_POST',
@@ -1212,7 +1212,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Team-first attitude aligned with Atlassian’s open company values.'
     ],
     skills: ['TypeScript', 'React', 'Java', 'Kotlin', 'AWS', 'Microservices'],
-    applyUrl: 'https://jobs.lever.co/atlassian/71928301-49fa-4102-98ba-981029381029',
+    applyUrl: 'https://www.atlassian.com/company/careers',
     datePosted: '2026-09-01',
     validThrough: '2026-11-20',
     source: 'EMPLOYER_POST',
@@ -1259,7 +1259,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       'Comfortable writing clear bug reports and working in a collaborative team.'
     ],
     skills: ['TypeScript', 'JavaScript', 'Python', 'Playwright', 'Postman', 'REST APIs', 'CI/CD'],
-    applyUrl: 'https://boards.greenhouse.io/postman/jobs/6198290',
+    applyUrl: 'https://www.postman.com/company/careers/',
     datePosted: '2026-09-01',
     validThrough: '2026-11-20',
     source: 'EMPLOYER_POST',

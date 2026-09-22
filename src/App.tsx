@@ -32,7 +32,7 @@ import {
   GitCommit
 } from 'lucide-react';
 
-const STORAGE_KEY_JOBS = 'freshcommit_jobs_v2';
+const STORAGE_KEY_JOBS = 'freshcommit_jobs_v3';
 const STORAGE_KEY_ADSENSE = 'freshcommit_adsense_v1';
 const STORAGE_KEY_ADMIN_AUTH = 'freshcommit_admin_auth';
 const STORAGE_KEY_ADMIN_PASSCODE = 'freshcommit_admin_passcode';
@@ -49,7 +49,7 @@ const DEFAULT_ADSENSE_CONFIG: AdSenseConfig = {
 };
 
 export default function App() {
-  // 1. Persistent State for Jobs (migrates to direct ATS URLs if upgrading from v1)
+  // 1. Persistent State for Jobs (migrates to verified live ATS URLs)
   const [jobs, setJobs] = useState<JobPosting[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_JOBS);
@@ -59,12 +59,14 @@ export default function App() {
           return parsed;
         }
       } else {
-        // Check older storage keys and migrate any admin custom-added jobs, while refreshing initial jobs with direct ATS URLs
-        const legacy = localStorage.getItem('freshcommit_jobs_v1') || localStorage.getItem('juniordevhub_jobs_v2');
+        // Migrate custom added jobs from older storage keys while updating seed jobs to verified live URLs
+        const legacy =
+          localStorage.getItem('freshcommit_jobs_v2') ||
+          localStorage.getItem('freshcommit_jobs_v1') ||
+          localStorage.getItem('juniordevhub_jobs_v2');
         if (legacy) {
           const parsed = JSON.parse(legacy);
           if (Array.isArray(parsed)) {
-            // Keep custom admin jobs (ids starting with manual- or sync-), but use updated INITIAL_JOBS for canonical initial listings
             const customJobs = parsed.filter(
               (j: JobPosting) => j.id.startsWith('manual-') || j.id.startsWith('sync-')
             );
