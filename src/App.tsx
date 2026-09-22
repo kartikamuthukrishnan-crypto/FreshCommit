@@ -32,6 +32,7 @@ import {
   GitCommit,
   Linkedin,
   Twitter,
+  Youtube,
   Share2
 } from 'lucide-react';
 
@@ -849,6 +850,17 @@ export default function App() {
               >
                 <Twitter className="w-3.5 h-3.5 fill-current" />
                 <span>Twitter / X</span>
+              </a>
+              <span className="text-slate-300">&bull;</span>
+              <a
+                href="https://www.youtube.com/@freshcommits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-red-600 font-semibold hover:underline"
+                title="FreshCommits YouTube Channel (Launching soon)"
+              >
+                <Youtube className="w-3.5 h-3.5" />
+                <span>YouTube</span>
               </a>
             </div>
 

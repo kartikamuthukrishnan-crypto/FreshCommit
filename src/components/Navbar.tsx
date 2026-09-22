@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Linkedin, Twitter, MessageSquare } from 'lucide-react';
+import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Linkedin, Twitter, Youtube, MessageSquare } from 'lucide-react';
 import { FreshCommitsLogo } from './FreshCommitsLogo';
 
 interface NavbarProps {
@@ -143,6 +143,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <Twitter className="w-4 h-4 fill-current" />
               </a>
+              <a
+                href="https://www.youtube.com/@freshcommits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-[#FF0000] hover:bg-slate-100 transition-colors"
+                title="Subscribe to FreshCommits on YouTube (Channel launching soon with career guides & interview breakdowns)"
+              >
+                <Youtube className="w-4 h-4" />
+              </a>
             </div>
           </nav>
 
@@ -282,7 +291,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               href="https://www.linkedin.com/company/freshcommits"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs font-semibold text-[#0A66C2] px-3 py-1.5 rounded-lg hover:bg-blue-50"
+              className="flex items-center gap-1.5 text-xs font-semibold text-[#0A66C2] px-2.5 py-1.5 rounded-lg hover:bg-blue-50"
             >
               <Linkedin className="w-4 h-4 fill-current" />
               <span>LinkedIn</span>
@@ -291,10 +300,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               href="https://twitter.com/freshcommits"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs font-semibold text-slate-800 px-3 py-1.5 rounded-lg hover:bg-slate-100"
+              className="flex items-center gap-1.5 text-xs font-semibold text-slate-800 px-2.5 py-1.5 rounded-lg hover:bg-slate-100"
             >
               <Twitter className="w-4 h-4 fill-current" />
               <span>Twitter / X</span>
+            </a>
+            <a
+              href="https://www.youtube.com/@freshcommits"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs font-semibold text-red-600 px-2.5 py-1.5 rounded-lg hover:bg-red-50"
+              title="FreshCommits YouTube Channel"
+            >
+              <Youtube className="w-4 h-4" />
+              <span>YouTube</span>
             </a>
           </div>
 
