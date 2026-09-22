@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Share2, Linkedin, Twitter, MessageCircle, Link, Check, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Share2, Linkedin, Twitter, MessageCircle, Link, Check, ExternalLink, X } from 'lucide-react';
 import { JobPosting } from '../types';
 
 interface SocialShareProps {
@@ -10,6 +10,32 @@ interface SocialShareProps {
 export const SocialShare: React.FC<SocialShareProps> = ({ job, compact = false }) => {
   const [copied, setCopied] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Auto-dismiss popup on click outside or when ESC is pressed
+  useEffect(() => {
+    if (!showShareMenu) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowShareMenu(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setShowShareMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showShareMenu]);
 
   // Canonical shareable job link on freshcommits.com
   const jobUrl = `https://freshcommits.com/?job=${encodeURIComponent(job.id)}`;
@@ -38,15 +64,20 @@ export const SocialShare: React.FC<SocialShareProps> = ({ job, compact = false }
 
   const handleShareClick = (url: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    setShowShareMenu(false);
     window.open(url, '_blank', 'noopener,noreferrer,width=600,height=550');
   };
 
   if (compact) {
     return (
-      <div className="relative inline-block" onClick={(e) => e.stopPropagation()}>
+      <div className="relative inline-block" ref={menuRef} onClick={(e) => e.stopPropagation()}>
         <button
           onClick={() => setShowShareMenu(!showShareMenu)}
-          className="p-1.5 rounded-lg border border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-800 bg-white hover:bg-slate-50 transition-colors shadow-2xs"
+          className={`p-1.5 rounded-lg border transition-colors shadow-2xs ${
+            showShareMenu 
+              ? 'border-indigo-400 bg-indigo-50 text-indigo-700' 
+              : 'border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-800 bg-white hover:bg-slate-50'
+          }`}
           title="Share opening across social media"
           aria-label="Share opening"
         >
@@ -54,9 +85,18 @@ export const SocialShare: React.FC<SocialShareProps> = ({ job, compact = false }
         </button>
 
         {showShareMenu && (
-          <div className="absolute right-0 bottom-full mb-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 p-2 z-50 animate-in fade-in zoom-in-95 duration-100">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1">
-              Share this Job
+          <div className="absolute right-0 bottom-full mb-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50 animate-in fade-in zoom-in-95 duration-100">
+            <div className="flex items-center justify-between px-2 py-1 mb-1 border-b border-slate-100">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Share this Job
+              </span>
+              <button
+                onClick={() => setShowShareMenu(false)}
+                className="text-slate-400 hover:text-slate-600 p-0.5 rounded"
+                title="Close"
+              >
+                <X className="w-3 h-3" />
+              </button>
             </div>
             <div className="space-y-1">
               <button
@@ -89,7 +129,10 @@ export const SocialShare: React.FC<SocialShareProps> = ({ job, compact = false }
               </button>
               <div className="border-t border-slate-100 my-1 pt-1">
                 <button
-                  onClick={handleCopy}
+                  onClick={(e) => {
+                    handleCopy(e);
+                    setTimeout(() => setShowShareMenu(false), 900);
+                  }}
                   className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors text-left"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link className="w-3.5 h-3.5 text-slate-500" />}
