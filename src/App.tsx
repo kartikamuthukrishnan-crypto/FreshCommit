@@ -29,6 +29,9 @@ import {
   Code2,
   ExternalLink,
   ChevronRight,
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronsRight,
   GitCommit,
   Linkedin,
   Twitter,
@@ -406,6 +409,15 @@ export default function App() {
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [minSalary, setMinSalary] = useState<number>(0);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(9); // 9 jobs per page (perfect 3x3 grid)
+
+  // Reset to page 1 whenever any search, filter, or category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, pageSize]);
+
   // US Tech Hubs list
   const TECH_HUBS = [
     { label: 'All Locations', value: 'All' },
@@ -472,6 +484,26 @@ export default function App() {
       return true;
     });
   }, [jobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary]);
+
+  // Derived Pagination Calculations
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / pageSize));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const startIndex = (safeCurrentPage - 1) * pageSize;
+  const endIndex = Math.min(startIndex + pageSize, filteredJobs.length);
+  const paginatedJobs = useMemo(() => {
+    return filteredJobs.slice(startIndex, endIndex);
+  }, [filteredJobs, startIndex, endIndex]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      // Smoothly scroll back to job list container
+      const container = document.getElementById('job-feed-section');
+      if (container) {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col selection:bg-emerald-500 selection:text-white">
@@ -636,8 +668,8 @@ export default function App() {
             </section>
 
             {/* Job Listings Grid & In-Feed Ads */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <div className="flex items-center justify-between mb-6">
+            <div id="job-feed-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-mt-20">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">
                     {selectedExperience === 'Internship' 
@@ -647,28 +679,49 @@ export default function App() {
                         : `${selectedHub} Engineering Positions`}
                   </h2>
                   <p className="text-xs text-slate-500">
-                    {selectedExperience === 'Internship'
-                      ? `Showing ${filteredJobs.length} verified paid software engineering internships with direct ATS application`
-                      : `Showing ${filteredJobs.length} verified early-career engineering positions`}
+                    {filteredJobs.length > 0
+                      ? `Showing ${startIndex + 1}–${endIndex} of ${filteredJobs.length} verified ${selectedExperience === 'Internship' ? 'internships' : 'positions'}`
+                      : '0 positions found'}
                   </p>
                 </div>
 
-                {/* Reset filters if applied */}
-                {(searchQuery || selectedHub !== 'All' || selectedCategory !== 'All' || remoteOnly) && (
-                  <button
-                    onClick={() => {
-                      setSearchQuery('');
-                      setSelectedHub('All');
-                      setSelectedCategory('All');
-                      setSelectedExperience('All');
-                      setRemoteOnly(false);
-                      setMinSalary(0);
-                    }}
-                    className="text-xs font-semibold text-emerald-700 hover:text-emerald-800"
-                  >
-                    Clear All Filters
-                  </button>
-                )}
+                <div className="flex items-center gap-3 self-end sm:self-center">
+                  {/* Page Size Selector */}
+                  {filteredJobs.length > 6 && (
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                      <span className="hidden sm:inline">Per page:</span>
+                      <select
+                        id="select-page-size"
+                        value={pageSize}
+                        onChange={(e) => setPageSize(Number(e.target.value))}
+                        className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:ring-2 focus:ring-emerald-500"
+                        title="Jobs per page"
+                      >
+                        <option value={6}>6</option>
+                        <option value={9}>9</option>
+                        <option value={12}>12</option>
+                        <option value={18}>18</option>
+                      </select>
+                    </div>
+                  )}
+
+                  {/* Reset filters if applied */}
+                  {(searchQuery || selectedHub !== 'All' || selectedCategory !== 'All' || selectedExperience !== 'All' || remoteOnly) && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setSelectedHub('All');
+                        setSelectedCategory('All');
+                        setSelectedExperience('All');
+                        setRemoteOnly(false);
+                        setMinSalary(0);
+                      }}
+                      className="text-xs font-semibold text-emerald-700 hover:text-emerald-800"
+                    >
+                      Clear All Filters
+                    </button>
+                  )}
+                </div>
               </div>
 
               {filteredJobs.length === 0 ? (
@@ -683,6 +736,7 @@ export default function App() {
                       setSearchQuery('');
                       setSelectedHub('All');
                       setSelectedCategory('All');
+                      setSelectedExperience('All');
                       setRemoteOnly(false);
                     }}
                     className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
@@ -694,7 +748,7 @@ export default function App() {
                 <div className="space-y-6">
                   {/* Grid of Job Cards with In-Feed Ad insertion */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredJobs.slice(0, 6).map((job) => (
+                    {paginatedJobs.slice(0, 6).map((job) => (
                       <JobCard
                         key={job.id}
                         job={job}
@@ -710,16 +764,111 @@ export default function App() {
                     </div>
                   )}
 
-                  {/* Remaining Job Cards */}
-                  {filteredJobs.length > 6 && (
+                  {/* Remaining Job Cards for current page */}
+                  {paginatedJobs.length > 6 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {filteredJobs.slice(6).map((job) => (
+                      {paginatedJobs.slice(6).map((job) => (
                         <JobCard
                           key={job.id}
                           job={job}
                           onSelect={handleSelectJob}
                         />
                       ))}
+                    </div>
+                  )}
+
+                  {/* Pagination Controls Bar */}
+                  {totalPages > 1 && (
+                    <div className="pt-8 pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200">
+                      <div className="text-xs text-slate-500 font-medium order-2 sm:order-1">
+                        Page <strong className="text-slate-900">{safeCurrentPage}</strong> of <strong className="text-slate-900">{totalPages}</strong> ({filteredJobs.length} total openings)
+                      </div>
+
+                      <div className="flex items-center gap-1.5 order-1 sm:order-2">
+                        {/* First Page */}
+                        <button
+                          onClick={() => handlePageChange(1)}
+                          disabled={safeCurrentPage === 1}
+                          className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                          title="First Page"
+                        >
+                          <ChevronsLeft className="w-4 h-4" />
+                        </button>
+
+                        {/* Prev Page */}
+                        <button
+                          onClick={() => handlePageChange(safeCurrentPage - 1)}
+                          disabled={safeCurrentPage === 1}
+                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                          <span className="hidden sm:inline">Prev</span>
+                        </button>
+
+                        {/* Page Number Buttons */}
+                        <div className="flex items-center gap-1">
+                          {Array.from({ length: totalPages }, (_, i) => i + 1)
+                            .filter((page) => {
+                              // Show first, last, and within 1 of safeCurrentPage
+                              return (
+                                page === 1 ||
+                                page === totalPages ||
+                                Math.abs(page - safeCurrentPage) <= 1
+                              );
+                            })
+                            .reduce<(number | string)[]>((acc, page, idx, arr) => {
+                              if (idx > 0 && (page as number) - (arr[idx - 1] as number) > 1) {
+                                acc.push(`ellipsis-${page}`);
+                              }
+                              acc.push(page);
+                              return acc;
+                            }, [])
+                            .map((item) => {
+                              if (typeof item === 'string') {
+                                return (
+                                  <span key={item} className="px-2 py-1 text-slate-400 text-xs">
+                                    &hellip;
+                                  </span>
+                                );
+                              }
+                              const pageNum = item as number;
+                              const isActive = pageNum === safeCurrentPage;
+                              return (
+                                <button
+                                  key={pageNum}
+                                  onClick={() => handlePageChange(pageNum)}
+                                  className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${
+                                    isActive
+                                      ? 'bg-emerald-600 text-white shadow-xs'
+                                      : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                                  }`}
+                                >
+                                  {pageNum}
+                                </button>
+                              );
+                            })}
+                        </div>
+
+                        {/* Next Page */}
+                        <button
+                          onClick={() => handlePageChange(safeCurrentPage + 1)}
+                          disabled={safeCurrentPage === totalPages}
+                          className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        >
+                          <span className="hidden sm:inline">Next</span>
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+
+                        {/* Last Page */}
+                        <button
+                          onClick={() => handlePageChange(totalPages)}
+                          disabled={safeCurrentPage === totalPages}
+                          className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                          title="Last Page"
+                        >
+                          <ChevronsRight className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
