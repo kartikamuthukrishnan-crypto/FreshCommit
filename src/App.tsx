@@ -14,6 +14,7 @@ import { LegalModal } from './components/LegalModals';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { FreshCommitsLogo } from './components/FreshCommitsLogo';
 import { HomeEditorialContent } from './components/HomeEditorialContent';
+import { CookieConsentBanner } from './components/CookieConsentBanner';
 import {
   Search,
   MapPin,
@@ -965,6 +966,9 @@ export default function App() {
       {/* Legal & Compliance Modals (Privacy Policy, Terms, Disclaimer) */}
       <LegalModal type={legalModalType} onClose={() => setLegalModalType(null)} />
 
+      {/* GDPR / CCPA / Google AdSense Cookie Consent Banner */}
+      <CookieConsentBanner onOpenPrivacyModal={() => setLegalModalType('privacy')} />
+
       {/* Clean, Lightweight Footer */}
       <footer className="bg-white border-t border-slate-200 mt-12 py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -1013,6 +1017,16 @@ export default function App() {
               className="hover:text-slate-900 transition-colors"
             >
               Privacy &amp; Cookie Policy
+            </button>
+            <button
+              onClick={() => {
+                localStorage.removeItem('freshcommits_cookie_consent_v1');
+                window.location.reload();
+              }}
+              className="hover:text-slate-900 text-slate-400 text-[11px] underline transition-colors"
+              title="Change your cookie consent preferences"
+            >
+              Cookie Preferences
             </button>
             <button
               onClick={() => setLegalModalType('terms')}
