@@ -32,7 +32,7 @@ import {
   GitCommit
 } from 'lucide-react';
 
-const STORAGE_KEY_JOBS = 'freshcommit_jobs_v3';
+const STORAGE_KEY_JOBS = 'freshcommit_jobs_v4';
 const STORAGE_KEY_ADSENSE = 'freshcommit_adsense_v1';
 const STORAGE_KEY_ADMIN_AUTH = 'freshcommit_admin_auth';
 const STORAGE_KEY_ADMIN_PASSCODE = 'freshcommit_admin_passcode';
@@ -49,33 +49,45 @@ const DEFAULT_ADSENSE_CONFIG: AdSenseConfig = {
 };
 
 export default function App() {
-  // 1. Persistent State for Jobs (migrates to verified live ATS URLs)
+  // 1. Persistent State for Jobs (ensures verified live ATS URLs with application forms)
   const [jobs, setJobs] = useState<JobPosting[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_JOBS);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length >= INITIAL_JOBS.length) {
-          return parsed;
-        }
-      } else {
-        // Migrate custom added jobs from older storage keys while updating seed jobs to verified live URLs
-        const legacy =
-          localStorage.getItem('freshcommit_jobs_v2') ||
-          localStorage.getItem('freshcommit_jobs_v1') ||
-          localStorage.getItem('juniordevhub_jobs_v2');
-        if (legacy) {
-          const parsed = JSON.parse(legacy);
-          if (Array.isArray(parsed)) {
-            const customJobs = parsed.filter(
-              (j: JobPosting) => j.id.startsWith('manual-') || j.id.startsWith('sync-')
-            );
-            const merged = [...INITIAL_JOBS, ...customJobs];
-            localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(merged));
-            return merged;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // If saved has the new verified jobs (e.g. job-cfl-001), keep it
+          const hasVerifiedSeed = parsed.some((j: JobPosting) => j.id === 'job-cfl-001');
+          if (hasVerifiedSeed) {
+            return parsed;
           }
         }
       }
+      
+      // Clean migration: preserve any custom admin jobs (ids starting with manual- or sync-), and load INITIAL_JOBS
+      const legacyRaw =
+        localStorage.getItem('freshcommit_jobs_v3') ||
+        localStorage.getItem('freshcommit_jobs_v2') ||
+        localStorage.getItem('freshcommit_jobs_v1') ||
+        localStorage.getItem('juniordevhub_jobs_v2');
+      
+      let customJobs: JobPosting[] = [];
+      if (legacyRaw) {
+        try {
+          const parsedLegacy = JSON.parse(legacyRaw);
+          if (Array.isArray(parsedLegacy)) {
+            customJobs = parsedLegacy.filter(
+              (j: JobPosting) => j.id.startsWith('manual-') || j.id.startsWith('sync-')
+            );
+          }
+        } catch {
+          // ignore
+        }
+      }
+
+      const merged = [...INITIAL_JOBS, ...customJobs];
+      localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(merged));
+      return merged;
     } catch (e) {
       console.warn('Could not read saved jobs from localStorage', e);
     }
