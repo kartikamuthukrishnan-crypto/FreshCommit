@@ -36,7 +36,7 @@ import {
   Share2
 } from 'lucide-react';
 
-const STORAGE_KEY_JOBS = 'freshcommit_jobs_v4';
+const STORAGE_KEY_JOBS = 'freshcommit_jobs_v5';
 const STORAGE_KEY_ADSENSE = 'freshcommit_adsense_v1';
 const STORAGE_KEY_ADMIN_AUTH = 'freshcommit_admin_auth';
 const STORAGE_KEY_ADMIN_PASSCODE = 'freshcommit_admin_passcode';
@@ -53,15 +53,15 @@ const DEFAULT_ADSENSE_CONFIG: AdSenseConfig = {
 };
 
 export default function App() {
-  // 1. Persistent State for Jobs (ensures verified live ATS URLs with application forms)
+  // 1. Persistent State for Jobs (ensures verified live ATS URLs with application forms and internships)
   const [jobs, setJobs] = useState<JobPosting[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_JOBS);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // If saved has the new verified jobs (e.g. job-cfl-001), keep it
-          const hasVerifiedSeed = parsed.some((j: JobPosting) => j.id === 'job-cfl-001');
+          // If saved has the new verified jobs and internships, keep it
+          const hasVerifiedSeed = parsed.some((j: JobPosting) => j.id === 'job-int-stripe-001');
           if (hasVerifiedSeed) {
             return parsed;
           }
@@ -70,6 +70,7 @@ export default function App() {
       
       // Clean migration: preserve any custom admin jobs (ids starting with manual- or sync-), and load INITIAL_JOBS
       const legacyRaw =
+        localStorage.getItem('freshcommit_jobs_v4') ||
         localStorage.getItem('freshcommit_jobs_v3') ||
         localStorage.getItem('freshcommit_jobs_v2') ||
         localStorage.getItem('freshcommit_jobs_v1') ||
@@ -514,13 +515,52 @@ export default function App() {
 
                 {/* Search & Filter Bar */}
                 <div className="mt-8 bg-white p-3 rounded-2xl border border-slate-200 shadow-lg shadow-slate-100 max-w-3xl mx-auto">
+                  {/* Top Mode Segment: All Roles vs Full-Time vs Paid Internships */}
+                  <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-xl mb-3">
+                    <button
+                      onClick={() => setSelectedExperience('All')}
+                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                        selectedExperience === 'All'
+                          ? 'bg-white text-slate-900 shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      All Openings ({jobs.length})
+                    </button>
+                    <button
+                      onClick={() => setSelectedExperience('Entry Level')}
+                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                        selectedExperience === 'Entry Level'
+                          ? 'bg-white text-emerald-800 shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Full-Time 0–2 YoE ({jobs.filter((j) => j.experienceLevel !== 'Internship').length})
+                    </button>
+                    <button
+                      onClick={() => setSelectedExperience('Internship')}
+                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                        selectedExperience === 'Internship'
+                          ? 'bg-violet-600 text-white shadow-xs'
+                          : 'text-violet-700 hover:bg-violet-50'
+                      }`}
+                    >
+                      <span>🎓 Summer Internships</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                        selectedExperience === 'Internship' ? 'bg-violet-700 text-white' : 'bg-violet-100 text-violet-800'
+                      }`}>
+                        {jobs.filter((j) => j.experienceLevel === 'Internship').length}
+                      </span>
+                    </button>
+                  </div>
+
                   <div className="flex flex-col sm:flex-row items-center gap-2">
                     <div className="relative flex-1 w-full">
                       <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <input
                         id="job-search-input"
                         type="text"
-                        placeholder="Search title, skills (React, Python, Go), or company..."
+                        placeholder="Search title, skills (React, Python, Go, Rust), or company..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
@@ -600,10 +640,16 @@ export default function App() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">
-                    {selectedHub === 'All' ? 'Latest Opportunities' : `${selectedHub} Engineering Positions`}
+                    {selectedExperience === 'Internship' 
+                      ? '🎓 Summer 2026/2027 Tech Internships' 
+                      : selectedHub === 'All' 
+                        ? 'Latest Opportunities' 
+                        : `${selectedHub} Engineering Positions`}
                   </h2>
                   <p className="text-xs text-slate-500">
-                    Showing {filteredJobs.length} verified entry-level &amp; new grad positions
+                    {selectedExperience === 'Internship'
+                      ? `Showing ${filteredJobs.length} verified paid software engineering internships with direct ATS application`
+                      : `Showing ${filteredJobs.length} verified early-career engineering positions`}
                   </p>
                 </div>
 

@@ -40,18 +40,22 @@ export const SocialShare: React.FC<SocialShareProps> = ({ job, compact = false }
   // Canonical shareable job link on freshcommits.com
   const jobUrl = `https://freshcommits.com/?job=${encodeURIComponent(job.id)}`;
   const salaryText = job.salary && job.salary.min > 0 
-    ? `$${Math.round(job.salary.min / 1000)}k–$${Math.round((job.salary.max || job.salary.min) / 1000)}k` 
+    ? (job.salary.unit === 'HOUR' 
+        ? `$${job.salary.min}${job.salary.max && job.salary.max !== job.salary.min ? `–$${job.salary.max}` : ''}/hr`
+        : `$${Math.round(job.salary.min / 1000)}k–$${Math.round((job.salary.max || job.salary.min) / 1000)}k/yr`) 
     : '';
 
-  const shareText = `🚀 New Entry-Level Opening: ${job.title} at ${job.company}${salaryText ? ` (${salaryText})` : ''} - Verified 0–2 YoE with direct ATS application on FreshCommits:`;
+  const shareText = job.experienceLevel === 'Internship'
+    ? `🎓 Top Tech Internship: ${job.title} at ${job.company}${salaryText ? ` (${salaryText})` : ''} - Verified direct ATS application on FreshCommits:`
+    : `🚀 New Entry-Level Opening: ${job.title} at ${job.company}${salaryText ? ` (${salaryText})` : ''} - Verified 0–2 YoE with direct ATS application on FreshCommits:`;
   const encodedText = encodeURIComponent(shareText);
   const encodedUrl = encodeURIComponent(jobUrl);
 
   const shareLinks = {
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-    twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}&hashtags=TechJobs,SoftwareEngineer,EntryLevelJobs,NewGrad`,
+    twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}&hashtags=${job.experienceLevel === 'Internship' ? 'TechInternships,SWEIntern,ComputerScience,Internship' : 'TechJobs,SoftwareEngineer,EntryLevelJobs,NewGrad'}`,
     whatsapp: `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`,
-    reddit: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(`${job.title} at ${job.company} (0–2 YoE SWE Role)`)}`
+    reddit: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(`${job.title} at ${job.company} (${job.experienceLevel === 'Internship' ? 'Paid SWE Internship' : '0–2 YoE SWE Role'})`)}`
   };
 
   const handleCopy = (e: React.MouseEvent) => {

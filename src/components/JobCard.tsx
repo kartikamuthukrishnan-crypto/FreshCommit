@@ -12,6 +12,10 @@ interface JobCardProps {
 export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Salary Undisclosed';
+    if (salary.unit === 'HOUR') {
+      const maxH = salary.max && salary.max !== salary.min ? `–$${salary.max}` : '';
+      return `$${salary.min}${maxH} / hr`;
+    }
     const minK = Math.round(salary.min / 1000);
     const maxK = salary.max ? Math.round(salary.max / 1000) : minK;
     return `$${minK}k – $${maxK}k / yr`;
@@ -97,9 +101,15 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
 
           {/* Experience Badge */}
           <div className="flex flex-col items-end">
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200/80">
-              {job.experienceLevel} ({job.maxYearsExperience} YoE)
-            </span>
+            {job.experienceLevel === 'Internship' ? (
+              <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-violet-100 text-violet-800 border border-violet-200">
+                🎓 Internship
+              </span>
+            ) : (
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200/80">
+                {job.experienceLevel} ({job.maxYearsExperience} YoE)
+              </span>
+            )}
           </div>
         </div>
 

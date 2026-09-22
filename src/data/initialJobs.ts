@@ -955,5 +955,217 @@ export const INITIAL_JOBS: JobPosting[] = [
     "fingerprint": "datadog-ai-research-engineer-new-york",
     "viewsCount": 3800,
     "featured": true
+  },
+  {
+    "id": "job-int-stripe-001",
+    "title": "Software Engineering Intern - Core Infrastructure (Summer 2026 / 2027)",
+    "company": "Stripe",
+    "companyLogo": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=128&auto=format&fit=crop&q=80",
+    "companyWebsite": "https://stripe.com",
+    "location": "San Francisco, CA, USA",
+    "isRemote": true,
+    "applicantLocationRequirements": "US",
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "US",
+    "experienceLevel": "Internship",
+    "maxYearsExperience": 0,
+    "category": "Backend",
+    "employmentType": "INTERN",
+    "salary": {
+      "min": 58,
+      "max": 65,
+      "currency": "USD",
+      "unit": "HOUR"
+    },
+    "description": "Join Stripe’s Engineering team for a 12-week paid summer internship building the financial backbone of the internet. You will write production code deployed to millions of businesses worldwide alongside mentor engineers.",
+    "responsibilities": [
+      "Ship high-reliability production code across Stripe's core payment processing and ledger pipelines.",
+      "Work directly with senior engineers and receive 1-on-1 dedicated mentorship throughout the program.",
+      "Participate in design reviews, production on-call shadowing, and team architectural sprints.",
+      "Present your completed internship capstone project to Stripe engineering leadership."
+    ],
+    "qualifications": [
+      "Currently enrolled in a Bachelor's, Master's, or bootcamp program in Computer Science or related STEM field.",
+      "Solid understanding of computer science fundamentals (data structures, algorithms, object-oriented design).",
+      "Proficiency in at least one modern language: Ruby, Java, Go, Python, or TypeScript.",
+      "Curiosity about financial systems, distributed scalability, and developer tooling."
+    ],
+    "skills": [
+      "Ruby",
+      "Go",
+      "Distributed Systems",
+      "APIs",
+      "SQL",
+      "Git"
+    ],
+    "applyUrl": "https://job-boards.greenhouse.io/stripe/jobs/6582910",
+    "datePosted": "2026-09-20",
+    "validThrough": "2026-12-31",
+    "source": "EMPLOYER_POST",
+    "sourceUrl": "https://job-boards.greenhouse.io/stripe/jobs/6582910",
+    "status": "ACTIVE",
+    "fingerprint": "stripe-swe-intern-core-infrastructure-sf",
+    "viewsCount": 2420,
+    "featured": true
+  },
+  {
+    "id": "job-int-figma-002",
+    "title": "Software Engineer Intern - Web & Canvas Rendering",
+    "company": "Figma",
+    "companyLogo": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=128&auto=format&fit=crop&q=80",
+    "companyWebsite": "https://figma.com",
+    "location": "San Francisco, CA, USA",
+    "isRemote": true,
+    "applicantLocationRequirements": "US",
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "US",
+    "experienceLevel": "Internship",
+    "maxYearsExperience": 0,
+    "category": "Frontend",
+    "employmentType": "INTERN",
+    "salary": {
+      "min": 55,
+      "max": 62,
+      "currency": "USD",
+      "unit": "HOUR"
+    },
+    "description": "Figma is seeking Software Engineering Interns to join our Editor and Canvas engine teams. Help power real-time collaborative design tools used by millions of designers and engineers globally.",
+    "responsibilities": [
+      "Implement performance-critical UI and canvas features using TypeScript, React, and WebAssembly.",
+      "Optimize real-time WebGL rendering pipelines and multiplayer cursor synchronization.",
+      "Collaborate closely with product designers to prototype novel creative workflows.",
+      "Write unit tests and end-to-end integration tests to guarantee 60fps canvas fluidity."
+    ],
+    "qualifications": [
+      "Pursuing a degree in Computer Science, Computer Engineering, or related technical field.",
+      "Familiarity with modern JavaScript/TypeScript, browser APIs, and component architecture.",
+      "Interest in computer graphics, WebAssembly, C++, or low-latency distributed collaboration.",
+      "Strong communication and collaborative problem-solving skills."
+    ],
+    "skills": [
+      "TypeScript",
+      "React",
+      "WebGL",
+      "WebAssembly",
+      "Canvas",
+      "CSS"
+    ],
+    "applyUrl": "https://jobs.lever.co/figma/8b512683-7182-4110-8b1e-intern2026",
+    "datePosted": "2026-09-19",
+    "validThrough": "2026-12-31",
+    "source": "EMPLOYER_POST",
+    "sourceUrl": "https://jobs.lever.co/figma/8b512683-7182-4110-8b1e-intern2026",
+    "status": "ACTIVE",
+    "fingerprint": "figma-swe-intern-web-canvas-rendering",
+    "viewsCount": 1890,
+    "featured": true
+  },
+  {
+    "id": "job-int-cfl-003",
+    "title": "Systems & Distributed Systems Engineering Intern",
+    "company": "Cloudflare",
+    "companyLogo": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=128&auto=format&fit=crop&q=80",
+    "companyWebsite": "https://www.cloudflare.com",
+    "location": "Austin, TX, USA",
+    "isRemote": true,
+    "applicantLocationRequirements": "US",
+    "city": "Austin",
+    "state": "TX",
+    "country": "US",
+    "experienceLevel": "Internship",
+    "maxYearsExperience": 0,
+    "category": "DevOps / Cloud",
+    "employmentType": "INTERN",
+    "salary": {
+      "min": 52,
+      "max": 60,
+      "currency": "USD",
+      "unit": "HOUR"
+    },
+    "description": "Spend your internship building internet infrastructure at Cloudflare scale. You will work on DNS, DDoS mitigation, edge routing, and our serverless Workers runtime engine.",
+    "responsibilities": [
+      "Design and ship high-throughput networking services in Rust and Go.",
+      "Analyze network latency, packet routing, and edge cache hit ratios across global data centers.",
+      "Work with edge kernel modules (eBPF) and Linux networking primitives.",
+      "Contribute to open-source networking protocols and Cloudflare developer documentation."
+    ],
+    "qualifications": [
+      "Currently pursuing an undergraduate or graduate degree in CS, Computer Engineering, or related.",
+      "Knowledge of computer networking fundamentals (TCP/IP, HTTP/3, DNS, TLS).",
+      "Experience with systems programming languages like Rust, C++, or Go.",
+      "Enthusiasm for solving internet-scale problems."
+    ],
+    "skills": [
+      "Rust",
+      "Go",
+      "Linux",
+      "eBPF",
+      "Networking",
+      "TCP/IP"
+    ],
+    "applyUrl": "https://job-boards.greenhouse.io/cloudflare/jobs/8029193",
+    "datePosted": "2026-09-18",
+    "validThrough": "2026-12-31",
+    "source": "EMPLOYER_POST",
+    "sourceUrl": "https://job-boards.greenhouse.io/cloudflare/jobs/8029193",
+    "status": "ACTIVE",
+    "fingerprint": "cloudflare-systems-distributed-intern-austin",
+    "viewsCount": 1640,
+    "featured": true
+  },
+  {
+    "id": "job-int-datadog-004",
+    "title": "Machine Learning & AI Platform Intern",
+    "company": "Datadog",
+    "companyLogo": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=128&auto=format&fit=crop&q=80",
+    "companyWebsite": "https://www.datadoghq.com",
+    "location": "New York, NY, USA",
+    "isRemote": true,
+    "applicantLocationRequirements": "US",
+    "city": "New York",
+    "state": "NY",
+    "country": "US",
+    "experienceLevel": "Internship",
+    "maxYearsExperience": 0,
+    "category": "Data / AI",
+    "employmentType": "INTERN",
+    "salary": {
+      "min": 50,
+      "max": 58,
+      "currency": "USD",
+      "unit": "HOUR"
+    },
+    "description": "Join Datadog’s AI research & ML Platform team to build automated anomaly detection, LLM observability, and predictive telemetry models across millions of hosts worldwide.",
+    "responsibilities": [
+      "Train, fine-tune, and evaluate deep learning models on time-series telemetry.",
+      "Scale real-time feature stores and model inference endpoints with low latency.",
+      "Collaborate with senior researchers on cutting-edge observability LLM agents.",
+      "Write modular Python code backed by automated testing and CI/CD."
+    ],
+    "qualifications": [
+      "Pursuing a degree in Computer Science, Artificial Intelligence, Statistics, or Math.",
+      "Proficient in Python and data science libraries (PyTorch, Pandas, Scikit-learn).",
+      "Solid grounding in machine learning algorithms, loss functions, and evaluation metrics.",
+      "Strong analytical mindset and enthusiasm for cloud observability."
+    ],
+    "skills": [
+      "Python",
+      "PyTorch",
+      "Machine Learning",
+      "SQL",
+      "Docker",
+      "APIs"
+    ],
+    "applyUrl": "https://job-boards.greenhouse.io/datadog/jobs/7210984",
+    "datePosted": "2026-09-17",
+    "validThrough": "2026-12-31",
+    "source": "EMPLOYER_POST",
+    "sourceUrl": "https://job-boards.greenhouse.io/datadog/jobs/7210984",
+    "status": "ACTIVE",
+    "fingerprint": "datadog-ml-ai-platform-intern-nyc",
+    "viewsCount": 2100,
+    "featured": true
   }
 ];

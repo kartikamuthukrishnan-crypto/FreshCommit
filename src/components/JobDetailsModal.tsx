@@ -98,9 +98,15 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-sm font-bold text-slate-900">{job.company}</span>
-                <span className="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">
-                  {job.experienceLevel} ({job.maxYearsExperience} YoE)
-                </span>
+                {job.experienceLevel === 'Internship' ? (
+                  <span className="text-xs bg-violet-100 text-violet-800 font-bold px-2.5 py-0.5 rounded-full border border-violet-200">
+                    🎓 Paid Internship
+                  </span>
+                ) : (
+                  <span className="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">
+                    {job.experienceLevel} ({job.maxYearsExperience} YoE)
+                  </span>
+                )}
                 {job.isRemote && (
                   <span className="text-xs bg-violet-100 text-violet-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
                     <Globe className="w-3 h-3" /> Remote Option
@@ -115,7 +121,9 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                 </span>
                 <span className="flex items-center gap-1 text-emerald-700 font-semibold">
                   <DollarSign className="w-3.5 h-3.5" />
-                  ${Math.round(job.salary.min / 1000)}k – ${Math.round(job.salary.max / 1000)}k / year
+                  {job.salary.unit === 'HOUR'
+                    ? `$${job.salary.min}${job.salary.max && job.salary.max !== job.salary.min ? `–$${job.salary.max}` : ''} / hour`
+                    : `$${Math.round(job.salary.min / 1000)}k – ${Math.round(job.salary.max / 1000)}k / year`}
                 </span>
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5 text-slate-400" />
