@@ -17,6 +17,7 @@ import { FreshCommitsLogo } from './components/FreshCommitsLogo';
 import { HomeEditorialContent } from './components/HomeEditorialContent';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
+import { trackPageView } from './utils/analytics';
 import {
   Search,
   MapPin,
@@ -271,6 +272,15 @@ export default function App() {
       return DEFAULT_ADMIN_PASSCODE;
     }
   });
+
+  // Track page views in Google Analytics on tab change
+  useEffect(() => {
+    if (!selectedJob) {
+      const title = getTabTitle(activeTab);
+      document.title = title;
+      trackPageView(activeTab === 'jobs' ? '/' : `/?view=${activeTab}`, title);
+    }
+  }, [activeTab, selectedJob]);
 
   // Owner Logout handler
   const handleLogoutAdmin = () => {

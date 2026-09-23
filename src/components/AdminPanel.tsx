@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel, EmploymentType } from '../types';
 import { generateFingerprint, executeAutomatedSync, syncSmartRecruitersJobs } from '../utils/jobAggregator';
 import { validateJobPostingSchema, generateJobPostingSchema } from '../utils/schemaGenerator';
+import { initGA, DEFAULT_GA_MEASUREMENT_ID } from '../utils/analytics';
 import {
   PlusCircle,
   RefreshCw,
@@ -26,7 +27,8 @@ import {
   Database,
   Inbox,
   Mail,
-  Clock
+  Clock,
+  BarChart3
 } from 'lucide-react';
 
 interface AdminPanelProps {
@@ -78,6 +80,24 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [activationFeedback, setActivationFeedback] = useState('');
   const [customPasscode, setCustomPasscode] = useState(ownerPasscode);
   const [passcodeMsg, setPasscodeMsg] = useState('');
+
+  // Google Analytics 4 State
+  const [gaId, setGaId] = useState<string>(() => {
+    try {
+      return localStorage.getItem('freshcommits_ga_id') || (import.meta.env.VITE_GA_MEASUREMENT_ID as string) || DEFAULT_GA_MEASUREMENT_ID;
+    } catch {
+      return DEFAULT_GA_MEASUREMENT_ID;
+    }
+  });
+  const [gaMsg, setGaMsg] = useState('');
+
+  const handleSaveGaId = () => {
+    const trimmed = gaId.trim();
+    localStorage.setItem('freshcommits_ga_id', trimmed);
+    initGA(trimmed);
+    setGaMsg('Saved & activated successfully!');
+    setTimeout(() => setGaMsg(''), 3000);
+  };
 
   // Manual Job Posting Form State
   const [title, setTitle] = useState('');
@@ -1204,6 +1224,70 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   />
                   <span>Footer Ad Unit</span>
                 </label>
+              </div>
+            </div>
+
+            {/* Google Analytics 4 (GA4) Integration */}
+            <div className="pt-6 border-t border-slate-200">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-indigo-600" />
+                  <h3 className="font-bold text-slate-900 text-sm">Google Analytics 4 (GA4)</h3>
+                </div>
+                {gaId && gaId.startsWith('G-') && (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Active
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] text-slate-500 mb-3 leading-relaxed">
+                Connect your Google Analytics 4 Measurement ID (<code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-700">G-XXXXXXXXXX</code>) to track real-time active visitors, job click-throughs, and page views.
+              </p>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                    Measurement ID
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={gaId}
+                      onChange={(e) => {
+                        setGaId(e.target.value);
+                        setGaMsg('');
+                      }}
+                      placeholder="G-XXXXXXXXXX"
+                      className="flex-1 px-3 py-1.5 border border-slate-300 rounded-lg font-mono text-xs text-slate-900"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSaveGaId}
+                      className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-colors shadow-xs"
+                    >
+                      Save &amp; Connect
+                    </button>
+                  </div>
+                  {gaMsg && (
+                    <p className={`text-[11px] mt-1.5 font-medium ${gaMsg.includes('Warning') ? 'text-amber-600' : 'text-emerald-600'}`}>
+                      {gaMsg}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                  <span className="text-slate-600">Tracked: Page Views, Job Views, ATS Apply Clicks</span>
+                  <a
+                    href="https://analytics.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 font-bold hover:underline flex items-center gap-1"
+                  >
+                    <span>Open GA4 Dashboard</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
             </div>
 

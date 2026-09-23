@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { JobPosting, AdSenseConfig } from '../types';
 import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
+import { trackJobView, trackApplyClick } from '../utils/analytics';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -29,6 +30,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
   // Injects Google JobPosting Schema into document head dynamically and syncs canonical link
   useEffect(() => {
     if (!job) return;
+    trackJobView(job);
     const schema = generateJobPostingSchema(job);
     const cleanup = injectJobJsonLd(schema);
 
@@ -273,6 +275,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               href={job.applyUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackApplyClick(job)}
               className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 shadow-sm transition-all"
             >
               <span>Apply on {atsInfo.name}</span>

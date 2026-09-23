@@ -1,0 +1,5 @@
+# SmartRecruiters Proxy (Cloudflare Pages edge 200 rewrite)
+/api/sr-jobs/* https://jobs.smartrecruiters.com/sr-jobs/:splat 200
+
+# Single Page Application (SPA) fallback
+/* /index.html 200
