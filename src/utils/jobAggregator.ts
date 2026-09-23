@@ -297,7 +297,7 @@ export function evaluateJobRelevancy(job: RawExternalJob): { isRelevant: boolean
 /**
  * Categorizes the job role
  */
-function inferCategory(title: string, skills: string[] = []): JobCategory {
+export function inferCategory(title: string, skills: string[] = []): JobCategory {
   const t = (title + ' ' + skills.join(' ')).toLowerCase();
   if (t.includes('frontend') || t.includes('react') || t.includes('ui') || t.includes('web')) return 'Frontend';
   if (t.includes('backend') || t.includes('ruby') || t.includes('go') || t.includes('api') || t.includes('java')) return 'Backend';
@@ -308,7 +308,7 @@ function inferCategory(title: string, skills: string[] = []): JobCategory {
   return 'Full Stack';
 }
 
-function inferExperienceLevel(title: string, desc: string): ExperienceLevel {
+export function inferExperienceLevel(title: string, desc: string): ExperienceLevel {
   const text = (title + ' ' + desc).toLowerCase();
   if (text.includes('new grad') || text.includes('graduate') || text.includes('campus')) return 'New Grad';
   if (text.includes('fresher')) return 'Fresher';

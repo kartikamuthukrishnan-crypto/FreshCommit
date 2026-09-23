@@ -28,8 +28,10 @@ import {
   Inbox,
   Mail,
   Clock,
-  BarChart3
+  BarChart3,
+  Link as LinkIcon
 } from 'lucide-react';
+import { extractAndEnrichJobFromUrl } from '../utils/jobExtractor';
 
 interface AdminPanelProps {
   jobs: JobPosting[];
@@ -115,6 +117,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevel>('Entry Level');
   const [maxYearsExperience, setMaxYearsExperience] = useState(0);
   const [employmentType, setEmploymentType] = useState<EmploymentType>('FULL_TIME');
+  const [salaryCurrency, setSalaryCurrency] = useState('USD');
   const [salaryMin, setSalaryMin] = useState(115000);
   const [salaryMax, setSalaryMax] = useState(140000);
   const [description, setDescription] = useState('');
@@ -123,6 +126,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [skillsText, setSkillsText] = useState('TypeScript, React, Node.js');
   const [applyUrl, setApplyUrl] = useState('');
   const [validDays, setValidDays] = useState(60);
+
+  // Auto-Extraction / Instant Ingestion State
+  const [autoExtractUrl, setAutoExtractUrl] = useState('');
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [extractSuccessMsg, setExtractSuccessMsg] = useState('');
+  const [extractErrorMsg, setExtractErrorMsg] = useState('');
 
   // Status feedback
   const [postSuccess, setPostSuccess] = useState(false);
@@ -156,8 +165,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     salary: {
       min: salaryMin,
       max: salaryMax,
-      currency: 'USD',
-      unit: 'YEAR',
+      currency: salaryCurrency,
+      unit: employmentType === 'INTERN' ? 'HOUR' : 'YEAR',
     },
     description: description || 'Seeking enthusiastic junior software developer with foundational CS knowledge.',
     responsibilities: responsibilitiesText
@@ -186,6 +195,45 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     location,
     isRemote
   });
+
+  const handleAutoExtract = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!autoExtractUrl.trim()) return;
+    setIsExtracting(true);
+    setExtractSuccessMsg('');
+    setExtractErrorMsg('');
+    try {
+      const data = await extractAndEnrichJobFromUrl(autoExtractUrl.trim());
+      setTitle(data.title);
+      setCompany(data.company);
+      if (data.companyLogo) setCompanyLogo(data.companyLogo);
+      if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
+      setLocation(data.location);
+      setIsRemote(data.isRemote);
+      if (data.city) setCity(data.city);
+      if (data.state) setState(data.state);
+      if (data.country) setCountry(data.country);
+      if (data.applicantLocationRequirements) setApplicantLocationRequirements(data.applicantLocationRequirements);
+      setCategory(data.category);
+      setExperienceLevel(data.experienceLevel);
+      setMaxYearsExperience(data.maxYearsExperience);
+      setEmploymentType(data.employmentType);
+      setSalaryCurrency(data.salary.currency || 'USD');
+      setSalaryMin(data.salary.min);
+      setSalaryMax(data.salary.max);
+      setDescription(data.description);
+      setResponsibilitiesText(data.responsibilities.join('\n'));
+      setQualificationsText(data.qualifications.join('\n'));
+      setSkillsText(data.skills.join(', '));
+      setApplyUrl(data.applyUrl);
+
+      setExtractSuccessMsg(`✨ Successfully imported from ${data.detectedAtsProvider || 'career page'}! "The FreshCommits Edge" editorial summary & structured fields are filled.`);
+    } catch (err: any) {
+      setExtractErrorMsg(err.message || 'Failed to extract from this link. Please check the URL.');
+    } finally {
+      setIsExtracting(false);
+    }
+  };
 
   const handlePostJob = (e: React.FormEvent) => {
     e.preventDefault();
@@ -462,6 +510,85 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               )}
             </div>
 
+            {/* ⚡ Instant Smart ATS Ingestion & Auto-Fill ("The FreshCommits Edge") */}
+            <div className="mb-6 p-4 bg-gradient-to-br from-indigo-50/90 via-slate-50 to-emerald-50/70 border border-indigo-200 rounded-2xl shadow-xs">
+              <div className="flex items-center justify-between mb-1.5 flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
+                      Instant ATS Link Converter &amp; Auto-Fill
+                    </h3>
+                    <p className="text-[11px] text-slate-500">
+                      Auto-extracts JD metadata &amp; generates "The FreshCommits Edge" summary
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-[10px] font-semibold text-indigo-700 bg-white px-2 py-0.5 rounded-md border border-indigo-100">
+                  <span>SmartRecruiters • Greenhouse • Lever • Ashby • Careers</span>
+                </div>
+              </div>
+
+              <form onSubmit={handleAutoExtract} className="mt-3 flex flex-col sm:flex-row gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="url"
+                    required
+                    placeholder="Paste job URL (e.g. https://jobs.smartrecruiters.com/Version1/... or greenhouse/lever)"
+                    value={autoExtractUrl}
+                    onChange={(e) => setAutoExtractUrl(e.target.value)}
+                    className="w-full pl-8 pr-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                  />
+                  <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-2.5" />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isExtracting || !autoExtractUrl.trim()}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
+                >
+                  {isExtracting ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      <span>Extracting &amp; Curating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                      <span>Convert &amp; Fill Form</span>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              {/* Sample Quick Links for instant testing */}
+              <div className="mt-2 flex items-center gap-2 flex-wrap text-[11px] text-slate-500">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Quick Test:</span>
+                <button
+                  type="button"
+                  onClick={() => setAutoExtractUrl('https://jobs.smartrecruiters.com/Version1/744000151416884-junior-servicenow-consultant')}
+                  className="text-indigo-600 hover:underline font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-indigo-100 cursor-pointer"
+                >
+                  Version 1 (Junior ServiceNow)
+                </button>
+              </div>
+
+              {/* Feedback banners */}
+              {extractSuccessMsg && (
+                <div className="mt-3 p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center gap-2 animate-fade-in">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <span>{extractSuccessMsg}</span>
+                </div>
+              )}
+              {extractErrorMsg && (
+                <div className="mt-3 p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-2 animate-fade-in">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 flex-shrink-0" />
+                  <span>{extractErrorMsg}</span>
+                </div>
+              )}
+            </div>
+
             <form onSubmit={handlePostJob} className="space-y-4 text-xs sm:text-sm">
               {/* Real-time ATS & Inventory Duplicate Sentinel */}
               {duplicateCheck.isDuplicate && (
@@ -722,15 +849,30 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
               </div>
 
-              {/* Salary Range */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Salary Range & Currency */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Currency</label>
+                  <select
+                    value={salaryCurrency}
+                    onChange={(e) => setSalaryCurrency(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium"
+                  >
+                    <option value="USD">USD ($) - US Dollar</option>
+                    <option value="GBP">GBP (£) - British Pound</option>
+                    <option value="EUR">EUR (€) - Euro</option>
+                    <option value="CAD">CAD ($) - Canadian Dollar</option>
+                    <option value="INR">INR (₹) - Indian Rupee</option>
+                    <option value="AUD">AUD ($) - Australian Dollar</option>
+                  </select>
+                </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Minimum Salary (USD/yr) <span className="text-emerald-700 font-normal">($)</span>
+                    Minimum ({salaryCurrency}/{employmentType === 'INTERN' ? 'hr' : 'yr'})
                   </label>
                   <input
                     type="number"
-                    step={5000}
+                    step={employmentType === 'INTERN' ? 1 : 1000}
                     value={salaryMin}
                     onChange={(e) => setSalaryMin(Number(e.target.value))}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs"
@@ -738,11 +880,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Maximum Salary (USD/yr) <span className="text-emerald-700 font-normal">($)</span>
+                    Maximum ({salaryCurrency}/{employmentType === 'INTERN' ? 'hr' : 'yr'})
                   </label>
                   <input
                     type="number"
-                    step={5000}
+                    step={employmentType === 'INTERN' ? 1 : 1000}
                     value={salaryMax}
                     onChange={(e) => setSalaryMax(Number(e.target.value))}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs"

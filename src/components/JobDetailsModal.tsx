@@ -126,9 +126,13 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                 </span>
                 <span className="flex items-center gap-1 text-emerald-700 font-semibold">
                   <DollarSign className="w-3.5 h-3.5" />
-                  {job.salary.unit === 'HOUR'
-                    ? `$${job.salary.min}${job.salary.max && job.salary.max !== job.salary.min ? `–$${job.salary.max}` : ''} / hour`
-                    : `$${Math.round(job.salary.min / 1000)}k – ${Math.round(job.salary.max / 1000)}k / year`}
+                  {(() => {
+                    const sym = job.salary.currency === 'GBP' ? '£' : job.salary.currency === 'EUR' ? '€' : job.salary.currency === 'CAD' ? 'CA$' : job.salary.currency === 'INR' ? '₹' : '$';
+                    if (job.salary.unit === 'HOUR') {
+                      return `${sym}${job.salary.min}${job.salary.max && job.salary.max !== job.salary.min ? `–${sym}${job.salary.max}` : ''} / hour`;
+                    }
+                    return `${sym}${Math.round(job.salary.min / 1000)}k – ${sym}${Math.round(job.salary.max / 1000)}k / year`;
+                  })()}
                 </span>
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5 text-slate-400" />

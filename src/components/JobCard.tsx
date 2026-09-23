@@ -10,15 +10,27 @@ interface JobCardProps {
 }
 
 export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
+  const getCurrencySymbol = (curr?: string) => {
+    switch (curr?.toUpperCase()) {
+      case 'GBP': return '£';
+      case 'EUR': return '€';
+      case 'CAD': return 'CA$';
+      case 'INR': return '₹';
+      case 'AUD': return 'A$';
+      default: return '$';
+    }
+  };
+
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Salary Undisclosed';
+    const sym = getCurrencySymbol(salary.currency);
     if (salary.unit === 'HOUR') {
-      const maxH = salary.max && salary.max !== salary.min ? `–$${salary.max}` : '';
-      return `$${salary.min}${maxH} / hr`;
+      const maxH = salary.max && salary.max !== salary.min ? `–${sym}${salary.max}` : '';
+      return `${sym}${salary.min}${maxH} / hr`;
     }
     const minK = Math.round(salary.min / 1000);
     const maxK = salary.max ? Math.round(salary.max / 1000) : minK;
-    return `$${minK}k – $${maxK}k / yr`;
+    return `${sym}${minK}k – ${sym}${maxK}k / yr`;
   };
 
   const isNew = () => {
