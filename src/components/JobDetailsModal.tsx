@@ -69,18 +69,9 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
 
   const richResultsUrl = `https://search.google.com/test/rich-results`;
 
-  const getAtsDetails = (url: string) => {
-    if (!url) return { name: 'Direct ATS', host: 'Direct Requisition' };
-    const lower = url.toLowerCase();
-    if (lower.includes('greenhouse.io')) return { name: 'Greenhouse', host: 'boards.greenhouse.io' };
-    if (lower.includes('lever.co')) return { name: 'Lever', host: 'jobs.lever.co' };
-    if (lower.includes('ashbyhq.com')) return { name: 'Ashby', host: 'jobs.ashbyhq.com' };
-    if (lower.includes('myworkdayjobs.com')) return { name: 'Workday', host: 'myworkdayjobs.com' };
-    if (lower.includes('smartrecruiters.com')) return { name: 'SmartRecruiters', host: 'smartrecruiters.com' };
-    return { name: 'Direct ATS', host: 'Company Requisition' };
-  };
-
-  const atsInfo = getAtsDetails(job.applyUrl);
+  const applyButtonText = job.company
+    ? (job.company.length > 20 ? 'Apply on Company Site' : `Apply to ${job.company}`)
+    : 'Apply on Company Site';
 
   return (
     <div
@@ -157,7 +148,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition-colors"
             >
-              <span>Apply on {atsInfo.name}</span>
+              <span>{applyButtonText}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
             <button
@@ -269,11 +260,11 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             <div className="flex items-center gap-1.5 font-medium text-slate-800">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
               <span>
-                Direct Destination: <strong className="text-indigo-700">{atsInfo.name}</strong> ({atsInfo.host})
+                Verified Direct Application &bull; <strong className="text-indigo-700">{job.company}</strong> Official Career Portal
               </span>
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5 ml-5 flex items-center gap-2 flex-wrap">
-              <span>Direct application requisition — opens this specific opening without portal search friction.</span>
+              <span>Direct employer requisition — opens this specific opening directly without middleman friction.</span>
               <span className="font-mono text-[10px] text-slate-500 bg-slate-200/70 px-1.5 py-0.5 rounded border border-slate-300/80">
                 freshcommits.com/?job={job.id}
               </span>
@@ -309,7 +300,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               onClick={() => trackApplyClick(job)}
               className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 shadow-sm transition-all"
             >
-              <span>Apply on {atsInfo.name}</span>
+              <span>{applyButtonText}</span>
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
