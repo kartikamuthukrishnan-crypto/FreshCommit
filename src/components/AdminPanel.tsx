@@ -106,6 +106,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   };
 
   // Manual Job Posting Form State
+  const [editingJobId, setEditingJobId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [company, setCompany] = useState('');
   const [companyLogo, setCompanyLogo] = useState('');
@@ -242,14 +243,66 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
   const validation = validateJobPostingSchema(draftJob);
 
-  // Real-time duplicate inspection against active ATS & manual inventory
-  const duplicateCheck = checkDuplicateJob(jobs, {
+  // Real-time duplicate inspection against active ATS & manual inventory (excluding currently edited job)
+  const otherJobs = editingJobId ? jobs.filter((j) => j.id !== editingJobId) : jobs;
+  const duplicateCheck = checkDuplicateJob(otherJobs, {
     company,
     title,
     applyUrl,
     location,
     isRemote
   });
+
+  const handleStartEditJob = (job: JobPosting) => {
+    setEditingJobId(job.id);
+    setTitle(job.title || '');
+    setCompany(job.company || '');
+    setCompanyLogo(job.companyLogo || '');
+    setCompanyWebsite(job.companyWebsite || '');
+    setLocation(job.location || 'San Francisco, CA');
+    setIsRemote(Boolean(job.isRemote));
+    setApplicantLocationRequirements(job.applicantLocationRequirements || (job.country || 'US'));
+    setCity(job.city || '');
+    setState(job.state || '');
+    setCountry(job.country || 'US');
+    setPostalCode(job.postalCode || '');
+    setCategory(job.category || 'Full Stack');
+    setExperienceLevel(job.experienceLevel || 'Entry Level');
+    setMaxYearsExperience(job.maxYearsExperience ?? 0);
+    setEmploymentType(job.employmentType || 'FULL_TIME');
+    setSalaryCurrency(job.salary?.currency || 'USD');
+    setSalaryMin(job.salary?.min || 100000);
+    setSalaryMax(job.salary?.max || 140000);
+    setDescription(job.description || '');
+    setResponsibilitiesText((job.responsibilities || []).join('\n'));
+    setQualificationsText((job.qualifications || []).join('\n'));
+    setSkillsText((job.skills || []).join(', '));
+    setApplyUrl(job.applyUrl || '');
+
+    // Estimate validity days remaining if present
+    if (job.validThrough) {
+      const days = getDaysUntilExpiration(job.validThrough);
+      if (days && days > 0) {
+        setValidDays(days);
+      }
+    }
+
+    setActiveTab('post');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingJobId(null);
+    setTitle('');
+    setCompany('');
+    setCompanyLogo('');
+    setCompanyWebsite('');
+    setDescription('');
+    setApplyUrl('');
+    setResponsibilitiesText('');
+    setQualificationsText('');
+    setSkillsText('TypeScript, React, Node.js');
+  };
 
   const handleAutoExtract = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -299,13 +352,37 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     if (duplicateCheck.isDuplicate) {
       const confirmOverride = confirm(
-        `DUPLICATE DETECTED!\n\n${duplicateCheck.reason}\n\nPosting duplicate jobs damages candidate trust and triggers Google Search spam penalties.\n\nDo you still want to force publish this duplicate?`
+        `DUPLICATE DETECTED!\n\n${duplicateCheck.reason}\n\nPosting duplicate jobs damages candidate trust and triggers Google Search spam penalties.\n\nDo you still want to force save this duplicate?`
       );
       if (!confirmOverride) {
         return;
       }
     }
 
+    if (editingJobId) {
+      // Update existing job
+      const original = jobs.find((j) => j.id === editingJobId);
+      const updatedJob: JobPosting = {
+        ...draftJob,
+        id: editingJobId,
+        datePosted: original?.datePosted || new Date().toISOString().split('T')[0],
+        fingerprint: generateFingerprint(company, title, isRemote ? 'remote' : location),
+        viewsCount: original?.viewsCount || 0,
+        source: original?.source || 'MANUAL_ADMIN',
+        status: original?.status || 'ACTIVE'
+      };
+
+      setJobs((prev) => prev.map((j) => (j.id === editingJobId ? updatedJob : j)));
+      setEditingJobId(null);
+      setPostSuccess(true);
+      setTimeout(() => setPostSuccess(false), 4000);
+
+      // Reset fields
+      handleCancelEdit();
+      return;
+    }
+
+    // Creating new job
     const newJob: JobPosting = {
       ...draftJob,
       id: `manual-${Date.now()}`,
@@ -325,11 +402,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setTimeout(() => setPostSuccess(false), 4000);
 
     // Reset fields
-    setTitle('');
-    setDescription('');
-    setApplyUrl('');
-    setResponsibilitiesText('');
-    setQualificationsText('');
+    handleCancelEdit();
   };
 
   const handleTriggerSync = async () => {
@@ -550,17 +623,46 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Form Column */}
           <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            {editingJobId && (
+              <div className="mb-5 p-3.5 bg-amber-50 border-2 border-amber-300 rounded-xl flex items-center justify-between gap-3 flex-wrap animate-fade-in shadow-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold">
+                    <Edit3 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-amber-950 uppercase tracking-wide">
+                      Editing Mode Active
+                    </h3>
+                    <p className="text-[11px] text-amber-800">
+                      You are editing listing ID: <span className="font-mono font-semibold">{editingJobId}</span>
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="px-3 py-1.5 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-lg text-xs font-bold cursor-pointer transition-colors shadow-2xs"
+                >
+                  Cancel Edit &amp; Post New
+                </button>
+              </div>
+            )}
+
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
               <div>
-                <h2 className="text-lg font-bold text-slate-900">Post New Global / US Job Listing</h2>
+                <h2 className="text-lg font-bold text-slate-900">
+                  {editingJobId ? 'Edit & Update Job Listing' : 'Post New Global / US Job Listing'}
+                </h2>
                 <p className="text-xs text-slate-500">
-                  Full Google <code>JobPosting</code> schema compliant with telecommute/remote options.
+                  {editingJobId
+                    ? 'Update job details, salary, requirements, and Google JobPosting schema.'
+                    : 'Full Google JobPosting schema compliant with telecommute/remote options.'}
                 </p>
               </div>
               {postSuccess && (
                 <div className="flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 animate-fade-in">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Job Published!</span>
+                  <span>{editingJobId ? 'Listing Updated Successfully!' : 'Job Published!'}</span>
                 </div>
               )}
             </div>
@@ -1189,15 +1291,38 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </p>
               </div>
 
-              {/* Submit Button */}
-              <div className="pt-2">
+              {/* Submit / Save Button */}
+              <div className="pt-2 flex items-center gap-3">
                 <button
                   type="submit"
-                  className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm"
+                  className={`flex-1 py-2.5 px-4 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm cursor-pointer ${
+                    editingJobId
+                      ? 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800'
+                      : 'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800'
+                  }`}
                 >
-                  <PlusCircle className="w-4 h-4" />
-                  <span>Publish Job With Google Schema</span>
+                  {editingJobId ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Save Changes &amp; Update Schema</span>
+                    </>
+                  ) : (
+                    <>
+                      <PlusCircle className="w-4 h-4" />
+                      <span>Publish Job With Google Schema</span>
+                    </>
+                  )}
                 </button>
+
+                {editingJobId && (
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
             </form>
           </div>
@@ -1598,18 +1723,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       </td>
                       <td className="py-3 px-3 text-right">
                         <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleStartEditJob(job)}
+                            className="p-1.5 text-slate-500 hover:text-amber-700 hover:bg-amber-50 rounded-lg transition-colors cursor-pointer"
+                            title="Edit this listing"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
                           <a
                             href={job.applyUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1 text-slate-400 hover:text-indigo-600"
+                            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                             title="Open ATS Apply URL"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
                           </a>
                           <button
                             onClick={() => handleDeleteJob(job.id)}
-                            className="p-1 text-slate-400 hover:text-rose-600"
+                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                             title="Delete listing"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
