@@ -1,6 +1,6 @@
 import React from 'react';
 import { JobPosting } from '../types';
-import { MapPin, DollarSign, Calendar, Globe, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
+import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight } from 'lucide-react';
 import { SocialShare } from './SocialShare';
 
 interface JobCardProps {
@@ -26,17 +26,6 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
     const now = new Date();
     const diffDays = (now.getTime() - postDate.getTime()) / (1000 * 3600 * 24);
     return diffDays <= 5;
-  };
-
-  const getAtsName = (url: string) => {
-    if (!url) return 'Direct ATS';
-    const lower = url.toLowerCase();
-    if (lower.includes('greenhouse.io')) return 'Greenhouse';
-    if (lower.includes('lever.co')) return 'Lever';
-    if (lower.includes('ashbyhq.com')) return 'Ashby';
-    if (lower.includes('myworkdayjobs.com')) return 'Workday';
-    if (lower.includes('smartrecruiters.com')) return 'SmartRecruiters';
-    return 'Direct ATS';
   };
 
   return (
@@ -70,19 +59,18 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="font-semibold text-slate-900 text-sm">{job.company}</span>
-                {job.source === 'SMARTRECRUITERS' || job.atsProvider === 'SmartRecruiters' ? (
-                  <span className="inline-flex items-center gap-1 text-[10px] text-teal-800 font-semibold bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200">
-                    <CheckCircle2 className="w-2.5 h-2.5 text-teal-600" /> SmartRecruiters ATS
-                  </span>
-                ) : job.source === 'EMPLOYER_POST' ? (
-                  <span className="inline-flex items-center gap-0.5 text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
-                    <CheckCircle2 className="w-2.5 h-2.5" /> Direct Employer
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-0.5 text-[10px] text-sky-700 font-medium bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">
-                    Verified ATS
-                  </span>
-                )}
+                {job.source === 'EMPLOYER_POST' || job.source === 'MANUAL_ADMIN' ? (
+                  <div className="flex items-center gap-1 flex-wrap">
+                    <span className="inline-flex items-center gap-0.5 text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                      <CheckCircle2 className="w-2.5 h-2.5" /> Curated
+                    </span>
+                    {job.atsVerified && (
+                      <span className="inline-flex items-center gap-0.5 text-[10px] text-indigo-700 font-medium bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200" title="Requisition confirmed live on official ATS feed">
+                        <CheckCircle2 className="w-2.5 h-2.5 text-indigo-600" /> ATS Verified
+                      </span>
+                    )}
+                  </div>
+                ) : null}
                 {isNew() && (
                   <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100">
                     New
@@ -132,13 +120,9 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
 
         {/* Key Attributes Bar */}
         <div className="flex items-center gap-3 text-xs text-slate-700 font-medium mb-3 flex-wrap">
-          <span className="flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
-            <DollarSign className="w-3 h-3" />
+          <span className="flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100 font-semibold">
+            <DollarSign className="w-3.5 h-3.5" />
             {formatSalary(job.salary)}
-          </span>
-          <span className="text-slate-500 text-[11px] flex items-center gap-1">
-            <Calendar className="w-3 h-3 text-slate-400" />
-            Posted {job.datePosted}
           </span>
         </div>
 
@@ -163,8 +147,8 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
       {/* Action Footer */}
       <div className="flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
         <div className="flex items-center gap-1.5 text-xs text-slate-500">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-          <span className="font-medium text-slate-600">Direct on {getAtsName(job.applyUrl)}</span>
+          <Calendar className="w-3.5 h-3.5 text-slate-400" />
+          <span className="text-[11px] text-slate-500 font-medium">Posted {job.datePosted}</span>
         </div>
 
         <div className="flex items-center gap-2">

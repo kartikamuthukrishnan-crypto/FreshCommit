@@ -232,10 +232,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const handleTriggerSync = async () => {
     setSyncLoading(true);
     try {
-      const { newJobs, log } = await executeAutomatedSync(jobs, customFeedUrl);
-      if (newJobs.length > 0) {
-        setJobs((prev) => [...newJobs, ...prev]);
-      }
+      const { newJobs, log, refreshedJobIds } = await executeAutomatedSync(jobs, customFeedUrl);
+      setJobs((prev) => {
+        let updated = [...prev];
+        if (refreshedJobIds && refreshedJobIds.length > 0) {
+          const validDate = new Date();
+          validDate.setDate(validDate.getDate() + 45);
+          const extended = validDate.toISOString().split('T')[0];
+          updated = updated.map((j) =>
+            refreshedJobIds.includes(j.id) ? { ...j, atsVerified: true, validThrough: extended } : j
+          );
+        }
+        return [...newJobs, ...updated];
+      });
       setSyncLogs((prev) => [log, ...prev]);
     } catch (err) {
       console.error(err);
@@ -249,10 +258,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setSrLoading(true);
     try {
       const kw = customKw !== undefined ? customKw : srKeyword;
-      const { newJobs, log } = await syncSmartRecruitersJobs(jobs, kw, srRemoteOnly);
-      if (newJobs.length > 0) {
-        setJobs((prev) => [...newJobs, ...prev]);
-      }
+      const { newJobs, log, refreshedJobIds } = await syncSmartRecruitersJobs(jobs, kw, srRemoteOnly);
+      setJobs((prev) => {
+        let updated = [...prev];
+        if (refreshedJobIds && refreshedJobIds.length > 0) {
+          const validDate = new Date();
+          validDate.setDate(validDate.getDate() + 45);
+          const extended = validDate.toISOString().split('T')[0];
+          updated = updated.map((j) =>
+            refreshedJobIds.includes(j.id) ? { ...j, atsVerified: true, validThrough: extended } : j
+          );
+        }
+        return [...newJobs, ...updated];
+      });
       setSyncLogs((prev) => [log, ...prev]);
     } catch (err) {
       console.error(err);
@@ -1109,7 +1127,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         <td className="py-3 px-3 font-semibold text-slate-900">{log.sourceName}</td>
                         <td className="py-3 px-3">{log.rawJobsCount}</td>
                         <td className="py-3 px-3 text-indigo-600 font-semibold">{log.passedRelevancyCount}</td>
-                        <td className="py-3 px-3 text-amber-600 font-semibold">{log.duplicatesSkippedCount}</td>
+                        <td className="py-3 px-3">
+                          <span className="text-amber-600 font-semibold">{log.duplicatesSkippedCount}</span>
+                          {Boolean(log.manualOverridesCount && log.manualOverridesCount > 0) && (
+                            <span className="block text-[10px] text-indigo-700 font-medium bg-indigo-50 px-1.5 py-0.2 rounded mt-0.5 border border-indigo-100 w-fit">
+                              🛡️ {log.manualOverridesCount} manual protected
+                            </span>
+                          )}
+                        </td>
                         <td className="py-3 px-3 text-emerald-600 font-bold">+{log.savedCount}</td>
                         <td className="py-3 px-3">
                           <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[10px] font-bold">

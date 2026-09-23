@@ -471,7 +471,7 @@ export async function syncSmartRecruitersJobs(
   existingJobs: JobPosting[],
   keyword?: string,
   remoteOnly?: boolean
-): Promise<{ newJobs: JobPosting[]; log: SyncLog }> {
+): Promise<{ newJobs: JobPosting[]; log: SyncLog; refreshedJobIds?: string[] }> {
   const existingFingerprints = new Set(existingJobs.map((j) => j.fingerprint));
 
   const queries = keyword?.trim()
@@ -490,6 +490,8 @@ export async function syncSmartRecruitersJobs(
 
   let passedRelevancyCount = 0;
   let duplicatesSkippedCount = 0;
+  let manualOverridesCount = 0;
+  const refreshedJobIds: string[] = [];
   const newJobs: JobPosting[] = [];
 
   for (const raw of rawJobs) {
@@ -499,12 +501,26 @@ export async function syncSmartRecruitersJobs(
     }
     passedRelevancyCount++;
 
-    const fingerprint = generateFingerprint(raw.company, raw.title, raw.location);
-    if (existingFingerprints.has(fingerprint)) {
+    // Strict multi-layer duplicate check (URL, fingerprint, fuzzy entity) against existing & in-flight jobs
+    const dupCheck = checkDuplicateJob([...existingJobs, ...newJobs], {
+      company: raw.company,
+      title: raw.title,
+      applyUrl: raw.applyUrl,
+      location: raw.location,
+      isRemote: raw.isRemote
+    });
+
+    if (dupCheck.isDuplicate) {
       duplicatesSkippedCount++;
+      // If a manual curated job already exists, protect its content and mark it verified by the ATS feed
+      if (dupCheck.matchingJob && (dupCheck.matchingJob.source === 'EMPLOYER_POST' || dupCheck.matchingJob.source === 'MANUAL_ADMIN')) {
+        manualOverridesCount++;
+        if (!refreshedJobIds.includes(dupCheck.matchingJob.id)) {
+          refreshedJobIds.push(dupCheck.matchingJob.id);
+        }
+      }
       continue;
     }
-    existingFingerprints.add(fingerprint);
 
     let detailedDesc = raw.description;
     let responsibilities = [
@@ -554,6 +570,7 @@ export async function syncSmartRecruitersJobs(
       }
     }
 
+    const fingerprint = generateFingerprint(raw.company, raw.title, raw.location);
     const validThroughDate = new Date();
     validThroughDate.setDate(validThroughDate.getDate() + 45);
 
@@ -607,10 +624,11 @@ export async function syncSmartRecruitersJobs(
     passedRelevancyCount,
     duplicatesSkippedCount,
     savedCount: newJobs.length,
-    details: `Scanned ${rawJobs.length} live postings from SmartRecruiters. ${passedRelevancyCount} passed early-career criteria. ${duplicatesSkippedCount} duplicates discarded. Ingested ${newJobs.length} verified listings.`
+    manualOverridesCount,
+    details: `Scanned ${rawJobs.length} live postings from SmartRecruiters. ${passedRelevancyCount} passed early-career criteria. ${duplicatesSkippedCount} duplicates discarded${manualOverridesCount > 0 ? ` (${manualOverridesCount} existing manual listings protected & verified)` : ''}. Ingested ${newJobs.length} verified listings.`
   };
 
-  return { newJobs, log };
+  return { newJobs, log, refreshedJobIds };
 }
 
 /**
@@ -619,8 +637,7 @@ export async function syncSmartRecruitersJobs(
 export async function executeAutomatedSync(
   existingJobs: JobPosting[],
   feedUrl?: string
-): Promise<{ newJobs: JobPosting[]; log: SyncLog }> {
-  const existingFingerprints = new Set(existingJobs.map((j) => j.fingerprint));
+): Promise<{ newJobs: JobPosting[]; log: SyncLog; refreshedJobIds?: string[] }> {
   const rawJobs: RawExternalJob[] = [...SAMPLE_EXTERNAL_FEEDS];
 
   // Also pull live verified early-career jobs from SmartRecruiters
@@ -665,6 +682,8 @@ export async function executeAutomatedSync(
 
   let passedRelevancyCount = 0;
   let duplicatesSkippedCount = 0;
+  let manualOverridesCount = 0;
+  const refreshedJobIds: string[] = [];
   const newJobs: JobPosting[] = [];
 
   for (const raw of rawJobs) {
@@ -674,14 +693,28 @@ export async function executeAutomatedSync(
     }
     passedRelevancyCount++;
 
-    const fingerprint = generateFingerprint(raw.company, raw.title, raw.location);
-    if (existingFingerprints.has(fingerprint)) {
+    // Strict multi-layer duplicate check (URL, fingerprint, fuzzy entity) against existing & in-flight jobs
+    const dupCheck = checkDuplicateJob([...existingJobs, ...newJobs], {
+      company: raw.company,
+      title: raw.title,
+      applyUrl: raw.applyUrl,
+      location: raw.location,
+      isRemote: raw.isRemote
+    });
+
+    if (dupCheck.isDuplicate) {
       duplicatesSkippedCount++;
+      // If a manual curated job already exists, protect its content and mark it verified by the ATS feed
+      if (dupCheck.matchingJob && (dupCheck.matchingJob.source === 'EMPLOYER_POST' || dupCheck.matchingJob.source === 'MANUAL_ADMIN')) {
+        manualOverridesCount++;
+        if (!refreshedJobIds.includes(dupCheck.matchingJob.id)) {
+          refreshedJobIds.push(dupCheck.matchingJob.id);
+        }
+      }
       continue;
     }
 
-    // Add to set to avoid duplicates within the same batch
-    existingFingerprints.add(fingerprint);
+    const fingerprint = generateFingerprint(raw.company, raw.title, raw.location);
 
     // Build unparaphrased, structured JobPosting with valid Google Schema data
     const validThroughDate = new Date();
@@ -746,11 +779,12 @@ export async function executeAutomatedSync(
     rawJobsCount: rawJobs.length,
     passedRelevancyCount,
     duplicatesSkippedCount,
+    manualOverridesCount,
     savedCount: newJobs.length,
-    details: `Processed ${rawJobs.length} raw jobs. ${passedRelevancyCount} passed early-career criteria. ${duplicatesSkippedCount} duplicates discarded. Added ${newJobs.length} new listings.`
+    details: `Processed ${rawJobs.length} raw jobs. ${passedRelevancyCount} passed early-career criteria. ${duplicatesSkippedCount} duplicates discarded${manualOverridesCount > 0 ? ` (${manualOverridesCount} existing manual listings protected & verified)` : ''}. Added ${newJobs.length} new listings.`
   };
 
-  return { newJobs, log };
+  return { newJobs, log, refreshedJobIds };
 }
 
 /**

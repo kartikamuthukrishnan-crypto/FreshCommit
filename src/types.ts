@@ -37,6 +37,7 @@ export interface JobPosting {
   validThrough: string; // ISO format: YYYY-MM-DD
   source: JobSource;
   atsProvider?: string; // e.g. "SmartRecruiters", "Greenhouse", "Lever", "Ashby"
+  atsVerified?: boolean; // True when an automated ATS sync confirmed this manual requisition is active on live company boards
   smartRecruitersId?: string;
   sourceUrl?: string;
   status: 'ACTIVE' | 'EXPIRED' | 'DRAFT';
@@ -62,6 +63,7 @@ export interface SyncLog {
   rawJobsCount: number;
   passedRelevancyCount: number;
   duplicatesSkippedCount: number;
+  manualOverridesCount?: number; // count of incoming ATS jobs that were dropped because a curated manual post already existed
   savedCount: number;
   details: string;
 }
