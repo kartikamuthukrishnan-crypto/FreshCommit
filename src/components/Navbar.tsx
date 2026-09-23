@@ -136,20 +136,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Linkedin className="w-4 h-4 fill-current" />
               </a>
               <a
-                href="https://twitter.com/freshcommits"
+                href="https://x.com/Jishaka4"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg text-slate-400 hover:text-black hover:bg-slate-100 transition-colors"
-                title="Follow @freshcommits on X / Twitter for instant drop alerts"
+                title="Follow @Jishaka4 on X / Twitter for instant drop alerts"
               >
                 <Twitter className="w-4 h-4 fill-current" />
               </a>
               <a
-                href="https://www.youtube.com/@freshcommits"
+                href="https://www.youtube.com/@FreshCommits-t3l"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg text-slate-400 hover:text-[#FF0000] hover:bg-slate-100 transition-colors"
-                title="Subscribe to FreshCommits on YouTube (Channel launching soon with career guides & interview breakdowns)"
+                title="Subscribe to FreshCommits on YouTube (@FreshCommits-t3l)"
               >
                 <Youtube className="w-4 h-4" />
               </a>
@@ -298,7 +298,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>LinkedIn</span>
             </a>
             <a
-              href="https://twitter.com/freshcommits"
+              href="https://x.com/Jishaka4"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-xs font-semibold text-slate-800 px-2.5 py-1.5 rounded-lg hover:bg-slate-100"
@@ -307,7 +307,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Twitter / X</span>
             </a>
             <a
-              href="https://www.youtube.com/@freshcommits"
+              href="https://www.youtube.com/@FreshCommits-t3l"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-xs font-semibold text-red-600 px-2.5 py-1.5 rounded-lg hover:bg-red-50"

@@ -14,7 +14,11 @@ import {
   MapPin,
   MessageSquare,
   Shield,
-  Loader2
+  Loader2,
+  Youtube,
+  Twitter,
+  Linkedin,
+  Share2
 } from 'lucide-react';
 
 export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNavigateContact }) => {
@@ -338,6 +342,48 @@ export const ContactUsView: React.FC = () => {
               <div>San Francisco, CA 94104</div>
               <div>United States</div>
             </address>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-3 text-xs text-slate-600">
+            <h2 className="font-bold text-slate-900 flex items-center gap-1.5">
+              <Share2 className="w-4 h-4 text-emerald-600" />
+              Official Social Channels
+            </h2>
+            <p className="text-[11px] text-slate-500">
+              Follow our community feeds for instant job drop announcements and software career guides:
+            </p>
+            <div className="space-y-2 pt-1">
+              <a
+                href="https://www.youtube.com/@FreshCommits-t3l"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 p-2 rounded-xl bg-red-50 hover:bg-red-100/80 text-red-700 font-semibold transition-colors"
+                title="FreshCommits YouTube Channel"
+              >
+                <Youtube className="w-4 h-4 text-red-600 flex-shrink-0" />
+                <span className="truncate">YouTube: @FreshCommits-t3l</span>
+              </a>
+              <a
+                href="https://x.com/Jishaka4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold transition-colors"
+                title="Follow on X / Twitter"
+              >
+                <Twitter className="w-4 h-4 fill-current flex-shrink-0" />
+                <span className="truncate">X / Twitter: @Jishaka4</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/freshcommits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 p-2 rounded-xl bg-blue-50 hover:bg-blue-100/80 text-[#0A66C2] font-semibold transition-colors"
+                title="FreshCommits LinkedIn"
+              >
+                <Linkedin className="w-4 h-4 fill-current flex-shrink-0" />
+                <span className="truncate">LinkedIn Community</span>
+              </a>
+            </div>
           </div>
         </div>
 

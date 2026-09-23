@@ -575,7 +575,7 @@ export default function App() {
                 </h1>
 
                 <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                  Direct, unparaphrased software engineering listings for freshers and university graduates across major US tech hubs &amp; remote. Verified direct ATS links.
+                  Direct software engineering listings for freshers and university graduates across US &amp; global tech hubs &amp; remote.
                 </p>
 
                 {/* Search & Filter Bar */}
@@ -660,26 +660,6 @@ export default function App() {
                       </label>
                     </div>
                   </div>
-
-                  {/* US Tech Hub Quick Chips */}
-                  <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-100 overflow-x-auto text-xs pb-1">
-                    <span className="text-slate-400 font-medium pl-1 flex items-center gap-1 flex-shrink-0">
-                      <MapPin className="w-3 h-3" /> Tech Hubs:
-                    </span>
-                    {TECH_HUBS.map((hub) => (
-                      <button
-                        key={hub.value}
-                        onClick={() => setSelectedHub(hub.value)}
-                        className={`px-2.5 py-1 rounded-full font-medium whitespace-nowrap transition-all ${
-                          selectedHub === hub.value
-                            ? 'bg-emerald-600 text-white shadow-sm'
-                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                        }`}
-                      >
-                        {hub.label}
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Micro Metrics Pill */}
@@ -690,7 +670,7 @@ export default function App() {
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    100% Direct ATS Links
+                    Direct Company Applications
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <TrendingUp className="w-4 h-4 text-amber-600" />
@@ -1139,22 +1119,22 @@ export default function App() {
               </a>
               <span className="text-slate-300">&bull;</span>
               <a
-                href="https://twitter.com/freshcommits"
+                href="https://x.com/Jishaka4"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 text-slate-800 font-semibold hover:underline"
-                title="X / Twitter official alerts"
+                title="X / Twitter official alerts (@Jishaka4)"
               >
                 <Twitter className="w-3.5 h-3.5 fill-current" />
                 <span>Twitter / X</span>
               </a>
               <span className="text-slate-300">&bull;</span>
               <a
-                href="https://www.youtube.com/@freshcommits"
+                href="https://www.youtube.com/@FreshCommits-t3l"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 text-red-600 font-semibold hover:underline"
-                title="FreshCommits YouTube Channel (Launching soon)"
+                title="FreshCommits YouTube Channel (@FreshCommits-t3l)"
               >
                 <Youtube className="w-3.5 h-3.5" />
                 <span>YouTube</span>
