@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel, EmploymentType } from '../types';
-import { generateFingerprint, executeAutomatedSync, syncSmartRecruitersJobs, isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
+import { generateFingerprint, executeAutomatedSync, syncSmartRecruitersJobs, isJobExpired, getDaysUntilExpiration, checkDuplicateJob } from '../utils/jobAggregator';
 import { validateJobPostingSchema, generateJobPostingSchema } from '../utils/schemaGenerator';
 import { initGA, DEFAULT_GA_MEASUREMENT_ID } from '../utils/analytics';
 import {
@@ -178,11 +178,29 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
   const validation = validateJobPostingSchema(draftJob);
 
+  // Real-time duplicate inspection against active ATS & manual inventory
+  const duplicateCheck = checkDuplicateJob(jobs, {
+    company,
+    title,
+    applyUrl,
+    location,
+    isRemote
+  });
+
   const handlePostJob = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !company || !applyUrl) {
       alert('Please fill in required fields: Job Title, Company, and Direct ATS Apply URL.');
       return;
+    }
+
+    if (duplicateCheck.isDuplicate) {
+      const confirmOverride = confirm(
+        `DUPLICATE DETECTED!\n\n${duplicateCheck.reason}\n\nPosting duplicate jobs damages candidate trust and triggers Google Search spam penalties.\n\nDo you still want to force publish this duplicate?`
+      );
+      if (!confirmOverride) {
+        return;
+      }
     }
 
     const newJob: JobPosting = {
@@ -427,6 +445,67 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             </div>
 
             <form onSubmit={handlePostJob} className="space-y-4 text-xs sm:text-sm">
+              {/* Real-time ATS & Inventory Duplicate Sentinel */}
+              {duplicateCheck.isDuplicate && (
+                <div className="p-3.5 bg-rose-50 border-2 border-rose-300 rounded-xl space-y-2 animate-fade-in shadow-2xs">
+                  <div className="flex items-start gap-2.5">
+                    <AlertTriangle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between flex-wrap gap-1">
+                        <strong className="text-xs font-bold text-rose-950">
+                          Potential Duplicate Detected ({duplicateCheck.matchType === 'EXACT_URL' ? 'Exact ATS URL Match' : duplicateCheck.matchType === 'EXACT_FINGERPRINT' ? 'Exact Company & Title Match' : 'High Keyword Similarity'})
+                        </strong>
+                        <span className="text-[10px] uppercase font-bold bg-rose-200 text-rose-800 px-1.5 py-0.5 rounded">
+                          ATS Protected
+                        </span>
+                      </div>
+                      <p className="text-xs text-rose-800 mt-1 leading-relaxed">
+                        {duplicateCheck.reason}
+                      </p>
+                    </div>
+                  </div>
+
+                  {duplicateCheck.matchingJob && (
+                    <div className="bg-white/90 border border-rose-200 rounded-lg p-2.5 text-xs text-slate-700 flex items-center justify-between gap-3 flex-wrap">
+                      <div>
+                        <span className="font-bold text-slate-900">{duplicateCheck.matchingJob.title}</span> at <span className="font-semibold text-slate-800">{duplicateCheck.matchingJob.company}</span>
+                        <div className="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+                          <span>Status: <strong>{duplicateCheck.matchingJob.status}</strong></span>
+                          <span>•</span>
+                          <span>Source: {duplicateCheck.matchingJob.source}</span>
+                          <span>•</span>
+                          <span>Posted: {duplicateCheck.matchingJob.datePosted}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={duplicateCheck.matchingJob.applyUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-2 py-1 rounded border border-indigo-200"
+                        >
+                          <ExternalLink className="w-3 h-3" /> View Existing
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  <p className="text-[11px] text-rose-700 italic">
+                    💡 Tip: If this is an updated or unique requisition, modify the title (e.g. add "(Fall 2026 Cohort)") or use a unique direct ATS link to proceed.
+                  </p>
+                </div>
+              )}
+
+              {/* Unique / Clean Status Badge when inputs are typed */}
+              {!duplicateCheck.isDuplicate && (title.trim().length > 3 || company.trim().length > 2 || applyUrl.trim().length > 10) && (
+                <div className="p-2.5 bg-emerald-50/80 border border-emerald-200 rounded-xl flex items-center gap-2 text-xs text-emerald-800">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <span>
+                    <strong>Unique Listing Confirmed:</strong> No conflicts found with current automated ATS feeds or active database.
+                  </span>
+                </div>
+              )}
+
               {/* Title & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -841,6 +920,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   {JSON.stringify(validation.jsonLd, null, 2)}
                 </pre>
               </div>
+            </div>
+
+            {/* Quality & ATS Deduplication Guide for Site Owners */}
+            <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-4 shadow-sm text-xs text-indigo-950 space-y-2.5">
+              <div className="flex items-center gap-2 font-bold text-indigo-900">
+                <Sparkles className="w-4 h-4 text-indigo-600" />
+                <span>Founder's Quality Playbook (Anti-Duplicate Guide)</span>
+              </div>
+              <ul className="space-y-1.5 text-slate-700 leading-normal pl-3 list-disc text-[11px]">
+                <li>
+                  <strong className="text-slate-900">Bypass ATS Crawlers:</strong> Focus manual posting on early-stage YC startups, Twitter/X founder hires, and niche direct emails that automated feeds never reach.
+                </li>
+                <li>
+                  <strong className="text-slate-900">Deep Link Requisitions:</strong> Always provide exact requisition URLs instead of general <code>/careers</code> landing pages.
+                </li>
+                <li>
+                  <strong className="text-slate-900">Real-Time Sentinel:</strong> Our duplicate scanner checks direct URLs, title fingerprints, and company similarity on every keystroke.
+                </li>
+              </ul>
             </div>
           </div>
         </div>

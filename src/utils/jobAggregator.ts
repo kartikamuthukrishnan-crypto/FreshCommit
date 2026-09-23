@@ -779,3 +779,108 @@ export function getDaysUntilExpiration(validThrough?: string): number | null {
   return Math.ceil((target - now.getTime()) / (1000 * 60 * 60 * 24));
 }
 
+export interface DuplicateMatchResult {
+  isDuplicate: boolean;
+  matchType?: 'EXACT_URL' | 'EXACT_FINGERPRINT' | 'FUZZY_TITLE_COMPANY';
+  matchingJob?: JobPosting;
+  reason?: string;
+}
+
+/**
+ * Checks an incoming job candidate against existing inventory to detect duplicates
+ * across exact ATS Apply URLs, fingerprint hash, or fuzzy company + role matching.
+ */
+export function checkDuplicateJob(
+  inventory: JobPosting[],
+  candidate: {
+    company: string;
+    title: string;
+    applyUrl?: string;
+    location?: string;
+    isRemote?: boolean;
+  }
+): DuplicateMatchResult {
+  if (!inventory || inventory.length === 0) {
+    return { isDuplicate: false };
+  }
+
+  const cleanUrl = (url?: string) => {
+    if (!url) return '';
+    try {
+      const u = new URL(url.trim());
+      // Strip tracking params like utm_*, gh_jid tracking, ref, etc.
+      return `${u.origin}${u.pathname}`.toLowerCase().replace(/\/+$/, '');
+    } catch {
+      return url.trim().toLowerCase().split('?')[0].replace(/\/+$/, '');
+    }
+  };
+
+  const candUrl = cleanUrl(candidate.applyUrl);
+
+  // 1. Direct Canonical ATS Apply URL check
+  if (candUrl && candUrl.length > 10 && !candUrl.includes('careers.example.com')) {
+    const urlMatch = inventory.find((j) => {
+      const existingClean = cleanUrl(j.applyUrl);
+      return existingClean && existingClean === candUrl;
+    });
+
+    if (urlMatch) {
+      return {
+        isDuplicate: true,
+        matchType: 'EXACT_URL',
+        matchingJob: urlMatch,
+        reason: `Matches exact ATS URL of "${urlMatch.title}" at ${urlMatch.company} (${urlMatch.source === 'EMPLOYER_POST' || urlMatch.source === 'MANUAL_ADMIN' ? 'Manual Posting' : 'Automated ATS Feed'})`
+      };
+    }
+  }
+
+  // 2. Exact Fingerprint check
+  const candCompany = (candidate.company || '').trim();
+  const candTitle = (candidate.title || '').trim();
+  const candLoc = candidate.isRemote ? 'remote' : (candidate.location || '').trim();
+
+  if (candCompany && candTitle) {
+    const candFingerprint = generateFingerprint(candCompany, candTitle, candLoc);
+    const fpMatch = inventory.find((j) => j.fingerprint === candFingerprint);
+
+    if (fpMatch) {
+      return {
+        isDuplicate: true,
+        matchType: 'EXACT_FINGERPRINT',
+        matchingJob: fpMatch,
+        reason: `Matches exact company & title fingerprint: "${fpMatch.title}" at ${fpMatch.company} (${fpMatch.location})`
+      };
+    }
+
+    // 3. Normalized Fuzzy Company + Title check (catches minor location or punctuation variations)
+    const norm = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normCandComp = norm(candCompany);
+    const normCandTitle = norm(candTitle);
+
+    if (normCandComp.length >= 3 && normCandTitle.length >= 4) {
+      const fuzzyMatch = inventory.find((j) => {
+        const jComp = norm(j.company);
+        const jTitle = norm(j.title);
+        // If company matches and title is either identical or one contains the other
+        if (jComp === normCandComp || jComp.includes(normCandComp) || normCandComp.includes(jComp)) {
+          if (jTitle === normCandTitle || jTitle.includes(normCandTitle) || normCandTitle.includes(jTitle)) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      if (fuzzyMatch) {
+        return {
+          isDuplicate: true,
+          matchType: 'FUZZY_TITLE_COMPANY',
+          matchingJob: fuzzyMatch,
+          reason: `High similarity with existing listing: "${fuzzyMatch.title}" at ${fuzzyMatch.company} (${fuzzyMatch.location})`
+        };
+      }
+    }
+  }
+
+  return { isDuplicate: false };
+}
+
