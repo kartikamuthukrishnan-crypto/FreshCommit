@@ -752,3 +752,30 @@ export async function executeAutomatedSync(
 
   return { newJobs, log };
 }
+
+/**
+ * Determines whether a job posting is expired based on either:
+ * 1. Explicit status !== 'ACTIVE'
+ * 2. validThrough date is earlier than today's date (auto-vanishing cutoff)
+ */
+export function isJobExpired(job: JobPosting): boolean {
+  if (!job) return true;
+  if (job.status && job.status !== 'ACTIVE') return true;
+  if (!job.validThrough) return false;
+  const todayStr = new Date().toISOString().split('T')[0];
+  return job.validThrough < todayStr;
+}
+
+/**
+ * Returns number of days remaining until expiration (positive number),
+ * 0 if expires today, or negative if already expired.
+ */
+export function getDaysUntilExpiration(validThrough?: string): number | null {
+  if (!validThrough) return null;
+  const target = new Date(validThrough).getTime();
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  if (isNaN(target)) return null;
+  return Math.ceil((target - now.getTime()) / (1000 * 60 * 60 * 24));
+}
+

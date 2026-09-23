@@ -18,6 +18,7 @@ import { HomeEditorialContent } from './components/HomeEditorialContent';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
 import { trackPageView } from './utils/analytics';
+import { isJobExpired } from './utils/jobAggregator';
 import {
   Search,
   MapPin,
@@ -459,14 +460,15 @@ export default function App() {
     { label: 'Remote (US)', value: 'Remote' },
   ];
 
-  // Filtering Logic
-  const filteredJobs = useMemo(() => {
+  // Active (Non-Expired) Jobs: Automatically vanish jobs whose validThrough date has passed or status !== 'ACTIVE'
+  const activeJobs = useMemo(() => {
     if (!Array.isArray(jobs)) return [];
-    return jobs.filter((job) => {
-      if (!job) return false;
-      // Status
-      if (job.status && job.status !== 'ACTIVE') return false;
+    return jobs.filter((job) => !isJobExpired(job));
+  }, [jobs]);
 
+  // Filtering Logic over active (non-expired) jobs
+  const filteredJobs = useMemo(() => {
+    return activeJobs.filter((job) => {
       // Text search
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
@@ -516,7 +518,7 @@ export default function App() {
 
       return true;
     });
-  }, [jobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary]);
+  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary]);
 
   // Derived Pagination Calculations
   const totalPages = Math.max(1, Math.ceil(filteredJobs.length / pageSize));
@@ -544,7 +546,7 @@ export default function App() {
       <Navbar
         activeTab={activeTab}
         setActiveTab={handleTabChange}
-        jobCount={jobs.length}
+        jobCount={activeJobs.length}
         isAdminAuthenticated={isAdminAuthenticated}
         onLogoutAdmin={handleLogoutAdmin}
       />
@@ -590,7 +592,7 @@ export default function App() {
                           : 'text-slate-600 hover:text-slate-900'
                       }`}
                     >
-                      All Openings ({jobs.length})
+                      All Openings ({activeJobs.length})
                     </button>
                     <button
                       onClick={() => setSelectedExperience('Entry Level')}
@@ -600,7 +602,7 @@ export default function App() {
                           : 'text-slate-600 hover:text-slate-900'
                       }`}
                     >
-                      Full-Time 0–2 YoE ({jobs.filter((j) => j.experienceLevel !== 'Internship').length})
+                      Full-Time 0–2 YoE ({activeJobs.filter((j) => j.experienceLevel !== 'Internship').length})
                     </button>
                     <button
                       onClick={() => setSelectedExperience('Internship')}
@@ -614,7 +616,7 @@ export default function App() {
                       <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                         selectedExperience === 'Internship' ? 'bg-violet-700 text-white' : 'bg-violet-100 text-violet-800'
                       }`}>
-                        {jobs.filter((j) => j.experienceLevel === 'Internship').length}
+                        {activeJobs.filter((j) => j.experienceLevel === 'Internship').length}
                       </span>
                     </button>
                   </div>
@@ -666,7 +668,7 @@ export default function App() {
                 <div className="flex items-center justify-center gap-6 text-xs text-slate-500 mt-6 flex-wrap">
                   <span className="flex items-center gap-1.5 font-medium">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <strong>{jobs.length}</strong> Early-Career Listings
+                    <strong>{activeJobs.length}</strong> Early-Career Listings
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />

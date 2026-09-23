@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel, EmploymentType } from '../types';
-import { generateFingerprint, executeAutomatedSync, syncSmartRecruitersJobs } from '../utils/jobAggregator';
+import { generateFingerprint, executeAutomatedSync, syncSmartRecruitersJobs, isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
 import { validateJobPostingSchema, generateJobPostingSchema } from '../utils/schemaGenerator';
 import { initGA, DEFAULT_GA_MEASUREMENT_ID } from '../utils/analytics';
 import {
@@ -254,6 +254,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setJobs((prev) =>
       prev.map((j) => (j.id === id ? { ...j, status: j.status === 'ACTIVE' ? 'EXPIRED' : 'ACTIVE' } : j))
     );
+  };
+
+  const expiredJobs = jobs.filter((j) => isJobExpired(j));
+  const liveActiveJobs = jobs.filter((j) => !isJobExpired(j));
+
+  const handlePurgeExpiredJobs = () => {
+    if (confirm(`Are you sure you want to permanently purge all ${expiredJobs.length} expired/vanished listings?`)) {
+      setJobs((prev) => prev.filter((j) => !isJobExpired(j)));
+    }
   };
 
   return (
@@ -724,6 +733,33 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
               </div>
 
+              {/* Auto-Vanish Window Configuration */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
+                <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
+                  <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-emerald-600" />
+                    Auto-Vanish Window (Validity Duration)
+                  </label>
+                  <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold">
+                    Vanishes on: {new Date(Date.now() + validDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0]} ({validDays}d)
+                  </span>
+                </div>
+                <select
+                  value={validDays}
+                  onChange={(e) => setValidDays(Number(e.target.value))}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white text-slate-800 font-medium focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value={14}>14 Days — Short sprint / urgent requisition</option>
+                  <option value={30}>30 Days — Standard early-career window</option>
+                  <option value={45}>45 Days — Automated ATS Default (Recommended)</option>
+                  <option value={60}>60 Days — University graduate hiring cycle</option>
+                  <option value={90}>90 Days — Summer internship pipeline</option>
+                </select>
+                <p className="text-[11px] text-slate-500 mt-1.5">
+                  Once this date is reached, the job will automatically vanish from public listings, search filters, and Google schema without requiring manual deletion.
+                </p>
+              </div>
+
               {/* Submit Button */}
               <div className="pt-2">
                 <button
@@ -995,99 +1031,145 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       {/* TAB 3: MANAGE LISTINGS */}
       {activeTab === 'manage' && (
         <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4 flex-wrap gap-2">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4 flex-wrap gap-3">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Manage Active Job Postings ({jobs.length})</h2>
-              <p className="text-xs text-slate-500">Monitor active listings, views, and toggle expiration status.</p>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-lg font-bold text-slate-900">Job Inventory</h2>
+                <span className="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                  {liveActiveJobs.length} Live Active
+                </span>
+                {expiredJobs.length > 0 && (
+                  <span className="text-xs bg-rose-50 text-rose-700 font-bold px-2 py-0.5 rounded-full border border-rose-200">
+                    {expiredJobs.length} Auto-Vanished (Expired)
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-slate-500 mt-1">
+                Active listings are live on the public feed and Google search index. Listings past their validity date automatically vanish.
+              </p>
             </div>
+
+            {expiredJobs.length > 0 && (
+              <button
+                onClick={handlePurgeExpiredJobs}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 transition-colors shadow-2xs"
+                title="Permanently remove all expired listings"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                Purge {expiredJobs.length} Vanished Listing{expiredJobs.length > 1 ? 's' : ''}
+              </button>
+            )}
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead className="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200">
                 <tr>
-                  <th className="py-2.5 px-3">Company & Role</th>
+                  <th className="py-2.5 px-3">Company &amp; Role</th>
                   <th className="py-2.5 px-3">Location</th>
                   <th className="py-2.5 px-3">Level / YoE</th>
                   <th className="py-2.5 px-3">Salary</th>
                   <th className="py-2.5 px-3">Source</th>
+                  <th className="py-2.5 px-3">Auto-Vanish / Expiry</th>
                   <th className="py-2.5 px-3">Status</th>
                   <th className="py-2.5 px-3 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {jobs.map((job) => (
-                  <tr key={job.id} className="hover:bg-slate-50">
-                    <td className="py-3 px-3">
-                      <div className="font-bold text-slate-900">{job.title}</div>
-                      <div className="text-slate-500 text-[11px]">{job.company}</div>
-                    </td>
-                    <td className="py-3 px-3">
-                      <span>{job.location}</span>
-                      {job.isRemote && (
-                        <span className="ml-1 text-[10px] bg-violet-50 text-violet-700 px-1 py-0.2 rounded font-semibold">
-                          Remote
+                {jobs.map((job) => {
+                  const expired = isJobExpired(job);
+                  const daysLeft = getDaysUntilExpiration(job.validThrough);
+
+                  return (
+                    <tr key={job.id} className={`hover:bg-slate-50 transition-colors ${expired ? 'bg-slate-50/60 opacity-80' : ''}`}>
+                      <td className="py-3 px-3">
+                        <div className="font-bold text-slate-900">{job.title}</div>
+                        <div className="text-slate-500 text-[11px]">{job.company}</div>
+                      </td>
+                      <td className="py-3 px-3">
+                        <span>{job.location}</span>
+                        {job.isRemote && (
+                          <span className="ml-1 text-[10px] bg-violet-50 text-violet-700 px-1 py-0.2 rounded font-semibold">
+                            Remote
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-3 px-3">
+                        <span className="bg-slate-100 px-2 py-0.5 rounded text-slate-700 font-medium">
+                          {job.experienceLevel} ({job.maxYearsExperience} YoE)
                         </span>
-                      )}
-                    </td>
-                    <td className="py-3 px-3">
-                      <span className="bg-slate-100 px-2 py-0.5 rounded text-slate-700 font-medium">
-                        {job.experienceLevel} ({job.maxYearsExperience} YoE)
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 font-semibold text-emerald-700">
-                      ${Math.round(job.salary.min / 1000)}k–${Math.round(job.salary.max / 1000)}k
-                    </td>
-                    <td className="py-3 px-3">
-                      <span
-                        className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${
-                          job.source === 'EMPLOYER_POST'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-sky-50 text-sky-700 border border-sky-200'
-                        }`}
-                      >
-                        {job.source === 'EMPLOYER_POST' ? 'Direct Employer' : 'ATS Aggregated'}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3">
-                      <button
-                        onClick={() => handleToggleStatus(job.id)}
-                        className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${
-                          job.status === 'ACTIVE'
-                            ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                            : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                        }`}
-                      >
-                        {job.status}
-                      </button>
-                    </td>
-                    <td className="py-3 px-3 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <a
-                          href={job.applyUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1 text-slate-400 hover:text-indigo-600"
-                          title="Open ATS Apply URL"
+                      </td>
+                      <td className="py-3 px-3 font-semibold text-emerald-700">
+                        ${Math.round(job.salary.min / 1000)}k–${Math.round(job.salary.max / 1000)}k
+                      </td>
+                      <td className="py-3 px-3">
+                        <span
+                          className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${
+                            job.source === 'EMPLOYER_POST'
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : 'bg-sky-50 text-sky-700 border border-sky-200'
+                          }`}
                         >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </a>
+                          {job.source === 'EMPLOYER_POST' ? 'Direct Employer' : 'ATS Aggregated'}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3">
+                        {expired ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200">
+                            <AlertTriangle className="w-3 h-3" /> Vanished
+                          </span>
+                        ) : (
+                          <div className="text-[11px]">
+                            <span className="font-mono text-slate-700">{job.validThrough || 'No date set'}</span>
+                            {daysLeft !== null && (
+                              <span className="block text-[10px] text-slate-400">
+                                {daysLeft <= 0 ? 'Expires today' : `${daysLeft}d left`}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </td>
+                      <td className="py-3 px-3">
                         <button
-                          onClick={() => handleDeleteJob(job.id)}
-                          className="p-1 text-slate-400 hover:text-rose-600"
-                          title="Delete listing"
+                          onClick={() => handleToggleStatus(job.id)}
+                          className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${
+                            job.status === 'ACTIVE' && !expired
+                              ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                              : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                          }`}
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          {job.status}
                         </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="py-3 px-3 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <a
+                            href={job.applyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1 text-slate-400 hover:text-indigo-600"
+                            title="Open ATS Apply URL"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                          <button
+                            onClick={() => handleDeleteJob(job.id)}
+                            className="p-1 text-slate-400 hover:text-rose-600"
+                            title="Delete listing"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         </div>
       )}
+
 
       {/* TAB 4: GOOGLE SCHEMA INSPECTOR */}
       {activeTab === 'schema-tester' && (

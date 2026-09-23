@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { JobPosting, AdSenseConfig } from '../types';
 import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { trackJobView, trackApplyClick } from '../utils/analytics';
+import { isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -11,10 +12,12 @@ import {
   Calendar,
   ExternalLink,
   CheckCircle2,
+  AlertTriangle,
   Copy,
   Check,
   Globe,
-  Link2
+  Link2,
+  Clock
 } from 'lucide-react';
 
 interface JobDetailsModalProps {
@@ -165,14 +168,33 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
 
         {/* Modal Scrollable Content */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-800 text-sm leading-relaxed">
-          {/* Authenticity / Direct ATS Notice */}
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-            <div className="text-xs text-slate-600">
-              <strong className="text-slate-900 block mb-0.5">Verified Early-Career Listing</strong>
-              This job was screened for strict entry-level requirements (&le; 2 years experience). The description below is presented in its original, authentic employer format without automated paraphrasing.
+          {/* Expiration Notice if past deadline */}
+          {isJobExpired(job) ? (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+              <div className="text-xs text-amber-900">
+                <strong className="text-amber-950 block mb-0.5 font-bold">This Listing Has Expired / Reached Its Deadline</strong>
+                This position's official application window concluded on {job.validThrough || 'recently'}. The direct application link is retained below in case the hiring team accepts rolling candidates.
+              </div>
             </div>
-          </div>
+          ) : (
+            /* Authenticity / Direct ATS Notice */
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+              <div className="text-xs text-slate-600">
+                <strong className="text-slate-900 block mb-0.5">Verified Early-Career Listing</strong>
+                This job was screened for strict entry-level requirements (&le; 2 years experience). The description below is presented in its original, authentic employer format without automated paraphrasing.
+                {job.validThrough && (
+                  <span className="block mt-1 text-[11px] text-slate-500">
+                    Application window valid through: <strong>{job.validThrough}</strong>
+                    {getDaysUntilExpiration(job.validThrough) !== null && getDaysUntilExpiration(job.validThrough)! > 0 && (
+                      <span> ({getDaysUntilExpiration(job.validThrough)} days remaining)</span>
+                    )}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Overview */}
           <div>
