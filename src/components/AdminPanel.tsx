@@ -33,6 +33,8 @@ import {
   FileText
 } from 'lucide-react';
 import { extractAndEnrichJobFromUrl } from '../utils/jobExtractor';
+import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
+import { Target, Award, Zap } from 'lucide-react';
 
 interface AdminPanelProps {
   jobs: JobPosting[];
@@ -145,6 +147,57 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [srKeyword, setSrKeyword] = useState('junior software engineer');
   const [srRemoteOnly, setSrRemoteOnly] = useState(false);
   const [srLoading, setSrLoading] = useState(false);
+
+  // Focus Keyword & AdSense JD Generator State
+  const [selectedMicroNiche, setSelectedMicroNiche] = useState<MicroNichePreset>(MICRO_NICHE_PRESETS[0]);
+  const [seoJdSuccessMsg, setSeoJdSuccessMsg] = useState('');
+
+  const handleApplyMicroNichePreset = (preset: MicroNichePreset) => {
+    setSelectedMicroNiche(preset);
+    // Auto populate compatible defaults if fields are empty or default
+    if (!country || country === 'US' || country === 'IN') {
+      setCountry(preset.defaultCountry);
+    }
+    if (preset.isRemote) {
+      setIsRemote(true);
+      setApplicantLocationRequirements(preset.defaultCountry);
+      setLocation(preset.defaultLocation);
+    } else {
+      setIsRemote(false);
+      setLocation(preset.defaultLocation);
+    }
+    setSalaryCurrency(preset.suggestedSalaryRange.currency);
+    setSalaryMin(preset.suggestedSalaryRange.min);
+    setSalaryMax(preset.suggestedSalaryRange.max);
+  };
+
+  const handleGenerateSeoJd = () => {
+    const rawSkills = skillsText.split(',').map((s) => s.trim()).filter(Boolean);
+    const responsibilities = responsibilitiesText.split('\n').map((r) => r.trim()).filter(Boolean);
+    const qualifications = qualificationsText.split('\n').map((q) => q.trim()).filter(Boolean);
+
+    const generated = generateAdSenseCompliantJd({
+      title: title || 'Software Engineer - Early Career',
+      company: company || 'Tech Innovations Inc',
+      location: location || selectedMicroNiche.defaultLocation,
+      isRemote,
+      selectedNiche: selectedMicroNiche,
+      skills: rawSkills,
+      salaryMin,
+      salaryMax,
+      salaryCurrency,
+      responsibilities,
+      qualifications,
+      atsProvider: applyUrl.includes('smartrecruiters') ? 'SmartRecruiters' : applyUrl.includes('greenhouse') ? 'Greenhouse' : applyUrl.includes('lever') ? 'Lever' : undefined,
+      rawOverview: description
+    });
+
+    setDescription(generated.description);
+    setResponsibilitiesText(generated.responsibilities.join('\n'));
+    setQualificationsText(generated.qualifications.join('\n'));
+    setSeoJdSuccessMsg(`✨ High-RPM SEO Job Description Generated (${generated.seoQualityScore}% Quality Score)! Google AdSense & Helpful Content policy compliant.`);
+    setTimeout(() => setSeoJdSuccessMsg(''), 6000);
+  };
 
   // Draft Job Object for Live Validation
   const draftJob: JobPosting = {
@@ -894,19 +947,154 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
               </div>
 
+              {/* High-RPM Focus Keyword & Google AdSense SEO JD Toolkit */}
+              <div className="p-4 bg-gradient-to-br from-indigo-50/90 via-sky-50/60 to-purple-50/50 border-2 border-indigo-200/90 rounded-2xl shadow-sm space-y-3">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+                      <Target className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                        High-RPM Focus Keyword &amp; AdSense JD Generator
+                        <span className="text-[10px] normal-case bg-indigo-100 text-indigo-700 font-semibold px-2 py-0.5 rounded-full border border-indigo-200">
+                          Google Helpful Content Compliant
+                        </span>
+                      </h4>
+                      <p className="text-[11px] text-slate-600">
+                        Synthesizes high-paying search intent, editorial commentary, and structured qualifications.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                    <Award className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>AdSense Quality Certified</span>
+                  </div>
+                </div>
+
+                {/* 1-Click Micro-Niche Preset Selector */}
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                    Select Target Micro-Niche (Click to auto-apply keywords &amp; pay tier):
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {MICRO_NICHE_PRESETS.map((preset) => {
+                      const isSelected = selectedMicroNiche.id === preset.id;
+                      return (
+                        <button
+                          key={preset.id}
+                          type="button"
+                          onClick={() => handleApplyMicroNichePreset(preset)}
+                          className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                            isSelected
+                              ? 'bg-indigo-600 text-white border-indigo-700 shadow-sm ring-2 ring-indigo-300'
+                              : 'bg-white hover:bg-indigo-50/50 text-slate-800 border-slate-200'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-1 mb-1">
+                            <span className="font-bold text-xs leading-tight line-clamp-1">{preset.name}</span>
+                            <span
+                              className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded ${
+                                isSelected
+                                  ? 'bg-white/20 text-white'
+                                  : preset.rpmTier === 'HIGH_RPM'
+                                  ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                                  : 'bg-blue-100 text-blue-800 border border-blue-200'
+                              }`}
+                            >
+                              {preset.rpmTier === 'HIGH_RPM' ? '💰 High RPM' : '🔥 Viral Vol'}
+                            </span>
+                          </div>
+                          <p className={`text-[10px] line-clamp-2 ${isSelected ? 'text-indigo-100' : 'text-slate-500'}`}>
+                            {preset.targetAudience}
+                          </p>
+                          <div className="mt-1.5 pt-1.5 border-t border-current/15 flex items-center justify-between text-[10px]">
+                            <span className="font-mono opacity-90">
+                              {preset.suggestedSalaryRange.currency === 'INR'
+                                ? `₹${preset.suggestedSalaryRange.min / 100000}L–₹${preset.suggestedSalaryRange.max / 100000}L`
+                                : `$${preset.suggestedSalaryRange.min / 1000}k–$${preset.suggestedSalaryRange.max / 1000}k`}
+                            </span>
+                            <span className="italic opacity-80">{preset.defaultLocation.split('(')[0].trim()}</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Primary Keywords for Selected Niche */}
+                <div className="bg-white/80 border border-indigo-100 rounded-xl p-2.5">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                      <Zap className="w-3.5 h-3.5 text-amber-500" />
+                      Target Search Keywords included in this posting:
+                    </span>
+                    <span className="text-[10px] text-slate-500 font-mono">
+                      {selectedMicroNiche.primaryKeywords.length} Search Queries
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedMicroNiche.primaryKeywords.map((kw, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] font-medium bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md border border-slate-200 font-mono"
+                      >
+                        #{kw}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-1.5 italic">
+                    💡 <strong>AdSense Strategy:</strong> {selectedMicroNiche.guidelinesNotes}
+                  </p>
+                </div>
+
+                {/* Generate Button & Feedback */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={handleGenerateSeoJd}
+                    className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+                  >
+                    <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                    <span>Generate AdSense-Compliant Editorial JD</span>
+                  </button>
+                  <span className="text-[11px] text-slate-500 text-center sm:text-right">
+                    Generates 150+ words of authentic editorial review, structured checklist &amp; requirements.
+                  </span>
+                </div>
+
+                {seoJdSuccessMsg && (
+                  <div className="p-2.5 bg-emerald-50 border border-emerald-300 rounded-xl text-xs text-emerald-800 flex items-center gap-2 animate-fade-in shadow-2xs">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                    <span className="font-medium">{seoJdSuccessMsg}</span>
+                  </div>
+                )}
+              </div>
+
               {/* Unparaphrased Description */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Job Description (Original & Authentic) <span className="text-rose-500">*</span>
+                  Job Description (Original &amp; Editorial Content) <span className="text-rose-500">*</span>
                 </label>
                 <textarea
-                  rows={4}
+                  rows={6}
                   required
-                  placeholder="Paste verbatim job description from employer..."
+                  placeholder="Paste verbatim job description or use 'Generate AdSense-Compliant Editorial JD' above..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed"
                 />
+                <div className="flex items-center justify-between text-[11px] text-slate-500 mt-1">
+                  <span>
+                    Word count: <strong>{description.split(/\s+/).filter(Boolean).length} words</strong>{' '}
+                    {description.split(/\s+/).filter(Boolean).length >= 150 ? (
+                      <span className="text-emerald-600 font-semibold">(✅ Meets AdSense Helpful Content length)</span>
+                    ) : (
+                      <span className="text-amber-600">(⚠️ Suggest 150+ words for AdSense indexing)</span>
+                    )}
+                  </span>
+                  <span className="text-[10px] text-slate-400">Preserves original requirements without thin content penalties</span>
+                </div>
               </div>
 
               {/* Responsibilities & Qualifications */}
