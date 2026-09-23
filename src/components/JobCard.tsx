@@ -1,15 +1,17 @@
 import React from 'react';
 import { JobPosting } from '../types';
-import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight } from 'lucide-react';
+import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight, Bookmark } from 'lucide-react';
 import { SocialShare } from './SocialShare';
 
 interface JobCardProps {
   job: JobPosting;
   onSelect: (job: JobPosting) => void;
   onViewSchema?: (job: JobPosting) => void;
+  isSaved?: boolean;
+  onToggleSave?: (jobId: string, e: React.MouseEvent) => void;
 }
 
-export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
+export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onToggleSave }) => {
   const getCurrencySymbol = (curr?: string) => {
     switch (curr?.toUpperCase()) {
       case 'GBP': return '£';
@@ -103,8 +105,22 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect }) => {
             </div>
           </div>
 
-          {/* Experience Badge */}
-          <div className="flex flex-col items-end">
+          {/* Experience Badge & Bookmark */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {onToggleSave && (
+              <button
+                type="button"
+                onClick={(e) => onToggleSave(job.id, e)}
+                title={isSaved ? 'Remove from saved jobs' : 'Save job'}
+                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                  isSaved
+                    ? 'bg-amber-50 border-amber-300 text-amber-600 shadow-2xs'
+                    : 'bg-white border-slate-200 text-slate-400 hover:text-amber-500 hover:border-amber-200 hover:bg-amber-50/50'
+                }`}
+              >
+                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-amber-500 text-amber-500' : ''}`} />
+              </button>
+            )}
             {job.experienceLevel === 'Internship' ? (
               <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-violet-100 text-violet-800 border border-violet-200">
                 🎓 Internship

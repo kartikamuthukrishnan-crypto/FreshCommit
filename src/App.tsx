@@ -42,7 +42,8 @@ import {
   Linkedin,
   Twitter,
   Youtube,
-  Share2
+  Share2,
+  Bookmark
 } from 'lucide-react';
 
 const STORAGE_KEY_JOBS = 'freshcommit_jobs_v5';
@@ -439,6 +440,30 @@ export default function App() {
   const [selectedExperience, setSelectedExperience] = useState<string>('All');
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [minSalary, setMinSalary] = useState<number>(0);
+  const [savedOnly, setSavedOnly] = useState(false);
+
+  // Saved Jobs Bookmarking state (Stored in LocalStorage)
+  const [savedJobIds, setSavedJobIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('freshcommits_saved_jobs_v1');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const handleToggleSaveJob = (jobId: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setSavedJobIds((prev) => {
+      const updated = prev.includes(jobId) ? prev.filter((id) => id !== jobId) : [...prev, jobId];
+      try {
+        localStorage.setItem('freshcommits_saved_jobs_v1', JSON.stringify(updated));
+      } catch (err) {
+        console.warn('Failed saving bookmarks', err);
+      }
+      return updated;
+    });
+  };
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -447,7 +472,7 @@ export default function App() {
   // Reset to page 1 whenever any search, filter, or category changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, pageSize]);
+  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, pageSize, savedOnly]);
 
   // US Tech Hubs list
   const TECH_HUBS = [
@@ -516,9 +541,14 @@ export default function App() {
         return false;
       }
 
+      // Bookmarked / Saved Only
+      if (savedOnly && !savedJobIds.includes(job.id)) {
+        return false;
+      }
+
       return true;
     });
-  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary]);
+  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, savedOnly, savedJobIds]);
 
   // Derived Pagination Calculations
   const totalPages = Math.max(1, Math.ceil(filteredJobs.length / pageSize));
@@ -618,6 +648,26 @@ export default function App() {
                       }`}>
                         {activeJobs.filter((j) => j.experienceLevel === 'Internship').length}
                       </span>
+                    </button>
+
+                    <button
+                      onClick={() => setSavedOnly(!savedOnly)}
+                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                        savedOnly
+                          ? 'bg-amber-500 text-white shadow-xs'
+                          : 'text-amber-900 hover:bg-amber-100/60'
+                      }`}
+                      title="View bookmarked jobs"
+                    >
+                      <Bookmark className={`w-3.5 h-3.5 ${savedOnly ? 'fill-white text-white' : 'text-amber-600'}`} />
+                      <span>Saved</span>
+                      {savedJobIds.length > 0 && (
+                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                          savedOnly ? 'bg-amber-600 text-white' : 'bg-amber-200 text-amber-900 font-bold'
+                        }`}>
+                          {savedJobIds.length}
+                        </span>
+                      )}
                     </button>
                   </div>
 
@@ -768,6 +818,8 @@ export default function App() {
                         key={job.id}
                         job={job}
                         onSelect={handleSelectJob}
+                        isSaved={savedJobIds.includes(job.id)}
+                        onToggleSave={handleToggleSaveJob}
                       />
                     ))}
                   </div>
@@ -787,6 +839,8 @@ export default function App() {
                           key={job.id}
                           job={job}
                           onSelect={handleSelectJob}
+                          isSaved={savedJobIds.includes(job.id)}
+                          onToggleSave={handleToggleSaveJob}
                         />
                       ))}
                     </div>
@@ -982,6 +1036,8 @@ export default function App() {
         job={selectedJob}
         onClose={handleCloseJob}
         adConfig={adConfig}
+        isSaved={selectedJob ? savedJobIds.includes(selectedJob.id) : false}
+        onToggleSave={handleToggleSaveJob}
       />
 
       {/* Legal & Compliance Modals (Privacy Policy, Terms, Disclaimer) */}

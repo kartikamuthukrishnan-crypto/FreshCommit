@@ -29,7 +29,8 @@ import {
   Mail,
   Clock,
   BarChart3,
-  Link as LinkIcon
+  Link as LinkIcon,
+  FileText
 } from 'lucide-react';
 import { extractAndEnrichJobFromUrl } from '../utils/jobExtractor';
 
@@ -92,6 +93,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   });
   const [gaMsg, setGaMsg] = useState('');
+  const [copiedAdsTxt, setCopiedAdsTxt] = useState(false);
 
   const handleSaveGaId = () => {
     const trimmed = gaId.trim();
@@ -1738,6 +1740,40 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <strong className="text-emerald-950 block">Extremely Lightweight & High Web Vitals</strong>
                   Zero unnecessary heavy libraries, zero render blocking, and fast mobile viewport response for optimal AdSense quality score.
                 </div>
+              </div>
+            </div>
+
+            {/* Authorized ads.txt Generator */}
+            <div className="pt-4 border-t border-slate-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-indigo-600" />
+                  Authorized ads.txt Generator
+                </span>
+                <span className="text-[10px] text-slate-500 font-mono">/ads.txt</span>
+              </div>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                Google AdSense requires an <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-700">ads.txt</code> file in your domain root to prevent unauthorized inventory sales.
+              </p>
+              <div className="bg-slate-900 text-emerald-400 p-2.5 rounded-xl font-mono text-[11px] flex items-center justify-between gap-3 shadow-inner">
+                <code className="truncate">
+                  {adConfig.publisherId.trim()
+                    ? `google.com, ${adConfig.publisherId.trim().replace(/^ca-/, '')}, DIRECT, f08c47fec0942fa0`
+                    : 'google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0'}
+                </code>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const pub = adConfig.publisherId.trim().replace(/^ca-/, '') || 'pub-XXXXXXXXXXXXXXXX';
+                    const text = `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`;
+                    navigator.clipboard.writeText(text);
+                    setCopiedAdsTxt(true);
+                    setTimeout(() => setCopiedAdsTxt(false), 2000);
+                  }}
+                  className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-[10px] font-bold border border-slate-700 transition-colors flex-shrink-0 cursor-pointer"
+                >
+                  {copiedAdsTxt ? '✓ Copied' : 'Copy'}
+                </button>
               </div>
             </div>
           </div>

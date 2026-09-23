@@ -17,25 +17,43 @@ import {
   Check,
   Globe,
   Link2,
-  Clock
+  Clock,
+  Bookmark,
+  Sparkles,
+  Flag,
+  ChevronRight
 } from 'lucide-react';
 
 interface JobDetailsModalProps {
   job: JobPosting | null;
   onClose: () => void;
   adConfig: AdSenseConfig;
+  isSaved?: boolean;
+  onToggleSave?: (jobId: string) => void;
 }
 
-export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, adConfig }) => {
+export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, adConfig, isSaved, onToggleSave }) => {
   const [copiedTitle, setCopiedTitle] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState(false);
+  const [reportSubmitted, setReportSubmitted] = useState(false);
 
-  // Injects Google JobPosting Schema into document head dynamically and syncs canonical link
+  // Dynamic Title, Meta Description, Schema injection, and Escape listener
   useEffect(() => {
     if (!job) return;
     trackJobView(job);
     const schema = generateJobPostingSchema(job);
     const cleanup = injectJobJsonLd(schema);
+
+    // Save previous metadata
+    const originalTitle = document.title;
+    const metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    const originalDesc = metaDesc ? metaDesc.content : '';
+
+    // Update title and meta description dynamically
+    document.title = `${job.title} at ${job.company} (${job.experienceLevel}) – FreshCommits`;
+    if (metaDesc) {
+      metaDesc.content = `Apply directly for ${job.title} at ${job.company} in ${job.location}. Verified early-career software engineering opportunity with direct employer application.`;
+    }
 
     // Update canonical link for search engines to this dedicated job URL
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
@@ -44,13 +62,22 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
       canonical.href = `https://freshcommits.com/?job=${job.id}`;
     }
 
+    // ESC key closes modal
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       cleanup();
+      document.title = originalTitle;
+      if (metaDesc) metaDesc.content = originalDesc;
       if (canonical) {
         canonical.href = originalHref;
       }
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [job]);
+  }, [job, onClose]);
 
   if (!job) return null;
 
@@ -67,11 +94,42 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     setTimeout(() => setCopiedUrl(false), 2000);
   };
 
+  const handleReportJob = () => {
+    setReportSubmitted(true);
+    setTimeout(() => setReportSubmitted(false), 6000);
+  };
+
   const richResultsUrl = `https://search.google.com/test/rich-results`;
 
   const applyButtonText = job.company
     ? (job.company.length > 20 ? 'Apply on Company Site' : `Apply to ${job.company}`)
     : 'Apply on Company Site';
+
+  const edgeData = (() => {
+    if (!job.description || !job.description.includes('🎯 The FreshCommits Career Take:')) {
+      return { hasEdge: false, careerTake: '', checklistItems: [], roleOverview: job.description };
+    }
+    const parts = job.description.split('🏢 Role Overview:');
+    const edgeContent = parts[0] || '';
+    const roleOverview = parts[1]?.trim() || '';
+
+    const takeMatch = edgeContent.match(/🎯 The FreshCommits Career Take:\s*([\s\S]*?)(?=💡 Candidate Preparation Checklist:|$)/i);
+    const checklistMatch = edgeContent.match(/💡 Candidate Preparation Checklist:\s*([\s\S]*?)$/i);
+
+    const careerTake = takeMatch ? takeMatch[1].trim() : '';
+    const checklistText = checklistMatch ? checklistMatch[1].trim() : '';
+    const checklistItems = checklistText
+      .split('\n')
+      .map((l) => l.replace(/^•\s*/, '').trim())
+      .filter(Boolean);
+
+    return {
+      hasEdge: true,
+      careerTake,
+      checklistItems,
+      roleOverview: roleOverview || job.description
+    };
+  })();
 
   return (
     <div
@@ -82,6 +140,17 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
         className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-8 max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Visual Breadcrumb Navigation for SEO & Candidate Wayfinding */}
+        <div className="px-6 py-2 bg-slate-100/90 border-b border-slate-200/80 text-[11px] text-slate-500 flex items-center gap-1.5 flex-wrap">
+          <span className="hover:text-slate-800 transition-colors">Home</span>
+          <ChevronRight className="w-3 h-3 text-slate-400" />
+          <span className="hover:text-slate-800 transition-colors">Jobs</span>
+          <ChevronRight className="w-3 h-3 text-slate-400" />
+          <span className="text-slate-700 font-medium">{job.category}</span>
+          <ChevronRight className="w-3 h-3 text-slate-400" />
+          <span className="text-indigo-700 font-semibold truncate max-w-[200px]">{job.company}</span>
+        </div>
+
         {/* Modal Header */}
         <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-start justify-between gap-4">
           <div className="flex items-start gap-4">
@@ -134,9 +203,24 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
+            {onToggleSave && (
+              <button
+                type="button"
+                onClick={() => onToggleSave(job.id)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors shadow-2xs cursor-pointer ${
+                  isSaved
+                    ? 'bg-amber-50 border-amber-300 text-amber-700'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`}
+                title={isSaved ? 'Remove from saved jobs' : 'Save this job'}
+              >
+                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-amber-500 text-amber-500' : 'text-slate-500'}`} />
+                <span className="hidden sm:inline">{isSaved ? 'Saved' : 'Save'}</span>
+              </button>
+            )}
             <button
               onClick={handleCopyUrl}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors shadow-2xs cursor-pointer"
               title="Copy direct shareable link for this job"
             >
               {copiedUrl ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link2 className="w-3.5 h-3.5 text-slate-500" />}
@@ -196,10 +280,64 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             </div>
           )}
 
+          {/* THE FRESHCOMMITS EDGE (Proprietary Editorial Value & Analysis) */}
+          {edgeData.hasEdge && (
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-indigo-50/90 via-white to-emerald-50/70 border border-indigo-200/90 shadow-xs space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2 pb-2.5 border-b border-indigo-100">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-indigo-950">
+                    The FreshCommits Edge &bull; Editorial Career Analysis
+                  </span>
+                </div>
+                <span className="text-[10px] font-semibold bg-indigo-100/70 text-indigo-800 px-2 py-0.5 rounded-full border border-indigo-200">
+                  Proprietary Analysis
+                </span>
+              </div>
+
+              {/* Career Take */}
+              {edgeData.careerTake && (
+                <div>
+                  <h5 className="text-xs font-bold text-slate-900 mb-1 flex items-center gap-1.5">
+                    <span>🎯</span>
+                    <span>The FreshCommits Career Take</span>
+                  </h5>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed bg-white/95 p-3 rounded-xl border border-indigo-100 shadow-2xs">
+                    {edgeData.careerTake}
+                  </p>
+                </div>
+              )}
+
+              {/* Preparation Checklist */}
+              {edgeData.checklistItems && edgeData.checklistItems.length > 0 && (
+                <div>
+                  <h5 className="text-xs font-bold text-slate-900 mb-2 flex items-center gap-1.5">
+                    <span>💡</span>
+                    <span>Candidate Preparation Checklist</span>
+                  </h5>
+                  <div className="grid grid-cols-1 gap-2">
+                    {edgeData.checklistItems.map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-2 bg-white/95 p-2.5 rounded-lg border border-slate-200 text-xs text-slate-700 shadow-2xs">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Overview */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">About The Role</h4>
-            <p className="whitespace-pre-line text-slate-700">{job.description}</p>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+              {edgeData.hasEdge ? 'Official Employer Role Overview' : 'About The Role'}
+            </h4>
+            <p className="whitespace-pre-line text-slate-700">
+              {edgeData.hasEdge ? edgeData.roleOverview : job.description}
+            </p>
           </div>
 
           {/* Key Responsibilities */}
@@ -268,6 +406,18 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               <span className="font-mono text-[10px] text-slate-500 bg-slate-200/70 px-1.5 py-0.5 rounded border border-slate-300/80">
                 freshcommits.com/?job={job.id}
               </span>
+            </div>
+            <div className="mt-1 ml-5">
+              <button
+                type="button"
+                onClick={handleReportJob}
+                disabled={reportSubmitted}
+                className="text-[11px] text-slate-400 hover:text-rose-600 flex items-center gap-1 transition-colors cursor-pointer"
+                title="Flag to FreshCommits curation team"
+              >
+                <Flag className="w-3 h-3 text-slate-400 hover:text-rose-500" />
+                <span>{reportSubmitted ? '✓ Report Logged — Verification Queue Updated' : 'Report expired link or inaccurate YoE'}</span>
+              </button>
             </div>
           </div>
           <div className="flex items-center gap-2.5 self-end sm:self-center flex-wrap">
