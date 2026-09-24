@@ -162,6 +162,22 @@ export default function App() {
           } catch {
             // ignore
           }
+
+          // If the user or crawler navigated to a specific ?job= that just arrived from Firestore, select it
+          try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetJobId = urlParams.get('job') || urlParams.get('jobId');
+            if (targetJobId) {
+              const matchedCloudJob = combined.find((j) => j.id.toLowerCase() === targetJobId.toLowerCase());
+              if (matchedCloudJob) {
+                setSelectedJob(matchedCloudJob);
+                document.title = `${matchedCloudJob.title} at ${matchedCloudJob.company} (0-2 YoE) – FreshCommits`;
+              }
+            }
+          } catch {
+            // ignore
+          }
+
           return combined;
         });
       } else {
@@ -316,9 +332,24 @@ export default function App() {
         }
       }
       if (targetJobId) {
-        const found =
-          INITIAL_JOBS.find((j) => j.id.toLowerCase() === targetJobId?.toLowerCase());
-        return found || null;
+        const lowerTarget = targetJobId.toLowerCase();
+        // First check INITIAL_JOBS
+        const inInitial = INITIAL_JOBS.find((j) => j.id.toLowerCase() === lowerTarget);
+        if (inInitial) return inInitial;
+
+        // Next check localStorage jobs
+        try {
+          const savedRaw = localStorage.getItem(STORAGE_KEY_JOBS);
+          if (savedRaw) {
+            const parsed = JSON.parse(savedRaw);
+            if (Array.isArray(parsed)) {
+              const inSaved = parsed.find((j: JobPosting) => j.id.toLowerCase() === lowerTarget);
+              if (inSaved) return inSaved;
+            }
+          }
+        } catch {
+          // ignore
+        }
       }
     } catch {
       // Fallback

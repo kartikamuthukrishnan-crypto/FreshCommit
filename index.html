@@ -43,6 +43,100 @@
     <meta name="twitter:image" content="https://freshcommits.com/og-image.svg" />
     <meta name="twitter:image:alt" content="FreshCommits Entry Level & New Grad SWE Careers" />
 
+    <!-- Synchronous Search Crawler JobPosting Schema Hydration for ?job= -->
+    <script>
+      (function() {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var jobId = params.get('job') || params.get('jobId');
+          if (!jobId && window.location.hash) {
+            var hash = window.location.hash.replace('#', '');
+            if (hash.indexOf('job=') === 0) jobId = hash.replace('job=', '');
+            else if (hash.indexOf('job-') === 0) jobId = hash;
+          }
+          if (jobId) {
+            var raw = localStorage.getItem('freshcommit_jobs_v5') || localStorage.getItem('freshcommit_jobs_v4') || localStorage.getItem('freshcommit_jobs_v3');
+            var matched = null;
+            if (raw) {
+              try {
+                var list = JSON.parse(raw);
+                if (Array.isArray(list)) {
+                  for (var i = 0; i < list.length; i++) {
+                    if (list[i].id && list[i].id.toLowerCase() === jobId.toLowerCase()) {
+                      matched = list[i];
+                      break;
+                    }
+                  }
+                }
+              } catch (e) {}
+            }
+            if (matched) {
+              var s = {
+                "@context": "https://schema.org/",
+                "@type": "JobPosting",
+                "title": matched.title,
+                "description": matched.description || ("Apply directly for " + matched.title + " at " + matched.company),
+                "identifier": {
+                  "@type": "PropertyValue",
+                  "name": matched.company,
+                  "value": matched.id
+                },
+                "datePosted": matched.datePosted || new Date().toISOString().split('T')[0],
+                "validThrough": matched.validThrough || "2026-12-31",
+                "employmentType": matched.employmentType || "FULL_TIME",
+                "directApply": true,
+                "hiringOrganization": {
+                  "@type": "Organization",
+                  "name": matched.company,
+                  "sameAs": matched.companyWebsite || undefined,
+                  "logo": matched.companyLogo || undefined
+                },
+                "experienceRequirements": {
+                  "@type": "OccupationalExperienceRequirements",
+                  "monthsOfExperience": (matched.maxYearsExperience || 1) * 12
+                }
+              };
+              if (matched.applyUrl) s.url = matched.applyUrl;
+              if (matched.salary && matched.salary.min > 0) {
+                s.baseSalary = {
+                  "@type": "MonetaryAmount",
+                  "currency": matched.salary.currency || "USD",
+                  "value": {
+                    "@type": "QuantitativeValue",
+                    "minValue": matched.salary.min,
+                    "maxValue": matched.salary.max || matched.salary.min,
+                    "unitText": matched.salary.unit || "YEAR"
+                  }
+                };
+              }
+              if (matched.isRemote) {
+                s.jobLocationType = "TELECOMMUTE";
+                s.applicantLocationRequirements = {
+                  "@type": "Country",
+                  "name": matched.applicantLocationRequirements || "US"
+                };
+              } else {
+                s.jobLocation = {
+                  "@type": "Place",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": matched.city || "San Francisco",
+                    "addressRegion": matched.state || "CA",
+                    "addressCountry": matched.country || "US"
+                  }
+                };
+              }
+              var scriptEl = document.createElement('script');
+              scriptEl.type = 'application/ld+json';
+              scriptEl.id = 'google-job-posting-schema';
+              scriptEl.textContent = JSON.stringify(s);
+              document.head.appendChild(scriptEl);
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
