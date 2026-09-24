@@ -4,6 +4,7 @@ import {
   collection,
   doc,
   getDocs,
+  getDoc,
   setDoc,
   deleteDoc,
   writeBatch,
@@ -29,6 +30,70 @@ export async function testFirebaseConnection(): Promise<boolean> {
     console.info('Firebase Firestore health check initialized');
     return false;
   }
+}
+
+/**
+ * Parses raw Firestore REST API values into JS primitive / array / object values
+ */
+export function parseFirestoreRestVal(v: any): any {
+  if (!v) return undefined;
+  if ('stringValue' in v) return v.stringValue;
+  if ('booleanValue' in v) return v.booleanValue;
+  if ('integerValue' in v) return parseInt(v.integerValue, 10);
+  if ('doubleValue' in v) return parseFloat(v.doubleValue);
+  if ('arrayValue' in v) {
+    const vals = v.arrayValue.values || [];
+    return vals.map((val: any) => parseFirestoreRestVal(val));
+  }
+  if ('mapValue' in v) {
+    const fields = v.mapValue.fields || {};
+    const obj: Record<string, any> = {};
+    for (const k in fields) {
+      obj[k] = parseFirestoreRestVal(fields[k]);
+    }
+    return obj;
+  }
+  return undefined;
+}
+
+/**
+ * Fetch a single job by ID from Firestore (SDK first, REST fallback for instant crawler compatibility)
+ */
+export async function fetchSingleJobFromCloud(jobId: string): Promise<JobPosting | null> {
+  if (!jobId) return null;
+
+  // 1. Try direct Firestore SDK getDoc
+  try {
+    const docRef = doc(db, 'jobs', jobId);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      return { ...(snap.data() as JobPosting), id: snap.id };
+    }
+  } catch (sdkErr) {
+    console.warn('Firestore SDK single job query error:', sdkErr);
+  }
+
+  // 2. Ultra-fast direct REST API fallback
+  try {
+    const dbId = firebaseConfig.firestoreDatabaseId || '(default)';
+    const restUrl = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/${dbId}/documents/jobs/${encodeURIComponent(jobId)}`;
+    const res = await fetch(restUrl);
+    if (res.ok) {
+      const docData = await res.json();
+      if (docData && docData.fields) {
+        const parsed: Record<string, any> = {};
+        for (const k in docData.fields) {
+          parsed[k] = parseFirestoreRestVal(docData.fields[k]);
+        }
+        parsed.id = parsed.id || jobId;
+        return parsed as JobPosting;
+      }
+    }
+  } catch (restErr) {
+    console.warn('Firestore REST single job fetch failed:', restErr);
+  }
+
+  return null;
 }
 
 /**

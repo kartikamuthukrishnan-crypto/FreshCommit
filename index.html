@@ -43,7 +43,7 @@
     <meta name="twitter:image" content="https://freshcommits.com/og-image.svg" />
     <meta name="twitter:image:alt" content="FreshCommits Entry Level & New Grad SWE Careers" />
 
-    <!-- Synchronous Search Crawler JobPosting Schema Hydration for ?job= -->
+    <!-- Instant Search Crawler JobPosting Schema Hydration for Google Rich Results & Crawlers -->
     <script>
       (function() {
         try {
@@ -54,85 +54,227 @@
             if (hash.indexOf('job=') === 0) jobId = hash.replace('job=', '');
             else if (hash.indexOf('job-') === 0) jobId = hash;
           }
-          if (jobId) {
-            var raw = localStorage.getItem('freshcommit_jobs_v5') || localStorage.getItem('freshcommit_jobs_v4') || localStorage.getItem('freshcommit_jobs_v3');
-            var matched = null;
-            if (raw) {
-              try {
-                var list = JSON.parse(raw);
-                if (Array.isArray(list)) {
-                  for (var i = 0; i < list.length; i++) {
-                    if (list[i].id && list[i].id.toLowerCase() === jobId.toLowerCase()) {
-                      matched = list[i];
-                      break;
-                    }
-                  }
-                }
-              } catch (e) {}
+          if (!jobId) return;
+
+          function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#039;');
+          }
+
+          function formatDescription(job) {
+            var desc = job.description || ('Apply directly for ' + job.title + ' at ' + job.company);
+            var html = '<p>' + escapeHtml(desc) + '</p>';
+            if (job.responsibilities && job.responsibilities.length) {
+              html += '<p><strong>Key Responsibilities:</strong></p><ul>';
+              for (var i = 0; i < job.responsibilities.length; i++) {
+                html += '<li>' + escapeHtml(job.responsibilities[i]) + '</li>';
+              }
+              html += '</ul>';
             }
-            if (matched) {
-              var s = {
-                "@context": "https://schema.org/",
-                "@type": "JobPosting",
-                "title": matched.title,
-                "description": matched.description || ("Apply directly for " + matched.title + " at " + matched.company),
-                "identifier": {
-                  "@type": "PropertyValue",
-                  "name": matched.company,
-                  "value": matched.id
-                },
-                "datePosted": matched.datePosted || new Date().toISOString().split('T')[0],
-                "validThrough": matched.validThrough || "2026-12-31",
-                "employmentType": matched.employmentType || "FULL_TIME",
-                "directApply": true,
-                "hiringOrganization": {
-                  "@type": "Organization",
-                  "name": matched.company,
-                  "sameAs": matched.companyWebsite || undefined,
-                  "logo": matched.companyLogo || undefined
-                },
-                "experienceRequirements": {
-                  "@type": "OccupationalExperienceRequirements",
-                  "monthsOfExperience": (matched.maxYearsExperience || 1) * 12
+            if (job.qualifications && job.qualifications.length) {
+              html += '<p><strong>Qualifications (0–2 YoE):</strong></p><ul>';
+              for (var j = 0; j < job.qualifications.length; j++) {
+                html += '<li>' + escapeHtml(job.qualifications[j]) + '</li>';
+              }
+              html += '</ul>';
+            }
+            if (job.skills && job.skills.length) {
+              html += '<p><strong>Required Tech Stack:</strong> ' + job.skills.map(escapeHtml).join(', ') + '</p>';
+            }
+            return html;
+          }
+
+          function injectSchema(job) {
+            if (!job || !job.title || !job.company) return;
+            var s = {
+              "@context": "https://schema.org/",
+              "@type": "JobPosting",
+              "title": job.title,
+              "description": formatDescription(job),
+              "identifier": {
+                "@type": "PropertyValue",
+                "name": job.company,
+                "value": job.id || jobId
+              },
+              "datePosted": job.datePosted || new Date().toISOString().split('T')[0],
+              "validThrough": job.validThrough || "2026-12-31",
+              "employmentType": job.employmentType || "FULL_TIME",
+              "directApply": true,
+              "hiringOrganization": {
+                "@type": "Organization",
+                "name": job.company,
+                "sameAs": job.companyWebsite || undefined,
+                "logo": job.companyLogo || undefined
+              },
+              "experienceRequirements": {
+                "@type": "OccupationalExperienceRequirements",
+                "monthsOfExperience": (job.maxYearsExperience || 1) * 12
+              }
+            };
+            if (job.applyUrl) s.url = job.applyUrl;
+            if (job.salary && job.salary.min > 0) {
+              s.baseSalary = {
+                "@type": "MonetaryAmount",
+                "currency": job.salary.currency || "USD",
+                "value": {
+                  "@type": "QuantitativeValue",
+                  "minValue": job.salary.min,
+                  "maxValue": job.salary.max || job.salary.min,
+                  "unitText": job.salary.unit || "YEAR"
                 }
               };
-              if (matched.applyUrl) s.url = matched.applyUrl;
-              if (matched.salary && matched.salary.min > 0) {
-                s.baseSalary = {
-                  "@type": "MonetaryAmount",
-                  "currency": matched.salary.currency || "USD",
-                  "value": {
-                    "@type": "QuantitativeValue",
-                    "minValue": matched.salary.min,
-                    "maxValue": matched.salary.max || matched.salary.min,
-                    "unitText": matched.salary.unit || "YEAR"
-                  }
-                };
-              }
-              if (matched.isRemote) {
-                s.jobLocationType = "TELECOMMUTE";
-                s.applicantLocationRequirements = {
-                  "@type": "Country",
-                  "name": matched.applicantLocationRequirements || "US"
-                };
-              } else {
+            }
+            if (job.isRemote) {
+              s.jobLocationType = "TELECOMMUTE";
+              s.applicantLocationRequirements = {
+                "@type": "Country",
+                "name": job.applicantLocationRequirements || job.country || "US"
+              };
+              if (job.city || job.state) {
                 s.jobLocation = {
                   "@type": "Place",
                   "address": {
                     "@type": "PostalAddress",
-                    "addressLocality": matched.city || "San Francisco",
-                    "addressRegion": matched.state || "CA",
-                    "addressCountry": matched.country || "US"
+                    "addressLocality": job.city || undefined,
+                    "addressRegion": job.state || undefined,
+                    "addressCountry": job.country || "US"
                   }
                 };
               }
+            } else {
+              s.jobLocation = {
+                "@type": "Place",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": job.city || (job.location ? job.location.split(',')[0].trim() : "San Francisco"),
+                  "addressRegion": job.state || (job.location ? job.location.split(',')[1]?.trim() : "CA"),
+                  "addressCountry": job.country || "US",
+                  "postalCode": job.postalCode || undefined
+                }
+              };
+            }
+
+            var existing = document.getElementById('google-job-posting-schema');
+            if (existing) {
+              existing.textContent = JSON.stringify(s, null, 2);
+            } else {
               var scriptEl = document.createElement('script');
               scriptEl.type = 'application/ld+json';
               scriptEl.id = 'google-job-posting-schema';
-              scriptEl.textContent = JSON.stringify(s);
+              scriptEl.textContent = JSON.stringify(s, null, 2);
               document.head.appendChild(scriptEl);
             }
+
+            document.title = job.title + ' at ' + job.company + ' (0-2 YoE) – FreshCommits';
+            var metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+              metaDesc.content = 'Apply directly for ' + job.title + ' at ' + job.company + ' in ' + (job.location || 'Remote') + '. Verified early-career software engineering opportunity with direct employer ATS application.';
+            }
+            var ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.content = job.title + ' at ' + job.company + ' – FreshCommits';
+            var ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.content = 'Direct entry-level software engineering requisition at ' + job.company + '. 0–2 YoE.';
+            var canLink = document.querySelector('link[rel="canonical"]');
+            if (canLink) canLink.href = 'https://freshcommits.com/?job=' + encodeURIComponent(job.id || jobId);
+
+            window.__PRELOADED_JOB__ = job;
+            try {
+              window.dispatchEvent(new CustomEvent('freshcommits_job_preloaded', { detail: job }));
+            } catch (e) {}
+
+            // Populate semantic crawlable DOM fallback for headless search engines
+            try {
+              var mainEl = document.querySelector('main');
+              if (mainEl && !document.getElementById('crawled-job-view')) {
+                var art = document.createElement('article');
+                art.id = 'crawled-job-view';
+                art.style.background = '#ffffff';
+                art.style.border = '2px solid #10b981';
+                art.style.borderRadius = '16px';
+                art.style.padding = '24px';
+                art.style.marginBottom = '32px';
+                art.innerHTML = '<span style=\"color:#059669;font-weight:700;font-size:12px;\">✓ DIRECT EMPLOYER APPLICATION (0–2 YoE)</span>' +
+                  '<h2 style=\"font-size:26px;font-weight:800;color:#0f172a;margin:8px 0;\">' + escapeHtml(job.title) + ' at ' + escapeHtml(job.company) + '</h2>' +
+                  '<div style=\"color:#64748b;font-size:14px;margin-bottom:16px;\">📍 ' + escapeHtml(job.location || 'Remote') + ' &nbsp;•&nbsp; 💼 ' + escapeHtml(job.experienceLevel || 'Entry Level') + ' &nbsp;•&nbsp; 🗓️ Posted ' + escapeHtml(job.datePosted || 'Recently') + '</div>' +
+                  formatDescription(job) +
+                  '<div style=\"margin-top:20px;\"><a href=\"' + escapeHtml(job.applyUrl || '#') + '\" style=\"display:inline-block;background:#4f46e5;color:#ffffff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;\">Apply on Company Site →</a></div>';
+                mainEl.prepend(art);
+              }
+            } catch (e) {}
           }
+
+          function parseFirestoreVal(v) {
+            if (!v) return undefined;
+            if ('stringValue' in v) return v.stringValue;
+            if ('booleanValue' in v) return v.booleanValue;
+            if ('integerValue' in v) return parseInt(v.integerValue, 10);
+            if ('doubleValue' in v) return parseFloat(v.doubleValue);
+            if ('arrayValue' in v) {
+              var vals = v.arrayValue.values || [];
+              var arr = [];
+              for (var i = 0; i < vals.length; i++) arr.push(parseFirestoreVal(vals[i]));
+              return arr;
+            }
+            if ('mapValue' in v) {
+              var fields = v.mapValue.fields || {};
+              var obj = {};
+              for (var k in fields) obj[k] = parseFirestoreVal(fields[k]);
+              return obj;
+            }
+            return undefined;
+          }
+
+          // 1. Try local cache
+          var raw = localStorage.getItem('freshcommit_jobs_v5') || localStorage.getItem('freshcommit_jobs_v4') || localStorage.getItem('freshcommit_jobs_v3');
+          if (raw) {
+            try {
+              var list = JSON.parse(raw);
+              if (Array.isArray(list)) {
+                for (var i = 0; i < list.length; i++) {
+                  if (list[i].id && list[i].id.toLowerCase() === jobId.toLowerCase()) {
+                    injectSchema(list[i]);
+                    return;
+                  }
+                }
+              }
+            } catch (e) {}
+          }
+
+          // 2. Fetch directly from Firestore public REST API (ultra-fast for Google Rich Results crawler!)
+          var restUrl = 'https://firestore.googleapis.com/v1/projects/centered-module-9smzh/databases/ai-studio-juniordevhubentr-9fce9c23-e540-412e-ae3f-aca1eaf015f5/documents/jobs/' + encodeURIComponent(jobId);
+          fetch(restUrl)
+            .then(function(res) {
+              if (!res.ok) throw new Error('Status ' + res.status);
+              return res.json();
+            })
+            .then(function(doc) {
+              if (doc && doc.fields) {
+                var jobObj = {};
+                for (var f in doc.fields) {
+                  jobObj[f] = parseFirestoreVal(doc.fields[f]);
+                }
+                jobObj.id = jobObj.id || jobId;
+                injectSchema(jobObj);
+                try {
+                  var saved = localStorage.getItem('freshcommit_jobs_v5');
+                  var parsedJobs = saved ? JSON.parse(saved) : [];
+                  if (Array.isArray(parsedJobs)) {
+                    if (!parsedJobs.some(function(j) { return j.id === jobObj.id; })) {
+                      parsedJobs.unshift(jobObj);
+                      localStorage.setItem('freshcommit_jobs_v5', JSON.stringify(parsedJobs));
+                    }
+                  }
+                } catch (e) {}
+              }
+            })
+            .catch(function(err) {
+              console.warn('Crawler job preload note:', err);
+            });
         } catch (e) {}
       })();
     </script>

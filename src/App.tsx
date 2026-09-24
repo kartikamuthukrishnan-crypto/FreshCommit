@@ -23,7 +23,8 @@ import {
   subscribeToLiveJobs,
   batchSaveJobsToCloud,
   testFirebaseConnection,
-  subscribeToAdConfig
+  subscribeToAdConfig,
+  fetchSingleJobFromCloud
 } from './services/firebaseService';
 import {
   Search,
@@ -333,11 +334,18 @@ export default function App() {
       }
       if (targetJobId) {
         const lowerTarget = targetJobId.toLowerCase();
-        // First check INITIAL_JOBS
+
+        // 0. Check preloaded job from index.html direct crawler hydration
+        const preloaded = (window as any).__PRELOADED_JOB__;
+        if (preloaded && preloaded.id && preloaded.id.toLowerCase() === lowerTarget) {
+          return preloaded;
+        }
+
+        // 1. Check INITIAL_JOBS
         const inInitial = INITIAL_JOBS.find((j) => j.id.toLowerCase() === lowerTarget);
         if (inInitial) return inInitial;
 
-        // Next check localStorage jobs
+        // 2. Check localStorage jobs
         try {
           const savedRaw = localStorage.getItem(STORAGE_KEY_JOBS);
           if (savedRaw) {
@@ -487,12 +495,27 @@ export default function App() {
       }
 
       if (targetJobId) {
+        const lowerTarget = targetJobId.toLowerCase();
+        const preloaded = (window as any).__PRELOADED_JOB__;
+        const isPreloaded = preloaded && preloaded.id && preloaded.id.toLowerCase() === lowerTarget ? preloaded : null;
+
         const found =
-          jobs.find((j) => j.id.toLowerCase() === targetJobId?.toLowerCase()) ||
-          INITIAL_JOBS.find((j) => j.id.toLowerCase() === targetJobId?.toLowerCase());
+          isPreloaded ||
+          jobs.find((j) => j.id.toLowerCase() === lowerTarget) ||
+          INITIAL_JOBS.find((j) => j.id.toLowerCase() === lowerTarget);
+
         if (found) {
           setSelectedJob(found);
           document.title = `${found.title} at ${found.company} (0-2 YoE) – FreshCommits`;
+        } else {
+          // Actively fetch this specific job from Firestore cloud for instant discovery
+          fetchSingleJobFromCloud(targetJobId).then((cloudJob) => {
+            if (cloudJob) {
+              setSelectedJob(cloudJob);
+              setJobs((prev) => (prev.some((j) => j.id === cloudJob.id) ? prev : [cloudJob, ...prev]));
+              document.title = `${cloudJob.title} at ${cloudJob.company} (0-2 YoE) – FreshCommits`;
+            }
+          });
         }
       } else {
         setSelectedJob(null);
@@ -516,9 +539,18 @@ export default function App() {
     };
 
     syncFromUrl();
+    const handleJobPreloaded = (e: any) => {
+      if (e.detail) {
+        setSelectedJob(e.detail);
+        setJobs((prev) => (prev.some((j) => j.id === e.detail.id) ? prev : [e.detail, ...prev]));
+        document.title = `${e.detail.title} at ${e.detail.company} (0-2 YoE) – FreshCommits`;
+      }
+    };
+    window.addEventListener('freshcommits_job_preloaded', handleJobPreloaded);
     window.addEventListener('hashchange', syncFromUrl);
     window.addEventListener('popstate', syncFromUrl);
     return () => {
+      window.removeEventListener('freshcommits_job_preloaded', handleJobPreloaded);
       window.removeEventListener('hashchange', syncFromUrl);
       window.removeEventListener('popstate', syncFromUrl);
     };

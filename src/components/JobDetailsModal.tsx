@@ -35,7 +35,16 @@ interface JobDetailsModalProps {
 export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, adConfig, isSaved, onToggleSave }) => {
   const [copiedTitle, setCopiedTitle] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState(false);
+  const [copiedSchema, setCopiedSchema] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
+
+  const handleCopySchema = () => {
+    if (!job) return;
+    const schema = generateJobPostingSchema(job);
+    navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
+    setCopiedSchema(true);
+    setTimeout(() => setCopiedSchema(false), 2500);
+  };
 
   // Dynamic Title, Meta Description, Schema injection, and Escape listener
   useEffect(() => {
@@ -421,6 +430,25 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             </div>
           </div>
           <div className="flex items-center gap-2.5 self-end sm:self-center flex-wrap">
+            <a
+              href={`https://search.google.com/test/rich-results?url=${encodeURIComponent(`https://www.freshcommits.com/?job=${job.id}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-lg border border-emerald-300 bg-emerald-50 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 flex items-center gap-1.5 transition-colors shadow-xs"
+              title="Test this job's live URL in Google's official Rich Results Test"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Google Rich Results</span>
+              <ExternalLink className="w-3 h-3 text-emerald-600" />
+            </a>
+            <button
+              onClick={handleCopySchema}
+              className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs"
+              title="Copy validated JSON-LD JobPosting schema (ready for Google Rich Results Code tab)"
+            >
+              {copiedSchema ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
+              <span>{copiedSchema ? 'Copied JSON-LD!' : 'Copy Schema'}</span>
+            </button>
             <button
               onClick={handleCopyUrl}
               className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs"
@@ -430,16 +458,8 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               <span>{copiedUrl ? 'Copied URL!' : 'Share Job'}</span>
             </button>
             <button
-              onClick={handleCopyTitle}
-              className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs"
-              title="Copy job title to your clipboard for quick pasting on company ATS"
-            >
-              {copiedTitle ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
-              <span>{copiedTitle ? 'Copied Title!' : 'Copy Title'}</span>
-            </button>
-            <button
               onClick={onClose}
-              className="px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium text-slate-700 hover:bg-white transition-colors"
+              className="px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium text-slate-700 hover:bg-white transition-colors cursor-pointer"
             >
               Close
             </button>

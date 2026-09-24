@@ -33,7 +33,8 @@ import {
   FileText,
   Download,
   Upload,
-  Cloud
+  Cloud,
+  Search
 } from 'lucide-react';
 import {
   saveJobToCloud,
@@ -149,6 +150,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
   // Status feedback
   const [postSuccess, setPostSuccess] = useState(false);
+  const [lastPublishedJob, setLastPublishedJob] = useState<JobPosting | null>(null);
+  const [schemaSearchQuery, setSchemaSearchQuery] = useState('');
+  const [schemaFilter, setSchemaFilter] = useState<'all' | 'manual' | 'synced'>('all');
   const [syncLoading, setSyncLoading] = useState(false);
   const [customFeedUrl, setCustomFeedUrl] = useState('');
   const [copiedSchema, setCopiedSchema] = useState(false);
@@ -384,8 +388,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setJobs((prev) => prev.map((j) => (j.id === editingJobId ? updatedJob : j)));
       saveJobToCloud(updatedJob).catch((e) => console.warn('Could not sync update to cloud:', e));
       setEditingJobId(null);
+      setLastPublishedJob(updatedJob);
       setPostSuccess(true);
-      setTimeout(() => setPostSuccess(false), 4000);
 
       // Reset fields
       handleCancelEdit();
@@ -409,8 +413,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     setJobs((prev) => [newJob, ...prev]);
     saveJobToCloud(newJob).catch((e) => console.warn('Could not sync new job to cloud:', e));
+    setLastPublishedJob(newJob);
     setPostSuccess(true);
-    setTimeout(() => setPostSuccess(false), 4000);
 
     // Reset fields
     handleCancelEdit();
@@ -729,7 +733,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </div>
             )}
 
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 mb-6 gap-3">
               <div>
                 <h2 className="text-lg font-bold text-slate-900">
                   {editingJobId ? 'Edit & Update Job Listing' : 'Post New Global / US Job Listing'}
@@ -740,10 +744,45 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     : 'Full Google JobPosting schema compliant with telecommute/remote options.'}
                 </p>
               </div>
-              {postSuccess && (
-                <div className="flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 animate-fade-in">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>{editingJobId ? 'Listing Updated Successfully!' : 'Job Published!'}</span>
+              {postSuccess && lastPublishedJob && (
+                <div className="flex flex-col gap-2 p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 animate-fade-in shadow-xs">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                    <span>{editingJobId ? 'Listing Updated & Synced to Cloud!' : 'Job Published & Synced to Cloud!'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 flex-wrap text-xs">
+                    <a
+                      href={`https://search.google.com/test/rich-results?url=${encodeURIComponent(`https://www.freshcommits.com/?job=${lastPublishedJob.id}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-bold text-[11px] flex items-center gap-1 transition-colors"
+                      title="Test live URL directly on Google Rich Results"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      <span>Test in Google Rich Results</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const s = generateJobPostingSchema(lastPublishedJob);
+                        navigator.clipboard.writeText(JSON.stringify(s, null, 2));
+                        alert('Copied JobPosting JSON-LD schema! You can paste this directly into Google Rich Results "< > CODE" tab.');
+                      }}
+                      className="px-2.5 py-1 bg-white border border-emerald-300 hover:bg-emerald-100 text-emerald-800 rounded-lg font-semibold text-[11px] flex items-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <Copy className="w-3 h-3" />
+                      <span>Copy Schema Code</span>
+                    </button>
+                    <a
+                      href={`/?job=${lastPublishedJob.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2 py-1 text-slate-600 hover:text-slate-900 text-[11px] font-medium underline"
+                    >
+                      View Job Link
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
@@ -1881,53 +1920,190 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       {/* TAB 4: GOOGLE SCHEMA INSPECTOR */}
       {activeTab === 'schema-tester' && (
         <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
-          <div className="max-w-3xl">
-            <h2 className="text-xl font-bold text-slate-900 mb-1">Google JobPosting Structured Data Inspector</h2>
-            <p className="text-sm text-slate-600">
-              Review and copy JSON-LD structured data generated for search engines to test directly on the official Google Rich Results Test tool.
-            </p>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                <h2 className="text-xl font-bold text-slate-900">Google JobPosting Structured Data Inspector</h2>
+              </div>
+              <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
+                Every job on FreshCommits is backed by Google Search Central compliant <code>JobPosting</code> JSON-LD structured data. Test live URLs directly in Google's official tool or copy the code to inspect rich results.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              <a
+                href="https://search.google.com/test/rich-results"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-colors"
+              >
+                <span>Google Rich Results Tool</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <a
-              href="https://search.google.com/test/rich-results"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 hover:bg-slate-800 transition-colors"
-            >
-              <span>Open Google Rich Results Test</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+          {/* Educational Notice on Google Rich Results Testing */}
+          <div className="p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl text-xs text-indigo-950 space-y-2">
+            <div className="font-bold flex items-center gap-1.5 text-indigo-900">
+              <Sparkles className="w-4 h-4 text-indigo-600" />
+              <span>How To Validate Schema In Google Rich Results:</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-700">
+              <div className="bg-white p-2.5 rounded-lg border border-indigo-100">
+                <strong className="block text-slate-900 mb-1">1. Test Live URL Tab</strong>
+                Google's crawler fetches the public URL (e.g. <code>https://www.freshcommits.com/?job=manual-...</code>). Our synchronous hydration engine pulls the listing from Firestore REST API and populates the schema instantly for Googlebot.
+              </div>
+              <div className="bg-white p-2.5 rounded-lg border border-indigo-100">
+                <strong className="block text-slate-900 mb-1">2. Test Code Tab (Instant 100% Validation)</strong>
+                Click <strong>"Copy Schema"</strong> on any job below, switch to the <strong>"&lt; &gt; CODE"</strong> tab in Google Rich Results Test, and paste. You will see green checkmarks for all JobPosting fields with zero crawler latency!
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {jobs.slice(0, 4).map((job) => {
-              const schema = generateJobPostingSchema(job);
+          {/* Search & Filter Bar */}
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <div className="relative flex-1 w-full">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search jobs by title, company, or ID (e.g. manual-)..."
+                value={schemaSearchQuery}
+                onChange={(e) => setSchemaSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+            </div>
+            <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => setSchemaFilter('all')}
+                className={`flex-1 sm:flex-initial px-3 py-1 text-xs font-semibold rounded-md transition-colors ${
+                  schemaFilter === 'all' ? 'bg-white text-slate-900 shadow-2xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                All ({jobs.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setSchemaFilter('manual')}
+                className={`flex-1 sm:flex-initial px-3 py-1 text-xs font-semibold rounded-md transition-colors ${
+                  schemaFilter === 'manual' ? 'bg-white text-emerald-800 shadow-2xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Manual Admin ({jobs.filter((j) => j.id.startsWith('manual-') || j.source === 'MANUAL_ADMIN').length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setSchemaFilter('synced')}
+                className={`flex-1 sm:flex-initial px-3 py-1 text-xs font-semibold rounded-md transition-colors ${
+                  schemaFilter === 'synced' ? 'bg-white text-indigo-700 shadow-2xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Synced ATS ({jobs.filter((j) => !j.id.startsWith('manual-') && j.source !== 'MANUAL_ADMIN').length})
+              </button>
+            </div>
+          </div>
+
+          {/* Job Schema Cards Grid */}
+          {(() => {
+            const filtered = jobs.filter((job) => {
+              if (schemaFilter === 'manual' && !(job.id.startsWith('manual-') || job.source === 'MANUAL_ADMIN')) {
+                return false;
+              }
+              if (schemaFilter === 'synced' && (job.id.startsWith('manual-') || job.source === 'MANUAL_ADMIN')) {
+                return false;
+              }
+              if (!schemaSearchQuery.trim()) return true;
+              const q = schemaSearchQuery.toLowerCase();
               return (
-                <div key={job.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="font-bold text-slate-900 text-xs block">{job.title}</span>
-                      <span className="text-[11px] text-slate-500">{job.company}</span>
-                    </div>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
-                        alert(`Copied JSON-LD schema for ${job.title}!`);
-                      }}
-                      className="px-2 py-1 bg-white border border-slate-300 rounded text-[11px] font-semibold text-slate-700 hover:bg-slate-100 flex items-center gap-1"
-                    >
-                      <Copy className="w-3 h-3" />
-                      Copy Schema
-                    </button>
-                  </div>
-                  <pre className="p-2.5 bg-slate-900 text-slate-100 rounded text-[10px] font-mono overflow-x-auto max-h-48">
-                    {JSON.stringify(schema, null, 2)}
-                  </pre>
+                job.title.toLowerCase().includes(q) ||
+                job.company.toLowerCase().includes(q) ||
+                job.id.toLowerCase().includes(q)
+              );
+            });
+
+            if (filtered.length === 0) {
+              return (
+                <div className="text-center py-10 border border-dashed border-slate-200 rounded-xl text-slate-400 text-xs">
+                  No jobs matched your schema search filter.
                 </div>
               );
-            })}
-          </div>
+            }
+
+            return (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {filtered.map((job) => {
+                  const schema = generateJobPostingSchema(job);
+                  const isManual = job.id.startsWith('manual-') || job.source === 'MANUAL_ADMIN';
+                  const liveUrl = `https://www.freshcommits.com/?job=${encodeURIComponent(job.id)}`;
+                  const richResultsTestUrl = `https://search.google.com/test/rich-results?url=${encodeURIComponent(liveUrl)}`;
+
+                  return (
+                    <div
+                      key={job.id}
+                      className={`p-4 rounded-xl border space-y-2.5 transition-all shadow-xs ${
+                        isManual ? 'border-emerald-300 bg-emerald-50/20' : 'border-slate-200 bg-slate-50/50'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-bold text-slate-900 text-xs">{job.title}</span>
+                            <span
+                              className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider ${
+                                isManual ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'
+                              }`}
+                            >
+                              {isManual ? 'Manual Admin' : 'ATS Feed'}
+                            </span>
+                          </div>
+                          <span className="text-[11px] text-slate-500 block">
+                            {job.company} &bull; ID: <code className="text-slate-700 font-mono text-[10px]">{job.id}</code>
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          <a
+                            href={richResultsTestUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[11px] font-bold flex items-center gap-1 transition-colors"
+                            title="Test this specific live job URL on Google Rich Results"
+                          >
+                            <Sparkles className="w-3 h-3" />
+                            <span>Test Live URL</span>
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </a>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
+                              alert(`Copied JSON-LD schema for "${job.title}"! Paste directly into Google Rich Results "< > CODE" tab.`);
+                            }}
+                            className="px-2 py-1 bg-white border border-slate-300 rounded text-[11px] font-semibold text-slate-700 hover:bg-slate-100 flex items-center gap-1 cursor-pointer"
+                            title="Copy schema JSON-LD code"
+                          >
+                            <Copy className="w-3 h-3" />
+                            <span>Copy Schema</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between text-[11px] text-slate-500 bg-white/80 p-2 rounded-lg border border-slate-200/80">
+                        <span>🗓️ Posted: <strong>{job.datePosted || 'Active'}</strong></span>
+                        <span>⏳ Valid Through: <strong>{job.validThrough || '2026-12-31'}</strong></span>
+                        <span>💵 Base: <strong>{job.salary ? `${job.salary.currency || 'USD'} ${job.salary.min?.toLocaleString()}` : 'Disclosed'}</strong></span>
+                      </div>
+
+                      <pre className="p-2.5 bg-slate-900 text-slate-100 rounded text-[10px] font-mono overflow-x-auto max-h-44 leading-relaxed">
+                        {JSON.stringify(schema, null, 2)}
+                      </pre>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })()}
         </div>
       )}
 
