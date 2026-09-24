@@ -15,7 +15,6 @@ export function initGA(measurementId?: string) {
   const id =
     measurementId ||
     (typeof window !== 'undefined' ? localStorage.getItem('freshcommits_ga_id') : '') ||
-    (import.meta.env.VITE_GA_MEASUREMENT_ID as string) ||
     DEFAULT_GA_MEASUREMENT_ID;
 
   if (!id || id === 'G-XXXXXXXXXX' || typeof window === 'undefined') {
