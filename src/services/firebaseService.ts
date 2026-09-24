@@ -139,12 +139,38 @@ export function subscribeToLiveJobs(onUpdate: (jobs: JobPosting[]) => void): () 
 }
 
 /**
+ * Deeply sanitizes an object before writing to Firestore, removing any keys that are undefined.
+ * Firestore strictly forbids `undefined` field values and throws:
+ * "Function WriteBatch.set() called with invalid data. Unsupported field value: undefined"
+ */
+export function cleanJobForFirestore<T extends Record<string, any>>(obj: T): Record<string, any> {
+  if (!obj || typeof obj !== 'object') return obj;
+  const cleaned: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value === undefined) {
+      continue;
+    }
+    if (Array.isArray(value)) {
+      cleaned[key] = value
+        .filter((item) => item !== undefined)
+        .map((item) => (item !== null && typeof item === 'object' ? cleanJobForFirestore(item) : item));
+    } else if (value !== null && typeof value === 'object') {
+      cleaned[key] = cleanJobForFirestore(value);
+    } else {
+      cleaned[key] = value;
+    }
+  }
+  return cleaned;
+}
+
+/**
  * Save or update a job in Firestore
  */
 export async function saveJobToCloud(job: JobPosting): Promise<void> {
   try {
     const docRef = doc(db, 'jobs', job.id);
-    await setDoc(docRef, job, { merge: true });
+    const cleaned = cleanJobForFirestore(job);
+    await setDoc(docRef, cleaned, { merge: true });
   } catch (err) {
     console.error('Error saving job to cloud:', err);
     throw err;
@@ -167,7 +193,8 @@ export async function batchSaveJobsToCloud(jobs: JobPosting[]): Promise<void> {
       const batch = writeBatch(db);
       for (const job of chunk) {
         const docRef = doc(db, 'jobs', job.id);
-        batch.set(docRef, job, { merge: true });
+        const cleaned = cleanJobForFirestore(job);
+        batch.set(docRef, cleaned, { merge: true });
       }
       await batch.commit();
     }
@@ -196,7 +223,8 @@ export async function deleteJobFromCloud(jobId: string): Promise<void> {
 export async function saveAdConfigToCloud(adConfig: AdSenseConfig): Promise<void> {
   try {
     const docRef = doc(db, 'settings', 'adsense');
-    await setDoc(docRef, adConfig, { merge: true });
+    const cleaned = cleanJobForFirestore(adConfig);
+    await setDoc(docRef, cleaned, { merge: true });
   } catch (err) {
     console.error('Error saving adConfig to cloud:', err);
   }
