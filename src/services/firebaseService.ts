@@ -1,0 +1,156 @@
+import { initializeApp } from 'firebase/app';
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  deleteDoc,
+  writeBatch,
+  onSnapshot,
+  getDocFromServer
+} from 'firebase/firestore';
+import firebaseConfig from '../firebaseConfig';
+import { JobPosting, AdSenseConfig } from '../types';
+
+// Initialize Firebase App
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firestore with custom database ID from configuration
+export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId || '(default)');
+
+// Validate connection on boot as instructed by system directives
+export async function testFirebaseConnection(): Promise<boolean> {
+  try {
+    await getDocFromServer(doc(db, 'system', 'connection_health'));
+    return true;
+  } catch (error) {
+    // Permission or offline handled gracefully
+    console.info('Firebase Firestore health check initialized');
+    return false;
+  }
+}
+
+/**
+ * Fetch all jobs from Firestore
+ */
+export async function fetchJobsFromCloud(): Promise<JobPosting[]> {
+  try {
+    const jobsCol = collection(db, 'jobs');
+    const snapshot = await getDocs(jobsCol);
+    const jobs: JobPosting[] = [];
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data() as JobPosting;
+      jobs.push({ ...data, id: docSnap.id });
+    });
+    return jobs;
+  } catch (err) {
+    console.error('Failed to fetch jobs from cloud Firestore:', err);
+    return [];
+  }
+}
+
+/**
+ * Subscribe to real-time job updates globally
+ */
+export function subscribeToLiveJobs(onUpdate: (jobs: JobPosting[]) => void): () => void {
+  const jobsCol = collection(db, 'jobs');
+  const unsubscribe = onSnapshot(
+    jobsCol,
+    (snapshot) => {
+      const liveJobs: JobPosting[] = [];
+      snapshot.forEach((docSnap) => {
+        liveJobs.push({ ...(docSnap.data() as JobPosting), id: docSnap.id });
+      });
+      // Sort newest posted date first
+      liveJobs.sort((a, b) => new Date(b.datePosted || '').getTime() - new Date(a.datePosted || '').getTime());
+      onUpdate(liveJobs);
+    },
+    (error) => {
+      console.warn('Real-time Firestore listener warning:', error);
+    }
+  );
+  return unsubscribe;
+}
+
+/**
+ * Save or update a job in Firestore
+ */
+export async function saveJobToCloud(job: JobPosting): Promise<void> {
+  try {
+    const docRef = doc(db, 'jobs', job.id);
+    await setDoc(docRef, job, { merge: true });
+  } catch (err) {
+    console.error('Error saving job to cloud:', err);
+    throw err;
+  }
+}
+
+/**
+ * Batch save multiple jobs (ideal for syncing feeds and seeding)
+ */
+export async function batchSaveJobsToCloud(jobs: JobPosting[]): Promise<void> {
+  if (!jobs || jobs.length === 0) return;
+  try {
+    // Firestore batches are limited to 500 operations per batch
+    const chunks = [];
+    for (let i = 0; i < jobs.length; i += 400) {
+      chunks.push(jobs.slice(i, i + 400));
+    }
+
+    for (const chunk of chunks) {
+      const batch = writeBatch(db);
+      for (const job of chunk) {
+        const docRef = doc(db, 'jobs', job.id);
+        batch.set(docRef, job, { merge: true });
+      }
+      await batch.commit();
+    }
+  } catch (err) {
+    console.error('Batch save to cloud failed:', err);
+    throw err;
+  }
+}
+
+/**
+ * Delete a job from Firestore
+ */
+export async function deleteJobFromCloud(jobId: string): Promise<void> {
+  try {
+    const docRef = doc(db, 'jobs', jobId);
+    await deleteDoc(docRef);
+  } catch (err) {
+    console.error('Error deleting job from cloud:', err);
+    throw err;
+  }
+}
+
+/**
+ * Save AdSense configuration to Cloud
+ */
+export async function saveAdConfigToCloud(adConfig: AdSenseConfig): Promise<void> {
+  try {
+    const docRef = doc(db, 'settings', 'adsense');
+    await setDoc(docRef, adConfig, { merge: true });
+  } catch (err) {
+    console.error('Error saving adConfig to cloud:', err);
+  }
+}
+
+/**
+ * Subscribe to AdSense configuration changes
+ */
+export function subscribeToAdConfig(onUpdate: (config: AdSenseConfig) => void): () => void {
+  const docRef = doc(db, 'settings', 'adsense');
+  return onSnapshot(
+    docRef,
+    (docSnap) => {
+      if (docSnap.exists()) {
+        onUpdate(docSnap.data() as AdSenseConfig);
+      }
+    },
+    (err) => {
+      console.warn('AdConfig listener note:', err);
+    }
+  );
+}

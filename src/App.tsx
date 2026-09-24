@@ -20,6 +20,12 @@ import { AppTab } from './types';
 import { trackPageView } from './utils/analytics';
 import { isJobExpired } from './utils/jobAggregator';
 import {
+  subscribeToLiveJobs,
+  batchSaveJobsToCloud,
+  testFirebaseConnection,
+  subscribeToAdConfig
+} from './services/firebaseService';
+import {
   Search,
   MapPin,
   Briefcase,
@@ -137,14 +143,84 @@ export default function App() {
     return DEFAULT_ADSENSE_CONFIG;
   });
 
-  // Save changes to localStorage
+  // 3. Connect real-time Firestore synchronization for all global visitors
+  useEffect(() => {
+    // Health check on boot
+    testFirebaseConnection();
+
+    // Subscribe to live cloud jobs
+    const unsubscribeJobs = subscribeToLiveJobs((cloudJobs) => {
+      if (cloudJobs && cloudJobs.length > 0) {
+        setJobs((prev) => {
+          // Merge any newly added cloud jobs with current state
+          const cloudIds = new Set(cloudJobs.map((j) => j.id));
+          // If local has custom jobs not yet in cloud, keep them locally too
+          const localOnly = prev.filter((j) => !cloudIds.has(j.id) && (j.id.startsWith('manual-') || j.id.startsWith('sync-')));
+          const combined = [...cloudJobs, ...localOnly];
+          try {
+            localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(combined));
+          } catch {
+            // ignore
+          }
+          return combined;
+        });
+      } else {
+        // Cloud is currently empty, seed it with our initial jobs so visitors immediately see listings
+        if (jobs && jobs.length > 0) {
+          batchSaveJobsToCloud(jobs).catch((e) => console.warn('Could not auto-seed cloud jobs:', e));
+        }
+      }
+    });
+
+    // Subscribe to live AdSense settings
+    const unsubscribeAds = subscribeToAdConfig((cloudAdConfig) => {
+      if (cloudAdConfig) {
+        setAdConfig((prev) => ({ ...prev, ...cloudAdConfig }));
+      }
+    });
+
+    return () => {
+      unsubscribeJobs();
+      unsubscribeAds();
+    };
+  }, []);
+
+  // Save changes to localStorage and notify other tabs/windows
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobs));
+      window.dispatchEvent(new CustomEvent('freshcommits_jobs_updated', { detail: jobs }));
     } catch (e) {
       console.warn('Failed saving jobs', e);
     }
   }, [jobs]);
+
+  // Synchronize state across different browser tabs/windows via storage event
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY_JOBS && e.newValue) {
+        try {
+          const updatedJobs = JSON.parse(e.newValue);
+          if (Array.isArray(updatedJobs)) {
+            setJobs(updatedJobs);
+          }
+        } catch (err) {
+          console.warn('Failed syncing jobs from storage event', err);
+        }
+      }
+      if (e.key === STORAGE_KEY_ADSENSE && e.newValue) {
+        try {
+          const updatedAd = JSON.parse(e.newValue);
+          setAdConfig((prev) => ({ ...prev, ...updatedAd }));
+        } catch {
+          // ignore
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   useEffect(() => {
     try {

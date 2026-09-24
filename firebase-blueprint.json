@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "job": {
+      "title": "Job Posting",
+      "description": "A verified 0-2 YoE software engineer job listing",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fingerprint": { "type": "string" },
+        "company": { "type": "string" },
+        "title": { "type": "string" },
+        "location": { "type": "string" },
+        "isRemote": { "type": "boolean" },
+        "category": { "type": "string" },
+        "minExperience": { "type": "number" },
+        "maxExperience": { "type": "number" },
+        "salaryMin": { "type": "number" },
+        "salaryMax": { "type": "number" },
+        "salaryCurrency": { "type": "string" },
+        "description": { "type": "string" },
+        "editorialSnippet": { "type": "string" },
+        "whyItsGreat": { "type": "string" },
+        "applyUrl": { "type": "string" },
+        "source": { "type": "string" },
+        "sourceUrl": { "type": "string" },
+        "atsVerified": { "type": "boolean" },
+        "postedDate": { "type": "string" },
+        "validThrough": { "type": "string" },
+        "status": { "type": "string" },
+        "viewsCount": { "type": "number" },
+        "clicksCount": { "type": "number" }
+      },
+      "required": ["id", "company", "title", "applyUrl", "status"]
+    },
+    "appSettings": {
+      "title": "Application Global Settings",
+      "description": "Public and owner settings such as AdSense and banner alerts",
+      "type": "object",
+      "properties": {
+        "adConfig": { "type": "string" },
+        "lastSyncedAt": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/jobs/{jobId}": {
+      "schema": "job",
+      "description": "Collection of all live and archived job postings visible globally"
+    },
+    "/settings/{settingId}": {
+      "schema": "appSettings",
+      "description": "Global application configuration and AdSense placements"
+    }
+  }
+}

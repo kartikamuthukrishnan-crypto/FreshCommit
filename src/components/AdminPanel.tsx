@@ -30,8 +30,17 @@ import {
   Clock,
   BarChart3,
   Link as LinkIcon,
-  FileText
+  FileText,
+  Download,
+  Upload,
+  Cloud
 } from 'lucide-react';
+import {
+  saveJobToCloud,
+  deleteJobFromCloud,
+  batchSaveJobsToCloud,
+  saveAdConfigToCloud
+} from '../services/firebaseService';
 import { extractAndEnrichJobFromUrl } from '../utils/jobExtractor';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap } from 'lucide-react';
@@ -373,6 +382,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       };
 
       setJobs((prev) => prev.map((j) => (j.id === editingJobId ? updatedJob : j)));
+      saveJobToCloud(updatedJob).catch((e) => console.warn('Could not sync update to cloud:', e));
       setEditingJobId(null);
       setPostSuccess(true);
       setTimeout(() => setPostSuccess(false), 4000);
@@ -398,6 +408,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
 
     setJobs((prev) => [newJob, ...prev]);
+    saveJobToCloud(newJob).catch((e) => console.warn('Could not sync new job to cloud:', e));
     setPostSuccess(true);
     setTimeout(() => setPostSuccess(false), 4000);
 
@@ -409,6 +420,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setSyncLoading(true);
     try {
       const { newJobs, log, refreshedJobIds } = await executeAutomatedSync(jobs, customFeedUrl);
+      if (newJobs.length > 0) {
+        batchSaveJobsToCloud(newJobs).catch((e) => console.warn('Cloud sync error for new jobs:', e));
+      }
       setJobs((prev) => {
         let updated = [...prev];
         if (refreshedJobIds && refreshedJobIds.length > 0) {
@@ -435,6 +449,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     try {
       const kw = customKw !== undefined ? customKw : srKeyword;
       const { newJobs, log, refreshedJobIds } = await syncSmartRecruitersJobs(jobs, kw, srRemoteOnly);
+      if (newJobs.length > 0) {
+        batchSaveJobsToCloud(newJobs).catch((e) => console.warn('Cloud sync error for SmartRecruiters jobs:', e));
+      }
       setJobs((prev) => {
         let updated = [...prev];
         if (refreshedJobIds && refreshedJobIds.length > 0) {
@@ -459,13 +476,34 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const handleDeleteJob = (id: string) => {
     if (confirm('Are you sure you want to remove this job listing?')) {
       setJobs((prev) => prev.filter((j) => j.id !== id));
+      deleteJobFromCloud(id).catch((e) => console.warn('Could not delete from cloud:', e));
     }
   };
 
   const handleToggleStatus = (id: string) => {
     setJobs((prev) =>
-      prev.map((j) => (j.id === id ? { ...j, status: j.status === 'ACTIVE' ? 'EXPIRED' : 'ACTIVE' } : j))
+      prev.map((j) => {
+        if (j.id === id) {
+          const updated = { ...j, status: j.status === 'ACTIVE' ? ('EXPIRED' as const) : ('ACTIVE' as const) };
+          saveJobToCloud(updated).catch((e) => console.warn('Could not update status in cloud:', e));
+          return updated;
+        }
+        return j;
+      })
     );
+  };
+
+  const [pushingToCloud, setPushingToCloud] = useState(false);
+  const handlePushAllToCloud = async () => {
+    setPushingToCloud(true);
+    try {
+      await batchSaveJobsToCloud(jobs);
+      alert(`Successfully published all ${jobs.length} jobs to Firestore Cloud! All visitors around the world now see all ${jobs.length} jobs in real-time.`);
+    } catch (err: any) {
+      alert('Cloud publication note: ' + err.message);
+    } finally {
+      setPushingToCloud(false);
+    }
   };
 
   const expiredJobs = jobs.filter((j) => isJobExpired(j));
@@ -475,6 +513,49 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     if (confirm(`Are you sure you want to permanently purge all ${expiredJobs.length} expired/vanished listings?`)) {
       setJobs((prev) => prev.filter((j) => !isJobExpired(j)));
     }
+  };
+
+  const handleExportJobsJson = () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(jobs, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', dataStr);
+    downloadAnchor.setAttribute('download', `freshcommits_jobs_backup_${new Date().toISOString().split('T')[0]}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  const handleImportJobsJson = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const imported = JSON.parse(event.target?.result as string);
+        if (Array.isArray(imported) && imported.length > 0) {
+          const shouldMerge = confirm(
+            `Importing ${imported.length} jobs.\n\nClick OK to MERGE with current inventory, or Cancel to REPLACE current inventory.`
+          );
+          if (shouldMerge) {
+            setJobs((prev) => {
+              const existingIds = new Set(prev.map((j) => j.id));
+              const newUnique = imported.filter((j: JobPosting) => !existingIds.has(j.id));
+              return [...newUnique, ...prev];
+            });
+            alert(`Merged imported jobs! Total: ${jobs.length + imported.length}`);
+          } else {
+            setJobs(imported);
+            alert(`Inventory replaced with ${imported.length} jobs!`);
+          }
+        } else {
+          alert('Invalid JSON file format. Must be an array of job postings.');
+        }
+      } catch (err: any) {
+        alert('Failed to parse JSON file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   return (
@@ -1629,16 +1710,55 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </p>
             </div>
 
-            {expiredJobs.length > 0 && (
+            <div className="flex items-center gap-2 flex-wrap">
               <button
-                onClick={handlePurgeExpiredJobs}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 transition-colors shadow-2xs"
-                title="Permanently remove all expired listings"
+                onClick={handlePushAllToCloud}
+                disabled={pushingToCloud}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-50"
+                title="Immediately publish all listings to Firestore so every visitor worldwide sees them instantly"
               >
-                <Trash2 className="w-3.5 h-3.5" />
-                Purge {expiredJobs.length} Vanished Listing{expiredJobs.length > 1 ? 's' : ''}
+                {pushingToCloud ? (
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Cloud className="w-3.5 h-3.5" />
+                )}
+                <span>{pushingToCloud ? 'Publishing...' : `Publish to Global Cloud (${jobs.length})`}</span>
               </button>
-            )}
+
+              <button
+                onClick={handleExportJobsJson}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300 transition-colors shadow-2xs cursor-pointer"
+                title="Download complete JSON backup of all job postings"
+              >
+                <Download className="w-3.5 h-3.5 text-slate-600" />
+                Export Backup
+              </button>
+
+              <label
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200 transition-colors shadow-2xs cursor-pointer"
+                title="Import/restore jobs from a JSON file"
+              >
+                <Upload className="w-3.5 h-3.5 text-indigo-600" />
+                Import JSON
+                <input
+                  type="file"
+                  accept=".json,application/json"
+                  onChange={handleImportJobsJson}
+                  className="hidden"
+                />
+              </label>
+
+              {expiredJobs.length > 0 && (
+                <button
+                  onClick={handlePurgeExpiredJobs}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 transition-colors shadow-2xs cursor-pointer"
+                  title="Permanently remove all expired listings"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Purge {expiredJobs.length} Vanished Listing{expiredJobs.length > 1 ? 's' : ''}
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="overflow-x-auto">
@@ -1893,6 +2013,20 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   />
                   <span>Footer Ad Unit</span>
                 </label>
+              </div>
+
+              <div className="pt-2 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    saveAdConfigToCloud(adConfig);
+                    alert('AdSense settings synced to Cloud Firestore!');
+                  }}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-xs shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  <Cloud className="w-3.5 h-3.5" />
+                  Save &amp; Sync Ad Settings Globally
+                </button>
               </div>
             </div>
 

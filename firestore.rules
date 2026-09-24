@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Anyone in the world can read job listings for instant public job discovery
+    // Posting or editing jobs requires basic structure validation
+    match /jobs/{jobId} {
+      allow read: if true;
+      allow write: if request.resource.data.company is string &&
+                      request.resource.data.title is string &&
+                      request.resource.data.applyUrl is string;
+      allow delete: if true;
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
