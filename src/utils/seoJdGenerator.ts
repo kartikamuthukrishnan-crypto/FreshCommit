@@ -153,7 +153,7 @@ export interface SeoJdGenerationOptions {
   company: string;
   location: string;
   isRemote: boolean;
-  selectedNiche: MicroNichePreset;
+  selectedNiche?: MicroNichePreset | null;
   skills: string[];
   salaryMin: number;
   salaryMax: number;
@@ -192,8 +192,11 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
   } = opts;
 
   const topSkillsStr = skills.length > 0 ? skills.slice(0, 5).join(', ') : 'TypeScript, React, Node.js';
-  const keywordSample = selectedNiche.primaryKeywords[0];
-  const secondaryKeyword = selectedNiche.primaryKeywords[1] || selectedNiche.primaryKeywords[0];
+  const badge = selectedNiche?.badge || 'Early Career / Entry Level';
+  const targetAudience = selectedNiche?.targetAudience || 'Early-career software engineers, fresh graduates, and junior developers (0–2 YoE)';
+  const keywordSample = selectedNiche?.primaryKeywords[0] || 'entry level software developer jobs';
+  const secondaryKeyword = selectedNiche?.primaryKeywords[1] || 'junior software engineer positions';
+  const editorialHighlight = selectedNiche?.editorialHighlight || 'Direct engineering mentorship, continuous integration workflows, and production code ownership.';
 
   const formattedSalary =
     salaryCurrency === 'INR'
@@ -203,14 +206,14 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
   // Composed AdSense-grade editorial overview
   const descriptionParagraphs = [
     `🎯 FreshCommits Editorial Review & Candidate Insights:`,
-    `${company} is actively accepting applications for this ${title} role (${selectedNiche.badge}). In our curated assessment, this position offers high engineering growth potential for early-career developers seeking direct production impact and technical mentorship.`,
+    `${company} is actively accepting applications for this ${title} role (${badge}). In our curated assessment, this position offers high engineering growth potential for early-career developers seeking direct production impact and technical mentorship.`,
     ``,
-    `🔍 Niche & Eligibility Overview:`,
-    `• Target Category: ${selectedNiche.targetAudience}.`,
-    `• Micro-Niche Focus: ${keywordSample}.`,
+    `🔍 Opportunity & Eligibility Overview:`,
+    `• Target Category: ${targetAudience}.`,
+    `• Search Intent Focus: ${keywordSample}.`,
     `• Verified Compensation Band: ${formattedSalary} (verified market benchmark).`,
     `• Workplace Arrangement: ${isRemote ? '100% Remote / Telecommute eligible' : location}.`,
-    `• Editorial Highlights: ${selectedNiche.editorialHighlight}`,
+    `• Editorial Highlights: ${editorialHighlight}`,
     ``,
     `💡 Interview Preparation & Evaluation Blueprint:`,
     `• Primary Technical Stack: Hands-on competency in ${topSkillsStr}. Candidates should be prepared to discuss architecture trade-offs, clean state management, and Git workflows.`,
@@ -241,7 +244,7 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
         `Demonstrated working proficiency with ${topSkillsStr}.`,
         `Solid understanding of computer science fundamentals: data structures, algorithms, and clean system design.`,
         `Familiarity with version control workflows (Git, GitHub, PR reviews, CI/CD basics).`,
-        `Eligibility for ${selectedNiche.badge} (${selectedNiche.targetAudience}).`
+        selectedNiche ? `Eligibility for ${selectedNiche.badge} (${selectedNiche.targetAudience}).` : `Enthusiasm for early-career engineering growth and continuous learning.`
       ];
 
   const fullDescription = descriptionParagraphs.join('\n');
@@ -250,7 +253,7 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
   // Quality checklist
   const qualityChecklist = [
     { label: 'Original Editorial Commentary (AdSense Policy)', passed: true },
-    { label: `Focus Keyword Included ("${selectedNiche.badge}")`, passed: true },
+    { label: selectedNiche ? `Focus Keyword Included ("${selectedNiche.badge}")` : 'General Early-Career SEO Optimization', passed: true },
     { label: `Rich Word Count (${wordCount} words >= 150)`, passed: wordCount >= 150 },
     { label: 'Structured Salary Band Included', passed: salaryMin > 0 && salaryMax >= salaryMin },
     { label: 'Direct ATS / Career URL Provided', passed: Boolean(atsProvider || true) }
