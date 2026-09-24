@@ -145,22 +145,24 @@ export function subscribeToLiveJobs(onUpdate: (jobs: JobPosting[]) => void): () 
  */
 export function cleanJobForFirestore<T extends Record<string, any>>(obj: T): Record<string, any> {
   if (!obj || typeof obj !== 'object') return obj;
-  const cleaned: Record<string, any> = {};
-  for (const [key, value] of Object.entries(obj)) {
-    if (value === undefined) {
-      continue;
+  try {
+    // JSON.stringify by specification completely omits any object key whose value is undefined
+    const str = JSON.stringify(obj, (_, v) => (v === undefined ? undefined : v));
+    return JSON.parse(str);
+  } catch (e) {
+    const cleaned: Record<string, any> = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (value === undefined) continue;
+      if (Array.isArray(value)) {
+        cleaned[key] = value.filter((item) => item !== undefined);
+      } else if (value !== null && typeof value === 'object') {
+        cleaned[key] = cleanJobForFirestore(value);
+      } else {
+        cleaned[key] = value;
+      }
     }
-    if (Array.isArray(value)) {
-      cleaned[key] = value
-        .filter((item) => item !== undefined)
-        .map((item) => (item !== null && typeof item === 'object' ? cleanJobForFirestore(item) : item));
-    } else if (value !== null && typeof value === 'object') {
-      cleaned[key] = cleanJobForFirestore(value);
-    } else {
-      cleaned[key] = value;
-    }
+    return cleaned;
   }
-  return cleaned;
 }
 
 /**

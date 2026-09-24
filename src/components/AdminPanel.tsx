@@ -501,8 +501,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const handlePushAllToCloud = async () => {
     setPushingToCloud(true);
     try {
-      await batchSaveJobsToCloud(jobs);
-      alert(`Successfully published all ${jobs.length} jobs to Firestore Cloud! All visitors around the world now see all ${jobs.length} jobs in real-time.`);
+      // Ensure all jobs are sanitized without any undefined fields
+      const sanitizedJobs = jobs.map((job) => JSON.parse(JSON.stringify(job)));
+      await batchSaveJobsToCloud(sanitizedJobs);
+      alert(`Successfully published all ${sanitizedJobs.length} jobs to Firestore Cloud! All visitors around the world now see all ${sanitizedJobs.length} jobs in real-time.`);
     } catch (err: any) {
       alert('Cloud publication note: ' + err.message);
     } finally {
