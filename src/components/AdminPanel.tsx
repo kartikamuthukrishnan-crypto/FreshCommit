@@ -860,18 +860,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </button>
               </form>
 
-              {/* Sample Quick Links for instant testing */}
-              <div className="mt-2 flex items-center gap-2 flex-wrap text-[11px] text-slate-500">
-                <span className="text-[10px] uppercase font-bold text-slate-400">Quick Test:</span>
-                <button
-                  type="button"
-                  onClick={() => setAutoExtractUrl('https://jobs.smartrecruiters.com/Version1/744000151416884-junior-servicenow-consultant')}
-                  className="text-indigo-600 hover:underline font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-indigo-100 cursor-pointer"
-                >
-                  Version 1 (Junior ServiceNow)
-                </button>
-              </div>
-
               {/* Feedback banners */}
               {extractSuccessMsg && (
                 <div className="mt-3 p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center gap-2 animate-fade-in">
@@ -1217,25 +1205,72 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
                 {/* 1-Click Micro-Niche Preset Selector */}
                 <div>
-                  <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
-                    <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider">
-                      Target Micro-Niche Preset <span className="text-slate-400 font-normal">(Optional — Click to select or deselect):</span>
-                    </label>
-                    {selectedMicroNiche ? (
+                  <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                    <div>
+                      <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                        Micro-Niche Preset Mode:
+                      </label>
+                      <p className="text-[11px] text-slate-500">
+                        {selectedMicroNiche
+                          ? `Currently Active Preset: "${selectedMicroNiche.name}". Click "No Preset (Standard)" to clear.`
+                          : 'Standard Mode Active: No keywords or niche constraints forced. Perfect for standard manual postings.'}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
                       <button
                         type="button"
                         onClick={() => setSelectedMicroNiche(null)}
-                        className="text-[11px] font-bold text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1 cursor-pointer bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200"
+                        className={`px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+                          !selectedMicroNiche
+                            ? 'bg-emerald-600 text-white shadow-xs'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                        }`}
                       >
-                        ✕ Clear Preset (Standard Mode)
+                        <span>● No Preset (Standard Job)</span>
                       </button>
-                    ) : (
-                      <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        ✓ Standard Mode (No Preset Selected)
+                      <span className="text-slate-300">|</span>
+                      <span className="text-[11px] text-slate-500 font-medium px-2">
+                        {selectedMicroNiche ? 'Preset Active' : 'Select a Preset Below ↓'}
                       </span>
-                    )}
+                    </div>
                   </div>
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {/* Explicit Option 1: Standard Job (No Preset) Card */}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedMicroNiche(null)}
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                        !selectedMicroNiche
+                          ? 'bg-emerald-50 border-emerald-500 shadow-sm ring-2 ring-emerald-200'
+                          : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="font-bold text-xs leading-tight text-emerald-950">
+                          🌱 Standard Job (No Preset)
+                        </span>
+                        <span
+                          className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded ${
+                            !selectedMicroNiche
+                              ? 'bg-emerald-600 text-white'
+                              : 'bg-slate-100 text-slate-600 border border-slate-200'
+                          }`}
+                        >
+                          {!selectedMicroNiche ? '✓ ACTIVE' : 'Click to Set'}
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-slate-600 line-clamp-2">
+                        Post standard manual job with exact employer title &amp; description. Zero forced keyword tags.
+                      </p>
+                      <div className="mt-1.5 pt-1.5 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500 font-medium">
+                        <span>Natural Schema</span>
+                        <span className="italic">Any Location</span>
+                      </div>
+                    </button>
+
+                    {/* Available Niche Presets */}
                     {MICRO_NICHE_PRESETS.map((preset) => {
                       const isSelected = selectedMicroNiche?.id === preset.id;
                       return (
