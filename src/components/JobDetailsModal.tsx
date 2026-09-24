@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { JobPosting, AdSenseConfig } from '../types';
-import { generateJobPostingSchema, generateJobPostingHtmlSnippet, injectJobJsonLd } from '../utils/schemaGenerator';
+import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { trackJobView, trackApplyClick } from '../utils/analytics';
 import { isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
 import { AdSlot } from './AdSlot';
@@ -21,9 +21,7 @@ import {
   Bookmark,
   Sparkles,
   Flag,
-  ChevronRight,
-  Code2,
-  ChevronDown
+  ChevronRight
 } from 'lucide-react';
 
 interface JobDetailsModalProps {
@@ -37,26 +35,7 @@ interface JobDetailsModalProps {
 export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, adConfig, isSaved, onToggleSave }) => {
   const [copiedTitle, setCopiedTitle] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState(false);
-  const [copiedSchema, setCopiedSchema] = useState(false);
-  const [copiedHtmlSnippet, setCopiedHtmlSnippet] = useState(false);
-  const [showRichResultsHelper, setShowRichResultsHelper] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
-
-  const handleCopySchema = () => {
-    if (!job) return;
-    const schema = generateJobPostingSchema(job);
-    navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
-    setCopiedSchema(true);
-    setTimeout(() => setCopiedSchema(false), 2500);
-  };
-
-  const handleCopyHtmlSnippet = () => {
-    if (!job) return;
-    const snippet = generateJobPostingHtmlSnippet(job);
-    navigator.clipboard.writeText(snippet);
-    setCopiedHtmlSnippet(true);
-    setTimeout(() => setCopiedHtmlSnippet(false), 2500);
-  };
 
   // Dynamic Title, Meta Description, Schema injection, and Escape listener
   useEffect(() => {
@@ -402,87 +381,6 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             </div>
           </div>
 
-          {/* Google JobPosting Schema & Rich Results Testing Drawer */}
-          <div className="rounded-xl border border-indigo-200 bg-indigo-50/60 p-4 space-y-3">
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <div className="flex items-center gap-2">
-                <span className="p-1.5 rounded-lg bg-indigo-100 text-indigo-700">
-                  <Code2 className="w-4 h-4" />
-                </span>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                    <span>Google JobPosting Schema.org Structured Data</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                      100% Validated
-                    </span>
-                  </h4>
-                  <p className="text-[11px] text-slate-600">
-                    Compliant with Google Search Central guidelines for rich job snippet cards in Google for Jobs.
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowRichResultsHelper(!showRichResultsHelper)}
-                className="text-xs font-semibold text-indigo-700 hover:text-indigo-900 flex items-center gap-1 cursor-pointer bg-white px-2.5 py-1 rounded-lg border border-indigo-200"
-              >
-                <span>{showRichResultsHelper ? 'Hide Details' : 'Inspect Schema & Instructions'}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showRichResultsHelper ? 'rotate-180' : ''}`} />
-              </button>
-            </div>
-
-            {/* Quick Actions Row */}
-            <div className="flex items-center gap-2 flex-wrap pt-1">
-              <button
-                type="button"
-                onClick={handleCopyHtmlSnippet}
-                className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
-                title="Copies complete <script type='application/ld+json'> HTML tag required by Google's < > CODE tab"
-              >
-                {copiedHtmlSnippet ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedHtmlSnippet ? 'Copied with <script> tag!' : 'Copy for Google Code Tab (<script>)'}</span>
-              </button>
-              <a
-                href={`https://search.google.com/test/rich-results?url=${encodeURIComponent(`https://www.freshcommits.com/?job=${job.id}`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
-                title="Test live URL directly on Google Rich Results"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                <span>Test Live URL on Google</span>
-                <ExternalLink className="w-3 h-3 text-slate-400" />
-              </a>
-              <button
-                type="button"
-                onClick={handleCopySchema}
-                className="px-2.5 py-1.5 rounded-lg bg-white/70 border border-slate-200 hover:bg-white text-slate-600 font-medium text-xs flex items-center gap-1 transition-colors cursor-pointer"
-                title="Copy raw JSON object without HTML tags"
-              >
-                {copiedSchema ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3 text-slate-400" />}
-                <span>{copiedSchema ? 'Copied Raw JSON!' : 'Copy Raw JSON'}</span>
-              </button>
-            </div>
-
-            {/* Expanded Detailed Guide */}
-            {showRichResultsHelper && (
-              <div className="pt-2 border-t border-indigo-200/70 space-y-3 text-xs">
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-[11px] text-amber-900 leading-relaxed">
-                  <strong className="block text-amber-950 font-bold mb-1">
-                    ⚠️ Why did Google Rich Results say "No items detected" previously?
-                  </strong>
-                  Google's <strong>"&lt; &gt; CODE"</strong> tab evaluates raw HTML. If you paste bare JSON (without the <code>&lt;script type="application/ld+json"&gt;</code> wrapper), Google treats it as an HTML page without scripts and reports <em>"No items detected"</em>.
-                  <br />
-                  Clicking <strong>"Copy for Google Code Tab (&lt;script&gt;)"</strong> above automatically includes the mandatory wrapper tag, yielding 100% green checks in Google!
-                </div>
-
-                <div className="bg-slate-900 text-slate-100 p-3 rounded-lg font-mono text-[10px] overflow-x-auto max-h-56 leading-relaxed">
-                  {generateJobPostingHtmlSnippet(job)}
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Social Share Engine: One-click LinkedIn, X, Reddit, WhatsApp */}
           <SocialShare job={job} />
 
@@ -523,14 +421,6 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             </div>
           </div>
           <div className="flex items-center gap-2.5 self-end sm:self-center flex-wrap">
-            <button
-              onClick={handleCopyHtmlSnippet}
-              className="px-3 py-2 rounded-lg border border-emerald-300 bg-emerald-50 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
-              title="Copy validated <script type='application/ld+json'> schema for Google Rich Results Code tab"
-            >
-              {copiedHtmlSnippet ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-emerald-600" />}
-              <span>{copiedHtmlSnippet ? 'Copied for Google Code Tab!' : 'Copy Schema (<script>)'}</span>
-            </button>
             <button
               onClick={handleCopyUrl}
               className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
