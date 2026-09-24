@@ -746,7 +746,7 @@ export default function App() {
                 </h1>
 
                 <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                  Direct software engineering listings for freshers and university graduates across US &amp; global tech hubs &amp; remote.
+                  Direct software engineering listings for entry level, freshers, and university graduates across US &amp; global tech hubs &amp; remote.
                 </p>
 
                 {/* Search & Filter Bar */}

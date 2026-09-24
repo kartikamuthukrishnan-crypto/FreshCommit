@@ -1,4 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+import sharp from 'sharp';
+import fs from 'fs';
+import path from 'path';
+
+/**
+ * Generates an ultra-crisp, high-contrast, scalable vector favicon
+ * tailored specifically for:
+ * 1. Google Search snippet results (48x48, 96x96 circle/square crop on #ffffff white backgrounds)
+ * 2. Browser tabs (16x16, 32x32 dark/light mode)
+ * 3. Mobile home screen icons & PWA manifests (192x192, 512x512)
+ *
+ * Design: High-contrast rounded square badge featuring the iconic FreshCommits
+ * code bracket '<' in tech cyan/navy with gold trim, intersecting with the
+ * lush green growth sprout and commit node.
+ */
+const createFaviconSvg = (size = 512) => `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="${size}" height="${size}">
   <defs>
     <!-- Background: Deep Tech Dark Slate for maximum contrast against white search results -->
     <linearGradient id="fc-bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -132,3 +148,86 @@
   <circle cx="214" cy="392" r="20" fill="url(#fc-gold)" stroke="#FFFFFF" stroke-width="3" />
   <circle cx="214" cy="392" r="8" fill="#040D1A" />
 </svg>
+`.trim();
+
+async function generate() {
+  const publicDir = path.resolve('public');
+  const svgContent = createFaviconSvg();
+
+  // Save master SVG
+  fs.writeFileSync(path.join(publicDir, 'favicon.svg'), svgContent);
+  fs.writeFileSync(path.join(publicDir, 'freshcommits-logo.svg'), svgContent);
+  console.log('Saved master favicon.svg and freshcommits-logo.svg');
+
+  const svgBuffer = Buffer.from(svgContent);
+
+  // Exact sizes required for Googlebot-Favicon (multiples of 48px), Apple, and PWA
+  const sizes = [
+    { name: 'favicon-48x48.png', size: 48 },
+    { name: 'favicon-96x96.png', size: 96 },
+    { name: 'favicon-144x144.png', size: 144 },
+    { name: 'favicon-192x192.png', size: 192 },
+    { name: 'favicon-512x512.png', size: 512 },
+    { name: 'apple-touch-icon.png', size: 180 },
+    { name: 'favicon-32x32.png', size: 32 },
+    { name: 'favicon-16x16.png', size: 16 }
+  ];
+
+  for (const item of sizes) {
+    const outPath = path.join(publicDir, item.name);
+    await sharp(svgBuffer)
+      .resize(item.size, item.size)
+      .png({ compressionLevel: 9 })
+      .toFile(outPath);
+    console.log(`✓ Rendered ${item.name} (${item.size}x${item.size}px)`);
+  }
+
+  // Construct official binary multi-image ICO (16x16, 32x32, 48x48)
+  const png16 = await sharp(svgBuffer).resize(16, 16).png().toBuffer();
+  const png32 = await sharp(svgBuffer).resize(32, 32).png().toBuffer();
+  const png48 = await sharp(svgBuffer).resize(48, 48).png().toBuffer();
+
+  const icoBuffer = createIcoFromPngs([
+    { buffer: png16, width: 16, height: 16 },
+    { buffer: png32, width: 32, height: 32 },
+    { buffer: png48, width: 48, height: 48 }
+  ]);
+
+  fs.writeFileSync(path.join(publicDir, 'favicon.ico'), icoBuffer);
+  console.log('✓ Rendered multi-res /favicon.ico (16px, 32px, 48px)');
+}
+
+function createIcoFromPngs(images) {
+  const count = images.length;
+  const headerSize = 6 + 16 * count;
+  let offset = headerSize;
+
+  const header = Buffer.alloc(headerSize);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // type: 1 for icon
+  header.writeUInt16LE(count, 4); // number of images
+
+  const buffers = [header];
+
+  images.forEach((img, idx) => {
+    const entryOffset = 6 + idx * 16;
+    header.writeUInt8(img.width >= 256 ? 0 : img.width, entryOffset);
+    header.writeUInt8(img.height >= 256 ? 0 : img.height, entryOffset + 1);
+    header.writeUInt8(0, entryOffset + 2); // color palette
+    header.writeUInt8(0, entryOffset + 3); // reserved
+    header.writeUInt16LE(1, entryOffset + 4); // color planes
+    header.writeUInt16LE(32, entryOffset + 6); // bits per pixel
+    header.writeUInt32LE(img.buffer.length, entryOffset + 8);
+    header.writeUInt32LE(offset, entryOffset + 12);
+
+    buffers.push(img.buffer);
+    offset += img.buffer.length;
+  });
+
+  return Buffer.concat(buffers);
+}
+
+generate().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
