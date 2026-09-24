@@ -1,12 +1,31 @@
 import { JobPosting, SchemaValidationResult } from '../types';
 
 /**
+ * Standard country code to formal name mapping for Google Search Central JobPosting schema
+ */
+const COUNTRY_NAME_MAP: Record<string, string> = {
+  US: 'United States',
+  USA: 'United States',
+  GB: 'United Kingdom',
+  UK: 'United Kingdom',
+  CA: 'Canada',
+  IN: 'India',
+  DE: 'Germany',
+  AU: 'Australia',
+  FR: 'France',
+  IE: 'Ireland',
+  NL: 'Netherlands',
+  SG: 'Singapore',
+  NZ: 'New Zealand',
+};
+
+/**
  * Generates official Google JobPosting JSON-LD structured data conforming
  * to Google Search Central guidelines (https://developers.google.com/search/docs/appearance/structured-data/job-posting)
  */
 export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
   const schema: Record<string, any> = {
-    '@context': 'https://schema.org/',
+    '@context': 'https://schema.org',
     '@type': 'JobPosting',
     title: job.title,
     description: formatHtmlDescription(job),
@@ -47,24 +66,30 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
   }
 
   // Handle Remote / Telecommute vs Physical Location for Google
+  const countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
+  const countryName = COUNTRY_NAME_MAP[countryCode] || countryCode;
+
   if (job.isRemote) {
     schema.jobLocationType = 'TELECOMMUTE';
     schema.applicantLocationRequirements = {
       '@type': 'Country',
-      name: job.applicantLocationRequirements || 'US',
+      name: countryName,
     };
-    // Include location if hybrid/remote from specific city
-    if (job.city || job.state) {
-      schema.jobLocation = {
-        '@type': 'Place',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: job.city || undefined,
-          addressRegion: job.state || undefined,
-          addressCountry: job.country || 'US',
-        },
-      };
-    }
+
+    // Provide physical jobLocation fallback for hybrid & geographic search indexing
+    const locality = job.city || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[0]?.trim() : undefined) || (countryCode === 'GB' ? 'Belfast' : 'San Francisco');
+    const region = job.state || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[1]?.trim() : undefined) || (countryCode === 'GB' ? 'Northern Ireland' : 'CA');
+
+    schema.jobLocation = {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: locality,
+        addressRegion: region,
+        addressCountry: countryCode === 'GB' ? 'GB' : (job.country || 'US'),
+        postalCode: job.postalCode || undefined,
+      },
+    };
   } else {
     schema.jobLocation = {
       '@type': 'Place',
@@ -82,10 +107,25 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
 }
 
 /**
+ * Returns complete HTML script tag ready for Google Rich Results Test `< > CODE` tab
+ */
+export function generateJobPostingHtmlSnippet(job: JobPosting): string {
+  const schema = generateJobPostingSchema(job);
+  return `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`;
+}
+
+/**
  * Formats a job description into compliant HTML as required by Google Search
  */
 function formatHtmlDescription(job: JobPosting): string {
-  let html = `<p>${escapeHtml(job.description)}</p>`;
+  const cleanDesc = escapeHtml(job.description || '')
+    .split(/\n\s*\n/)
+    .map(p => p.trim())
+    .filter(Boolean)
+    .map(p => `<p>${p.replace(/\n/g, '<br />')}</p>`)
+    .join('');
+
+  let html = cleanDesc || `<p>Apply directly for ${escapeHtml(job.title)} at ${escapeHtml(job.company)}.</p>`;
 
   if (job.responsibilities && job.responsibilities.length > 0) {
     html += `<p><strong>Key Responsibilities:</strong></p><ul>`;

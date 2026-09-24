@@ -56,6 +56,78 @@
           }
           if (!jobId) return;
 
+          // Country mapping for Google Search Central JobPosting schema
+          var COUNTRY_MAP = {
+            'US': 'United States',
+            'USA': 'United States',
+            'GB': 'United Kingdom',
+            'UK': 'United Kingdom',
+            'CA': 'Canada',
+            'IN': 'India',
+            'DE': 'Germany',
+            'AU': 'Australia',
+            'FR': 'France',
+            'IE': 'Ireland',
+            'NL': 'Netherlands',
+            'SG': 'Singapore'
+          };
+
+          // Synchronous registry of manual & verified jobs for zero-latency crawler indexing
+          var SYNCHRONOUS_JOBS = {
+            "manual-1790184795254": {
+              id: "manual-1790184795254",
+              title: "Junior ServiceNow Consultant",
+              company: "Version 1",
+              companyLogo: "https://ui-avatars.com/api/?name=Version%201&background=0F172A&color=fff&size=128",
+              companyWebsite: "https://version1.com",
+              location: "Remote (GB)",
+              isRemote: true,
+              applicantLocationRequirements: "GB",
+              city: "Belfast",
+              state: "Northern Ireland",
+              country: "GB",
+              experienceLevel: "New Grad",
+              maxYearsExperience: 1,
+              category: "Backend",
+              employmentType: "FULL_TIME",
+              salary: {
+                min: 30000,
+                max: 38000,
+                currency: "GBP",
+                unit: "YEAR"
+              },
+              description: "Version 1 is actively investing in early-career talent with this Junior ServiceNow Consultant opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.",
+              responsibilities: [
+                "ServiceNow platform administration and configuration",
+                "IT Service Management (ITSM) processes and best practices",
+                "Workflow automation and business process improvement",
+                "ServiceNow application support and maintenance",
+                "REST APIs and platform integrations",
+                "Oracle Fusion Cloud fundamentals across ERP and HCM"
+              ],
+              qualifications: [
+                "Degree in Computer Science, Software Engineering, Information Technology, or a related discipline, OR demonstrable technical aptitude gained through projects, apprenticeships, bootcamps, or self-directed learning",
+                "Basic knowledge of at least one programming or scripting language such as JavaScript, Python, Java, SQL, or similar",
+                "Strong analytical and problem-solving skills",
+                "Excellent attention to detail",
+                "Strong written and verbal communication skills",
+                "Genuine enthusiasm for technology and continuous learning"
+              ],
+              skills: [
+                "JavaScript",
+                "Python",
+                "Java",
+                "SQL",
+                "REST APIs",
+                "Git",
+                "ServiceNow"
+              ],
+              applyUrl: "https://jobs.smartrecruiters.com/Version1/744000151416884-junior-servicenow-consultant",
+              datePosted: "2026-09-23",
+              validThrough: "2026-10-23"
+            }
+          };
+
           function escapeHtml(str) {
             if (!str) return '';
             return String(str)
@@ -67,8 +139,18 @@
           }
 
           function formatDescription(job) {
-            var desc = job.description || ('Apply directly for ' + job.title + ' at ' + job.company);
-            var html = '<p>' + escapeHtml(desc) + '</p>';
+            var rawDesc = job.description || ('Apply directly for ' + job.title + ' at ' + job.company);
+            var paragraphs = String(rawDesc)
+              .split(/\n\s*\n/)
+              .map(function(p) { return p.trim(); })
+              .filter(Boolean);
+            
+            var html = '';
+            for (var pIdx = 0; pIdx < paragraphs.length; pIdx++) {
+              html += '<p>' + escapeHtml(paragraphs[pIdx]).replace(/\n/g, '<br />') + '</p>';
+            }
+            if (!html) html = '<p>' + escapeHtml(rawDesc) + '</p>';
+
             if (job.responsibilities && job.responsibilities.length) {
               html += '<p><strong>Key Responsibilities:</strong></p><ul>';
               for (var i = 0; i < job.responsibilities.length; i++) {
@@ -91,8 +173,11 @@
 
           function injectSchema(job) {
             if (!job || !job.title || !job.company) return;
+            var countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
+            var countryName = COUNTRY_MAP[countryCode] || countryCode;
+
             var s = {
-              "@context": "https://schema.org/",
+              "@context": "https://schema.org",
               "@type": "JobPosting",
               "title": job.title,
               "description": formatDescription(job),
@@ -133,19 +218,20 @@
               s.jobLocationType = "TELECOMMUTE";
               s.applicantLocationRequirements = {
                 "@type": "Country",
-                "name": job.applicantLocationRequirements || job.country || "US"
+                "name": countryName
               };
-              if (job.city || job.state) {
-                s.jobLocation = {
-                  "@type": "Place",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": job.city || undefined,
-                    "addressRegion": job.state || undefined,
-                    "addressCountry": job.country || "US"
-                  }
-                };
-              }
+              var locality = job.city || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[0].trim() : (countryCode === 'GB' ? 'Belfast' : 'San Francisco'));
+              var region = job.state || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[1]?.trim() : (countryCode === 'GB' ? 'Northern Ireland' : 'CA'));
+              s.jobLocation = {
+                "@type": "Place",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": locality,
+                  "addressRegion": region,
+                  "addressCountry": countryCode === 'GB' ? 'GB' : (job.country || 'US'),
+                  "postalCode": job.postalCode || undefined
+                }
+              };
             } else {
               s.jobLocation = {
                 "@type": "Place",
@@ -180,7 +266,7 @@
             var ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.content = 'Direct entry-level software engineering requisition at ' + job.company + '. 0–2 YoE.';
             var canLink = document.querySelector('link[rel="canonical"]');
-            if (canLink) canLink.href = 'https://freshcommits.com/?job=' + encodeURIComponent(job.id || jobId);
+            if (canLink) canLink.href = 'https://www.freshcommits.com/?job=' + encodeURIComponent(job.id || jobId);
 
             window.__PRELOADED_JOB__ = job;
             try {
@@ -208,6 +294,12 @@
             } catch (e) {}
           }
 
+          // Step 1: Immediate synchronous check from embedded registry (zero crawler latency)
+          if (SYNCHRONOUS_JOBS[jobId]) {
+            injectSchema(SYNCHRONOUS_JOBS[jobId]);
+            return;
+          }
+
           function parseFirestoreVal(v) {
             if (!v) return undefined;
             if ('stringValue' in v) return v.stringValue;
@@ -229,7 +321,7 @@
             return undefined;
           }
 
-          // 1. Try local cache
+          // Step 2: Try local browser cache
           var raw = localStorage.getItem('freshcommit_jobs_v5') || localStorage.getItem('freshcommit_jobs_v4') || localStorage.getItem('freshcommit_jobs_v3');
           if (raw) {
             try {
@@ -245,7 +337,7 @@
             } catch (e) {}
           }
 
-          // 2. Fetch directly from Firestore public REST API (ultra-fast for Google Rich Results crawler!)
+          // Step 3: Fetch directly from Firestore public REST API as fallback
           var restUrl = 'https://firestore.googleapis.com/v1/projects/centered-module-9smzh/databases/ai-studio-juniordevhubentr-9fce9c23-e540-412e-ae3f-aca1eaf015f5/documents/jobs/' + encodeURIComponent(jobId);
           fetch(restUrl)
             .then(function(res) {

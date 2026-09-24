@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel, EmploymentType } from '../types';
 import { generateFingerprint, executeAutomatedSync, syncSmartRecruitersJobs, isJobExpired, getDaysUntilExpiration, checkDuplicateJob } from '../utils/jobAggregator';
-import { validateJobPostingSchema, generateJobPostingSchema } from '../utils/schemaGenerator';
+import { validateJobPostingSchema, generateJobPostingSchema, generateJobPostingHtmlSnippet } from '../utils/schemaGenerator';
 import { initGA, DEFAULT_GA_MEASUREMENT_ID } from '../utils/analytics';
 import {
   PlusCircle,
@@ -765,14 +765,27 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     <button
                       type="button"
                       onClick={() => {
-                        const s = generateJobPostingSchema(lastPublishedJob);
-                        navigator.clipboard.writeText(JSON.stringify(s, null, 2));
-                        alert('Copied JobPosting JSON-LD schema! You can paste this directly into Google Rich Results "< > CODE" tab.');
+                        const snippet = generateJobPostingHtmlSnippet(lastPublishedJob);
+                        navigator.clipboard.writeText(snippet);
+                        alert('Copied complete JobPosting schema wrapped in <script type="application/ld+json">! Paste directly into Google Rich Results "< > CODE" tab.');
                       }}
                       className="px-2.5 py-1 bg-white border border-emerald-300 hover:bg-emerald-100 text-emerald-800 rounded-lg font-semibold text-[11px] flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Copy complete <script> HTML snippet for Google Rich Results Code tab"
                     >
                       <Copy className="w-3 h-3" />
-                      <span>Copy Schema Code</span>
+                      <span>Copy for Google Code Tab (&lt;script&gt;)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const s = generateJobPostingSchema(lastPublishedJob);
+                        navigator.clipboard.writeText(JSON.stringify(s, null, 2));
+                        alert('Copied raw JSON-LD object to clipboard.');
+                      }}
+                      className="px-2 py-1 bg-white/70 border border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-lg text-[10px] font-medium transition-colors cursor-pointer"
+                      title="Copy raw JSON-LD"
+                    >
+                      <span>Raw JSON</span>
                     </button>
                     <a
                       href={`/?job=${lastPublishedJob.id}`}
@@ -1953,11 +1966,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-700">
               <div className="bg-white p-2.5 rounded-lg border border-indigo-100">
                 <strong className="block text-slate-900 mb-1">1. Test Live URL Tab</strong>
-                Google's crawler fetches the public URL (e.g. <code>https://www.freshcommits.com/?job=manual-...</code>). Our synchronous hydration engine pulls the listing from Firestore REST API and populates the schema instantly for Googlebot.
+                Googlebot crawls <code>https://www.freshcommits.com/?job=...</code>. Note: Always use the canonical <code>www.freshcommits.com</code> URL to avoid 301 redirects, where our preloaded schema is immediately parsed in the &lt;head&gt;.
               </div>
               <div className="bg-white p-2.5 rounded-lg border border-indigo-100">
                 <strong className="block text-slate-900 mb-1">2. Test Code Tab (Instant 100% Validation)</strong>
-                Click <strong>"Copy Schema"</strong> on any job below, switch to the <strong>"&lt; &gt; CODE"</strong> tab in Google Rich Results Test, and paste. You will see green checkmarks for all JobPosting fields with zero crawler latency!
+                Click <strong>"Copy for Code Tab (&lt;script&gt;)"</strong> below. Google's &lt; &gt; CODE tab requires the <code>&lt;script type="application/ld+json"&gt;</code> wrapper (raw JSON without tags causes "No items detected"). Paste and click Test Code for full green checkmarks!
               </div>
             </div>
           </div>
@@ -2063,7 +2076,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-1 flex-shrink-0">
+                        <div className="flex items-center gap-1 flex-shrink-0 flex-wrap">
                           <a
                             href={richResultsTestUrl}
                             target="_blank"
@@ -2077,14 +2090,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           </a>
                           <button
                             onClick={() => {
-                              navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
-                              alert(`Copied JSON-LD schema for "${job.title}"! Paste directly into Google Rich Results "< > CODE" tab.`);
+                              const snippet = generateJobPostingHtmlSnippet(job);
+                              navigator.clipboard.writeText(snippet);
+                              alert(`Copied complete <script> tag for "${job.title}"! Paste directly into Google Rich Results "< > CODE" tab.`);
                             }}
-                            className="px-2 py-1 bg-white border border-slate-300 rounded text-[11px] font-semibold text-slate-700 hover:bg-slate-100 flex items-center gap-1 cursor-pointer"
-                            title="Copy schema JSON-LD code"
+                            className="px-2 py-1 bg-white border border-emerald-300 rounded text-[11px] font-semibold text-emerald-800 hover:bg-emerald-50 flex items-center gap-1 cursor-pointer"
+                            title="Copy complete <script type='application/ld+json'> tag for Google Rich Results Code tab"
                           >
-                            <Copy className="w-3 h-3" />
-                            <span>Copy Schema</span>
+                            <Copy className="w-3 h-3 text-emerald-600" />
+                            <span>Copy for Code Tab (&lt;script&gt;)</span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
+                              alert(`Copied raw JSON-LD for "${job.title}".`);
+                            }}
+                            className="px-1.5 py-1 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-600 hover:bg-slate-200 cursor-pointer"
+                            title="Copy raw JSON"
+                          >
+                            <span>JSON</span>
                           </button>
                         </div>
                       </div>
