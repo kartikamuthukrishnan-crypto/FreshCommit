@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Lock, Shield, X, KeyRound, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { disableAnalyticsForAdmin } from '../utils/analytics';
 
 interface AdminLoginModalProps {
   isOpen: boolean;
@@ -36,6 +37,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
       } else {
         sessionStorage.setItem('freshcommit_admin_auth', 'true');
       }
+      disableAnalyticsForAdmin();
       setPasscode('');
       onSuccess();
     } else {

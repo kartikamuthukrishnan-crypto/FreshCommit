@@ -17,7 +17,7 @@ import { FreshCommitsLogo } from './components/FreshCommitsLogo';
 import { HomeEditorialContent } from './components/HomeEditorialContent';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
-import { trackPageView } from './utils/analytics';
+import { trackPageView, disableAnalyticsForAdmin } from './utils/analytics';
 import { isJobExpired } from './utils/jobAggregator';
 import {
   subscribeToLiveJobs,
@@ -390,14 +390,24 @@ export default function App() {
     }
   });
 
-  // Track page views in Google Analytics on tab change
+  // Enforce analytics exclusion if admin is authenticated
   useEffect(() => {
+    if (isAdminAuthenticated) {
+      disableAnalyticsForAdmin();
+    }
+  }, [isAdminAuthenticated]);
+
+  // Track page views in Google Analytics on tab change (strictly excludes admin portal)
+  useEffect(() => {
+    if (activeTab === 'admin' || isAdminAuthenticated) {
+      return;
+    }
     if (!selectedJob) {
       const title = getTabTitle(activeTab);
       document.title = title;
       trackPageView(activeTab === 'jobs' ? '/' : `/?view=${activeTab}`, title);
     }
-  }, [activeTab, selectedJob]);
+  }, [activeTab, selectedJob, isAdminAuthenticated]);
 
   // Owner Logout handler
   const handleLogoutAdmin = () => {

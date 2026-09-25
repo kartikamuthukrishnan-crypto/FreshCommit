@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel, EmploymentType } from '../types';
-import { generateFingerprint, executeAutomatedSync, syncSmartRecruitersJobs, isJobExpired, getDaysUntilExpiration, checkDuplicateJob } from '../utils/jobAggregator';
+import {
+  generateFingerprint,
+  executeAutomatedSync,
+  syncSmartRecruitersJobs,
+  isJobExpired,
+  getDaysUntilExpiration,
+  checkDuplicateJob,
+  batchVerifyJobsAtsHealth,
+  JobHealthCheckResult
+} from '../utils/jobAggregator';
 import { validateJobPostingSchema, generateJobPostingSchema, generateJobPostingHtmlSnippet } from '../utils/schemaGenerator';
-import { initGA, DEFAULT_GA_MEASUREMENT_ID } from '../utils/analytics';
+import {
+  initGA,
+  DEFAULT_GA_MEASUREMENT_ID,
+  disableAnalyticsForAdmin,
+  enableAnalyticsForAdmin,
+  isAnalyticsExcludedForAdmin,
+} from '../utils/analytics';
 import {
   PlusCircle,
   RefreshCw,
@@ -34,7 +49,11 @@ import {
   Download,
   Upload,
   Cloud,
-  Search
+  Search,
+  Filter,
+  EyeOff,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import {
   saveJobToCloud,
@@ -105,6 +124,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   });
   const [gaMsg, setGaMsg] = useState('');
+  const [excludeAdminFromGa, setExcludeAdminFromGa] = useState<boolean>(() => isAnalyticsExcludedForAdmin());
+  const [showGaFilterGuide, setShowGaFilterGuide] = useState(false);
+  const [copiedFilterText, setCopiedFilterText] = useState(false);
   const [copiedAdsTxt, setCopiedAdsTxt] = useState(false);
 
   const handleSaveGaId = () => {
@@ -113,6 +135,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     initGA(trimmed);
     setGaMsg('Saved & activated successfully!');
     setTimeout(() => setGaMsg(''), 3000);
+  };
+
+  const handleToggleExcludeAdmin = () => {
+    const next = !excludeAdminFromGa;
+    setExcludeAdminFromGa(next);
+    if (next) {
+      disableAnalyticsForAdmin(gaId.trim() || DEFAULT_GA_MEASUREMENT_ID);
+      setGaMsg('🛡️ Admin traffic blocked: Your visits, edits, and test clicks will NOT appear in Google Analytics.');
+    } else {
+      enableAnalyticsForAdmin(gaId.trim() || DEFAULT_GA_MEASUREMENT_ID);
+      setGaMsg('⚠️ Admin tracking enabled (testing mode).');
+    }
+    setTimeout(() => setGaMsg(''), 4500);
+  };
+
+  const handleCopyFilterRegex = () => {
+    navigator.clipboard.writeText('admin|\\?view=admin|#admin');
+    setCopiedFilterText(true);
+    setTimeout(() => setCopiedFilterText(false), 2500);
   };
 
   // Manual Job Posting Form State
@@ -518,6 +559,88 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
+  // ATS Health Audit State
+  const [isAuditingHealth, setIsAuditingHealth] = useState(false);
+  const [healthProgress, setHealthProgress] = useState<{ checked: number; total: number }>({ checked: 0, total: 0 });
+  const [healthAuditResults, setHealthAuditResults] = useState<Map<string, JobHealthCheckResult>>(() => new Map());
+  const [healthAuditSummary, setHealthAuditSummary] = useState<string>('');
+
+  const handleRunAtsHealthAudit = async () => {
+    setIsAuditingHealth(true);
+    setHealthAuditSummary('');
+    try {
+      const results = await batchVerifyJobsAtsHealth(jobs, (checked, total) => {
+        setHealthProgress({ checked, total });
+      });
+      setHealthAuditResults(results);
+
+      let deadCount = 0;
+      const updatedJobs = jobs.map((j) => {
+        const check = results.get(j.id);
+        if (check && !check.isAlive) {
+          deadCount++;
+          return {
+            ...j,
+            healthStatus: 'DEAD_LINK' as const,
+            lastHealthCheckedAt: new Date().toISOString()
+          };
+        } else if (check && check.isAlive) {
+          return {
+            ...j,
+            healthStatus: 'HEALTHY' as const,
+            lastHealthCheckedAt: new Date().toISOString()
+          };
+        }
+        return j;
+      });
+
+      setJobs(updatedJobs);
+      // Persist health metadata to Firestore
+      batchSaveJobsToCloud(updatedJobs).catch((e) => console.warn('Could not persist health states:', e));
+
+      if (deadCount > 0) {
+        setHealthAuditSummary(`⚠️ Audit complete: ${deadCount} dead/removed or candidate-flagged role(s) detected! You can archive them below.`);
+      } else {
+        setHealthAuditSummary(`✓ Audit complete: All ${jobs.length} roles verified active on official ATS feeds!`);
+      }
+    } catch (err: any) {
+      setHealthAuditSummary('Audit encountered an issue: ' + err.message);
+    } finally {
+      setIsAuditingHealth(false);
+    }
+  };
+
+  const handleArchiveDeadJobs = async () => {
+    const deadJobIds = new Set<string>();
+    jobs.forEach((j) => {
+      const check = healthAuditResults.get(j.id);
+      if ((check && !check.isAlive) || j.healthStatus === 'DEAD_LINK' || (j.closedReportCount || 0) >= 2) {
+        deadJobIds.add(j.id);
+      }
+    });
+
+    if (deadJobIds.size === 0) {
+      alert('No dead or closed roles to archive.');
+      return;
+    }
+
+    if (confirm(`Archive ${deadJobIds.size} detected inactive/removed listing(s)? They will be moved to EXPIRED status and hidden from the public feed.`)) {
+      const updated = jobs.map((j) => {
+        if (deadJobIds.has(j.id)) {
+          return { ...j, status: 'EXPIRED' as const, healthStatus: 'DEAD_LINK' as const };
+        }
+        return j;
+      });
+      setJobs(updated);
+      try {
+        await batchSaveJobsToCloud(updated);
+        alert(`Successfully archived ${deadJobIds.size} dead listings! Public feed and Google schema are now clean.`);
+      } catch (e: any) {
+        alert('Archival note: ' + e.message);
+      }
+    }
+  };
+
   const expiredJobs = jobs.filter((j) => isJobExpired(j));
   const liveActiveJobs = jobs.filter((j) => !isJobExpired(j));
 
@@ -684,6 +807,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         >
           <ListFilter className="w-4 h-4" />
           <span>Manage Listings ({jobs.length})</span>
+          {(() => {
+            const reportedCount = jobs.filter((j) => (j.closedReportCount || 0) > 0 || j.healthStatus === 'DEAD_LINK').length;
+            if (reportedCount > 0) {
+              return (
+                <span className="text-[10px] bg-rose-500 text-white font-extrabold px-1.5 py-0.5 rounded-full animate-pulse" title={`${reportedCount} role(s) flagged or closed`}>
+                  {reportedCount} alert{reportedCount > 1 ? 's' : ''}
+                </span>
+              );
+            }
+            return null;
+          })()}
         </button>
 
         <button
@@ -1845,6 +1979,40 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
             <div className="flex items-center gap-2 flex-wrap">
               <button
+                onClick={handleRunAtsHealthAudit}
+                disabled={isAuditingHealth}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-50"
+                title="Directly checks Greenhouse, Lever, and SmartRecruiters public API endpoints for 404 take-downs at $0 cost"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isAuditingHealth ? 'animate-spin' : ''}`} />
+                <span>
+                  {isAuditingHealth
+                    ? `Auditing ATS Links (${healthProgress.checked}/${healthProgress.total})...`
+                    : '🔍 Audit ATS Link Health ($0)'}
+                </span>
+              </button>
+
+              {/* One-click archive button if any dead roles or reported roles exist */}
+              {(() => {
+                const deadRolesCount = jobs.filter(
+                  (j) => j.healthStatus === 'DEAD_LINK' || (j.closedReportCount || 0) >= 2 || healthAuditResults.get(j.id)?.isAlive === false
+                ).length;
+                if (deadRolesCount > 0) {
+                  return (
+                    <button
+                      onClick={handleArchiveDeadJobs}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer animate-pulse"
+                      title="Instantly marks all 404 or closed listings as EXPIRED so they vanish from the feed and Google search index"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Archive All Dead Roles ({deadRolesCount})</span>
+                    </button>
+                  );
+                }
+                return null;
+              })()}
+
+              <button
                 onClick={handlePushAllToCloud}
                 disabled={pushingToCloud}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-50"
@@ -1894,6 +2062,31 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             </div>
           </div>
 
+          {/* Health Audit Results Alert Banner */}
+          {healthAuditSummary && (
+            <div className={`mb-4 p-3 rounded-xl border text-xs flex items-center justify-between gap-3 ${
+              healthAuditSummary.includes('⚠️')
+                ? 'bg-amber-50 text-amber-900 border-amber-300'
+                : 'bg-emerald-50 text-emerald-900 border-emerald-300'
+            }`}>
+              <div className="flex items-center gap-2">
+                {healthAuditSummary.includes('⚠️') ? (
+                  <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                )}
+                <span className="font-semibold">{healthAuditSummary}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setHealthAuditSummary('')}
+                className="text-[11px] font-bold text-slate-500 hover:text-slate-800 underline"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead className="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200">
@@ -1902,7 +2095,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <th className="py-2.5 px-3">Location</th>
                   <th className="py-2.5 px-3">Level / YoE</th>
                   <th className="py-2.5 px-3">Salary</th>
-                  <th className="py-2.5 px-3">Source</th>
+                  <th className="py-2.5 px-3">Source &amp; ATS Health</th>
                   <th className="py-2.5 px-3">Auto-Vanish / Expiry</th>
                   <th className="py-2.5 px-3">Status</th>
                   <th className="py-2.5 px-3 text-right">Actions</th>
@@ -1912,9 +2105,23 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 {jobs.map((job) => {
                   const expired = isJobExpired(job);
                   const daysLeft = getDaysUntilExpiration(job.validThrough);
+                  const check = healthAuditResults.get(job.id);
+                  const isDeadOnAts = check ? !check.isAlive : job.healthStatus === 'DEAD_LINK';
+                  const isCandidateFlagged = (job.closedReportCount || 0) >= 1;
 
                   return (
-                    <tr key={job.id} className={`hover:bg-slate-50 transition-colors ${expired ? 'bg-slate-50/60 opacity-80' : ''}`}>
+                    <tr
+                      key={job.id}
+                      className={`hover:bg-slate-50 transition-colors ${
+                        isDeadOnAts
+                          ? 'bg-rose-50/70 border-l-4 border-l-rose-500'
+                          : isCandidateFlagged
+                          ? 'bg-amber-50/50 border-l-4 border-l-amber-500'
+                          : expired
+                          ? 'bg-slate-50/60 opacity-80'
+                          : ''
+                      }`}
+                    >
                       <td className="py-3 px-3">
                         <div className="font-bold text-slate-900">{job.title}</div>
                         <div className="text-slate-500 text-[11px]">{job.company}</div>
@@ -1936,15 +2143,43 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         ${Math.round(job.salary.min / 1000)}k–${Math.round(job.salary.max / 1000)}k
                       </td>
                       <td className="py-3 px-3">
-                        <span
-                          className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${
-                            job.source === 'EMPLOYER_POST'
-                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                              : 'bg-sky-50 text-sky-700 border border-sky-200'
-                          }`}
-                        >
-                          {job.source === 'EMPLOYER_POST' ? 'Direct Employer' : 'ATS Aggregated'}
-                        </span>
+                        <div className="space-y-1">
+                          <span
+                            className={`text-[10px] px-1.5 py-0.5 rounded font-semibold inline-block ${
+                              job.source === 'EMPLOYER_POST'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                : 'bg-sky-50 text-sky-700 border border-sky-200'
+                            }`}
+                          >
+                            {job.source === 'EMPLOYER_POST' ? 'Direct Employer' : 'ATS Aggregated'}
+                          </span>
+
+                          {/* ATS Health & Candidate Trigger Badges */}
+                          {isDeadOnAts ? (
+                            <span
+                              className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 font-bold border border-rose-300"
+                              title={check?.reason || 'Role was removed or returned 404 from ATS'}
+                            >
+                              <AlertTriangle className="w-2.5 h-2.5 text-rose-600" />
+                              <span>🚨 ATS Removed (404)</span>
+                            </span>
+                          ) : job.healthStatus === 'HEALTHY' ? (
+                            <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold border border-emerald-200">
+                              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
+                              <span>✓ ATS Live</span>
+                            </span>
+                          ) : null}
+
+                          {isCandidateFlagged && (
+                            <span
+                              className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 font-bold border border-amber-300"
+                              title="Flagged by real applicants clicking 'Report Expired Link'"
+                            >
+                              <AlertTriangle className="w-2.5 h-2.5 text-amber-700" />
+                              <span>⚠️ Reported Closed ({job.closedReportCount})</span>
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-3 px-3">
                         {expired ? (
@@ -2371,6 +2606,104 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     <span>Open GA4 Dashboard</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
+                </div>
+
+                {/* Real-time Admin Traffic Exclusion Card */}
+                <div className="p-3.5 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-xl text-white shadow-sm border border-slate-800">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+                        <EyeOff className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-xs font-bold text-white">Exclude Admin Traffic from GA4</h4>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold border ${
+                            excludeAdminFromGa
+                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                              : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                          }`}>
+                            {excludeAdminFromGa ? '🛡️ EXCLUDED & BLOCKED' : 'TRACKING ON'}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+                          Blocks your visits, page reloads, job creation tests, and clicks from being reported to Google Analytics.
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleToggleExcludeAdmin}
+                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                        excludeAdminFromGa ? 'bg-emerald-500' : 'bg-slate-700'
+                      }`}
+                      role="switch"
+                      aria-checked={excludeAdminFromGa}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                          excludeAdminFromGa ? 'translate-x-5' : 'translate-x-0'
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  <div className="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+                    <span className="text-slate-400">
+                      {excludeAdminFromGa
+                        ? '✓ All admin sessions & admin URL paths are automatically suppressed.'
+                        : '⚠️ Your admin usage is currently being logged to GA4.'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowGaFilterGuide(!showGaFilterGuide)}
+                      className="text-emerald-400 hover:text-emerald-300 font-bold underline flex items-center gap-1"
+                    >
+                      <span>{showGaFilterGuide ? 'Hide' : 'How to filter past data in GA4'}</span>
+                      {showGaFilterGuide ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                    </button>
+                  </div>
+
+                  {/* Expandable Step-by-Step Guide for GA4 Historical Data Removal */}
+                  {showGaFilterGuide && (
+                    <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] space-y-2.5 text-slate-300 animate-in fade-in duration-150">
+                      <p className="font-semibold text-white">
+                        How to remove admin pageviews from your existing Google Analytics reports:
+                      </p>
+                      <ol className="list-decimal pl-4 space-y-1.5 text-slate-300 text-[11px]">
+                        <li>
+                          In Google Analytics, go to <span className="font-mono text-emerald-300">Reports → Engagement → Pages and screens</span>.
+                        </li>
+                        <li>
+                          Click the <span className="font-semibold text-white">+ Add filter</span> button at the top of the chart.
+                        </li>
+                        <li>
+                          Set Dimension: <span className="font-mono text-emerald-300">Page path and screen class</span>.
+                        </li>
+                        <li>
+                          Set Match type: <span className="font-mono text-emerald-300">does not contain</span>, and enter value: <span className="font-mono text-emerald-300">admin</span>.
+                        </li>
+                        <li>
+                          Click <span className="font-semibold text-white">Apply</span>. All past admin visits (<code className="bg-slate-800 px-1 py-0.5 rounded text-amber-300">/?view=admin</code> and <code className="bg-slate-800 px-1 py-0.5 rounded text-amber-300">#admin</code>) will instantly vanish from your reports!
+                        </li>
+                      </ol>
+
+                      <div className="p-2 bg-slate-800/80 rounded-lg flex items-center justify-between gap-2 border border-slate-700/60 mt-2">
+                        <span className="font-mono text-[10px] text-slate-300 truncate">
+                          Filter regex: admin|\?view=admin|#admin
+                        </span>
+                        <button
+                          type="button"
+                          onClick={handleCopyFilterRegex}
+                          className="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded text-[10px] font-bold shrink-0 flex items-center gap-1 transition-colors"
+                        >
+                          {copiedFilterText ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                          <span>{copiedFilterText ? 'Copied!' : 'Copy Filter'}</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

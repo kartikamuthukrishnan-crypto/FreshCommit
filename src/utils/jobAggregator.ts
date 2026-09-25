@@ -918,3 +918,175 @@ export function checkDuplicateJob(
   return { isDuplicate: false };
 }
 
+/**
+ * Result of auditing a job's ATS health status
+ */
+export interface JobHealthCheckResult {
+  jobId: string;
+  isAlive: boolean;
+  status: 'HEALTHY' | 'DEAD_LINK';
+  reason?: string;
+  statusCode?: number;
+}
+
+/**
+ * Verifies if an individual job posting is still live and accepting applications on its native ATS.
+ * Uses lightweight public ATS endpoints (SmartRecruiters, Greenhouse, Lever) without paid proxies or scraping servers ($0 cost).
+ */
+export async function verifyJobAtsHealth(job: JobPosting): Promise<JobHealthCheckResult> {
+  const url = job.applyUrl || '';
+
+  // 1. SmartRecruiters ATS Verification
+  // Format: https://jobs.smartrecruiters.com/{company}/{jobId} or direct smartrecruiters API
+  if (url.includes('smartrecruiters.com')) {
+    try {
+      // Extract posting ID: e.g., jobs.smartrecruiters.com/Wise/12345678 or id property
+      let postingId = job.smartRecruitersId;
+      if (!postingId) {
+        const parts = url.split('smartrecruiters.com/')[1]?.split('?')[0]?.split('/');
+        if (parts && parts.length >= 2) {
+          postingId = parts[1];
+        } else if (parts && parts.length === 1) {
+          postingId = parts[0];
+        }
+      }
+
+      if (postingId) {
+        // Direct public CORS-enabled endpoint check
+        const directApi = `https://api.smartrecruiters.com/v1/postings/${postingId}`;
+        const res = await fetch(directApi, { method: 'GET', headers: { Accept: 'application/json' } }).catch(() => null);
+
+        if (res) {
+          if (res.status === 404 || res.status === 410) {
+            return {
+              jobId: job.id,
+              isAlive: false,
+              status: 'DEAD_LINK',
+              statusCode: res.status,
+              reason: 'Employer unpublished or deleted this position on SmartRecruiters (404 Not Found)'
+            };
+          }
+          if (res.ok) {
+            const data = await res.json().catch(() => null);
+            if (data && data.releasedDate) {
+              return { jobId: job.id, isAlive: true, status: 'HEALTHY' };
+            }
+          }
+        }
+      }
+    } catch {
+      // Fall through to general check
+    }
+  }
+
+  // 2. Greenhouse ATS Verification
+  // Format: https://boards.greenhouse.io/{company}/jobs/{jobId}
+  if (url.includes('greenhouse.io')) {
+    try {
+      const match = url.match(/greenhouse\.io\/(?:embed\/job_board\/)?([^\/]+)\/jobs\/(\d+)/i);
+      if (match) {
+        const [, companySlug, jobId] = match;
+        const ghApi = `https://boards-api.greenhouse.io/v1/boards/${companySlug}/jobs/${jobId}`;
+        const res = await fetch(ghApi).catch(() => null);
+        if (res) {
+          if (res.status === 404 || res.status === 410) {
+            return {
+              jobId: job.id,
+              isAlive: false,
+              status: 'DEAD_LINK',
+              statusCode: res.status,
+              reason: 'Employer removed this opening from Greenhouse job board (404)'
+            };
+          }
+          if (res.ok) {
+            return { jobId: job.id, isAlive: true, status: 'HEALTHY' };
+          }
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 3. Lever ATS Verification
+  // Format: https://jobs.lever.co/{company}/{jobId}
+  if (url.includes('lever.co')) {
+    try {
+      const match = url.match(/lever\.co\/([^\/]+)\/([a-f0-9\-]+)/i);
+      if (match) {
+        const [, companySlug, jobId] = match;
+        const leverApi = `https://api.lever.co/v0/postings/${companySlug}/${jobId}`;
+        const res = await fetch(leverApi).catch(() => null);
+        if (res) {
+          if (res.status === 404 || res.status === 410) {
+            return {
+              jobId: job.id,
+              isAlive: false,
+              status: 'DEAD_LINK',
+              statusCode: res.status,
+              reason: 'Job posting is closed on Lever (404)'
+            };
+          }
+          if (res.ok) {
+            return { jobId: job.id, isAlive: true, status: 'HEALTHY' };
+          }
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 4. Candidate report threshold check
+  if ((job.closedReportCount || 0) >= 2) {
+    return {
+      jobId: job.id,
+      isAlive: false,
+      status: 'DEAD_LINK',
+      reason: `Flagged by ${job.closedReportCount} applicants as closed or expired`
+    };
+  }
+
+  // Fallback: If not an API-checkable ATS and no reports, consider healthy
+  return { jobId: job.id, isAlive: true, status: 'HEALTHY' };
+}
+
+/**
+ * Batch audits a list of jobs with rate-limiting and concurrency safety.
+ * Runs in batches of 4 so it completes swiftly without browser network congestion.
+ */
+export async function batchVerifyJobsAtsHealth(
+  jobs: JobPosting[],
+  onProgress?: (checkedCount: number, total: number) => void
+): Promise<Map<string, JobHealthCheckResult>> {
+  const results = new Map<string, JobHealthCheckResult>();
+  const total = jobs.length;
+  let checked = 0;
+
+  // Process in small parallel chunks of 4
+  const chunkSize = 4;
+  for (let i = 0; i < jobs.length; i += chunkSize) {
+    const chunk = jobs.slice(i, i + chunkSize);
+    const chunkResults = await Promise.all(
+      chunk.map(async (job) => {
+        try {
+          return await verifyJobAtsHealth(job);
+        } catch {
+          return { jobId: job.id, isAlive: true, status: 'HEALTHY' as const };
+        }
+      })
+    );
+
+    for (const r of chunkResults) {
+      results.set(r.jobId, r);
+    }
+
+    checked += chunk.length;
+    if (onProgress) {
+      onProgress(Math.min(checked, total), total);
+    }
+  }
+
+  return results;
+}
+

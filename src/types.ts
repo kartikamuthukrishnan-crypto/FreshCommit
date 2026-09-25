@@ -44,6 +44,9 @@ export interface JobPosting {
   fingerprint: string; // company-title-location for strict deduplication
   viewsCount: number;
   featured?: boolean;
+  closedReportCount?: number; // Count of candidates who reported this role closed/expired
+  healthStatus?: 'HEALTHY' | 'DEAD_LINK' | 'CANDIDATE_REPORTED' | 'CHECKING';
+  lastHealthCheckedAt?: string; // ISO string
 }
 
 export interface AdSenseConfig {

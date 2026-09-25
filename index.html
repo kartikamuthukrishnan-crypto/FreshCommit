@@ -1,14 +1,53 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YQMXK76Q2H"></script>
+    <!-- Google tag (gtag.js) - Automatically Excludes Admin Traffic -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      (function() {
+        var GA_ID = 'G-YQMXK76Q2H';
+        var isAdmin = false;
+        try {
+          var search = (window.location.search || '').toLowerCase();
+          var hash = (window.location.hash || '').toLowerCase();
+          var isAdminAuth = localStorage.getItem('freshcommit_admin_auth') === 'true' ||
+                            sessionStorage.getItem('freshcommit_admin_auth') === 'true' ||
+                            localStorage.getItem('freshcommits_exclude_analytics') === 'true';
 
-      gtag('config', 'G-YQMXK76Q2H');
+          if (
+            search.indexOf('view=admin') !== -1 ||
+            search.indexOf('admin=true') !== -1 ||
+            search.indexOf('admin=1') !== -1 ||
+            hash.indexOf('admin') !== -1 ||
+            isAdminAuth
+          ) {
+            isAdmin = true;
+          }
+        } catch (e) {
+          // ignore
+        }
+
+        if (isAdmin) {
+          // Explicitly disable Google Analytics tracking for Admin traffic
+          window['ga-disable-' + GA_ID] = true;
+          window['__GA_EXCLUDED_ADMIN__'] = true;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function() {}; // No-op
+        } else {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', GA_ID, {
+            send_page_view: true,
+            anonymize_ip: true
+          });
+        }
+      })();
     </script>
 
     <meta charset="UTF-8" />

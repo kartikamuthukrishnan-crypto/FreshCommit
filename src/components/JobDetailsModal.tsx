@@ -94,8 +94,26 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     setTimeout(() => setCopiedUrl(false), 2000);
   };
 
-  const handleReportJob = () => {
+  const handleReportJob = async () => {
     setReportSubmitted(true);
+    try {
+      // 1. Update localStorage reported list to prevent duplicate spam from same browser
+      const reportedKey = `reported_job_${job.id}`;
+      if (!localStorage.getItem(reportedKey)) {
+        localStorage.setItem(reportedKey, 'true');
+        const updatedJob: JobPosting = {
+          ...job,
+          closedReportCount: (job.closedReportCount || 0) + 1,
+          healthStatus: (job.closedReportCount || 0) + 1 >= 2 ? 'CANDIDATE_REPORTED' : job.healthStatus
+        };
+        // Fire-and-forget cloud update without blocking UI
+        import('../services/firebaseService').then(({ saveJobToCloud }) => {
+          saveJobToCloud(updatedJob).catch((e) => console.warn('Could not update report to Firestore:', e));
+        });
+      }
+    } catch {
+      // graceful fallback
+    }
     setTimeout(() => setReportSubmitted(false), 6000);
   };
 

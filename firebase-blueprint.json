@@ -28,7 +28,10 @@
         "validThrough": { "type": "string" },
         "status": { "type": "string" },
         "viewsCount": { "type": "number" },
-        "clicksCount": { "type": "number" }
+        "clicksCount": { "type": "number" },
+        "closedReportCount": { "type": "number" },
+        "healthStatus": { "type": "string" },
+        "lastHealthCheckedAt": { "type": "string" }
       },
       "required": ["id", "company", "title", "applyUrl", "status"]
     },
