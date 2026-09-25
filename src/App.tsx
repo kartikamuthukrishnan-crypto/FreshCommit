@@ -511,8 +511,8 @@ export default function App() {
 
         const found =
           isPreloaded ||
-          jobs.find((j) => j.id.toLowerCase() === lowerTarget) ||
-          INITIAL_JOBS.find((j) => j.id.toLowerCase() === lowerTarget);
+          jobs.find((j) => j && j.id && j.id.toLowerCase() === lowerTarget) ||
+          INITIAL_JOBS.find((j) => j && j.id && j.id.toLowerCase() === lowerTarget);
 
         if (found) {
           setSelectedJob(found);
@@ -533,8 +533,8 @@ export default function App() {
 
       // 2. Sync Tab view
       if (urlParams.get('admin') === 'true' || urlParams.get('view') === 'admin' || hash === 'admin') {
+        setActiveTab('admin');
         if (isAdminAuthenticated) {
-          setActiveTab('admin');
           document.title = getTabTitle('admin');
         } else {
           setIsAdminLoginOpen(true);

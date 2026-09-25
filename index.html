@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en">
-  <head>
+    <!-- Immediate canonical domain redirect to prevent cross-origin CORS redirect failures -->
+    <script>
+      (function() {
+        if (window.location.hostname === 'freshcommits.com') {
+          window.location.replace('https://www.freshcommits.com' + window.location.pathname + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
+
     <!-- Google tag (gtag.js) - Automatically Excludes Admin Traffic -->
     <script>
       (function() {
@@ -458,8 +466,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased font-sans">
-    <!-- Crawlable Semantic Fallback for Search Engine Bots & SEMrush Crawlers -->
+    <!-- App Mount Container -->
     <div id="root">
+      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8fafc; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <div style="text-align: center; padding: 24px; max-width: 480px;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
+            <span style="font-size: 26px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">Fresh<span style="color: #10b981;">Commits</span></span>
+            <span style="font-size: 11px; background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 9999px; font-weight: 700;">0–2 YoE Only</span>
+          </div>
+          <p style="font-size: 14px; color: #64748b; margin-bottom: 24px; line-height: 1.5;">Loading verified 0–2 YoE software engineer jobs &amp; employer portals&hellip;</p>
+          <div style="width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top-color: #10b981; border-radius: 50%; margin: 0 auto; animation: fcSpin 0.75s linear infinite;"></div>
+          <style>@keyframes fcSpin { to { transform: rotate(360deg); } }</style>
+        </div>
+      </div>
+    </div>
+
+    <!-- Crawlable Semantic Fallback for Headless Search Engine Crawlers & Non-JS Visitors -->
+    <noscript>
       <header style="padding: 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff; max-width: 1200px; margin: 0 auto;">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
           <a href="/" style="text-decoration: none; color: #0f172a; font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
@@ -485,11 +508,6 @@
           <p style="font-size: 18px; color: #475569; max-width: 780px; margin: 0 auto 24px; line-height: 1.6;">
             The dedicated platform for junior software engineers, computer science new grads, and career changers. Curated 0–2 years experience listings with verified ATS direct apply links, transparent salary ranges, and zero senior engineering clutter.
           </p>
-          <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-            <span style="background: #f1f5f9; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #334155;">✓ 100% Direct ATS Links (Greenhouse, Lever, Workday)</span>
-            <span style="background: #f1f5f9; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #334155;">✓ Strict 0–2 Years Experience Requirement Cap</span>
-            <span style="background: #f1f5f9; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #334155;">✓ Google JobPosting Schema Validated</span>
-          </div>
         </section>
 
         <section style="margin-bottom: 48px;">
@@ -500,7 +518,7 @@
             <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
               <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Junior Full Stack Developer</h3>
               <p style="font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
-                Build responsive user interfaces, full-duplex client communications, RESTful endpoints, and GraphQL schemas using TypeScript, modern React, Next.js, and Node.js. Candidates collaborate with design and product teams to implement accessible web applications, manage component state lifecycle, and ensure comprehensive automated testing coverage with Vitest and Playwright.
+                Build responsive user interfaces, RESTful endpoints, and GraphQL schemas using TypeScript, modern React, Next.js, and Node.js.
               </p>
               <div style="font-size: 13px; font-weight: 700; color: #059669;">Typical Base Compensation: $95,000 – $145,000 / yr</div>
             </article>
@@ -508,7 +526,7 @@
             <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
               <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">New Grad Backend Systems Engineer</h3>
               <p style="font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
-                Design scalable microservices, manage PostgreSQL and Redis database schemas, construct transactional workflows with ACID guarantees, and optimize backend query latency in Go, Python, Java, or Rust. Responsibilities include building asynchronous event queues, implementing JWT and OAuth2 authorization barriers, and monitoring distributed latency profiles across production clusters.
+                Design scalable microservices, manage PostgreSQL and Redis schemas, construct transactional workflows with ACID guarantees in Go, Python, or Java.
               </p>
               <div style="font-size: 13px; font-weight: 700; color: #059669;">Typical Base Compensation: $105,000 – $155,000 / yr</div>
             </article>
@@ -516,7 +534,7 @@
             <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
               <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Associate Cloud Infrastructure &amp; DevOps</h3>
               <p style="font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
-                Implement containerization with Docker, Kubernetes cluster orchestration, GitHub Actions CI/CD automation pipelines, and infrastructure-as-code using Terraform across AWS and GCP environments. Focus areas include telemetry monitoring with Prometheus and Grafana, log aggregation, cloud cost allocation, and zero-downtime rolling deployment strategies.
+                Implement containerization with Docker, Kubernetes cluster orchestration, and CI/CD pipelines across AWS and GCP.
               </p>
               <div style="font-size: 13px; font-weight: 700; color: #059669;">Typical Base Compensation: $100,000 – $150,000 / yr</div>
             </article>
@@ -524,7 +542,7 @@
             <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
               <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Junior Data &amp; Applied AI Engineer</h3>
               <p style="font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
-                Develop reliable ETL data pipelines, perform structured numerical analysis in Python, integrate embedding vector databases like pgvector and Pinecone, and manage analytical warehouses using Snowflake and Google BigQuery. Engineers evaluate retrieval-augmented generation (RAG) architectures and establish data quality validation checks across ingestion feeds.
+                Develop reliable ETL pipelines, perform structured numerical analysis in Python, and manage data warehouses.
               </p>
               <div style="font-size: 13px; font-weight: 700; color: #059669;">Typical Base Compensation: $110,000 – $160,000 / yr</div>
             </article>
@@ -533,149 +551,35 @@
 
         <section style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px; margin-bottom: 48px;">
           <h2 style="font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 12px;">
-            Real-Time Engineering Salary Benchmarks &amp; Hub Analysis
+            2026 Tech Salary Guide &amp; Early-Career Compensation Benchmarks
           </h2>
           <p style="font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 16px;">
-            FreshCommits provides real-time compensation transparency for entry-level and junior software developers across tier 1 tech hubs (San Francisco Bay Area, New York City, Seattle) and nationwide remote positions. All salary metrics are grounded in verified state salary disclosures (California SB 1162, New York Local Law 32, Washington EPEA), Department of Labor filings, and direct employer ATS job postings.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">2026 Entry-Level Software Engineer Median Base Salaries:</h3>
-            <ul style="font-size: 14px; color: #475569; line-height: 1.8; margin-left: 20px;">
-              <li><strong>San Francisco Bay Area, CA:</strong> $142,000 median base ($125,000 – $165,000 interquartile range across AI startups, autonomous mobility, and distributed cloud computing).</li>
-              <li><strong>New York City, NY:</strong> $134,000 median base ($118,000 – $155,000 interquartile range across fintech infrastructure, quantitative trading firms, media networks, and e-commerce).</li>
-              <li><strong>Seattle, WA:</strong> $131,000 median base ($115,000 – $150,000 interquartile range across cloud platform providers, database providers, and logistics automation).</li>
-              <li><strong>Austin, TX &amp; Denver, CO:</strong> $108,000 median base ($95,000 – $125,000 interquartile range with balanced cost-of-living and burgeoning enterprise SaaS clusters).</li>
-              <li><strong>Remote (US-Distributed):</strong> $112,000 median base ($92,000 – $130,000 interquartile range with geographic zone adjustments for developer tooling and open-source companies).</li>
-            </ul>
-          </div>
-          <p style="font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 16px;">
-            When assessing employment offers, entry-level candidates should evaluate the complete compensation architecture, including guaranteed annual base salary, signing incentives, annual performance bonuses, and equity compensation (typically structured with a one-year cliff followed by monthly vesting over a four-year horizon).
+            Explore median base compensation and total compensation breakdowns across Tier 1 tech hubs and remote positions on FreshCommits.
           </p>
           <a href="/?view=salary-guide" style="display: inline-block; background: #0f172a; color: #ffffff; font-weight: 600; font-size: 14px; padding: 10px 20px; border-radius: 8px; text-decoration: none;">
-            View Detailed 2026 Salary Index →
+            Explore Salary Guide →
           </a>
         </section>
 
-        <section style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px; margin-bottom: 48px;">
-          <h2 style="font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 16px;">
-            Career Preparation Guide: Breaking the 0–2 YoE Experience Paradox
-          </h2>
-          <p style="font-size: 15px; color: #475569; line-height: 1.7; margin-bottom: 16px;">
-            The primary challenge facing emerging software developers is the so-called &ldquo;experience paradox,&rdquo; wherein job openings classified as entry-level frequently mandate previous professional experience. To overcome this hurdle, candidates must demonstrate authentic technical capability through concrete engineering artifacts.
-          </p>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px;">
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">1. Production-Grade Portfolio Artifacts</h3>
-              <p style="font-size: 13px; color: #64748b; line-height: 1.6;">
-                Instead of boilerplate tutorial apps, develop and publicly deploy systems that feature user authentication, persistent databases, automated continuous integration tests, and error observability. Engineering interviewers value projects that handle real-world edge cases like connection retries and database index optimization.
-              </p>
-            </div>
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">2. Direct Application Velocity</h3>
-              <p style="font-size: 13px; color: #64748b; line-height: 1.6;">
-                Data indicates that applicants submitting directly through company ATS portals within the initial 48 hours of posting receive interview callbacks at three times the rate of later applicants. FreshCommits surfaces newly opened requisitions immediately upon detection to maximize response rates.
-              </p>
-            </div>
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">3. Code Comprehension &amp; Systems Literacy</h3>
-              <p style="font-size: 13px; color: #64748b; line-height: 1.6;">
-                With AI assistants streamlining boilerplate syntax generation, technical evaluations increasingly focus on code review ability, distributed debugging, and architectural reasoning. Cultivate the ability to articulate trade-offs between relational and non-relational storage, synchronous vs. asynchronous execution, and caching strategies.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section style="margin-bottom: 48px;">
-          <h2 style="font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 16px;">
-            Frequently Asked Questions for Early-Career Candidates
-          </h2>
-          <div style="display: flex; flex-direction: column; gap: 16px;">
-            <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                How does FreshCommits ensure all jobs are strictly 0 to 2 years of experience?
-              </h3>
-              <p style="font-size: 14px; color: #475569; line-height: 1.6;">
-                Every posting submitted or indexed on FreshCommits undergoes programmatic requirement parsing and manual editorial review. If an employer requisition requires 3 or more years of commercial experience in its minimum qualifications, it is disqualified from our primary index. We specifically highlight roles targeted at university seniors, recent university graduates, associate engineers, and bootcamp graduates.
-              </p>
-            </article>
-
-            <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                Why do all listings link directly to company ATS platforms?
-              </h3>
-              <p style="font-size: 14px; color: #475569; line-height: 1.6;">
-                We route applicants directly to canonical hiring platforms including Greenhouse, Lever, Ashby, and Workday. This eliminates middlemen, prevents deceptive resume harvesting, protects candidate privacy, and ensures your application reaches the recruiting team immediately without unnecessary third-party accounts.
-              </p>
-            </article>
-
-            <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                Can self-taught developers and coding bootcamp graduates apply?
-              </h3>
-              <p style="font-size: 14px; color: #475569; line-height: 1.6;">
-                Yes. Many high-growth startups and progressive tech organizations evaluate candidates on demonstrable engineering competence, deployed full-stack portfolio systems, open-source pull requests, and technical communication rather than strictly requiring a four-year Computer Science degree. We clearly tag opportunities that welcome non-traditional backgrounds.
-              </p>
-            </article>
-
-            <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                How often are job listings verified and updated on FreshCommits?
-              </h3>
-              <p style="font-size: 14px; color: #475569; line-height: 1.6;">
-                Our indexing system checks active application endpoints every six hours to verify that employer requisitions remain open. If an application form has been closed by the hiring company, the listing is promptly marked as filled and removed from our active feed, preventing candidates from spending time on stale job postings.
-              </p>
-            </article>
-
-            <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                Does FreshCommits charge candidates or job seekers any fees?
-              </h3>
-              <p style="font-size: 14px; color: #475569; line-height: 1.6;">
-                No. FreshCommits is 100% free for developers and job seekers. There are no subscription paywalls, no paid &ldquo;premium applicant&rdquo; tiers, and no gated features. Every verified job listing, compensation benchmark, salary calculator, and career preparation guide is openly accessible to all early-career software engineers.
-              </p>
-            </article>
-          </div>
-        </section>
         <section id="legal-disclosures" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px; margin-bottom: 48px;">
           <h2 style="font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 16px;">
-            Legal Disclosures, Terms of Service &amp; Google AdSense Compliance
+            Legal Disclosures &amp; Terms
           </h2>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-            <article style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                Terms of Service (TOS)
-              </h3>
+            <div>
+              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Terms of Service</h3>
               <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
-                FreshCommits provides an editorial directory of entry-level software engineering requisitions for lawful personal job-seeking purposes. We do not act as an employment agency. Candidate submissions route directly to verified employer Applicant Tracking Systems (Greenhouse, Lever, Ashby, Workday).
+                Directory of entry-level engineering roles. Applications route directly to verified employer ATS platforms.
               </p>
-              <a href="/?view=terms" style="color: #059669; font-weight: 600; font-size: 13px; text-decoration: underline;">
-                Read Full Terms of Service →
-              </a>
-            </article>
-
-            <article style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                Privacy Policy &amp; Cookie Disclosure
-              </h3>
+              <a href="/?view=terms" style="color: #059669; font-weight: 600; font-size: 13px; text-decoration: underline;">Terms of Service →</a>
+            </div>
+            <div>
+              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Privacy Policy</h3>
               <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
-                We respect your privacy. Third-party vendors, including Google AdSense, use cookies (including the DoubleClick DART cookie) to serve ads based on user visits. Users may opt out of personalized advertising by visiting Google Ads Settings (policies.google.com/technologies/ads). We do not sell personal data.
+                We respect your privacy. Third-party vendors including Google AdSense use cookies to serve ads based on user visits.
               </p>
-              <a href="/?view=privacy" style="color: #059669; font-weight: 600; font-size: 13px; text-decoration: underline;">
-                Read Full Privacy Policy →
-              </a>
-            </article>
-
-            <article style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-              <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-                AdSense &amp; Aggregation Disclaimer
-              </h3>
-              <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
-                Company logos and trademarks belong to their respective corporate owners. All listings are curated under fair use for early-career developers with direct links to official employer career endpoints. Compensation benchmarks are compiled from state wage disclosures and US Department of Labor data.
-              </p>
-              <a href="/?view=disclaimer" style="color: #059669; font-weight: 600; font-size: 13px; text-decoration: underline;">
-                View Disclaimer &amp; Standards →
-              </a>
-            </article>
+              <a href="/?view=privacy" style="color: #059669; font-weight: 600; font-size: 13px; text-decoration: underline;">Privacy Policy →</a>
+            </div>
           </div>
         </section>
       </main>
@@ -693,7 +597,8 @@
           <a href="/?view=cookie-policy" style="color: #64748b; text-decoration: none; font-weight: 500;">Cookie Policy</a>
         </div>
       </footer>
-    </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
