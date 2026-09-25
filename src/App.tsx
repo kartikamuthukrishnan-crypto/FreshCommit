@@ -249,34 +249,50 @@ export default function App() {
     }
   }, [adConfig]);
 
-  // View state - parse URL query or hash immediately on mount
+  // View state - parse URL path, query or hash immediately on mount
   const resolveCurrentTab = (): AppTab => {
     if (typeof window === 'undefined') return 'jobs';
     try {
+      // 1. Check clean path for crawlers, direct URLs and browser history
+      const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
+      if (path === '/privacy' || path === '/privacy-policy' || path === '/privacy-policy.html' || path.endsWith('/privacy-policy')) return 'privacy';
+      if (path === '/about' || path === '/about-us' || path === '/about.html' || path.endsWith('/about')) return 'about';
+      if (path === '/terms' || path === '/terms-of-service' || path === '/tos' || path.endsWith('/terms')) return 'terms';
+      if (path === '/contact' || path === '/contact-us' || path.endsWith('/contact')) return 'contact';
+      if (path === '/salary-guide' || path === '/salary' || path.endsWith('/salary-guide')) return 'salary-guide';
+      if (path === '/insights' || path === '/career-insights' || path === '/guides' || path.endsWith('/career-insights')) return 'insights';
+      if (path === '/tools' || path === '/career-tools' || path === '/calculator' || path.endsWith('/career-tools')) return 'tools';
+      if (path === '/policy' || path === '/adsense-policy' || path.endsWith('/adsense-policy')) return 'adsense-policy';
+      if (path === '/disclaimer' || path.endsWith('/disclaimer')) return 'disclaimer';
+      if (path === '/cookie-policy' || path === '/cookies' || path.endsWith('/cookie-policy')) return 'cookie-policy';
+      if (path === '/admin') return 'admin';
+
+      // 2. Check query params (?view=...)
       const urlParams = new URLSearchParams(window.location.search);
       const view = urlParams.get('view');
       if (view === 'salary-guide' || view === 'salary') return 'salary-guide';
-      if (view === 'insights' || view === 'guides') return 'insights';
-      if (view === 'tools' || view === 'calculator') return 'tools';
-      if (view === 'about') return 'about';
-      if (view === 'contact') return 'contact';
+      if (view === 'insights' || view === 'career-insights' || view === 'guides') return 'insights';
+      if (view === 'tools' || view === 'career-tools' || view === 'calculator') return 'tools';
+      if (view === 'about' || view === 'about-us') return 'about';
+      if (view === 'contact' || view === 'contact-us') return 'contact';
       if (view === 'policy' || view === 'adsense-policy') return 'adsense-policy';
       if (view === 'terms' || view === 'tos' || view === 'terms-of-service') return 'terms';
       if (view === 'privacy' || view === 'privacy-policy') return 'privacy';
       if (view === 'disclaimer') return 'disclaimer';
       if (view === 'cookie-policy' || view === 'cookies') return 'cookie-policy';
 
+      // 3. Check hash (#...)
       const rawHash = window.location.hash.replace('#', '');
       const hash = rawHash.toLowerCase();
       if (view === 'admin' || urlParams.get('admin') === 'true' || hash === 'admin') return 'admin';
-      if (hash === 'tools' || hash === 'calculator' || hash === 'tc-calculator') return 'tools';
-      if (hash === 'insights' || hash === 'guides') return 'insights';
+      if (hash === 'tools' || hash === 'calculator' || hash === 'career-tools' || hash === 'tc-calculator') return 'tools';
+      if (hash === 'insights' || hash === 'career-insights' || hash === 'guides') return 'insights';
       if (hash === 'salary' || hash === 'salary-guide') return 'salary-guide';
-      if (hash === 'about') return 'about';
-      if (hash === 'contact') return 'contact';
-      if (hash === 'policy') return 'adsense-policy';
-      if (hash === 'terms' || hash === 'tos') return 'terms';
-      if (hash === 'privacy') return 'privacy';
+      if (hash === 'about' || hash === 'about-us') return 'about';
+      if (hash === 'contact' || hash === 'contact-us') return 'contact';
+      if (hash === 'policy' || hash === 'adsense-policy') return 'adsense-policy';
+      if (hash === 'terms' || hash === 'tos' || hash === 'terms-of-service') return 'terms';
+      if (hash === 'privacy' || hash === 'privacy-policy') return 'privacy';
       if (hash === 'disclaimer') return 'disclaimer';
       if (hash === 'cookie-policy' || hash === 'cookies') return 'cookie-policy';
 
@@ -466,21 +482,27 @@ export default function App() {
   const handleTabChange = (tab: AppTab) => {
     setActiveTab(tab);
     try {
-      const url = new URL(window.location.href);
-      if (tab === 'jobs') {
-        url.searchParams.delete('view');
-      } else {
-        url.searchParams.set('view', tab);
-      }
+      const routeMap: Record<AppTab, string> = {
+        jobs: '/',
+        'salary-guide': '/salary-guide',
+        insights: '/career-insights',
+        tools: '/career-tools',
+        about: '/about',
+        contact: '/contact',
+        'adsense-policy': '/adsense-policy',
+        terms: '/terms',
+        privacy: '/privacy-policy',
+        disclaimer: '/disclaimer',
+        'cookie-policy': '/cookie-policy',
+        admin: '/?view=admin'
+      };
       if (selectedJob && tab !== 'jobs') {
-        url.searchParams.delete('job');
-        url.searchParams.delete('jobId');
         setSelectedJob(null);
       }
-      const newQuery = url.searchParams.toString();
-      const newUrl = url.pathname + (newQuery ? `?${newQuery}` : '') + (url.hash || '');
-      window.history.pushState({}, '', newUrl);
+      const newPath = routeMap[tab] || '/';
+      window.history.pushState({ tab }, '', newPath);
       document.title = getTabTitle(tab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       console.warn('Failed updating tab URL', e);
     }
@@ -1397,7 +1419,7 @@ export default function App() {
               Career Insights
             </a>
             <a
-              href="/?view=salary-guide"
+              href="/salary-guide"
               onClick={(e) => {
                 e.preventDefault();
                 handleTabChange('salary-guide');
@@ -1407,7 +1429,8 @@ export default function App() {
               Salary Benchmarks
             </a>
             <a
-              href="/?view=about"
+              href="/about"
+              id="footer-link-about"
               onClick={(e) => {
                 e.preventDefault();
                 handleTabChange('about');
@@ -1417,7 +1440,8 @@ export default function App() {
               About Us
             </a>
             <a
-              href="/?view=contact"
+              href="/contact"
+              id="footer-link-contact"
               onClick={(e) => {
                 e.preventDefault();
                 handleTabChange('contact');
@@ -1427,7 +1451,7 @@ export default function App() {
               Contact Us
             </a>
             <a
-              href="/?view=terms"
+              href="/terms"
               id="footer-link-terms"
               onClick={(e) => {
                 e.preventDefault();
@@ -1438,7 +1462,7 @@ export default function App() {
               Terms of Service
             </a>
             <a
-              href="/?view=privacy"
+              href="/privacy-policy"
               id="footer-link-privacy"
               onClick={(e) => {
                 e.preventDefault();
@@ -1449,7 +1473,7 @@ export default function App() {
               Privacy Policy
             </a>
             <a
-              href="/?view=disclaimer"
+              href="/disclaimer"
               id="footer-link-disclaimer"
               onClick={(e) => {
                 e.preventDefault();

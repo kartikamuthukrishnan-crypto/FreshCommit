@@ -38,9 +38,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-6 h-full">
-            <button
+            <a
               id="nav-tab-jobs"
-              onClick={() => setActiveTab('jobs')}
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('jobs');
+              }}
               className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'jobs'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
@@ -51,11 +55,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="ml-1 text-[11px] bg-[#f1f3f4] text-[#5f6368] px-2 py-0.5 rounded-full font-mono font-medium">
                 {jobCount}
               </span>
-            </button>
+            </a>
 
-            <button
+            <a
               id="nav-tab-salary"
-              onClick={() => setActiveTab('salary-guide')}
+              href="/salary-guide"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('salary-guide');
+              }}
               className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'salary-guide'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
@@ -63,11 +71,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <span>Salary Index</span>
-            </button>
+            </a>
 
-            <button
+            <a
               id="nav-tab-insights"
-              onClick={() => setActiveTab('insights')}
+              href="/career-insights"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('insights');
+              }}
               className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'insights'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
@@ -75,11 +87,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <span>Career Insights</span>
-            </button>
+            </a>
 
-            <button
+            <a
               id="nav-tab-tools"
-              onClick={() => setActiveTab('tools')}
+              href="/career-tools"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('tools');
+              }}
               className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'tools'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
@@ -90,11 +106,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="text-[10px] font-medium uppercase px-1.5 py-0.5 rounded-full bg-[#e8f0fe] text-[#1a73e8] border border-[#d2e3fc]">
                 New
               </span>
-            </button>
+            </a>
 
-            <button
+            <a
               id="nav-tab-about"
-              onClick={() => setActiveTab('about')}
+              href="/about"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('about');
+              }}
               className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'about'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
@@ -102,11 +122,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <span>About Us</span>
-            </button>
+            </a>
 
-            <button
+            <a
               id="nav-tab-contact"
-              onClick={() => setActiveTab('contact')}
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('contact');
+              }}
               className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'contact'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
@@ -114,7 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <span>Contact</span>
-            </button>
+            </a>
 
             {/* Social Channels & Share Bar */}
             <div className="hidden xl:flex items-center gap-1 pl-3 ml-2 border-l border-[#dadce0]">
@@ -204,8 +228,10 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1 shadow-lg">
-          <button
-            onClick={() => {
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               setActiveTab('jobs');
               setIsMobileMenuOpen(false);
             }}
@@ -218,10 +244,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               Job Feed
             </span>
             <span className="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full">{jobCount}</span>
-          </button>
+          </a>
 
-          <button
-            onClick={() => {
+          <a
+            href="/salary-guide"
+            onClick={(e) => {
+              e.preventDefault();
               setActiveTab('salary-guide');
               setIsMobileMenuOpen(false);
             }}
@@ -231,10 +259,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <BarChart3 className="w-4 h-4 text-teal-600" />
             Salary Index &amp; Guides
-          </button>
+          </a>
 
-          <button
-            onClick={() => {
+          <a
+            href="/career-insights"
+            onClick={(e) => {
+              e.preventDefault();
               setActiveTab('insights');
               setIsMobileMenuOpen(false);
             }}
@@ -244,10 +274,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <BookOpen className="w-4 h-4 text-violet-600" />
             Career Insights &amp; Articles
-          </button>
+          </a>
 
-          <button
-            onClick={() => {
+          <a
+            href="/career-tools"
+            onClick={(e) => {
+              e.preventDefault();
               setActiveTab('tools');
               setIsMobileMenuOpen(false);
             }}
@@ -262,10 +294,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
               New
             </span>
-          </button>
+          </a>
 
-          <button
-            onClick={() => {
+          <a
+            href="/about"
+            onClick={(e) => {
+              e.preventDefault();
               setActiveTab('about');
               setIsMobileMenuOpen(false);
             }}
@@ -275,10 +309,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Users className="w-4 h-4 text-emerald-600" />
             About Us &amp; Editorial Standards
-          </button>
+          </a>
 
-          <button
-            onClick={() => {
+          <a
+            href="/contact"
+            onClick={(e) => {
+              e.preventDefault();
               setActiveTab('contact');
               setIsMobileMenuOpen(false);
             }}
@@ -288,7 +324,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Mail className="w-4 h-4 text-blue-600" />
             Contact &amp; Support Desk
-          </button>
+          </a>
 
           {/* Social Communities */}
           <div className="pt-2 border-t border-slate-100 flex items-center justify-around py-2">
