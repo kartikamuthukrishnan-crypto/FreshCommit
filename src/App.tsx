@@ -266,7 +266,7 @@ export default function App() {
 
       const rawHash = window.location.hash.replace('#', '');
       const hash = rawHash.toLowerCase();
-      if (hash === 'admin') return 'admin';
+      if (view === 'admin' || urlParams.get('admin') === 'true' || hash === 'admin') return 'admin';
       if (hash === 'tools' || hash === 'calculator' || hash === 'tc-calculator') return 'tools';
       if (hash === 'insights' || hash === 'guides') return 'insights';
       if (hash === 'salary' || hash === 'salary-guide') return 'salary-guide';
@@ -532,7 +532,7 @@ export default function App() {
       }
 
       // 2. Sync Tab view
-      if (urlParams.get('admin') === 'true' || hash === 'admin') {
+      if (urlParams.get('admin') === 'true' || urlParams.get('view') === 'admin' || hash === 'admin') {
         if (isAdminAuthenticated) {
           setActiveTab('admin');
           document.title = getTabTitle('admin');
@@ -541,7 +541,13 @@ export default function App() {
         }
       } else {
         const tab = resolveCurrentTab();
-        setActiveTab(tab);
+        // If owner is currently in admin tab, do not kick them out when jobs state updates
+        setActiveTab((curr) => {
+          if (curr === 'admin' && isAdminAuthenticated && !urlParams.get('view') && !rawHash) {
+            return 'admin';
+          }
+          return tab;
+        });
         if (!targetJobId) {
           document.title = getTabTitle(tab);
         }
@@ -564,7 +570,7 @@ export default function App() {
       window.removeEventListener('hashchange', syncFromUrl);
       window.removeEventListener('popstate', syncFromUrl);
     };
-  }, [isAdminAuthenticated, jobs]);
+  }, [isAdminAuthenticated]);
 
   // Global keyboard shortcut (Ctrl+Shift+A or Cmd+Shift+A) for owner quick access
   useEffect(() => {

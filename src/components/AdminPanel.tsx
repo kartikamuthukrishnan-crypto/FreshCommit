@@ -465,6 +465,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     // Reset fields
     handleCancelEdit();
+    // Keep admin anchored at the top of the form with confirmation banner visible
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleTriggerSync = async () => {
