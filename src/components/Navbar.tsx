@@ -140,6 +140,22 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Contact</span>
             </a>
 
+            <a
+              id="nav-tab-privacy"
+              href="/privacy"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('privacy');
+              }}
+              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'privacy'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  : 'text-[#5f6368] hover:text-[#202124]'
+              }`}
+            >
+              <span>Privacy Policy</span>
+            </a>
+
             {/* Social Channels & Share Bar */}
             <div className="hidden xl:flex items-center gap-1 pl-3 ml-2 border-l border-[#dadce0]">
               <a
@@ -324,6 +340,21 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Mail className="w-4 h-4 text-blue-600" />
             Contact &amp; Support Desk
+          </a>
+
+          <a
+            href="/privacy"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab('privacy');
+              setIsMobileMenuOpen(false);
+            }}
+            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium ${
+              activeTab === 'privacy' ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-600'
+            }`}
+          >
+            <Shield className="w-4 h-4 text-emerald-600" />
+            Privacy Policy
           </a>
 
           {/* Social Communities */}
