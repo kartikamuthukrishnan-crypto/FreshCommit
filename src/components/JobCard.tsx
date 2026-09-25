@@ -46,112 +46,108 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
     <div
       id={`job-card-${job.id}`}
       onClick={() => onSelect(job)}
-      className="group relative bg-white rounded-xl border border-slate-200/90 hover:border-indigo-400/80 hover:shadow-md transition-all p-5 flex flex-col justify-between cursor-pointer"
+      className="group relative bg-white rounded-2xl border border-[#dadce0] hover:border-[#bdc1c6] hover:shadow-md transition-all p-5 sm:p-6 flex flex-col justify-between cursor-pointer"
     >
       <div>
         {/* Top Header: Company + Badges */}
-        <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-start justify-between gap-3 mb-3.5">
           <div className="flex items-center gap-3">
             {job.companyLogo ? (
               <img
                 src={job.companyLogo}
                 alt={`${job.company} logo`}
                 referrerPolicy="no-referrer"
-                className="w-12 h-12 rounded-xl object-cover border border-slate-200 bg-slate-50 flex-shrink-0"
+                className="w-12 h-12 rounded-xl object-cover border border-[#dadce0] bg-[#f8f9fa] flex-shrink-0"
                 onError={(e) => {
-                  // Fallback to text avatar if broken
                   (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                     job.company
-                  )}&background=0F172A&color=fff&size=128`;
+                  )}&background=1A73E8&color=fff&size=128`;
                 }}
               />
             ) : (
-              <div className="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-base flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-[#1a73e8] text-white flex items-center justify-center font-bold text-base flex-shrink-0 shadow-xs">
                 {job.company.charAt(0)}
               </div>
             )}
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-semibold text-slate-900 text-sm">{job.company}</span>
+                <span className="font-semibold text-[#202124] text-sm">{job.company}</span>
                 {job.source === 'EMPLOYER_POST' || job.source === 'MANUAL_ADMIN' ? (
-                  <div className="flex items-center gap-1 flex-wrap">
-                    <span className="inline-flex items-center gap-0.5 text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
-                      <CheckCircle2 className="w-2.5 h-2.5" /> Curated
-                    </span>
-                    {job.atsVerified && (
-                      <span className="inline-flex items-center gap-0.5 text-[10px] text-indigo-700 font-medium bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200" title="Requisition confirmed live on official ATS feed">
-                        <CheckCircle2 className="w-2.5 h-2.5 text-indigo-600" /> ATS Verified
-                      </span>
-                    )}
-                  </div>
+                  <span className="inline-flex items-center gap-0.5 text-[10px] text-[#137333] font-medium bg-[#e6f4ea] px-2 py-0.5 rounded-full border border-[#ceead6]">
+                    <CheckCircle2 className="w-2.5 h-2.5" /> Curated
+                  </span>
                 ) : null}
+                {job.atsVerified && (
+                  <span className="inline-flex items-center gap-0.5 text-[10px] text-[#1a73e8] font-medium bg-[#e8f0fe] px-2 py-0.5 rounded-full border border-[#d2e3fc]" title="Requisition confirmed live on official ATS feed">
+                    <CheckCircle2 className="w-2.5 h-2.5" /> ATS Verified
+                  </span>
+                )}
                 {isNew() && (
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100">
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full border border-[#d2e3fc]">
                     New
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+              <div className="flex items-center gap-2 text-xs text-[#5f6368] mt-1">
                 <span className="flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                  <MapPin className="w-3.5 h-3.5 text-[#80868b]" />
                   {job.location}
                 </span>
                 {job.isRemote && (
-                  <span className="inline-flex items-center gap-1 text-[11px] text-violet-700 bg-violet-50 px-1.5 py-0.5 rounded font-medium border border-violet-100">
-                    <Globe className="w-2.5 h-2.5" /> Remote Option
+                  <span className="inline-flex items-center gap-1 text-[11px] text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
+                    <Globe className="w-2.5 h-2.5" /> Remote
                   </span>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Experience Badge & Bookmark */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Bookmark & Experience Level */}
+          <div className="flex items-center gap-1.5 flex-shrink-0">
             {onToggleSave && (
               <button
                 type="button"
                 onClick={(e) => onToggleSave(job.id, e)}
                 title={isSaved ? 'Remove from saved jobs' : 'Save job'}
-                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                className={`p-2 rounded-full border transition-all cursor-pointer ${
                   isSaved
-                    ? 'bg-amber-50 border-amber-300 text-amber-600 shadow-2xs'
-                    : 'bg-white border-slate-200 text-slate-400 hover:text-amber-500 hover:border-amber-200 hover:bg-amber-50/50'
+                    ? 'bg-[#fef7e0] border-[#f9ab00] text-[#b06000]'
+                    : 'bg-white border-[#dadce0] text-[#5f6368] hover:text-[#1a73e8] hover:border-[#1a73e8]'
                 }`}
               >
-                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-amber-500 text-amber-500' : ''}`} />
+                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f9ab00] text-[#f9ab00]' : ''}`} />
               </button>
             )}
-            {job.experienceLevel === 'Internship' ? (
-              <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-violet-100 text-violet-800 border border-violet-200">
-                🎓 Internship
-              </span>
-            ) : (
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200/80">
-                {job.experienceLevel} ({job.maxYearsExperience} YoE)
-              </span>
-            )}
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0]">
+              {job.experienceLevel === 'Internship' ? '🎓 Internship' : `${job.experienceLevel} (0–${job.maxYearsExperience || 1} YoE)`}
+            </span>
           </div>
         </div>
 
         {/* Job Title */}
         <h3
           onClick={() => onSelect(job)}
-          className="text-base font-bold text-slate-900 hover:text-indigo-600 transition-colors cursor-pointer mb-2 line-clamp-2"
+          className="text-base sm:text-lg font-medium text-[#202124] group-hover:text-[#1a73e8] transition-colors cursor-pointer mb-2 line-clamp-2"
         >
           {job.title}
         </h3>
 
         {/* Snippet */}
-        <p className="text-xs text-slate-600 line-clamp-2 mb-3 leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#5f6368] line-clamp-2 mb-3.5 leading-relaxed font-normal">
           {job.description}
         </p>
 
-        {/* Key Attributes Bar */}
-        <div className="flex items-center gap-3 text-xs text-slate-700 font-medium mb-3 flex-wrap">
-          <span className="flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100 font-semibold">
+        {/* Salary & Attributes Bar */}
+        <div className="flex items-center gap-2 text-xs font-medium mb-3.5 flex-wrap">
+          <span className="flex items-center gap-1 text-[#1a73e8] bg-[#e8f0fe] px-3 py-1 rounded-full border border-[#d2e3fc] font-medium">
             <DollarSign className="w-3.5 h-3.5" />
             {formatSalary(job.salary)}
           </span>
+          {job.atsProvider && (
+            <span className="text-[11px] text-[#5f6368] bg-[#f8f9fa] border border-[#dadce0] px-2.5 py-0.5 rounded-full">
+              {job.atsProvider}
+            </span>
+          )}
         </div>
 
         {/* Skills Tags */}
@@ -159,24 +155,24 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
           {job.skills.slice(0, 5).map((skill, idx) => (
             <span
               key={idx}
-              className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono font-medium"
+              className="text-[11px] bg-[#f8f9fa] text-[#5f6368] border border-[#e8eaed] px-2.5 py-0.5 rounded-full font-medium"
             >
               {skill}
             </span>
           ))}
           {job.skills.length > 5 && (
-            <span className="text-[10px] text-slate-500 px-1 font-mono">
-              +{job.skills.length - 5} more
+            <span className="text-[11px] text-[#80868b] px-1 font-medium">
+              +{job.skills.length - 5}
             </span>
           )}
         </div>
       </div>
 
       {/* Action Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
-        <div className="flex items-center gap-1.5 text-xs text-slate-500">
-          <Calendar className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-[11px] text-slate-500 font-medium">Posted {job.datePosted}</span>
+      <div className="flex items-center justify-between pt-3.5 border-t border-[#f1f3f4] gap-2">
+        <div className="flex items-center gap-1.5 text-xs text-[#5f6368]">
+          <Calendar className="w-3.5 h-3.5 text-[#80868b]" />
+          <span className="text-[11px] font-normal">Posted {job.datePosted}</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -187,9 +183,9 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
               e.stopPropagation();
               onSelect(job);
             }}
-            className="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-all flex items-center gap-1.5 shadow-xs group-hover:shadow-sm"
+            className="text-xs font-medium px-4 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
           >
-            <span>View & Apply</span>
+            <span>View &amp; Apply</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>

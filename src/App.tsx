@@ -50,7 +50,9 @@ import {
   Twitter,
   Youtube,
   Share2,
-  Bookmark
+  Bookmark,
+  Target,
+  ArrowRight
 } from 'lucide-react';
 
 const STORAGE_KEY_JOBS = 'freshcommit_jobs_v5';
@@ -629,15 +631,20 @@ export default function App() {
     setCurrentPage(1);
   }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, pageSize, savedOnly]);
 
-  // US Tech Hubs list
+  // Global & Regional Tech Hubs
   const TECH_HUBS = [
-    { label: 'All Locations', value: 'All' },
+    { label: 'All Locations & Remote', value: 'All' },
+    { label: 'Remote (Worldwide / Global)', value: 'Worldwide' },
+    { label: 'Remote (Any)', value: 'Remote' },
     { label: 'SF Bay Area, CA', value: 'San Francisco' },
     { label: 'New York, NY', value: 'New York' },
     { label: 'Seattle, WA', value: 'Seattle' },
     { label: 'Austin, TX', value: 'Austin' },
     { label: 'Boston, MA', value: 'Boston' },
-    { label: 'Remote (US)', value: 'Remote' },
+    { label: 'London, UK & Europe', value: 'London' },
+    { label: 'Bengaluru / India', value: 'India' },
+    { label: 'Toronto & Canada', value: 'Toronto' },
+    { label: 'Singapore & APAC', value: 'Singapore' },
   ];
 
   // Active (Non-Expired) Jobs: Automatically vanish jobs whose validThrough date has passed or status !== 'ACTIVE'
@@ -668,10 +675,19 @@ export default function App() {
       if (selectedHub !== 'All') {
         if (selectedHub === 'Remote') {
           if (!job.isRemote) return false;
+        } else if (selectedHub === 'Worldwide') {
+          const loc = (job.location || '').toLowerCase();
+          const req = (job.applicantLocationRequirements || '').toLowerCase();
+          if (!loc.includes('worldwide') && !loc.includes('global') && !req.includes('worldwide') && !req.includes('global')) {
+            return false;
+          }
         } else {
+          const query = selectedHub.toLowerCase();
           const locMatch =
-            (job.location && job.location.toLowerCase().includes(selectedHub.toLowerCase())) ||
-            (job.city && job.city.toLowerCase().includes(selectedHub.toLowerCase()));
+            (job.location && job.location.toLowerCase().includes(query)) ||
+            (job.city && job.city.toLowerCase().includes(query)) ||
+            (job.country && job.country.toLowerCase().includes(query)) ||
+            (job.state && job.state.toLowerCase().includes(query));
           if (!locMatch) return false;
         }
       }
@@ -726,7 +742,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-white text-[#202124] flex flex-col selection:bg-[#1a73e8] selection:text-white font-sans">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -748,141 +764,287 @@ export default function App() {
               </div>
             )}
 
-            {/* Hero & Value Proposition */}
-            <section className="bg-white border-b border-slate-200 py-10 px-4 sm:px-6 lg:px-8">
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold tracking-tight mb-4 border border-emerald-200/80">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                  Strictly 0–2 Years Experience • Direct Employer Applications
+            {/* Google AdSense Style Hero Section */}
+            <section className="bg-white border-b border-[#dadce0] pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+              <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                  {/* Left Column: Bold Typography & CTAs */}
+                  <div className="lg:col-span-7">
+                    <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-bold text-[#202124] tracking-tight leading-[1.15] mb-6">
+                      Entry-Level, Fresher,<br />
+                      <span className="text-[#1a73e8]">New Grad tech jobs</span>
+                    </h1>
+
+                    <p className="text-base sm:text-lg text-[#5f6368] max-w-xl mb-9 leading-relaxed font-normal">
+                      Direct software engineering listings for entry level, freshers, and university graduates across US &amp; Global tech hubs &amp; remote.
+                    </p>
+
+                    <div className="flex items-center gap-6 flex-wrap">
+                      <button
+                        onClick={() => {
+                          document.getElementById('job-feed-section')?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        className="bg-[#1a73e8] hover:bg-[#1557b0] text-white px-8 py-3.5 rounded-full font-medium text-sm transition-all shadow-xs hover:shadow-md cursor-pointer"
+                      >
+                        Explore Open Roles
+                      </button>
+                      <button
+                        onClick={() => handleTabChange('salary-guide')}
+                        className="text-[#1a73e8] hover:text-[#1557b0] font-medium text-sm inline-flex items-center gap-1 group cursor-pointer"
+                      >
+                        <span>Learn how salary guides work</span>
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Google Corporate Device & Metric Visuals */}
+                  <div className="lg:col-span-5 relative">
+                    <div className="relative mx-auto w-full max-w-sm sm:max-w-md">
+                      {/* Device Container Frame */}
+                      <div className="bg-white border border-[#dadce0] rounded-3xl p-5 shadow-sm">
+                        <div className="bg-[#f8f9fa] rounded-2xl p-4 border border-[#e8eaed]">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 rounded-lg bg-[#1a73e8] text-white flex items-center justify-center font-bold text-xs">
+                                FC
+                              </div>
+                              <span className="text-xs font-semibold text-[#202124]">Verified Direct ATS Feed</span>
+                            </div>
+                            <span className="text-[10px] font-medium bg-[#e6f4ea] text-[#137333] px-2 py-0.5 rounded-full border border-[#ceead6]">
+                              Live Openings
+                            </span>
+                          </div>
+
+                          {/* Mini Sample Cards */}
+                          <div className="space-y-3">
+                            <div className="bg-white rounded-xl p-3.5 border border-[#dadce0] shadow-xs">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-semibold text-xs text-[#202124]">Stripe • SWE New Grad</span>
+                                <span className="text-xs font-medium text-[#1a73e8]">$140k–$175k</span>
+                              </div>
+                              <div className="text-[11px] text-[#5f6368] flex items-center gap-1.5 mb-2">
+                                <span>San Francisco, CA</span>
+                                <span>•</span>
+                                <span>0–1 YoE Cap</span>
+                              </div>
+                              <div className="flex items-center justify-between text-[11px]">
+                                <span className="text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
+                                  Greenhouse Verified
+                                </span>
+                                <span className="text-[#1a73e8] font-medium">Direct Apply ›</span>
+                              </div>
+                            </div>
+
+                            <div className="bg-white rounded-xl p-3.5 border border-[#dadce0] shadow-xs">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-semibold text-xs text-[#202124]">Cloudflare • Systems Engineer</span>
+                                <span className="text-xs font-medium text-[#1a73e8]">$118k–$138k</span>
+                              </div>
+                              <div className="text-[11px] text-[#5f6368] flex items-center gap-1.5 mb-2">
+                                <span>Remote (Worldwide)</span>
+                                <span>•</span>
+                                <span>Early Career</span>
+                              </div>
+                              <div className="flex items-center justify-between text-[11px]">
+                                <span className="text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
+                                  Lever Verified
+                                </span>
+                                <span className="text-[#1a73e8] font-medium">Direct Apply ›</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Floating Accent Card 1: Pastel Blue Target/Click Icon */}
+                      <div className="absolute -top-4 -right-3 bg-[#e8f0fe] text-[#1a73e8] p-3.5 rounded-2xl shadow-sm border border-[#d2e3fc] flex items-center justify-center">
+                        <Target className="w-6 h-6" />
+                      </div>
+
+                      {/* Floating Accent Card 2: Pastel Blue Growth Graph Icon */}
+                      <div className="absolute top-1/2 -right-5 translate-y-3 bg-[#e8f0fe] text-[#1a73e8] p-3.5 rounded-2xl shadow-sm border border-[#d2e3fc] flex items-center justify-center">
+                        <TrendingUp className="w-6 h-6" />
+                      </div>
+
+                      {/* Floating Accent Card 3: Shield Badge */}
+                      <div className="absolute -bottom-5 -left-3 bg-white border border-[#dadce0] rounded-2xl p-3 shadow-md flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center">
+                          <ShieldCheck className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="text-xs font-semibold text-[#202124]">Strict 0–2 YoE Cap</div>
+                          <div className="text-[10px] text-[#5f6368]">No Senior Clutter</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Three Steps to Get Started Section (Exact Google AdSense Replica) */}
+            <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-[#dadce0]">
+              <div className="max-w-5xl mx-auto">
+                <h2 className="text-3xl sm:text-4xl font-normal text-[#202124] text-center tracking-tight mb-16">
+                  Three steps to get started
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                  {/* Step 1 */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-[#e8f0fe] text-[#1a73e8] rounded-2xl flex items-center justify-center text-3xl font-medium mb-6">
+                      1
+                    </div>
+                    <h3 className="text-xl font-medium text-[#202124] mb-3">
+                      Find 0–2 YoE Roles
+                    </h3>
+                    <p className="text-sm text-[#5f6368] leading-relaxed max-w-xs font-normal">
+                      Browse verified early-career, new grad, and junior engineering openings across global tech hubs and remote.
+                    </p>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-[#e8f0fe] text-[#1a73e8] rounded-2xl flex items-center justify-center text-3xl font-medium mb-6">
+                      2
+                    </div>
+                    <h3 className="text-xl font-medium text-[#202124] mb-3">
+                      Review Transparent Pay
+                    </h3>
+                    <p className="text-sm text-[#5f6368] leading-relaxed max-w-xs font-normal">
+                      Evaluate verified state compensation disclosures, total compensation benchmarks, and cost-of-living metrics.
+                    </p>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-[#e8f0fe] text-[#1a73e8] rounded-2xl flex items-center justify-center text-3xl font-medium mb-6">
+                      3
+                    </div>
+                    <h3 className="text-xl font-medium text-[#202124] mb-3">
+                      Direct ATS Apply
+                    </h3>
+                    <p className="text-sm text-[#5f6368] leading-relaxed max-w-xs font-normal">
+                      Route directly to official Greenhouse, Lever, and Workday employer application forms with zero middleman friction.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Google-Style Search & Filter Console Section */}
+            <section className="bg-[#f8f9fa] border-b border-[#dadce0] py-8 px-4 sm:px-6 lg:px-8">
+              <div className="max-w-4xl mx-auto">
+                {/* Search Bar Container */}
+                <div className="bg-white border border-[#dadce0] hover:border-[#bdc1c6] focus-within:border-[#1a73e8] focus-within:shadow-md rounded-full px-5 py-3 flex items-center gap-3 transition-all mb-4">
+                  <Search className="w-5 h-5 text-[#5f6368] shrink-0" />
+                  <input
+                    id="job-search-input"
+                    type="text"
+                    placeholder="Search software jobs, skills (React, Python, Go, Rust), or companies..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full text-sm sm:text-base text-[#202124] placeholder-[#80868b] bg-transparent focus:outline-none"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="text-xs text-[#5f6368] hover:text-[#202124] px-2 py-1 rounded-full hover:bg-[#f1f3f4] cursor-pointer"
+                    >
+                      Clear
+                    </button>
+                  )}
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                  Entry-Level &amp; New Grad{' '}
-                  <span className="text-emerald-700">Software Developer Jobs</span>
-                </h1>
-
-                <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                  Direct software engineering listings for entry level, freshers, and university graduates across US &amp; global tech hubs &amp; remote.
-                </p>
-
-                {/* Search & Filter Bar */}
-                <div className="mt-8 bg-white p-3 rounded-2xl border border-slate-200 shadow-lg shadow-slate-100 max-w-3xl mx-auto">
-                  {/* Top Mode Segment: All Roles vs Full-Time vs Paid Internships */}
-                  <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-xl mb-3">
+                {/* Filter Pills & Selectors (Even and Centered) */}
+                <div className="flex flex-col items-center justify-center gap-3 w-full">
+                  {/* Primary Chips: Centered */}
+                  <div className="flex items-center justify-center gap-2 flex-wrap w-full">
                     <button
                       onClick={() => setSelectedExperience('All')}
-                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center ${
                         selectedExperience === 'All'
-                          ? 'bg-white text-slate-900 shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900'
+                          ? 'bg-[#1a73e8] text-white shadow-xs'
+                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
                       }`}
                     >
                       All Openings ({activeJobs.length})
                     </button>
                     <button
                       onClick={() => setSelectedExperience('Entry Level')}
-                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center ${
                         selectedExperience === 'Entry Level'
-                          ? 'bg-white text-emerald-800 shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900'
+                          ? 'bg-[#1a73e8] text-white shadow-xs'
+                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
                       }`}
                     >
-                      Full-Time 0–2 YoE ({activeJobs.filter((j) => j.experienceLevel !== 'Internship').length})
+                      Full-Time 0–2 YoE
                     </button>
                     <button
                       onClick={() => setSelectedExperience('Internship')}
-                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
                         selectedExperience === 'Internship'
-                          ? 'bg-violet-600 text-white shadow-xs'
-                          : 'text-violet-700 hover:bg-violet-50'
+                          ? 'bg-[#1a73e8] text-white shadow-xs'
+                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
                       }`}
                     >
-                      <span>🎓 Summer Internships</span>
-                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                        selectedExperience === 'Internship' ? 'bg-violet-700 text-white' : 'bg-violet-100 text-violet-800'
-                      }`}>
-                        {activeJobs.filter((j) => j.experienceLevel === 'Internship').length}
-                      </span>
+                      <span>🎓 Internships</span>
                     </button>
-
                     <button
                       onClick={() => setSavedOnly(!savedOnly)}
-                      className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all inline-flex items-center justify-center gap-1.5 cursor-pointer ${
                         savedOnly
-                          ? 'bg-amber-500 text-white shadow-xs'
-                          : 'text-amber-900 hover:bg-amber-100/60'
+                          ? 'bg-[#f9ab00] text-[#202124] shadow-xs'
+                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
                       }`}
-                      title="View bookmarked jobs"
                     >
-                      <Bookmark className={`w-3.5 h-3.5 ${savedOnly ? 'fill-white text-white' : 'text-amber-600'}`} />
-                      <span>Saved</span>
-                      {savedJobIds.length > 0 && (
-                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                          savedOnly ? 'bg-amber-600 text-white' : 'bg-amber-200 text-amber-900 font-bold'
-                        }`}>
-                          {savedJobIds.length}
-                        </span>
-                      )}
+                      <Bookmark className={`w-3.5 h-3.5 ${savedOnly ? 'fill-current' : ''}`} />
+                      <span>Saved ({savedJobIds.length})</span>
                     </button>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row items-center gap-2">
-                    <div className="relative flex-1 w-full">
-                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  {/* Dropdowns & Modifiers: Centered & Even Height */}
+                  <div className="flex items-center justify-center gap-2 flex-wrap w-full">
+                    <select
+                      id="select-hub"
+                      value={selectedHub}
+                      onChange={(e) => setSelectedHub(e.target.value)}
+                      className="h-9 px-3.5 rounded-full text-xs font-medium border border-[#dadce0] bg-white text-[#3c4043] focus:outline-none focus:border-[#1a73e8] cursor-pointer hover:bg-[#f8f9fa] transition-colors"
+                    >
+                      {TECH_HUBS.map((hub) => (
+                        <option key={hub.value} value={hub.value}>
+                          {hub.label}
+                        </option>
+                      ))}
+                    </select>
+
+                    <select
+                      id="select-category"
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="h-9 px-3.5 rounded-full text-xs font-medium border border-[#dadce0] bg-white text-[#3c4043] focus:outline-none focus:border-[#1a73e8] cursor-pointer hover:bg-[#f8f9fa] transition-colors"
+                    >
+                      <option value="All">All Roles</option>
+                      <option value="Full Stack">Full Stack</option>
+                      <option value="Frontend">Frontend</option>
+                      <option value="Backend">Backend</option>
+                      <option value="Mobile">Mobile</option>
+                      <option value="DevOps / Cloud">DevOps</option>
+                      <option value="Data / AI">Data / AI</option>
+                      <option value="QA / Test">QA / Automation</option>
+                    </select>
+
+                    <label className="h-9 inline-flex items-center gap-2 px-3.5 rounded-full border border-[#dadce0] bg-white text-xs font-medium text-[#3c4043] cursor-pointer hover:bg-[#f8f9fa] transition-colors select-none">
                       <input
-                        id="job-search-input"
-                        type="text"
-                        placeholder="Search title, skills (React, Python, Go, Rust), or company..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        type="checkbox"
+                        checked={remoteOnly}
+                        onChange={(e) => setRemoteOnly(e.target.checked)}
+                        className="rounded text-[#1a73e8] focus:ring-[#1a73e8] w-3.5 h-3.5"
                       />
-                    </div>
-
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                      <select
-                        id="select-category"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="px-3 py-2.5 rounded-xl text-xs font-semibold border border-slate-200 bg-slate-50 text-slate-700 focus:ring-2 focus:ring-emerald-500"
-                      >
-                        <option value="All">All Roles</option>
-                        <option value="Full Stack">Full Stack</option>
-                        <option value="Frontend">Frontend</option>
-                        <option value="Backend">Backend</option>
-                        <option value="Mobile">Mobile</option>
-                        <option value="DevOps / Cloud">DevOps</option>
-                        <option value="Data / AI">Data / AI</option>
-                        <option value="QA / Test">QA / Automation</option>
-                      </select>
-
-                      <label className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer select-none text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors whitespace-nowrap">
-                        <input
-                          type="checkbox"
-                          checked={remoteOnly}
-                          onChange={(e) => setRemoteOnly(e.target.checked)}
-                          className="rounded text-emerald-600 focus:ring-emerald-500 w-3.5 h-3.5"
-                        />
-                        <span>Remote</span>
-                      </label>
-                    </div>
+                      <span>Remote Only</span>
+                    </label>
                   </div>
-                </div>
-
-                {/* Micro Metrics Pill */}
-                <div className="flex items-center justify-center gap-6 text-xs text-slate-500 mt-6 flex-wrap">
-                  <span className="flex items-center gap-1.5 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <strong>{activeJobs.length}</strong> Early-Career Listings
-                  </span>
-                  <span className="flex items-center gap-1.5 font-medium">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    Direct Company Applications
-                  </span>
-                  <span className="flex items-center gap-1.5 font-medium">
-                    <TrendingUp className="w-4 h-4 text-amber-600" />
-                    $115k–$145k Avg Base Salary
-                  </span>
                 </div>
               </div>
             </section>
@@ -1201,26 +1363,26 @@ export default function App() {
       {/* GDPR / CCPA / Google AdSense Cookie Consent Banner */}
       <CookieConsentBanner onOpenPrivacyModal={() => setLegalModalType('privacy')} />
 
-      {/* Clean, Lightweight Footer */}
-      <footer className="bg-white border-t border-slate-200 mt-12 py-10 px-4 sm:px-6 lg:px-8 text-xs text-slate-500">
+      {/* Google Corporate Footer */}
+      <footer className="bg-[#f8f9fa] border-t border-[#dadce0] mt-16 py-12 px-4 sm:px-6 lg:px-8 text-xs text-[#5f6368] font-sans">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <FreshCommitsLogo size="sm" showWordmark={true} showDomainBadge={true} />
-            <div className="hidden sm:block border-l border-slate-200 pl-3">
-              <p className="text-[11px] text-slate-400">
-                Entry-Level &amp; New Grad Developer Job Board &bull; Verified Direct Applications
+            <div className="hidden sm:block border-l border-[#dadce0] pl-3">
+              <p className="text-[11px] text-[#5f6368]">
+                Verified 0–2 YoE Software Engineering Opportunities &bull; Direct ATS Routing
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-5 flex-wrap text-xs">
+          <div className="flex items-center gap-6 flex-wrap text-xs">
             <a
               href="/?view=tools"
               onClick={(e) => {
                 e.preventDefault();
                 handleTabChange('tools');
               }}
-              className="text-emerald-700 font-bold hover:underline transition-colors"
+              className="text-[#1a73e8] font-medium hover:underline transition-colors"
             >
               Career Tools &amp; TC Calculator
             </a>
@@ -1230,7 +1392,7 @@ export default function App() {
                 e.preventDefault();
                 handleTabChange('insights');
               }}
-              className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
+              className="text-[#5f6368] hover:text-[#202124] transition-colors"
             >
               Career Insights
             </a>
@@ -1240,7 +1402,7 @@ export default function App() {
                 e.preventDefault();
                 handleTabChange('salary-guide');
               }}
-              className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
+              className="text-[#5f6368] hover:text-[#202124] transition-colors"
             >
               Salary Benchmarks
             </a>
@@ -1250,7 +1412,7 @@ export default function App() {
                 e.preventDefault();
                 handleTabChange('about');
               }}
-              className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
+              className="text-[#5f6368] hover:text-[#202124] transition-colors"
             >
               About Us
             </a>
@@ -1260,7 +1422,7 @@ export default function App() {
                 e.preventDefault();
                 handleTabChange('contact');
               }}
-              className="text-slate-700 font-semibold hover:text-emerald-700 transition-colors"
+              className="text-[#5f6368] hover:text-[#202124] transition-colors"
             >
               Contact Us
             </a>
@@ -1271,7 +1433,7 @@ export default function App() {
                 e.preventDefault();
                 handleTabChange('terms');
               }}
-              className="font-semibold text-slate-700 hover:text-slate-900 transition-colors underline decoration-slate-300"
+              className="text-[#5f6368] hover:text-[#202124] transition-colors"
             >
               Terms of Service
             </a>
@@ -1282,7 +1444,7 @@ export default function App() {
                 e.preventDefault();
                 handleTabChange('privacy');
               }}
-              className="font-semibold text-slate-700 hover:text-slate-900 transition-colors underline decoration-slate-300"
+              className="text-[#5f6368] hover:text-[#202124] transition-colors"
             >
               Privacy Policy
             </a>
@@ -1293,60 +1455,50 @@ export default function App() {
                 e.preventDefault();
                 handleTabChange('disclaimer');
               }}
-              className="hover:text-slate-900 transition-colors"
+              className="text-[#5f6368] hover:text-[#202124] transition-colors"
             >
-              Disclaimer &amp; Ad Disclosure
-            </a>
-            <a
-              href="/?view=policy"
-              onClick={(e) => {
-                e.preventDefault();
-                handleTabChange('adsense-policy');
-              }}
-              className="hover:text-slate-900 transition-colors"
-            >
-              AdSense Compliance
+              Disclaimer
             </a>
             <button
               onClick={() => {
                 localStorage.removeItem('freshcommits_cookie_consent_v1');
                 window.location.reload();
               }}
-              className="hover:text-slate-900 text-slate-400 text-[11px] underline transition-colors"
+              className="text-[#80868b] hover:text-[#202124] text-[11px] underline transition-colors cursor-pointer"
               title="Change your cookie consent preferences"
             >
               Cookie Preferences
             </button>
 
             {/* Social channels */}
-            <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+            <div className="flex items-center gap-2 pl-3 border-l border-[#dadce0]">
               <a
                 href="https://www.linkedin.com/company/freshcommits"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-[#0A66C2] font-semibold hover:underline"
+                className="flex items-center gap-1 text-[#5f6368] hover:text-[#0A66C2] transition-colors"
                 title="LinkedIn community page"
               >
                 <Linkedin className="w-3.5 h-3.5 fill-current" />
                 <span>LinkedIn</span>
               </a>
-              <span className="text-slate-300">&bull;</span>
+              <span className="text-[#dadce0]">&bull;</span>
               <a
                 href="https://x.com/Jishaka4"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-slate-800 font-semibold hover:underline"
+                className="flex items-center gap-1 text-[#5f6368] hover:text-[#202124] transition-colors"
                 title="X / Twitter official alerts (@Jishaka4)"
               >
                 <Twitter className="w-3.5 h-3.5 fill-current" />
                 <span>Twitter / X</span>
               </a>
-              <span className="text-slate-300">&bull;</span>
+              <span className="text-[#dadce0]">&bull;</span>
               <a
                 href="https://www.youtube.com/@FreshCommits-t3l"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-red-600 font-semibold hover:underline"
+                className="flex items-center gap-1 text-[#5f6368] hover:text-[#ea4335] transition-colors"
                 title="FreshCommits YouTube Channel (@FreshCommits-t3l)"
               >
                 <Youtube className="w-3.5 h-3.5" />
@@ -1358,16 +1510,16 @@ export default function App() {
             {isAdminAuthenticated && (
               <button
                 onClick={() => setActiveTab('admin')}
-                className="text-emerald-700 font-bold flex items-center gap-1.5 hover:underline bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+                className="text-[#1a73e8] font-medium flex items-center gap-1.5 hover:underline bg-[#e8f0fe] px-2.5 py-1 rounded-full border border-[#d2e3fc] cursor-pointer"
               >
-                <Lock className="w-3 h-3 text-emerald-600" />
+                <Lock className="w-3 h-3 text-[#1a73e8]" />
                 <span>Owner Portal</span>
               </button>
             )}
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
+        <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-[#dadce0] flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#80868b] gap-2">
           <div className="flex items-center gap-2">
             <span>&copy; {new Date().getFullYear()} FreshCommits (freshcommits.com). Strictly verified 0–2 YoE software engineering opportunities.</span>
             <span>&bull;</span>
@@ -1379,7 +1531,7 @@ export default function App() {
                   setIsAdminLoginOpen(true);
                 }
               }}
-              className="text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1 cursor-pointer"
+              className="text-[#80868b] hover:text-[#202124] transition-colors flex items-center gap-1 cursor-pointer"
               title="Site Owner Login (kartikamuthukrishnan@gmail.com)"
             >
               <Lock className="w-2.5 h-2.5 opacity-50" />

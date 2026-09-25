@@ -227,23 +227,23 @@ export const FreshCommitsLogo: React.FC<FreshCommitsLogoProps> = ({
         <div className="flex flex-col justify-center leading-tight">
           <div className="flex items-center gap-1.5">
             <span
-              className={`font-black tracking-tight ${currentSize.textClass} ${
-                variant === 'dark' ? 'text-white' : 'text-slate-900'
+              className={`font-bold tracking-tight ${currentSize.textClass} ${
+                variant === 'dark' ? 'text-white' : 'text-[#202124]'
               }`}
             >
-              Fresh<span className="text-emerald-600">Commits</span>
+              Fresh<span className="text-[#1a73e8]">Commits</span>
             </span>
 
             {showDomainBadge && (
-              <span className="inline-flex items-center font-mono font-bold tracking-wider text-[10px] bg-slate-900 text-emerald-400 px-1.5 py-0.5 rounded-md border border-slate-700 shadow-xs">
+              <span className="inline-flex items-center font-mono font-medium text-[10px] bg-[#e8f0fe] text-[#1a73e8] px-1.5 py-0.5 rounded border border-[#d2e3fc]">
                 .com
               </span>
             )}
           </div>
 
           {currentSize.subText && size !== 'sm' && (
-            <span className="text-[10.5px] font-medium text-slate-500 tracking-normal hidden sm:block">
-              Entry-Level &amp; New Grad SWE Careers
+            <span className="text-[11px] font-normal text-[#5f6368] tracking-normal hidden sm:block">
+              Entry-Level &amp; New Grad Careers
             </span>
           )}
         </div>
