@@ -151,11 +151,11 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto overflow-x-hidden"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-8 max-h-[90vh] flex flex-col"
+        className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-4 sm:my-8 max-h-[90vh] flex flex-col box-border"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Visual Breadcrumb Navigation for SEO & Candidate Wayfinding */}
@@ -170,7 +170,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
         </div>
 
         {/* Modal Header */}
-        <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-start justify-between gap-4">
+        <div className="p-4 sm:p-6 border-b border-slate-200 bg-slate-50 flex items-start justify-between gap-4">
           <div className="flex items-start gap-4">
             <img
               src={job.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company)}&background=0F172A&color=fff&size=128`}
@@ -264,7 +264,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
         </div>
 
         {/* Modal Scrollable Content */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-800 text-sm leading-relaxed">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1 text-slate-800 text-sm leading-relaxed">
           {/* Expiration Notice if past deadline */}
           {isJobExpired(job) ? (
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 flex items-start gap-3">
@@ -421,7 +421,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5 ml-5 flex items-center gap-2 flex-wrap">
               <span>Direct employer requisition — opens this specific opening directly without middleman friction.</span>
-              <span className="font-mono text-[10px] text-slate-500 bg-slate-200/70 px-1.5 py-0.5 rounded border border-slate-300/80">
+              <span className="font-mono text-[10px] text-slate-500 bg-slate-200/70 px-1.5 py-0.5 rounded border border-slate-300/80 break-all">
                 freshcommits.com/?job={job.id}
               </span>
             </div>
