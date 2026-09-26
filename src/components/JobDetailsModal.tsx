@@ -460,7 +460,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               onClick={() => trackApplyClick(job)}
               className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 shadow-sm transition-all"
             >
-              <span>{applyButtonText}</span>
+              <span>{applyButtonText}</span>,
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
