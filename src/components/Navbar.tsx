@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Linkedin, Twitter, Youtube, MessageSquare } from 'lucide-react';
+import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { FreshCommitsLogo } from './FreshCommitsLogo';
 import { AppTab } from '../types';
 
@@ -24,20 +24,21 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="sticky top-0 z-30 bg-white border-b border-[#dadce0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          
           {/* Brand Identity */}
           <div
             onClick={() => setActiveTab('jobs')}
-            className="flex items-center gap-3 cursor-pointer group select-none py-2"
+            className="flex items-center gap-2 cursor-pointer group select-none py-2 flex-shrink-0"
             id="nav-brand"
           >
-            <FreshCommitsLogo size="md" showWordmark={true} showDomainBadge={true} />
-            <span className="hidden lg:inline-flex items-center text-[11px] font-medium bg-[#e8f0fe] text-[#1a73e8] px-2.5 py-0.5 rounded-full border border-[#d2e3fc]">
-              0–2 YoE Verified
+            <FreshCommitsLogo size="sm" showWordmark={true} showDomainBadge={false} />
+            <span className="hidden xl:inline-flex items-center text-[10px] font-medium bg-[#e8f0fe] text-[#1a73e8] px-2 py-0.5 rounded-full border border-[#d2e3fc]">
+              0–2 YoE
             </span>
           </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 h-full">
+          {/* Desktop Navigation Links (Single-Line Professional Layout) */}
+          <nav className="hidden md:flex items-center gap-1 lg:gap-3 h-full overflow-hidden">
             <a
               id="nav-tab-jobs"
               href="/"
@@ -45,14 +46,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('jobs');
               }}
-              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                 activeTab === 'jobs'
-                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span>Job Feed</span>
-              <span className="ml-1 text-[11px] bg-[#f1f3f4] text-[#5f6368] px-2 py-0.5 rounded-full font-mono font-medium">
+              <span>Jobs</span>
+              <span className="text-[10px] bg-[#f1f3f4] text-[#5f6368] px-1.5 py-0.2 rounded-full font-mono">
                 {jobCount}
               </span>
             </a>
@@ -64,13 +65,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('salary-guide');
               }}
-              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                 activeTab === 'salary-guide'
-                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span>Salary Index</span>
+              <span>Salary</span>
             </a>
 
             <a
@@ -80,13 +81,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('insights');
               }}
-              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                 activeTab === 'insights'
-                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span>Career Insights</span>
+              <span>Insights</span>
             </a>
 
             <a
@@ -96,14 +97,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('tools');
               }}
-              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                 activeTab === 'tools'
-                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span>Career Tools</span>
-              <span className="text-[10px] font-medium uppercase px-1.5 py-0.5 rounded-full bg-[#e8f0fe] text-[#1a73e8] border border-[#d2e3fc]">
+              <span>Tools</span>
+              <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-[#e8f0fe] text-[#1a73e8]">
                 New
               </span>
             </a>
@@ -115,13 +116,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('about');
               }}
-              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                 activeTab === 'about'
-                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span>About Us</span>
+              <span>About</span>
             </a>
 
             <a
@@ -131,9 +132,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('contact');
               }}
-              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                 activeTab === 'contact'
-                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
@@ -147,70 +148,70 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('privacy');
               }}
-              className={`h-full relative text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                 activeTab === 'privacy'
-                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span>Privacy Policy</span>
+              <span>Privacy</span>
             </a>
 
-            {/* Social Channels & Share Bar */}
-            <div className="hidden xl:flex items-center gap-1 pl-3 ml-2 border-l border-[#dadce0]">
+            {/* Social Icons Bar (Shown on large screens) */}
+            <div className="hidden lg:flex items-center gap-1 pl-2 ml-1 border-l border-[#dadce0]">
               <a
                 href="https://www.linkedin.com/company/freshcommits"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg text-[#5f6368] hover:text-[#0A66C2] hover:bg-[#f1f3f4] transition-colors"
-                title="Follow FreshCommits on LinkedIn for daily verified 0–2 YoE SWE job alerts"
+                className="p-1 rounded text-[#5f6368] hover:text-[#0A66C2] hover:bg-[#f1f3f4] transition-colors"
+                title="LinkedIn"
               >
-                <Linkedin className="w-4 h-4 fill-current" />
+                <Linkedin className="w-3.5 h-3.5 fill-current" />
               </a>
               <a
                 href="https://x.com/Jishaka4"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4] transition-colors"
-                title="Follow @Jishaka4 on X / Twitter for instant drop alerts"
+                className="p-1 rounded text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4] transition-colors"
+                title="Twitter / X"
               >
-                <Twitter className="w-4 h-4 fill-current" />
+                <Twitter className="w-3.5 h-3.5 fill-current" />
               </a>
               <a
                 href="https://www.youtube.com/@FreshCommits-t3l"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg text-[#5f6368] hover:text-[#ea4335] hover:bg-[#f1f3f4] transition-colors"
-                title="Subscribe to FreshCommits on YouTube (@FreshCommits-t3l)"
+                className="p-1 rounded text-[#5f6368] hover:text-[#ea4335] hover:bg-[#f1f3f4] transition-colors"
+                title="YouTube"
               >
-                <Youtube className="w-4 h-4" />
+                <Youtube className="w-3.5 h-3.5" />
               </a>
             </div>
           </nav>
 
-          {/* Right Action: Admin / Action Button */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right Action: Admin / Explore Roles Button */}
+          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
             {isAdminAuthenticated ? (
               <div className="flex items-center gap-2">
                 <button
                   id="nav-btn-admin"
                   onClick={() => setActiveTab('admin')}
-                  className={`px-4 py-2 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1 cursor-pointer ${
                     activeTab === 'admin'
                       ? 'bg-[#1a73e8] text-white shadow-xs'
                       : 'bg-[#f1f3f4] text-[#202124] hover:bg-[#e8eaed]'
                   }`}
                   title="Site Owner Admin Portal"
                 >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Owner Admin</span>
+                  <Lock className="w-3 h-3" />
+                  <span>Admin</span>
                 </button>
                 <button
                   onClick={onLogoutAdmin}
-                  className="px-2.5 py-1.5 text-xs text-[#5f6368] hover:text-[#d93025] font-medium transition-colors cursor-pointer"
+                  className="px-2 py-1.5 text-xs text-[#5f6368] hover:text-[#d93025] font-medium transition-colors cursor-pointer"
                   title="Sign out of Admin"
                 >
-                  Lock
+                  Exit
                 </button>
               </div>
             ) : (
@@ -220,9 +221,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   if (feed) feed.scrollIntoView({ behavior: 'smooth' });
                   else setActiveTab('jobs');
                 }}
-                className="bg-[#1a73e8] hover:bg-[#1557b0] text-white px-5 py-2 rounded-full font-medium text-sm transition-all shadow-xs cursor-pointer"
+                className="bg-[#1a73e8] hover:bg-[#1557b0] text-white px-4 py-2 rounded-full font-medium text-xs lg:text-sm transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
               >
-                Explore Roles
+                <span>Explore Roles</span>
+                <Sparkles className="w-3 h-3 text-amber-300" />
               </button>
             )}
           </div>
@@ -389,7 +391,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
           </div>
 
-          {/* Mobile Owner Admin Button - Only shown when authenticated */}
+          {/* Mobile Owner Admin Button */}
           {isAdminAuthenticated && (
             <div className="pt-2 border-t border-slate-100 mt-2 space-y-1">
               <button
