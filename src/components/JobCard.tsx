@@ -78,8 +78,8 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
                   </span>
                 ) : null}
                 {job.atsVerified && (
-                  <span className="inline-flex items-center gap-0.5 text-[10px] text-[#1a73e8] font-medium bg-[#e8f0fe] px-2 py-0.5 rounded-full border border-[#d2e3fc]" title="Requisition confirmed live on official ATS feed">
-                    <CheckCircle2 className="w-2.5 h-2.5" /> ATS Verified
+                  <span className="inline-flex items-center gap-0.5 text-[10px] text-[#1a73e8] font-medium bg-[#e8f0fe] px-2 py-0.5 rounded-full border border-[#d2e3fc]" title="Requisition confirmed live on official direct feed">
+                    <CheckCircle2 className="w-2.5 h-2.5" /> Verified
                   </span>
                 )}
                 {isNew() && (
@@ -118,7 +118,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
                 <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f9ab00] text-[#f9ab00]' : ''}`} />
               </button>
             )}
-            <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0]">
+            <span className="text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] whitespace-nowrap">
               {job.experienceLevel === 'Internship' ? '🎓 Internship' : `${job.experienceLevel} (0–${job.maxYearsExperience || 1} YoE)`}
             </span>
           </div>
