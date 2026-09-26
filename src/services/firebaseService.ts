@@ -9,10 +9,18 @@ import {
   deleteDoc,
   writeBatch,
   onSnapshot,
-  getDocFromServer
+  getDocFromServer,
+  setLogLevel
 } from 'firebase/firestore';
 import firebaseConfig from '../firebaseConfig';
 import { JobPosting, AdSenseConfig } from '../types';
+
+// Silence internal Firestore connection retry logs when offline or connecting
+try {
+  setLogLevel('silent');
+} catch {
+  // Ignore in environments where setLogLevel cannot be configured
+}
 
 // Initialize Firebase App
 const app = initializeApp(firebaseConfig);
@@ -27,7 +35,6 @@ export async function testFirebaseConnection(): Promise<boolean> {
     return true;
   } catch (error) {
     // Permission or offline handled gracefully
-    console.info('Firebase Firestore health check initialized');
     return false;
   }
 }
