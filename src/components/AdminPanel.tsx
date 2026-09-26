@@ -27,6 +27,7 @@ import {
   Shield,
   CheckCircle2,
   AlertTriangle,
+  Calendar,
   ExternalLink,
   Trash2,
   Edit3,
@@ -181,6 +182,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [qualificationsText, setQualificationsText] = useState('');
   const [skillsText, setSkillsText] = useState('TypeScript, React, Node.js');
   const [applyUrl, setApplyUrl] = useState('');
+  const [datePosted, setDatePosted] = useState<string>(new Date().toISOString().split('T')[0]);
   const [validDays, setValidDays] = useState(60);
 
   // Auto-Extraction / Instant Ingestion State
@@ -292,7 +294,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       : ['Bachelor degree or equivalent in CS', '0-2 years experience'],
     skills: skillsText.split(',').map((s) => s.trim()).filter(Boolean),
     applyUrl: applyUrl || 'https://careers.example.com/apply',
-    datePosted: new Date().toISOString().split('T')[0],
+    datePosted: datePosted || new Date().toISOString().split('T')[0],
     validThrough: new Date(Date.now() + validDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     source: 'MANUAL_ADMIN',
     atsProvider: applyUrl ? detectAtsProviderFromUrl(applyUrl) : undefined,
@@ -339,6 +341,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setQualificationsText((job.qualifications || []).join('\n'));
     setSkillsText((job.skills || []).join(', '));
     setApplyUrl(job.applyUrl || '');
+    setDatePosted(job.datePosted || new Date().toISOString().split('T')[0]);
 
     // Estimate validity days remaining if present
     if (job.validThrough) {
@@ -360,6 +363,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setCompanyWebsite('');
     setDescription('');
     setApplyUrl('');
+    setDatePosted(new Date().toISOString().split('T')[0]);
     setResponsibilitiesText('');
     setQualificationsText('');
     setSkillsText('TypeScript, React, Node.js');
@@ -384,6 +388,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       if (data.state) setState(data.state);
       if (data.country) setCountry(data.country);
       if (data.applicantLocationRequirements) setApplicantLocationRequirements(data.applicantLocationRequirements);
+      if (data.datePosted) setDatePosted(data.datePosted);
       setCategory(data.category);
       setExperienceLevel(data.experienceLevel);
       setMaxYearsExperience(data.maxYearsExperience);
@@ -427,7 +432,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       const updatedJob: JobPosting = {
         ...draftJob,
         id: editingJobId,
-        datePosted: original?.datePosted || new Date().toISOString().split('T')[0],
+        datePosted: datePosted || original?.datePosted || new Date().toISOString().split('T')[0],
         fingerprint: generateFingerprint(company, title, isRemote ? 'remote' : location),
         viewsCount: original?.viewsCount || 0,
         source: original?.source || 'MANUAL_ADMIN',
@@ -449,7 +454,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     const newJob: JobPosting = {
       ...draftJob,
       id: `manual-${Date.now()}`,
-      datePosted: new Date().toISOString().split('T')[0],
+      datePosted: datePosted || new Date().toISOString().split('T')[0],
       fingerprint: generateFingerprint(company, title, isRemote ? 'remote' : location),
     };
 
@@ -1231,45 +1236,71 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 )}
               </div>
 
-              {/* Experience & Employment Type */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Experience Level</label>
-                  <select
-                    value={experienceLevel}
-                    onChange={(e) => setExperienceLevel(e.target.value as ExperienceLevel)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white"
-                  >
-                    <option value="Entry Level">Entry Level (0-2 YoE)</option>
-                    <option value="New Grad">New Grad (2025/2026)</option>
-                    <option value="Fresher">Fresher (0 YoE)</option>
-                    <option value="Internship">Internship</option>
-                  </select>
+              {/* Date Posted & Experience Configuration */}
+              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-indigo-600" />
+                      Date Posted <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      required
+                      value={datePosted}
+                      onChange={(e) => setDatePosted(e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium"
+                    />
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      Listing publication date displayed on the card and in Google JobPosting schema.
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Experience Level (Below Date Posted)
+                    </label>
+                    <select
+                      value={experienceLevel}
+                      onChange={(e) => setExperienceLevel(e.target.value as ExperienceLevel)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium"
+                    >
+                      <option value="Entry Level">Entry/Early and remote (0-2YoE)</option>
+                      <option value="New Grad">New Grad (2025/2026)</option>
+                      <option value="Fresher">Fresher (0 YoE)</option>
+                      <option value="Internship">Internship</option>
+                    </select>
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      Default option: Entry/Early and remote (0-2YoE).
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Max Years Experience</label>
-                  <select
-                    value={maxYearsExperience}
-                    onChange={(e) => setMaxYearsExperience(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white"
-                  >
-                    <option value={0}>0 Years (Strict Fresher / Grad)</option>
-                    <option value={1}>1 Year Max</option>
-                    <option value={2}>2 Years Max (Entry Level)</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Employment Type</label>
-                  <select
-                    value={employmentType}
-                    onChange={(e) => setEmploymentType(e.target.value as EmploymentType)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white"
-                  >
-                    <option value="FULL_TIME">Full Time</option>
-                    <option value="INTERN">Intern</option>
-                    <option value="CONTRACT">Contract</option>
-                    <option value="PART_TIME">Part Time</option>
-                  </select>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 border-t border-slate-200/80">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Max Years Experience</label>
+                    <select
+                      value={maxYearsExperience}
+                      onChange={(e) => setMaxYearsExperience(Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white"
+                    >
+                      <option value={0}>0 Years (Strict Fresher / Grad)</option>
+                      <option value={1}>1 Year Max</option>
+                      <option value={2}>2 Years Max (Entry Level 0-2YoE)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Employment Type</label>
+                    <select
+                      value={employmentType}
+                      onChange={(e) => setEmploymentType(e.target.value as EmploymentType)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white"
+                    >
+                      <option value="FULL_TIME">Full Time</option>
+                      <option value="INTERN">Intern</option>
+                      <option value="CONTRACT">Contract</option>
+                      <option value="PART_TIME">Part Time</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

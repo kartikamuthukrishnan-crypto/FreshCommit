@@ -187,7 +187,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                   </span>
                 ) : (
                   <span className="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">
-                    {job.experienceLevel} ({job.maxYearsExperience} YoE)
+                    Entry/Early and remote (0-2YoE)
                   </span>
                 )}
                 {job.isRemote && (
@@ -212,10 +212,15 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                     return `${sym}${Math.round(job.salary.min / 1000)}k – ${sym}${Math.round(job.salary.max / 1000)}k / year`;
                   })()}
                 </span>
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                  Posted on {job.datePosted}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                    Posted on {job.datePosted}
+                  </span>
+                  <span className="text-[11px] font-medium text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">
+                    {job.experienceLevel === 'Internship' ? '🎓 Internship' : 'Entry/Early and remote (0-2YoE)'}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

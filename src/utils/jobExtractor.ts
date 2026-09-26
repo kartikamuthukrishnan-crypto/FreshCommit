@@ -23,6 +23,7 @@ export interface ExtractedJobData {
   skills: string[];
   applyUrl: string;
   detectedAtsProvider?: string;
+  datePosted?: string;
 }
 
 /**

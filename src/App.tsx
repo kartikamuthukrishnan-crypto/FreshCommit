@@ -1051,7 +1051,7 @@ export default function App() {
                           : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
                       }`}
                     >
-                      Full-Time 0–2 YoE
+                      Entry/Early &amp; Remote (0–2 YoE)
                     </button>
                     <button
                       onClick={() => setSelectedExperience('Internship')}

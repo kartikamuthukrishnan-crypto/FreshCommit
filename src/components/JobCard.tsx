@@ -102,7 +102,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
             </div>
           </div>
 
-          {/* Bookmark & Experience Level */}
+          {/* Bookmark Action */}
           <div className="flex items-center gap-1.5 flex-shrink-0">
             {onToggleSave && (
               <button
@@ -118,9 +118,6 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
                 <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f9ab00] text-[#f9ab00]' : ''}`} />
               </button>
             )}
-            <span className="text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] whitespace-nowrap">
-              {job.experienceLevel === 'Internship' ? '🎓 Internship' : `${job.experienceLevel} (0–${job.maxYearsExperience || 1} YoE)`}
-            </span>
           </div>
         </div>
 
@@ -169,10 +166,18 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
       </div>
 
       {/* Action Footer */}
-      <div className="flex items-center justify-between pt-3.5 border-t border-[#f1f3f4] gap-2">
-        <div className="flex items-center gap-1.5 text-xs text-[#5f6368]">
-          <Calendar className="w-3.5 h-3.5 text-[#80868b]" />
-          <span className="text-[11px] font-normal">Posted {job.datePosted}</span>
+      <div className="flex items-end justify-between pt-3.5 border-t border-[#f1f3f4] gap-2">
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center gap-1.5 text-xs text-[#5f6368]">
+            <Calendar className="w-3.5 h-3.5 text-[#80868b]" />
+            <span className="text-[11px] font-normal">Posted {job.datePosted}</span>
+          </div>
+          {/* Entry Level Field below Date Posted */}
+          <span className="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] whitespace-nowrap w-fit">
+            {job.experienceLevel === 'Internship'
+              ? '🎓 Internship (0-2YoE)'
+              : 'Entry/Early and remote (0-2YoE)'}
+          </span>
         </div>
 
         <div className="flex items-center gap-2">
