@@ -72,7 +72,7 @@ const DEFAULT_ADSENSE_CONFIG: AdSenseConfig = {
 };
 
 export default function App() {
-  // 1. Persistent State for Jobs (ensures verified live ATS URLs with application forms and internships)
+  // 1. Persistent State for Jobs (ensures verified live direct URLs with application forms and internships)
   const [jobs, setJobs] = useState<JobPosting[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_JOBS);
@@ -831,7 +831,7 @@ export default function App() {
                               <div className="w-7 h-7 rounded-lg bg-[#1a73e8] text-white flex items-center justify-center font-bold text-xs">
                                 FC
                               </div>
-                              <span className="text-xs font-semibold text-[#202124]">Verified Direct ATS Feed</span>
+                              <span className="text-xs font-semibold text-[#202124]">Verified Direct Feed</span>
                             </div>
                             <span className="text-[10px] font-medium bg-[#e6f4ea] text-[#137333] px-2 py-0.5 rounded-full border border-[#ceead6]">
                               Live Openings
@@ -852,7 +852,7 @@ export default function App() {
                               </div>
                               <div className="flex items-center justify-between text-[11px]">
                                 <span className="text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
-                                  Greenhouse Verified
+                                  Direct Verified
                                 </span>
                                 <span className="text-[#1a73e8] font-medium">Direct Apply ›</span>
                               </div>
@@ -870,7 +870,7 @@ export default function App() {
                               </div>
                               <div className="flex items-center justify-between text-[11px]">
                                 <span className="text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
-                                  Lever Verified
+                                  Direct Verified
                                 </span>
                                 <span className="text-[#1a73e8] font-medium">Direct Apply ›</span>
                               </div>
@@ -905,7 +905,7 @@ export default function App() {
               </div>
             </section>
 
-            {/* Three Steps to Get Started Section (Exact Google AdSense Replica) */}
+            {/* Three Steps to Get Started Section */}
             <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-[#dadce0]">
               <div className="max-w-5xl mx-auto">
                 <h2 className="text-3xl sm:text-4xl font-normal text-[#202124] text-center tracking-tight mb-16">
@@ -945,10 +945,10 @@ export default function App() {
                       3
                     </div>
                     <h3 className="text-xl font-medium text-[#202124] mb-3">
-                      Direct ATS Apply
+                      Direct Career Apply
                     </h3>
                     <p className="text-sm text-[#5f6368] leading-relaxed max-w-xs font-normal">
-                      Route directly to official Greenhouse, Lever, and Workday employer application forms with zero middleman friction.
+                      Route directly to official company career portals and application forms with zero middleman friction.
                     </p>
                   </div>
                 </div>
@@ -1283,12 +1283,12 @@ export default function App() {
               )}
             </div>
 
-            {/* Editorial Guide, Regional Salary Matrix & Comprehensive FAQs for AdSense Reviewers & Candidates */}
+            {/* Editorial Guide, Regional Salary Matrix & Comprehensive FAQs */}
             <HomeEditorialContent onNavigateTab={handleTabChange} />
           </div>
         )}
 
-        {/* VIEW 2: ORIGINAL SALARY BENCHMARKS & GUIDES (Crucial for AdSense Approval) */}
+        {/* VIEW 2: ORIGINAL SALARY BENCHMARKS & GUIDES */}
         {activeTab === 'salary-guide' && <SalaryGuideView />}
 
         {/* VIEW 3: CAREER INSIGHTS & ENGINEERING ARTICLES */}
@@ -1379,7 +1379,7 @@ export default function App() {
         onToggleSave={handleToggleSaveJob}
       />
 
-      {/* Legal & Compliance Modals (Privacy Policy, Terms, Disclaimer) */}
+      {/* Legal & Compliance Modals */}
       <LegalModal type={legalModalType} onClose={() => setLegalModalType(null)} />
 
       {/* GDPR / CCPA / Google AdSense Cookie Consent Banner */}
@@ -1392,7 +1392,7 @@ export default function App() {
             <FreshCommitsLogo size="sm" showWordmark={true} showDomainBadge={true} />
             <div className="hidden sm:block border-l border-[#dadce0] pl-3">
               <p className="text-[11px] text-[#5f6368]">
-                Verified 0–2 YoE Software Engineering Opportunities &bull; Direct ATS Routing
+                Verified 0–2 YoE Software Engineering Opportunities &bull; Direct Career Routing
               </p>
             </div>
           </div>
@@ -1563,7 +1563,7 @@ export default function App() {
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <span>Direct ATS Routing</span>
+            <span>Direct Career Routing</span>
             <span>&bull;</span>
             <span>Zero Paraphrasing</span>
             <span>&bull;</span>
