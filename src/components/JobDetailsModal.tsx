@@ -239,11 +239,11 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                 <span className="text-sm font-bold text-slate-900">{job.company}</span>
                 {job.experienceLevel === 'Internship' ? (
                   <span className="text-xs bg-violet-100 text-violet-800 font-bold px-2.5 py-0.5 rounded-full border border-violet-200">
-                    🎓 Paid Internship
+                    Internship
                   </span>
                 ) : (
                   <span className="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">
-                    Entry/Early and remote (0-2YoE)
+                    Entry/Early Career
                   </span>
                 )}
                 {job.isRemote && (
@@ -274,7 +274,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                     Posted on {job.datePosted}
                   </span>
                   <span className="text-[11px] font-medium text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">
-                    {job.experienceLevel === 'Internship' ? '🎓 Internship' : 'Entry/Early and remote (0-2YoE)'}
+                    {job.experienceLevel === 'Internship' ? 'Internship' : 'Entry/Early Career'}
                   </span>
                 </div>
               </div>
@@ -340,11 +340,11 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                   <span className="text-xs font-bold text-slate-900">{job.company}</span>
                   {job.experienceLevel === 'Internship' ? (
                     <span className="text-[10px] bg-violet-100 text-violet-800 font-bold px-2 py-0.5 rounded-full border border-violet-200">
-                      🎓 Paid Internship
+                      Internship
                     </span>
                   ) : (
                     <span className="text-[10px] bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">
-                      Entry/Early and remote (0-2YoE)
+                      Entry/Early Career
                     </span>
                   )}
                   {job.isRemote && (

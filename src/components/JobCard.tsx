@@ -175,8 +175,8 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
           {/* Entry Level Field below Date Posted */}
           <span className="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] whitespace-nowrap w-fit">
             {job.experienceLevel === 'Internship'
-              ? '🎓 Internship (0-2YoE)'
-              : 'Entry/Early and remote (0-2YoE)'}
+              ? 'Internship'
+              : 'Entry/Early Career'}
           </span>
         </div>
 

@@ -1264,13 +1264,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       onChange={(e) => setExperienceLevel(e.target.value as ExperienceLevel)}
                       className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium"
                     >
-                      <option value="Entry Level">Entry/Early and remote (0-2YoE)</option>
+                      <option value="Entry Level">Entry/Early Career</option>
                       <option value="New Grad">New Grad (2025/2026)</option>
                       <option value="Fresher">Fresher (0 YoE)</option>
                       <option value="Internship">Internship</option>
                     </select>
                     <p className="text-[11px] text-slate-500 mt-1">
-                      Default option: Entry/Early and remote (0-2YoE).
+                      Default option: Entry/Early Career.
                     </p>
                   </div>
                 </div>
