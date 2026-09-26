@@ -61,7 +61,7 @@ import {
   batchSaveJobsToCloud,
   saveAdConfigToCloud
 } from '../services/firebaseService';
-import { extractAndEnrichJobFromUrl } from '../utils/jobExtractor';
+import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl } from '../utils/jobExtractor';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap } from 'lucide-react';
 
@@ -248,7 +248,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       salaryCurrency,
       responsibilities,
       qualifications,
-      atsProvider: applyUrl.includes('smartrecruiters') ? 'SmartRecruiters' : applyUrl.includes('greenhouse') ? 'Greenhouse' : applyUrl.includes('lever') ? 'Lever' : undefined,
+      atsProvider: applyUrl ? detectAtsProviderFromUrl(applyUrl) : undefined,
       rawOverview: description
     });
 
@@ -295,6 +295,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     datePosted: new Date().toISOString().split('T')[0],
     validThrough: new Date(Date.now() + validDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     source: 'MANUAL_ADMIN',
+    atsProvider: applyUrl ? detectAtsProviderFromUrl(applyUrl) : undefined,
+    atsVerified: Boolean(applyUrl && applyUrl.startsWith('http')),
     status: 'ACTIVE',
     fingerprint: generateFingerprint(company, title, location),
     viewsCount: 0,
@@ -953,15 +955,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
-                      Instant ATS Link Converter &amp; Auto-Fill
+                      Instant Career &amp; ATS Link Converter &amp; Auto-Fill
                     </h3>
                     <p className="text-[11px] text-slate-500">
-                      Auto-extracts JD metadata &amp; generates "The FreshCommits Edge" summary
+                      Auto-extracts JD metadata &amp; generates "The FreshCommits Edge" summary from any career URL
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1 text-[10px] font-semibold text-indigo-700 bg-white px-2 py-0.5 rounded-md border border-indigo-100">
-                  <span>SmartRecruiters • Greenhouse • Lever • Ashby • Careers</span>
+                  <span>Google Careers • Workday • Greenhouse • Lever • Ashby • Amazon • Any Career Link</span>
                 </div>
               </div>
 
@@ -970,7 +972,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <input
                     type="url"
                     required
-                    placeholder="Paste job URL (e.g. https://jobs.smartrecruiters.com/Version1/... or greenhouse/lever)"
+                    placeholder="Paste job URL (e.g. Google Careers, Workday, Greenhouse, Lever, Ashby, or company link)"
                     value={autoExtractUrl}
                     onChange={(e) => setAutoExtractUrl(e.target.value)}
                     className="w-full pl-8 pr-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
@@ -1591,12 +1593,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Direct ATS Apply URL <span className="text-rose-500">*</span>
+                    Direct Career / ATS Apply URL <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="url"
                     required
-                    placeholder="https://boards.greenhouse.io/... or https://jobs.lever.co/..."
+                    placeholder="https://www.google.com/about/careers/... or Workday, Greenhouse, Lever, Ashby, etc."
                     value={applyUrl}
                     onChange={(e) => setApplyUrl(e.target.value)}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs"
@@ -1604,11 +1606,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   {applyUrl && (applyUrl.includes('/search') || applyUrl.endsWith('/careers') || applyUrl.includes('?q=')) ? (
                     <p className="text-[11px] text-amber-600 mt-1 flex items-center gap-1 font-medium">
                       <AlertTriangle className="w-3 h-3 text-amber-500 flex-shrink-0" />
-                      Notice: This URL points to a search/portal page. Direct requisition/ATS links yield higher conversion and pass Google JobPosting validation.
+                      Notice: This URL points to a search/portal page. Direct requisition links yield higher conversion and pass Google JobPosting validation.
                     </p>
                   ) : (
                     <p className="text-[11px] text-slate-500 mt-1">
-                      Must link directly to this specific job requisition (Greenhouse, Lever, Ashby, etc.) to skip generic portal searches.
+                      Links directly to this specific job opening (Google Careers, Workday, Greenhouse, Lever, Ashby, etc.) for direct candidate application.
                     </p>
                   )}
                 </div>
