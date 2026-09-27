@@ -150,63 +150,103 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     };
   })();
 
+  const formatSalary = (salary: JobPosting['salary']) => {
+    if (!salary || salary.min <= 0) return 'Salary Undisclosed';
+    const sym = salary.currency === 'GBP' ? '£' : salary.currency === 'EUR' ? '€' : salary.currency === 'CAD' ? 'CA$' : salary.currency === 'INR' ? '₹' : '$';
+    if (salary.unit === 'HOUR') {
+      const maxH = salary.max && salary.max !== salary.min ? `–${sym}${salary.max}` : '';
+      return `${sym}${salary.min}${maxH} / hr`;
+    }
+    const minK = Math.round(salary.min / 1000);
+    const maxK = salary.max ? Math.round(salary.max / 1000) : minK;
+    return `${sym}${minK}k – ${sym}${maxK}k / year`;
+  };
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-6 bg-slate-900/60 backdrop-blur-sm sm:overflow-y-auto overflow-x-hidden"
+      className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-3 lg:p-4 bg-slate-900/65 backdrop-blur-sm overflow-hidden"
       onClick={onClose}
     >
       <div
-        className="relative w-full h-full sm:h-auto sm:max-h-[90vh] max-w-3xl bg-white rounded-none sm:rounded-2xl shadow-2xl border-0 sm:border border-slate-200 overflow-hidden flex flex-col box-border"
+        className="relative w-full h-full md:max-w-4xl lg:max-w-5xl md:h-[96vh] bg-white rounded-none md:rounded-2xl shadow-2xl border-0 md:border border-slate-200 overflow-hidden flex flex-col box-border"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Mobile-Only Slim Navigation Bar (48px, leaves maximum screen space for JD) */}
-        <div className="sm:hidden flex items-center justify-between px-3 py-2.5 bg-white border-b border-slate-200 shrink-0 sticky top-0 z-20">
-          <button
-            onClick={onClose}
-            className="flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 p-1 -ml-1 rounded-lg cursor-pointer"
-            aria-label="Back to job listings"
-          >
-            <ChevronLeft className="w-5 h-5 text-slate-500" />
-            <span>Jobs</span>
-          </button>
+        {/* Universal Slim Sticky Navigation Bar (~50px: keeps maximum vertical space for JD on all devices) */}
+        <div className="flex items-center justify-between px-3 sm:px-6 py-2.5 bg-white/95 backdrop-blur-md border-b border-slate-200 shrink-0 sticky top-0 z-20">
+          {/* Left: Quick Back Navigation & Company */}
+          <div className="flex items-center gap-2 min-w-0">
+            <button
+              onClick={onClose}
+              className="flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-indigo-600 px-2 py-1.5 -ml-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer shrink-0"
+              aria-label="Back to job listings"
+            >
+              <ChevronLeft className="w-4 h-4 text-slate-500" />
+              <span>Jobs</span>
+            </button>
 
-          <div className="flex items-center gap-1.5 max-w-[45%] truncate">
-            {job.companyLogo && (
-              <img
-                src={job.companyLogo}
-                alt={job.company}
-                referrerPolicy="no-referrer"
-                className="w-5 h-5 rounded object-cover border border-slate-200 bg-white shrink-0"
-              />
-            )}
-            <span className="text-xs font-bold text-slate-900 truncate">{job.company}</span>
+            <span className="text-slate-300 hidden sm:inline">|</span>
+
+            <div className="flex items-center gap-2 min-w-0 truncate">
+              {job.companyLogo ? (
+                <img
+                  src={job.companyLogo}
+                  alt={job.company}
+                  referrerPolicy="no-referrer"
+                  className="w-5 h-5 rounded object-cover border border-slate-200 bg-white shrink-0"
+                />
+              ) : (
+                <div className="w-5 h-5 rounded bg-indigo-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0">
+                  {job.company.charAt(0)}
+                </div>
+              )}
+              <span className="text-xs font-bold text-slate-900 truncate">{job.company}</span>
+              <span className="hidden sm:inline-flex text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200/80 shrink-0">
+                {job.category}
+              </span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {onToggleSave && (
               <button
                 type="button"
                 onClick={() => onToggleSave(job.id)}
-                className={`p-1.5 rounded-lg border text-xs transition-colors cursor-pointer ${
+                className={`p-1.5 sm:px-3 sm:py-1.5 rounded-lg border text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
                   isSaved
-                    ? 'bg-amber-50 border-amber-300 text-amber-600'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                    ? 'bg-amber-50 border-amber-300 text-amber-700'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
                 title={isSaved ? 'Remove from saved' : 'Save job'}
               >
-                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-amber-500 text-amber-500' : ''}`} />
+                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-amber-500 text-amber-500' : 'text-slate-500'}`} />
+                <span className="hidden md:inline">{isSaved ? 'Saved' : 'Save'}</span>
               </button>
             )}
+
             <button
               onClick={handleCopyUrl}
-              className="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 cursor-pointer"
+              className="p-1.5 sm:px-3 sm:py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5"
               title="Copy share link"
             >
               {copiedUrl ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link2 className="w-3.5 h-3.5 text-slate-500" />}
+              <span className="hidden md:inline">{copiedUrl ? 'Copied Link!' : 'Share'}</span>
             </button>
+
+            <a
+              href={job.applyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackApplyClick(job)}
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer"
+            >
+              <span className="truncate">{applyButtonText}</span>
+              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+            </a>
+
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 cursor-pointer"
+              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer ml-0.5"
               aria-label="Close modal"
             >
               <X className="w-4 h-4" />
@@ -214,168 +254,70 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
           </div>
         </div>
 
-        {/* Visual Breadcrumb Navigation for SEO & Candidate Wayfinding (Desktop Only) */}
-        <div className="hidden sm:flex px-6 py-2 bg-slate-100/90 border-b border-slate-200/80 text-[11px] text-slate-500 items-center gap-1.5 flex-wrap shrink-0">
-          <span className="hover:text-slate-800 transition-colors">Home</span>
-          <ChevronRight className="w-3 h-3 text-slate-400" />
-          <span className="hover:text-slate-800 transition-colors">Jobs</span>
-          <ChevronRight className="w-3 h-3 text-slate-400" />
-          <span className="text-slate-700 font-medium">{job.category}</span>
-          <ChevronRight className="w-3 h-3 text-slate-400" />
-          <span className="text-indigo-700 font-semibold truncate max-w-[200px]">{job.company}</span>
-        </div>
-
-        {/* Modal Header (Desktop Only) */}
-        <div className="hidden sm:flex p-6 border-b border-slate-200 bg-slate-50 items-start justify-between gap-4 shrink-0">
-          <div className="flex items-start gap-4">
-            <img
-              src={job.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company)}&background=0F172A&color=fff&size=128`}
-              alt={job.company}
-              referrerPolicy="no-referrer"
-              className="w-14 h-14 rounded-xl object-cover border border-slate-200 bg-white p-1"
-            />
-            <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-sm font-bold text-slate-900">{job.company}</span>
-                {job.experienceLevel === 'Internship' ? (
-                  <span className="text-xs bg-violet-100 text-violet-800 font-bold px-2.5 py-0.5 rounded-full border border-violet-200">
-                    Internship
-                  </span>
-                ) : (
-                  <span className="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">
-                    Entry/Early Career
-                  </span>
-                )}
-                {job.isRemote && (
-                  <span className="text-xs bg-violet-100 text-violet-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                    <Globe className="w-3 h-3" /> Remote Option
-                  </span>
-                )}
-              </div>
-              <h2 className="text-xl font-extrabold text-slate-900 mt-1">{job.title}</h2>
-              <div className="flex items-center gap-4 text-xs text-slate-500 mt-1.5 flex-wrap">
-                <span className="flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                  {job.location}
-                </span>
-                <span className="flex items-center gap-1 text-emerald-700 font-semibold">
-                  <DollarSign className="w-3.5 h-3.5" />
-                  {(() => {
-                    const sym = job.salary.currency === 'GBP' ? '£' : job.salary.currency === 'EUR' ? '€' : job.salary.currency === 'CAD' ? 'CA$' : job.salary.currency === 'INR' ? '₹' : '$';
-                    if (job.salary.unit === 'HOUR') {
-                      return `${sym}${job.salary.min}${job.salary.max && job.salary.max !== job.salary.min ? `–${sym}${job.salary.max}` : ''} / hour`;
-                    }
-                    return `${sym}${Math.round(job.salary.min / 1000)}k – ${sym}${Math.round(job.salary.max / 1000)}k / year`;
-                  })()}
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    Posted on {job.datePosted}
-                  </span>
-                  <span className="text-[11px] font-medium text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">
-                    {job.experienceLevel === 'Internship' ? 'Internship' : 'Entry/Early Career'}
-                  </span>
+        {/* Modal Scrollable Content: Takes full available height on all devices! */}
+        <div className="p-4 sm:p-8 lg:p-10 overflow-y-auto space-y-6 flex-1 text-slate-800 text-sm leading-relaxed">
+          {/* Universal Rich Job Header: Scrolls naturally with the content so it NEVER traps the JD in a small gap */}
+          <div className="pb-5 sm:pb-6 border-b border-slate-200 space-y-3.5">
+            <div className="flex items-start gap-3.5 sm:gap-4">
+              {job.companyLogo ? (
+                <img
+                  src={job.companyLogo}
+                  alt={job.company}
+                  referrerPolicy="no-referrer"
+                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl object-cover border border-slate-200 bg-white p-1 sm:p-1.5 shrink-0 shadow-xs"
+                />
+              ) : (
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-indigo-600 text-white font-extrabold text-base sm:text-xl flex items-center justify-center shrink-0 shadow-xs">
+                  {job.company.charAt(0)}
                 </div>
-              </div>
-            </div>
-          </div>
+              )}
 
-          <div className="flex items-center gap-2 flex-shrink-0">
-            {onToggleSave && (
-              <button
-                type="button"
-                onClick={() => onToggleSave(job.id)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors shadow-2xs cursor-pointer ${
-                  isSaved
-                    ? 'bg-amber-50 border-amber-300 text-amber-700'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
-                }`}
-                title={isSaved ? 'Remove from saved jobs' : 'Save this job'}
-              >
-                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-amber-500 text-amber-500' : 'text-slate-500'}`} />
-                <span className="hidden sm:inline">{isSaved ? 'Saved' : 'Save'}</span>
-              </button>
-            )}
-            <button
-              onClick={handleCopyUrl}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors shadow-2xs cursor-pointer"
-              title="Copy direct shareable link for this job"
-            >
-              {copiedUrl ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link2 className="w-3.5 h-3.5 text-slate-500" />}
-              <span className="hidden sm:inline">{copiedUrl ? 'Copied Link!' : 'Share'}</span>
-            </button>
-            <a
-              href={job.applyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition-colors"
-            >
-              <span>{applyButtonText}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-            <button
-              onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Modal Scrollable Content: Takes full available height on mobile! */}
-        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 flex-1 text-slate-800 text-sm leading-relaxed">
-          {/* Mobile-Only Full Job Header: Scrolls naturally with the content so it NEVER traps the JD in a small gap */}
-          <div className="sm:hidden pb-4 border-b border-slate-200 space-y-3">
-            <div className="flex items-start gap-3">
-              <img
-                src={job.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company)}&background=0F172A&color=fff&size=128`}
-                alt={job.company}
-                referrerPolicy="no-referrer"
-                className="w-12 h-12 rounded-xl object-cover border border-slate-200 bg-white p-1 shrink-0"
-              />
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-xs font-bold text-slate-900">{job.company}</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs sm:text-sm font-bold text-slate-900">{job.company}</span>
                   {job.experienceLevel === 'Internship' ? (
-                    <span className="text-[10px] bg-violet-100 text-violet-800 font-bold px-2 py-0.5 rounded-full border border-violet-200">
+                    <span className="text-[11px] sm:text-xs bg-violet-100 text-violet-800 font-bold px-2.5 py-0.5 rounded-full border border-violet-200">
                       Internship
                     </span>
                   ) : (
-                    <span className="text-[10px] bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">
+                    <span className="text-[11px] sm:text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-0.5 rounded-full">
                       Entry/Early Career
                     </span>
                   )}
                   {job.isRemote && (
-                    <span className="text-[10px] bg-violet-100 text-violet-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <Globe className="w-2.5 h-2.5" /> Remote
+                    <span className="text-[11px] sm:text-xs bg-violet-100 text-violet-800 font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                      <Globe className="w-3 h-3" /> Remote
+                    </span>
+                  )}
+                  {job.atsVerified && (
+                    <span className="text-[11px] sm:text-xs bg-emerald-50 text-emerald-800 font-semibold px-2.5 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Verified Requisition
                     </span>
                   )}
                 </div>
-                <h1 className="text-lg font-extrabold text-slate-900 mt-1 leading-snug">{job.title}</h1>
+
+                <h1 className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-900 mt-1 sm:mt-1.5 leading-snug tracking-tight">
+                  {job.title}
+                </h1>
               </div>
             </div>
 
-            {/* Quick Metadata Chips on Mobile */}
-            <div className="flex items-center gap-2 text-xs text-slate-600 flex-wrap pt-0.5">
-              <span className="flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg font-medium text-slate-700">
+            {/* Quick Metadata Chips */}
+            <div className="flex items-center gap-2 sm:gap-2.5 text-xs text-slate-600 flex-wrap pt-0.5">
+              <span className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl font-medium text-slate-700">
                 <MapPin className="w-3.5 h-3.5 text-slate-400" />
                 <span>{job.location}</span>
               </span>
-              <span className="flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-800 px-2.5 py-1 rounded-lg font-bold">
+              <span className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-xl font-bold">
                 <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
-                {(() => {
-                  const sym = job.salary.currency === 'GBP' ? '£' : job.salary.currency === 'EUR' ? '€' : job.salary.currency === 'CAD' ? 'CA$' : job.salary.currency === 'INR' ? '₹' : '$';
-                  if (job.salary.unit === 'HOUR') {
-                    return `${sym}${job.salary.min}${job.salary.max && job.salary.max !== job.salary.min ? `–${sym}${job.salary.max}` : ''} / hr`;
-                  }
-                  return `${sym}${Math.round(job.salary.min / 1000)}k–${sym}${Math.round(job.salary.max / 1000)}k/yr`;
-                })()}
+                <span>{formatSalary(job.salary)}</span>
               </span>
-              <span className="flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg text-slate-600">
+              <span className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl text-slate-600">
                 <Calendar className="w-3.5 h-3.5 text-slate-400" />
                 <span>Posted {job.datePosted}</span>
+              </span>
+              <span className="text-[11px] font-medium text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-xl">
+                {job.experienceLevel === 'Internship' ? 'Internship' : 'Entry/Early Career'}
               </span>
             </div>
           </div>
@@ -522,8 +464,8 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               <AdSlot type="in-feed" config={adConfig} />
             </div>
           )}
-          {/* Mobile In-Document Direct Verification & Reporting (Scrolls naturally with content) */}
-          <div className="sm:hidden pt-4 border-t border-slate-200 text-xs text-slate-500 space-y-2.5">
+          {/* Universal In-Document Direct Verification & Reporting (Scrolls naturally with content on all devices) */}
+          <div className="pt-6 border-t border-slate-200 text-xs text-slate-500 space-y-3">
             <div className="flex items-center gap-1.5 font-medium text-slate-800">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>
@@ -533,8 +475,17 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             <p className="text-[11px] text-slate-500 leading-normal">
               Direct employer requisition — opens this specific opening directly without middleman friction.
             </p>
-            <div className="font-mono text-[10px] text-slate-600 bg-slate-100 p-2 rounded-lg border border-slate-200 break-all select-all">
-              freshcommits.com/?job={job.id}
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-mono text-[10px] text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 break-all select-all">
+                freshcommits.com/?job={job.id}
+              </span>
+              <button
+                type="button"
+                onClick={handleCopyUrl}
+                className="text-[11px] text-indigo-600 hover:text-indigo-800 font-semibold cursor-pointer"
+              >
+                {copiedUrl ? '✓ Link Copied!' : 'Copy Direct Link'}
+              </button>
             </div>
             <div>
               <button
@@ -551,80 +502,36 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
           </div>
         </div>
 
-        {/* Desktop Modal Action Bar (Hidden on Mobile) */}
-        <div className="hidden sm:flex p-6 border-t border-slate-200 bg-slate-50 items-center justify-between gap-3 shrink-0">
-          <div className="text-xs text-slate-500">
-            <div className="flex items-center gap-1.5 font-medium text-slate-800">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-              <span>
-                Verified Direct Application &bull; <strong className="text-indigo-700">{job.company}</strong> Official Career Portal
-              </span>
-            </div>
-            <div className="text-[11px] text-slate-500 mt-0.5 ml-5 flex items-center gap-2 flex-wrap">
-              <span>Direct employer requisition — opens this specific opening directly without middleman friction.</span>
-              <span className="font-mono text-[10px] text-slate-500 bg-slate-200/70 px-1.5 py-0.5 rounded border border-slate-300/80 break-all">
-                freshcommits.com/?job={job.id}
-              </span>
-            </div>
-            <div className="mt-1 ml-5">
-              <button
-                type="button"
-                onClick={handleReportJob}
-                disabled={reportSubmitted}
-                className="text-[11px] text-slate-400 hover:text-rose-600 flex items-center gap-1 transition-colors cursor-pointer"
-                title="Flag to FreshCommits curation team"
-              >
-                <Flag className="w-3 h-3 text-slate-400 hover:text-rose-500" />
-                <span>{reportSubmitted ? '✓ Report Logged — Verification Queue Updated' : 'Report expired link or inaccurate YoE'}</span>
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center gap-2.5 self-end sm:self-center flex-wrap">
+        {/* Universal Sleek Sticky Bottom Action Bar (~50px: Compact, keeps maximum screen space for JD on all devices) */}
+        <div className="p-3 sm:px-6 sm:py-3 bg-white/95 backdrop-blur-md border-t border-slate-200 shrink-0 flex items-center justify-between gap-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 sm:py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer shrink-0"
+          >
+            Close
+          </button>
+
+          <div className="flex items-center gap-2.5">
             <button
               onClick={handleCopyUrl}
-              className="px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-white flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
-              title="Copy direct shareable link for this job (?job=...)"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 sm:py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors cursor-pointer"
+              title="Copy direct shareable link for this job"
             >
               {copiedUrl ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link2 className="w-3.5 h-3.5 text-slate-500" />}
-              <span>{copiedUrl ? 'Copied URL!' : 'Share Job'}</span>
+              <span>{copiedUrl ? 'Copied!' : 'Share'}</span>
             </button>
-            <button
-              onClick={onClose}
-              className="px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium text-slate-700 hover:bg-white transition-colors cursor-pointer"
-            >
-              Close
-            </button>
+
             <a
               href={job.applyUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackApplyClick(job)}
-              className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 shadow-sm transition-all cursor-pointer"
+              className="py-2 sm:py-2.5 px-5 sm:px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer"
             >
-              <span>{applyButtonText}</span>
-              <ExternalLink className="w-4 h-4" />
+              <span className="truncate">{applyButtonText}</span>
+              <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             </a>
           </div>
-        </div>
-
-        {/* Mobile Sticky Bottom Action Bar (Ultra-compact, thumb-accessible, keeps maximum screen space for JD) */}
-        <div className="sm:hidden p-3 bg-white/95 backdrop-blur-md border-t border-slate-200 shrink-0 flex items-center gap-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-          <button
-            onClick={onClose}
-            className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 shrink-0 cursor-pointer"
-          >
-            Close
-          </button>
-          <a
-            href={job.applyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackApplyClick(job)}
-            className="flex-1 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-[0.98] transition-all cursor-pointer"
-          >
-            <span className="truncate">{applyButtonText}</span>
-            <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-          </a>
         </div>
       </div>
     </div>
