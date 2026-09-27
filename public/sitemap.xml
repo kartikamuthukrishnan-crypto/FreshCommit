@@ -10,6 +10,18 @@
 
   <!-- Dedicated Job Posting URLs (Google Search & Google for Jobs Deep Links) -->
   <url>
+    <loc>https://freshcommits.com/job/manual-1790520400484</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://freshcommits.com/job/manual-1790184795254</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>https://freshcommits.com/?job=job-cfl-001</loc>
     <lastmod>2026-09-21</lastmod>
     <changefreq>weekly</changefreq>

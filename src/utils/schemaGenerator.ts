@@ -37,7 +37,8 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
     datePosted: job.datePosted,
     validThrough: job.validThrough,
     employmentType: job.employmentType,
-    url: job.applyUrl || undefined,
+    url: `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`,
+    sameAs: job.applyUrl || undefined,
     directApply: true,
     hiringOrganization: {
       '@type': 'Organization',
