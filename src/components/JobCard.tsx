@@ -1,6 +1,6 @@
 import React from 'react';
 import { JobPosting } from '../types';
-import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight, Bookmark } from 'lucide-react';
+import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight, Bookmark, ExternalLink } from 'lucide-react';
 import { SocialShare } from './SocialShare';
 
 interface JobCardProps {
@@ -182,17 +182,24 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
 
         <div className="flex items-center gap-2">
           <SocialShare job={job} compact={true} />
-          <button
+          <a
             id={`btn-view-apply-${job.id}`}
+            href={`/job/${job.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={(e) => {
               e.stopPropagation();
+              try {
+                sessionStorage.setItem(`job_${job.id}`, JSON.stringify(job));
+                sessionStorage.setItem('freshcommit_last_job', JSON.stringify(job));
+              } catch (_) {}
               onSelect(job);
             }}
-            className="text-xs font-medium px-4 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+            className="text-xs font-medium px-4 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer no-underline"
           >
             <span>View &amp; Apply</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
     </div>

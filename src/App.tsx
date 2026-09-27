@@ -4,7 +4,7 @@ import { INITIAL_JOBS } from './data/initialJobs';
 import { CAREER_ARTICLES } from './data/careerArticles';
 import { Navbar } from './components/Navbar';
 import { JobCard } from './components/JobCard';
-import { JobDetailsModal } from './components/JobDetailsModal';
+import { JobDetailsPage } from './components/JobDetailsPage';
 import { AdminPanel } from './components/AdminPanel';
 import { AdSlot } from './components/AdSlot';
 import { SalaryGuideView, AdSensePolicyView, CareerInsightsView } from './components/OriginalGuides';
@@ -370,7 +370,7 @@ export default function App() {
     }
   };
 
-  // Dedicated Job URL Resolver: checks ?job=<jobId> or #job=<jobId>
+  // Dedicated Job URL Resolver: checks /job/<jobId>, /jobs/<jobId>, ?job=<jobId>, or #job=<jobId>
   const resolveCurrentJob = (): JobPosting | null => {
     if (typeof window === 'undefined') return null;
     try {
@@ -384,20 +384,40 @@ export default function App() {
           targetJobId = rawHash;
         }
       }
+
+      // Check pathname: /job/:jobId or /jobs/:jobId
+      if (!targetJobId) {
+        const pathMatch = window.location.pathname.match(/^\/(?:jobs|job)\/([^/?#]+)/i);
+        if (pathMatch) {
+          targetJobId = decodeURIComponent(pathMatch[1]);
+        }
+      }
+
       if (targetJobId) {
         const lowerTarget = targetJobId.toLowerCase();
 
-        // 0. Check preloaded job from index.html direct crawler hydration
+        // 0. Check sessionStorage for instant 0-cost retrieval (0ms latency, 0 database reads)
+        try {
+          const sessionRaw = sessionStorage.getItem(`job_${targetJobId}`) || sessionStorage.getItem('freshcommit_last_job');
+          if (sessionRaw) {
+            const parsed = JSON.parse(sessionRaw);
+            if (parsed && parsed.id && parsed.id.toLowerCase() === lowerTarget) {
+              return parsed;
+            }
+          }
+        } catch (_) {}
+
+        // 1. Check preloaded job from index.html direct crawler hydration
         const preloaded = (window as any).__PRELOADED_JOB__;
         if (preloaded && preloaded.id && preloaded.id.toLowerCase() === lowerTarget) {
           return preloaded;
         }
 
-        // 1. Check INITIAL_JOBS
+        // 2. Check INITIAL_JOBS
         const inInitial = INITIAL_JOBS.find((j) => j.id.toLowerCase() === lowerTarget);
         if (inInitial) return inInitial;
 
-        // 2. Check localStorage jobs
+        // 3. Check localStorage jobs
         try {
           const savedRaw = localStorage.getItem(STORAGE_KEY_JOBS);
           if (savedRaw) {
@@ -486,27 +506,30 @@ export default function App() {
   };
 
   // Dedicated Job Selection Handlers with zero-cost pushState URL routing
-  const handleSelectJob = (job: JobPosting) => {
-    setSelectedJob(job);
+  const handleSelectJob = (job: JobPosting, openInNewTab = true) => {
     try {
-      const url = new URL(window.location.href);
-      url.searchParams.set('job', job.id);
-      window.history.pushState({ jobId: job.id }, '', url.toString());
-      document.title = `${job.title} at ${job.company} (0-2 YoE) – FreshCommits`;
-    } catch (e) {
-      console.warn('Failed updating job URL', e);
+      sessionStorage.setItem(`job_${job.id}`, JSON.stringify(job));
+      sessionStorage.setItem('freshcommit_last_job', JSON.stringify(job));
+    } catch (_) {}
+
+    if (openInNewTab) {
+      window.open(`/job/${job.id}`, '_blank', 'noopener,noreferrer');
+    } else {
+      setSelectedJob(job);
+      try {
+        window.history.pushState({ jobId: job.id }, '', `/job/${job.id}`);
+        document.title = `${job.title} at ${job.company} (${job.experienceLevel}) – FreshCommits`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (e) {
+        console.warn('Failed updating job URL', e);
+      }
     }
   };
 
   const handleCloseJob = () => {
     setSelectedJob(null);
     try {
-      const url = new URL(window.location.href);
-      url.searchParams.delete('job');
-      url.searchParams.delete('jobId');
-      const newQuery = url.searchParams.toString();
-      const newUrl = url.pathname + (newQuery ? `?${newQuery}` : '') + (url.hash || '');
-      window.history.pushState({}, '', newUrl);
+      window.history.pushState({}, '', '/');
       document.title = getTabTitle(activeTab);
     } catch (e) {
       console.warn('Failed clearing job URL', e);
@@ -515,6 +538,9 @@ export default function App() {
 
   const handleTabChange = (tab: AppTab) => {
     setActiveTab(tab);
+    if (selectedJob) {
+      setSelectedJob(null);
+    }
     try {
       const routeMap: Record<AppTab, string> = {
         jobs: '/',
@@ -530,9 +556,6 @@ export default function App() {
         'cookie-policy': '/cookie-policy',
         admin: '/?view=admin'
       };
-      if (selectedJob && tab !== 'jobs') {
-        setSelectedJob(null);
-      }
       const newPath = routeMap[tab] || '/';
       window.history.pushState({ tab }, '', newPath);
       document.title = getTabTitle(tab);
@@ -551,7 +574,7 @@ export default function App() {
       const rawHash = window.location.hash.replace('#', '');
       const hash = rawHash.toLowerCase();
 
-      // 1. Sync Job selection from ?job= or #job=
+      // 1. Sync Job selection from pathname (/job/:id), ?job=, or #job=
       const jobParam = urlParams.get('job') || urlParams.get('jobId');
       let targetJobId = jobParam;
       if (!targetJobId && rawHash) {
@@ -561,27 +584,47 @@ export default function App() {
           targetJobId = rawHash;
         }
       }
+      if (!targetJobId) {
+        const pathMatch = window.location.pathname.match(/^\/(?:jobs|job)\/([^/?#]+)/i);
+        if (pathMatch) {
+          targetJobId = decodeURIComponent(pathMatch[1]);
+        }
+      }
 
       if (targetJobId) {
         const lowerTarget = targetJobId.toLowerCase();
+
+        // Check sessionStorage first for 0-cost instant hydration
+        let sessionJob: JobPosting | null = null;
+        try {
+          const raw = sessionStorage.getItem(`job_${targetJobId}`) || sessionStorage.getItem('freshcommit_last_job');
+          if (raw) {
+            const p = JSON.parse(raw);
+            if (p && p.id && p.id.toLowerCase() === lowerTarget) {
+              sessionJob = p;
+            }
+          }
+        } catch (_) {}
+
         const preloaded = (window as any).__PRELOADED_JOB__;
         const isPreloaded = preloaded && preloaded.id && preloaded.id.toLowerCase() === lowerTarget ? preloaded : null;
 
         const found =
+          sessionJob ||
           isPreloaded ||
           jobs.find((j) => j && j.id && j.id.toLowerCase() === lowerTarget) ||
           INITIAL_JOBS.find((j) => j && j.id && j.id.toLowerCase() === lowerTarget);
 
         if (found) {
           setSelectedJob(found);
-          document.title = `${found.title} at ${found.company} (0-2 YoE) – FreshCommits`;
+          document.title = `${found.title} at ${found.company} (${found.experienceLevel}) – FreshCommits`;
         } else {
           // Actively fetch this specific job from Firestore cloud for instant discovery
           fetchSingleJobFromCloud(targetJobId).then((cloudJob) => {
             if (cloudJob) {
               setSelectedJob(cloudJob);
               setJobs((prev) => (prev.some((j) => j.id === cloudJob.id) ? prev : [cloudJob, ...prev]));
-              document.title = `${cloudJob.title} at ${cloudJob.company} (0-2 YoE) – FreshCommits`;
+              document.title = `${cloudJob.title} at ${cloudJob.company} (${cloudJob.experienceLevel}) – FreshCommits`;
             }
           });
         }
@@ -825,9 +868,21 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1">
-        {/* VIEW 1: JOB SEARCH PORTAL */}
-        {activeTab === 'jobs' && (
+      {selectedJob ? (
+        <JobDetailsPage
+          job={selectedJob}
+          allJobs={activeJobs}
+          onBack={handleCloseJob}
+          adConfig={adConfig}
+          isSaved={savedJobIds.includes(selectedJob.id)}
+          onToggleSave={handleToggleSaveJob}
+          onSelectRelatedJob={(relJob) => handleSelectJob(relJob, false)}
+        />
+      ) : (
+        <>
+          <main className="flex-1">
+            {/* VIEW 1: JOB SEARCH PORTAL */}
+            {activeTab === 'jobs' && (
           <div>
             {/* Top Leaderboard Ad Slot */}
             {adConfig.enabled && adConfig.headerAd && (
@@ -1428,21 +1483,14 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer Leaderboard Ad */}
-      {adConfig.enabled && adConfig.footerAd && activeTab === 'jobs' && (
-        <div className="max-w-7xl mx-auto px-4 pb-4">
-          <AdSlot type="leaderboard" config={adConfig} />
-        </div>
+          {/* Footer Leaderboard Ad */}
+          {adConfig.enabled && adConfig.footerAd && activeTab === 'jobs' && (
+            <div className="max-w-7xl mx-auto px-4 pb-4">
+              <AdSlot type="leaderboard" config={adConfig} />
+            </div>
+          )}
+        </>
       )}
-
-      {/* Job Details Modal with Dynamic Schema.org injection */}
-      <JobDetailsModal
-        job={selectedJob}
-        onClose={handleCloseJob}
-        adConfig={adConfig}
-        isSaved={selectedJob ? savedJobIds.includes(selectedJob.id) : false}
-        onToggleSave={handleToggleSaveJob}
-      />
 
       {/* Legal & Compliance Modals */}
       <LegalModal type={legalModalType} onClose={() => setLegalModalType(null)} />
