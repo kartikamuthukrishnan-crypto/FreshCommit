@@ -150,6 +150,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://freshcommits.com/#beating-1000-applicant-tech-job-market</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freshcommits.com/#take-home-coding-challenge-playbook</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://freshcommits.com/career-tools</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
