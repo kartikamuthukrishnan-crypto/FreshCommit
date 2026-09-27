@@ -347,7 +347,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
                 )}
                 {job.atsVerified && (
                   <span className="inline-flex items-center gap-1 mt-1.5 text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
-                    <CheckCircle2 className="w-3 h-3 text-indigo-600" /> ATS Verified: Confirmed live on official employer pipeline
+                    <CheckCircle2 className="w-3 h-3 text-indigo-600" /> Verified Direct Application: Confirmed live on official employer pipeline
                   </span>
                 )}
               </div>

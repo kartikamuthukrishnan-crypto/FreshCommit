@@ -127,9 +127,9 @@ export const LegalPageView: React.FC<LegalPageViewProps> = ({ initialSection = '
             </section>
 
             <section className="space-y-2">
-              <h3 className="text-base font-bold text-slate-900">3. Canonical ATS Direct Routing &amp; Third-Party Sites</h3>
+              <h3 className="text-base font-bold text-slate-900">3. Canonical Direct Employer Routing &amp; Third-Party Sites</h3>
               <p>
-                FreshCommits does not operate as an employment agency, headhunter, or staffing firm. We do not participate in employment negotiations, candidate interviews, or hiring determinations. All application links route candidates directly to verified employer Applicant Tracking Systems (e.g., Greenhouse, Lever, Ashby, Workday). We are not responsible for the privacy practices, content, or hiring availability of external third-party portals.
+                FreshCommits does not operate as an employment agency, headhunter, or staffing firm. We do not participate in employment negotiations, candidate interviews, or hiring determinations. All application links route candidates directly to verified official employer career portals. We are not responsible for the privacy practices, content, or hiring availability of external third-party portals.
               </p>
             </section>
 
@@ -179,7 +179,7 @@ export const LegalPageView: React.FC<LegalPageViewProps> = ({ initialSection = '
             <section className="space-y-2">
               <h3 className="text-base font-bold text-slate-900">1. Information We Do NOT Collect</h3>
               <p>
-                FreshCommits is committed to data minimization. We do not require account registration, do not collect social security numbers, and do not store resume files or candidate cover letters on our servers. You apply directly on employer ATS systems.
+                FreshCommits is committed to data minimization. We do not require account registration, do not collect social security numbers, and do not store resume files or candidate cover letters on our servers. You apply directly on official employer career systems.
               </p>
             </section>
 
@@ -268,7 +268,7 @@ export const LegalPageView: React.FC<LegalPageViewProps> = ({ initialSection = '
             <section className="space-y-2">
               <h3 className="text-base font-bold text-slate-900">3. Anti-Scam &amp; Recruitment Fraud Warning</h3>
               <p>
-                FreshCommits strictly indexes direct links to corporate ATS platforms. Legitimate employers will never ask candidates to pay for interviews, purchase equipment upfront via personal check, or communicate via unverified messaging apps. If you encounter a suspicious posting, report it immediately to <span className="font-mono text-emerald-700">safety@freshcommits.com</span>.
+                FreshCommits strictly indexes direct links to corporate career platforms. Legitimate employers will never ask candidates to pay for interviews, purchase equipment upfront via personal check, or communicate via unverified messaging apps. If you encounter a suspicious posting, report it immediately to <span className="font-mono text-emerald-700">safety@freshcommits.com</span>.
               </p>
             </section>
           </article>

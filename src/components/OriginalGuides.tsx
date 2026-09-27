@@ -153,10 +153,10 @@ export const SalaryGuideView: React.FC = () => {
           <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
             <h3 className="font-bold text-slate-900 flex items-center gap-1.5">
               <CheckCircle className="w-4 h-4 text-emerald-600" />
-              Direct ATS Submissions Over InMail
+              Direct Company Submissions Over InMail
             </h3>
             <p className="text-xs text-slate-600">
-              All listings on FreshCommits point directly to official company Greenhouse, Lever, and Ashby ATS portals. Submitting directly through verified early-career ATS pipelines significantly speeds recruiter review compared to 3rd-party aggregators.
+              All listings on FreshCommits point directly to official company career portals. Submitting directly through verified early-career employer pipelines significantly speeds review compared to 3rd-party aggregators.
             </p>
           </div>
         </div>

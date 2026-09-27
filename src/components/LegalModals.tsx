@@ -73,7 +73,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h3 className="font-bold text-slate-900 text-sm">2. Candidate Data Minimization</h3>
               <p>
-                FreshCommits does not require candidate accounts, does not charge users, does not collect government ID numbers, and does not store resume PDFs or cover letters on its servers. All job applications route directly to employer Applicant Tracking Systems (ATS).
+                FreshCommits does not require candidate accounts, does not charge users, does not collect government ID numbers, and does not store resume PDFs or cover letters on its servers. All job applications route directly to official employer career portals.
               </p>
 
               <h3 className="font-bold text-slate-900 text-sm">3. GDPR &amp; CCPA/CPRA Compliance</h3>
@@ -99,9 +99,9 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
                 FreshCommits is 100% free for job seekers. We never charge developers to browse roles, filter salary benchmarks, or access application links. Beware of any external party impersonating FreshCommits requesting payments or fees.
               </p>
 
-              <h3 className="font-bold text-slate-900 text-sm">3. Direct ATS Routing &amp; Non-Agency Status</h3>
+              <h3 className="font-bold text-slate-900 text-sm">3. Direct Employer Routing &amp; Non-Agency Status</h3>
               <p>
-                FreshCommits is not an employment agency or recruiter. We do not participate in candidate interviews, negotiations, or hiring determinations. All applications route directly to verified employer ATS domains.
+                FreshCommits is not an employment agency or recruiter. We do not participate in candidate interviews, negotiations, or hiring determinations. All applications route directly to verified employer domains.
               </p>
 
               <h3 className="font-bold text-slate-900 text-sm">4. Trademarks &amp; Fair Use</h3>

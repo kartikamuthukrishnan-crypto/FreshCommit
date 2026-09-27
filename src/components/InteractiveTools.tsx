@@ -895,7 +895,7 @@ const ResumeBulletGrader: React.FC = () => {
               <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">{s.domain}</div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-3 rounded-lg bg-rose-50 border border-rose-100 text-xs text-rose-900">
-                  <div className="font-bold text-[11px] text-rose-700 uppercase mb-1">❌ Weak / Passive (Passes 0 ATS Filters)</div>
+                  <div className="font-bold text-[11px] text-rose-700 uppercase mb-1">❌ Weak / Passive (Passes 0 Resume Filters)</div>
                   {s.weak}
                 </div>
                 <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-100 text-xs text-emerald-950 flex flex-col justify-between">

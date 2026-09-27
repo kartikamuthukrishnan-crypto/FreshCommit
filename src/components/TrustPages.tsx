@@ -72,9 +72,9 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
             <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold">
               2
             </div>
-            <h3 className="font-bold text-slate-900 text-base">100% Direct ATS Routing (No Middleman Walls)</h3>
+            <h3 className="font-bold text-slate-900 text-base">100% Direct Company Routing (No Middleman Walls)</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              We never trap candidates behind resume sign-up walls or email capture funnels. Every &ldquo;Apply Direct&rdquo; button links straight to the official employer Applicant Tracking System (Greenhouse, Lever, Ashby, Workable).
+              We never trap candidates behind resume sign-up walls or email capture funnels. Every &ldquo;Apply Direct&rdquo; button links straight to the official employer career portal.
             </p>
           </div>
 
@@ -121,7 +121,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
               <h3 className="font-bold text-slate-900 text-sm">Elena Kostova</h3>
               <p className="text-xs text-emerald-600 font-medium">Head of Editorial &amp; Career Research</p>
               <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                Former technical recruiter and engineering career advocate. Leads research on the 2025–2026 Tech Hub Salary Index and verifies new grad ATS pipelines.
+                Former technical recruiter and engineering career advocate. Leads research on the 2025–2026 Tech Hub Salary Index and verifies new grad job pipelines.
               </p>
             </div>
           </div>
@@ -301,7 +301,7 @@ export const ContactUsView: React.FC = () => {
             <div className="space-y-3 text-xs">
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
                 <div className="font-semibold text-slate-900">Jobseeker Support Desk</div>
-                <div className="text-[11px] text-slate-500 mt-0.5">Application issues, broken ATS links, salary benchmarks.</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">Application issues, broken application links, salary benchmarks.</div>
               </div>
 
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
@@ -475,7 +475,7 @@ export const ContactUsView: React.FC = () => {
                     className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                   >
                     <option value="general">General Question / Career Advice</option>
-                    <option value="jobseeker">Jobseeker Feedback / Broken ATS Link</option>
+                    <option value="jobseeker">Jobseeker Feedback / Broken Application Link</option>
                     <option value="employer">Employer / Submit Early-Career Role</option>
                     <option value="takedown">Employer Takedown / DMCA Request</option>
                     <option value="press">Press &amp; Partnership Inquiries</option>
@@ -519,7 +519,7 @@ export const ContactUsView: React.FC = () => {
                   required
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Please provide details, including job URLs or ATS links if reporting an issue..."
+                  placeholder="Please provide details, including job URLs or company links if reporting an issue..."
                   className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
               </div>

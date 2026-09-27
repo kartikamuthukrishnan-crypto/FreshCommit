@@ -137,7 +137,7 @@ export const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({ onOpen
                     Essential &amp; Security
                   </div>
                   <p className="text-[11px] text-slate-400">
-                    Required for ATS routing, session security, and preferences.
+                    Required for direct application routing, session security, and preferences.
                   </p>
                 </div>
                 <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">

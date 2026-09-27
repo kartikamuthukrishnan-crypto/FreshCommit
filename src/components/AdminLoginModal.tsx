@@ -84,7 +84,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
             <span className="font-semibold text-slate-900">Authorized Owner: </span>
             <span className="font-mono text-emerald-700">kartikamuthukrishnan@gmail.com</span>
             <p className="text-[11px] text-slate-500 mt-0.5">
-              Enter your secret owner passcode to open the ATS job aggregator, posting tools, and AdSense configuration.
+              Enter your secret owner passcode to open the job management, posting tools, and AdSense configuration.
             </p>
           </div>
         </div>

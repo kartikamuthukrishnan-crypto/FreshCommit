@@ -21,11 +21,11 @@ export const HomeEditorialContent: React.FC<{
   const FAQS = [
     {
       q: 'How does FreshCommits guarantee that listings are strictly entry-level (0–2 YoE)?',
-      a: 'Unlike traditional aggregators that rely on keyword scrapers, every position on FreshCommits undergoes programmatic ATS parsing and editorial screening. We inspect the minimum requirements for production experience, educational equivalence, and technical stack prerequisites. If a posting demands 3+ years of commercial software engineering experience, it is disqualified from our primary index.'
+      a: 'Unlike traditional aggregators that rely on keyword scrapers, every position on FreshCommits undergoes programmatic requirement analysis and editorial screening. We inspect the minimum requirements for production experience, educational equivalence, and technical stack prerequisites. If a posting demands 3+ years of commercial software engineering experience, it is disqualified from our primary index.'
     },
     {
-      q: 'Why does FreshCommits only link directly to Greenhouse, Lever, Ashby, and Workday?',
-      a: 'Third-party job boards often force candidates through deceptive resume collection funnels, marketing sign-ups, or spam newsletters before redirecting to the actual application. By strictly routing candidates to the employer\'s canonical Applicant Tracking System (ATS), we protect applicant privacy and eliminate broken referral links.'
+      q: 'Why does FreshCommits only link directly to official employer portals?',
+      a: 'Third-party job boards often force candidates through deceptive resume collection funnels, marketing sign-ups, or spam newsletters before redirecting to the actual application. By strictly routing candidates to the employer\'s canonical career portal, we protect applicant privacy and eliminate broken referral links.'
     },
     {
       q: 'What is the average starting salary for junior software engineers in 2026?',
@@ -37,7 +37,7 @@ export const HomeEditorialContent: React.FC<{
     },
     {
       q: 'How frequently is the FreshCommits job index refreshed?',
-      a: 'Our index performs automated API verifications every 6 hours to check if company ATS positions are still accepting applications. Closed or filled listings are automatically archived to ensure candidates never waste time submitting resumes to stale requisitions.'
+      a: 'Our index performs automated API verifications every 6 hours to check if company career positions are still accepting applications. Closed or filled listings are automatically archived to ensure candidates never waste time submitting resumes to stale requisitions.'
     }
   ];
 
@@ -144,7 +144,7 @@ export const HomeEditorialContent: React.FC<{
                   <th className="py-3 px-4">Junior Base Median</th>
                   <th className="py-3 px-4">Interquartile Range (P25–P75)</th>
                   <th className="py-3 px-4">Primary Hiring Sectors</th>
-                  <th className="py-3 px-4 rounded-r-lg">ATS Competition Ratio</th>
+                  <th className="py-3 px-4 rounded-r-lg">Application Competition Ratio</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-600 font-medium">
@@ -228,10 +228,10 @@ export const HomeEditorialContent: React.FC<{
             <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3 shadow-xs">
               <div className="flex items-center gap-2 text-blue-700 font-bold text-sm">
                 <Compass className="w-4 h-4" />
-                <span>2. Direct ATS Application Timing</span>
+                <span>2. Direct Employer Application Timing</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Over 70% of interviewed junior candidates submit their application within the first 48 hours of a role appearing on Greenhouse, Lever, or Ashby. By tracking verified updates on FreshCommits, you ensure your submission is in the first batch reviewed by recruiting coordinators.
+                Over 70% of interviewed junior candidates submit their application within the first 48 hours of a role going live. By tracking verified updates on FreshCommits, you ensure your submission is in the first batch reviewed by hiring teams.
               </p>
             </div>
           </div>
@@ -313,7 +313,7 @@ export const HomeEditorialContent: React.FC<{
             </div>
           </div>
           <p className="text-xs text-slate-400 leading-relaxed">
-            FreshCommits does not accept payment to promote fraudulent or undisclosed sponsor positions. All compensation figures are computed from verified Department of Labor filings, state pay transparency legislation disclosures (CA SB 1162, NY Local Law 32, WA EPEA), and direct ATS postings. For editorial inquiries, corrections, or candidate support, reach our editorial team at <span className="font-mono text-emerald-300">editorial@freshcommits.com</span>.
+            FreshCommits does not accept payment to promote fraudulent or undisclosed sponsor positions. All compensation figures are computed from verified Department of Labor filings, state pay transparency legislation disclosures (CA SB 1162, NY Local Law 32, WA EPEA), and direct employer postings. For editorial inquiries, corrections, or candidate support, reach our editorial team at <span className="font-mono text-emerald-300">editorial@freshcommits.com</span>.
           </p>
         </section>
 

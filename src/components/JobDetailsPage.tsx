@@ -63,7 +63,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     // Update title and meta description dynamically for this dedicated page
     document.title = `${job.title} at ${job.company} (${job.experienceLevel}) – FreshCommits`;
     if (metaDesc) {
-      metaDesc.content = `Apply directly for ${job.title} at ${job.company} in ${job.location}. Verified 0–2 YoE early-career software engineering opportunity with direct employer ATS application.`;
+      metaDesc.content = `Apply directly for ${job.title} at ${job.company} in ${job.location}. Verified 0–2 YoE early-career software engineering opportunity with direct company application.`;
     }
 
     // Update canonical link to canonical job URL
@@ -471,7 +471,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                     Verified Direct Employer Routing
                   </h3>
                   <p className="text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    This requisition is verified for <strong>≤ 2 years of experience</strong> or paid internships. You are applying directly on <strong>{job.company}</strong>'s official ATS ({job.atsProvider || 'employer career portal'}). No recruiter intermediaries, resume harvesting, or third-party marketing signups.
+                    This requisition is verified for <strong>≤ 2 years of experience</strong> or paid internships. You are applying directly on <strong>{job.company}</strong>'s official career portal. No recruiter intermediaries, resume harvesting, or third-party marketing signups.
                   </p>
                 </div>
               </div>
@@ -567,7 +567,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 
                 <div>
                   <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Application Channel</span>
-                  <span className="font-medium text-[#202124]">{job.atsProvider || 'Official ATS Portal'}</span>
+                  <span className="font-medium text-[#202124]">Official Company Portal</span>
                 </div>
               </div>
 

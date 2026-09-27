@@ -46,8 +46,8 @@ export const SocialShare: React.FC<SocialShareProps> = ({ job, compact = false }
     : '';
 
   const shareText = job.experienceLevel === 'Internship'
-    ? `🎓 Top Tech Internship: ${job.title} at ${job.company}${salaryText ? ` (${salaryText})` : ''} - Verified direct ATS application on FreshCommits:`
-    : `🚀 New Entry-Level Opening: ${job.title} at ${job.company}${salaryText ? ` (${salaryText})` : ''} - Verified 0–2 YoE with direct ATS application on FreshCommits:`;
+    ? `🎓 Top Tech Internship: ${job.title} at ${job.company}${salaryText ? ` (${salaryText})` : ''} - Verified direct application on FreshCommits:`
+    : `🚀 New Entry-Level Opening: ${job.title} at ${job.company}${salaryText ? ` (${salaryText})` : ''} - Verified 0–2 YoE with direct application on FreshCommits:`;
   const encodedText = encodeURIComponent(shareText);
   const encodedUrl = encodeURIComponent(jobUrl);
 

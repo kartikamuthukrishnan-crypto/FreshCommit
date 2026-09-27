@@ -140,11 +140,6 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
             <DollarSign className="w-3.5 h-3.5" />
             {formatSalary(job.salary)}
           </span>
-          {job.atsProvider && (
-            <span className="text-[11px] text-[#5f6368] bg-[#f8f9fa] border border-[#dadce0] px-2.5 py-0.5 rounded-full">
-              {job.atsProvider}
-            </span>
-          )}
         </div>
 
         {/* Skills Tags */}
