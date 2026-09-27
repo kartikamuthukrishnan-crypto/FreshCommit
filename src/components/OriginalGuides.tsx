@@ -233,9 +233,19 @@ export const CareerInsightsView: React.FC = () => {
   const [selectedTag, setSelectedTag] = useState<string>('All');
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(() => {
     if (typeof window === 'undefined') return null;
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramArticle = urlParams.get('article') || urlParams.get('id');
+    if (paramArticle && CAREER_ARTICLES.some((a) => a.id === paramArticle)) {
+      return paramArticle;
+    }
     const hash = window.location.hash.replace('#', '');
     if (CAREER_ARTICLES.some((a) => a.id === hash)) {
       return hash;
+    }
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    if ((pathParts[0] === 'blog' || pathParts[0] === 'career-insights' || pathParts[0] === 'insights') && pathParts[1]) {
+      const match = CAREER_ARTICLES.find((a) => a.id === pathParts[1]);
+      if (match) return match.id;
     }
     return null;
   });
@@ -245,7 +255,7 @@ export const CareerInsightsView: React.FC = () => {
       const hash = window.location.hash.replace('#', '');
       if (CAREER_ARTICLES.some((a) => a.id === hash)) {
         setSelectedArticleId(hash);
-      } else if (!hash || hash === 'insights' || hash === 'guides') {
+      } else if (!hash || hash === 'insights' || hash === 'guides' || hash === 'blog') {
         setSelectedArticleId(null);
       }
     };

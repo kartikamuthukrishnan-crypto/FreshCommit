@@ -294,7 +294,7 @@ export default function App() {
       if (path === '/terms' || path === '/terms-of-service' || path === '/tos' || path.endsWith('/terms')) return 'terms';
       if (path === '/contact' || path === '/contact-us' || path.endsWith('/contact')) return 'contact';
       if (path === '/salary-guide' || path === '/salary' || path.endsWith('/salary-guide')) return 'salary-guide';
-      if (path === '/insights' || path === '/career-insights' || path === '/guides' || path.endsWith('/career-insights')) return 'insights';
+      if (path === '/insights' || path === '/career-insights' || path === '/guides' || path === '/blog' || path === '/articles' || path.startsWith('/blog') || path.startsWith('/career-insights') || path.endsWith('/career-insights')) return 'insights';
       if (path === '/tools' || path === '/career-tools' || path === '/calculator' || path.endsWith('/career-tools')) return 'tools';
       if (path === '/policy' || path === '/adsense-policy' || path.endsWith('/adsense-policy')) return 'adsense-policy';
       if (path === '/disclaimer' || path.endsWith('/disclaimer')) return 'disclaimer';
@@ -305,7 +305,7 @@ export default function App() {
       const urlParams = new URLSearchParams(window.location.search);
       const view = urlParams.get('view');
       if (view === 'salary-guide' || view === 'salary') return 'salary-guide';
-      if (view === 'insights' || view === 'career-insights' || view === 'guides') return 'insights';
+      if (view === 'insights' || view === 'career-insights' || view === 'guides' || view === 'blog' || view === 'articles') return 'insights';
       if (view === 'tools' || view === 'career-tools' || view === 'calculator') return 'tools';
       if (view === 'about' || view === 'about-us') return 'about';
       if (view === 'contact' || view === 'contact-us') return 'contact';
@@ -320,7 +320,7 @@ export default function App() {
       const hash = rawHash.toLowerCase();
       if (view === 'admin' || urlParams.get('admin') === 'true' || hash === 'admin') return 'admin';
       if (hash === 'tools' || hash === 'calculator' || hash === 'career-tools' || hash === 'tc-calculator') return 'tools';
-      if (hash === 'insights' || hash === 'career-insights' || hash === 'guides') return 'insights';
+      if (hash === 'insights' || hash === 'career-insights' || hash === 'guides' || hash === 'blog' || hash === 'articles') return 'insights';
       if (hash === 'salary' || hash === 'salary-guide') return 'salary-guide';
       if (hash === 'about' || hash === 'about-us') return 'about';
       if (hash === 'contact' || hash === 'contact-us') return 'contact';

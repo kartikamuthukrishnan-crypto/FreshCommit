@@ -36,6 +36,132 @@ export interface CareerArticle {
 
 export const CAREER_ARTICLES: CareerArticle[] = [
   {
+    id: 'zero-experience-software-engineering-resume',
+    tag: 'Resume & Screening',
+    readTime: '8 min read',
+    publishedDate: 'September 2026',
+    author: {
+      name: 'FreshCommits Editorial Team',
+      role: 'Technical Recruiting & Early-Career Strategy'
+    },
+    title: 'How to Write a Software Engineering Resume with Zero Industry Experience',
+    subtitle: 'The exact structural blueprint, technical bullet-point formulas, and formatting strategies needed to build an interview-worthy software engineering resume from scratch.',
+    summary: 'Every computer science graduate, bootcamp completer, and self-taught developer faces the same frustrating paradox: every "entry-level" job posting demands 1 to 3 years of industry experience. When you open a blank document to write your first software engineering resume, that requirement feels like an impassable barrier. However, technical recruiters do not expect enterprise experience—what they actually look for is proof of engineering capability. The secret to landing junior engineering interviews with zero corporate experience is shifting your resume\'s focus away from where you worked and toward what you have built and delivered.',
+    highlights: [
+      'Single-column layout architecture optimized for both 6-second human scans and automated ATS ingestion',
+      'Strategic technical skills positioning directly beneath contact headers to verify keyword alignment',
+      'Google XYZ project bullet formula: "Accomplished [X] as measured by [Y] by doing [Z]" with real full-stack examples',
+      'Translating customer support, retail, and tutoring experience into quantifiable engineering soft skills',
+      'Comprehensive pre-submission ATS compliance checklist: active hyperlinks, repo documentation, and zero graphical bars'
+    ],
+    sections: [
+      {
+        heading: '1. The Ideal Structure for an Early-Career Tech Resume',
+        content: [
+          'When a senior engineer or recruiter scans an entry-level resume, they spend an average of 6 seconds making an initial decision. If your document is cluttered with verbose objectives or multi-column graphical progress bars, it gets discarded immediately.',
+          'Your document must follow a clean, single-column layout optimized for both human scanners and Applicant Tracking Systems (ATS). Avoid complex multi-column grids, tables, or sidebar text boxes. ATS parsers read left-to-right, top-to-bottom; multi-column layouts frequently cause text fields to scramble during ingestion.',
+          'Unless you have 5+ years of prior career experience in another technical field, an entry-level resume should never exceed a single page.'
+        ],
+        table: {
+          headers: ['Section Order', 'Section Name', 'Critical Execution Rule'],
+          rows: [
+            ['1', 'Header Section', 'Full Name, Location, Phone, Professional Email, GitHub, LinkedIn'],
+            ['2', 'Technical Skills Matrix', 'Languages, Frameworks, Developer Tools, Databases & Cloud'],
+            ['3', 'Featured Engineering Projects', 'Project #1 Full Stack, Project #2 API/Distributed, Project #3 Open Source'],
+            ['4', 'Education & Certifications', 'Degree/Program, Institution, Expected Graduation, Relevant Coursework'],
+            ['5', 'Leadership & Non-Tech Experience', 'Optional: University Clubs, Customer-Facing Work History with transferable soft skills']
+          ]
+        },
+        callout: {
+          type: 'warning',
+          title: 'Key Architectural Rules',
+          text: '• Single-Column Layout Only: Avoid multi-column grids or sidebars that confuse ATS parsers.\n• No Skill Progress Bars: Graphical meters (e.g., "Python: 80%") provide zero objective data and waste vertical space.\n• Keep It Strictly to 1 Page: Concise, dense, high-signal information beats two fluffy pages every time.'
+        }
+      },
+      {
+        heading: '2. Positioning Your Technical Skills Section at the Top',
+        content: [
+          'For candidates with extensive industry experience, work history comes first. For freshers, bootcamp graduates, and self-taught developers, your Technical Skills Matrix must sit immediately below your contact header.',
+          'Recruiters use this section to verify keyword alignment with job requisitions. Group your technical stack logically rather than dumping a wall of text.'
+        ],
+        codeBlock: {
+          language: 'plaintext',
+          code: `TECHNICAL SKILLS
+• Languages: Python, JavaScript (ES6+), TypeScript, C++, SQL, HTML5/CSS3
+• Frameworks & Libraries: React.js, Node.js, Express, Next.js, Tailwind CSS, Django
+• Developer Tools & CI/CD: Git, GitHub, Docker, Postman, Linux (Bash), Jest, Webpack
+• Databases & Cloud: PostgreSQL, MongoDB, Redis, AWS (S3, Lambda), Vercel`,
+          caption: 'Logical grouping of languages, libraries, tools, and databases for instant ATS keyword matching.'
+        },
+        callout: {
+          type: 'tip',
+          title: 'Pro Tip: Skills Authenticity',
+          text: 'Only list tools and languages you can comfortably answer technical interview questions about. Listing a framework you used once for a 20-minute tutorial will backfire during a technical screen when an interviewer asks about its internal reconciliation or query lifecycle.'
+        }
+      },
+      {
+        heading: '3. Engineering Projects: Your Virtual Experience Section',
+        content: [
+          'Your Projects section serves as the main proof of your engineering ability. Treat each major project with the same structural weight as a formal engineering role.',
+          'To impress a technical reviewer, you need 2 to 3 high-impact projects. Avoid listing basic classroom assignments like simple calculators, generic to-do apps, or unmodified tutorial projects. Instead, build applications that feature real-world complexity: API integration, database management, authentication, and public deployment.',
+          'Use Google’s recommended XYZ Formula to write your project bullet points: "Accomplished [X], as measured by [Y], by doing [Z]."'
+        ],
+        table: {
+          headers: ['Project Type', 'Weak / Passive Bullet Point', 'Strong XYZ Formula Bullet Point', 'Technical Depth / Architecture Bullet'],
+          rows: [
+            [
+              'Full-Stack E-Commerce',
+              'Built a full-stack shopping website using React and Node.js.',
+              'Engineered a full-stack e-commerce web application serving 500+ mock products using React, TypeScript, and Express, implementing JWT authentication and Stripe API payment processing.',
+              'Reduced initial page load time by 40% by implementing Server-Side Rendering (SSR) via Next.js and caching API queries with Redis.'
+            ],
+            [
+              'Distributed API System',
+              'Created an API that fetches weather data and stores it in a database.',
+              'Developed a RESTful microservice in Go that processes asynchronous weather telemetry data, utilizing PostgreSQL with indexed spatial queries for sub-50ms lookup times.',
+              'Configured an automated CI/CD deployment pipeline using GitHub Actions and Docker, hosting the containerized service on AWS ECS with zero-downtime updates.'
+            ]
+          ]
+        },
+        callout: {
+          type: 'tip',
+          title: 'The XYZ Formula Blueprint',
+          text: 'Formula: "Accomplished [X], as measured by [Y], by doing [Z]". Every bullet should pair a measurable performance or business outcome with the exact engineering technique used to achieve it.'
+        }
+      },
+      {
+        heading: '4. Translating Academic & Non-Tech Experience',
+        content: [
+          'If you worked in customer service, retail, or tutoring during your studies, do not throw that history away. You can include a brief Work & Leadership History section at the bottom of your resume, provided you frame those roles around transferable soft skills: communication, accountability, stakeholder management, and problem-solving.',
+          'Engineering managers value junior developers who know how to collaborate under pressure, maintain composure with clients, and communicate technical constraints clearly.'
+        ],
+        codeBlock: {
+          language: 'plaintext',
+          code: `Customer Support Representative | Tech Retail Corp (2024 – 2025)
+• Communicated complex technical troubleshooting steps to 40+ non-technical clients daily, maintaining a 98% positive satisfaction rating.
+• Collaborated with cross-functional store leads to streamline inventory tracking, reducing stock audit discrepancies by 15%.`,
+          caption: 'Example of reframing retail/support roles around cross-functional collaboration and accountability metrics.'
+        }
+      },
+      {
+        heading: '5. ATS Compliance & Pre-Submission Checklist',
+        content: [
+          'Before submitting your resume to any job listing on this platform, verify your document against this final operational checklist:',
+          '• **File Format**: Saved as a clean .pdf with selectable text (never export as an image or flattened canvas PDF).',
+          '• **Hyperlinks**: Hyperlinks to your GitHub profile, LinkedIn account, and deployed live project demos are active and clickable.',
+          '• **Repository Quality**: Every linked GitHub repository includes a professionally formatted README.md file with architecture diagrams, installation commands, and feature descriptions.',
+          '• **No Buzzwords**: Self-descriptive buzzwords like "hardworking," "passionate," or "guru" are removed in favor of concrete engineering metrics.',
+          '• **Targeted Alignment**: Technical skills match the core requirements listed in the target job posting.'
+        ],
+        callout: {
+          type: 'note',
+          title: 'Verified ATS Routing on FreshCommits',
+          text: 'FreshCommits strictly links directly to employer ATS portals (Greenhouse, Lever, Ashby, Workday). Passing these 5 checklist gates ensures your application parses cleanly and lands directly on the hiring manager\'s desk.'
+        }
+      }
+    ]
+  },
+  {
     id: 'git-hygiene-day-one',
     tag: 'Engineering Culture',
     readTime: '6 min read',

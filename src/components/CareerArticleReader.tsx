@@ -34,10 +34,15 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
   const [copiedCodeIndex, setCopiedCodeIndex] = useState<number | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  // Scroll to top when opening a new article
+  // Scroll to top and set page title when opening a new article
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [article.id]);
+    const originalTitle = document.title;
+    document.title = `${article.title} – FreshCommits Career Guide`;
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [article.id, article.title]);
 
   const handleCopyCode = (code: string, index: number) => {
     navigator.clipboard.writeText(code);
