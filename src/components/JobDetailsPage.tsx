@@ -20,7 +20,9 @@ import {
   Flag,
   ArrowLeft,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  AlertTriangle,
+  AlertCircle
 } from 'lucide-react';
 
 interface JobDetailsPageProps {
@@ -44,6 +46,8 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 }) => {
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
+
+  const isExpired = isJobExpired(job) || (job.status && job.status !== 'ACTIVE');
 
   // Dynamic Title, Meta Description, Schema injection, and Canonical URL update
   useEffect(() => {
@@ -69,6 +73,20 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       canonical.href = `https://www.freshcommits.com/job/${job.id}`;
     }
 
+    // Dynamic Robots Meta Tag: Keep active jobs indexable, but tell Google not to index expired positions
+    let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.name = 'robots';
+      document.head.appendChild(robotsMeta);
+    }
+    const originalRobots = robotsMeta.content || 'index, follow';
+    if (isExpired) {
+      robotsMeta.content = 'noindex, follow';
+    } else {
+      robotsMeta.content = 'index, follow, max-image-preview:large';
+    }
+
     // Scroll to top on mount
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -79,8 +97,11 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       if (canonical) {
         canonical.href = originalHref;
       }
+      if (robotsMeta) {
+        robotsMeta.content = originalRobots;
+      }
     };
-  }, [job]);
+  }, [job, isExpired]);
 
   const handleCopyUrl = () => {
     const jobUrl = `${window.location.origin}/job/${job.id}`;
@@ -156,10 +177,10 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     return `${currencySymbol}${minFormatted}${maxFormatted && maxFormatted !== minFormatted ? `–${currencySymbol}${maxFormatted}` : ''} / year`;
   };
 
-  // Find 3 related early-career jobs (same category or similar experience)
+  // Find 3-4 active related early-career jobs (ensuring they are active to rescue visitors on expired pages)
   const relatedJobs = allJobs
-    .filter((j) => j.id !== job.id && (j.category === job.category || j.experienceLevel === job.experienceLevel))
-    .slice(0, 3);
+    .filter((j) => j.id !== job.id && !isJobExpired(j) && (j.category === job.category || j.experienceLevel === job.experienceLevel || j.isRemote))
+    .slice(0, 4);
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] text-[#202124]">
@@ -202,22 +223,52 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 
             <SocialShare job={job} compact={true} />
 
-            <a
-              href={job.applyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackApplyClick(job)}
-              className="text-xs sm:text-sm font-medium px-4 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer no-underline"
-            >
-              <span>{applyButtonText}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+            {isExpired ? (
+              <span className="text-xs sm:text-sm font-semibold px-4 py-2 rounded-full bg-slate-100 text-slate-600 border border-slate-300 flex items-center gap-1.5 shadow-2xs">
+                <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
+                <span>Position Filled</span>
+              </span>
+            ) : (
+              <a
+                href={job.applyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackApplyClick(job)}
+                className="text-xs sm:text-sm font-medium px-4 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer no-underline"
+              >
+                <span>{applyButtonText}</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            )}
           </div>
         </div>
       </div>
 
       {/* Main Content Layout */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Expired Job Preservation Banner */}
+        {isExpired && (
+          <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h2 className="text-sm sm:text-base font-bold text-amber-950">
+                  This requisition at {job.company} has been filled or closed
+                </h2>
+                <p className="text-xs sm:text-sm text-amber-800 mt-0.5 leading-relaxed">
+                  The original application window has passed. We retain this job overview, interview preparation notes, and salary benchmarks for career research. Browse our verified active early-career roles below.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={onBack}
+              className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs sm:text-sm whitespace-nowrap shadow-xs transition-colors cursor-pointer"
+            >
+              Browse Active Jobs
+            </button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Main Job Article (8 columns) */}
           <div className="lg:col-span-8 space-y-6">
@@ -288,16 +339,26 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 
               {/* Mobile CTA Button */}
               <div className="mt-6 pt-4 border-t border-[#f1f3f4] flex sm:hidden">
-                <a
-                  href={job.applyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackApplyClick(job)}
-                  className="w-full text-center text-sm font-medium py-3 px-4 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-2 shadow-xs no-underline"
-                >
-                  <span>{applyButtonText}</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+                {isExpired ? (
+                  <button
+                    onClick={onBack}
+                    className="w-full text-center text-sm font-medium py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                  >
+                    <AlertCircle className="w-4 h-4" />
+                    <span>Position Closed – View Active Openings</span>
+                  </button>
+                ) : (
+                  <a
+                    href={job.applyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackApplyClick(job)}
+                    className="w-full text-center text-sm font-medium py-3 px-4 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-2 shadow-xs no-underline"
+                  >
+                    <span>{applyButtonText}</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
               </div>
             </div>
 
@@ -437,16 +498,26 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 
               {/* Bottom Apply CTA Banner */}
               <div className="pt-2">
-                <a
-                  href={job.applyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackApplyClick(job)}
-                  className="w-full text-center text-sm font-medium py-3.5 px-6 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-2 shadow-xs no-underline"
-                >
-                  <span>{applyButtonText}</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+                {isExpired ? (
+                  <button
+                    onClick={onBack}
+                    className="w-full text-center text-sm font-medium py-3.5 px-6 rounded-xl bg-amber-600 hover:bg-amber-700 text-white transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                  >
+                    <AlertCircle className="w-4 h-4" />
+                    <span>Position Closed – View All Active Roles</span>
+                  </button>
+                ) : (
+                  <a
+                    href={job.applyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackApplyClick(job)}
+                    className="w-full text-center text-sm font-medium py-3.5 px-6 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-2 shadow-xs no-underline"
+                  >
+                    <span>{applyButtonText}</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -502,16 +573,26 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 
               {/* Direct Apply Button in Sidebar */}
               <div className="pt-2">
-                <a
-                  href={job.applyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackApplyClick(job)}
-                  className="w-full text-center text-xs sm:text-sm font-medium py-3 px-4 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-1.5 shadow-xs no-underline"
-                >
-                  <span>{applyButtonText}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                {isExpired ? (
+                  <button
+                    onClick={onBack}
+                    className="w-full text-center text-xs sm:text-sm font-medium py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+                  >
+                    <AlertCircle className="w-3.5 h-3.5" />
+                    <span>Browse Active Jobs</span>
+                  </button>
+                ) : (
+                  <a
+                    href={job.applyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackApplyClick(job)}
+                    className="w-full text-center text-xs sm:text-sm font-medium py-3 px-4 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-1.5 shadow-xs no-underline"
+                  >
+                    <span>{applyButtonText}</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
               </div>
             </div>
 
@@ -547,9 +628,16 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
             {/* Related Early Career Jobs */}
             {relatedJobs.length > 0 && (
               <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-xs space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-[#202124]">
-                  Similar Opportunities
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-[#202124]">
+                    {isExpired ? 'Recommended Active Openings' : 'Similar Opportunities'}
+                  </h3>
+                  {isExpired && (
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      Active Now
+                    </span>
+                  )}
+                </div>
                 <div className="space-y-3">
                   {relatedJobs.map((relJob) => (
                     <div

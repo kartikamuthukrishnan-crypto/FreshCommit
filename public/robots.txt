@@ -1,6 +1,19 @@
 # robots.txt for https://freshcommits.com & https://www.freshcommits.com
 User-agent: *
 Allow: /
+Allow: /job/
+Allow: /jobs
+Allow: /insights
+Allow: /tools
+Allow: /salary-guide
+Allow: /about
+Allow: /contact
+
+# Block crawl budget waste on internal search query parameters & admin views
+Disallow: /*?search=*
+Disallow: /*?*search=*
+Disallow: /*?admin=*
+Disallow: /*?view=admin
 
 # Direct sitemap index for search engines & job crawlers
 Sitemap: https://www.freshcommits.com/sitemap.xml

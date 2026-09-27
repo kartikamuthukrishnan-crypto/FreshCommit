@@ -625,6 +625,45 @@ export default function App() {
               setSelectedJob(cloudJob);
               setJobs((prev) => (prev.some((j) => j.id === cloudJob.id) ? prev : [cloudJob, ...prev]));
               document.title = `${cloudJob.title} at ${cloudJob.company} (${cloudJob.experienceLevel}) – FreshCommits`;
+            } else {
+              // Graceful Expired/Archived Job Shell for AdSense & Google Webmaster hygiene:
+              // Rather than showing a dead 404 or empty screen, render an archived position state
+              // with similar active alternatives and career context.
+              const prettyTitle = targetJobId
+                .replace(/^ext-[a-z]+-\d+-?/i, '')
+                .replace(/^job-\d+-?/i, '')
+                .split('-')
+                .filter(Boolean)
+                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(' ') || 'Software Engineer (Early Career)';
+
+              const archivedFallbackJob: JobPosting = {
+                id: targetJobId,
+                title: prettyTitle,
+                company: 'Tech Employer',
+                location: 'Remote / US & Global',
+                isRemote: true,
+                maxYearsExperience: 1,
+                experienceLevel: 'Entry Level',
+                category: 'Full Stack',
+                employmentType: 'FULL_TIME',
+                salary: { min: 0, max: 0, currency: 'USD', unit: 'YEAR' },
+                description: `This position (${prettyTitle}) has concluded its recruitment cycle and is no longer accepting new applications. You can explore active entry-level software engineering openings below.`,
+                responsibilities: [],
+                qualifications: [],
+                skills: ['Software Engineering', 'Problem Solving', 'Git'],
+                applyUrl: 'https://www.freshcommits.com/',
+                datePosted: 'Archived Requisition',
+                validThrough: '2025-01-01', // Explicit past date so isJobExpired evaluates to true
+                status: 'EXPIRED',
+                source: 'AUTOMATED_SYNC',
+                fingerprint: `archived-${targetJobId}`,
+                viewsCount: 1,
+                featured: false
+              };
+
+              setSelectedJob(archivedFallbackJob);
+              document.title = `${prettyTitle} (Position Closed) – FreshCommits`;
             }
           });
         }
@@ -729,6 +768,47 @@ export default function App() {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, pageSize, savedOnly]);
+
+  // Google Search & AdSense Bot Protection:
+  // Apply "noindex, follow" to dynamic search and filter combinations to eliminate "thin / duplicate content" flags,
+  // while keeping the canonical homepage ('/') and pure tab views fully indexed.
+  useEffect(() => {
+    if (selectedJob) return; // Dedicated job pages manage their own robots meta
+
+    let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.name = 'robots';
+      document.head.appendChild(robotsMeta);
+    }
+
+    const hasActiveFilters =
+      Boolean(searchQuery.trim()) ||
+      selectedHub !== 'All' ||
+      selectedCategory !== 'All' ||
+      selectedExperience !== 'All' ||
+      remoteOnly ||
+      minSalary > 0 ||
+      savedOnly ||
+      currentPage > 1;
+
+    if (hasActiveFilters || activeTab === 'admin') {
+      robotsMeta.content = 'noindex, follow';
+    } else {
+      robotsMeta.content = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+    }
+  }, [
+    selectedJob,
+    searchQuery,
+    selectedHub,
+    selectedCategory,
+    selectedExperience,
+    remoteOnly,
+    minSalary,
+    savedOnly,
+    currentPage,
+    activeTab
+  ]);
 
   // Global & Regional Tech Hubs
   const TECH_HUBS = [
