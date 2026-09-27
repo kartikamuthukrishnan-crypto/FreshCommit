@@ -11,7 +11,11 @@ import {
   ArrowRight,
   Clock,
   Sparkles,
-  User
+  User,
+  ChevronLeft,
+  ChevronRight,
+  Search,
+  X
 } from 'lucide-react';
 import { CAREER_ARTICLES } from '../data/careerArticles';
 import { CareerArticleReader } from './CareerArticleReader';
@@ -231,6 +235,9 @@ export const AdSensePolicyView: React.FC = () => {
 
 export const CareerInsightsView: React.FC = () => {
   const [selectedTag, setSelectedTag] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [articlesPerPage, setArticlesPerPage] = useState<number>(6);
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(() => {
     if (typeof window === 'undefined') return null;
     const urlParams = new URLSearchParams(window.location.search);
@@ -263,6 +270,11 @@ export const CareerInsightsView: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Reset to page 1 whenever category or search filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedTag, searchQuery, articlesPerPage]);
+
   const handleSelectArticle = (id: string) => {
     setSelectedArticleId(id);
     window.location.hash = id;
@@ -293,9 +305,48 @@ export const CareerInsightsView: React.FC = () => {
 
   const allTags = ['All', ...Array.from(new Set(CAREER_ARTICLES.map((a) => a.tag)))];
 
-  const filteredArticles = selectedTag === 'All'
-    ? CAREER_ARTICLES
-    : CAREER_ARTICLES.filter((a) => a.tag === selectedTag);
+  const filteredArticles = CAREER_ARTICLES.filter((a) => {
+    const matchesTag = selectedTag === 'All' || a.tag === selectedTag;
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return matchesTag;
+    const matchesSearch =
+      a.title.toLowerCase().includes(q) ||
+      a.subtitle.toLowerCase().includes(q) ||
+      a.summary.toLowerCase().includes(q) ||
+      a.tag.toLowerCase().includes(q) ||
+      a.highlights.some((h) => h.toLowerCase().includes(q));
+    return matchesTag && matchesSearch;
+  });
+
+  const totalArticles = filteredArticles.length;
+  const totalPages = Math.max(1, Math.ceil(totalArticles / articlesPerPage));
+  const activePage = Math.min(currentPage, totalPages);
+  const startIndex = (activePage - 1) * articlesPerPage;
+  const endIndex = Math.min(startIndex + articlesPerPage, totalArticles);
+  const currentArticles = filteredArticles.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    window.scrollTo({ top: 120, behavior: 'smooth' });
+  };
+
+  // Generate pagination items with ellipses
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (activePage > 3) pages.push('...');
+      const start = Math.max(2, activePage - 1);
+      const end = Math.min(totalPages - 1, activePage + 1);
+      for (let i = start; i <= end; i++) pages.push(i);
+      if (activePage < totalPages - 2) pages.push('...');
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
@@ -312,10 +363,36 @@ export const CareerInsightsView: React.FC = () => {
         </p>
       </div>
 
+      {/* Search Bar & Quick Filters */}
+      <div className="max-w-xl mx-auto">
+        <div className="relative">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search guides by keyword, stack, interview question, or role..."
+            className="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm bg-white rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent shadow-xs transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded cursor-pointer"
+              title="Clear search"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Category Filter Chips */}
-      <div className="flex items-center justify-center gap-2 flex-wrap pt-2">
+      <div className="flex items-center justify-center gap-2 flex-wrap pt-1">
         {allTags.map((tag) => {
           const isActive = selectedTag === tag;
+          const count = tag === 'All'
+            ? CAREER_ARTICLES.length
+            : CAREER_ARTICLES.filter((a) => a.tag === tag).length;
           return (
             <button
               key={tag}
@@ -326,67 +403,185 @@ export const CareerInsightsView: React.FC = () => {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
               }`}
             >
-              {tag} {tag === 'All' ? `(${CAREER_ARTICLES.length})` : ''}
+              {tag} <span className="opacity-75 text-[11px]">({count})</span>
             </button>
           );
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredArticles.map((art) => (
-          <article
-            key={art.id}
-            className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-between group cursor-pointer"
-            onClick={() => handleSelectArticle(art.id)}
-          >
-            <div>
-              <div className="flex items-center justify-between text-xs mb-3">
-                <span className="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
-                  {art.tag}
-                </span>
-                <span className="text-slate-400 font-medium flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" />
-                  {art.readTime}
-                </span>
-              </div>
+      {/* Results Header with Page Status & Page Size Selector */}
+      <div className="flex items-center justify-between text-xs text-slate-600 pt-2 border-b border-slate-100 pb-3 flex-wrap gap-2">
+        <div>
+          {totalArticles > 0 ? (
+            <span>
+              Showing <strong className="text-slate-900">{startIndex + 1}</strong>–<strong className="text-slate-900">{endIndex}</strong> of <strong className="text-slate-900">{totalArticles}</strong> guides
+              {selectedTag !== 'All' && <span> in <span className="text-emerald-700 font-semibold">{selectedTag}</span></span>}
+              {searchQuery && <span> matching &ldquo;<span className="text-slate-900 font-semibold">{searchQuery}</span>&rdquo;</span>}
+            </span>
+          ) : (
+            <span>No matching field guides</span>
+          )}
+        </div>
 
-              <h2 className="text-lg font-bold text-slate-900 tracking-tight leading-snug group-hover:text-emerald-700 transition-colors">
-                {art.title}
-              </h2>
-
-              <p className="text-xs text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
-                {art.summary}
-              </p>
-
-              <div className="mt-4 pt-4 border-t border-slate-100 space-y-1.5">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                  Core Topics Covered
-                </div>
-                {art.highlights.slice(0, 3).map((h, i) => (
-                  <div key={i} className="flex items-start gap-2 text-xs text-slate-700">
-                    <CheckCircle className="w-3.5 h-3.5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                    <span className="line-clamp-1">{h}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-slate-100">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 text-xs text-slate-500">
+            <span>Per page:</span>
+            {[6, 12, 24].map((size) => (
               <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSelectArticle(art.id);
-                }}
-                className="w-full py-2.5 px-4 rounded-xl bg-slate-900 group-hover:bg-emerald-600 text-white text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2"
+                key={size}
+                onClick={() => setArticlesPerPage(size)}
+                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors cursor-pointer ${
+                  articlesPerPage === size
+                    ? 'bg-slate-900 text-white font-bold'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                <span>Read Full Field Guide</span>
-                <ArrowRight className="w-3.5 h-3.5 text-emerald-400 group-hover:text-white group-hover:translate-x-1 transition-transform" />
+                {size}
               </button>
-            </div>
-          </article>
-        ))}
+            ))}
+          </div>
+          {totalPages > 1 && (
+            <span className="text-slate-400 font-medium text-[11px]">
+              Page {activePage} of {totalPages}
+            </span>
+          )}
+        </div>
       </div>
+
+      {/* Grid of Articles */}
+      {currentArticles.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {currentArticles.map((art) => (
+            <article
+              key={art.id}
+              className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-between group cursor-pointer"
+              onClick={() => handleSelectArticle(art.id)}
+            >
+              <div>
+                <div className="flex items-center justify-between text-xs mb-3">
+                  <span className="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
+                    {art.tag}
+                  </span>
+                  <span className="text-slate-400 font-medium flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    {art.readTime}
+                  </span>
+                </div>
+
+                <h2 className="text-lg font-bold text-slate-900 tracking-tight leading-snug group-hover:text-emerald-700 transition-colors">
+                  {art.title}
+                </h2>
+
+                <p className="text-xs text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
+                  {art.summary}
+                </p>
+
+                <div className="mt-4 pt-4 border-t border-slate-100 space-y-1.5">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                    Core Topics Covered
+                  </div>
+                  {art.highlights.slice(0, 3).map((h, i) => (
+                    <div key={i} className="flex items-start gap-2 text-xs text-slate-700">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                      <span className="line-clamp-1">{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectArticle(art.id);
+                  }}
+                  className="w-full py-2.5 px-4 rounded-xl bg-slate-900 group-hover:bg-emerald-600 text-white text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Read Full Field Guide</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-emerald-400 group-hover:text-white group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3">
+          <BookOpen className="w-8 h-8 text-slate-400 mx-auto" />
+          <h3 className="text-base font-bold text-slate-800">No matching career field guides found</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            Try adjusting your search keywords or reset category filter to see all guides.
+          </p>
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                setSelectedTag('All');
+                setSearchQuery('');
+              }}
+              className="px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
+            >
+              Reset All Filters
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-xs text-slate-500 font-medium">
+            Showing <span className="font-bold text-slate-900">{startIndex + 1}</span>–<span className="font-bold text-slate-900">{endIndex}</span> of <span className="font-bold text-slate-900">{totalArticles}</span> field guides (Page <span className="font-bold text-slate-900">{activePage}</span> of {totalPages})
+          </div>
+
+          <div className="flex items-center gap-1.5 flex-wrap justify-center">
+            <button
+              onClick={() => handlePageChange(activePage - 1)}
+              disabled={activePage === 1}
+              className="px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-30 disabled:pointer-events-none transition-colors text-xs font-bold flex items-center gap-1 cursor-pointer"
+              title="Previous Page"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Previous</span>
+            </button>
+
+            <div className="flex items-center gap-1">
+              {getPageNumbers().map((page, idx) => {
+                if (page === '...') {
+                  return (
+                    <span key={`ellipsis-${idx}`} className="px-2 text-slate-400 text-xs select-none">
+                      &hellip;
+                    </span>
+                  );
+                }
+                const isCurrent = page === activePage;
+                return (
+                  <button
+                    key={`page-${page}`}
+                    onClick={() => handlePageChange(Number(page))}
+                    className={`min-w-8 h-8 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      isCurrent
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(activePage + 1)}
+              disabled={activePage === totalPages}
+              className="px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-30 disabled:pointer-events-none transition-colors text-xs font-bold flex items-center gap-1 cursor-pointer"
+              title="Next Page"
+            >
+              <span>Next</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

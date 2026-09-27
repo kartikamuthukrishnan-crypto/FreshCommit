@@ -24,7 +24,7 @@ export interface JobPosting {
   country?: string;
   postalCode?: string;
   experienceLevel: ExperienceLevel;
-  maxYearsExperience: number; // 0, 1, 2
+  maxYearsExperience: number; // 0 to 5 YoE
   category: JobCategory;
   employmentType: EmploymentType;
   salary: SalaryRange;
