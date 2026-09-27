@@ -34,7 +34,14 @@ export interface CareerArticle {
   sections: ArticleSection[];
 }
 
+import { PATHWAYS_AND_INTERVIEW_ARTICLES } from './articles/pathwaysAndInterviews';
+import { APPLICATION_AND_OUTREACH_ARTICLES } from './articles/applicationAndOutreach';
+import { SPECIALIZED_AND_WORKPLACE_ARTICLES } from './articles/specializedAndWorkplace';
+
 export const CAREER_ARTICLES: CareerArticle[] = [
+  ...PATHWAYS_AND_INTERVIEW_ARTICLES,
+  ...APPLICATION_AND_OUTREACH_ARTICLES,
+  ...SPECIALIZED_AND_WORKPLACE_ARTICLES,
   {
     id: 'zero-experience-software-engineering-resume',
     tag: 'Resume & Screening',
