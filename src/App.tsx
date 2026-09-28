@@ -951,7 +951,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#202124] flex flex-col selection:bg-[#1a73e8] selection:text-white font-sans">
+    <div className="min-h-screen bg-[#F0F8FF] text-[#202124] flex flex-col selection:bg-[#1a73e8] selection:text-white font-sans">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -1155,23 +1155,23 @@ export default function App() {
             </section>
 
             {/* Google-Style Search & Filter Console Section */}
-            <section className="bg-[#f8f9fa] border-b border-[#dadce0] py-8 px-4 sm:px-6 lg:px-8">
+            <section className="bg-[#F0F8FF] border-b border-[#dadce0] py-8 px-4 sm:px-6 lg:px-8">
               <div className="max-w-4xl mx-auto">
                 {/* Search Bar Container */}
-                <div className="bg-white border border-[#dadce0] hover:border-[#bdc1c6] focus-within:border-[#1a73e8] focus-within:shadow-md rounded-full px-5 py-3 flex items-center gap-3 transition-all mb-4">
-                  <Search className="w-5 h-5 text-[#5f6368] shrink-0" />
+                <div className="bg-white border-2 border-slate-400 hover:border-[#1a73e8] focus-within:border-[#1a73e8] focus-within:ring-4 focus-within:ring-[#1a73e8]/20 shadow-sm rounded-full px-5 py-3.5 flex items-center gap-3 transition-all mb-4">
+                  <Search className="w-5 h-5 text-[#1a73e8] shrink-0" />
                   <input
                     id="job-search-input"
                     type="text"
                     placeholder="Search software jobs, skills (React, Python, Go, Rust), or companies..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full text-sm sm:text-base text-[#202124] placeholder-[#80868b] bg-transparent focus:outline-none"
+                    className="w-full text-sm sm:text-base text-[#202124] placeholder-slate-500 bg-transparent focus:outline-none font-medium"
                   />
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery('')}
-                      className="text-xs text-[#5f6368] hover:text-[#202124] px-2 py-1 rounded-full hover:bg-[#f1f3f4] cursor-pointer"
+                      className="text-xs text-[#5f6368] hover:text-[#202124] px-2.5 py-1 rounded-full hover:bg-[#f1f3f4] cursor-pointer font-medium"
                     >
                       Clear
                     </button>

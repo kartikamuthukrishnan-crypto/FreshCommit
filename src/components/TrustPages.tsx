@@ -333,6 +333,18 @@ export const ContactUsView: React.FC = () => {
 
           <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-3 text-xs text-slate-600">
             <h2 className="font-bold text-slate-900 flex items-center gap-1.5">
+              <Mail className="w-4 h-4 text-emerald-600" />
+              Direct Business Emails
+            </h2>
+            <div className="space-y-1.5 text-slate-500">
+              <div>General &amp; Support: <a href="mailto:contact@freshcommits.com" className="text-emerald-600 font-semibold hover:underline">contact@freshcommits.com</a></div>
+              <div>Editorial &amp; Research: <a href="mailto:editorial@freshcommits.com" className="text-emerald-600 font-semibold hover:underline">editorial@freshcommits.com</a></div>
+              <div>Privacy &amp; Takedowns: <a href="mailto:privacy@freshcommits.com" className="text-emerald-600 font-semibold hover:underline">privacy@freshcommits.com</a></div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-3 text-xs text-slate-600">
+            <h2 className="font-bold text-slate-900 flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-emerald-600" />
               Mailing Address
             </h2>

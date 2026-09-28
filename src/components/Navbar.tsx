@@ -46,14 +46,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('jobs');
               }}
-              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'jobs'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span>Jobs</span>
-              <span className="text-[10px] bg-[#f1f3f4] text-[#5f6368] px-1.5 py-0.2 rounded-full font-mono">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>Job Feed</span>
+              <span className="text-[10px] bg-[#f1f3f4] text-[#5f6368] px-1.5 py-0.5 rounded-full font-mono font-medium">
                 {jobCount}
               </span>
             </a>
@@ -258,10 +262,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <span className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
               <Briefcase className="w-4 h-4 text-indigo-600" />
-              Job Feed
+              <span>Job Feed</span>
             </span>
-            <span className="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full">{jobCount}</span>
+            <span className="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-mono">{jobCount}</span>
           </a>
 
           <a

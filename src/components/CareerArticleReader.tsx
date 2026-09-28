@@ -279,8 +279,56 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
         ))}
       </div>
 
+      {/* Topical Cluster & Contextual Internal Links (SOP Step 1 & 3 Compliance) */}
+      {(() => {
+        const relatedArticles = allArticles
+          .filter((a) => a.id !== article.id)
+          .sort((a, b) => (a.tag === article.tag ? -1 : 1))
+          .slice(0, 3);
+        if (relatedArticles.length === 0) return null;
+        return (
+          <div className="mt-12 p-6 bg-slate-50 rounded-2xl border border-slate-200">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+                Related Guides &amp; Topical Cluster
+              </span>
+              <span className="text-[11px] text-slate-500 font-medium">Internal Reference Library</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {relatedArticles.map((rel) => (
+                <a
+                  key={rel.id}
+                  href={`/insights/${rel.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectArticle(rel.id);
+                  }}
+                  className="p-3.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-xs transition-all flex flex-col justify-between group block text-left"
+                >
+                  <div>
+                    <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block mb-1">
+                      {rel.tag}
+                    </span>
+                    <h3 className="text-xs font-bold text-slate-800 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+                      {rel.title}
+                    </h3>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
+                    <span>{rel.readTime}</span>
+                    <span className="text-emerald-600 font-medium flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                      Read &rarr;
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
+
       {/* Pagination: Next & Previous Articles */}
-      <div className="mt-12 pt-8 border-t border-slate-200">
+      <div className="mt-10 pt-8 border-t border-slate-200">
         <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
           Continue Reading Career Guides
         </div>

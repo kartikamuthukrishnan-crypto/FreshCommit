@@ -396,13 +396,13 @@ export const CareerInsightsView: React.FC = () => {
       {/* Search Bar & Quick Filters */}
       <div className="max-w-xl mx-auto">
         <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#1a73e8] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search guides by keyword, stack, interview question, or role..."
-            className="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm bg-white rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent shadow-xs transition-all"
+            className="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm bg-white rounded-xl border-2 border-slate-400 hover:border-[#1a73e8] focus:outline-none focus:ring-4 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8] shadow-xs transition-all text-[#202124] placeholder-slate-500 font-medium"
           />
           {searchQuery && (
             <button
