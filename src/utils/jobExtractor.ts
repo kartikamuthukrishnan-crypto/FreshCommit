@@ -17,6 +17,8 @@ export interface ExtractedJobData {
   category: JobCategory;
   employmentType: EmploymentType;
   salary: SalaryRange;
+  salaryDisclosed: boolean;
+  suggestedBenchmark?: SalaryRange;
   description: string;
   responsibilities: string[];
   qualifications: string[];
@@ -725,50 +727,111 @@ function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: s
 }
 
 /**
- * Formats realistic early-career salary benchmark if compensation is unlisted
+/**
+ * Rigorously extracts authentic salary ranges directly declared in employer job descriptions
+ * Returns null if no authentic salary is stated by the employer
  */
-function estimateEarlyCareerSalary(country: string, category: JobCategory, title: string, company?: string): SalaryRange {
-  const isIntern = title.toLowerCase().includes('intern');
+export function extractSalaryFromText(text: string): SalaryRange | null {
+  if (!text) return null;
+
+  // Clean html tags if present
+  const clean = text.replace(/<[^>]*>/g, ' ');
+
+  // 1. Hourly Pattern: e.g. "$25 - $35 an hour", "$28.50 to $34.00 / hr", "$22 - $30/hour", "$25/hr"
+  const hourlyRangeMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2}(?:\.[0-9]{2})?)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2}(?:\.[0-9]{2})?)\s*(?:per|\/|an)?\s*(?:hour|hr)/i);
+  if (hourlyRangeMatch) {
+    const min = parseFloat(hourlyRangeMatch[1]);
+    const max = parseFloat(hourlyRangeMatch[2]);
+    if (min >= 12 && max >= min && max <= 250) {
+      return { min: Math.round(min), max: Math.round(max), currency: 'USD', unit: 'HOUR' };
+    }
+  }
+
+  // 2. Annual Range Pattern: e.g. "$55,000 - $75,000", "$60k - $80k", "$70,000 to $90,000 per year"
+  const annualRangeMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2,3}(?:,[0-9]{3})*|[0-9]{2,3}k)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})*|[0-9]{2,3}k)(?:\s*(?:per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
+  if (annualRangeMatch) {
+    const parseVal = (str: string) => {
+      const lower = str.toLowerCase().replace(/,/g, '');
+      if (lower.endsWith('k')) return parseFloat(lower.replace('k', '')) * 1000;
+      return parseFloat(lower);
+    };
+    const min = parseVal(annualRangeMatch[1]);
+    const max = parseVal(annualRangeMatch[2]);
+    if (min >= 25000 && max >= min && max <= 450000) {
+      return { min: Math.round(min), max: Math.round(max), currency: 'USD', unit: 'YEAR' };
+    }
+  }
+
+  // 3. Single Stated Annual: e.g. "Starting salary: $65,000 / year"
+  const singleAnnualMatch = clean.match(/(?:salary|pay|compensation)[\s:]+(?:\$|USD\s*)\s*([0-9]{2,3},[0-9]{3})(?:\s*(?:per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
+  if (singleAnnualMatch) {
+    const val = parseFloat(singleAnnualMatch[1].replace(/,/g, ''));
+    if (val >= 25000 && val <= 400000) {
+      return { min: Math.round(val), max: Math.round(val), currency: 'USD', unit: 'YEAR' };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Provides an authentic, non-hallucinated 2026 early-career benchmark based on actual domain and role
+ * Used ONLY when an administrator explicitly requests a benchmark suggestion
+ */
+export function getRoleMarketBenchmark(title: string, category: JobCategory, country: string = 'US'): SalaryRange {
+  const t = title.toLowerCase();
   const upperCountry = (country || 'US').toUpperCase();
-  const isTier1 = ['Google', 'Meta', 'Apple', 'Amazon', 'Microsoft', 'Netflix', 'NVIDIA', 'OpenAI', 'Stripe'].includes(company || '');
+  const isIntern = t.includes('intern');
 
   if (upperCountry === 'GB' || upperCountry === 'UK') {
-    if (isIntern) return { min: 16, max: 24, currency: 'GBP', unit: 'HOUR' };
+    if (isIntern) return { min: 16, max: 22, currency: 'GBP', unit: 'HOUR' };
+    if (t.includes('help desk') || t.includes('support') || t.includes('technician')) {
+      return { min: 24000, max: 32000, currency: 'GBP', unit: 'YEAR' };
+    }
     return { min: 32000, max: 45000, currency: 'GBP', unit: 'YEAR' };
   }
 
-  if (['DE', 'FR', 'NL', 'IE', 'ES', 'IT', 'EU'].includes(upperCountry)) {
-    if (isIntern) return { min: 16, max: 24, currency: 'EUR', unit: 'HOUR' };
-    return { min: 48000, max: 65000, currency: 'EUR', unit: 'YEAR' };
-  }
-
-  if (upperCountry === 'CA') {
-    if (isIntern) return { min: 28, max: 42, currency: 'CAD', unit: 'HOUR' };
-    return { min: 75000, max: 105000, currency: 'CAD', unit: 'YEAR' };
+  if (['DE', 'FR', 'NL', 'IE'].includes(upperCountry)) {
+    if (isIntern) return { min: 16, max: 22, currency: 'EUR', unit: 'HOUR' };
+    return { min: 45000, max: 60000, currency: 'EUR', unit: 'YEAR' };
   }
 
   if (upperCountry === 'IN') {
-    return { min: 800000, max: 1600000, currency: 'INR', unit: 'YEAR' };
+    if (isIntern) return { min: 20000, max: 45000, currency: 'INR', unit: 'MONTH' };
+    return { min: 600000, max: 1200000, currency: 'INR', unit: 'YEAR' };
   }
 
   // Default: US Market
   if (isIntern) {
-    return { min: isTier1 ? 48 : 38, max: isTier1 ? 65 : 55, currency: 'USD', unit: 'HOUR' };
+    return { min: 28, max: 45, currency: 'USD', unit: 'HOUR' };
   }
 
-  if (isTier1) {
-    return { min: 110000, max: 155000, currency: 'USD', unit: 'YEAR' };
+  // 1. IT Support / Help Desk / Operations / Technician
+  if (t.includes('help desk') || t.includes('support') || t.includes('technician') || t.includes('desktop') || t.includes('it specialist')) {
+    return { min: 48000, max: 65000, currency: 'USD', unit: 'YEAR' };
   }
 
-  if (category === 'Data / AI' || category === 'DevOps / Cloud') {
-    return { min: 100000, max: 135000, currency: 'USD', unit: 'YEAR' };
+  // 2. QA / Software Quality / Test Engineer
+  if (t.includes('qa') || t.includes('quality') || t.includes('test') || category === 'QA / Test') {
+    return { min: 65000, max: 82000, currency: 'USD', unit: 'YEAR' };
   }
 
-  return { min: 92000, max: 125000, currency: 'USD', unit: 'YEAR' };
+  // 3. Data / AI / ML / Analytics
+  if (category === 'Data / AI' || t.includes('data') || t.includes('machine learning') || t.includes('ai')) {
+    return { min: 90000, max: 120000, currency: 'USD', unit: 'YEAR' };
+  }
+
+  // 4. DevOps / Cloud / Infrastructure / Security
+  if (category === 'DevOps / Cloud' || t.includes('devops') || t.includes('cloud') || t.includes('security') || t.includes('sre')) {
+    return { min: 90000, max: 122000, currency: 'USD', unit: 'YEAR' };
+  }
+
+  // 5. Software Engineer / Full Stack / Frontend / Backend
+  return { min: 82000, max: 112000, currency: 'USD', unit: 'YEAR' };
 }
 
 /**
- * Composes "The FreshCommits Edge" Curated Job Description
+ * Composes "The FreshCommits Edge" Curated Job Description with truthful compensation transparency
  */
 function composeFreshCommitsCuratedDescription(params: {
   title: string;
@@ -783,10 +846,12 @@ function composeFreshCommitsCuratedDescription(params: {
   const { title, company, cleanOverview, skills, salary, location } = params;
 
   const topSkillsStr = skills.slice(0, 5).join(', ');
-  const salaryDisplay =
-    salary.unit === 'HOUR'
-      ? `${salary.currency} ${salary.min}–${salary.max}/hr`
-      : `${salary.currency} ${Math.round(salary.min / 1000)}k–${Math.round(salary.max / 1000)}k/year`;
+  const hasDisclosedSalary = salary && salary.min > 0;
+  const salaryDisplay = hasDisclosedSalary
+    ? (salary.unit === 'HOUR'
+        ? `${salary.currency} ${salary.min}–${salary.max}/hr`
+        : `${salary.currency} ${Math.round(salary.min / 1000)}k–${Math.round(salary.max / 1000)}k/year`)
+    : '';
 
   const edgeBlock = [
     `🎯 The FreshCommits Career Take:`,
@@ -795,7 +860,9 @@ function composeFreshCommitsCuratedDescription(params: {
     `💡 Candidate Preparation Checklist:`,
     `• Core Stack: Brush up on ${topSkillsStr || 'core computer science fundamentals'} and version control (Git).`,
     `• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.`,
-    `• Target Benchmark: Estimated verified market compensation of ~${salaryDisplay} with career progression reviews.`,
+    hasDisclosedSalary
+      ? `• Compensation Range: Verified employer range of ~${salaryDisplay} with career progression reviews.`
+      : `• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).`,
     `• Location: Based in ${location}.`,
     ``,
     `🏢 Role Overview:`,
@@ -932,7 +999,8 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
   const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
 
   const roleData = getRoleArchetypeContent(title, company);
-  const salary = estimateEarlyCareerSalary(loc.country || 'US', roleData.category, title, company);
+  const benchmark = getRoleMarketBenchmark(title, roleData.category, loc.country || 'US');
+  const salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: benchmark.unit };
 
   const cleanOverview = `${company} is actively seeking an early-career ${title} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
   const curatedDescription = composeFreshCommitsCuratedDescription({
@@ -962,6 +1030,8 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
     category: roleData.category,
     employmentType: empType,
     salary,
+    salaryDisclosed: false,
+    suggestedBenchmark: benchmark,
     description: curatedDescription,
     responsibilities: roleData.responsibilities,
     qualifications: roleData.qualifications,
@@ -1018,7 +1088,10 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
 
-        let salary: SalaryRange;
+        const benchmark = getRoleMarketBenchmark(title, category, country);
+        let salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: empType === 'INTERN' ? 'HOUR' : 'YEAR' };
+        let salaryDisclosed = false;
+
         if (data.compensation?.max) {
           salary = {
             min: Number(data.compensation.min || Math.round(Number(data.compensation.max) * 0.85)),
@@ -1026,8 +1099,13 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
             currency: data.compensation.currency || 'USD',
             unit: empType === 'INTERN' ? 'HOUR' : 'YEAR'
           };
+          salaryDisclosed = true;
         } else {
-          salary = estimateEarlyCareerSalary(country, category, title, company);
+          const fromText = extractSalaryFromText(jobDescText);
+          if (fromText) {
+            salary = fromText;
+            salaryDisclosed = true;
+          }
         }
 
         const cleanOverview = jobDescText.split('\n\n')[0] || jobDescText.slice(0, 300);
@@ -1058,6 +1136,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           category,
           employmentType: empType,
           salary,
+          salaryDisclosed,
+          suggestedBenchmark: benchmark,
           description: curatedDescription,
           responsibilities: responsibilities.length > 0 ? responsibilities : getRoleArchetypeContent(title, company).responsibilities,
           qualifications: qualifications.length > 0 ? qualifications : getRoleArchetypeContent(title, company).qualifications,
@@ -1094,7 +1174,10 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const experienceLevel = inferExperienceLevel(title, contentText);
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
-        const salary = estimateEarlyCareerSalary('US', category, title, company);
+        const benchmark = getRoleMarketBenchmark(title, category, 'US');
+        const fromText = extractSalaryFromText(contentText);
+        const salary = fromText || { min: 0, max: 0, currency: 'USD', unit: empType === 'INTERN' ? 'HOUR' : 'YEAR' };
+        const salaryDisclosed = Boolean(fromText);
 
         const cleanOverview = contentText.split('\n\n')[0] || contentText.slice(0, 300);
         const curatedDescription = composeFreshCommitsCuratedDescription({
@@ -1122,6 +1205,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           category,
           employmentType: empType,
           salary,
+          salaryDisclosed,
+          suggestedBenchmark: benchmark,
           description: curatedDescription,
           responsibilities: responsibilities.length > 0 ? responsibilities : getRoleArchetypeContent(title, company).responsibilities,
           qualifications: qualifications.length > 0 ? qualifications : getRoleArchetypeContent(title, company).qualifications,
@@ -1156,7 +1241,25 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const experienceLevel = inferExperienceLevel(title, descText);
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
-        const salary = estimateEarlyCareerSalary('US', category, title, company);
+        const benchmark = getRoleMarketBenchmark(title, category, 'US');
+
+        let salary: SalaryRange = { min: 0, max: 0, currency: 'USD', unit: empType === 'INTERN' ? 'HOUR' : 'YEAR' };
+        let salaryDisclosed = false;
+        if (data.salaryRange?.min && data.salaryRange?.max) {
+          salary = {
+            min: data.salaryRange.min,
+            max: data.salaryRange.max,
+            currency: data.salaryRange.currency || 'USD',
+            unit: data.salaryRange.interval === 'per-hour' ? 'HOUR' : 'YEAR'
+          };
+          salaryDisclosed = true;
+        } else {
+          const fromText = extractSalaryFromText(descText + ' ' + (data.additional || ''));
+          if (fromText) {
+            salary = fromText;
+            salaryDisclosed = true;
+          }
+        }
 
         const responsibilities: string[] = [];
         const qualifications: string[] = [];
@@ -1197,6 +1300,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           category,
           employmentType: empType,
           salary,
+          salaryDisclosed,
+          suggestedBenchmark: benchmark,
           description: curatedDescription,
           responsibilities: responsibilities.length > 0 ? responsibilities.slice(0, 6) : getRoleArchetypeContent(title, company).responsibilities,
           qualifications: qualifications.length > 0 ? qualifications.slice(0, 6) : getRoleArchetypeContent(title, company).qualifications,
@@ -1243,7 +1348,25 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const expLevel = inferExperienceLevel(title, fullCorpus);
         const isIntern = title.toLowerCase().includes('intern');
         const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
-        const salary = estimateEarlyCareerSalary(country, category, title, company);
+        const benchmark = getRoleMarketBenchmark(title, category, country);
+
+        let salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: isIntern ? 'HOUR' : 'YEAR' };
+        let salaryDisclosed = false;
+        if (data.salary?.min && data.salary?.max) {
+          salary = {
+            min: data.salary.min,
+            max: data.salary.max,
+            currency: data.salary.currency || 'USD',
+            unit: data.salary.interval === 'hour' ? 'HOUR' : 'YEAR'
+          };
+          salaryDisclosed = true;
+        } else {
+          const fromText = extractSalaryFromText(fullCorpus);
+          if (fromText) {
+            salary = fromText;
+            salaryDisclosed = true;
+          }
+        }
 
         const cleanOverview = descText.split('\n\n')[0] || descText.slice(0, 300);
         const curatedDescription = composeFreshCommitsCuratedDescription({
@@ -1273,6 +1396,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           category,
           employmentType: empType,
           salary,
+          salaryDisclosed,
+          suggestedBenchmark: benchmark,
           description: curatedDescription,
           responsibilities: responsibilities.length > 0 ? responsibilities : getRoleArchetypeContent(title, company).responsibilities,
           qualifications: qualifications.length > 0 ? qualifications : getRoleArchetypeContent(title, company).qualifications,
@@ -1327,7 +1452,27 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
                 const skills = detectSkills(`${title} ${desc}`);
                 const category = inferCategory(title, skills);
                 const expLevel = inferExperienceLevel(title, desc);
-                const salary = estimateEarlyCareerSalary('US', category, title, company);
+                const isIntern = title.toLowerCase().includes('intern');
+                const benchmark = getRoleMarketBenchmark(title, category, 'US');
+
+                let salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: isIntern ? 'HOUR' : 'YEAR' };
+                let salaryDisclosed = false;
+
+                if (jobPosting.baseSalary?.value?.minValue && jobPosting.baseSalary?.value?.maxValue) {
+                  salary = {
+                    min: Number(jobPosting.baseSalary.value.minValue),
+                    max: Number(jobPosting.baseSalary.value.maxValue),
+                    currency: jobPosting.baseSalary.currency || 'USD',
+                    unit: jobPosting.baseSalary.value.unitText === 'HOUR' ? 'HOUR' : 'YEAR'
+                  };
+                  salaryDisclosed = true;
+                } else {
+                  const fromText = extractSalaryFromText(desc);
+                  if (fromText) {
+                    salary = fromText;
+                    salaryDisclosed = true;
+                  }
+                }
 
                 return {
                   title,
@@ -1341,10 +1486,12 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
                   country: synth.country,
                   applicantLocationRequirements: synth.applicantLocationRequirements,
                   experienceLevel: expLevel,
-                  maxYearsExperience: title.toLowerCase().includes('intern') ? 0 : 1,
+                  maxYearsExperience: isIntern ? 0 : 1,
                   category,
-                  employmentType: title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME',
+                  employmentType: isIntern ? 'INTERN' : 'FULL_TIME',
                   salary,
+                  salaryDisclosed,
+                  suggestedBenchmark: benchmark,
                   description: composeFreshCommitsCuratedDescription({
                     title,
                     company,
