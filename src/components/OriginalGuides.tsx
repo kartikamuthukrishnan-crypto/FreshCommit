@@ -250,15 +250,34 @@ export const CareerInsightsView: React.FC = () => {
       return hash;
     }
     const pathParts = window.location.pathname.split('/').filter(Boolean);
-    if ((pathParts[0] === 'blog' || pathParts[0] === 'career-insights' || pathParts[0] === 'insights') && pathParts[1]) {
+    if ((pathParts[0] === 'blog' || pathParts[0] === 'career-insights' || pathParts[0] === 'insights' || pathParts[0] === 'article' || pathParts[0] === 'guides') && pathParts[1]) {
       const match = CAREER_ARTICLES.find((a) => a.id === pathParts[1]);
+      if (match) return match.id;
+    }
+    if (pathParts.length === 1) {
+      const match = CAREER_ARTICLES.find((a) => a.id === pathParts[0]);
       if (match) return match.id;
     }
     return null;
   });
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleUrlChange = () => {
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      if ((pathParts[0] === 'blog' || pathParts[0] === 'career-insights' || pathParts[0] === 'insights' || pathParts[0] === 'article' || pathParts[0] === 'guides') && pathParts[1]) {
+        const match = CAREER_ARTICLES.find((a) => a.id === pathParts[1]);
+        if (match) {
+          setSelectedArticleId(match.id);
+          return;
+        }
+      }
+      if (pathParts.length === 1) {
+        const match = CAREER_ARTICLES.find((a) => a.id === pathParts[0]);
+        if (match) {
+          setSelectedArticleId(match.id);
+          return;
+        }
+      }
       const hash = window.location.hash.replace('#', '');
       if (CAREER_ARTICLES.some((a) => a.id === hash)) {
         setSelectedArticleId(hash);
@@ -266,8 +285,12 @@ export const CareerInsightsView: React.FC = () => {
         setSelectedArticleId(null);
       }
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    window.addEventListener('popstate', handleUrlChange);
+    return () => {
+      window.removeEventListener('hashchange', handleUrlChange);
+      window.removeEventListener('popstate', handleUrlChange);
+    };
   }, []);
 
   // Reset to page 1 whenever category or search filter changes
@@ -277,13 +300,20 @@ export const CareerInsightsView: React.FC = () => {
 
   const handleSelectArticle = (id: string) => {
     setSelectedArticleId(id);
-    window.location.hash = id;
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, '', `/insights/${id}`);
+    } else {
+      window.location.hash = id;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackToOverview = () => {
     setSelectedArticleId(null);
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, '', '/insights');
+    } else {
+      window.location.hash = '';
     }
   };
 

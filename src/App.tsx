@@ -294,7 +294,21 @@ export default function App() {
       if (path === '/terms' || path === '/terms-of-service' || path === '/tos' || path.endsWith('/terms')) return 'terms';
       if (path === '/contact' || path === '/contact-us' || path.endsWith('/contact')) return 'contact';
       if (path === '/salary-guide' || path === '/salary' || path.endsWith('/salary-guide')) return 'salary-guide';
-      if (path === '/insights' || path === '/career-insights' || path === '/guides' || path === '/blog' || path === '/articles' || path.startsWith('/blog') || path.startsWith('/career-insights') || path.endsWith('/career-insights')) return 'insights';
+      if (
+        path === '/insights' ||
+        path === '/career-insights' ||
+        path === '/guides' ||
+        path === '/blog' ||
+        path === '/articles' ||
+        path.startsWith('/insights') ||
+        path.startsWith('/career-insights') ||
+        path.startsWith('/blog') ||
+        path.startsWith('/guides') ||
+        path.startsWith('/article') ||
+        CAREER_ARTICLES.some((a) => path === '/' + a.id || path.endsWith('/' + a.id))
+      ) {
+        return 'insights';
+      }
       if (path === '/tools' || path === '/career-tools' || path === '/calculator' || path.endsWith('/career-tools')) return 'tools';
       if (path === '/policy' || path === '/adsense-policy' || path.endsWith('/adsense-policy')) return 'adsense-policy';
       if (path === '/disclaimer' || path.endsWith('/disclaimer')) return 'disclaimer';

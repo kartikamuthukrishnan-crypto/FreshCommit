@@ -104,6 +104,32 @@
       (function() {
         try {
           var jobId = null;
+          
+          // Check for Article Route (/insights/:id or /career-insights/:id or /blog/:id)
+          var articleId = null;
+          var articlePathMatch = pathname.match(/^\/(?:insights|career-insights|blog|article|guides)\/([^/?#]+)/i);
+          if (articlePathMatch && articlePathMatch[1]) {
+            articleId = decodeURIComponent(articlePathMatch[1]);
+          }
+          if (!articleId) {
+            var params = new URLSearchParams(window.location.search);
+            articleId = params.get('article') || params.get('guide') || params.get('id');
+            if (articleId && !SYNCHRONOUS_ARTICLES[articleId]) articleId = null;
+          }
+          if (!articleId && window.location.hash) {
+            var h = window.location.hash.replace('#', '');
+            if (SYNCHRONOUS_ARTICLES[h]) articleId = h;
+          }
+          if (!articleId && pathname) {
+            var cleanPath = pathname.replace(/^\//, '').replace(/\/$/, '');
+            if (SYNCHRONOUS_ARTICLES[cleanPath]) articleId = cleanPath;
+          }
+
+          if (articleId && SYNCHRONOUS_ARTICLES[articleId]) {
+            injectArticleSchema(SYNCHRONOUS_ARTICLES[articleId]);
+            return;
+          }
+
           // 1. Check pathname: /job/:id or /jobs/:id (Canonical URL format)
           var pathname = window.location.pathname || '';
           var pathMatch = pathname.match(/^\/(?:jobs|job)\/([^/?#]+)/i);
@@ -652,6 +678,235 @@
             <li><strong>Unparaphrased Employer Requisitions:</strong> In full alignment with Google Search Central quality guidelines, job descriptions, responsibilities, and qualification checklists are presented directly without misleading automated rewriting or deceptive keyword spinning.</li>
             <li><strong>Zero Recruiter Intermediaries:</strong> 100% of apply links route directly to official company career application forms. No staffing agency redirects, no middleman data capture.</li>
           </ul>
+        </section>
+
+        
+        {/* Section: Complete Career Guides & Field Notes Index */}
+        <section id="career-insights" style="background: #ffffff; border: 1px solid #dadce0; border-radius: 20px; padding: 36px; margin-bottom: 56px;">
+          <h2 style="font-size: 24px; font-weight: 700; color: #202124; margin-bottom: 16px;">
+            Engineering Career Guides &amp; Practical Field Notes (All 27 Editorial Publications)
+          </h2>
+          <p style="font-size: 15px; color: #5f6368; line-height: 1.7; margin-bottom: 24px;">
+            In-depth technical guides, salary negotiation playbooks, resume blueprints, and interview benchmarks for 0–2 YoE software engineers, written and verified by our editorial board.
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Career Navigation &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/cs-vs-self-taught-vs-bootcamp-2026" style="color: #202124; text-decoration: none;">Computer Science vs. Self-Taught vs. Bootcamp: What Entry-Level Tech Recruiters Look For in 2026</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">The early-career tech hiring market in 2026 has fundamentally changed. The era of automated bootcamp-to-six-figure guarantees is over, yet companies still face severe shortages of ...</p>
+              <a href="/insights/cs-vs-self-taught-vs-bootcamp-2026" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Career Pathways &bull; 10 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/tech-apprenticeships-new-grad-programs" style="color: #202124; text-decoration: none;">The Complete Guide to Tech Apprenticeships and New Grad Development Programs</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">For candidates without traditional Big Tech internships, tech apprenticeships and structured new grad rotational programs represent one of the most lucrative and supportive entry p...</p>
+              <a href="/insights/tech-apprenticeships-new-grad-programs" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Career Navigation &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/non-cs-stem-transition-software-engineer" style="color: #202124; text-decoration: none;">How to Transition into Tech from a Non-CS STEM Background</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Graduates with degrees in mathematics, physics, electrical engineering, chemical engineering, or economics often feel caught between worlds. You possess rigorous quantitative probl...</p>
+              <a href="/insights/non-cs-stem-transition-software-engineer" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Technical Interviews &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/entry-level-coding-interview-dsa-benchmarks" style="color: #202124; text-decoration: none;">Demystifying the Entry-Level Coding Interview: DSA vs. System Architecture Expectations</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Internet forums and social media have convinced junior engineers that every technical screen requires solving LeetCode Hard dynamic programming problems and designing globally dist...</p>
+              <a href="/insights/entry-level-coding-interview-dsa-benchmarks" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Interview Preparation &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/behavioral-tech-interviews-star-method" style="color: #202124; text-decoration: none;">How to Pass Behavioral Tech Interviews Using the STAR Method (With Real Engineering Scenarios)</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Countless software engineering applicants ace their coding assessments only to be rejected in the final behavioral round. Junior candidates frequently assume behavioral interviews ...</p>
+              <a href="/insights/behavioral-tech-interviews-star-method" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Technical Interviews &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/live-coding-pair-programming-under-pressure" style="color: #202124; text-decoration: none;">How to Handle Live Coding & Pair Programming Assessments Without Panic</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">There is no setting in software engineering more anxiety-inducing than live coding. A stranger stares at your cursor over a shared screen, your hands tremble on the keyboard, and s...</p>
+              <a href="/insights/live-coding-pair-programming-under-pressure" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Portfolio Architecture &bull; 10 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/high-impact-github-projects-entry-level" style="color: #202124; text-decoration: none;">5 High-Impact GitHub Project Ideas for Entry-Level Web Developers (With Production Architectures)</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">The biggest lie in developer career guidance is the advice to "build 10 projects to show dedication". A hiring manager will never look at 10 projects. In fact, if they open your Gi...</p>
+              <a href="/insights/high-impact-github-projects-entry-level" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Application Strategy &bull; 7 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/tech-cover-letter-blueprint-recruiters-read" style="color: #202124; text-decoration: none;">How to Write a Tech Cover Letter That Recruiters Actually Read</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">You have likely heard conflicting career advice: half the internet claims cover letters are completely dead, while the other half insists you must write a poetic narrative about ho...</p>
+              <a href="/insights/tech-cover-letter-blueprint-recruiters-read" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Job Search Strategy &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/linkedin-cold-outreach-engineering-managers" style="color: #202124; text-decoration: none;">Cold Outreach Strategies on LinkedIn for Entry-Level Roles That Get 30%+ Response Rates</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">When 1,000 candidates click "Easy Apply" on LinkedIn within hours of an entry-level posting going live, waiting passively for an automated recruiter email is a losing mathematical ...</p>
+              <a href="/insights/linkedin-cold-outreach-engineering-managers" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Role Roadmaps &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/frontend-engineer-roadmap-essential-skills" style="color: #202124; text-decoration: none;">Entry-Level Frontend Engineer Roadmap: Essential Skills vs. Nice-to-Haves</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">The modern frontend ecosystem is notoriously overwhelming for early-career developers. Social media influencers insist that to get an entry-level frontend role, you must know React...</p>
+              <a href="/insights/frontend-engineer-roadmap-essential-skills" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Role Roadmaps &bull; 10 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/break-into-entry-level-data-engineering" style="color: #202124; text-decoration: none;">How to Break Into Entry-Level Data Engineering in 2026</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Data engineering has emerged as one of the highest-paying, most resilient engineering disciplines in tech. While entry-level web development is crowded with thousands of bootcamp g...</p>
+              <a href="/insights/break-into-entry-level-data-engineering" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Role Roadmaps &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/entry-level-cybersecurity-soc-vs-pentester" style="color: #202124; text-decoration: none;">Breaking Into Entry-Level Cybersecurity: SOC Analyst vs. Junior Pentester Pathways</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Cybersecurity is surrounded by misleading marketing campaigns promising six-figure ethical hacking salaries to beginners after passing a single multiple-choice certification exam. ...</p>
+              <a href="/insights/entry-level-cybersecurity-soc-vs-pentester" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Role Roadmaps &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/junior-devops-cloud-role-beyond-certifications" style="color: #202124; text-decoration: none;">How to Land a Junior Cloud/DevOps Role: What You Need Beyond AWS Certifications</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">DevOps and Cloud Infrastructure roles are traditionally considered mid-career transitions rather than entry-level jobs because companies are hesitant to give juniors production roo...</p>
+              <a href="/insights/junior-devops-cloud-role-beyond-certifications" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Workplace Reality &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/stand-out-entry-level-remote-software-engineer" style="color: #202124; text-decoration: none;">How to Stand Out as an Entry-Level Remote Engineer</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Starting your software engineering career in a fully remote environment is a double-edged sword. On one hand, you enjoy complete location flexibility and zero commute. On the other...</p>
+              <a href="/insights/stand-out-entry-level-remote-software-engineer" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Workplace Reality &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/common-mistakes-new-grad-engineers-avoid" style="color: #202124; text-decoration: none;">Common Mistakes New Grad Engineers Make in Their First Role (And How to Avoid Them)</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">The technical skills that get you hired as a software engineer are completely different from the skills that make you successful once you are on the job. In university and coding b...</p>
+              <a href="/insights/common-mistakes-new-grad-engineers-avoid" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Resume & Screening &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/zero-experience-software-engineering-resume" style="color: #202124; text-decoration: none;">How to Write a Software Engineering Resume with Zero Industry Experience</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Every computer science graduate, bootcamp completer, and self-taught developer faces the same frustrating paradox: every "entry-level" job posting demands 1 to 3 years of industry ...</p>
+              <a href="/insights/zero-experience-software-engineering-resume" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Job Search Strategy &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/beating-1000-applicant-tech-job-market" style="color: #202124; text-decoration: none;">The 2026 Junior Developer Job Search Strategy: Beating 1,000+ Applicant Pipelines Without Burning Out</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">In 2026, an entry-level software engineer job posting on LinkedIn or Indeed can attract 1,000+ applicants within 24 hours. Most new graduates respond by carpet-bombing 500 "Easy Ap...</p>
+              <a href="/insights/beating-1000-applicant-tech-job-market" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Technical Interviews &bull; 10 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/take-home-coding-challenge-playbook" style="color: #202124; text-decoration: none;">How to Pass the Take-Home Coding Challenge: What Senior Engineers Grade Behind Closed Doors</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Many junior developers assume that completing every functional requirement of a take-home assignment guarantees advancement to the final onsite round. In reality, senior engineerin...</p>
+              <a href="/insights/take-home-coding-challenge-playbook" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Engineering Culture &bull; 6 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/git-hygiene-day-one" style="color: #202124; text-decoration: none;">Git Commit & Branch Hygiene: What Senior Engineers Expect on Day One</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">When a new junior engineer joins a production team, their code is rarely where problems start. Where senior engineers, tech leads, and DevOps engineers get nervous is messy git his...</p>
+              <a href="/insights/git-hygiene-day-one" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Compensation &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/rsu-base-equity-decoded" style="color: #202124; text-decoration: none;">Decoding New Grad Tech Offers: Base Salary vs. RSUs vs. Sign-On Bonuses</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">You receive an offer letter: "$165,000 Total Compensation (First Year)". Before celebrating or comparing numbers on Blind or Reddit, you need to dissect how much of that number lan...</p>
+              <a href="/insights/rsu-base-equity-decoded" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Portfolio Strategy &bull; 7 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/standout-portfolio-architecture" style="color: #202124; text-decoration: none;">Beyond Todo Lists: 4 Production-Grade Projects That Get You Screened</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">A portfolio with a basic Todo list, a clone of Netflix, and a weather app that calls a free API tells an engineering manager one thing: this candidate knows how to follow a 2-hour ...</p>
+              <a href="/insights/standout-portfolio-architecture" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Interview Prep &bull; 5 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/reverse-interviewing-engineering-teams" style="color: #202124; text-decoration: none;">Reverse-Interviewing Engineering Teams: Questions to Identify Mentorship Culture</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">When you are a junior engineer with 0–2 years of experience, the company name on your resume matters far less than whether you are actually learning. If you join a chaotic startup ...</p>
+              <a href="/insights/reverse-interviewing-engineering-teams" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Resume & Screening &bull; 7 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/junior-swe-resume-ats-formula" style="color: #202124; text-decoration: none;">The 1-Page Junior SWE Resume: Formatting, Metric Formulas & ATS Pass Rates</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Most entry-level software engineering resumes fail before a human ever reads them. They get tripped up by multi-column graphical templates that scramble ATS parsers, or they list p...</p>
+              <a href="/insights/junior-swe-resume-ats-formula" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">System Design &bull; 9 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/entry-level-system-design" style="color: #202124; text-decoration: none;">System Design for Entry-Level Engineers: The 5 Concepts You Actually Need</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Junior candidates often panic about System Design interviews, imagining they will be expected to architect global multi-region distributed consensus protocols like Paxos or Raft. I...</p>
+              <a href="/insights/entry-level-system-design" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Interview Strategy &bull; 6 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/acing-technical-screens" style="color: #202124; text-decoration: none;">Passing the Modern Technical Screen: Beyond Blind LeetCode Grinding</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">Every year, thousands of candidates solve all test cases in a coding screen and still receive a rejection email 48 hours later. Why? Because live technical screens are not automate...</p>
+              <a href="/insights/acing-technical-screens" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Career Growth &bull; 6 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/first-90-days-onboarding" style="color: #202124; text-decoration: none;">The First 90 Days: How Junior Developers Build Immediate Engineering Velocity</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">The difference between junior engineers who get promoted within 18 months and those who struggle is rarely raw algorithmic talent. It comes down to communication hygiene, proactive...</p>
+              <a href="/insights/first-90-days-onboarding" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 20px;">
+              <span style="font-size: 11px; font-weight: 700; color: #1a73e8; text-transform: uppercase;">Production Engineering &bull; 8 min read</span>
+              <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0;">
+                <a href="/insights/production-observability-debugging" style="color: #202124; text-decoration: none;">Production Observability: How Junior Developers Debug Real-World Incidents</a>
+              </h3>
+              <p style="font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 12px;">In personal projects, debugging usually means dropping a console.log into your code and watching the terminal. In high-traffic production environments handling thousands of concurr...</p>
+              <a href="/insights/production-observability-debugging" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Read Complete Guide &rarr;</a>
+            </article>
+          </div>
         </section>
 
         {/* Section 4: About FreshCommits, Author Bio & Editorial Transparency */}

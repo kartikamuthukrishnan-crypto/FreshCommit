@@ -34,15 +34,30 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
   const [copiedCodeIndex, setCopiedCodeIndex] = useState<number | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  // Scroll to top and set page title when opening a new article
+  // Scroll to top, set title, description, and canonical tag when opening an article
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     const originalTitle = document.title;
     document.title = `${article.title} – FreshCommits Career Guide`;
+
+    const metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    const originalDesc = metaDesc ? metaDesc.content : '';
+    if (metaDesc) {
+      metaDesc.content = article.summary;
+    }
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const originalCanonical = canonical ? canonical.href : '';
+    if (canonical) {
+      canonical.href = `https://www.freshcommits.com/insights/${article.id}`;
+    }
+
     return () => {
       document.title = originalTitle;
+      if (metaDesc && originalDesc) metaDesc.content = originalDesc;
+      if (canonical && originalCanonical) canonical.href = originalCanonical;
     };
-  }, [article.id, article.title]);
+  }, [article.id, article.title, article.summary]);
 
   const handleCopyCode = (code: string, index: number) => {
     navigator.clipboard.writeText(code);
