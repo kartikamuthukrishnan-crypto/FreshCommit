@@ -285,9 +285,69 @@ export const ContactUsView: React.FC = () => {
         </p>
       </div>
 
+      {/* Prominent Direct Email Quick Action Banner (Immediate Above-the-Fold Visibility) */}
+      <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-sky-50 rounded-2xl border-2 border-emerald-200 p-6 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+              <Mail className="w-4 h-4 text-emerald-600" />
+              Direct Official Email Channels
+            </span>
+            <p className="text-xs text-slate-600 max-w-xl">
+              For immediate assistance, publisher verification, partnerships, or 24-hour job listing removals, reach our team directly:
+            </p>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <a
+              href="mailto:contact@freshcommits.com"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm"
+              title="Send direct email to FreshCommits"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>contact@freshcommits.com</span>
+            </a>
+            <a
+              href="mailto:editorial@freshcommits.com"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-white hover:bg-slate-50 text-slate-800 rounded-xl text-xs font-semibold transition-all border border-slate-200 shadow-xs"
+              title="Email FreshCommits Editorial Team"
+            >
+              <span>editorial@freshcommits.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Contact Routing Info Card */}
         <div className="space-y-6 md:col-span-1">
+          {/* Card 1: Direct Business Emails (Elevated to Position #1) */}
+          <div className="bg-white rounded-2xl border-2 border-emerald-500/20 p-6 shadow-sm space-y-3 text-xs text-slate-600">
+            <h2 className="font-bold text-slate-900 flex items-center gap-1.5">
+              <Mail className="w-4 h-4 text-emerald-600" />
+              Direct Business Inboxes
+            </h2>
+            <div className="space-y-2 text-slate-600">
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <div className="font-semibold text-slate-900 text-[11px]">General &amp; Candidate Support:</div>
+                <a href="mailto:contact@freshcommits.com" className="text-emerald-700 font-bold hover:underline font-mono text-xs block mt-0.5">
+                  contact@freshcommits.com
+                </a>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <div className="font-semibold text-slate-900 text-[11px]">Editorial &amp; Research:</div>
+                <a href="mailto:editorial@freshcommits.com" className="text-emerald-700 font-bold hover:underline font-mono text-xs block mt-0.5">
+                  editorial@freshcommits.com
+                </a>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <div className="font-semibold text-slate-900 text-[11px]">Privacy Officer &amp; Takedowns:</div>
+                <a href="mailto:privacy@freshcommits.com" className="text-emerald-700 font-bold hover:underline font-mono text-xs block mt-0.5">
+                  privacy@freshcommits.com
+                </a>
+              </div>
+            </div>
+          </div>
+
           <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
             <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
               <Shield className="w-4 h-4 text-emerald-600" />
@@ -329,18 +389,6 @@ export const ContactUsView: React.FC = () => {
             <p>
               Candidate support inquiries and employer listing removals are processed within <strong>24 hours</strong>.
             </p>
-          </div>
-
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-3 text-xs text-slate-600">
-            <h2 className="font-bold text-slate-900 flex items-center gap-1.5">
-              <Mail className="w-4 h-4 text-emerald-600" />
-              Direct Business Emails
-            </h2>
-            <div className="space-y-1.5 text-slate-500">
-              <div>General &amp; Support: <a href="mailto:contact@freshcommits.com" className="text-emerald-600 font-semibold hover:underline">contact@freshcommits.com</a></div>
-              <div>Editorial &amp; Research: <a href="mailto:editorial@freshcommits.com" className="text-emerald-600 font-semibold hover:underline">editorial@freshcommits.com</a></div>
-              <div>Privacy &amp; Takedowns: <a href="mailto:privacy@freshcommits.com" className="text-emerald-600 font-semibold hover:underline">privacy@freshcommits.com</a></div>
-            </div>
           </div>
 
           <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-3 text-xs text-slate-600">
@@ -441,8 +489,16 @@ export const ContactUsView: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h2 className="text-lg font-bold text-slate-900">Send an Official Inquiry</h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-1">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-900">Send an Official Inquiry</h2>
+                  <p className="text-xs text-slate-500">
+                    Prefer direct email? Contact us at{' '}
+                    <a href="mailto:contact@freshcommits.com" className="text-emerald-600 font-semibold hover:underline">
+                      contact@freshcommits.com
+                    </a>
+                  </p>
+                </div>
                 <span className="text-[11px] text-slate-400 font-medium">All fields with * are required</span>
               </div>
 
