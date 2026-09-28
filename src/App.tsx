@@ -408,6 +408,13 @@ export default function App() {
       }
 
       if (targetJobId) {
+        targetJobId = targetJobId.trim();
+        const idMatch = targetJobId.match(/(manual-\d+|job-[a-z0-9-]+|ext-[a-z0-9-]+|sync-[a-z0-9-]+)/i);
+        if (idMatch) {
+          targetJobId = idMatch[1];
+        } else {
+          targetJobId = targetJobId.split(/[\s%]+/)[0];
+        }
         const lowerTarget = targetJobId.toLowerCase();
 
         // 0. Check sessionStorage for instant 0-cost retrieval (0ms latency, 0 database reads)
@@ -606,6 +613,13 @@ export default function App() {
       }
 
       if (targetJobId) {
+        targetJobId = targetJobId.trim();
+        const idMatch = targetJobId.match(/(manual-\d+|job-[a-z0-9-]+|ext-[a-z0-9-]+|sync-[a-z0-9-]+)/i);
+        if (idMatch) {
+          targetJobId = idMatch[1];
+        } else {
+          targetJobId = targetJobId.split(/[\s%]+/)[0];
+        }
         const lowerTarget = targetJobId.toLowerCase();
 
         // Check sessionStorage first for 0-cost instant hydration
