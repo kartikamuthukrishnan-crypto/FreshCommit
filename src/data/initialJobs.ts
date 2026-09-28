@@ -2,6 +2,57 @@ import { JobPosting } from '../types';
 
 export const INITIAL_JOBS: JobPosting[] = [
   {
+    "id": "manual-1790519972508",
+    "title": "IT Engineer",
+    "company": "Elevenlabs",
+    "companyLogo": "https://logo.clearbit.com/elevenlabs.com",
+    "companyWebsite": "https://elevenlabs.com",
+    "location": "Remote (US)",
+    "isRemote": true,
+    "applicantLocationRequirements": "US",
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "US",
+    "postalCode": "94105",
+    "experienceLevel": "Entry Level",
+    "maxYearsExperience": 1,
+    "category": "Full Stack",
+    "employmentType": "FULL_TIME",
+    "salary": {
+      "min": 92000,
+      "max": 125000,
+      "currency": "USD",
+      "unit": "YEAR"
+    },
+    "description": "Elevenlabs is actively investing in early-career talent with this IT Engineer opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Elevenlabs's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "skills": ["Git", "Software Engineering", "Problem Solving"],
+    "applyUrl": "https://jobs.ashbyhq.com/elevenlabs/9aca205e-b2bc-405b-85d6-3d2aadbe49b1",
+    "datePosted": "2026-09-27",
+    "validThrough": "2026-10-27",
+    "source": "MANUAL_ADMIN",
+    "atsProvider": "Ashby",
+    "atsVerified": true,
+    "status": "ACTIVE",
+    "fingerprint": "elevenlabs-it-engineer-remote",
+    "viewsCount": 0
+  },
+  {
     "id": "manual-1790520400484",
     "title": "Business Analyst",
     "company": "Paramount",
