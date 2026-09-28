@@ -773,7 +773,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           <div className="flex items-center gap-2 mb-1 flex-wrap">
             <span className="text-xs font-mono font-semibold bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-400/30 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Owner Mode: kartikamuthukrishnan@gmail.com
+              Owner Mode: freshcommitsjobs@gmail.com
             </span>
             <span className="text-xs text-slate-400">Google Schema &amp; AdSense Management</span>
           </div>
@@ -3100,7 +3100,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
                 <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-600">
                   <span>Authorized Owner: </span>
-                  <strong className="text-slate-900 font-mono">kartikamuthukrishnan@gmail.com</strong>
+                  <strong className="text-slate-900 font-mono">freshcommitsjobs@gmail.com</strong>
                 </div>
               </div>
             </div>

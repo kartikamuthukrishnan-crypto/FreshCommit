@@ -1552,7 +1552,7 @@ export default function App() {
               <div>
                 <h2 className="text-xl font-extrabold text-slate-900">Restricted Owner Portal</h2>
                 <p className="text-xs text-slate-500 mt-1">
-                  This console is restricted to the site owner (<code className="font-mono text-emerald-700">kartikamuthukrishnan@gmail.com</code>).
+                  This console is restricted to the site owner (<code className="font-mono text-emerald-700">freshcommitsjobs@gmail.com</code>).
                 </p>
               </div>
               <div className="pt-2 flex items-center justify-center gap-3">
@@ -1778,7 +1778,7 @@ export default function App() {
                 }
               }}
               className="text-[#80868b] hover:text-[#202124] transition-colors flex items-center gap-1 cursor-pointer"
-              title="Site Owner Login (kartikamuthukrishnan@gmail.com)"
+              title="Site Owner Login (freshcommitsjobs@gmail.com)"
             >
               <Lock className="w-2.5 h-2.5 opacity-50" />
               <span>Owner Access</span>
