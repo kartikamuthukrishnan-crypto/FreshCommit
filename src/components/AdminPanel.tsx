@@ -966,7 +966,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </div>
                   <div className="flex items-center gap-2 flex-wrap text-xs">
                     <a
-                      href={`https://search.google.com/test/rich-results?url=${encodeURIComponent(`https://www.freshcommits.com/?job=${lastPublishedJob.id}`)}`}
+                      href={`https://search.google.com/test/rich-results?url=${encodeURIComponent(`https://www.freshcommits.com/job/${lastPublishedJob.id}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-bold text-[11px] flex items-center gap-1 transition-colors"
@@ -2706,7 +2706,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 {filtered.map((job) => {
                   const schema = generateJobPostingSchema(job);
                   const isManual = job.id.startsWith('manual-') || job.source === 'MANUAL_ADMIN';
-                  const liveUrl = `https://www.freshcommits.com/?job=${encodeURIComponent(job.id)}`;
+                  const liveUrl = `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`;
                   const richResultsTestUrl = `https://search.google.com/test/rich-results?url=${encodeURIComponent(liveUrl)}`;
 
                   return (

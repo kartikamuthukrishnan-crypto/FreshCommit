@@ -646,9 +646,10 @@ export default function App() {
         if (found) {
           setSelectedJob(found);
           document.title = `${found.title} at ${found.company} (${found.experienceLevel}) – FreshCommits`;
-        } else {
+        } else if (targetJobId) {
+          const activeJobId = targetJobId;
           // Actively fetch this specific job from Firestore cloud for instant discovery
-          fetchSingleJobFromCloud(targetJobId).then((cloudJob) => {
+          fetchSingleJobFromCloud(activeJobId).then((cloudJob) => {
             if (cloudJob) {
               setSelectedJob(cloudJob);
               setJobs((prev) => (prev.some((j) => j.id === cloudJob.id) ? prev : [cloudJob, ...prev]));
@@ -657,7 +658,7 @@ export default function App() {
               // Graceful Expired/Archived Job Shell for AdSense & Google Webmaster hygiene:
               // Rather than showing a dead 404 or empty screen, render an archived position state
               // with similar active alternatives and career context.
-              const prettyTitle = targetJobId
+              const prettyTitle = activeJobId
                 .replace(/^ext-[a-z]+-\d+-?/i, '')
                 .replace(/^job-\d+-?/i, '')
                 .split('-')
@@ -666,7 +667,7 @@ export default function App() {
                 .join(' ') || 'Software Engineer (Early Career)';
 
               const archivedFallbackJob: JobPosting = {
-                id: targetJobId,
+                id: activeJobId,
                 title: prettyTitle,
                 company: 'Tech Employer',
                 location: 'Remote / US & Global',
