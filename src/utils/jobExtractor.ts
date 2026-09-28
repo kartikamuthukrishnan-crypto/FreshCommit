@@ -371,13 +371,74 @@ export function detectAtsProviderFromUrl(rawUrl: string): string {
 }
 
 /**
+ * Parses job slug to separate clean job title from trailing -at-[company] and -in-[location]
+ * e.g. "hybrid-solution-specialist-in-los-angeles-at-vista-group"
+ *   -> cleanTitleSlug: "hybrid-solution-specialist"
+ *   -> inferredCompany: "Vista Group"
+ *   -> inferredLocation: "Los Angeles"
+ */
+export function parseSlugMetadata(slug: string): {
+  cleanTitleSlug: string;
+  inferredCompany?: string;
+  inferredLocation?: string;
+} {
+  let s = (slug || '').trim();
+  let inferredCompany: string | undefined;
+  let inferredLocation: string | undefined;
+
+  // 1. Remove trailing requisition IDs if any (e.g. -1289381 or -JR91283)
+  s = s.replace(/[-_]+(?:JR|req|R)?-?[0-9]{4,}.*$/i, '');
+
+  // 2. Extract trailing -at-[company] or -by-[company] or -for-[company]
+  const atMatch = s.match(/(.+?)[-_]+(?:at|by|for)[-_]+([a-zA-Z0-9-_]+)$/i);
+  if (atMatch) {
+    s = atMatch[1];
+    const rawComp = atMatch[2].replace(/[-_]+/g, ' ').trim();
+    if (rawComp && rawComp.length > 1 && !/^[0-9]+$/.test(rawComp)) {
+      inferredCompany = rawComp
+        .split(' ')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+        .join(' ');
+    }
+  }
+
+  // 3. Extract trailing -in-[location]
+  const inMatch = s.match(/(.+?)[-_]+(?:in)[-_]+([a-zA-Z0-9-_]+)$/i);
+  if (inMatch) {
+    s = inMatch[1];
+    const rawLoc = inMatch[2].replace(/[-_]+/g, ' ').trim();
+    if (rawLoc && rawLoc.length > 2 && !/^[0-9]+$/.test(rawLoc)) {
+      inferredLocation = rawLoc
+        .split(' ')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+        .join(' ');
+    }
+  }
+
+  return { cleanTitleSlug: s, inferredCompany, inferredLocation };
+}
+
+/**
  * Detects company identity and verified metadata from URL
  */
 export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWebsite: string; companyLogo?: string; defaultLocation?: string } {
   const host = urlObj.hostname.toLowerCase();
   const path = urlObj.pathname;
 
-  // 1. Direct match in curated dictionary
+  // 1. Check if the URL slug contains an explicit "-at-[company]" (highest priority)
+  const rawSlug = extractJobSlugFromPath(path);
+  const slugMeta = parseSlugMetadata(rawSlug);
+  if (slugMeta.inferredCompany && slugMeta.inferredCompany.length > 2) {
+    const compClean = slugMeta.inferredCompany.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const known = KNOWN_COMPANIES[`${compClean}.com`];
+    return {
+      company: slugMeta.inferredCompany,
+      companyWebsite: known?.website || `https://www.${compClean}.com`,
+      companyLogo: known?.logo || `https://logo.clearbit.com/${compClean}.com`
+    };
+  }
+
+  // 2. Direct match in curated dictionary
   for (const [domain, meta] of Object.entries(KNOWN_COMPANIES)) {
     if (host === domain || host.endsWith(`.${domain}`)) {
       return {
@@ -389,7 +450,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     }
   }
 
-  // 2. ATS Subdomains or path segments
+  // 3. ATS Subdomains or path segments
   if (host.includes('myworkdayjobs.com')) {
     const sub = host.split('.')[0];
     const known = KNOWN_COMPANIES[`${sub}.com`];
@@ -402,20 +463,48 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     };
   }
 
-  if (host.includes('ashbyhq.com') || host.includes('workable.com') || host.includes('lever.co') || host.includes('smartrecruiters.com') || host.includes('greenhouse.io') || host.includes('rippling.com') || host.includes('jobvite.com')) {
-    const pathParts = path.split('/').filter(Boolean);
-    const compSlug = pathParts[0] || 'Company';
-    const known = KNOWN_COMPANIES[`${compSlug}.com`];
-    const name = known ? known.name : compSlug.charAt(0).toUpperCase() + compSlug.slice(1);
+  // 4. Subdomains for Workable / Greenhouse / Lever / Ashby / BambooHR
+  const sub = host.split('.')[0];
+  const genericSubdomains = new Set(['jobs', 'careers', 'boards', 'job-boards', 'apply', 'www', 'api', 'app', 'view', 'postings']);
+  if (!genericSubdomains.has(sub) && (host.includes('workable.com') || host.includes('greenhouse.io') || host.includes('lever.co') || host.includes('ashbyhq.com') || host.includes('bamboohr.com') || host.includes('breezy.hr'))) {
+    const known = KNOWN_COMPANIES[`${sub}.com`];
+    const name = known ? known.name : sub.charAt(0).toUpperCase() + sub.slice(1);
     return {
       company: name,
-      companyWebsite: `https://${compSlug}.com`,
-      companyLogo: known?.logo || `https://logo.clearbit.com/${compSlug}.com`
+      companyWebsite: `https://${sub}.com`,
+      companyLogo: known?.logo || `https://logo.clearbit.com/${sub}.com`
     };
   }
 
+  // 5. Path segments for ATS platforms (skipping noise and routing hashes!)
+  const IGNORED_PATH_SEGMENTS = new Set([
+    'en', 'en-us', 'en-gb', 'fr', 'de', 'es', 'it', 'ja', 'zh', 'pt',
+    'view', 'views', 'job', 'jobs', 'posting', 'postings', 'careers', 'career',
+    'apply', 'o', 'j', 'v', 'p', 'embed', 'search', 'detail', 'details'
+  ]);
+
+  if (host.includes('ashbyhq.com') || host.includes('workable.com') || host.includes('lever.co') || host.includes('smartrecruiters.com') || host.includes('greenhouse.io') || host.includes('rippling.com') || host.includes('jobvite.com')) {
+    const pathParts = path.split('/').filter(Boolean);
+    const validPart = pathParts.find((part) => {
+      const pLow = part.toLowerCase();
+      if (IGNORED_PATH_SEGMENTS.has(pLow)) return false;
+      if (/^[0-9]+$/.test(part)) return false;
+      if (/^[a-zA-Z0-9]{15,}$/.test(part)) return false; // skip random hash tokens like uEYnSjr4x5DxJFzutdxErH
+      return true;
+    });
+
+    if (validPart) {
+      const known = KNOWN_COMPANIES[`${validPart.toLowerCase()}.com`];
+      const name = known ? known.name : validPart.charAt(0).toUpperCase() + validPart.slice(1);
+      return {
+        company: name,
+        companyWebsite: `https://${validPart.toLowerCase()}.com`,
+        companyLogo: known?.logo || `https://logo.clearbit.com/${validPart.toLowerCase()}.com`
+      };
+    }
+  }
+
   if (host.includes('bamboohr.com') || host.includes('breezy.hr')) {
-    const sub = host.split('.')[0];
     const name = sub.charAt(0).toUpperCase() + sub.slice(1);
     return {
       company: name,
@@ -424,7 +513,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     };
   }
 
-  // 3. Generic company domain
+  // 6. Generic company domain
   const cleanHost = host.replace(/^(?:www|careers|jobs|apply|corp|recruiting|boards)\./, '');
   const baseDomain = cleanHost.split('.')[0];
   const formattedName = baseDomain.charAt(0).toUpperCase() + baseDomain.slice(1);
@@ -438,14 +527,18 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
 
 /**
  * Smartly converts a URL slug into a crisp, professional Job Title
- * e.g. "128322892419998406-trust-and-safety-analyst-developer-experience-and-ecosystem-programs"
- *   -> "Trust and Safety Analyst, Developer Experience and Ecosystem Programs"
+ * e.g. "hybrid-solution-specialist-in-los-angeles-at-vista-group"
+ *   -> "Hybrid Solution Specialist"
  */
 export function formatSlugToJobTitle(slug: string): string {
   if (!slug) return 'Software Engineer';
 
-  // 1. Remove ID prefixes and requisition tags
-  let s = slug
+  // 1. Extract clean title slug without -at-[company] and -in-[location]
+  const { cleanTitleSlug } = parseSlugMetadata(slug);
+  let s = cleanTitleSlug;
+
+  // 2. Remove ID prefixes and requisition tags
+  s = s
     .replace(/^[0-9]{6,}-?/, '')
     .replace(/^req-?[0-9]+-?/i, '')
     .replace(/^job-?[0-9]+-?/i, '')
@@ -554,20 +647,47 @@ function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: s
   if (fullStr.includes('santa-clara') || fullStr.includes('santa_clara')) {
     return { location: 'Santa Clara, CA / Hybrid', isRemote, city: 'Santa Clara', state: 'CA', country: 'US' };
   }
-  if (fullStr.includes('san-francisco') || fullStr.includes('san_francisco') || fullStr.includes('sf-')) {
+  if (fullStr.includes('los-angeles') || fullStr.includes('los_angeles') || fullStr.includes('losangeles') || fullStr.includes('la-') || fullStr.includes('-la')) {
+    return { location: 'Los Angeles, CA / Hybrid', isRemote, city: 'Los Angeles', state: 'CA', country: 'US' };
+  }
+  if (fullStr.includes('san-francisco') || fullStr.includes('san_francisco') || fullStr.includes('sf-') || fullStr.includes('-sf')) {
     return { location: 'San Francisco, CA / Hybrid', isRemote, city: 'San Francisco', state: 'CA', country: 'US' };
   }
-  if (fullStr.includes('seattle') || fullStr.includes('redmond')) {
+  if (fullStr.includes('seattle') || fullStr.includes('redmond') || fullStr.includes('bellevue')) {
     return { location: 'Seattle, WA / Hybrid', isRemote, city: 'Seattle', state: 'WA', country: 'US' };
   }
-  if (fullStr.includes('new-york') || fullStr.includes('new_york') || fullStr.includes('nyc')) {
+  if (fullStr.includes('new-york') || fullStr.includes('new_york') || fullStr.includes('nyc') || fullStr.includes('manhattan')) {
     return { location: 'New York, NY / Hybrid', isRemote, city: 'New York', state: 'NY', country: 'US' };
   }
   if (fullStr.includes('austin')) {
     return { location: 'Austin, TX / Hybrid', isRemote, city: 'Austin', state: 'TX', country: 'US' };
   }
+  if (fullStr.includes('boston') || fullStr.includes('cambridge')) {
+    return { location: 'Boston, MA / Hybrid', isRemote, city: 'Boston', state: 'MA', country: 'US' };
+  }
+  if (fullStr.includes('chicago')) {
+    return { location: 'Chicago, IL / Hybrid', isRemote, city: 'Chicago', state: 'IL', country: 'US' };
+  }
+  if (fullStr.includes('san-diego') || fullStr.includes('sandiego')) {
+    return { location: 'San Diego, CA / Hybrid', isRemote, city: 'San Diego', state: 'CA', country: 'US' };
+  }
+  if (fullStr.includes('denver') || fullStr.includes('boulder')) {
+    return { location: 'Denver, CO / Hybrid', isRemote, city: 'Denver', state: 'CO', country: 'US' };
+  }
+  if (fullStr.includes('atlanta')) {
+    return { location: 'Atlanta, GA / Hybrid', isRemote, city: 'Atlanta', state: 'GA', country: 'US' };
+  }
   if (fullStr.includes('london')) {
     return { location: 'London, UK / Hybrid', isRemote, city: 'London', country: 'UK' };
+  }
+  if (fullStr.includes('toronto')) {
+    return { location: 'Toronto, Canada / Hybrid', isRemote, city: 'Toronto', country: 'CA' };
+  }
+  if (fullStr.includes('vancouver')) {
+    return { location: 'Vancouver, Canada / Hybrid', isRemote, city: 'Vancouver', country: 'CA' };
+  }
+  if (fullStr.includes('bengaluru') || fullStr.includes('bangalore')) {
+    return { location: 'Bangalore, India / Hybrid', isRemote, city: 'Bangalore', country: 'IN' };
   }
 
   // Workday US-CA-Santa-Clara pattern
@@ -584,12 +704,21 @@ function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: s
     };
   }
 
+  if (defaultLoc) {
+    return {
+      location: `${defaultLoc} / Hybrid`,
+      isRemote,
+      city: defaultLoc,
+      country: 'US'
+    };
+  }
+
   if (isRemote) {
     return { location: 'Remote - US', isRemote: true, country: 'US' };
   }
 
   return {
-    location: defaultLoc || 'United States / Hybrid',
+    location: 'United States / Hybrid',
     isRemote: false,
     country: 'US'
   };
@@ -784,13 +913,18 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
   const cleanUrl = rawUrl.trim().startsWith('http') ? rawUrl.trim() : `https://${rawUrl.trim()}`;
   const urlObj = new URL(cleanUrl);
 
-  const { company, companyWebsite, companyLogo, defaultLocation } = detectCompanyFromUrl(urlObj);
-  const detectedAtsProvider = detectAtsProviderFromUrl(cleanUrl);
-
   const rawSlug = extractJobSlugFromPath(urlObj.pathname);
+  const slugMeta = parseSlugMetadata(rawSlug);
+
+  const compData = detectCompanyFromUrl(urlObj);
+  const company = slugMeta.inferredCompany || compData.company;
+  const companyWebsite = compData.companyWebsite;
+  const companyLogo = compData.companyLogo;
+
+  const detectedAtsProvider = detectAtsProviderFromUrl(cleanUrl);
   const title = formatSlugToJobTitle(rawSlug);
 
-  const loc = extractLocationFromUrl(urlObj, defaultLocation);
+  const loc = extractLocationFromUrl(urlObj, slugMeta.inferredLocation || compData.defaultLocation);
 
   const isIntern = title.toLowerCase().includes('intern');
   const maxYears = isIntern ? 0 : 1;
@@ -1076,6 +1210,82 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     }
   }
 
+  // 4. WORKABLE DIRECT MATCHER & API ENRICHMENT
+  const workableMatch = fullUrl.match(/jobs\.workable\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:view|jobs)\/([a-zA-Z0-9]+)(?:\/([^/?#]+))?/i);
+  if (workableMatch) {
+    const shortCode = workableMatch[1];
+    const slug = workableMatch[2] || '';
+    const slugMeta = parseSlugMetadata(slug);
+
+    try {
+      const apiUrl = `https://jobs.workable.com/api/v1/jobs/${shortCode}`;
+      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(3500) });
+      if (resp.ok) {
+        const data = await resp.json();
+        const title = data.title || formatSlugToJobTitle(slug);
+        const company = data.company?.title || slugMeta.inferredCompany || 'Company';
+        const cleanCompSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const companyLogo = data.company?.image || `https://logo.clearbit.com/${cleanCompSlug}.com`;
+        const companyWebsite = data.company?.website || `https://${cleanCompSlug}.com`;
+        const city = data.location?.city || slugMeta.inferredLocation || '';
+        const region = data.location?.subregion || '';
+        const country = (data.location?.countryCode || 'US').toUpperCase();
+        const isRemote = data.workplace === 'remote' || data.workplace === 'hybrid';
+        const location = city ? `${city}${region ? `, ${region}` : ''}${data.workplace === 'hybrid' ? ' / Hybrid' : ''}` : isRemote ? 'Remote - US' : 'United States';
+
+        const descText = cleanHtml(data.description || '');
+        const reqText = cleanHtml(data.requirementsSection || '');
+        const fullCorpus = `${descText}\n${reqText}`;
+        const responsibilities = extractBulletPoints(data.description || '').slice(0, 6);
+        const qualifications = extractBulletPoints(data.requirementsSection || '').slice(0, 6);
+        const skills = detectSkills(`${title} ${fullCorpus}`);
+        const category = inferCategory(title, skills);
+        const expLevel = inferExperienceLevel(title, fullCorpus);
+        const isIntern = title.toLowerCase().includes('intern');
+        const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
+        const salary = estimateEarlyCareerSalary(country, category, title, company);
+
+        const cleanOverview = descText.split('\n\n')[0] || descText.slice(0, 300);
+        const curatedDescription = composeFreshCommitsCuratedDescription({
+          title,
+          company,
+          cleanOverview,
+          skills,
+          salary,
+          responsibilities,
+          qualifications,
+          location
+        });
+
+        return {
+          title,
+          company,
+          companyLogo,
+          companyWebsite,
+          location,
+          isRemote,
+          applicantLocationRequirements: isRemote ? country : undefined,
+          city,
+          state: region,
+          country,
+          experienceLevel: expLevel,
+          maxYearsExperience: isIntern ? 0 : 1,
+          category,
+          employmentType: empType,
+          salary,
+          description: curatedDescription,
+          responsibilities: responsibilities.length > 0 ? responsibilities : getRoleArchetypeContent(title, company).responsibilities,
+          qualifications: qualifications.length > 0 ? qualifications : getRoleArchetypeContent(title, company).qualifications,
+          skills,
+          applyUrl: fullUrl,
+          detectedAtsProvider: 'Workable'
+        };
+      }
+    } catch {
+      // If direct API fails due to CORS, seamlessly proceed to synthesizer or proxy
+    }
+  }
+
   // Fast path for enterprise portals with strict bot defenses that block proxies
   const isDirectEnterprisePortal =
     fullUrl.includes('google.com') ||
@@ -1089,7 +1299,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     return synthesizeJobFromUrl(fullUrl);
   }
 
-  // 4. ATTEMPT LIGHTWEIGHT CORS PROXY FETCH (3-second timeout)
+  // 5. ATTEMPT LIGHTWEIGHT CORS PROXY FETCH (3-second timeout)
   // If the target page allows proxy fetching (like Ashby or certain company career sites), parse HTML & JSON-LD
   try {
     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(fullUrl)}`;
@@ -1163,12 +1373,34 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
                              html.match(/<title[^>]*>([^<]+)<\/title>/i);
 
         if (ogTitleMatch && ogTitleMatch[1]) {
-          const rawTitle = ogTitleMatch[1].replace(/[-|•].*$/, '').trim();
-          if (rawTitle && rawTitle.length > 3 && rawTitle.length < 80) {
+          const rawOg = ogTitleMatch[1].trim();
+          let parsedTitle = rawOg;
+          let parsedCompany: string | undefined;
+
+          // Check "Title | Company | Board"
+          if (rawOg.includes('|')) {
+            const parts = rawOg.split('|').map((p) => p.trim()).filter(Boolean);
+            if (parts.length >= 2) {
+              parsedTitle = parts[0];
+              const p1Low = parts[1].toLowerCase();
+              if (!p1Low.includes('workable') && !p1Low.includes('greenhouse') && !p1Low.includes('lever') && !p1Low.includes('jobs')) {
+                parsedCompany = parts[1];
+              }
+            }
+          } else if (rawOg.includes(' at ')) {
+            const parts = rawOg.split(' at ').map((p) => p.trim()).filter(Boolean);
+            parsedTitle = parts[0];
+            parsedCompany = parts[1];
+          } else {
+            parsedTitle = rawOg.replace(/[-|•].*$/, '').trim();
+          }
+
+          if (parsedTitle && parsedTitle.length > 3 && parsedTitle.length < 90) {
             const synth = synthesizeJobFromUrl(fullUrl);
             return {
               ...synth,
-              title: rawTitle,
+              title: parsedTitle,
+              company: parsedCompany || synth.company,
               applyUrl: fullUrl
             };
           }
