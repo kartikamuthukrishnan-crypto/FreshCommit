@@ -1010,6 +1010,173 @@ function getRoleArchetypeContent(title: string, company: string): { responsibili
   };
 }
 
+export interface ParsedJobSections {
+  overview: string;
+  responsibilities: string[];
+  qualifications: string[];
+}
+
+/**
+ * Intelligent section parser for raw JD text or ATS HTML.
+ * Completely isolates Overview, Responsibilities, and Qualifications.
+ * Guarantees zero paragraph duplication between sections.
+ */
+export function parseJobSections(
+  rawContent: string,
+  title: string = 'Software Engineer',
+  company: string = 'The Employer'
+): ParsedJobSections {
+  if (!rawContent) {
+    const archetype = getRoleArchetypeContent(title, company);
+    return {
+      overview: `${company} is actively seeking an enthusiastic ${title} to join their team.`,
+      responsibilities: archetype.responsibilities,
+      qualifications: archetype.qualifications
+    };
+  }
+
+  let text = rawContent;
+
+  // 1. Decode entities & preserve headings
+  if (text.includes('&lt;') || text.includes('&gt;')) {
+    text = text
+      .replace(/&lt;br\s*[\/]?&gt;/gi, '\n')
+      .replace(/&lt;\/(?:p|div|h[1-6]|li|ul|ol)&gt;/gi, '\n\n')
+      .replace(/&lt;li[^&]*&gt;/gi, '\n• ')
+      .replace(/&lt;[^&gt;]+&gt;/g, ' ')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+  }
+
+  text = text
+    .replace(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/gi, '\n\n===HEADER: $1===\n\n')
+    .replace(
+      /<strong>\s*(What you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|Responsibilities|Key Responsibilities|Qualifications|Requirements|Basic Qualifications|About Us[:\s]*)\s*<\/strong>/gi,
+      '\n\n===HEADER: $1===\n\n'
+    )
+    .replace(/<br\s*[\/]?>/gi, '\n')
+    .replace(/<\/(?:p|div|section|article)>/gi, '\n\n')
+    .replace(/<\/li>/gi, '\n')
+    .replace(/<li[^>]*>/gi, '\n• ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#xa0;/gi, ' ')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&bull;/g, '•');
+
+  const lines = text
+    .split('\n')
+    .map((l) => l.replace(/[ \t]+/g, ' ').trim())
+    .filter(Boolean);
+
+  let currentSection: 'overview' | 'responsibilities' | 'qualifications' | 'other' = 'overview';
+  const overviewParas: string[] = [];
+  const respLines: string[] = [];
+  const qualLines: string[] = [];
+
+  for (const line of lines) {
+    const headerMatch = line.match(/^===HEADER:\s*(.+?)===$/i);
+    const candidate = headerMatch ? headerMatch[1].trim() : line;
+    const low = candidate.toLowerCase();
+
+    // Section transitions
+    if (
+      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*do|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|role responsibilities)[:\s]*$/i.test(low)
+    ) {
+      currentSection = 'responsibilities';
+      continue;
+    }
+    if (
+      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we(?:’|'| )*(?:are looking for|look for)|who you are|skills & experience|about you|eligibility)[:\s]*$/i.test(low)
+    ) {
+      currentSection = 'qualifications';
+      continue;
+    }
+    if (
+      /^(?:what we offer|benefits|perks|compensation|about the team|equal opportunity|diversity)[:\s]*$/i.test(low)
+    ) {
+      currentSection = 'other';
+      continue;
+    }
+
+    if (headerMatch) continue;
+
+    // Filter out common header leftovers
+    if (
+      /^(?:what you will do|what you bring|qualifications|requirements|about us|who we are)[:\s]*$/i.test(low)
+    ) {
+      continue;
+    }
+
+    // Company intro lines belong in overview, NEVER in responsibilities
+    if (
+      /^about us[:\s]/i.test(line) ||
+      /^we are looking for\b/i.test(line) ||
+      /^this is an ideal role\b/i.test(line) ||
+      /^our team is\b/i.test(line)
+    ) {
+      if (currentSection === 'overview' && !overviewParas.includes(line)) {
+        overviewParas.push(line);
+      }
+      continue;
+    }
+
+    const cleanBullet = candidate.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim();
+    if (!cleanBullet || cleanBullet.length < 8) continue;
+
+    if (currentSection === 'overview') {
+      if (!overviewParas.includes(cleanBullet)) {
+        overviewParas.push(cleanBullet);
+      }
+    } else if (currentSection === 'responsibilities') {
+      if (!respLines.includes(cleanBullet)) {
+        respLines.push(cleanBullet);
+      }
+    } else if (currentSection === 'qualifications') {
+      if (!qualLines.includes(cleanBullet)) {
+        qualLines.push(cleanBullet);
+      }
+    }
+  }
+
+  // Deduplicate against overview
+  const overviewText = overviewParas.slice(0, 3).join('\n\n');
+  const overviewLower = overviewText.toLowerCase();
+
+  const finalResp = respLines
+    .filter((r) => {
+      const low = r.toLowerCase();
+      if (overviewLower && (overviewLower.includes(low.slice(0, 45)) || (low.length > 50 && overviewLower.includes(low.slice(0, 60))))) {
+        return false;
+      }
+      return true;
+    })
+    .slice(0, 6);
+
+  const finalQual = qualLines
+    .filter((q) => {
+      const low = q.toLowerCase();
+      if (finalResp.some((r) => r.toLowerCase() === low)) return false;
+      return true;
+    })
+    .slice(0, 6);
+
+  // If parsed sections were sparse, augment with archetype defaults
+  const archetype = getRoleArchetypeContent(title, company);
+  const responsibilities = finalResp.length >= 2 ? finalResp : archetype.responsibilities;
+  const qualifications = finalQual.length >= 2 ? finalQual : archetype.qualifications;
+
+  return {
+    overview: overviewText || `${company} is actively seeking an early-career ${title} to join their team.`,
+    responsibilities,
+    qualifications
+  };
+}
+
 /**
  * Universal synthesis engine: Given ANY career URL, extracts rich metadata directly from URL structure
  */
@@ -1209,8 +1376,9 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const location = data.location?.name || 'Remote - US';
         const isRemote = Boolean(location.toLowerCase().includes('remote'));
         const contentText = cleanHtml(data.content || '');
-        const responsibilities = extractBulletPoints(data.content || '').slice(0, 6);
-        const qualifications = responsibilities.slice(3, 7);
+        const parsed = parseJobSections(data.content || '', title, company);
+        const responsibilities = parsed.responsibilities;
+        const qualifications = parsed.qualifications;
         const skills = detectSkills(contentText);
         const category = inferCategory(title, skills);
         const experienceLevel = inferExperienceLevel(title, contentText);
@@ -1221,7 +1389,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const salary = fromText || { min: 0, max: 0, currency: 'USD', unit: empType === 'INTERN' ? 'HOUR' : 'YEAR' };
         const salaryDisclosed = Boolean(fromText);
 
-        const cleanOverview = contentText.split('\n\n')[0] || contentText.slice(0, 300);
+        const cleanOverview = parsed.overview || `${company} is actively seeking an early-career ${title} to join their team.`;
         const curatedDescription = composeFreshCommitsCuratedDescription({
           title,
           company,
@@ -1250,8 +1418,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salaryDisclosed,
           suggestedBenchmark: benchmark,
           description: curatedDescription,
-          responsibilities: responsibilities.length > 0 ? responsibilities : getRoleArchetypeContent(title, company).responsibilities,
-          qualifications: qualifications.length > 0 ? qualifications : getRoleArchetypeContent(title, company).qualifications,
+          responsibilities,
+          qualifications,
           skills,
           applyUrl: fullUrl,
           detectedAtsProvider: 'Greenhouse'
@@ -1778,39 +1946,10 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   const skills = detectedSkills.slice(0, 8);
   const category = inferCategory(title, skills);
 
-  // 7. EXTRACT RESPONSIBILITIES
-  function extractSectionLines(corpus: string, startHeaderRegex: RegExp, endHeaderRegex: RegExp): string[] {
-    const startMatch = corpus.match(startHeaderRegex);
-    if (!startMatch || startMatch.index === undefined) return [];
-    const startIndex = startMatch.index + startMatch[0].length;
-    const sub = corpus.slice(startIndex);
-    const endMatch = sub.match(endHeaderRegex);
-    const sectionText = endMatch && endMatch.index !== undefined ? sub.slice(0, endMatch.index) : sub;
-    return sectionText
-      .split('\n')
-      .map((l) => l.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
-      .filter((l) => l.length > 10 && !l.match(/^(Eligibility|What you|About Us|Similar Jobs|What we|About the)/i))
-      .slice(0, 6);
-  }
-
-  let responsibilities = extractSectionLines(
-    text,
-    /(?:What you(?:’|'| )*ll do|What you will do|Responsibilities|Key Responsibilities|Role Responsibilities|You will)[:\n]/i,
-    /(?:What you(?:’|'| )*ll bring|What you will bring|Eligibility|Qualifications|About Us|What we)/i
-  );
-
-  let qualifications = extractSectionLines(
-    text,
-    /(?:Eligibility|What you(?:’|'| )*ll bring|What you will bring|Qualifications|Basic Qualifications|Minimum Qualifications|Requirements)[:\n]/i,
-    /(?:What we(?:’|'| )*ll teach|About Us|Similar Jobs|Benefits|About the team)/i
-  );
-
-  // Fallbacks if not extracted
-  if (responsibilities.length === 0 || qualifications.length === 0) {
-    const archetype = getRoleArchetypeContent(title, company);
-    if (responsibilities.length === 0) responsibilities = archetype.responsibilities;
-    if (qualifications.length === 0) qualifications = archetype.qualifications;
-  }
+  // 7. EXTRACT STRUCTURED SECTIONS (OVERVIEW, RESPONSIBILITIES, QUALIFICATIONS)
+  const parsedSections = parseJobSections(text, title, company);
+  const responsibilities = parsedSections.responsibilities;
+  const qualifications = parsedSections.qualifications;
 
   // 8. DATE POSTED
   let datePosted = new Date().toISOString().split('T')[0];
@@ -1839,9 +1978,11 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   const baseTitle = stripSeniorityFromTitle(title);
   const titleHasSeniority = /(?:early[\s-]career|entry[\s-]level|junior|new\s*grad|intern|graduate|fresher)/i.test(title);
   const article = /^[aeiou]/i.test(baseTitle) ? 'an' : 'a';
-  const cleanOverview = titleHasSeniority
+  const defaultOverview = titleHasSeniority
     ? `${company} is actively seeking ${article} ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`
     : `${company} is actively seeking an early-career ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
+
+  const cleanOverview = parsedSections.overview || defaultOverview;
   const curatedDescription = composeFreshCommitsCuratedDescription({
     title,
     company,

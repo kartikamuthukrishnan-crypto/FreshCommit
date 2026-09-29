@@ -159,6 +159,34 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     };
   })();
 
+  const overviewFirst45 = (edgeData.roleOverview || '').slice(0, 45).toLowerCase().trim();
+
+  const cleanedResponsibilities = (job.responsibilities || [])
+    .map(cleanHtml)
+    .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+    .filter((line) => {
+      if (!line || line.length < 8) return false;
+      const low = line.toLowerCase();
+      if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
+      if (/^about us[:\s]/i.test(low)) return false;
+      if (/^we are looking for\b/i.test(low)) return false;
+      if (/^this is an ideal role\b/i.test(low)) return false;
+      if (/^our team is\b/i.test(low)) return false;
+      if (overviewFirst45 && low.includes(overviewFirst45)) return false;
+      return true;
+    });
+
+  const cleanedQualifications = (job.qualifications || [])
+    .map(cleanHtml)
+    .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+    .filter((line) => {
+      if (!line || line.length < 8) return false;
+      const low = line.toLowerCase();
+      if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
+      if (cleanedResponsibilities.some((r) => r.toLowerCase() === low)) return false;
+      return true;
+    });
+
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Salary Undisclosed';
     const sym = salary.currency === 'GBP' ? '£' : salary.currency === 'EUR' ? '€' : salary.currency === 'CAD' ? 'CA$' : salary.currency === 'INR' ? '₹' : '$';
@@ -425,26 +453,26 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
           </div>
 
           {/* Key Responsibilities */}
-          {job.responsibilities && job.responsibilities.length > 0 && (
+          {cleanedResponsibilities.length > 0 && (
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Key Responsibilities</h4>
               <ul className="space-y-1.5 list-disc list-inside text-slate-700">
-                {job.responsibilities.map((r, i) => (
-                  <li key={i}>{cleanHtml(r).replace(/^[-*•\s]+/, '')}</li>
+                {cleanedResponsibilities.map((r, i) => (
+                  <li key={i}>{r}</li>
                 ))}
               </ul>
             </div>
           )}
 
           {/* Qualifications */}
-          {job.qualifications && job.qualifications.length > 0 && (
+          {cleanedQualifications.length > 0 && (
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
                 Qualifications (Entry-Level / Fresher)
               </h4>
               <ul className="space-y-1.5 list-disc list-inside text-slate-700">
-                {job.qualifications.map((q, i) => (
-                  <li key={i}>{cleanHtml(q).replace(/^[-*•\s]+/, '')}</li>
+                {cleanedQualifications.map((q, i) => (
+                  <li key={i}>{q}</li>
                 ))}
               </ul>
             </div>

@@ -308,7 +308,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     skills: skillsText.split(',').map((s) => s.trim()).filter(Boolean),
     applyUrl: applyUrl || 'https://careers.example.com/apply',
     datePosted: datePosted || new Date().toISOString().split('T')[0],
-    validThrough: new Date(Date.now() + validDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    validThrough: new Date(Date.now() + Math.max(validDays || 30, 14) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     source: 'MANUAL_ADMIN',
     atsProvider: applyUrl ? detectAtsProviderFromUrl(applyUrl) : undefined,
     atsVerified: Boolean(applyUrl && applyUrl.startsWith('http')),
@@ -356,12 +356,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setApplyUrl(job.applyUrl || '');
     setDatePosted(job.datePosted || new Date().toISOString().split('T')[0]);
 
-    // Estimate validity days remaining if present
+    // Estimate validity days remaining if present (always maintain at least 30 days active window)
     if (job.validThrough) {
       const days = getDaysUntilExpiration(job.validThrough);
-      if (days && days > 0) {
-        setValidDays(days);
-      }
+      setValidDays(days && days >= 14 ? days : 30);
+    } else {
+      setValidDays(30);
     }
 
     setActiveTab('post');
@@ -507,10 +507,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     if (editingJobId) {
       // Update existing job
       const original = jobs.find((j) => j.id === editingJobId);
+      const safeValidDays = Math.max(validDays || 30, 14);
+      const safeValidThrough = new Date(Date.now() + safeValidDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const safeDatePosted = datePosted || original?.datePosted || new Date().toISOString().split('T')[0];
+
       const updatedJob: JobPosting = {
+        ...original,
         ...draftJob,
         id: editingJobId,
-        datePosted: datePosted || original?.datePosted || new Date().toISOString().split('T')[0],
+        datePosted: safeDatePosted,
+        validThrough: safeValidThrough,
         fingerprint: generateFingerprint(company, title, isRemote ? 'remote' : location),
         viewsCount: original?.viewsCount || 0,
         source: original?.source || 'MANUAL_ADMIN',

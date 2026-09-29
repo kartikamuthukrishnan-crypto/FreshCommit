@@ -69,24 +69,54 @@ function formatDescription(job: Record<string, any>): string {
     html = `<p>${rawDesc.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`;
   }
 
+  const descLower = rawDesc.toLowerCase();
+
+  // Deduplicate responsibilities against overview
   if (job.responsibilities && Array.isArray(job.responsibilities) && job.responsibilities.length) {
-    html += '<p><strong>Key Responsibilities:</strong></p><ul>';
-    for (const r of job.responsibilities) {
-      html += `<li>${cleanRawText(r).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
+    const validResp = job.responsibilities
+      .map((r: any) => cleanRawText(r).replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+      .filter((r: string) => {
+        if (!r || r.length < 8) return false;
+        const low = r.toLowerCase();
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
+        if (/^about us[:\s]/i.test(low)) return false;
+        if (/^we are looking for\b/i.test(low)) return false;
+        if (/^this is an ideal role\b/i.test(low)) return false;
+        if (/^our team is\b/i.test(low)) return false;
+        if (descLower.includes(low.slice(0, 45))) return false;
+        return true;
+      });
+
+    if (validResp.length > 0) {
+      html += '<p><strong>Key Responsibilities:</strong></p><ul>';
+      for (const r of validResp) {
+        html += `<li>${r.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
+      }
+      html += '</ul>';
     }
-    html += '</ul>';
   }
 
   if (job.qualifications && Array.isArray(job.qualifications) && job.qualifications.length) {
-    html += '<p><strong>Qualifications (0–2 YoE):</strong></p><ul>';
-    for (const q of job.qualifications) {
-      html += `<li>${cleanRawText(q).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
+    const validQual = job.qualifications
+      .map((q: any) => cleanRawText(q).replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+      .filter((q: string) => {
+        if (!q || q.length < 8) return false;
+        const low = q.toLowerCase();
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
+        return true;
+      });
+
+    if (validQual.length > 0) {
+      html += '<p><strong>Qualifications (0–2 YoE):</strong></p><ul>';
+      for (const q of validQual) {
+        html += `<li>${q.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
+      }
+      html += '</ul>';
     }
-    html += '</ul>';
   }
 
   if (job.skills && Array.isArray(job.skills) && job.skills.length) {
-    html += `<p><strong>Required Tech Stack:</strong> ${job.skills.map((s: any) => String(s)).join(', ')}</p>`;
+    html += `<p><strong>Required Tech Stack:</strong> ${job.skills.map((s: any) => cleanRawText(s)).join(', ')}</p>`;
   }
 
   return html;
@@ -127,6 +157,22 @@ export const onRequest: any = async (context: any) => {
         if (countryCode === 'UK') countryCode = 'GB';
         const countryName = COUNTRY_NAME_MAP[countryCode] || countryCode;
 
+        // Date validation: safe from expiration or future posts
+        let safeDatePosted = job.datePosted || new Date().toISOString().split('T')[0];
+        const postDate = new Date(safeDatePosted);
+        if (isNaN(postDate.getTime()) || postDate > new Date()) {
+          safeDatePosted = new Date().toISOString().split('T')[0];
+        }
+
+        let safeValidThrough = job.validThrough || '';
+        const validDate = new Date(safeValidThrough);
+        const today = new Date();
+        if (!safeValidThrough || isNaN(validDate.getTime()) || validDate <= today) {
+          const d = new Date();
+          d.setDate(d.getDate() + 30);
+          safeValidThrough = d.toISOString().split('T')[0];
+        }
+
         // Build Google JobPosting Schema
         const schema: Record<string, any> = {
           '@context': 'https://schema.org',
@@ -138,8 +184,8 @@ export const onRequest: any = async (context: any) => {
             name: job.company,
             value: job.id,
           },
-          datePosted: job.datePosted || new Date().toISOString().split('T')[0],
-          validThrough: job.validThrough || '2026-12-31',
+          datePosted: safeDatePosted,
+          validThrough: safeValidThrough,
           employmentType: job.employmentType || 'FULL_TIME',
           url: `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`,
           directApply: true,
@@ -159,7 +205,7 @@ export const onRequest: any = async (context: any) => {
           schema.sameAs = job.applyUrl;
         }
 
-        if (job.salary && job.salary.min > 0) {
+        if (job.salary && job.salary.min > 0 && job.salary.max >= job.salary.min) {
           const isYearly = job.salary.unit === 'YEAR' || job.salary.min >= 500 || (job.salary.max && job.salary.max >= 500);
           schema.baseSalary = {
             '@type': 'MonetaryAmount',
@@ -179,25 +225,17 @@ export const onRequest: any = async (context: any) => {
             '@type': 'Country',
             name: countryName,
           };
-          schema.jobLocation = {
-            '@type': 'Place',
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: job.city || 'San Francisco',
-              addressRegion: job.state || 'CA',
-              addressCountry: countryCode === 'GB' ? 'GB' : job.country || 'US',
-              postalCode: job.postalCode || '94105',
-            },
-          };
         } else {
+          const rawLocParts = (job.location || '').split(',');
+          const rawCity = job.city || rawLocParts[0]?.trim() || 'New York';
+          const rawState = (job.state || rawLocParts[1]?.trim() || 'NY').replace(/\s*\/.*$/, '').trim();
           schema.jobLocation = {
             '@type': 'Place',
             address: {
               '@type': 'PostalAddress',
-              addressLocality: job.city || (job.location ? job.location.split(',')[0].trim() : 'San Francisco'),
-              addressRegion: job.state || (job.location ? job.location.split(',')[1]?.trim() : 'CA'),
+              addressLocality: rawCity,
+              addressRegion: rawState,
               addressCountry: countryCode,
-              postalCode: job.postalCode || '94105',
             },
           };
         }

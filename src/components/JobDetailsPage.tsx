@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { JobPosting, AdSenseConfig } from '../types';
 import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { trackJobView, trackApplyClick } from '../utils/analytics';
@@ -171,6 +171,39 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       roleOverview: cleanRoleOverview
     };
   })();
+
+  const overviewFirst45 = (edgeData.roleOverview || '').slice(0, 45).toLowerCase().trim();
+
+  const cleanedResponsibilities = useMemo(() => {
+    const list = (job.responsibilities || [])
+      .map(cleanHtml)
+      .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+      .filter((line) => {
+        if (!line || line.length < 8) return false;
+        const low = line.toLowerCase();
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
+        if (/^about us[:\s]/i.test(low)) return false;
+        if (/^we are looking for\b/i.test(low)) return false;
+        if (/^this is an ideal role\b/i.test(low)) return false;
+        if (/^our team is\b/i.test(low)) return false;
+        if (overviewFirst45 && low.includes(overviewFirst45)) return false;
+        return true;
+      });
+    return list;
+  }, [job.responsibilities, overviewFirst45]);
+
+  const cleanedQualifications = useMemo(() => {
+    return (job.qualifications || [])
+      .map(cleanHtml)
+      .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+      .filter((line) => {
+        if (!line || line.length < 8) return false;
+        const low = line.toLowerCase();
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
+        if (cleanedResponsibilities.some((r: string) => r.toLowerCase() === low)) return false;
+        return true;
+      });
+  }, [job.qualifications, cleanedResponsibilities]);
 
   const daysLeft = getDaysUntilExpiration(job.validThrough);
 
@@ -418,16 +451,16 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
               </div>
 
               {/* Key Responsibilities */}
-              {job.responsibilities && job.responsibilities.length > 0 && (
+              {cleanedResponsibilities.length > 0 && (
                 <div className="pt-4 border-t border-[#f1f3f4]">
                   <h3 className="text-base sm:text-lg font-bold text-[#202124] mb-3">
                     Key Responsibilities
                   </h3>
                   <ul className="space-y-2 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    {job.responsibilities.map((resp, idx) => (
+                    {cleanedResponsibilities.map((resp: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-2.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#1a73e8] mt-2 flex-shrink-0" />
-                        <span>{cleanHtml(resp).replace(/^[-*•\s]+/, '')}</span>
+                        <span>{resp}</span>
                       </li>
                     ))}
                   </ul>
@@ -435,16 +468,16 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
               )}
 
               {/* Qualifications */}
-              {job.qualifications && job.qualifications.length > 0 && (
+              {cleanedQualifications.length > 0 && (
                 <div className="pt-4 border-t border-[#f1f3f4]">
                   <h3 className="text-base sm:text-lg font-bold text-[#202124] mb-3">
                     Qualifications &amp; Experience
                   </h3>
                   <ul className="space-y-2 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    {job.qualifications.map((qual, idx) => (
+                    {cleanedQualifications.map((qual: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-2.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#137333] mt-2 flex-shrink-0" />
-                        <span>{cleanHtml(qual).replace(/^[-*•\s]+/, '')}</span>
+                        <span>{qual}</span>
                       </li>
                     ))}
                   </ul>
