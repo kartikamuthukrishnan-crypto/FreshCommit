@@ -276,22 +276,48 @@ const KNOWN_COMPANIES: Record<string, { name: string; website: string; logo?: st
 };
 
 /**
- * Strips HTML tags and decodes common entities
+ * Robustly strips HTML tags, handles double-encoded or entitized HTML,
+ * preserves readable paragraph/bullet structure, and decodes HTML entities.
  */
 export function cleanHtml(html: string): string {
   if (!html) return '';
-  return html
+  let text = String(html);
+
+  // 1. Decode double-encoded or entitized HTML (e.g. from Greenhouse, Lever, or copy-pasted markup)
+  if (text.includes('&lt;') || text.includes('&gt;')) {
+    text = text
+      .replace(/&lt;br\s*[\/]?&gt;/gi, '\n')
+      .replace(/&lt;\/(?:p|div|h[1-6]|li|ul|ol|section|article)&gt;/gi, '\n\n')
+      .replace(/&lt;li[^&]*&gt;/gi, '\n• ')
+      .replace(/&lt;[^&gt;]+&gt;/g, ' ')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+  }
+
+  // 2. Strip standard HTML tags, preserving block and list formatting
+  text = text
     .replace(/<br\s*[\/]?>/gi, '\n')
-    .replace(/<\/p>/gi, '\n\n')
+    .replace(/<\/(?:p|div|h[1-6]|section|article)>/gi, '\n\n')
     .replace(/<\/li>/gi, '\n')
-    .replace(/<[^>]+>/g, '')
+    .replace(/<li[^>]*>/gi, '\n• ')
+    .replace(/<[^>]+>/g, ' ');
+
+  // 3. Decode remaining entities
+  text = text
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&#xa0;/gi, ' ')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&bull;/g, '•');
+
+  // 4. Normalize multiple spaces and blank lines
+  return text
+    .split('\n')
+    .map((line) => line.replace(/[ \t]+/g, ' ').trim())
+    .join('\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
@@ -1586,10 +1612,14 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
  * with 100% zero operational cost ($0.00).
  */
 export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: string = ''): ExtractedJobData {
-  const text = rawText.trim();
-  if (!text) {
+  const rawTrimmed = (rawText || '').trim();
+  if (!rawTrimmed) {
     throw new Error('Please paste job description text into the canvas.');
   }
+
+  // If input contains HTML tags or entitized HTML, sanitize into clean human-readable text
+  const isHtml = /<[^>]+>|&(?:lt|gt|amp|quot|#39|nbsp);/i.test(rawTrimmed);
+  const text = isHtml ? cleanHtml(rawTrimmed) : rawTrimmed;
 
   const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
 
@@ -1612,7 +1642,7 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     title = lines[0] || 'Software Engineer (Early Career)';
   }
   // Strip awkward trailing HR seniority tags (e.g. ", Early Career" or " - Early Career")
-  title = stripSeniorityFromTitle(title);
+  title = cleanHtml(stripSeniorityFromTitle(title));
 
   // 2. EXTRACT COMPANY
   let company = '';

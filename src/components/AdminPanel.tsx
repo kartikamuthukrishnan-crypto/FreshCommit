@@ -66,7 +66,7 @@ import {
   batchSaveJobsToCloud,
   saveAdConfigToCloud
 } from '../services/firebaseService';
-import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl, extractJobDataFromRawText } from '../utils/jobExtractor';
+import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl, extractJobDataFromRawText, cleanHtml } from '../utils/jobExtractor';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap } from 'lucide-react';
 
@@ -393,16 +393,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setExtractErrorMsg('');
     try {
       const data = await extractAndEnrichJobFromUrl(autoExtractUrl.trim());
-      setTitle(data.title);
-      setCompany(data.company);
+      setTitle(cleanHtml(data.title));
+      setCompany(cleanHtml(data.company));
       if (data.companyLogo) setCompanyLogo(data.companyLogo);
       if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
-      setLocation(data.location);
+      setLocation(cleanHtml(data.location));
       setIsRemote(data.isRemote);
-      if (data.city) setCity(data.city);
-      if (data.state) setState(data.state);
-      if (data.country) setCountry(data.country);
-      if (data.applicantLocationRequirements) setApplicantLocationRequirements(data.applicantLocationRequirements);
+      if (data.city) setCity(cleanHtml(data.city));
+      if (data.state) setState(cleanHtml(data.state));
+      if (data.country) setCountry(cleanHtml(data.country));
+      if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
       if (data.datePosted) setDatePosted(data.datePosted);
       setCategory(data.category);
       setExperienceLevel(data.experienceLevel);
@@ -411,10 +411,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setSalaryCurrency(data.salary.currency || 'USD');
       setSalaryMin(data.salary.min);
       setSalaryMax(data.salary.max);
-      setDescription(data.description);
-      setResponsibilitiesText(data.responsibilities.join('\n'));
-      setQualificationsText(data.qualifications.join('\n'));
-      setSkillsText(data.skills.join(', '));
+      setDescription(cleanHtml(data.description));
+      setResponsibilitiesText(data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '')).join('\n'));
+      setQualificationsText(data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '')).join('\n'));
+      setSkillsText(data.skills.map((s) => cleanHtml(s)).join(', '));
       setApplyUrl(data.applyUrl);
 
       if (data.salaryDisclosed && data.salary.min > 0) {
@@ -444,16 +444,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setExtractErrorMsg('');
     try {
       const data = extractJobDataFromRawText(rawJdCanvasText.trim(), canvasApplyUrl.trim());
-      setTitle(data.title);
-      setCompany(data.company);
+      setTitle(cleanHtml(data.title));
+      setCompany(cleanHtml(data.company));
       if (data.companyLogo) setCompanyLogo(data.companyLogo);
       if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
-      setLocation(data.location);
+      setLocation(cleanHtml(data.location));
       setIsRemote(data.isRemote);
-      if (data.city) setCity(data.city);
-      if (data.state) setState(data.state);
-      if (data.country) setCountry(data.country);
-      if (data.applicantLocationRequirements) setApplicantLocationRequirements(data.applicantLocationRequirements);
+      if (data.city) setCity(cleanHtml(data.city));
+      if (data.state) setState(cleanHtml(data.state));
+      if (data.country) setCountry(cleanHtml(data.country));
+      if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
       if (data.datePosted) setDatePosted(data.datePosted);
       setCategory(data.category);
       setExperienceLevel(data.experienceLevel);
@@ -462,10 +462,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setSalaryCurrency(data.salary.currency || 'USD');
       setSalaryMin(data.salary.min);
       setSalaryMax(data.salary.max);
-      setDescription(data.description);
-      setResponsibilitiesText(data.responsibilities.join('\n'));
-      setQualificationsText(data.qualifications.join('\n'));
-      setSkillsText(data.skills.join(', '));
+      setDescription(cleanHtml(data.description));
+      setResponsibilitiesText(data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '')).join('\n'));
+      setQualificationsText(data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '')).join('\n'));
+      setSkillsText(data.skills.map((s) => cleanHtml(s)).join(', '));
       if (canvasApplyUrl.trim()) {
         setApplyUrl(canvasApplyUrl.trim());
       } else if (data.applyUrl && data.applyUrl !== 'https://www.freshcommits.com/') {

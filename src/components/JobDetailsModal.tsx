@@ -4,6 +4,7 @@ import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenera
 import { trackJobView, trackApplyClick } from '../utils/analytics';
 import { isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
 import { humanizeCareerTake } from '../utils/textHumanizer';
+import { cleanHtml } from '../utils/jobExtractor';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -127,7 +128,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
 
   const edgeData = (() => {
     if (!job.description || !job.description.includes('🎯 The FreshCommits Career Take:')) {
-      return { hasEdge: false, careerTake: '', checklistItems: [], roleOverview: job.description };
+      return { hasEdge: false, careerTake: '', checklistItems: [], roleOverview: cleanHtml(job.description) };
     }
     const parts = job.description.split('🏢 Role Overview:');
     const edgeContent = parts[0] || '';
@@ -145,7 +146,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
       .filter(Boolean);
 
     const rawRoleOverview = parts[1]?.trim() || '';
-    const cleanRoleOverview = (rawRoleOverview || job.description)
+    const cleanRoleOverview = cleanHtml(rawRoleOverview || job.description)
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
       .replace(/early-career ([^.\n]+?), Early Career/gi, '$1');
@@ -419,7 +420,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               {edgeData.hasEdge ? 'Official Employer Role Overview' : 'About The Role'}
             </h4>
             <p className="whitespace-pre-line text-slate-700">
-              {edgeData.hasEdge ? edgeData.roleOverview : job.description}
+              {cleanHtml(edgeData.hasEdge ? edgeData.roleOverview : job.description)}
             </p>
           </div>
 
@@ -429,7 +430,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Key Responsibilities</h4>
               <ul className="space-y-1.5 list-disc list-inside text-slate-700">
                 {job.responsibilities.map((r, i) => (
-                  <li key={i}>{r}</li>
+                  <li key={i}>{cleanHtml(r).replace(/^[-*•\s]+/, '')}</li>
                 ))}
               </ul>
             </div>
@@ -443,7 +444,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               </h4>
               <ul className="space-y-1.5 list-disc list-inside text-slate-700">
                 {job.qualifications.map((q, i) => (
-                  <li key={i}>{q}</li>
+                  <li key={i}>{cleanHtml(q).replace(/^[-*•\s]+/, '')}</li>
                 ))}
               </ul>
             </div>

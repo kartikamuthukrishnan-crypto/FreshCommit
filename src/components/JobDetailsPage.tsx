@@ -4,6 +4,7 @@ import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenera
 import { trackJobView, trackApplyClick } from '../utils/analytics';
 import { isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
 import { humanizeCareerTake } from '../utils/textHumanizer';
+import { cleanHtml } from '../utils/jobExtractor';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -139,11 +140,11 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
   // Extract curated editorial insights if present
   const edgeData = (() => {
     if (!job.description || !job.description.includes('🎯 The FreshCommits Career Take:')) {
-      return { hasEdge: false, careerTake: '', checklistItems: [], roleOverview: job.description };
+      return { hasEdge: false, careerTake: '', checklistItems: [], roleOverview: cleanHtml(job.description) };
     }
     const parts = job.description.split('🏢 Role Overview:');
     const edgeContent = parts[0] || '';
-    const roleOverview = parts[1]?.trim() || '';
+    const rawRoleOverview = parts[1]?.trim() || '';
 
     const takeMatch = edgeContent.match(/🎯 The FreshCommits Career Take:\s*([\s\S]*?)(?=💡 Candidate Preparation Checklist:|$)/i);
     const checklistMatch = edgeContent.match(/💡 Candidate Preparation Checklist:\s*([\s\S]*?)$/i);
@@ -158,8 +159,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
           .filter(Boolean)
       : [];
 
-    const rawRoleOverview = parts[1]?.trim() || '';
-    const cleanRoleOverview = (rawRoleOverview || job.description)
+    const cleanRoleOverview = cleanHtml(rawRoleOverview || job.description)
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
       .replace(/early-career ([^.\n]+?), Early Career/gi, '$1');
@@ -427,7 +427,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                     {job.responsibilities.map((resp, idx) => (
                       <li key={idx} className="flex items-start gap-2.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#1a73e8] mt-2 flex-shrink-0" />
-                        <span>{resp}</span>
+                        <span>{cleanHtml(resp).replace(/^[-*•\s]+/, '')}</span>
                       </li>
                     ))}
                   </ul>
@@ -444,7 +444,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                     {job.qualifications.map((qual, idx) => (
                       <li key={idx} className="flex items-start gap-2.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#137333] mt-2 flex-shrink-0" />
-                        <span>{qual}</span>
+                        <span>{cleanHtml(qual).replace(/^[-*•\s]+/, '')}</span>
                       </li>
                     ))}
                   </ul>

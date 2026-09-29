@@ -33,8 +33,29 @@ const COUNTRY_NAME_MAP: Record<string, string> = {
   NG: 'Nigeria',
 };
 
+function cleanRawText(str: any): string {
+  if (!str) return '';
+  return String(str)
+    .replace(/&lt;br\s*[\/]?&gt;/gi, '\n')
+    .replace(/&lt;\/(?:p|div|h[1-6]|li)&gt;/gi, '\n\n')
+    .replace(/&lt;[^&gt;]+&gt;/g, ' ')
+    .replace(/<br\s*[\/]?>/gi, '\n')
+    .replace(/<\/(?:p|div|h[1-6]|li|section|article)>/gi, '\n\n')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#xa0;/gi, ' ')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/<[^>]+>/g, '')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+}
+
 function formatDescription(job: Record<string, any>): string {
-  const rawDesc = job.description || `Apply directly for ${job.title} at ${job.company}`;
+  const rawDesc = cleanRawText(job.description) || `Apply directly for ${job.title} at ${job.company}`;
   const paragraphs = String(rawDesc)
     .split(/\n\s*\n/)
     .map((p) => p.trim())
@@ -51,7 +72,7 @@ function formatDescription(job: Record<string, any>): string {
   if (job.responsibilities && Array.isArray(job.responsibilities) && job.responsibilities.length) {
     html += '<p><strong>Key Responsibilities:</strong></p><ul>';
     for (const r of job.responsibilities) {
-      html += `<li>${String(r).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
+      html += `<li>${cleanRawText(r).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
     }
     html += '</ul>';
   }
@@ -59,7 +80,7 @@ function formatDescription(job: Record<string, any>): string {
   if (job.qualifications && Array.isArray(job.qualifications) && job.qualifications.length) {
     html += '<p><strong>Qualifications (0–2 YoE):</strong></p><ul>';
     for (const q of job.qualifications) {
-      html += `<li>${String(q).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
+      html += `<li>${cleanRawText(q).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</li>`;
     }
     html += '</ul>';
   }
