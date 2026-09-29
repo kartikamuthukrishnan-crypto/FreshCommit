@@ -107,46 +107,27 @@ export const getJobTimestamp = (job: JobPosting): number => {
 };
 
 export default function App() {
-  // 1. Persistent State for Jobs (ensures verified live direct URLs with application forms and internships)
+  // 1. Persistent State for Jobs (authoritative verified listings)
   const [jobs, setJobs] = useState<JobPosting[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_JOBS);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // If saved has the new verified jobs and internships, keep it
-          const hasVerifiedSeed = parsed.some((j: JobPosting) => j.id === 'job-int-stripe-001');
-          if (hasVerifiedSeed) {
-            return parsed;
+          // Deduplicate by id
+          const seen = new Set<string>();
+          const deduped: JobPosting[] = [];
+          for (const item of parsed) {
+            if (item && item.id && !seen.has(item.id)) {
+              seen.add(item.id);
+              deduped.push(item);
+            }
+          }
+          if (deduped.length > 0) {
+            return deduped;
           }
         }
       }
-      
-      // Clean migration: preserve any custom admin jobs (ids starting with manual- or sync-), and load INITIAL_JOBS
-      const legacyRaw =
-        localStorage.getItem('freshcommit_jobs_v4') ||
-        localStorage.getItem('freshcommit_jobs_v3') ||
-        localStorage.getItem('freshcommit_jobs_v2') ||
-        localStorage.getItem('freshcommit_jobs_v1') ||
-        localStorage.getItem('juniordevhub_jobs_v2');
-      
-      let customJobs: JobPosting[] = [];
-      if (legacyRaw) {
-        try {
-          const parsedLegacy = JSON.parse(legacyRaw);
-          if (Array.isArray(parsedLegacy)) {
-            customJobs = parsedLegacy.filter(
-              (j: JobPosting) => j.id.startsWith('manual-') || j.id.startsWith('sync-')
-            );
-          }
-        } catch {
-          // ignore
-        }
-      }
-
-      const merged = [...INITIAL_JOBS, ...customJobs];
-      localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(merged));
-      return merged;
     } catch (e) {
       console.warn('Could not read saved jobs from localStorage', e);
     }
@@ -186,39 +167,31 @@ export default function App() {
     // Health check on boot
     testFirebaseConnection();
 
-    // Subscribe to live cloud jobs
+    // Subscribe to live cloud jobs (Firestore is authoritative source of truth)
     const unsubscribeJobs = subscribeToLiveJobs((cloudJobs) => {
       if (cloudJobs && cloudJobs.length > 0) {
-        setJobs((prev) => {
-          // Merge any newly added cloud jobs with current state
-          const cloudIds = new Set(cloudJobs.map((j) => j.id));
-          // If local has custom jobs not yet in cloud, keep them locally too
-          const localOnly = prev.filter((j) => !cloudIds.has(j.id) && (j.id.startsWith('manual-') || j.id.startsWith('sync-')));
-          const combined = [...cloudJobs, ...localOnly];
-          try {
-            localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(combined));
-          } catch {
-            // ignore
-          }
+        setJobs(cloudJobs);
+        try {
+          localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(cloudJobs));
+        } catch {
+          // ignore
+        }
 
-          // If the user or crawler navigated to a specific ?job= that just arrived from Firestore, select it
-          try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetJobId = urlParams.get('job') || urlParams.get('jobId');
-            if (targetJobId) {
-              const matchedCloudJob = combined.find((j) => j.id.toLowerCase() === targetJobId.toLowerCase());
-              if (matchedCloudJob) {
-                setSelectedJob(matchedCloudJob);
-                const focus = getFocusKeywordForJob(matchedCloudJob);
-                document.title = `${matchedCloudJob.title} at ${matchedCloudJob.company} (${focus.displayTag}) – FreshCommits`;
-              }
+        // If the user or crawler navigated to a specific ?job= that just arrived from Firestore, select it
+        try {
+          const urlParams = new URLSearchParams(window.location.search);
+          const targetJobId = urlParams.get('job') || urlParams.get('jobId');
+          if (targetJobId) {
+            const matchedCloudJob = cloudJobs.find((j) => j.id.toLowerCase() === targetJobId.toLowerCase());
+            if (matchedCloudJob) {
+              setSelectedJob(matchedCloudJob);
+              const focus = getFocusKeywordForJob(matchedCloudJob);
+              document.title = `${matchedCloudJob.title} at ${matchedCloudJob.company} (${focus.displayTag}) – FreshCommits`;
             }
-          } catch {
-            // ignore
           }
-
-          return combined;
-        });
+        } catch {
+          // ignore
+        }
       } else {
         // Cloud is currently empty, seed it with our initial jobs so visitors immediately see listings
         if (jobs && jobs.length > 0) {
@@ -250,14 +223,23 @@ export default function App() {
     }
   }, [jobs]);
 
-  // Synchronize state across different browser tabs/windows via storage event
+  // Synchronize state across different browser tabs/windows via storage event without echo loops
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === STORAGE_KEY_JOBS && e.newValue) {
         try {
           const updatedJobs = JSON.parse(e.newValue);
           if (Array.isArray(updatedJobs)) {
-            setJobs(updatedJobs);
+            setJobs((prev) => {
+              if (
+                prev.length === updatedJobs.length &&
+                prev[0]?.id === updatedJobs[0]?.id &&
+                prev[prev.length - 1]?.id === updatedJobs[updatedJobs.length - 1]?.id
+              ) {
+                return prev;
+              }
+              return updatedJobs;
+            });
           }
         } catch (err) {
           console.warn('Failed syncing jobs from storage event', err);
@@ -654,7 +636,6 @@ export default function App() {
           fetchSingleJobFromCloud(activeJobId).then((cloudJob) => {
             if (cloudJob) {
               setSelectedJob(cloudJob);
-              setJobs((prev) => (prev.some((j) => j.id === cloudJob.id) ? prev : [cloudJob, ...prev]));
               document.title = `${cloudJob.title} at ${cloudJob.company} (${cloudJob.experienceLevel}) – FreshCommits`;
             } else {
               // Graceful Expired/Archived Job Shell for AdSense & Google Webmaster hygiene:
@@ -729,7 +710,6 @@ export default function App() {
     const handleJobPreloaded = (e: any) => {
       if (e.detail) {
         setSelectedJob(e.detail);
-        setJobs((prev) => (prev.some((j) => j.id === e.detail.id) ? prev : [e.detail, ...prev]));
         const focus = getFocusKeywordForJob(e.detail);
         document.title = `${e.detail.title} at ${e.detail.company} (${focus.displayTag}) – FreshCommits`;
       }
