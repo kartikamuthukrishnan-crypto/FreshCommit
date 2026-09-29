@@ -101,7 +101,9 @@ export const onRequest: any = async (context: any) => {
         }
         job.id = job.id || jobId;
 
-        const countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
+        let countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
+        if (countryCode === 'USA') countryCode = 'US';
+        if (countryCode === 'UK') countryCode = 'GB';
         const countryName = COUNTRY_NAME_MAP[countryCode] || countryCode;
 
         // Build Google JobPosting Schema
@@ -137,6 +139,7 @@ export const onRequest: any = async (context: any) => {
         }
 
         if (job.salary && job.salary.min > 0) {
+          const isYearly = job.salary.unit === 'YEAR' || job.salary.min >= 500 || (job.salary.max && job.salary.max >= 500);
           schema.baseSalary = {
             '@type': 'MonetaryAmount',
             currency: job.salary.currency || 'USD',
@@ -144,7 +147,7 @@ export const onRequest: any = async (context: any) => {
               '@type': 'QuantitativeValue',
               minValue: job.salary.min,
               maxValue: job.salary.max || job.salary.min,
-              unitText: job.salary.unit || 'YEAR',
+              unitText: isYearly ? 'YEAR' : 'HOUR',
             },
           };
         }
@@ -183,18 +186,30 @@ export const onRequest: any = async (context: any) => {
         const metaDesc = `Apply directly for ${job.title} at ${job.company} in ${job.location || 'Remote'}. Verified early-career software engineering opportunity with direct company application.`;
 
         // Transform HTML using Cloudflare Pages HTMLRewriter
+        let schemaInserted = false;
         return new (globalThis as any).HTMLRewriter()
-          .on('head', {
-            element(head: any) {
-              head.append(
-                `\n<script id="google-job-posting-schema" type="application/ld+json">\n${schemaJson}\n</script>\n`,
-                { html: true }
-              );
-            },
-          })
           .on('title', {
             element(t: any) {
               t.setInnerContent(titleText);
+              // Guaranteed insertion directly after <title> (present in all HTML responses)
+              if (!schemaInserted) {
+                schemaInserted = true;
+                t.after(
+                  `\n<script id="google-job-posting-schema" type="application/ld+json">\n${schemaJson}\n</script>\n`,
+                  { html: true }
+                );
+              }
+            },
+          })
+          .on('head', {
+            element(head: any) {
+              if (!schemaInserted) {
+                schemaInserted = true;
+                head.append(
+                  `\n<script id="google-job-posting-schema" type="application/ld+json">\n${schemaJson}\n</script>\n`,
+                  { html: true }
+                );
+              }
             },
           })
           .on('meta[name="description"]', {
