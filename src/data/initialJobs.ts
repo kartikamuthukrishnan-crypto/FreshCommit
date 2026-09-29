@@ -6,7 +6,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 0,
     "city": "Newport Beach",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nPimco is actively investing in early-career talent with this Summer Intern Trade Floor Operations Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Newport Beach / Hybrid.\n\n🏢 Role Overview:\nPimco is actively seeking an early-career Summer Intern Trade Floor Operations Analyst to join their team. This direct opening was discovered on Pimco's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nPimco is actively investing in early-career talent with this Summer Intern Trade Floor Operations Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for entry-level developers ready for practical software development learning.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Newport Beach / Hybrid.\n\n🏢 Role Overview:\nPimco is actively seeking an early-career Summer Intern Trade Floor Operations Analyst to join their team. This direct opening was discovered on Pimco's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "Summer Intern Trade Floor Operations Analyst",
     "salary": {
@@ -53,14 +53,16 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Newport Beach / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://www.pimco.com",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "Greece",
     "maxYearsExperience": 1,
     "city": "Attica",
     "postalCode": "10431",
-    "description": "🎯 The FreshCommits Career Take:\nSatori Analytics is actively investing in early-career talent with this Hybrid Junior Data Engineer opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Athens / Hybrid.\n\n🏢 Role Overview:\nSatori Analytics is actively seeking an early-career Hybrid Junior Data Engineer to join their team. This direct opening was discovered on Satori Analytics's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nSatori Analytics is actively investing in early-career talent with this Hybrid Junior Data Engineer opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers and developers ready for hands-on technical ownership.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Athens / Hybrid.\n\n🏢 Role Overview:\nSatori Analytics is actively seeking an early-career Hybrid Junior Data Engineer to join their team. This direct opening was discovered on Satori Analytics's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "Hybrid Junior Data Engineer",
     "salary": {
@@ -114,14 +116,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.satorianalytics.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "GB",
     "maxYearsExperience": 1,
     "city": "Oxford",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nNielsenIQ is actively investing in early-career talent with this Junior Consultant opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Oxford, OXF, United Kingdom.\n\n🏢 Role Overview:\nThe Customer Success Junior Consultant will be working very closely with less complex but strategically important clients (Silver/Gold NSM clients) in Grocery industry to have a rigorous understanding of their business, objectives, priorities, and investment decisions they are making or considering. This will enable you to highlight unmet client needs and identify sales opportunities to pass to our account development associates.  ",
+    "description": "🎯 The FreshCommits Career Take:\nNielsenIQ is actively investing in early-career talent with this Junior Consultant opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers and developers ready for hands-on technical ownership.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Oxford, OXF, United Kingdom.\n\n🏢 Role Overview:\nThe Customer Success Junior Consultant will be working very closely with less complex but strategically important clients (Silver/Gold NSM clients) in Grocery industry to have a rigorous understanding of their business, objectives, priorities, and investment decisions they are making or considering. This will enable you to highlight unmet client needs and identify sales opportunities to pass to our account development associates.  ",
     "source": "MANUAL_ADMIN",
     "title": "Junior Consultant",
     "salary": {
@@ -170,14 +172,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nielseniq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "PT",
     "maxYearsExperience": 1,
     "city": "Portugal",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nNatixis in Portugal is actively investing in early-career talent with this Junior SQL Developer (French Speaker) | BPCE-SI opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Portugal, , Portugal.\n\n🏢 Role Overview:\nNatixis in Portugal is currently seeking a Junior SQL Developer (French Speaker) to join its BPCE SI (BPCE Solutions Informatiques) team, within the IT (Information Technologies) department. ",
+    "description": "🎯 The FreshCommits Career Take:\nNatixis in Portugal is actively investing in early-career talent with this Junior SQL Developer (French Speaker) | BPCE-SI opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers building high-velocity production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Portugal, , Portugal.\n\n🏢 Role Overview:\nNatixis in Portugal is currently seeking a Junior SQL Developer (French Speaker) to join its BPCE SI (BPCE Solutions Informatiques) team, within the IT (Information Technologies) department. ",
     "source": "MANUAL_ADMIN",
     "title": "Junior SQL Developer (French Speaker) | BPCE-SI",
     "salary": {
@@ -224,14 +226,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://natixisinportugal.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "FR",
     "maxYearsExperience": 1,
     "city": "Paris",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nSia is actively investing in early-career talent with this Junior Software Engineer opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Flask, Docker and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nSia recrute un(e) Software Engineer pour accompagner le développement des activités de la Business Unit Data Science.",
+    "description": "🎯 The FreshCommits Career Take:\nSia is actively investing in early-career talent with this Junior Software Engineer opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers building high-velocity production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Flask, Docker and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nSia recrute un(e) Software Engineer pour accompagner le développement des activités de la Business Unit Data Science.",
     "source": "MANUAL_ADMIN",
     "title": "Junior Software Engineer",
     "salary": {
@@ -278,14 +280,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sia.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "Greece",
     "maxYearsExperience": 1,
     "city": "Attica",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nPeoplecert is actively investing in early-career talent with this Junior Data Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Athens / Hybrid.\n\n🏢 Role Overview:\nPeoplecert is actively seeking an early-career Junior Data Analyst to join their team. This direct opening was discovered on Peoplecert's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nPeoplecert is actively investing in early-career talent with this Junior Data Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers seeking a collaborative team with dedicated code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Athens / Hybrid.\n\n🏢 Role Overview:\nPeoplecert is actively seeking an early-career Junior Data Analyst to join their team. This direct opening was discovered on Peoplecert's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "Junior Data Analyst",
     "salary": {
@@ -339,14 +341,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.peoplecert.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "DE",
     "maxYearsExperience": 1,
     "city": "Düsseldorf",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nMETRO/MAKRO is actively investing in early-career talent with this Working Student OMP (Offer Methods and Processes) and Master Data (all genders) opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Düsseldorf, NRW, Germany.\n\n🏢 Role Overview:\nStart date: 01.09.2026",
+    "description": "🎯 The FreshCommits Career Take:\nMETRO/MAKRO is actively investing in early-career talent with this Working Student OMP (Offer Methods and Processes) and Master Data (all genders) opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for freshers and emerging candidates eager to build real-world engineering depth.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Düsseldorf, NRW, Germany.\n\n🏢 Role Overview:\nStart date: 01.09.2026",
     "source": "MANUAL_ADMIN",
     "title": "Working Student OMP (Offer Methods and Processes) and Master Data (all genders)",
     "salary": {
@@ -392,14 +394,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://metromakro.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
     "city": "East Syracuse",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nThe Garam Group is actively investing in early-career talent with this IT Help Desk Support Engineer opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in East Syracuse / Hybrid.\n\n🏢 Role Overview:\nThe Garam Group is actively seeking an early-career IT Help Desk Support Engineer to join their team. This direct opening was discovered on The Garam Group's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nThe Garam Group is actively investing in early-career talent with this IT Help Desk Support Engineer opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers launching their commercial software journey.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in East Syracuse / Hybrid.\n\n🏢 Role Overview:\nThe Garam Group is actively seeking an early-career IT Help Desk Support Engineer to join their team. This direct opening was discovered on The Garam Group's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "IT Help Desk Support Engineer",
     "salary": {
@@ -448,14 +450,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.thegaramgroup.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
     "city": "Los Angeles",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nVista Group is actively investing in early-career talent with this Hybrid Solution Specialist opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Los Angeles, CA / Hybrid.\n\n🏢 Role Overview:\nVista Group is actively seeking an early-career Hybrid Solution Specialist to join their team. This direct opening was discovered on Vista Group's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nVista Group is actively investing in early-career talent with this Hybrid Solution Specialist opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for early-career engineers ready to make a tangible, measurable product impact.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Los Angeles, CA / Hybrid.\n\n🏢 Role Overview:\nVista Group is actively seeking an early-career Hybrid Solution Specialist to join their team. This direct opening was discovered on Vista Group's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "Hybrid Solution Specialist",
     "skills": [
@@ -504,14 +506,14 @@ export const INITIAL_JOBS: JobPosting[] = [
       "max": 78000
     },
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "NL",
     "maxYearsExperience": 1,
     "city": "Maassluis",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nLely is actively investing in early-career talent with this (Junior) Installatie- en Service Monteur opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Maassluis, ZH, Netherlands.\n\n🏢 Role Overview:\nWerk jij graag met techniek, vind je het leuk om dingen uit te zoeken en wil je jezelf ontwikkelen tot specialist in de nieuwste robottechnologie? Dan is dit een mooie kans om je technische carrière bij Lely te starten.",
+    "description": "🎯 The FreshCommits Career Take:\nLely is actively investing in early-career talent with this (Junior) Installatie- en Service Monteur opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers and developers ready for hands-on technical ownership.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Maassluis, ZH, Netherlands.\n\n🏢 Role Overview:\nWerk jij graag met techniek, vind je het leuk om dingen uit te zoeken en wil je jezelf ontwikkelen tot specialist in de nieuwste robottechnologie? Dan is dit een mooie kans om je technische carrière bij Lely te starten.",
     "source": "MANUAL_ADMIN",
     "title": "(Junior) Installatie- en Service Monteur",
     "salary": {
@@ -559,14 +561,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://lely1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "DE",
     "maxYearsExperience": 1,
     "city": "Leipzig",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nStröer SE & Co. KGaA (Ströer Gruppe) is actively investing in early-career talent with this (Junior) Projektmanager / Quereinsteiger (m/w/d) opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Leipzig, SN, Germany.\n\n🏢 Role Overview:\nDu koordinierst als Projektverantwortliche:r eigenständig Bauunternehmer:innen und Energieversorger:innen bei der Planung, Durchführung und Abwicklung von Bau- und Instandhaltungsmaßnahmen an Werbeanlagen und Stadtmöbeln\nDu betreust unsere Bewirtschaftungsdienstleister:innen und koordinierst und überwachst dabei in enger Abstimmung Wartungsarbeiten sowie die Mängelbeseitigung und gewährleistest einen reibungslosen Betrieb\nDu sicherst dabei die Einhaltung technischer Vorgaben, Termine und Qualitätsstandards\nDu führst regelmäßige Kontrollabfahrten in Deinem Gebiet durch und dokumentierst und steuerst anfallende Aufgaben an sowie um unsere Werbeanlagen\nDu prüfst die Abrechnung beauftragter Leistungen\nDu holst notwendige behördliche Dokumente für die Durchführung von Baumaßnahmen ein und unterstützt ferner den Bereich Public Affairs im kontinuierlichen Austausch mit unseren Vertragspartnern",
+    "description": "🎯 The FreshCommits Career Take:\nStröer SE & Co. KGaA (Ströer Gruppe) is actively investing in early-career talent with this (Junior) Projektmanager / Quereinsteiger (m/w/d) opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers building high-velocity production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Leipzig, SN, Germany.\n\n🏢 Role Overview:\nDu koordinierst als Projektverantwortliche:r eigenständig Bauunternehmer:innen und Energieversorger:innen bei der Planung, Durchführung und Abwicklung von Bau- und Instandhaltungsmaßnahmen an Werbeanlagen und Stadtmöbeln\nDu betreust unsere Bewirtschaftungsdienstleister:innen und koordinierst und überwachst dabei in enger Abstimmung Wartungsarbeiten sowie die Mängelbeseitigung und gewährleistest einen reibungslosen Betrieb\nDu sicherst dabei die Einhaltung technischer Vorgaben, Termine und Qualitätsstandards\nDu führst regelmäßige Kontrollabfahrten in Deinem Gebiet durch und dokumentierst und steuerst anfallende Aufgaben an sowie um unsere Werbeanlagen\nDu prüfst die Abrechnung beauftragter Leistungen\nDu holst notwendige behördliche Dokumente für die Durchführung von Baumaßnahmen ein und unterstützt ferner den Bereich Public Affairs im kontinuierlichen Austausch mit unseren Vertragspartnern",
     "source": "MANUAL_ADMIN",
     "title": "(Junior) Projektmanager / Quereinsteiger (m/w/d)",
     "salary": {
@@ -614,12 +616,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://strersecokgaastrergruppe.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nEn is actively investing in early-career talent with this Remote IT Support Test Technician (entry Level) in United States at J Mack Technologies opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Remote - US.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Remote IT Support Test Technician (entry Level) in United States at J Mack Technologies to join their team. This direct opening was discovered on En's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nEn is actively investing in early-career talent with this Remote IT Support Test Technician (entry Level) in United States at J Mack Technologies opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for freshers and emerging candidates eager to build real-world engineering depth.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Remote - US.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Remote IT Support Test Technician (entry Level) in United States at J Mack Technologies to join their team. This direct opening was discovered on En's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "Remote IT Support Test Technician (entry Level) in United States at J Mack Technologies",
     "salary": {
@@ -668,14 +670,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.j-mack.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
     "city": "Kansas City",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nSpring Venture Group is actively investing in early-career talent with this Treasury Analyst  opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Kansas City, MO, United States.\n\n🏢 Role Overview:\nPosition Overview",
+    "description": "🎯 The FreshCommits Career Take:\nSpring Venture Group is actively investing in early-career talent with this Treasury Analyst  opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for entry-level developers looking to establish strong engineering habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Kansas City, MO, United States.\n\n🏢 Role Overview:\nPosition Overview",
     "source": "MANUAL_ADMIN",
     "title": "Treasury Analyst ",
     "salary": {
@@ -724,12 +726,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://springventuregroup1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nEn is actively investing in early-career talent with this Remote Security Engineer I, Application Security in United States at Trail of Bits opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 100k–135k/year with career progression reviews.\n• Location: Based in Remote - US.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Remote Security Engineer I, Application Security in United States at Trail of Bits to join their team. This direct opening was discovered on En's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nEn is actively investing in early-career talent with this Remote Security Engineer I, Application Security in United States at Trail of Bits opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for early-career developers in their first one to two years of commercial experience.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 100k–135k/year with career progression reviews.\n• Location: Based in Remote - US.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Remote Security Engineer I, Application Security in United States at Trail of Bits to join their team. This direct opening was discovered on En's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "Remote Security Engineer I, Application Security in United States at Trail of Bits",
     "salary": {
@@ -783,14 +785,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://trailofbits.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
     "city": "San Francisco",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nPattersoncompanies is actively investing in early-career talent with this Software Engineer (Early-Career) opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nPattersoncompanies is actively seeking an early-career Software Engineer (Early-Career) to join their team. This direct opening was discovered on Pattersoncompanies's official Direct Career Portal portal.",
+    "description": "🎯 The FreshCommits Career Take:\nPattersoncompanies is actively investing in early-career talent with this Software Engineer (Early-Career) opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for early-career developers in their first one to two years of commercial experience.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nPattersoncompanies is actively seeking an early-career Software Engineer (Early-Career) to join their team. This direct opening was discovered on Pattersoncompanies's official Direct Career Portal portal.",
     "source": "MANUAL_ADMIN",
     "title": "Software Engineer (Early-Career)",
     "salary": {
@@ -839,12 +841,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.pattersoncompanies.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nElevenlabs is actively investing in early-career talent with this 9aca205e B2bc 405b 85d6 3d2aadbe49b1 opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nElevenlabs is actively seeking an early-career 9aca205e B2bc 405b 85d6 3d2aadbe49b1 to join their team. This direct opening was discovered on Elevenlabs's official Ashby portal.",
+    "description": "🎯 The FreshCommits Career Take:\nElevenlabs is actively investing in early-career talent with this 9aca205e B2bc 405b 85d6 3d2aadbe49b1 opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for new graduates and emerging technologists seeking structured team mentorship.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nElevenlabs is actively seeking an early-career 9aca205e B2bc 405b 85d6 3d2aadbe49b1 to join their team. This direct opening was discovered on Elevenlabs's official Ashby portal.",
     "source": "MANUAL_ADMIN",
     "title": "IT Engineer",
     "salary": {
@@ -893,14 +895,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://elevenlabs.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
     "city": "San Francisco",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nEn is actively investing in early-career talent with this Junior Systems & Network Administrator Internship (tallahassee, Fl) in Tallahassee at Diverse Computing opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 38–55/hr with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Junior Systems & Network Administrator Internship (tallahassee, Fl) in Tallahassee at Diverse Computing to join their team. This direct opening was discovered on En's official Workable portal.",
+    "description": "🎯 The FreshCommits Career Take:\nEn is actively investing in early-career talent with this Junior Systems & Network Administrator Internship (tallahassee, Fl) in Tallahassee at Diverse Computing opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers seeking a collaborative team with dedicated code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 38–55/hr with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Junior Systems & Network Administrator Internship (tallahassee, Fl) in Tallahassee at Diverse Computing to join their team. This direct opening was discovered on En's official Workable portal.",
     "source": "MANUAL_ADMIN",
     "title": "Junior Systems & Network Administrator Internship (tallahassee, Fl) in Tallahassee at Diverse Computing",
     "salary": {
@@ -949,13 +951,13 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://en.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "city": "San Francisco",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nParamount is actively investing in early-career talent with this Los Angeles Business Analyst Ca 90038 opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nParamount is actively seeking an early-career Los Angeles Business Analyst Ca 90038 to join their team. This direct opening was discovered on Paramount's official Direct Career Portal portal.",
+    "description": "🎯 The FreshCommits Career Take:\nParamount is actively investing in early-career talent with this Los Angeles Business Analyst Ca 90038 opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for entry-level developers looking to establish strong engineering habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nParamount is actively seeking an early-career Los Angeles Business Analyst Ca 90038 to join their team. This direct opening was discovered on Paramount's official Direct Career Portal portal.",
     "source": "MANUAL_ADMIN",
     "salary": {
       "unit": "YEAR",
@@ -1005,12 +1007,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "fingerprint": "paramount-business-analyst-united-states-hybrid",
     "title": "Business Analyst",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nPrivia Health is actively investing in early-career talent with this Tier 2 Technical Support Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Go, Security and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Remote, USA, United States.\n\n🏢 Role Overview:\nThe Tier 2 Technical Support Analyst serves as a key technical leader responsible for resolving complex, high-priority escalations and maintaining business-critical IT operations nationwide. Operating with high autonomy, this role drives technical decision-making across advanced infrastructure, network systems, telephony, and specialized clinical hardware.",
+    "description": "🎯 The FreshCommits Career Take:\nPrivia Health is actively investing in early-career talent with this Tier 2 Technical Support Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for entry-level technologists seeking a collaborative, high-growth engineering environment.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Go, Security and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Remote, USA, United States.\n\n🏢 Role Overview:\nThe Tier 2 Technical Support Analyst serves as a key technical leader responsible for resolving complex, high-priority escalations and maintaining business-critical IT operations nationwide. Operating with high autonomy, this role drives technical decision-making across advanced infrastructure, network systems, telephony, and specialized clinical hardware.",
     "source": "MANUAL_ADMIN",
     "title": "Tier 2 Technical Support Analyst",
     "salary": {
@@ -1058,12 +1060,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://priviahealth.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nPA Consulting is actively investing in early-career talent with this Early Career | Growth Strategy Analyst (2027) opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in New York, NY, United States.\n\n🏢 Role Overview:\nPA's Growth Strategy team helps organizations identify opportunities for sustainable growth through customer insight, market analysis, and strategic thinking. As an Analyst in our Early Career Program, you will work alongside experienced practitioners to solve complex business challenges and help clients make confident strategic decisions.  ",
+    "description": "🎯 The FreshCommits Career Take:\nPA Consulting is actively investing in early-career talent with this Early Career | Growth Strategy Analyst (2027) opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for new graduates and emerging technologists seeking structured team mentorship.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in New York, NY, United States.\n\n🏢 Role Overview:\nPA's Growth Strategy team helps organizations identify opportunities for sustainable growth through customer insight, market analysis, and strategic thinking. As an Analyst in our Early Career Program, you will work alongside experienced practitioners to solve complex business challenges and help clients make confident strategic decisions.  ",
     "source": "MANUAL_ADMIN",
     "title": "Early Career | Growth Strategy Analyst (2027)",
     "salary": {
@@ -1110,14 +1112,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://paconsulting.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "IT",
     "maxYearsExperience": 0,
     "city": "Milano",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nNielsenIQ is actively investing in early-career talent with this NIQ Early Career Program: Internship – Analytic Consultant F/M opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 595–700/hr with career progression reviews.\n• Location: Based in Milano, Via Tortona 33, Italy.\n\n🏢 Role Overview:\nSupport the team in analyzing in-market data, studying results, and summarizing insights in emails, reports, and slides\nManage basic client requests\nDeliver insights on FMCG/retail phenomena.\nBe point of contact and interface with several company departments, in order to be a collector among them and the clients",
+    "description": "🎯 The FreshCommits Career Take:\nNielsenIQ is actively investing in early-career talent with this NIQ Early Career Program: Internship – Analytic Consultant F/M opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for entry-level talent seeking immersive production exposure.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 595–700/hr with career progression reviews.\n• Location: Based in Milano, Via Tortona 33, Italy.\n\n🏢 Role Overview:\nSupport the team in analyzing in-market data, studying results, and summarizing insights in emails, reports, and slides\nManage basic client requests\nDeliver insights on FMCG/retail phenomena.\nBe point of contact and interface with several company departments, in order to be a collector among them and the clients",
     "source": "MANUAL_ADMIN",
     "title": "NIQ Early Career Program: Internship – Analytic Consultant F/M",
     "salary": {
@@ -1160,14 +1162,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nielseniq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "NG",
     "maxYearsExperience": 1,
     "city": "Lagos",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nThe Place is actively investing in early-career talent with this Junior Architect opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Lagos, LA, Nigeria.\n\n🏢 Role Overview:\nSite reconnaissance for proposed new site\nDesign and drawing conceptualization for new outlet, including equipment electrical ceiling layout.\nCarry assignments to completion with considerable independence in accordance with project objectives, professional standards, and policies and procedures\nInspect and supervises the inspection of construction projects while in progress and upon completion for adherence to plans and specification; advises contractors on the interpretation of plans and specifications; approves minor designs changes in the course of the construction; reviews contractors’ requests for payment.\nConducts research and special studies pertaining to buildings and facilities development and maintenance; prepares reports and recommendations for the review of a superior.\nPrepares materials, writes construction specifications, and prepares detailed requisitions for equipment and materials.\nWall elevations and detailed construction drawings\nAssist in visual presentations (interiors and exteriors) for club and eatery\nKnowledge on site supervision and project management",
+    "description": "🎯 The FreshCommits Career Take:\nThe Place is actively investing in early-career talent with this Junior Architect opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for junior engineers seeking a collaborative team with dedicated code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Lagos, LA, Nigeria.\n\n🏢 Role Overview:\nSite reconnaissance for proposed new site\nDesign and drawing conceptualization for new outlet, including equipment electrical ceiling layout.\nCarry assignments to completion with considerable independence in accordance with project objectives, professional standards, and policies and procedures\nInspect and supervises the inspection of construction projects while in progress and upon completion for adherence to plans and specification; advises contractors on the interpretation of plans and specifications; approves minor designs changes in the course of the construction; reviews contractors’ requests for payment.\nConducts research and special studies pertaining to buildings and facilities development and maintenance; prepares reports and recommendations for the review of a superior.\nPrepares materials, writes construction specifications, and prepares detailed requisitions for equipment and materials.\nWall elevations and detailed construction drawings\nAssist in visual presentations (interiors and exteriors) for club and eatery\nKnowledge on site supervision and project management",
     "source": "MANUAL_ADMIN",
     "title": "Junior Architect",
     "salary": {
@@ -1213,12 +1215,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://theplace1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "FR",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nMAZARS is actively investing in early-career talent with this Independence Support Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on ServiceNow, Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 48k–65k/year with career progression reviews.\n• Location: Based in Levallois-Perret, IDF, France.\n\n🏢 Role Overview:\nThe Independence Support Analyst supports the Network’s independence and compliance processes by providing technical assistance, troubleshooting issues, and performing basic data analytics under supervision. This role is ideal for early‑career professionals seeking experience in compliance operations, technology support, and global collaboration.",
+    "description": "🎯 The FreshCommits Career Take:\nMAZARS is actively investing in early-career talent with this Independence Support Analyst opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for junior engineers launching their commercial software journey.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on ServiceNow, Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 48k–65k/year with career progression reviews.\n• Location: Based in Levallois-Perret, IDF, France.\n\n🏢 Role Overview:\nThe Independence Support Analyst supports the Network’s independence and compliance processes by providing technical assistance, troubleshooting issues, and performing basic data analytics under supervision. This role is ideal for early‑career professionals seeking experience in compliance operations, technology support, and global collaboration.",
     "source": "MANUAL_ADMIN",
     "title": "Independence Support Analyst",
     "salary": {
@@ -1269,14 +1271,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Levallois-Perret, IDF, France",
     "state": "IDF",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 1,
     "city": "San Francisco",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nGoogle is actively investing in early-career talent with this Data Center Facilities Technician I Electrical opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 110k–155k/year with career progression reviews.\n• Location: Based in Mountain View, CA / Hybrid.\n\n🏢 Role Overview:\nGoogle is actively seeking an early-career Data Center Facilities Technician I Electrical to join their team. This direct opening was discovered on Google's official Google Careers portal.",
+    "description": "🎯 The FreshCommits Career Take:\nGoogle is actively investing in early-career talent with this Data Center Facilities Technician I Electrical opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for early-career engineers ready to make a tangible, measurable product impact.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 110k–155k/year with career progression reviews.\n• Location: Based in Mountain View, CA / Hybrid.\n\n🏢 Role Overview:\nGoogle is actively seeking an early-career Data Center Facilities Technician I Electrical to join their team. This direct opening was discovered on Google's official Google Careers portal.",
     "source": "MANUAL_ADMIN",
     "title": "Data Center Facilities Technician I Electrical",
     "salary": {
@@ -1330,14 +1332,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://careers.google.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "GB",
     "maxYearsExperience": 1,
     "city": "Bridgwater",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nEDF UK is actively investing in early-career talent with this STEM Nuclear Graduate Programme opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Bridgwater, , United Kingdom.\n\n🏢 Role Overview:\nLooking for a career where you can learn, grow, and make an impact? At EDF, Success is Personal. From day one, you'll be supported by experts, build skills for the future, and play a part in powering Britain's transition to a more electrified, low-carbon future.",
+    "description": "🎯 The FreshCommits Career Take:\nEDF UK is actively investing in early-career talent with this STEM Nuclear Graduate Programme opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for new graduates seeking structured technical mentorship and velocity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Bridgwater, , United Kingdom.\n\n🏢 Role Overview:\nLooking for a career where you can learn, grow, and make an impact? At EDF, Success is Personal. From day one, you'll be supported by experts, build skills for the future, and play a part in powering Britain's transition to a more electrified, low-carbon future.",
     "source": "MANUAL_ADMIN",
     "title": "STEM Nuclear Graduate Programme",
     "salary": {
@@ -1378,14 +1380,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://edf-uk.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "IE",
     "maxYearsExperience": 1,
     "city": "Dublin",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nSmiths Group is actively investing in early-career talent with this Service Engineer Level 2 opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Dublin, County Dublin, Ireland.\n\n🏢 Role Overview:\nWe are looking for a Service Engineer to join our dedicated onsite engineering team at Dublin Airport. This is an exciting opportunity to work with market-leading security screening technologies that help keep people safe across the world's transportation hubs.",
+    "description": "🎯 The FreshCommits Career Take:\nSmiths Group is actively investing in early-career talent with this Service Engineer Level 2 opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for entry-level developers looking to establish strong engineering habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Dublin, County Dublin, Ireland.\n\n🏢 Role Overview:\nWe are looking for a Service Engineer to join our dedicated onsite engineering team at Dublin Airport. This is an exciting opportunity to work with market-leading security screening technologies that help keep people safe across the world's transportation hubs.",
     "source": "MANUAL_ADMIN",
     "title": "Service Engineer Level 2",
     "salary": {
@@ -1432,14 +1434,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://smithsgroup2.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "VN",
     "maxYearsExperience": 1,
     "city": "Thành phố Hồ Chí Minh",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nSGS is actively investing in early-career talent with this Environmental Engineer (Open for freshers)  opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Thành phố Hồ Chí Minh, Hồ Chí Minh, Vietnam.\n\n🏢 Role Overview:\n• Support or perform EHS sampling as instructed by Technical Supervisor/Manager including Field, Monitoring and Marine services.",
+    "description": "🎯 The FreshCommits Career Take:\nSGS is actively investing in early-career talent with this Environmental Engineer (Open for freshers)  opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for freshers transitioning into commercial software teams.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Thành phố Hồ Chí Minh, Hồ Chí Minh, Vietnam.\n\n🏢 Role Overview:\n• Support or perform EHS sampling as instructed by Technical Supervisor/Manager including Field, Monitoring and Marine services.",
     "source": "MANUAL_ADMIN",
     "title": "Environmental Engineer (Open for freshers) ",
     "salary": {
@@ -1482,7 +1484,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sgs.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
@@ -1534,14 +1536,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "US",
     "maxYearsExperience": 0,
     "city": "Pomona",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nAECOM is actively investing in early-career talent with this Internship and Entry-Level Graduate Opportunities - STEM Career Fair 2026 opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 60132.23–105231.39/hr with career progression reviews.\n• Location: Based in Pomona, CA, United States.\n\n🏢 Role Overview:\nJoin AECOM at the Cal Poly Pomona, STEM Career Fair 2026.",
+    "description": "🎯 The FreshCommits Career Take:\nAECOM is actively investing in early-career talent with this Internship and Entry-Level Graduate Opportunities - STEM Career Fair 2026 opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for new graduates launching their software engineering careers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 60132.23–105231.39/hr with career progression reviews.\n• Location: Based in Pomona, CA, United States.\n\n🏢 Role Overview:\nJoin AECOM at the Cal Poly Pomona, STEM Career Fair 2026.",
     "source": "MANUAL_ADMIN",
     "title": "Internship and Entry-Level Graduate Opportunities - STEM Career Fair 2026",
     "salary": {
@@ -1585,14 +1587,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://aecom2.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "NL",
     "maxYearsExperience": 1,
     "city": "Maastricht",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nEurofins is actively investing in early-career talent with this (Junior) IT Field Service Engineer opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 3k–3k/year with career progression reviews.\n• Location: Based in Maastricht, LI, Netherlands.\n\n🏢 Role Overview:\nDo you enjoy helping colleagues get the most out of their IT environment and do you want to play a key role in supporting critical laboratory operations? At Eurofins, you’ll have the opportunity to make a direct impact by ensuring reliable, secure, and efficient IT services across multiple locations.",
+    "description": "🎯 The FreshCommits Career Take:\nEurofins is actively investing in early-career talent with this (Junior) IT Field Service Engineer opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for junior engineers seeking a collaborative team with dedicated code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 3k–3k/year with career progression reviews.\n• Location: Based in Maastricht, LI, Netherlands.\n\n🏢 Role Overview:\nDo you enjoy helping colleagues get the most out of their IT environment and do you want to play a key role in supporting critical laboratory operations? At Eurofins, you’ll have the opportunity to make a direct impact by ensuring reliable, secure, and efficient IT services across multiple locations.",
     "source": "MANUAL_ADMIN",
     "title": "(Junior) IT Field Service Engineer",
     "salary": {
@@ -1639,14 +1641,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://eurofins.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "TR",
     "maxYearsExperience": 1,
     "city": "Maltepe",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nJYSK is actively investing in early-career talent with this IT Helpdesk Supporter opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Maltepe, İstanbul, Turkey.\n\n🏢 Role Overview:\nWHAT YOUR NEXT JOB WILL BE ABOUT",
+    "description": "🎯 The FreshCommits Career Take:\nJYSK is actively investing in early-career talent with this IT Helpdesk Supporter opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for entry-level technologists seeking a collaborative, high-growth engineering environment.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Maltepe, İstanbul, Turkey.\n\n🏢 Role Overview:\nWHAT YOUR NEXT JOB WILL BE ABOUT",
     "source": "MANUAL_ADMIN",
     "title": "IT Helpdesk Supporter",
     "salary": {
@@ -1693,12 +1695,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jysk.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "FR",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nTalan is actively investing in early-career talent with this Développeur Java Backend Junior - H/F opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Java, Spring Boot, Docker, Kubernetes and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nRejoins un programme stratégique de transformation à grande échelle dans le domaine du Cash Management au sein d’un environnement bancaire international en pleine modernisation.",
+    "description": "🎯 The FreshCommits Career Take:\nTalan is actively investing in early-career talent with this Développeur Java Backend Junior - H/F opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for junior engineers seeking a collaborative team with dedicated code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Java, Spring Boot, Docker, Kubernetes and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nRejoins un programme stratégique de transformation à grande échelle dans le domaine du Cash Management au sein d’un environnement bancaire international en pleine modernisation.",
     "source": "MANUAL_ADMIN",
     "title": "Développeur Java Backend Junior - H/F",
     "salary": {
@@ -1749,7 +1751,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://talan.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
   },
   {
     "country": "IT",
@@ -1801,12 +1803,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "GB",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nData Intellect is actively investing in early-career talent with this Graduate STEM Developer (October Start) opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Belfast, Northern Ireland, United Kingdom.\n\n🏢 Role Overview:\nWhat We Offer:",
+    "description": "🎯 The FreshCommits Career Take:\nData Intellect is actively investing in early-career talent with this Graduate STEM Developer (October Start) opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for new graduates launching their software engineering careers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Belfast, Northern Ireland, United Kingdom.\n\n🏢 Role Overview:\nWhat We Offer:",
     "source": "MANUAL_ADMIN",
     "title": "Graduate STEM Developer (October Start)",
     "salary": {
@@ -1852,7 +1854,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://dataintellect.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -1908,12 +1910,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://duolingo.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "GB",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nVersion 1 is actively investing in early-career talent with this Junior ServiceNow Consultant opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for 0–2 YoE engineers.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Java, SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Belfast, Northern Ireland, United Kingdom.\n\n🏢 Role Overview:\nJunior ServiceNow Consultant",
+    "description": "🎯 The FreshCommits Career Take:\nVersion 1 is actively investing in early-career talent with this Junior ServiceNow Consultant opening. This role provides structured exposure to modern production tooling and multidisciplinary team mentorship, making it a high-leverage launchpad for junior engineers and developers ready for hands-on technical ownership.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Java, SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Belfast, Northern Ireland, United Kingdom.\n\n🏢 Role Overview:\nJunior ServiceNow Consultant",
     "source": "MANUAL_ADMIN",
     "title": "Junior ServiceNow Consultant",
     "salary": {
@@ -1964,7 +1966,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://version1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "IN",
@@ -2016,7 +2018,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/Ubisoft2",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2071,7 +2073,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2127,7 +2129,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2182,7 +2184,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2237,7 +2239,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://resend.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2292,7 +2294,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://linear.app",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "VN",
@@ -2344,7 +2346,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2399,7 +2401,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://supabase.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2454,7 +2456,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2509,7 +2511,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://ramp.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2564,7 +2566,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.notion.so",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2619,7 +2621,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.datadoghq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2674,7 +2676,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.affirm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2729,7 +2731,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://zapier.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2784,7 +2786,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://about.gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2839,7 +2841,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "NL",
@@ -2891,7 +2893,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -2946,7 +2948,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://webflow.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -3001,7 +3003,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gusto.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -3056,7 +3058,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://robinhood.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -3111,63 +3113,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.palantir.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
-  },
-  {
-    "country": "US",
-    "featured": true,
-    "maxYearsExperience": 2,
-    "city": "San Francisco",
-    "description": "Help build the backend services powering Reddit’s post detail page (PDP) and discussion feeds, serving billions of page views every month. You will work on distributed microservices in Go and Python, ensuring low latency and high availability.",
-    "source": "EMPLOYER_POST",
-    "title": "Backend Software Engineer, PDP Experience",
-    "salary": {
-      "unit": "YEAR",
-      "min": 125000,
-      "max": 160000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Go",
-      "Python",
-      "gRPC",
-      "Kafka",
-      "Redis",
-      "Cassandra",
-      "Distributed Systems"
-    ],
-    "sourceUrl": "https://job-boards.greenhouse.io/reddit/jobs/8148431",
-    "qualifications": [
-      "Proficiency in Go, Python, C++, or Java with an understanding of concurrent programming.",
-      "Familiarity with distributed caching, message queues, or NoSQL data stores.",
-      "Understanding of software engineering fundamentals: algorithms, complexity, and network protocols.",
-      "BS in Computer Science, Computer Engineering, or related technical discipline."
-    ],
-    "experienceLevel": "Entry Level",
-    "responsibilities": [
-      "Develop and scale high-throughput RPC microservices in Go and Python.",
-      "Optimize data retrieval pipelines using Cassandra, Redis, and Kafka.",
-      "Collaborate with web, iOS, and Android client engineers to deliver rich discussion features.",
-      "Participate in on-call rotations and write post-mortems to improve platform resiliency."
-    ],
-    "fingerprint": "reddit-backend-software-engineer-pdp-remote",
-    "company": "Reddit",
-    "id": "job-red-006",
-    "state": "CA",
-    "datePosted": "2026-09-14",
-    "applicantLocationRequirements": "US",
-    "validThrough": "2026-12-31",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=128&auto=format&fit=crop&q=80",
-    "isRemote": true,
-    "viewsCount": 2800,
-    "applyUrl": "https://job-boards.greenhouse.io/reddit/jobs/8148431",
-    "location": "Remote (US)",
-    "category": "Backend",
-    "companyWebsite": "https://www.redditinc.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.830Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -3222,7 +3168,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sentry.io",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.831Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "US",
@@ -3277,7 +3223,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.831Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   },
   {
     "country": "AT",
@@ -3329,6 +3275,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-28T13:24:00.831Z"
+    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
   }
 ];

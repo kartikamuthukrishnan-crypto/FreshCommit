@@ -3,6 +3,7 @@ import { JobPosting, AdSenseConfig } from '../types';
 import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { trackJobView, trackApplyClick } from '../utils/analytics';
 import { isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
+import { humanizeCareerTake } from '../utils/textHumanizer';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -135,7 +136,8 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     const takeMatch = edgeContent.match(/🎯 The FreshCommits Career Take:\s*([\s\S]*?)(?=💡 Candidate Preparation Checklist:|$)/i);
     const checklistMatch = edgeContent.match(/💡 Candidate Preparation Checklist:\s*([\s\S]*?)$/i);
 
-    const careerTake = takeMatch ? takeMatch[1].trim() : '';
+    const rawCareerTake = takeMatch ? takeMatch[1].trim() : '';
+    const careerTake = humanizeCareerTake(rawCareerTake, job);
     const checklistText = checklistMatch ? checklistMatch[1].trim() : '';
     const checklistItems = checklistText
       .split('\n')

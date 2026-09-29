@@ -27,6 +27,60 @@ function parseFirestoreVal(v) {
   return undefined;
 }
 
+function humanizeCareerTake(text, job) {
+  if (!text) return '';
+  const seed = (job.id || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const titleLower = (job.title || '').toLowerCase();
+  let phrase = '';
+
+  if (titleLower.includes('graduate') || titleLower.includes('grad') || titleLower.includes('university') || titleLower.includes('campus') || titleLower.includes('trainee')) {
+    const list = [
+      'new graduates launching their software engineering careers',
+      'new graduates seeking structured technical mentorship and velocity',
+      'new graduates ready to transition academic foundations into production code'
+    ];
+    phrase = list[seed % list.length];
+  } else if (titleLower.includes('fresher') || titleLower.includes('freshers') || titleLower.includes('open for freshers') || titleLower.includes('no experience')) {
+    const list = [
+      'freshers transitioning into commercial software teams',
+      'freshers and aspiring developers eager for guided engineering mentorship',
+      'freshers seeking a foundational, high-support technical environment'
+    ];
+    phrase = list[seed % list.length];
+  } else if (titleLower.includes('junior') || titleLower.includes('jr.')) {
+    const list = [
+      'junior engineers building high-velocity production systems',
+      'junior engineers and developers ready for hands-on technical ownership',
+      'junior engineers seeking a collaborative team with dedicated code reviews',
+      'junior engineers looking to deepen their system design and debugging capabilities'
+    ];
+    phrase = list[seed % list.length];
+  } else if (titleLower.includes('intern') || titleLower.includes('apprentice') || titleLower.includes('co-op')) {
+    const list = [
+      'entry-level talent seeking immersive production exposure',
+      'entry-level developers ready for practical software development learning',
+      'entry-level builders eager for hands-on engineering mentorship'
+    ];
+    phrase = list[seed % list.length];
+  } else {
+    const list = [
+      'entry-level developers looking to establish strong engineering habits',
+      'early-career developers in their first one to two years of commercial experience',
+      'entry-level technologists seeking a collaborative, high-growth engineering environment',
+      'early-career engineers ready to make a tangible, measurable product impact',
+      'junior engineers launching their commercial software journey',
+      'new graduates and emerging technologists seeking structured team mentorship',
+      'freshers and emerging candidates eager to build real-world engineering depth'
+    ];
+    phrase = list[seed % list.length];
+  }
+
+  return text
+    .replace(/0[–-]2\s*YoE\s+(engineers\s+and\s+tech\s+professionals|engineers|developers|candidates|professionals)/gi, phrase)
+    .replace(/for\s+0[–-]2\s*YoE\b/gi, `for ${phrase}`)
+    .replace(/0[–-]2\s*YoE/gi, phrase);
+}
+
 async function pullFirestoreJobs() {
   console.log('Fetching all live jobs from Firestore database...');
   const res = await fetch(
@@ -59,6 +113,10 @@ async function pullFirestoreJobs() {
     }
     const docId = doc.name.split('/').pop();
     jobObj.id = jobObj.id || docId;
+
+    if (jobObj.description) {
+      jobObj.description = humanizeCareerTake(jobObj.description, jobObj);
+    }
 
     if (jobObj.title && jobObj.company && jobObj.applyUrl) {
       cloudJobs.push(jobObj);

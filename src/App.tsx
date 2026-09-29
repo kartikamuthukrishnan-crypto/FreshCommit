@@ -19,6 +19,7 @@ import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
 import { trackPageView, disableAnalyticsForAdmin } from './utils/analytics';
 import { isJobExpired } from './utils/jobAggregator';
+import { getFocusKeywordForJob } from './utils/textHumanizer';
 import {
   subscribeToLiveJobs,
   batchSaveJobsToCloud,
@@ -208,7 +209,8 @@ export default function App() {
               const matchedCloudJob = combined.find((j) => j.id.toLowerCase() === targetJobId.toLowerCase());
               if (matchedCloudJob) {
                 setSelectedJob(matchedCloudJob);
-                document.title = `${matchedCloudJob.title} at ${matchedCloudJob.company} (0-2 YoE) – FreshCommits`;
+                const focus = getFocusKeywordForJob(matchedCloudJob);
+                document.title = `${matchedCloudJob.title} at ${matchedCloudJob.company} (${focus.displayTag}) – FreshCommits`;
               }
             }
           } catch {
@@ -728,7 +730,8 @@ export default function App() {
       if (e.detail) {
         setSelectedJob(e.detail);
         setJobs((prev) => (prev.some((j) => j.id === e.detail.id) ? prev : [e.detail, ...prev]));
-        document.title = `${e.detail.title} at ${e.detail.company} (0-2 YoE) – FreshCommits`;
+        const focus = getFocusKeywordForJob(e.detail);
+        document.title = `${e.detail.title} at ${e.detail.company} (${focus.displayTag}) – FreshCommits`;
       }
     };
     window.addEventListener('freshcommits_job_preloaded', handleJobPreloaded);
@@ -1614,7 +1617,7 @@ export default function App() {
             <FreshCommitsLogo size="sm" showWordmark={true} showDomainBadge={true} />
             <div className="hidden sm:block border-l border-[#dadce0] pl-3">
               <p className="text-[11px] text-[#5f6368]">
-                Verified 0–2 YoE Software Engineering Opportunities &bull; Direct Career Routing
+                Verified Entry Level, New Graduate &amp; Junior Engineer Roles &bull; Direct ATS Career Routing
               </p>
             </div>
           </div>
@@ -1767,7 +1770,7 @@ export default function App() {
 
         <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-[#dadce0] flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#80868b] gap-2">
           <div className="flex items-center gap-2">
-            <span>&copy; {new Date().getFullYear()} FreshCommits (freshcommits.com). Strictly verified 0–2 YoE software engineering opportunities.</span>
+            <span>&copy; {new Date().getFullYear()} FreshCommits (freshcommits.com). Strictly verified entry level, new graduate, and early career software engineering opportunities.</span>
             <span>&bull;</span>
             <button
               onClick={() => {

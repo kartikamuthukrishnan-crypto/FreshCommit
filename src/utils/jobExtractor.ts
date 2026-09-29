@@ -1,5 +1,6 @@
 import { ExperienceLevel, EmploymentType, JobCategory, SalaryRange } from '../types';
 import { inferCategory, inferExperienceLevel } from './jobAggregator';
+import { humanizeCareerTake } from './textHumanizer';
 
 export interface ExtractedJobData {
   title: string;
@@ -853,9 +854,16 @@ function composeFreshCommitsCuratedDescription(params: {
         : `${salary.currency} ${Math.round(salary.min / 1000)}k–${Math.round(salary.max / 1000)}k/year`)
     : '';
 
+  const rawLaunchpad = `${company} is actively investing in early-career talent with this ${title} opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.`;
+  const dynamicTake = humanizeCareerTake(rawLaunchpad, {
+    id: `${company}-${title}`,
+    title,
+    experienceLevel: 'Entry Level'
+  });
+
   const edgeBlock = [
     `🎯 The FreshCommits Career Take:`,
-    `${company} is actively investing in early-career talent with this ${title} opening. This role provides structured exposure to modern production tooling, cross-functional team collaboration, and dedicated mentorship, making it a high-leverage launchpad for 0–2 YoE engineers and tech professionals.`,
+    dynamicTake,
     ``,
     `💡 Candidate Preparation Checklist:`,
     `• Core Stack: Brush up on ${topSkillsStr || 'core computer science fundamentals'} and version control (Git).`,
