@@ -296,7 +296,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       min: salaryMin,
       max: salaryMax,
       currency: salaryCurrency,
-      unit: employmentType === 'INTERN' ? 'HOUR' : 'YEAR',
+      unit: (salaryMax >= 500 || salaryMin >= 500) ? 'YEAR' : (employmentType === 'INTERN' ? 'HOUR' : 'YEAR'),
     },
     description: description || 'Seeking enthusiastic junior software developer with foundational CS knowledge.',
     responsibilities: responsibilitiesText

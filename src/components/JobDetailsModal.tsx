@@ -144,18 +144,25 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
       .map((l) => l.replace(/^•\s*/, '').trim())
       .filter(Boolean);
 
+    const rawRoleOverview = parts[1]?.trim() || '';
+    const cleanRoleOverview = (rawRoleOverview || job.description)
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
+      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1');
+
     return {
       hasEdge: true,
       careerTake,
       checklistItems,
-      roleOverview: roleOverview || job.description
+      roleOverview: cleanRoleOverview
     };
   })();
 
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Salary Undisclosed';
     const sym = salary.currency === 'GBP' ? '£' : salary.currency === 'EUR' ? '€' : salary.currency === 'CAD' ? 'CA$' : salary.currency === 'INR' ? '₹' : '$';
-    if (salary.unit === 'HOUR') {
+    const isHourly = salary.unit === 'HOUR' && (salary.max || salary.min) < 500;
+    if (isHourly) {
       const maxH = salary.max && salary.max !== salary.min ? `–${sym}${salary.max}` : '';
       return `${sym}${salary.min}${maxH} / hr`;
     }

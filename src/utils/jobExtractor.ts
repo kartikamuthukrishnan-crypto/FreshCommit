@@ -1,6 +1,6 @@
 import { ExperienceLevel, EmploymentType, JobCategory, SalaryRange } from '../types';
 import { inferCategory, inferExperienceLevel } from './jobAggregator';
-import { humanizeCareerTake, generateLeadEngineerTake } from './textHumanizer';
+import { humanizeCareerTake, generateLeadEngineerTake, stripSeniorityFromTitle } from './textHumanizer';
 
 export interface ExtractedJobData {
   title: string;
@@ -874,7 +874,10 @@ function composeFreshCommitsCuratedDescription(params: {
     `• Location: Based in ${location}.`,
     ``,
     `🏢 Role Overview:`,
-    cleanOverview || `${company} is seeking an enthusiastic ${title} to join their team and contribute to high-impact products and customer experiences.`
+    (cleanOverview || `${company} is seeking an enthusiastic ${title} to join their team and contribute to high-impact products and customer experiences.`)
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
+      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
   ].join('\n');
 
   return edgeBlock;
@@ -1010,7 +1013,12 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
   const benchmark = getRoleMarketBenchmark(title, roleData.category, loc.country || 'US');
   const salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: benchmark.unit };
 
-  const cleanOverview = `${company} is actively seeking an early-career ${title} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
+  const baseTitle = stripSeniorityFromTitle(title);
+  const titleHasSeniority = /(?:early[\s-]career|entry[\s-]level|junior|new\s*grad|intern|graduate|fresher)/i.test(title);
+  const article = /^[aeiou]/i.test(baseTitle) ? 'an' : 'a';
+  const cleanOverview = titleHasSeniority
+    ? `${company} is actively seeking ${article} ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`
+    : `${company} is actively seeking an early-career ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
   const curatedDescription = composeFreshCommitsCuratedDescription({
     title,
     company,
@@ -1603,6 +1611,8 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   if (!title) {
     title = lines[0] || 'Software Engineer (Early Career)';
   }
+  // Strip awkward trailing HR seniority tags (e.g. ", Early Career" or " - Early Career")
+  title = stripSeniorityFromTitle(title);
 
   // 2. EXTRACT COMPANY
   let company = '';
@@ -1796,7 +1806,12 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   else if (textLower.includes('taleo')) detectedAtsProvider = 'Taleo';
 
   // 10. CLEAN OVERVIEW & CURATED DESCRIPTION
-  const cleanOverview = `${company} is actively seeking an early-career ${title} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
+  const baseTitle = stripSeniorityFromTitle(title);
+  const titleHasSeniority = /(?:early[\s-]career|entry[\s-]level|junior|new\s*grad|intern|graduate|fresher)/i.test(title);
+  const article = /^[aeiou]/i.test(baseTitle) ? 'an' : 'a';
+  const cleanOverview = titleHasSeniority
+    ? `${company} is actively seeking ${article} ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`
+    : `${company} is actively seeking an early-career ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
   const curatedDescription = composeFreshCommitsCuratedDescription({
     title,
     company,

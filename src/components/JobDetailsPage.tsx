@@ -158,11 +158,17 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
           .filter(Boolean)
       : [];
 
+    const rawRoleOverview = parts[1]?.trim() || '';
+    const cleanRoleOverview = (rawRoleOverview || job.description)
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
+      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1');
+
     return {
       hasEdge: true,
       careerTake,
       checklistItems,
-      roleOverview: roleOverview || job.description
+      roleOverview: cleanRoleOverview
     };
   })();
 
@@ -171,7 +177,8 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Competitive compensation based on qualifications';
     const currencySymbol = salary.currency === 'EUR' ? '€' : salary.currency === 'GBP' ? '£' : '$';
-    if (salary.unit === 'HOUR') {
+    const isHourly = salary.unit === 'HOUR' && (salary.max || salary.min) < 500;
+    if (isHourly) {
       return `${currencySymbol}${salary.min}${salary.max && salary.max !== salary.min ? `–${currencySymbol}${salary.max}` : ''} / hour`;
     }
     const minFormatted = salary.min >= 1000 ? `${Math.round(salary.min / 1000)}k` : `${salary.min}`;
