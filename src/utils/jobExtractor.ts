@@ -1570,3 +1570,277 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
   // Works flawlessly for Google Careers, Workday, Amazon, Microsoft, Apple, and all enterprise career pages!
   return synthesizeJobFromUrl(fullUrl);
 }
+
+/**
+ * Rapid Raw Job Description Canvas Parser:
+ * Extracts rich, structured JobPosting metadata from raw pasted JD text
+ * (e.g., from Workday, Taleo, Oracle Cloud, LinkedIn, or career portals)
+ * with 100% zero operational cost ($0.00).
+ */
+export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: string = ''): ExtractedJobData {
+  const text = rawText.trim();
+  if (!text) {
+    throw new Error('Please paste job description text into the canvas.');
+  }
+
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+
+  // 1. EXTRACT TITLE
+  let title = '';
+  // Check if first line or early line looks like a job title
+  for (let i = 0; i < Math.min(lines.length, 6); i++) {
+    const line = lines[i];
+    if (
+      line.length > 4 &&
+      line.length < 100 &&
+      !line.match(/^(Apply Now|Job Information|Search Jobs|Sign In|Skip to|Menu|Home|Careers|Job ID|Req ID)/i) &&
+      !line.match(/^[0-9\/\-:\s,]+$/)
+    ) {
+      title = line.replace(/^(?:Job Title|Position|Role|Opening)[:\s–-]+/i, '').trim();
+      break;
+    }
+  }
+  if (!title) {
+    title = lines[0] || 'Software Engineer (Early Career)';
+  }
+
+  // 2. EXTRACT COMPANY
+  let company = '';
+  // Check "About Us", "About [Company]", "About the Team"
+  const aboutMatch = text.match(/(?:About Us|About the Company|Company Overview|About)\s*\n+([A-Za-z0-9&,.\s\-]{2,50}?)(?:,|\.|is\b|offers\b|one of\b|operates\b|was founded\b)/i);
+  if (aboutMatch && aboutMatch[1]) {
+    const candidate = aboutMatch[1].trim().replace(/\n.*$/, '');
+    if (candidate.length > 2 && candidate.length < 40 && !candidate.match(/^(The|Our|We|This|At)\b/i)) {
+      company = candidate;
+    }
+  }
+
+  if (!company) {
+    // Check known companies in text
+    const knownKeys = Object.keys(KNOWN_COMPANIES);
+    for (const key of knownKeys) {
+      const item = KNOWN_COMPANIES[key];
+      const re = new RegExp(`\\b${item.name}\\b`, 'i');
+      if (re.test(text)) {
+        company = item.name;
+        break;
+      }
+    }
+  }
+
+  if (!company) {
+    // Check patterns like "at [Company]" in title or early lines
+    const atMatch = text.match(/\bat\s+([A-Z][A-Za-z0-9&.\s]{2,30}?)(?:\s+(?:is|in|offers|,|\.|\n))/);
+    if (atMatch && atMatch[1]) {
+      company = atMatch[1].trim();
+    }
+  }
+
+  if (!company) {
+    company = 'Tech Employer';
+  }
+
+  // 3. EXTRACT LOCATION
+  let location = '';
+  let city = '';
+  let state = '';
+  let country = 'US';
+  let isRemote = false;
+
+  const locMatch = text.match(/(?:Locations?|Job Location|Primary Location)\s*[:\n]\s*([^\n]+)/i);
+  if (locMatch && locMatch[1]) {
+    location = locMatch[1].trim();
+  } else {
+    // Check for US City, ST pattern (e.g. New York, NY)
+    const cityStateMatch = text.match(/\b([A-Z][a-zA-Z\s.-]+),\s*([A-Z]{2})\b/);
+    if (cityStateMatch) {
+      city = cityStateMatch[1].trim();
+      state = cityStateMatch[2].trim();
+      location = `${city}, ${state}`;
+    }
+  }
+
+  // Clean location if it contains street addresses like "450 W 33rd St, New York, NY, 10001, US"
+  const addressMatch = location.match(/(?:[0-9]+\s+[A-Za-z0-9\s.,]+,\s*)?([A-Za-z\s.-]+),\s*([A-Z]{2})(?:,\s*[0-9]{5})?(?:,\s*([A-Z]{2}))?/);
+  if (addressMatch) {
+    city = addressMatch[1].trim().replace(/^.*,\s*/, '');
+    state = addressMatch[2].trim();
+    if (addressMatch[3]) country = addressMatch[3].trim();
+    location = `${city}, ${state}`;
+  }
+
+  const textLower = text.toLowerCase();
+  if (textLower.includes('hybrid') || location.toLowerCase().includes('hybrid')) {
+    isRemote = false;
+    if (!location.toLowerCase().includes('hybrid')) {
+      location = location ? `${location} / Hybrid` : 'Hybrid';
+    }
+  } else if (textLower.includes('remote') || textLower.includes('telecommute') || textLower.includes('work from home')) {
+    isRemote = true;
+    if (!location.toLowerCase().includes('remote')) {
+      location = location ? `${location} (Remote)` : 'Remote / US & Global';
+    }
+  }
+
+  if (!location) {
+    location = 'Remote / US & Global';
+    isRemote = true;
+  }
+
+  // 4. EXTRACT SALARY / COMPENSATION
+  const salaryMatch = text.match(/(?:Base Pay\/Salary|Salary|Pay Range|Compensation|Hourly Rate|Base Salary)[^\n]*\n*([^\n$]*\$([0-9]{2,3}(?:,[0-9]{3})*)\s*[-–]\s*\$([0-9]{2,3}(?:,[0-9]{3})*))/i);
+  let salary: SalaryRange = { min: 0, max: 0, currency: 'USD', unit: 'YEAR' };
+  let salaryDisclosed = false;
+
+  if (salaryMatch) {
+    const rawMin = parseInt(salaryMatch[2].replace(/,/g, ''), 10);
+    const rawMax = parseInt(salaryMatch[3].replace(/,/g, ''), 10);
+    if (rawMin > 0 && rawMax >= rawMin) {
+      salaryDisclosed = true;
+      salary = {
+        min: rawMin,
+        max: rawMax,
+        currency: 'USD',
+        unit: rawMax <= 300 ? 'HOUR' : 'YEAR'
+      };
+    }
+  } else {
+    // Attempt general salary regex
+    const genSalary = extractSalaryFromText(text);
+    if (genSalary && genSalary.min > 0) {
+      salary = genSalary;
+      salaryDisclosed = true;
+    }
+  }
+
+  // 5. EXTRACT EMPLOYMENT TYPE & SENIORITY
+  let employmentType: EmploymentType = 'FULL_TIME';
+  if (textLower.includes('intern') || title.toLowerCase().includes('intern')) {
+    employmentType = 'INTERN';
+  } else if (textLower.includes('part time') || textLower.includes('part-time')) {
+    employmentType = 'PART_TIME';
+  } else if (textLower.includes('contract')) {
+    employmentType = 'CONTRACT';
+  }
+
+  const experienceLevel = inferExperienceLevel(title, text);
+  const maxYearsExperience = employmentType === 'INTERN' ? 0 : 1;
+
+  // 6. EXTRACT SKILLS & CATEGORY
+  const detectedSkills = detectSkills(text);
+  // Add design-specific skills if applicable
+  if (title.toLowerCase().includes('design') || textLower.includes('figma') || textLower.includes('ui/ux')) {
+    if (!detectedSkills.includes('Figma')) detectedSkills.push('Figma');
+    if (!detectedSkills.includes('Design Systems')) detectedSkills.push('Design Systems');
+    if (!detectedSkills.includes('UI/UX')) detectedSkills.push('UI/UX');
+    if (!detectedSkills.includes('Prototyping')) detectedSkills.push('Prototyping');
+  }
+  const skills = detectedSkills.slice(0, 8);
+  const category = inferCategory(title, skills);
+
+  // 7. EXTRACT RESPONSIBILITIES
+  function extractSectionLines(corpus: string, startHeaderRegex: RegExp, endHeaderRegex: RegExp): string[] {
+    const startMatch = corpus.match(startHeaderRegex);
+    if (!startMatch || startMatch.index === undefined) return [];
+    const startIndex = startMatch.index + startMatch[0].length;
+    const sub = corpus.slice(startIndex);
+    const endMatch = sub.match(endHeaderRegex);
+    const sectionText = endMatch && endMatch.index !== undefined ? sub.slice(0, endMatch.index) : sub;
+    return sectionText
+      .split('\n')
+      .map((l) => l.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+      .filter((l) => l.length > 10 && !l.match(/^(Eligibility|What you|About Us|Similar Jobs|What we|About the)/i))
+      .slice(0, 6);
+  }
+
+  let responsibilities = extractSectionLines(
+    text,
+    /(?:What you(?:’|'| )*ll do|What you will do|Responsibilities|Key Responsibilities|Role Responsibilities|You will)[:\n]/i,
+    /(?:What you(?:’|'| )*ll bring|What you will bring|Eligibility|Qualifications|About Us|What we)/i
+  );
+
+  let qualifications = extractSectionLines(
+    text,
+    /(?:Eligibility|What you(?:’|'| )*ll bring|What you will bring|Qualifications|Basic Qualifications|Minimum Qualifications|Requirements)[:\n]/i,
+    /(?:What we(?:’|'| )*ll teach|About Us|Similar Jobs|Benefits|About the team)/i
+  );
+
+  // Fallbacks if not extracted
+  if (responsibilities.length === 0 || qualifications.length === 0) {
+    const archetype = getRoleArchetypeContent(title, company);
+    if (responsibilities.length === 0) responsibilities = archetype.responsibilities;
+    if (qualifications.length === 0) qualifications = archetype.qualifications;
+  }
+
+  // 8. DATE POSTED
+  let datePosted = new Date().toISOString().split('T')[0];
+  const postDateMatch = text.match(/(?:Posting Date|Posted on|Date Posted)\s*[:\n]\s*([0-9]{1,2}[\/\-][0-9]{1,2}[\/\-][0-9]{2,4})/i);
+  if (postDateMatch && postDateMatch[1]) {
+    try {
+      const d = new Date(postDateMatch[1]);
+      if (!isNaN(d.getTime())) {
+        datePosted = d.toISOString().split('T')[0];
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 9. ATS PROVIDER
+  let detectedAtsProvider = 'Direct Career Portal';
+  if (textLower.includes('workday')) detectedAtsProvider = 'Workday';
+  else if (textLower.includes('greenhouse')) detectedAtsProvider = 'Greenhouse';
+  else if (textLower.includes('lever.co')) detectedAtsProvider = 'Lever';
+  else if (textLower.includes('smartrecruiters')) detectedAtsProvider = 'SmartRecruiters';
+  else if (textLower.includes('ashby')) detectedAtsProvider = 'Ashby';
+  else if (textLower.includes('taleo')) detectedAtsProvider = 'Taleo';
+
+  // 10. CLEAN OVERVIEW & CURATED DESCRIPTION
+  const cleanOverview = `${company} is actively seeking an early-career ${title} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
+  const curatedDescription = composeFreshCommitsCuratedDescription({
+    title,
+    company,
+    cleanOverview,
+    skills,
+    salary,
+    responsibilities,
+    qualifications,
+    location
+  });
+
+  const benchmark = getRoleMarketBenchmark(title, category, country);
+
+  // Company logo & website
+  const cleanSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const companyWebsite = `https://www.${cleanSlug}.com`;
+  const companyLogo = `https://logo.clearbit.com/${cleanSlug}.com`;
+
+  const finalApplyUrl = fallbackApplyUrl.trim() || `https://www.freshcommits.com/`;
+
+  return {
+    title,
+    company,
+    companyLogo,
+    companyWebsite,
+    location,
+    isRemote,
+    city,
+    state,
+    country,
+    applicantLocationRequirements: isRemote ? country : undefined,
+    experienceLevel,
+    maxYearsExperience,
+    category,
+    employmentType,
+    salary,
+    salaryDisclosed,
+    suggestedBenchmark: benchmark,
+    description: curatedDescription,
+    responsibilities,
+    qualifications,
+    skills,
+    applyUrl: finalApplyUrl,
+    detectedAtsProvider,
+    datePosted
+  };
+}

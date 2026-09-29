@@ -66,7 +66,7 @@ import {
   batchSaveJobsToCloud,
   saveAdConfigToCloud
 } from '../services/firebaseService';
-import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl } from '../utils/jobExtractor';
+import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl, extractJobDataFromRawText } from '../utils/jobExtractor';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap } from 'lucide-react';
 
@@ -190,6 +190,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [validDays, setValidDays] = useState(60);
 
   // Auto-Extraction / Instant Ingestion State
+  const [ingestionMode, setIngestionMode] = useState<'canvas' | 'url'>('canvas');
+  const [rawJdCanvasText, setRawJdCanvasText] = useState('');
+  const [canvasApplyUrl, setCanvasApplyUrl] = useState('');
+  const [isCanvasExtracting, setIsCanvasExtracting] = useState(false);
   const [autoExtractUrl, setAutoExtractUrl] = useState('');
   const [isExtracting, setIsExtracting] = useState(false);
   const [extractSuccessMsg, setExtractSuccessMsg] = useState('');
@@ -426,6 +430,61 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setExtractErrorMsg(err.message || 'Failed to extract from this link. Please check the URL.');
     } finally {
       setIsExtracting(false);
+    }
+  };
+
+  const handleCanvasAutoFill = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!rawJdCanvasText.trim()) {
+      setExtractErrorMsg('Please paste job description text into the canvas first.');
+      return;
+    }
+    setIsCanvasExtracting(true);
+    setExtractSuccessMsg('');
+    setExtractErrorMsg('');
+    try {
+      const data = extractJobDataFromRawText(rawJdCanvasText.trim(), canvasApplyUrl.trim());
+      setTitle(data.title);
+      setCompany(data.company);
+      if (data.companyLogo) setCompanyLogo(data.companyLogo);
+      if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
+      setLocation(data.location);
+      setIsRemote(data.isRemote);
+      if (data.city) setCity(data.city);
+      if (data.state) setState(data.state);
+      if (data.country) setCountry(data.country);
+      if (data.applicantLocationRequirements) setApplicantLocationRequirements(data.applicantLocationRequirements);
+      if (data.datePosted) setDatePosted(data.datePosted);
+      setCategory(data.category);
+      setExperienceLevel(data.experienceLevel);
+      setMaxYearsExperience(data.maxYearsExperience);
+      setEmploymentType(data.employmentType);
+      setSalaryCurrency(data.salary.currency || 'USD');
+      setSalaryMin(data.salary.min);
+      setSalaryMax(data.salary.max);
+      setDescription(data.description);
+      setResponsibilitiesText(data.responsibilities.join('\n'));
+      setQualificationsText(data.qualifications.join('\n'));
+      setSkillsText(data.skills.join(', '));
+      if (canvasApplyUrl.trim()) {
+        setApplyUrl(canvasApplyUrl.trim());
+      } else if (data.applyUrl && data.applyUrl !== 'https://www.freshcommits.com/') {
+        setApplyUrl(data.applyUrl);
+      }
+
+      if (data.salaryDisclosed && data.salary.min > 0) {
+        setExtractSuccessMsg(
+          `✨ Parsed from raw canvas! Role "${data.title}" at "${data.company}" populated with verified salary ($${data.salary.min.toLocaleString()} – $${data.salary.max.toLocaleString()}) & structured checklist.`
+        );
+      } else {
+        setExtractSuccessMsg(
+          `✨ Parsed from raw canvas! Role "${data.title}" at "${data.company}" populated with skills, responsibilities & qualifications. Note: Please add direct ATS Apply URL below.`
+        );
+      }
+    } catch (err: any) {
+      setExtractErrorMsg(err.message || 'Failed to parse text from canvas.');
+    } finally {
+      setIsCanvasExtracting(false);
     }
   };
 
@@ -1014,57 +1073,164 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               )}
             </div>
 
-            {/* ⚡ Instant Smart ATS Ingestion & Auto-Fill ("The FreshCommits Edge") */}
+            {/* ⚡ Dual-Mode Smart Ingestion & Auto-Fill ("The FreshCommits Edge") */}
             <div className="mb-6 p-4 bg-gradient-to-br from-indigo-50/90 via-slate-50 to-emerald-50/70 border border-indigo-200 rounded-2xl shadow-xs">
-              <div className="flex items-center justify-between mb-1.5 flex-wrap gap-2">
+              <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs">
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
-                      Instant Career &amp; ATS Link Converter &amp; Auto-Fill
+                      Fast Job Ingestion &amp; Form Autofill
                     </h3>
                     <p className="text-[11px] text-slate-500">
-                      Auto-extracts JD metadata &amp; generates "The FreshCommits Edge" summary from any career URL
+                      Populate title, company, salary, location, checklist &amp; Google schema with zero manual retyping
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 text-[10px] font-semibold text-indigo-700 bg-white px-2 py-0.5 rounded-md border border-indigo-100">
-                  <span>Google Careers • Workday • Greenhouse • Lever • Ashby • Amazon • Any Career Link</span>
+
+                {/* Mode Selector Tabs */}
+                <div className="flex items-center bg-white p-0.5 rounded-xl border border-indigo-200 shadow-2xs text-xs font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIngestionMode('canvas');
+                      setExtractErrorMsg('');
+                      setExtractSuccessMsg('');
+                    }}
+                    className={`px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+                      ingestionMode === 'canvas'
+                        ? 'bg-indigo-600 text-white shadow-2xs font-bold'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    }`}
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>📋 Paste Raw JD Canvas</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIngestionMode('url');
+                      setExtractErrorMsg('');
+                      setExtractSuccessMsg('');
+                    }}
+                    className={`px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+                      ingestionMode === 'url'
+                        ? 'bg-indigo-600 text-white shadow-2xs font-bold'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    }`}
+                  >
+                    <LinkIcon className="w-3.5 h-3.5" />
+                    <span>🔗 From Career URL</span>
+                  </button>
                 </div>
               </div>
 
-              <form onSubmit={handleAutoExtract} className="mt-3 flex flex-col sm:flex-row gap-2">
-                <div className="relative flex-1">
-                  <input
-                    type="url"
-                    required
-                    placeholder="Paste job URL (e.g. Google Careers, Workday, Greenhouse, Lever, Ashby, or company link)"
-                    value={autoExtractUrl}
-                    onChange={(e) => setAutoExtractUrl(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
-                  />
-                  <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-2.5" />
+              {/* MODE 1: RAW JD CANVAS BOX */}
+              {ingestionMode === 'canvas' && (
+                <div className="space-y-2.5 animate-fade-in">
+                  <div className="relative">
+                    <textarea
+                      rows={6}
+                      value={rawJdCanvasText}
+                      onChange={(e) => setRawJdCanvasText(e.target.value)}
+                      placeholder="Paste complete Job Description text here (e.g. from Workday, Taleo, Oracle Cloud, LinkedIn, Greenhouse, or career portal)...&#10;&#10;Example:&#10;Product Designer – Early Career&#10;JPMorganChase • New York, NY • Base Pay: $85,000 - $105,000&#10;What you'll do: ...&#10;What you'll bring: ..."
+                      className="w-full p-3 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-sans leading-relaxed resize-y"
+                    />
+                    {rawJdCanvasText && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setRawJdCanvasText('');
+                          setCanvasApplyUrl('');
+                        }}
+                        className="absolute right-2.5 top-2.5 px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md text-[10px] font-semibold transition-colors cursor-pointer"
+                        title="Clear canvas"
+                      >
+                        ✕ Clear
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <div className="relative flex-1">
+                      <input
+                        type="url"
+                        placeholder="Optional: Direct ATS Application URL (e.g. https://careers.company.com/job/123)"
+                        value={canvasApplyUrl}
+                        onChange={(e) => setCanvasApplyUrl(e.target.value)}
+                        className="w-full pl-8 pr-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                      />
+                      <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-2.5" />
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleCanvasAutoFill}
+                      disabled={isCanvasExtracting || !rawJdCanvasText.trim()}
+                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
+                    >
+                      {isCanvasExtracting ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Parsing &amp; Curating...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                          <span>✨ Parse &amp; Autofill All Fields</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
+                    <span>
+                      {rawJdCanvasText.trim()
+                        ? `${rawJdCanvasText.length.toLocaleString()} characters • ${rawJdCanvasText.split('\n').filter(Boolean).length} lines detected`
+                        : 'Tip: Press Ctrl+A and Ctrl+C on any job posting page, then paste directly into this canvas.'}
+                    </span>
+                    <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                      Zero-Cost Local Heuristic Parser ($0.00)
+                    </span>
+                  </div>
                 </div>
-                <button
-                  type="submit"
-                  disabled={isExtracting || !autoExtractUrl.trim()}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
-                >
-                  {isExtracting ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Extracting &amp; Curating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>Convert &amp; Fill Form</span>
-                    </>
-                  )}
-                </button>
-              </form>
+              )}
+
+              {/* MODE 2: URL FETCHER */}
+              {ingestionMode === 'url' && (
+                <form onSubmit={handleAutoExtract} className="mt-1 flex flex-col sm:flex-row gap-2 animate-fade-in">
+                  <div className="relative flex-1">
+                    <input
+                      type="url"
+                      required
+                      placeholder="Paste job URL (e.g. Google Careers, Workday, Greenhouse, Lever, Ashby, or company link)"
+                      value={autoExtractUrl}
+                      onChange={(e) => setAutoExtractUrl(e.target.value)}
+                      className="w-full pl-8 pr-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                    />
+                    <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-2.5" />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isExtracting || !autoExtractUrl.trim()}
+                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
+                  >
+                    {isExtracting ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Extracting &amp; Curating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                        <span>Convert &amp; Fill Form</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
 
               {/* Feedback banners */}
               {extractSuccessMsg && (
