@@ -264,6 +264,64 @@ async function pullFirestoreJobs() {
   html = html.replace(regex, syncJobsString);
   fs.writeFileSync(indexHtmlPath, html, 'utf8');
   console.log(`Updated index.html SYNCHRONOUS_JOBS with all ${Object.keys(syncJobsObj).length} jobs!`);
+
+  // 3. Build complete public/sitemap.xml with ALL live jobs, articles, and static routes
+  const today = new Date().toISOString().split('T')[0];
+  const staticRoutes = [
+    { loc: 'https://www.freshcommits.com/', priority: '1.0', changefreq: 'daily' },
+    { loc: 'https://www.freshcommits.com/salary-guide', priority: '0.95', changefreq: 'weekly' },
+    { loc: 'https://www.freshcommits.com/insights', priority: '0.95', changefreq: 'weekly' },
+    { loc: 'https://www.freshcommits.com/tools', priority: '0.90', changefreq: 'weekly' },
+    { loc: 'https://www.freshcommits.com/about', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/contact', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/privacy', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/privacy-policy', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/terms', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/disclaimer', priority: '0.60', changefreq: 'monthly' }
+  ];
+
+  // Read career article IDs from all article data files
+  const articleFiles = [
+    path.join(rootDir, 'src', 'data', 'careerArticles.ts'),
+    path.join(rootDir, 'src', 'data', 'articles', 'pathwaysAndInterviews.ts'),
+    path.join(rootDir, 'src', 'data', 'articles', 'applicationAndOutreach.ts'),
+    path.join(rootDir, 'src', 'data', 'articles', 'specializedAndWorkplace.ts')
+  ];
+  const allArticleIds = [];
+  for (const f of articleFiles) {
+    if (fs.existsSync(f)) {
+      const content = fs.readFileSync(f, 'utf8');
+      const matches = [...content.matchAll(/id:\s*'([a-z0-9-]+)'/g)].map((m) => m[1]);
+      allArticleIds.push(...matches);
+    }
+  }
+  const uniqueArticleIds = Array.from(new Set(allArticleIds));
+
+  let sitemapXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  sitemapXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  sitemapXml += '  <!-- Core Application & Index Hubs -->\n';
+
+  for (const r of staticRoutes) {
+    sitemapXml += `  <url>\n    <loc>${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>\n`;
+  }
+
+  sitemapXml += '\n  <!-- Editorial Career Insights Guides -->\n';
+  for (const artId of uniqueArticleIds) {
+    sitemapXml += `  <url>\n    <loc>https://www.freshcommits.com/insights/${artId}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.85</priority>\n  </url>\n`;
+  }
+
+  sitemapXml += '\n  <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->\n';
+  for (const job of cloudJobs) {
+    if (!job || !job.id) continue;
+    const jobDate = job.datePosted || today;
+    sitemapXml += `  <url>\n    <loc>https://www.freshcommits.com/job/${job.id}</loc>\n    <lastmod>${jobDate}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.95</priority>\n  </url>\n`;
+  }
+
+  sitemapXml += '</urlset>\n';
+
+  const sitemapPath = path.join(rootDir, 'public', 'sitemap.xml');
+  fs.writeFileSync(sitemapPath, sitemapXml, 'utf8');
+  console.log(`Generated public/sitemap.xml with ${staticRoutes.length + uniqueArticleIds.length + cloudJobs.length} URLs!`);
 }
 
 pullFirestoreJobs().catch((err) => {
