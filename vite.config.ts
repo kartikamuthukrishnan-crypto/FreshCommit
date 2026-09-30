@@ -16,7 +16,25 @@ export default defineConfig(() => {
       },
     },
     build: {
+      sourcemap: false,
       chunkSizeWarningLimit: 1200,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('AdminPanel') || id.includes('seoJdGenerator')) {
+              return 'admin-protected';
+            }
+            if (id.includes('node_modules')) {
+              if (id.includes('firebase')) {
+                return 'vendor-firebase';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-icons';
+              }
+            }
+          },
+        },
+      },
     },
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',

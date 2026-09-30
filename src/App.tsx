@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel } from './types';
 import { INITIAL_JOBS } from './data/initialJobs';
 import { CAREER_ARTICLES } from './data/careerArticles';
 import { Navbar } from './components/Navbar';
 import { JobCard } from './components/JobCard';
 import { JobDetailsPage } from './components/JobDetailsPage';
-import { AdminPanel } from './components/AdminPanel';
+const AdminPanel = lazy(() => import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel })));
 import { AdSlot } from './components/AdSlot';
 import { SalaryGuideView, AdSensePolicyView, CareerInsightsView } from './components/OriginalGuides';
 import { InteractiveToolsView } from './components/InteractiveTools';
@@ -1515,18 +1515,27 @@ export default function App() {
         {/* VIEW 4: ADMIN PANEL - RESTRICTED TO OWNER ONLY */}
         {activeTab === 'admin' && (
           isAdminAuthenticated ? (
-            <AdminPanel
-              jobs={jobs}
-              setJobs={setJobs}
-              adConfig={adConfig}
-              setAdConfig={setAdConfig}
-              syncLogs={syncLogs}
-              setSyncLogs={setSyncLogs}
-              onClose={() => setActiveTab('jobs')}
-              ownerPasscode={adminPasscode}
-              onUpdatePasscode={handleUpdatePasscode}
-              onLogout={handleLogoutAdmin}
-            />
+            <Suspense
+              fallback={
+                <div className="flex flex-col items-center justify-center py-28 space-y-4">
+                  <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                  <p className="text-xs font-semibold text-slate-500">Loading secure admin environment...</p>
+                </div>
+              }
+            >
+              <AdminPanel
+                jobs={jobs}
+                setJobs={setJobs}
+                adConfig={adConfig}
+                setAdConfig={setAdConfig}
+                syncLogs={syncLogs}
+                setSyncLogs={setSyncLogs}
+                onClose={() => setActiveTab('jobs')}
+                ownerPasscode={adminPasscode}
+                onUpdatePasscode={handleUpdatePasscode}
+                onLogout={handleLogoutAdmin}
+              />
+            </Suspense>
           ) : (
             <div className="max-w-md mx-auto my-16 p-8 bg-white border border-slate-200 rounded-2xl text-center space-y-4 shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-slate-900 text-emerald-400 flex items-center justify-center mx-auto shadow-inner">
