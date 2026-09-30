@@ -1,3 +1,2 @@
 # FreshCommits Google AdSense ads.txt
-# Update with your active AdSense Publisher ID in Admin Panel or directly:
-google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0
+google.com, pub-5760843724020240, DIRECT, f08c47fec0942fa0

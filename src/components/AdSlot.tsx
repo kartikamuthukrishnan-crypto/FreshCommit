@@ -8,12 +8,23 @@ interface AdSlotProps {
 }
 
 export const AdSlot: React.FC<AdSlotProps> = ({ type, config, className = '' }) => {
+  // Normalize publisher ID to always guarantee ca-pub- format
+  const rawId = (config?.publisherId || '').trim();
+  const normalizedPubId = rawId.startsWith('ca-pub-')
+    ? rawId
+    : rawId.startsWith('pub-')
+    ? `ca-${rawId}`
+    : rawId.length >= 10
+    ? `ca-pub-${rawId.replace(/[^0-9]/g, '')}`
+    : '';
+
   // Never render any ad details or placeholders if disabled, in test mode, or without a real publisher ID
   const isRealPublisherId =
-    Boolean(config?.publisherId) &&
-    config.publisherId.startsWith('ca-pub-') &&
-    config.publisherId !== 'ca-pub-9876543210123456' &&
-    !config.publisherId.includes('configured-in-admin');
+    Boolean(normalizedPubId) &&
+    normalizedPubId.startsWith('ca-pub-') &&
+    normalizedPubId.length > 10 &&
+    normalizedPubId !== 'ca-pub-9876543210123456' &&
+    !normalizedPubId.includes('configured-in-admin');
 
   if (!config?.enabled || config.testMode || !isRealPublisherId) {
     return null;
@@ -45,7 +56,7 @@ export const AdSlot: React.FC<AdSlotProps> = ({ type, config, className = '' }) 
         <ins
           className="adsbygoogle"
           style={{ display: 'block', textAlign: 'center' }}
-          data-ad-client={config.publisherId}
+          data-ad-client={normalizedPubId}
           data-ad-slot="1234567890"
           data-ad-format="auto"
           data-full-width-responsive="true"
