@@ -15,7 +15,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Search,
-  X
+  X,
+  ShieldCheck
 } from 'lucide-react';
 import { CAREER_ARTICLES } from '../data/careerArticles';
 import { CareerArticleReader } from './CareerArticleReader';
@@ -391,6 +392,13 @@ export const CareerInsightsView: React.FC = () => {
         <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
           Comprehensive, original editorial guides on compensation math, professional git hygiene, production-grade portfolio architectures, system design fundamentals, and team mentorship evaluation for 0–2 YoE developers.
         </p>
+
+        <div className="mt-4 p-3 bg-slate-50 border border-slate-200/80 rounded-xl inline-flex items-center gap-2.5 text-left text-[11px] text-slate-500 max-w-2xl mx-auto shadow-2xs">
+          <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+          <span>
+            <strong className="text-slate-700">Editorial Standards:</strong> We utilize automated research and linguistic tools to assist our editorial workflow. Every guide is fact-checked, structured, and reviewed by human domain engineering specialists prior to publication.
+          </span>
+        </div>
       </div>
 
       {/* Search Bar & Quick Filters */}

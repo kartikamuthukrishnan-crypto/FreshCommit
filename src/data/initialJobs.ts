@@ -53,7 +53,64 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.walaris.com",
     "status": "ACTIVE",
     "fingerprint": "walaris-software-engineer-atlanta-ga-hybrid",
-    "title": "Software Engineer"
+    "title": "Software Engineer",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.137Z"
+  },
+  {
+    "country": "FR",
+    "maxYearsExperience": 0,
+    "city": "Levallois-Perret",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (JavaScript, Java), Git workflow, and code documentation.\n• Interview Focus: SAP IT Business Systeme values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Levallois-Perret, , France (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWhat you'll build",
+    "source": "MANUAL_ADMIN",
+    "salary": {
+      "unit": "HOUR",
+      "min": 0,
+      "max": 0,
+      "currency": "EUR"
+    },
+    "skills": [
+      "JavaScript",
+      "Java"
+    ],
+    "qualifications": [
+      "What you'll bring",
+      "You are a student at an engineering school or equivalent, with a hands-on, operational, and practical mindset. You have strong expertise in Java / JavaScript and agentic AI. Excellent communication skills in English are required. You are a true team player, comfortable working in an agile and international environment.",
+      "You work with agentic AI on a daily basis — LLM pipelines and agent orchestration. You have a strong ability to learn quickly and ramp up on new frameworks. You are rigorous about the quality of AI outputs and have a strong command of context engineering (prompt design, RAG, orchestration). You are able to solve complex and ambiguous problems end-to-end. You have solid technical fundamentals — a Codility assessment will be part of the recruitment process.",
+      "Where you belong",
+      "We help SAP customers and developers build, run, and extend applications on BTP, from the first line of code to a production-ready agent. Our products are the tools people use every day: Joule Studio Classic, SAP Build Apps, SAP Business Application Studio, SAP BACE Automation & Life Cycle, and the Lobby & Registry infrastructure that brings everything together.",
+      "We take care of what already works. Many customers rely on these products today, and our first responsibility is to preserve that trust by reducing the friction that costs them time.",
+      "We hold ourselves to the same standards we set for our customers. We automate repetitive tasks, eliminate unnecessary work, and measure what matters, while building a faster engineering organization that continuously improves over time. What we learn, we share."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "What you'll build",
+      "To support the growth of our product, we are looking for an AI Developer to automate the deployment processes of our Cloud platform.",
+      "You will join the Joule Studio 1.0 Classic team — a Low-Code / No-Code studio that enables business users to create agentic workflows to automate their processes through a simplified and accessible experience. You will work closely with a Product Manager and an Architect to design and maintain high-quality features, closely aligned with customer needs.",
+      "We take care of what already works. Many customers rely on our product today, and our first responsibility is to maintain their trust through reliable operations, rigorous maintenance, and by reducing the friction that costs them time.",
+      "You will automate repetitive tasks and eliminate unnecessary steps — improvements whose benefits compound over time. What we learn, we share."
+    ],
+    "atsProvider": "SmartRecruiters",
+    "company": "SAP IT Business Systeme",
+    "id": "manual-1790762480281",
+    "state": "CA",
+    "datePosted": "2026-09-30",
+    "validThrough": "2026-10-30",
+    "employmentType": "INTERN",
+    "companyLogo": "https://ui-avatars.com/api/?name=SAP%20IT%20Business%20Systeme&background=0F172A&color=fff&size=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.smartrecruiters.com/SAPITBusinessSysteme/744000152643811-internship-ai-automation-developer-f-m",
+    "location": "Levallois-Perret, , France",
+    "category": "Backend",
+    "companyWebsite": "https://sapitbusinesssysteme.com",
+    "status": "ACTIVE",
+    "fingerprint": "sap-it-business-systeme-internship-ai-automation-developer-f-m-levallois-perret-france",
+    "title": "Internship: AI Automation Developer F/M",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.137Z"
   },
   {
     "country": "US",
@@ -109,7 +166,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.ubdsgroup.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.137Z"
   },
   {
     "country": "US",
@@ -165,7 +222,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.mangroup.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.137Z"
   },
   {
     "country": "US",
@@ -226,7 +283,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cgi.njoyn.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -277,7 +334,9 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "city": "New York",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Evolutioniq emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Python, SQL, ServiceNow scripting for system integrations.\n• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation Range: Verified employer range of ~8k–5k/year with career progression reviews.\n• Location: Based in New York, NY (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAbout Us: EvolutionIQ’s mission is to deliver state of the art technology that helps insurance claims teams make claims handling more accurate, fair, and efficient, so that more people impacted by injury or illness can continue their lives with dignity and stability. We are currently experiencing massive growth and to accomplish our goals, we are hiring world-class talent who want to help build and scale internally, and transform the insurance space. Our team is our #1 priority, and we have been named one of Inc.’s Best Workplaces 3 years in a row and Built In’s Best Places to work in 2025 and 2026!",
-    "state": "NY"
+    "state": "NY",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -333,7 +392,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.hyperlight.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.137Z"
   },
   {
     "country": "US",
@@ -383,13 +442,13 @@ export const INITIAL_JOBS: JobPosting[] = [
     "category": "Data / AI",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z",
     "city": "Ashburn",
     "companyLogo": "https://logo.clearbit.com/infinitive.com",
     "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Infinitive.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (AWS, Data Analysis, Security), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~8–5/hr with career progression reviews.\n• Location: Based in Ashburn, VA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nInfinitive is actively welcoming an Infiniterns (2027 Technology Internship) to join their engineering team. Candidates will collaborate closely with experienced technical mentors, contributing directly to live software workflows, system components, and client-facing digital solutions.",
     "company": "Infinitive",
     "location": "Ashburn, VA",
-    "companyWebsite": "https://infinitive.com"
+    "companyWebsite": "https://infinitive.com",
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -450,7 +509,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.ibm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -506,7 +565,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.pimco.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "Greece",
@@ -567,7 +626,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.satorianalytics.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "GB",
@@ -623,7 +682,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nielseniq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "PT",
@@ -677,7 +736,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://natixisinportugal.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -735,7 +794,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.jpmorganchase.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "FR",
@@ -789,7 +848,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sia.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "Greece",
@@ -850,7 +909,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.peoplecert.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "DE",
@@ -903,7 +962,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://metromakro.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -959,7 +1018,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.thegaramgroup.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1015,7 +1074,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       "max": 78000
     },
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "NL",
@@ -1070,7 +1129,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://lely1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "DE",
@@ -1125,7 +1184,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://strersecokgaastrergruppe.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1179,7 +1238,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.j-mack.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1235,7 +1294,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://springventuregroup1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1294,7 +1353,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://trailofbits.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1350,7 +1409,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.pattersoncompanies.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1404,7 +1463,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://elevenlabs.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1460,7 +1519,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://en.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1516,7 +1575,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "fingerprint": "paramount-business-analyst-united-states-hybrid",
     "title": "Business Analyst",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1569,7 +1628,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://priviahealth.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1621,7 +1680,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://paconsulting.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "IT",
@@ -1671,7 +1730,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nielseniq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "NG",
@@ -1724,7 +1783,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://theplace1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "FR",
@@ -1780,7 +1839,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Levallois-Perret, IDF, France",
     "state": "IDF",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -1841,7 +1900,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://careers.google.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "GB",
@@ -1889,7 +1948,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://edf-uk.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "IE",
@@ -1943,7 +2002,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://smithsgroup2.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "VN",
@@ -1993,7 +2052,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sgs.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2045,7 +2104,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2096,7 +2155,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://aecom2.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "NL",
@@ -2150,7 +2209,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://eurofins.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "TR",
@@ -2204,7 +2263,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jysk.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "FR",
@@ -2260,7 +2319,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://talan.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "IT",
@@ -2312,7 +2371,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "GB",
@@ -2363,7 +2422,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://dataintellect.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2419,7 +2478,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://duolingo.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "GB",
@@ -2475,7 +2534,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://version1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "IN",
@@ -2527,7 +2586,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/Ubisoft2",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2582,7 +2641,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2638,7 +2697,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2693,7 +2752,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2748,7 +2807,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://resend.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "US",
@@ -2803,7 +2862,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://linear.app",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.138Z"
   },
   {
     "country": "VN",
@@ -2855,7 +2914,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -2910,7 +2969,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://supabase.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -2965,7 +3024,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3020,7 +3079,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://ramp.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3075,7 +3134,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.notion.so",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3130,7 +3189,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.datadoghq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3185,7 +3244,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.affirm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3240,7 +3299,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://zapier.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3295,7 +3354,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://about.gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3350,7 +3409,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "NL",
@@ -3402,7 +3461,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3457,7 +3516,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://webflow.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3512,7 +3571,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gusto.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3567,7 +3626,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://robinhood.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3622,7 +3681,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.palantir.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3677,7 +3736,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sentry.io",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "US",
@@ -3732,7 +3791,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   },
   {
     "country": "AT",
@@ -3784,6 +3843,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
+    "lastHealthCheckedAt": "2026-09-30T10:03:04.139Z"
   }
 ];

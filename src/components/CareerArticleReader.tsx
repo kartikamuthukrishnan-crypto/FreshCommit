@@ -15,7 +15,8 @@ import {
   User,
   ArrowRight,
   BookOpen,
-  Briefcase
+  Briefcase,
+  ShieldCheck
 } from 'lucide-react';
 
 interface CareerArticleReaderProps {
@@ -151,6 +152,19 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
           </div>
         </div>
       </header>
+
+      {/* Mandatory Editorial Disclosure (SOP v4.1 Compliance) */}
+      <div className="my-6 p-4 bg-slate-50/90 border border-slate-200/90 rounded-2xl flex items-start gap-3 shadow-2xs">
+        <ShieldCheck className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+        <div className="text-xs text-slate-600 leading-relaxed">
+          <strong className="text-slate-900 block mb-0.5 font-bold">
+            Editorial Verification &amp; Standards Disclosure
+          </strong>
+          <span>
+            Editorial Disclosure: We utilize automated research and linguistic tools to assist our editorial workflow. Every piece of content is fact-checked, structured, and reviewed by human domain specialists prior to publication.
+          </span>
+        </div>
+      </div>
 
       {/* Executive Summary & Key Takeaways Card */}
       <div className="my-8 p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4 shadow-sm">

@@ -165,6 +165,47 @@ export const CAREER_ARTICLES: CareerArticle[] = [
           title: 'Verified ATS Routing on FreshCommits',
           text: 'FreshCommits strictly links directly to employer ATS portals (Greenhouse, Lever, Ashby, Workday). Passing these 5 checklist gates ensures your application parses cleanly and lands directly on the hiring manager\'s desk.'
         }
+      },
+      {
+        heading: '6. High-Converting Project Bullet Blueprints: 4 Full-Stack Scenarios',
+        content: [
+          'To help you bridge the gap between academic coursework and production engineering, here are four real-world before-and-after transformations modeled on the Google XYZ formula.',
+          'Notice how the high-signal versions consistently specify: (1) exact technology stack, (2) architectural design patterns, and (3) measurable latency, throughput, or efficiency gains.'
+        ],
+        table: {
+          headers: ['Technical Domain', 'Before (Classroom / Generic)', 'After (High-Signal Production Bullet)', 'Key Engineering Signals'],
+          rows: [
+            [
+              'Authentication & Security',
+              'Added user login and signup with passwords.',
+              'Implemented secure multi-factor user authentication using JWT and bcrypt, establishing HTTP-only cookie sessions with CSRF protection and role-based access control (RBAC) across 12 protected API endpoints.',
+              'Security best practices, session lifecycle management, token handling.'
+            ],
+            [
+              'Database Optimization',
+              'Created database tables and queried data for users.',
+              'Designed normalized PostgreSQL relational schema across 8 entities; optimized query performance with composite B-tree indexes, reducing complex multi-table join latency from 180ms to 24ms under stress testing.',
+              'Relational schema design, query indexing, load profiling.'
+            ],
+            [
+              'Caching & State Management',
+              'Used Redux to store application state on the frontend.',
+              'Architected normalized client-side state using React Query and Redux Toolkit with optimistic UI updates and Redis backend caching, eliminating redundant network calls by 45% and ensuring sub-second response times.',
+              'State normalization, optimistic rendering, caching layers.'
+            ],
+            [
+              'DevOps & Automation',
+              'Put the website online using cloud hosting.',
+              'Containerized frontend and backend services into multi-stage Docker builds; authored GitHub Actions CI/CD workflows executing automated linting, type checks, and Jest unit tests on every pull request prior to zero-downtime deployment on AWS.',
+              'Docker multi-stage builds, continuous integration pipelines, automated gates.'
+            ]
+          ]
+        },
+        callout: {
+          type: 'tip',
+          title: 'The "Rule of Three" for Every Bullet',
+          text: 'Every bullet point on your resume should answer three questions in a single sentence: (1) What feature or system did you build? (2) What tools and engineering patterns did you employ? (3) How did you verify or measure its success?'
+        }
       }
     ]
   },
@@ -289,6 +330,60 @@ Best,
           '5. **Stage & Status**: Applied -> Recruiter Screen -> Technical Assessment -> Final Onsite -> Offer.',
           'Tracking this data eliminates duplicate submissions, keeps you prepared for sudden recruiter screening calls, and gives you objective visibility into what is working.'
         ]
+      },
+      {
+        heading: '6. Rejection Triage & Recruiter Follow-up Cadence',
+        content: [
+          'Handling rejections productively is the primary operational hurdle of early-career job hunting. When you receive automated rejections within 24 hours of applying, it almost always signals ATS keyword misalignment or applying to a closed/stale requisition.',
+          'Here is the diagnostic triage matrix to determine where your application funnel is leaking and how to correct it immediately:'
+        ],
+        table: {
+          headers: ['Funnel Bottleneck', 'Primary Diagnostic Cause', 'Immediate Corrective Action', 'Benchmark Health Target'],
+          rows: [
+            [
+              '0% Callbacks on 50+ Direct Applications',
+              'Resume formatting failure or weak project bullets lacking measurable technical metrics.',
+              'Run resume through single-column ATS verification; convert project descriptions to Google XYZ formulas with concrete numbers.',
+              '10% – 15% callback rate on direct ATS links.'
+            ],
+            [
+              'Passing Recruiter Screen but Failing Online Assessment (OA)',
+              'Struggling with timed coding constraints and edge-case execution under pressure.',
+              'Switch LeetCode practice from untimed to 25-minute hard timeboxes; practice unit testing boundary conditions (null, zero, duplicates).',
+              '70%+ passing rate on technical screens.'
+            ],
+            [
+              'Failing Technical Deep Dive with Senior Engineers',
+              'Unable to explain architectural trade-offs, database choices, or debugging methodology.',
+              'Study system design fundamentals (caching, database indexing, REST semantics); practice explaining past project trade-offs out loud.',
+              '50%+ conversion from technical round to final onsite.'
+            ],
+            [
+              'Failing Final Behavioral Onsite Round',
+              'Giving vague, non-specific answers to behavioral questions or failing to demonstrate mentorship receptivity.',
+              'Prepare 5 core STAR method stories showcasing humility, conflict resolution, technical ownership, and curiosity.',
+              '35%+ offer rate from final onsite rounds.'
+            ]
+          ]
+        },
+        codeBlock: {
+          language: 'markdown',
+          code: `## High-Signal Post-Interview Follow-Up Template (Send within 24 Hours)
+
+Subject: Thank you - [Your Name] - [Position Title] Interview Follow-Up
+
+Hi [Interviewer / Recruiter Name],
+
+Thank you for taking the time to speak with me today about the [Position Title] role at [Company Name]. I enjoyed learning more about how your team approaches [mention a specific technical challenge discussed, e.g., optimizing database read replicas or migrating to modular microservices].
+
+Our conversation reinforced my enthusiasm for the position. I am confident that my experience with [mention 1-2 core technologies relevant to the role, e.g., TypeScript and Node.js REST APIs] will allow me to contribute quickly to your sprint velocity.
+
+Please let me know if you need any additional code samples, repository links, or documentation from my end. I look forward to the next steps!
+
+Best regards,
+[Your Name] | [LinkedIn Link] | [GitHub Link]`,
+          caption: 'High-signal follow-up email that references specific technical discussions rather than generic gratitude.'
+        }
       }
     ]
   },
@@ -443,6 +538,60 @@ app.post('/api/v1/transfers', async (req: Request, res: Response, next: NextFunc
           '• **Coverage Report**: Ensure `npm test` runs in CI mode and reports all passing tests without console log noise.',
           '• **Trade-Offs Section**: Explicitly write 2–3 sentences on what you would improve if you had 2 more weeks. Evaluators respect self-awareness over fake perfection.'
         ]
+      },
+      {
+        heading: '6. The 60-Second Evaluator Experience: Docker & Compose',
+        content: [
+          'The single highest-leverage upgrade you can make to any take-home assignment is containerization. Senior engineers frequently evaluate code on company-managed MacBooks with strict security permissions or differing Node/Python versions.',
+          'If your submission requires them to manually install local PostgreSQL clusters, configure database users, and export environment variables, you introduce friction before they evaluate your code. By shipping a multi-stage Dockerfile and a `docker-compose.yml` file, the evaluator can run `docker compose up` and test your entire service within 60 seconds.'
+        ],
+        codeBlock: {
+          language: 'yaml',
+          code: `# docker-compose.yml - Reproducible Evaluator Environment
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/app_development
+    depends_on:
+      db:
+        condition: service_healthy
+    command: npm run start:dev
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:`,
+          caption: 'Zero-friction Docker Compose file guaranteeing database health before the API starts.'
+        },
+        callout: {
+          type: 'tip',
+          title: 'The "One Command" Evaluator Wow-Factor',
+          text: 'Put this at the top of your README: "Clone, run `docker compose up`, and navigate to http://localhost:3000/docs". Evaluators routinely pass candidates to the final round based on this operational polish alone.'
+        }
       }
     ]
   },
