@@ -3,8 +3,14 @@ import { JobPosting, AdSenseConfig } from '../types';
 import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { trackJobView, trackApplyClick } from '../utils/analytics';
 import { isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
-import { humanizeCareerTake } from '../utils/textHumanizer';
-import { cleanHtml } from '../utils/jobExtractor';
+import {
+  humanizeCareerTake,
+  generateLeadEngineerTake,
+  generateCandidatePreparationChecklist,
+  cleanLocationString,
+  humanizeChecklistItems
+} from '../utils/textHumanizer';
+import { cleanHtml, getRoleMarketBenchmark } from '../utils/jobExtractor';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -39,6 +45,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
   const [copiedTitle, setCopiedTitle] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
+  const [checkedPrepItems, setCheckedPrepItems] = useState<Record<number, boolean>>({});
 
   // Dynamic Title, Meta Description, Schema injection, and Escape listener
   useEffect(() => {
@@ -128,11 +135,24 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
 
   const edgeData = (() => {
     if (!job.description || !job.description.includes('🎯 The FreshCommits Career Take:')) {
-      return { hasEdge: false, careerTake: '', checklistItems: [], roleOverview: cleanHtml(job.description) };
+      const dynamicTake = generateLeadEngineerTake({
+        id: job.id,
+        title: job.title,
+        company: job.company,
+        category: job.category,
+        skills: job.skills
+      });
+      const dynamicChecklist = generateCandidatePreparationChecklist(job);
+      return {
+        hasEdge: true,
+        careerTake: dynamicTake,
+        checklistItems: dynamicChecklist,
+        roleOverview: cleanHtml(job.description) || `${job.company} is seeking an enthusiastic ${job.title} to join their team.`
+      };
     }
     const parts = job.description.split('🏢 Role Overview:');
     const edgeContent = parts[0] || '';
-    const roleOverview = parts[1]?.trim() || '';
+    const rawRoleOverview = parts[1]?.trim() || '';
 
     const takeMatch = edgeContent.match(/🎯 The FreshCommits Career Take:\s*([\s\S]*?)(?=💡 Candidate Preparation Checklist:|$)/i);
     const checklistMatch = edgeContent.match(/💡 Candidate Preparation Checklist:\s*([\s\S]*?)$/i);
@@ -140,16 +160,21 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     const rawCareerTake = takeMatch ? takeMatch[1].trim() : '';
     const careerTake = humanizeCareerTake(rawCareerTake, job);
     const checklistText = checklistMatch ? checklistMatch[1].trim() : '';
-    const checklistItems = checklistText
-      .split('\n')
-      .map((l) => l.replace(/^•\s*/, '').trim())
-      .filter(Boolean);
+    const rawChecklistItems = checklistText
+      ? checklistText
+          .split('\n')
+          .map((l) => l.replace(/^•\s*/, '').trim())
+          .filter(Boolean)
+      : [];
 
-    const rawRoleOverview = parts[1]?.trim() || '';
+    const checklistItems = humanizeChecklistItems(rawChecklistItems, job);
+
     const cleanRoleOverview = cleanHtml(rawRoleOverview || job.description)
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
-      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1');
+      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
+      .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, 'Candidates will collaborate closely with experienced technical mentors, contributing directly to live production systems.')
+      .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.');
 
     return {
       hasEdge: true,
@@ -158,21 +183,25 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
       roleOverview: cleanRoleOverview
     };
   })();
-
   const overviewFirst45 = (edgeData.roleOverview || '').slice(0, 45).toLowerCase().trim();
 
   const cleanedResponsibilities = (job.responsibilities || [])
     .map(cleanHtml)
     .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
     .filter((line) => {
+      const overviewLower = (edgeData.roleOverview || '').toLowerCase();
       if (!line || line.length < 8) return false;
       const low = line.toLowerCase();
       if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
+      if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
       if (/^about us[:\s]/i.test(low)) return false;
+      if (/^who we are[:\s]/i.test(low)) return false;
+      if (/^our mission[:\s]/i.test(low)) return false;
       if (/^we are looking for\b/i.test(low)) return false;
       if (/^this is an ideal role\b/i.test(low)) return false;
       if (/^our team is\b/i.test(low)) return false;
-      if (overviewFirst45 && low.includes(overviewFirst45)) return false;
+      if (/^(?:in this role,\s*you will|as an?\s*[^,]+,\s*you will|you will\s*(?:be responsible for)?)[:\s]*$/i.test(low)) return false;
+      if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) return false;
       return true;
     });
 
@@ -180,10 +209,14 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     .map(cleanHtml)
     .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
     .filter((line) => {
+      const overviewLower = (edgeData.roleOverview || '').toLowerCase();
       if (!line || line.length < 8) return false;
       const low = line.toLowerCase();
       if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
+      if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
+      if (/^(?:to be successful|requirements|qualifications|basic qualifications|minimum qualifications)[:\s]*$/i.test(low)) return false;
       if (cleanedResponsibilities.some((r) => r.toLowerCase() === low)) return false;
+      if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) return false;
       return true;
     });
 
@@ -199,6 +232,8 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     const maxK = salary.max ? Math.round(salary.max / 1000) : minK;
     return `${sym}${minK}k – ${sym}${maxK}k / year`;
   };
+
+  const benchmark = getRoleMarketBenchmark(job.title, job.category, job.country || 'US');
 
   return (
     <div
@@ -344,7 +379,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             <div className="flex items-center gap-2 sm:gap-2.5 text-xs text-slate-600 flex-wrap pt-0.5">
               <span className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl font-medium text-slate-700">
                 <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                <span>{job.location}</span>
+                <span>{cleanLocationString(job.location)}</span>
               </span>
               <span className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-xl font-bold">
                 <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
@@ -425,20 +460,66 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               {/* Preparation Checklist */}
               {edgeData.checklistItems && edgeData.checklistItems.length > 0 && (
                 <div>
-                  <h5 className="text-xs font-bold text-slate-900 mb-2 flex items-center gap-1.5">
-                    <span>💡</span>
-                    <span>Candidate Preparation Checklist</span>
-                  </h5>
+                  <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
+                    <h5 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <span>💡</span>
+                      <span>Candidate Preparation Checklist</span>
+                    </h5>
+                    <span className="text-[11px] text-slate-500 font-medium">
+                      ({Object.values(checkedPrepItems).filter(Boolean).length}/{edgeData.checklistItems.length} checked)
+                    </span>
+                  </div>
                   <div className="grid grid-cols-1 gap-2">
-                    {edgeData.checklistItems.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 bg-white/95 p-2.5 rounded-lg border border-slate-200 text-xs text-slate-700 shadow-2xs">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
+                    {edgeData.checklistItems.map((item, idx) => {
+                      const isDone = Boolean(checkedPrepItems[idx]);
+                      return (
+                        <div
+                          key={idx}
+                          onClick={() => setCheckedPrepItems((prev) => ({ ...prev, [idx]: !prev[idx] }))}
+                          className={`flex items-start gap-2.5 p-2.5 rounded-xl border transition-all cursor-pointer select-none text-xs ${
+                            isDone
+                              ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
+                              : 'bg-white/95 hover:bg-white border-slate-200 text-slate-700 shadow-2xs'
+                          }`}
+                        >
+                          <div
+                            className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center flex-shrink-0 transition-colors ${
+                              isDone ? 'bg-emerald-600 text-white' : 'border border-slate-300 bg-white'
+                            }`}
+                          >
+                            {isDone && <Check className="w-3 h-3 stroke-[3]" />}
+                          </div>
+                          <span className={isDone ? 'line-through opacity-85' : ''}>
+                            {item.replace(/^•\s*/, '')}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
+
+              {/* Dynamic Early-Career Market Benchmark Insight */}
+              <div className="pt-3 border-t border-indigo-100 flex items-start gap-3 bg-white/90 p-3 rounded-xl border border-indigo-100 shadow-2xs">
+                <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 flex-shrink-0 mt-0.5">
+                  <DollarSign className="w-4 h-4 stroke-[2.5]" />
+                </div>
+                <div className="space-y-0.5 text-xs text-slate-700">
+                  <span className="font-bold text-slate-900 block">
+                    Market Benchmark &amp; Salary Intelligence (0–2 YoE)
+                  </span>
+                  {job.salary && job.salary.min > 0 ? (
+                    <p className="text-slate-600 leading-relaxed">
+                      Verified Employer Compensation: <strong className="text-emerald-700">{formatSalary(job.salary)}</strong>.
+                      Industry benchmark for early-career {job.category?.replace(/_/g, ' ').toLowerCase() || 'software'} roles: <strong>{benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}</strong>.
+                    </p>
+                  ) : (
+                    <p className="text-slate-600 leading-relaxed">
+                      Employer did not disclose compensation in requisition. FreshCommits 0–2 YoE market benchmark for {job.category?.replace(/_/g, ' ').toLowerCase() || 'early-career engineering'}: <strong className="text-emerald-700">{benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}</strong>.
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 

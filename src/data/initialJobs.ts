@@ -3,6 +3,403 @@ import { JobPosting } from '../types';
 export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Manchester",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for early-career developers seeking immersion in live server architectures, automated CI/CD pipelines, and rigorous code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Manchester / Hybrid.\n\n🏢 Role Overview:\nUbds Group is actively seeking an early-career Hybrid Cloud Engineer Early Years to join their team. This direct opening was discovered on Ubds Group's official Workable portal.",
+    "source": "MANUAL_ADMIN",
+    "title": "Hybrid Cloud Engineer Early Years",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "GBP"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Ubds Group's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "ubds-group-hybrid-cloud-engineer-early-years-manchester-hybrid",
+    "atsProvider": "Workable",
+    "company": "Ubds Group",
+    "id": "manual-1790699763343",
+    "state": "MA",
+    "datePosted": "2026-09-29",
+    "validThrough": "2026-10-29",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://logo.clearbit.com/ubdsgroup.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/8RFft8iKRUuYTSjjUmsDqX/hybrid-cloud-engineer---early-years-in-manchester-at-ubds-group",
+    "location": "Manchester / Hybrid",
+    "category": "DevOps / Cloud",
+    "companyWebsite": "https://www.ubdsgroup.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Boston",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Man Group's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Boston, MA / Hybrid.\n\n🏢 Role Overview:\nMan Group is actively seeking an early-career Technology Rotational Program Associate Engineer to join their team. This direct opening was discovered on Man Group's official Workable portal.",
+    "source": "MANUAL_ADMIN",
+    "title": "Technology Rotational Program Associate Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 82000,
+      "max": 112000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Man Group's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "man-group-technology-rotational-program-associate-engineer-boston-ma-hybrid",
+    "atsProvider": "Workable",
+    "company": "Man Group",
+    "id": "manual-1790699583544",
+    "state": "MA",
+    "datePosted": "2026-09-29",
+    "validThrough": "2026-10-29",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://logo.clearbit.com/mangroup.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/3XCskiScfC6D7ipBbR282u/technology-rotational-program---associate-engineer-in-boston-at-man-group",
+    "location": "Boston, MA / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.mangroup.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on React, TypeScript, JavaScript, Next.js, HTML/CSS and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nCgi is actively seeking an early-career Xweb.asp to join their team. This direct opening was discovered on Cgi's official Direct Career Portal portal.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Developer – Entry Level",
+    "salary": {
+      "unit": "YEAR",
+      "min": 52000,
+      "max": 92000,
+      "currency": "USD"
+    },
+    "skills": [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "Next.js",
+      "HTML/CSS",
+      "Tailwind CSS",
+      "REST APIs",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science or equivalent practical coding bootcamp / project portfolio experience.",
+      "0–2 years of frontend engineering experience utilizing modern JavaScript/TypeScript and React/Next.js.",
+      "Solid foundation in semantic HTML5, modern CSS3/Tailwind, and client-server HTTP communication.",
+      "Familiarity with state management libraries, Git version control, and component-driven development.",
+      "Keen eye for visual precision, user-centric interaction design, and interface responsiveness.",
+      "Collaborative problem solver eager to learn from senior engineering mentors in a fast-paced environment."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Build responsive, accessible, and high-performance user interfaces for Cgi's web applications.",
+      "Collaborate with UI/UX designers and product managers to translate Figma mockups into reusable component architectures.",
+      "Implement automated frontend testing utilizing Jest, React Testing Library, or Playwright to maintain zero regressions.",
+      "Optimize client-side performance, Core Web Vitals, and asset delivery across mobile and desktop viewports.",
+      "Conduct active peer code reviews and contribute to design system documentation and accessibility compliance (WCAG).",
+      "Participate in agile sprint ceremonies, daily standups, and retrospective continuous improvement discussions."
+    ],
+    "fingerprint": "cgi-software-developer-entry-level-united-states-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "Cgi",
+    "id": "manual-1790700232110",
+    "state": "CA",
+    "datePosted": "2026-09-29",
+    "validThrough": "2026-10-29",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://logo.clearbit.com/cgi.njoyn.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://cgi.njoyn.com/corp/xweb/xweb.asp?clid=21001&page=jobdetails&jobid=J0926-2371&BRID=1336707&SBDID=943&lang=1",
+    "location": "United States / Hybrid",
+    "category": "Frontend",
+    "companyWebsite": "https://www.cgi.njoyn.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "postalCode": "94105",
+    "source": "MANUAL_ADMIN",
+    "title": "Technical Support Specialist (AI / SaaS)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 48000,
+      "max": 65000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "SQL",
+      "ServiceNow",
+      "Data Analysis"
+    ],
+    "experienceLevel": "Entry Level",
+    "fingerprint": "evolutioniq-technical-support-specialist-ai-saas--new-york-ny",
+    "atsProvider": "Greenhouse",
+    "company": "Evolutioniq",
+    "id": "manual-1790705588437",
+    "datePosted": "2026-09-29",
+    "validThrough": "2026-10-29",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://logo.clearbit.com/evolutioniq.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/evolutioniq/jobs/6209953004",
+    "location": "New York, NY",
+    "category": "Data / AI",
+    "companyWebsite": "https://evolutioniq.com",
+    "status": "ACTIVE",
+    "qualifications": [
+      "0–2 years of experience in technical support, customer support, IT helpdesk, or solutions engineering (recent college graduates with technical degrees or internships are welcome!).",
+      "Foundational knowledge of SQL, APIs, or database concepts.",
+      "Excellent written and verbal communication skills.",
+      "Enthusiastic analytical problem-solver eager to learn enterprise SaaS workflows in a fast-paced environment."
+    ],
+    "responsibilities": [
+      "Act as the primary point of contact for client users, managing incoming inquiries via email, chat, and ticketing systems.",
+      "Diagnose and resolve technical issues related to the EvolutionIQ platform; replicate bugs and work with Solutions Engineering to escalate complex problems.",
+      "Guide users through system features, assist with onboarding queries, and provide best practices for platform adoption.",
+      "Contribute to internal and external help documentation, FAQs, and troubleshooting guides to empower client users."
+    ],
+    "city": "New York",
+    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Evolutioniq emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Python, SQL, ServiceNow scripting for system integrations.\n• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation Range: Verified employer range of ~8k–5k/year with career progression reviews.\n• Location: Based in New York, NY (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAbout Us: EvolutionIQ’s mission is to deliver state of the art technology that helps insurance claims teams make claims handling more accurate, fair, and efficient, so that more people impacted by injury or illness can continue their lives with dignity and stability. We are currently experiencing massive growth and to accomplish our goals, we are hiring world-class talent who want to help build and scale internally, and transform the insurance space. Our team is our #1 priority, and we have been named one of Inc.’s Best Workplaces 3 years in a row and Built In’s Best Places to work in 2025 and 2026!",
+    "state": "NY"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Boston",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Boston, MA / Hybrid.\n\n🏢 Role Overview:\nHyperlight is actively seeking an early-career R&d Operations & Automation Engineer Intern to join their team. This direct opening was discovered on Hyperlight's official Workable portal.",
+    "source": "MANUAL_ADMIN",
+    "title": "R&d Operations & Automation Engineer Intern",
+    "salary": {
+      "unit": "HOUR",
+      "min": 28,
+      "max": 45,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Hyperlight's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "hyperlight-r-d-operations-automation-engineer-intern-boston-ma-hybrid",
+    "atsProvider": "Workable",
+    "company": "Hyperlight",
+    "id": "manual-1790699454810",
+    "state": "MA",
+    "datePosted": "2026-09-29",
+    "validThrough": "2026-10-29",
+    "employmentType": "INTERN",
+    "companyLogo": "https://logo.clearbit.com/hyperlight.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/tMjzM91MW7sSTFgmLCSrMw/r%26d-operations-%26-automation-engineer-intern-in-cambridge-at-hyperlight",
+    "location": "Boston, MA / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.hyperlight.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "postalCode": "94105",
+    "source": "MANUAL_ADMIN",
+    "title": "Infiniterns (2027 Technology Internship)",
+    "salary": {
+      "unit": "HOUR",
+      "min": 28,
+      "max": 45,
+      "currency": "USD"
+    },
+    "skills": [
+      "AWS",
+      "Data Analysis",
+      "Security"
+    ],
+    "qualifications": [
+      "Three (3) years of college in a technical discipline such as computer science, engineering, science, etc.",
+      "Enrolled/Completed coursework in an Analytics, Data Science, Cyber Security or other related engineering major at an accredited university.",
+      "Have a Kick-Ass Attitude",
+      "Desire to Be Great and strive for continual growth",
+      "Strong analytical, conceptual, organizational, and problem-solving skills.",
+      "Ability to effectively interface with all levels of personnel and management."
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Tech Employer's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "tech-employer-infiniterns-2027-technology-internship--s-office-is-located-in-ashburn-va",
+    "atsProvider": "Direct Career Portal",
+    "id": "manual-1790705441333",
+    "state": "VA",
+    "datePosted": "2026-09-29",
+    "validThrough": "2026-10-29",
+    "employmentType": "INTERN",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://infinitive.com/careers/job/?board_code=WR3DpVJrKJ",
+    "category": "Data / AI",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z",
+    "city": "Ashburn",
+    "companyLogo": "https://logo.clearbit.com/infinitive.com",
+    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Infinitive.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (AWS, Data Analysis, Security), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~8–5/hr with career progression reviews.\n• Location: Based in Ashburn, VA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nInfinitive is actively welcoming an Infiniterns (2027 Technology Internship) to join their engineering team. Candidates will collaborate closely with experienced technical mentors, contributing directly to live software workflows, system components, and client-facing digital solutions.",
+    "company": "Infinitive",
+    "location": "Ashburn, VA",
+    "companyWebsite": "https://infinitive.com"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Python and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nIbm is actively seeking an early-career Jobdetail to join their team. This direct opening was discovered on Ibm's official Direct Career Portal portal.",
+    "source": "MANUAL_ADMIN",
+    "title": "Entry-Level Software Developer 2027 - Lowell ",
+    "salary": {
+      "unit": "YEAR",
+      "min": 90000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "SQL",
+      "Machine Learning",
+      "PyTorch",
+      "Pandas",
+      "Data Pipelines",
+      "GCP",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
+      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
+      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
+      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
+      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
+      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop, validate, and deploy data pipelines and analytical models that power Ibm's production systems.",
+      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
+      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
+      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
+      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
+      "Participate in team sprint planning, architectural reviews, and peer code reviews."
+    ],
+    "fingerprint": "ibm-entry-level-software-developer-2027-lowell--united-states-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "Ibm",
+    "id": "manual-1790700403133",
+    "state": "CA",
+    "datePosted": "2026-09-29",
+    "validThrough": "2026-10-29",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://logo.clearbit.com/ibm.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=133928",
+    "location": "United States / Hybrid",
+    "category": "Data / AI",
+    "companyWebsite": "https://www.ibm.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+  },
+  {
+    "country": "US",
     "maxYearsExperience": 0,
     "city": "Newport Beach",
     "postalCode": "94105",
@@ -55,7 +452,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.pimco.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "Greece",
@@ -116,7 +513,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.satorianalytics.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "GB",
@@ -172,7 +569,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nielseniq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "PT",
@@ -226,7 +623,65 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://natixisinportugal.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "New York",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Security, Figma, Design Systems, UI/UX, Prototyping and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation Range: Verified employer range of ~USD 85k–105k/year with career progression reviews.\n• Location: Based in New York, NY.\n\n🏢 Role Overview:\nJPMorganChase is actively seeking an early-career Product Designer – Private Bank Digital, Early Career to join their team. This direct opening was discovered on JPMorganChase's official Direct Career Portal portal.",
+    "source": "MANUAL_ADMIN",
+    "title": "Product Designer – Private Bank Digital, Early Career",
+    "salary": {
+      "unit": "HOUR",
+      "min": 85000,
+      "max": 105000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Security",
+      "Figma",
+      "Design Systems",
+      "UI/UX",
+      "Prototyping"
+    ],
+    "qualifications": [
+      "Graduated within the previous 12 months, with 0–1 years of full-time professional design experience.",
+      "A degree, or equivalent practical experience, in a design discipline such as Interaction Design, HCI, or User Experience Design, or in an adjacent field such as Psychology, Sociology, Anthropology, Engineering, or Communications",
+      "Professional product-design experience is not required. We welcome work from internships, coursework, capstone projects, hackathons, personal projects, and other self-directed experiences.",
+      "Partner with product managers and engineers to understand complex product problems",
+      "Explore multiple design directions and translate research and business requirements into flows and interfaces",
+      "Produce design assets and interactive prototypes, using AI tools to move quickly"
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Partner with product managers and engineers to understand complex product problems",
+      "Explore multiple design directions and translate research and business requirements into flows and interfaces",
+      "Produce design assets and interactive prototypes, using AI tools to move quickly",
+      "Design within an established design system",
+      "Participate in critique, sharing your work and the reasoning behind it",
+      "Test ideas with users and help advocate for accessible, inclusive experiences"
+    ],
+    "fingerprint": "jpmorganchase-product-designer-private-bank-digital-early-career-new-york-ny",
+    "atsProvider": "Direct Career Portal",
+    "company": "JPMorganChase",
+    "id": "manual-1790702768470",
+    "state": "NY",
+    "datePosted": "2026-09-28",
+    "validThrough": "2026-10-29",
+    "employmentType": "INTERN",
+    "companyLogo": "https://logo.clearbit.com/jpmorganchase.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210794454",
+    "location": "New York, NY",
+    "category": "Frontend",
+    "companyWebsite": "https://www.jpmorganchase.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "FR",
@@ -280,7 +735,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sia.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "Greece",
@@ -341,7 +796,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.peoplecert.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "DE",
@@ -394,7 +849,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://metromakro.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -450,7 +905,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.thegaramgroup.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -506,7 +961,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       "max": 78000
     },
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "NL",
@@ -561,7 +1016,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://lely1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "DE",
@@ -616,7 +1071,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://strersecokgaastrergruppe.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -670,7 +1125,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.j-mack.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -726,7 +1181,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://springventuregroup1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -785,7 +1240,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://trailofbits.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -841,7 +1296,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.pattersoncompanies.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -895,7 +1350,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://elevenlabs.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -951,7 +1406,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://en.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -1007,7 +1462,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "fingerprint": "paramount-business-analyst-united-states-hybrid",
     "title": "Business Analyst",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.723Z"
   },
   {
     "country": "US",
@@ -1060,7 +1515,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://priviahealth.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -1112,7 +1567,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://paconsulting.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "IT",
@@ -1162,7 +1617,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nielseniq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "NG",
@@ -1215,7 +1670,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://theplace1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "FR",
@@ -1271,7 +1726,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Levallois-Perret, IDF, France",
     "state": "IDF",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -1332,7 +1787,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://careers.google.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "GB",
@@ -1380,7 +1835,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://edf-uk.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "IE",
@@ -1434,7 +1889,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://smithsgroup2.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "VN",
@@ -1484,7 +1939,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sgs.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -1536,7 +1991,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -1587,7 +2042,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://aecom2.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "NL",
@@ -1641,7 +2096,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://eurofins.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "TR",
@@ -1695,7 +2150,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jysk.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "FR",
@@ -1751,7 +2206,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://talan.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.880Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "IT",
@@ -1803,7 +2258,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "GB",
@@ -1854,7 +2309,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://dataintellect.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -1910,7 +2365,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://duolingo.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "GB",
@@ -1966,7 +2421,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://version1.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "IN",
@@ -2018,7 +2473,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/Ubisoft2",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2073,7 +2528,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2129,7 +2584,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2184,7 +2639,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2239,7 +2694,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://resend.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2294,7 +2749,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://linear.app",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "VN",
@@ -2346,7 +2801,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2401,7 +2856,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://supabase.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2456,7 +2911,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2511,7 +2966,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://ramp.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2566,7 +3021,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.notion.so",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2621,7 +3076,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.datadoghq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2676,7 +3131,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.affirm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2731,7 +3186,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://zapier.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2786,7 +3241,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://about.gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2841,7 +3296,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "NL",
@@ -2893,7 +3348,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -2948,7 +3403,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://webflow.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -3003,7 +3458,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gusto.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -3058,7 +3513,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://robinhood.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -3113,7 +3568,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.palantir.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -3168,7 +3623,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sentry.io",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "US",
@@ -3223,7 +3678,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   },
   {
     "country": "AT",
@@ -3275,6 +3730,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-09-29T03:31:04.881Z"
+    "lastHealthCheckedAt": "2026-09-29T18:25:09.724Z"
   }
 ];

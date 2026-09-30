@@ -370,6 +370,149 @@ export function generateLeadEngineerTake(job: {
 }
 
 /**
+ * Strips awkward conversational lead-in phrases from location strings.
+ * Example: "s office is located in Ashburn, VA" -> "Ashburn, VA"
+ */
+export function cleanLocationString(loc: string): string {
+  if (!loc) return '';
+  return loc
+    .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in|position\s+is\s+based\s+in)\s+/i, '')
+    .replace(/^s\s+office\s+is\s+located\s+in\s+/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Cleans city strings to prevent narrative phrases being used as city names.
+ * Example: "s office is located in Ashburn" -> "Ashburn"
+ */
+export function cleanCityString(city: string): string {
+  if (!city) return '';
+  const cleaned = cleanLocationString(city)
+    .replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '')
+    .replace(/^(?:office|headquarters|location)\s+in\s+/i, '')
+    .trim();
+  return cleaned || city.trim();
+}
+
+/**
+ * Generates an authentic, domain-tailored Candidate Preparation Checklist
+ * with 5 distinct actionable dimensions (Stack, Interview Prep, Portfolio Signal, Compensation, Location).
+ */
+export function generateCandidatePreparationChecklist(job: {
+  id?: string;
+  title: string;
+  company: string;
+  category?: JobCategory | string;
+  skills?: string[];
+  salary?: { min: number; max: number; currency?: string; unit?: string };
+  location?: string;
+  isRemote?: boolean;
+}): string[] {
+  const { title, company } = job;
+  const skills = job.skills || [];
+  const topSkillsStr = skills.slice(0, 4).join(', ');
+  const archetype = inferRoleArchetype(title, job.category, skills);
+  const seed = ((job.id || '') + title).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const cleanLoc = cleanLocationString(job.location || (job.isRemote ? 'Remote (US & Global)' : 'New York, NY'));
+
+  // 1. Core Stack prep
+  let coreStackItem = `• Core Stack: Brush up on ${topSkillsStr || 'core computer science fundamentals'} and version control (Git).`;
+  if (archetype === 'frontend') {
+    coreStackItem = `• Core Stack: Focus on responsive component hierarchy, CSS layout systems (Flexbox/Grid), and ${topSkillsStr || 'modern JavaScript / React fundamentals'}.`;
+  } else if (archetype === 'backend_cloud') {
+    coreStackItem = `• Core Stack: Refresh RESTful endpoint architecture, database queries/indexing, and ${topSkillsStr || 'server-side language fundamentals'}.`;
+  } else if (archetype === 'data_sql') {
+    coreStackItem = `• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and ${topSkillsStr || 'Python / SQL data manipulation'}.`;
+  } else if (archetype === 'solutions_systems') {
+    coreStackItem = `• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and ${topSkillsStr || 'scripting for system integrations'}.`;
+  } else if (archetype === 'design_uiux') {
+    coreStackItem = `• Core Stack: Polish interactive Figma component variants, responsive design tokens, and user flow accessibility.`;
+  } else if (archetype === 'internship' || archetype === 'graduate') {
+    coreStackItem = `• Core Stack: Brush up on core computer science foundations (${topSkillsStr || 'data structures & algorithms'}), Git workflow, and code documentation.`;
+  }
+
+  // 2. Interview Prep focus
+  let interviewPrepItem = `• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.`;
+  if (archetype === 'frontend') {
+    const list = [
+      `• Interview Focus: Engineering leads at ${company} assess responsive component layout, state architecture, and web accessibility (WCAG).`,
+      `• Interview Focus: Expect practical UI challenges, component rendering trade-offs, and questions on client-side state lifecycles.`,
+      `• Interview Focus: Technical interviewers evaluate clean modular styling, DOM efficiency, and clear communication while pair programming.`
+    ];
+    interviewPrepItem = list[seed % list.length];
+  } else if (archetype === 'backend_cloud') {
+    const list = [
+      `• Interview Focus: Leads evaluate clean RESTful architecture, transactional integrity, boundary validations, and edge-case handling.`,
+      `• Interview Focus: Expect discussions around database schema modeling, API authentication patterns, and scalable microservice logic.`,
+      `• Interview Focus: Engineering leads at ${company} emphasize clean error handling, concurrency awareness, and unit testing rigor.`
+    ];
+    interviewPrepItem = list[seed % list.length];
+  } else if (archetype === 'data_sql') {
+    const list = [
+      `• Interview Focus: Technical leads evaluate live SQL schema queries, data pipeline reliability, and clear analytical problem-solving.`,
+      `• Interview Focus: Expect scenario-based SQL challenges (joins, CTEs, window functions), data validation checks, and reporting logic.`,
+      `• Interview Focus: ${company} evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.`
+    ];
+    interviewPrepItem = list[seed % list.length];
+  } else if (archetype === 'solutions_systems') {
+    const list = [
+      `• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.`,
+      `• Interview Focus: Expect scenario roleplays diagnosing elusive platform errors, API integration failures, and client escalation triage.`,
+      `• Interview Focus: ${company} looks for analytical problem-solvers who can translate complex technical bugs into actionable engineering tickets.`
+    ];
+    interviewPrepItem = list[seed % list.length];
+  } else if (archetype === 'design_uiux') {
+    const list = [
+      `• Interview Focus: Design leads evaluate design rationale walk-throughs, edge-case UI handling, and cross-functional engineering handoffs.`,
+      `• Interview Focus: Walk through your end-to-end design thinking, user friction trade-offs, and interactive prototype feedback.`
+    ];
+    interviewPrepItem = list[seed % list.length];
+  } else if (archetype === 'internship' || archetype === 'graduate') {
+    const list = [
+      `• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.`,
+      `• Interview Focus: Expect project walk-throughs, practical Git version control scenarios, and discussions of past coursework or personal builds.`,
+      `• Interview Focus: ${company} values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.`
+    ];
+    interviewPrepItem = list[seed % list.length];
+  }
+
+  // 3. Practical Portfolio / Proof Signal
+  let portfolioSignal = `• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.`;
+  if (archetype === 'frontend') {
+    portfolioSignal = `• Portfolio Signal: Showcase a deployed web application demonstrating responsive mobile layout, clean component hierarchy, and zero console errors.`;
+  } else if (archetype === 'backend_cloud') {
+    portfolioSignal = `• Portfolio Signal: Pin a public repository featuring documented API endpoints, relational database schema migrations, and automated unit tests.`;
+  } else if (archetype === 'data_sql') {
+    portfolioSignal = `• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.`;
+  } else if (archetype === 'solutions_systems') {
+    portfolioSignal = `• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.`;
+  } else if (archetype === 'design_uiux') {
+    portfolioSignal = `• Portfolio Signal: Have 2–3 case studies ready showing problem framing, iterative wireframes, and interactive Figma prototypes.`;
+  } else if (archetype === 'internship' || archetype === 'graduate') {
+    portfolioSignal = `• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.`;
+  }
+
+  // 4. Compensation
+  const hasSalary = job.salary && job.salary.min > 0;
+  const salaryDisplay = hasSalary
+    ? (job.salary!.unit === 'HOUR'
+        ? `${job.salary!.currency || 'USD'} ${job.salary!.min}–${job.salary!.max}/hr`
+        : `${job.salary!.currency || 'USD'} ${Math.round(job.salary!.min / 1000)}k–${Math.round(job.salary!.max / 1000)}k/year`)
+    : '';
+
+  const compItem = hasSalary
+    ? `• Compensation Range: Verified employer range of ~${salaryDisplay} with career progression reviews.`
+    : `• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).`;
+
+  // 5. Location
+  const locType = job.isRemote ? '100% Remote Opportunity' : cleanLoc.toLowerCase().includes('hybrid') ? 'Hybrid Work Model' : 'On-Site Team Collaboration';
+  const locItem = `• Location: Based in ${cleanLoc} (${locType}).`;
+
+  return [coreStackItem, interviewPrepItem, portfolioSignal, compItem, locItem];
+}
+
+/**
  * Editorial parser & humanizer for "The FreshCommits Career Take".
  * Automatically replaces the old generic template with the authentic
  * Lead Engineer's Take for this specific job requisition.
@@ -413,3 +556,40 @@ export function humanizeCareerTake(
     .replace(/(?:,\s*Entry Level|–\s*Entry Level)\s+gives\s+entry-level/gi, ' gives early-career developers')
     .replace(/early-career developers(?=.*early-career)/i, 'emerging technologists');
 }
+
+/**
+ * Sanitizes and dynamically upgrades checklist items if they are outdated or generic.
+ */
+export function humanizeChecklistItems(
+  items: string[],
+  job: {
+    id?: string;
+    title: string;
+    company: string;
+    category?: JobCategory | string;
+    skills?: string[];
+    salary?: { min: number; max: number; currency?: string; unit?: string };
+    location?: string;
+    isRemote?: boolean;
+  }
+): string[] {
+  if (!items || items.length === 0) {
+    return generateCandidatePreparationChecklist(job);
+  }
+
+  const hasStaticInterviewFocus = items.some((item) =>
+    item.includes('Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.')
+  );
+  const hasCorruptedLocation = items.some((item) => item.includes('s office is located in'));
+
+  if (hasStaticInterviewFocus || hasCorruptedLocation || items.length < 3) {
+    return generateCandidatePreparationChecklist(job);
+  }
+
+  return items.map((it) => {
+    let clean = cleanLocationString(it);
+    clean = clean.replace(/s office is located in/gi, '').replace(/\s+/g, ' ').trim();
+    return clean;
+  });
+}
+

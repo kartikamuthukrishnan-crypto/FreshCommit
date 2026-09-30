@@ -1,6 +1,14 @@
 import { ExperienceLevel, EmploymentType, JobCategory, SalaryRange } from '../types';
 import { inferCategory, inferExperienceLevel } from './jobAggregator';
-import { humanizeCareerTake, generateLeadEngineerTake, stripSeniorityFromTitle } from './textHumanizer';
+import {
+  humanizeCareerTake,
+  generateLeadEngineerTake,
+  stripSeniorityFromTitle,
+  generateCandidatePreparationChecklist,
+  cleanLocationString,
+  cleanCityString,
+  humanizeChecklistItems
+} from './textHumanizer';
 
 export interface ExtractedJobData {
   title: string;
@@ -872,14 +880,6 @@ function composeFreshCommitsCuratedDescription(params: {
 }): string {
   const { title, company, cleanOverview, skills, salary, location } = params;
 
-  const topSkillsStr = skills.slice(0, 5).join(', ');
-  const hasDisclosedSalary = salary && salary.min > 0;
-  const salaryDisplay = hasDisclosedSalary
-    ? (salary.unit === 'HOUR'
-        ? `${salary.currency} ${salary.min}–${salary.max}/hr`
-        : `${salary.currency} ${Math.round(salary.min / 1000)}k–${Math.round(salary.max / 1000)}k/year`)
-    : '';
-
   const dynamicTake = generateLeadEngineerTake({
     id: `${company}-${title}`,
     title,
@@ -887,20 +887,24 @@ function composeFreshCommitsCuratedDescription(params: {
     skills
   });
 
+  const dynamicChecklist = generateCandidatePreparationChecklist({
+    id: `${company}-${title}`,
+    title,
+    company,
+    skills,
+    salary,
+    location
+  });
+
   const edgeBlock = [
     `🎯 The FreshCommits Career Take:`,
     dynamicTake,
     ``,
     `💡 Candidate Preparation Checklist:`,
-    `• Core Stack: Brush up on ${topSkillsStr || 'core computer science fundamentals'} and version control (Git).`,
-    `• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.`,
-    hasDisclosedSalary
-      ? `• Compensation Range: Verified employer range of ~${salaryDisplay} with career progression reviews.`
-      : `• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).`,
-    `• Location: Based in ${location}.`,
+    ...dynamicChecklist,
     ``,
     `🏢 Role Overview:`,
-    (cleanOverview || `${company} is seeking an enthusiastic ${title} to join their team and contribute to high-impact products and customer experiences.`)
+    (cleanOverview || `${company} is actively seeking an enthusiastic ${title} to join their team and contribute to high-impact products and customer experiences.`)
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
       .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
@@ -1107,19 +1111,27 @@ export function parseJobSections(
 
     // Filter out common header leftovers
     if (
-      /^(?:what you will do|what you bring|qualifications|requirements|about us|who we are)[:\s]*$/i.test(low)
+      /^(?:what you will do|what you'll do|what you bring|what you'll bring|responsibilities|key responsibilities|qualifications|requirements|basic qualifications|minimum qualifications|about us|who you are|who we are)[:\s]*$/i.test(low) ||
+      /^(?:in this role,\s*you will|as an?\s*[^,]+,\s*you will|you will\s*(?:be responsible for)?)[:\s]*$/i.test(low) ||
+      /^(?:to be successful|requirements|qualifications|basic qualifications|minimum qualifications)[:\s]*$/i.test(low)
     ) {
       continue;
     }
 
-    // Company intro lines belong in overview, NEVER in responsibilities
+    // Company intro lines belong in overview, NEVER in responsibilities or qualifications
     if (
+      /^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(line) ||
       /^about us[:\s]/i.test(line) ||
+      /^who we are[:\s]/i.test(line) ||
+      /^our mission[:\s]/i.test(line) ||
+      /^company overview[:\s]/i.test(line) ||
       /^we are looking for\b/i.test(line) ||
       /^this is an ideal role\b/i.test(line) ||
-      /^our team is\b/i.test(line)
+      /^our team is\b/i.test(line) ||
+      /^the role\b/i.test(line) ||
+      /^role overview\b/i.test(line)
     ) {
-      if (currentSection === 'overview' && !overviewParas.includes(line)) {
+      if (!overviewParas.includes(line)) {
         overviewParas.push(line);
       }
       continue;
@@ -1150,20 +1162,23 @@ export function parseJobSections(
   const finalResp = respLines
     .filter((r) => {
       const low = r.toLowerCase();
-      if (overviewLower && (overviewLower.includes(low.slice(0, 45)) || (low.length > 50 && overviewLower.includes(low.slice(0, 60))))) {
+      if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) {
         return false;
       }
       return true;
     })
-    .slice(0, 6);
+    .slice(0, 8);
 
   const finalQual = qualLines
     .filter((q) => {
       const low = q.toLowerCase();
       if (finalResp.some((r) => r.toLowerCase() === low)) return false;
+      if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) {
+        return false;
+      }
       return true;
     })
-    .slice(0, 6);
+    .slice(0, 8);
 
   // If parsed sections were sparse, augment with archetype defaults
   const archetype = getRoleArchetypeContent(title, company);
@@ -1210,8 +1225,8 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
   const titleHasSeniority = /(?:early[\s-]career|entry[\s-]level|junior|new\s*grad|intern|graduate|fresher)/i.test(title);
   const article = /^[aeiou]/i.test(baseTitle) ? 'an' : 'a';
   const cleanOverview = titleHasSeniority
-    ? `${company} is actively seeking ${article} ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`
-    : `${company} is actively seeking an early-career ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
+    ? `${company} is actively seeking ${article} ${baseTitle} to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.`
+    : `${company} is actively seeking an early-career ${baseTitle} to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.`;
   const curatedDescription = composeFreshCommitsCuratedDescription({
     title,
     company,
@@ -1848,6 +1863,20 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     company = 'Tech Employer';
   }
 
+  // Fallback to detecting company from apply URL domain if text didn't explicitly have it
+  if ((company === 'Tech Employer' || !company) && fallbackApplyUrl) {
+    try {
+      const u = fallbackApplyUrl.trim().startsWith('http') ? fallbackApplyUrl.trim() : `https://${fallbackApplyUrl.trim()}`;
+      const urlObj = new URL(u);
+      const compData = detectCompanyFromUrl(urlObj);
+      if (compData.company && compData.company !== 'Tech Employer') {
+        company = compData.company;
+      }
+    } catch {
+      // ignore
+    }
+  }
+
   // 3. EXTRACT LOCATION
   let location = '';
   let city = '';
@@ -1857,23 +1886,31 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
 
   const locMatch = text.match(/(?:Locations?|Job Location|Primary Location)\s*[:\n]\s*([^\n]+)/i);
   if (locMatch && locMatch[1]) {
-    location = locMatch[1].trim();
+    location = cleanLocationString(locMatch[1].trim());
   } else {
-    // Check for US City, ST pattern (e.g. New York, NY)
-    const cityStateMatch = text.match(/\b([A-Z][a-zA-Z\s.-]+),\s*([A-Z]{2})\b/);
+    // Check for US City, ST pattern (e.g. New York, NY or Ashburn, VA)
+    const cityStateMatch = text.match(/\b([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?),\s*([A-Z]{2})\b/);
     if (cityStateMatch) {
-      city = cityStateMatch[1].trim();
+      city = cleanCityString(cityStateMatch[1]);
       state = cityStateMatch[2].trim();
       location = `${city}, ${state}`;
     }
   }
 
-  // Clean location if it contains street addresses like "450 W 33rd St, New York, NY, 10001, US"
+  // Clean location if it contains street addresses or narrative prefixes
+  location = cleanLocationString(location);
   const addressMatch = location.match(/(?:[0-9]+\s+[A-Za-z0-9\s.,]+,\s*)?([A-Za-z\s.-]+),\s*([A-Z]{2})(?:,\s*[0-9]{5})?(?:,\s*([A-Z]{2}))?/);
   if (addressMatch) {
-    city = addressMatch[1].trim().replace(/^.*,\s*/, '');
+    city = cleanCityString(addressMatch[1].trim().replace(/^.*,\s*/, ''));
     state = addressMatch[2].trim();
     if (addressMatch[3]) country = addressMatch[3].trim();
+    location = `${city}, ${state}`;
+  }
+
+  if (location && location.includes(',')) {
+    const parts = location.split(',');
+    city = cleanCityString(parts[0]);
+    state = parts[1].trim().replace(/\s*\/.*$/, '').replace(/[^A-Za-z\s]/g, '').trim();
     location = `${city}, ${state}`;
   }
 
@@ -1974,13 +2011,23 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   else if (textLower.includes('ashby')) detectedAtsProvider = 'Ashby';
   else if (textLower.includes('taleo')) detectedAtsProvider = 'Taleo';
 
+  if (fallbackApplyUrl) {
+    const fLower = fallbackApplyUrl.toLowerCase();
+    if (fLower.includes('greenhouse.io')) detectedAtsProvider = 'Greenhouse';
+    else if (fLower.includes('lever.co')) detectedAtsProvider = 'Lever';
+    else if (fLower.includes('smartrecruiters.com')) detectedAtsProvider = 'SmartRecruiters';
+    else if (fLower.includes('workable.com')) detectedAtsProvider = 'Workable';
+    else if (fLower.includes('ashbyhq.com')) detectedAtsProvider = 'Ashby';
+    else if (fLower.includes('myworkdayjobs.com') || fLower.includes('workday.com')) detectedAtsProvider = 'Workday';
+  }
+
   // 10. CLEAN OVERVIEW & CURATED DESCRIPTION
   const baseTitle = stripSeniorityFromTitle(title);
   const titleHasSeniority = /(?:early[\s-]career|entry[\s-]level|junior|new\s*grad|intern|graduate|fresher)/i.test(title);
   const article = /^[aeiou]/i.test(baseTitle) ? 'an' : 'a';
   const defaultOverview = titleHasSeniority
-    ? `${company} is actively seeking ${article} ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`
-    : `${company} is actively seeking an early-career ${baseTitle} to join their team. This direct opening was discovered on ${company}'s official ${detectedAtsProvider} portal.`;
+    ? `${company} is actively welcoming ${article} ${baseTitle} to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.`
+    : `${company} is actively seeking an early-career ${baseTitle} to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.`;
 
   const cleanOverview = parsedSections.overview || defaultOverview;
   const curatedDescription = composeFreshCommitsCuratedDescription({

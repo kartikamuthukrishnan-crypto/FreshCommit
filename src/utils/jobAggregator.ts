@@ -1,4 +1,5 @@
 import { JobPosting, SyncLog, ExperienceLevel, JobCategory, EmploymentType } from '../types';
+import { cleanLocationString, cleanCityString } from './textHumanizer';
 
 export interface RawExternalJob {
   id: string;
@@ -580,10 +581,10 @@ export async function syncSmartRecruitersJobs(
       company: raw.company,
       companyLogo: raw.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(raw.company)}&background=0D9488&color=fff&size=128`,
       companyWebsite: raw.companyWebsite || '',
-      location: raw.location,
+      location: cleanLocationString(raw.location),
       isRemote: Boolean(raw.isRemote),
       applicantLocationRequirements: raw.isRemote ? (raw.country || 'US') : '',
-      city: raw.city || '',
+      city: cleanCityString(raw.city || ''),
       state: raw.state || '',
       country: raw.country || 'US',
       experienceLevel: inferExperienceLevel(raw.title, detailedDesc),
@@ -729,10 +730,10 @@ export async function executeAutomatedSync(
       company: raw.company,
       companyLogo: raw.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(raw.company)}&background=0F172A&color=fff&size=128`,
       companyWebsite: raw.companyWebsite || '',
-      location: raw.location,
+      location: cleanLocationString(raw.location),
       isRemote: isRemote,
       applicantLocationRequirements: isRemote ? (raw.country || 'US') : '',
-      city: raw.city || (isRemote ? '' : raw.location.split(',')[0]?.trim() || ''),
+      city: cleanCityString(raw.city || (isRemote ? '' : raw.location.split(',')[0]?.trim() || '')),
       state: raw.state || (isRemote ? '' : raw.location.split(',')[1]?.trim() || ''),
       country: raw.country || 'US',
       experienceLevel: inferExperienceLevel(raw.title, raw.description),

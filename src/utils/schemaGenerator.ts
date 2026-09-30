@@ -1,4 +1,5 @@
 import { JobPosting, SchemaValidationResult } from '../types';
+import { cleanLocationString, cleanCityString } from './textHumanizer';
 
 /**
  * Standard country code to formal name mapping for Google Search Central JobPosting schema
@@ -76,30 +77,24 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
       '@type': 'Country',
       name: countryName,
     };
-
-    // Provide physical jobLocation fallback for hybrid & geographic search indexing
-    const locality = job.city || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[0]?.trim() : undefined) || (countryCode === 'GB' ? 'Belfast' : 'San Francisco');
-    const region = job.state || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[1]?.trim() : undefined) || (countryCode === 'GB' ? 'Northern Ireland' : 'CA');
-
-    schema.jobLocation = {
-      '@type': 'Place',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: locality,
-        addressRegion: region,
-        addressCountry: countryCode === 'GB' ? 'GB' : (job.country || 'US'),
-        postalCode: job.postalCode || undefined,
-      },
-    };
   } else {
+    const cleanLoc = cleanLocationString(String(job.location || ''));
+    const rawLocParts = cleanLoc.split(',');
+    let rawCity = cleanCityString(String(job.city || rawLocParts[0]?.trim() || 'New York'));
+    if (rawLocParts.length > 1 && rawLocParts[0].trim()) {
+      rawCity = cleanCityString(rawLocParts[0].trim());
+    }
+    let rawState = (rawLocParts[1]?.trim() || job.state || 'NY').replace(/\s*\/.*$/, '').replace(/[^A-Za-z\s]/g, '').trim();
+    if (!rawState) rawState = 'NY';
+
     schema.jobLocation = {
       '@type': 'Place',
       address: {
         '@type': 'PostalAddress',
-        addressLocality: job.city || job.location.split(',')[0]?.trim() || 'San Francisco',
-        addressRegion: job.state || job.location.split(',')[1]?.trim() || 'CA',
-        addressCountry: job.country || 'US',
-        postalCode: job.postalCode || undefined,
+        addressLocality: rawCity,
+        addressRegion: rawState,
+        addressCountry: countryCode === 'GB' ? 'GB' : (job.country || 'US'),
+        postalCode: (rawCity.toLowerCase().includes('san francisco') || rawState === 'CA') ? job.postalCode : undefined,
       },
     };
   }
@@ -128,20 +123,51 @@ function formatHtmlDescription(job: JobPosting): string {
 
   let html = cleanDesc || `<p>Apply directly for ${escapeHtml(job.title)} at ${escapeHtml(job.company)}.</p>`;
 
+  const descLower = (job.description || '').toLowerCase();
+
   if (job.responsibilities && job.responsibilities.length > 0) {
-    html += `<p><strong>Key Responsibilities:</strong></p><ul>`;
-    for (const item of job.responsibilities) {
-      html += `<li>${escapeHtml(item)}</li>`;
+    const validResp = job.responsibilities
+      .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+      .filter((r) => {
+        if (!r || r.length < 8) return false;
+        const low = r.toLowerCase();
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
+        if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
+        if (/^about us[:\s]/i.test(low)) return false;
+        if (/^who we are[:\s]/i.test(low)) return false;
+        if (/^we are looking for\b/i.test(low)) return false;
+        if (/^this is an ideal role\b/i.test(low)) return false;
+        if (/^our team is\b/i.test(low)) return false;
+        if (descLower.includes(low.slice(0, 45))) return false;
+        return true;
+      });
+
+    if (validResp.length > 0) {
+      html += `<p><strong>Key Responsibilities:</strong></p><ul>`;
+      for (const item of validResp) {
+        html += `<li>${escapeHtml(item)}</li>`;
+      }
+      html += `</ul>`;
     }
-    html += `</ul>`;
   }
 
   if (job.qualifications && job.qualifications.length > 0) {
-    html += `<p><strong>Qualifications (Entry-Level / Fresh Grad):</strong></p><ul>`;
-    for (const item of job.qualifications) {
-      html += `<li>${escapeHtml(item)}</li>`;
+    const validQual = job.qualifications
+      .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+      .filter((q) => {
+        if (!q || q.length < 8) return false;
+        const low = q.toLowerCase();
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
+        return true;
+      });
+
+    if (validQual.length > 0) {
+      html += `<p><strong>Qualifications (Entry-Level / Fresh Grad):</strong></p><ul>`;
+      for (const item of validQual) {
+        html += `<li>${escapeHtml(item)}</li>`;
+      }
+      html += `</ul>`;
     }
-    html += `</ul>`;
   }
 
   if (job.skills && job.skills.length > 0) {

@@ -67,6 +67,7 @@ import {
   saveAdConfigToCloud
 } from '../services/firebaseService';
 import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl, extractJobDataFromRawText, cleanHtml } from '../utils/jobExtractor';
+import { cleanLocationString, cleanCityString } from '../utils/textHumanizer';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap } from 'lucide-react';
 
@@ -281,10 +282,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     company: company || 'Acme Tech Corp',
     companyLogo: companyLogo || undefined,
     companyWebsite: companyWebsite || undefined,
-    location: isRemote ? `Remote (${applicantLocationRequirements})` : location,
+    location: isRemote ? `Remote (${applicantLocationRequirements})` : cleanLocationString(location),
     isRemote,
     applicantLocationRequirements: isRemote ? applicantLocationRequirements : undefined,
-    city: isRemote ? undefined : city,
+    city: isRemote ? undefined : (cleanCityString(city) || undefined),
     state: isRemote ? undefined : state,
     country,
     postalCode: isRemote ? undefined : postalCode,
@@ -397,9 +398,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setCompany(cleanHtml(data.company));
       if (data.companyLogo) setCompanyLogo(data.companyLogo);
       if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
-      setLocation(cleanHtml(data.location));
+      setLocation(cleanLocationString(cleanHtml(data.location)));
       setIsRemote(data.isRemote);
-      if (data.city) setCity(cleanHtml(data.city));
+      if (data.city) setCity(cleanCityString(cleanHtml(data.city)));
       if (data.state) setState(cleanHtml(data.state));
       if (data.country) setCountry(cleanHtml(data.country));
       if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
@@ -448,9 +449,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setCompany(cleanHtml(data.company));
       if (data.companyLogo) setCompanyLogo(data.companyLogo);
       if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
-      setLocation(cleanHtml(data.location));
+      setLocation(cleanLocationString(cleanHtml(data.location)));
       setIsRemote(data.isRemote);
-      if (data.city) setCity(cleanHtml(data.city));
+      if (data.city) setCity(cleanCityString(cleanHtml(data.city)));
       if (data.state) setState(cleanHtml(data.state));
       if (data.country) setCountry(cleanHtml(data.country));
       if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));

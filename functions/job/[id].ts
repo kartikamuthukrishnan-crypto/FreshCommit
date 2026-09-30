@@ -226,9 +226,19 @@ export const onRequest: any = async (context: any) => {
             name: countryName,
           };
         } else {
-          const rawLocParts = (job.location || '').split(',');
-          const rawCity = job.city || rawLocParts[0]?.trim() || 'New York';
-          const rawState = (job.state || rawLocParts[1]?.trim() || 'NY').replace(/\s*\/.*$/, '').trim();
+          let cleanLoc = String(job.location || '')
+            .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in)\s+/i, '')
+            .trim();
+          const rawLocParts = cleanLoc.split(',');
+          let rawCity = String(job.city || rawLocParts[0]?.trim() || 'New York')
+            .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in)\s+/i, '')
+            .replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '')
+            .trim();
+          if (rawLocParts.length > 1 && rawLocParts[0].trim()) {
+            rawCity = rawLocParts[0].trim().replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '').trim();
+          }
+          let rawState = (rawLocParts[1]?.trim() || job.state || 'NY').replace(/\s*\/.*$/, '').replace(/[^A-Za-z\s]/g, '').trim();
+          if (!rawState) rawState = 'NY';
           schema.jobLocation = {
             '@type': 'Place',
             address: {
