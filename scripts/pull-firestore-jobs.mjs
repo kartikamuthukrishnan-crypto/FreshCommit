@@ -195,6 +195,34 @@ async function pullFirestoreJobs() {
       jobObj.description = humanizeCareerTake(jobObj.description, jobObj);
     }
 
+    // Clean dead Clearbit URLs and ensure crisp, non-hanging Google Favicon or UI-Avatar
+    let logo = jobObj.companyLogo || '';
+    if (!logo || logo.includes('logo.clearbit.com')) {
+      let domain = '';
+      if (jobObj.companyWebsite) {
+        try {
+          const u = new URL(jobObj.companyWebsite.startsWith('http') ? jobObj.companyWebsite : `https://${jobObj.companyWebsite}`);
+          domain = u.hostname.replace(/^www\./, '');
+        } catch {}
+      }
+      if (!domain && logo && logo.includes('logo.clearbit.com/')) {
+        const parts = logo.split('logo.clearbit.com/');
+        if (parts[1]) domain = parts[1].replace(/[^a-zA-Z0-9.-]/g, '');
+      }
+      if (!domain && jobObj.applyUrl) {
+        try {
+          const u = new URL(jobObj.applyUrl);
+          const parts = u.hostname.replace(/^www\./, '').split('.');
+          if (parts.length >= 2) domain = parts.slice(-2).join('.');
+        } catch {}
+      }
+      if (domain && domain.includes('.')) {
+        jobObj.companyLogo = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
+      } else {
+        jobObj.companyLogo = `https://ui-avatars.com/api/?name=${encodeURIComponent(jobObj.company || 'FC')}&background=0F172A&color=fff&size=128&bold=true`;
+      }
+    }
+
     if (jobObj.title && jobObj.company && jobObj.applyUrl) {
       cloudJobs.push(jobObj);
     }

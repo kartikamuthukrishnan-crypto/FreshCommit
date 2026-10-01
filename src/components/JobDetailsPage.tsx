@@ -11,6 +11,7 @@ import {
   humanizeChecklistItems
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark } from '../utils/jobExtractor';
+import { resolveCompanyLogo } from '../utils/logoHelper';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -356,20 +357,21 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
               <div className="flex items-start gap-4 mb-4">
                 {/* Company Logo / Avatar */}
                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl border border-[#e8eaed] bg-white p-2 flex items-center justify-center flex-shrink-0 shadow-2xs">
-                  {job.companyLogo ? (
-                    <img
-                      src={job.companyLogo}
-                      alt={`${job.company} logo`}
-                      className="w-full h-full object-contain rounded-lg"
-                      onError={(e) => {
-                        (e.target as HTMLElement).style.display = 'none';
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-[#1a73e8] text-white flex items-center justify-center font-bold text-lg rounded-lg">
-                      {job.company.slice(0, 2).toUpperCase()}
-                    </div>
-                  )}
+                  {(() => {
+                    const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
+                    return (
+                      <img
+                        src={safeLogo}
+                        alt={`${job.company} logo`}
+                        className="w-full h-full object-contain rounded-lg"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            job.company
+                          )}&background=0F172A&color=fff&size=128&bold=true`;
+                        }}
+                      />
+                    );
+                  })()}
                 </div>
 
                 <div className="flex-1 min-w-0">

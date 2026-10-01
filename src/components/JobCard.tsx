@@ -2,6 +2,7 @@ import React from 'react';
 import { JobPosting } from '../types';
 import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight, Bookmark, ExternalLink } from 'lucide-react';
 import { SocialShare } from './SocialShare';
+import { resolveCompanyLogo } from '../utils/logoHelper';
 
 interface JobCardProps {
   job: JobPosting;
@@ -56,23 +57,22 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
         {/* Top Header: Company + Badges */}
         <div className="flex items-start justify-between gap-3 mb-3.5">
           <div className="flex items-center gap-3">
-            {job.companyLogo ? (
-              <img
-                src={job.companyLogo}
-                alt={`${job.company} logo`}
-                referrerPolicy="no-referrer"
-                className="w-12 h-12 rounded-xl object-cover border border-[#dadce0] bg-[#f8f9fa] flex-shrink-0"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                    job.company
-                  )}&background=1A73E8&color=fff&size=128`;
-                }}
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-xl bg-[#1a73e8] text-white flex items-center justify-center font-bold text-base flex-shrink-0 shadow-xs">
-                {job.company.charAt(0)}
-              </div>
-            )}
+            {(() => {
+              const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
+              return (
+                <img
+                  src={safeLogo}
+                  alt={`${job.company} logo`}
+                  referrerPolicy="no-referrer"
+                  className="w-12 h-12 rounded-xl object-contain p-1 border border-[#dadce0] bg-white flex-shrink-0"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      job.company
+                    )}&background=0F172A&color=fff&size=128&bold=true`;
+                  }}
+                />
+              );
+            })()}
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="font-semibold text-[#202124] text-sm">{job.company}</span>

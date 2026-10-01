@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel, EmploymentType } from '../types';
+import { resolveCompanyLogo } from '../utils/logoHelper';
 import {
   generateFingerprint,
   executeAutomatedSync,
@@ -198,6 +199,44 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [applyUrl, setApplyUrl] = useState('');
   const [datePosted, setDatePosted] = useState<string>(new Date().toISOString().split('T')[0]);
   const [validDays, setValidDays] = useState(60);
+
+  const logoFileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleLogoFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 800 * 1024) {
+      alert('Logo file size should be under 800KB for optimal web performance.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      if (dataUrl) {
+        setCompanyLogo(dataUrl);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAutoFetchBrandIcon = () => {
+    let domain = '';
+    if (companyWebsite) {
+      try {
+        const u = new URL(companyWebsite.startsWith('http') ? companyWebsite : `https://${companyWebsite}`);
+        domain = u.hostname.replace(/^www\./, '');
+      } catch {}
+    }
+    if (!domain && company) {
+      domain = `${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`;
+    }
+    if (domain) {
+      const googleFaviconUrl = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
+      setCompanyLogo(googleFaviconUrl);
+    }
+  };
 
   // Auto-Extraction from Career URL State
   const [autoExtractUrl, setAutoExtractUrl] = useState('');
@@ -1475,14 +1514,83 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Logo URL</label>
-                  <input
-                    type="url"
-                    placeholder="https://.../logo.png"
-                    value={companyLogo}
-                    onChange={(e) => setCompanyLogo(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-xs"
-                  />
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold text-slate-700">Company Logo</label>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={handleAutoFetchBrandIcon}
+                        className="text-[10px] text-indigo-600 hover:text-indigo-800 font-semibold hover:underline flex items-center gap-0.5 cursor-pointer"
+                        title="Auto-fetches high-resolution favicon from Google using company website"
+                      >
+                        <Sparkles className="w-2.5 h-2.5" />
+                        <span>Auto-Fetch Icon</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {/* Live Logo Preview Box */}
+                    <div className="w-10 h-10 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center flex-shrink-0 overflow-hidden relative group">
+                      {companyLogo ? (
+                        <img
+                          src={companyLogo}
+                          alt="Company Logo Preview"
+                          className="w-full h-full object-contain p-1"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                              company || 'FC'
+                            )}&background=0F172A&color=fff&size=128&bold=true`;
+                          }}
+                        />
+                      ) : (
+                        <span className="text-xs font-bold text-slate-400">
+                          {company ? company.charAt(0).toUpperCase() : 'FC'}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Hidden Native File Input */}
+                    <input
+                      type="file"
+                      ref={logoFileInputRef}
+                      onChange={handleLogoFileUpload}
+                      accept="image/png, image/jpeg, image/webp, image/svg+xml"
+                      className="hidden"
+                    />
+
+                    {/* Upload File Button */}
+                    <button
+                      type="button"
+                      onClick={() => logoFileInputRef.current?.click()}
+                      className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-300 cursor-pointer flex-shrink-0"
+                      title="Upload logo directly from your computer (PNG, JPG, SVG, WebP)"
+                    >
+                      <Upload className="w-3.5 h-3.5 text-slate-600" />
+                      <span>Upload Logo</span>
+                    </button>
+
+                    {/* Optional URL Input */}
+                    <input
+                      type="text"
+                      placeholder="Or paste image URL"
+                      value={companyLogo.startsWith('data:') ? '[Uploaded Image File]' : companyLogo}
+                      onChange={(e) => setCompanyLogo(e.target.value)}
+                      readOnly={companyLogo.startsWith('data:')}
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-xs min-w-0"
+                    />
+
+                    {companyLogo && (
+                      <button
+                        type="button"
+                        onClick={() => setCompanyLogo('')}
+                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                        title="Remove Logo"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
 

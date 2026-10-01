@@ -56,229 +56,229 @@ const KNOWN_COMPANIES: Record<string, { name: string; website: string; logo?: st
   'amazon.com': {
     name: 'Amazon',
     website: 'https://amazon.jobs',
-    logo: 'https://logo.clearbit.com/amazon.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=amazon.com',
     defaultLocation: 'Seattle, WA / Hybrid'
   },
   'amazon.jobs': {
     name: 'Amazon',
     website: 'https://amazon.jobs',
-    logo: 'https://logo.clearbit.com/amazon.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=amazon.com',
     defaultLocation: 'Seattle, WA / Hybrid'
   },
   'microsoft.com': {
     name: 'Microsoft',
     website: 'https://careers.microsoft.com',
-    logo: 'https://logo.clearbit.com/microsoft.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=microsoft.com',
     defaultLocation: 'Redmond, WA / Hybrid'
   },
   'apple.com': {
     name: 'Apple',
     website: 'https://jobs.apple.com',
-    logo: 'https://logo.clearbit.com/apple.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=apple.com',
     defaultLocation: 'Cupertino, CA / Hybrid'
   },
   'meta.com': {
     name: 'Meta',
     website: 'https://metacareers.com',
-    logo: 'https://logo.clearbit.com/meta.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=meta.com',
     defaultLocation: 'Menlo Park, CA / Hybrid'
   },
   'metacareers.com': {
     name: 'Meta',
     website: 'https://metacareers.com',
-    logo: 'https://logo.clearbit.com/meta.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=meta.com',
     defaultLocation: 'Menlo Park, CA / Hybrid'
   },
   'netflix.com': {
     name: 'Netflix',
     website: 'https://jobs.netflix.com',
-    logo: 'https://logo.clearbit.com/netflix.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=netflix.com',
     defaultLocation: 'Los Gatos, CA / Hybrid'
   },
   'nvidia.com': {
     name: 'NVIDIA',
     website: 'https://nvidia.com/careers',
-    logo: 'https://logo.clearbit.com/nvidia.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=nvidia.com',
     defaultLocation: 'Santa Clara, CA / Hybrid'
   },
   'openai.com': {
     name: 'OpenAI',
     website: 'https://openai.com/careers',
-    logo: 'https://logo.clearbit.com/openai.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=openai.com',
     defaultLocation: 'San Francisco, CA / Hybrid'
   },
   'anthropic.com': {
     name: 'Anthropic',
     website: 'https://anthropic.com/careers',
-    logo: 'https://logo.clearbit.com/anthropic.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=anthropic.com',
     defaultLocation: 'San Francisco, CA / Hybrid'
   },
   'uber.com': {
     name: 'Uber',
     website: 'https://uber.com/careers',
-    logo: 'https://logo.clearbit.com/uber.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=uber.com',
     defaultLocation: 'San Francisco, CA / Hybrid'
   },
   'airbnb.com': {
     name: 'Airbnb',
     website: 'https://airbnb.com/careers',
-    logo: 'https://logo.clearbit.com/airbnb.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=airbnb.com',
     defaultLocation: 'San Francisco, CA / Remote'
   },
   'stripe.com': {
     name: 'Stripe',
     website: 'https://stripe.com/jobs',
-    logo: 'https://logo.clearbit.com/stripe.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=stripe.com',
     defaultLocation: 'San Francisco, CA / Remote'
   },
   'salesforce.com': {
     name: 'Salesforce',
     website: 'https://salesforce.com/careers',
-    logo: 'https://logo.clearbit.com/salesforce.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=salesforce.com',
     defaultLocation: 'San Francisco, CA / Hybrid'
   },
   'spotify.com': {
     name: 'Spotify',
     website: 'https://lifeatspotify.com',
-    logo: 'https://logo.clearbit.com/spotify.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=spotify.com',
     defaultLocation: 'New York, NY / Remote'
   },
   'snowflake.com': {
     name: 'Snowflake',
     website: 'https://snowflake.com/careers',
-    logo: 'https://logo.clearbit.com/snowflake.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=snowflake.com',
     defaultLocation: 'Bozeman, MT / Remote'
   },
   'datadoghq.com': {
     name: 'Datadog',
     website: 'https://datadoghq.com/careers',
-    logo: 'https://logo.clearbit.com/datadoghq.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=datadoghq.com',
     defaultLocation: 'New York, NY / Hybrid'
   },
   'datadog.com': {
     name: 'Datadog',
     website: 'https://datadoghq.com/careers',
-    logo: 'https://logo.clearbit.com/datadoghq.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=datadoghq.com',
     defaultLocation: 'New York, NY / Hybrid'
   },
   'cloudflare.com': {
     name: 'Cloudflare',
     website: 'https://cloudflare.com/careers',
-    logo: 'https://logo.clearbit.com/cloudflare.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=cloudflare.com',
     defaultLocation: 'San Francisco, CA / Hybrid'
   },
   'palantir.com': {
     name: 'Palantir',
     website: 'https://palantir.com/careers',
-    logo: 'https://logo.clearbit.com/palantir.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=palantir.com',
     defaultLocation: 'Denver, CO / Hybrid'
   },
   'robinhood.com': {
     name: 'Robinhood',
     website: 'https://robinhood.com/careers',
-    logo: 'https://logo.clearbit.com/robinhood.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=robinhood.com',
     defaultLocation: 'Menlo Park, CA / Remote'
   },
   'coinbase.com': {
     name: 'Coinbase',
     website: 'https://coinbase.com/careers',
-    logo: 'https://logo.clearbit.com/coinbase.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=coinbase.com',
     defaultLocation: 'Remote - US'
   },
   'pinterest.com': {
     name: 'Pinterest',
     website: 'https://pinterestcareers.com',
-    logo: 'https://logo.clearbit.com/pinterest.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=pinterest.com',
     defaultLocation: 'San Francisco, CA / Remote'
   },
   'snap.com': {
     name: 'Snapchat',
     website: 'https://snap.com/careers',
-    logo: 'https://logo.clearbit.com/snap.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=snap.com',
     defaultLocation: 'Santa Monica, CA / Hybrid'
   },
   'bytedance.com': {
     name: 'ByteDance',
     website: 'https://bytedance.com/careers',
-    logo: 'https://logo.clearbit.com/bytedance.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=bytedance.com',
     defaultLocation: 'San Jose, CA / Hybrid'
   },
   'tiktok.com': {
     name: 'TikTok',
     website: 'https://tiktok.com/careers',
-    logo: 'https://logo.clearbit.com/tiktok.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=tiktok.com',
     defaultLocation: 'San Jose, CA / Hybrid'
   },
   'linkedin.com': {
     name: 'LinkedIn',
     website: 'https://linkedin.com/careers',
-    logo: 'https://logo.clearbit.com/linkedin.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=linkedin.com',
     defaultLocation: 'Sunnyvale, CA / Hybrid'
   },
   'x.com': {
     name: 'X',
     website: 'https://x.com/careers',
-    logo: 'https://logo.clearbit.com/x.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=x.com',
     defaultLocation: 'San Francisco, CA'
   },
   'zoom.us': {
     name: 'Zoom',
     website: 'https://zoom.us/careers',
-    logo: 'https://logo.clearbit.com/zoom.us',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=zoom.us',
     defaultLocation: 'San Jose, CA / Remote'
   },
   'servicenow.com': {
     name: 'ServiceNow',
     website: 'https://servicenow.com/careers',
-    logo: 'https://logo.clearbit.com/servicenow.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=servicenow.com',
     defaultLocation: 'Santa Clara, CA / Hybrid'
   },
   'workday.com': {
     name: 'Workday',
     website: 'https://workday.com/careers',
-    logo: 'https://logo.clearbit.com/workday.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=workday.com',
     defaultLocation: 'Pleasanton, CA / Hybrid'
   },
   'figma.com': {
     name: 'Figma',
     website: 'https://figma.com/careers',
-    logo: 'https://logo.clearbit.com/figma.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=figma.com',
     defaultLocation: 'San Francisco, CA / Hybrid'
   },
   'atlassian.com': {
     name: 'Atlassian',
     website: 'https://atlassian.com/careers',
-    logo: 'https://logo.clearbit.com/atlassian.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=atlassian.com',
     defaultLocation: 'Remote - US'
   },
   'github.com': {
     name: 'GitHub',
     website: 'https://github.com/about/careers',
-    logo: 'https://logo.clearbit.com/github.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=github.com',
     defaultLocation: 'Remote - US'
   },
   'gitlab.com': {
     name: 'GitLab',
     website: 'https://about.gitlab.com/jobs',
-    logo: 'https://logo.clearbit.com/gitlab.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=gitlab.com',
     defaultLocation: 'Remote - Worldwide'
   },
   'crowdstrike.com': {
     name: 'CrowdStrike',
     website: 'https://crowdstrike.com/careers',
-    logo: 'https://logo.clearbit.com/crowdstrike.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=crowdstrike.com',
     defaultLocation: 'Austin, TX / Remote'
   },
   'paloaltonetworks.com': {
     name: 'Palo Alto Networks',
     website: 'https://paloaltonetworks.com/careers',
-    logo: 'https://logo.clearbit.com/paloaltonetworks.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=paloaltonetworks.com',
     defaultLocation: 'Santa Clara, CA / Hybrid'
   },
   'bloomberg.com': {
     name: 'Bloomberg',
     website: 'https://bloomberg.com/careers',
-    logo: 'https://logo.clearbit.com/bloomberg.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=bloomberg.com',
     defaultLocation: 'New York, NY / Hybrid'
   }
 };
@@ -471,7 +471,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     return {
       company: slugMeta.inferredCompany,
       companyWebsite: known?.website || `https://www.${compClean}.com`,
-      companyLogo: known?.logo || `https://logo.clearbit.com/${compClean}.com`
+      companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${compClean}.com`
     };
   }
 
@@ -495,7 +495,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     return {
       company: name,
       companyWebsite: `https://${sub}.com`,
-      companyLogo: known?.logo || `https://logo.clearbit.com/${sub}.com`,
+      companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${sub}.com`,
       defaultLocation: known?.defaultLocation
     };
   }
@@ -509,7 +509,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     return {
       company: name,
       companyWebsite: `https://${sub}.com`,
-      companyLogo: known?.logo || `https://logo.clearbit.com/${sub}.com`
+      companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${sub}.com`
     };
   }
 
@@ -536,7 +536,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
       return {
         company: name,
         companyWebsite: `https://${validPart.toLowerCase()}.com`,
-        companyLogo: known?.logo || `https://logo.clearbit.com/${validPart.toLowerCase()}.com`
+        companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${validPart.toLowerCase()}.com`
       };
     }
   }
@@ -546,7 +546,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     return {
       company: name,
       companyWebsite: `https://${sub}.com`,
-      companyLogo: `https://logo.clearbit.com/${sub}.com`
+      companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${sub}.com`
     };
   }
 
@@ -558,7 +558,7 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
   return {
     company: formattedName,
     companyWebsite: `https://www.${cleanHost}`,
-    companyLogo: `https://logo.clearbit.com/${cleanHost}`
+    companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${cleanHost}`
   };
 }
 
@@ -1419,7 +1419,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         return {
           title,
           company,
-          companyLogo: `https://logo.clearbit.com/${board}.com`,
+          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${board}.com`,
           companyWebsite: `https://${board}.com`,
           location,
           isRemote,
@@ -1514,7 +1514,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         return {
           title,
           company,
-          companyLogo: `https://logo.clearbit.com/${comp}.com`,
+          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${comp}.com`,
           companyWebsite: `https://${comp}.com`,
           location,
           isRemote,
@@ -1555,7 +1555,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const title = data.title || formatSlugToJobTitle(slug);
         const company = data.company?.title || slugMeta.inferredCompany || 'Company';
         const cleanCompSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const companyLogo = data.company?.image || `https://logo.clearbit.com/${cleanCompSlug}.com`;
+        const companyLogo = data.company?.image || `https://www.google.com/s2/favicons?sz=128&domain=${cleanCompSlug}.com`;
         const companyWebsite = data.company?.website || `https://${cleanCompSlug}.com`;
         const city = data.location?.city || slugMeta.inferredLocation || '';
         const region = data.location?.subregion || '';
@@ -2046,7 +2046,7 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   // Company logo & website
   const cleanSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');
   const companyWebsite = `https://www.${cleanSlug}.com`;
-  const companyLogo = `https://logo.clearbit.com/${cleanSlug}.com`;
+  const companyLogo = `https://www.google.com/s2/favicons?sz=128&domain=${cleanSlug}.com`;
 
   const finalApplyUrl = fallbackApplyUrl.trim() || `https://www.freshcommits.com/`;
 
