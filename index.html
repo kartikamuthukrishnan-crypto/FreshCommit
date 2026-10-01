@@ -109,6 +109,8 @@
     <script>
       (function() {
         try {
+          var pathname = window.location.pathname || '';
+          var SYNCHRONOUS_ARTICLES = window.SYNCHRONOUS_ARTICLES || {};
           var jobId = null;
           
           // Check for Article Route (/insights/:id or /career-insights/:id or /blog/:id)
@@ -131,13 +133,12 @@
             if (SYNCHRONOUS_ARTICLES[cleanPath]) articleId = cleanPath;
           }
 
-          if (articleId && SYNCHRONOUS_ARTICLES[articleId]) {
+          if (articleId && SYNCHRONOUS_ARTICLES[articleId] && typeof injectArticleSchema === 'function') {
             injectArticleSchema(SYNCHRONOUS_ARTICLES[articleId]);
             return;
           }
 
           // 1. Check pathname: /job/:id or /jobs/:id (Canonical URL format)
-          var pathname = window.location.pathname || '';
           var pathMatch = pathname.match(/^\/(?:jobs|job)\/([^/?#]+)/i);
           if (pathMatch && pathMatch[1]) {
             jobId = decodeURIComponent(pathMatch[1]);
