@@ -235,6 +235,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [manageStatusFilter, setManageStatusFilter] = useState<'all' | 'active' | 'drafts' | 'expired' | 'dead_or_flagged'>('all');
   const [manageCurrentPage, setManageCurrentPage] = useState(1);
   const [managePageSize, setManagePageSize] = useState(10);
+  const [selectedJobIds, setSelectedJobIds] = useState<Set<string>>(new Set());
 
   // SmartRecruiters Feeder State
   const [srKeyword, setSrKeyword] = useState('junior software engineer');
@@ -687,6 +688,107 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     alert(`Discarded ${drafts.length} draft listing(s).`);
   };
 
+  const handleToggleSelectJob = (id: string) => {
+    setSelectedJobIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const handleToggleSelectAllOnPage = (pageJobs: JobPosting[]) => {
+    const allPageSelected = pageJobs.length > 0 && pageJobs.every((j) => selectedJobIds.has(j.id));
+    setSelectedJobIds((prev) => {
+      const next = new Set(prev);
+      if (allPageSelected) {
+        pageJobs.forEach((j) => next.delete(j.id));
+      } else {
+        pageJobs.forEach((j) => next.add(j.id));
+      }
+      return next;
+    });
+  };
+
+  const handleBulkApprove = async () => {
+    if (selectedJobIds.size === 0) return;
+    const targetJobs = jobs.filter((j) => selectedJobIds.has(j.id));
+    if (!confirm(`Approve & publish ${targetJobs.length} selected role(s) to live feed?`)) return;
+
+    const approvedList: JobPosting[] = [];
+    const updated = jobs.map((j) => {
+      if (selectedJobIds.has(j.id)) {
+        const item: JobPosting = { ...j, status: 'ACTIVE' as const };
+        approvedList.push(item);
+        return item;
+      }
+      return j;
+    });
+
+    setJobs(updated);
+    try {
+      await batchSaveJobsToCloud(approvedList);
+      if (indexingConfig.clientEmail && indexingConfig.privateKey) {
+        approvedList.forEach((j) => {
+          publishUrlToGoogle(`https://www.freshcommits.com/job/${j.id}`, 'URL_UPDATED').catch(() => null);
+        });
+      }
+      setSelectedJobIds(new Set());
+      alert(`🎉 Successfully approved & published ${approvedList.length} role(s)!`);
+    } catch (e: any) {
+      alert('Save note: ' + e.message);
+    }
+  };
+
+  const handleBulkExpire = async () => {
+    if (selectedJobIds.size === 0) return;
+    const count = selectedJobIds.size;
+    if (!confirm(`Move ${count} selected role(s) to EXPIRED status? They will vanish from the public feed.`)) return;
+
+    const expiredList: JobPosting[] = [];
+    const updated = jobs.map((j) => {
+      if (selectedJobIds.has(j.id)) {
+        const item: JobPosting = {
+          ...j,
+          status: 'EXPIRED' as const,
+          validThrough: new Date(Date.now() - 86400000).toISOString().split('T')[0]
+        };
+        expiredList.push(item);
+        return item;
+      }
+      return j;
+    });
+
+    setJobs(updated);
+    try {
+      await batchSaveJobsToCloud(expiredList);
+      if (indexingConfig.clientEmail && indexingConfig.privateKey) {
+        expiredList.forEach((j) => {
+          publishUrlToGoogle(`https://www.freshcommits.com/job/${j.id}`, 'URL_DELETED').catch(() => null);
+        });
+      }
+      setSelectedJobIds(new Set());
+      alert(`Moved ${expiredList.length} role(s) to EXPIRED.`);
+    } catch (e: any) {
+      alert('Save note: ' + e.message);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedJobIds.size === 0) return;
+    const count = selectedJobIds.size;
+    if (!confirm(`Permanently delete ${count} selected listing(s)? This action cannot be undone.`)) return;
+
+    const idsToDelete = Array.from(selectedJobIds);
+    setJobs((prev) => prev.filter((j) => !selectedJobIds.has(j.id)));
+    setSelectedJobIds(new Set());
+
+    for (const id of idsToDelete) {
+      deleteJobFromCloud(id).catch(() => null);
+    }
+    alert(`Permanently deleted ${idsToDelete.length} listing(s).`);
+  };
+
   const [pushingToCloud, setPushingToCloud] = useState(false);
   const handlePushAllToCloud = async () => {
     setPushingToCloud(true);
@@ -802,25 +904,39 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     (j) => j.healthStatus === 'DEAD_LINK' || (j.closedReportCount || 0) >= 1 || healthAuditResults.get(j.id)?.isAlive === false
   );
 
-  const filteredManageJobs = jobs.filter((job) => {
-    if (manageStatusFilter === 'active' && (job.status === 'DRAFT' || isJobExpired(job))) return false;
-    if (manageStatusFilter === 'drafts' && job.status !== 'DRAFT') return false;
-    if (manageStatusFilter === 'expired' && (job.status === 'DRAFT' || !isJobExpired(job))) return false;
-    if (manageStatusFilter === 'dead_or_flagged') {
-      const isDead = job.healthStatus === 'DEAD_LINK' || (job.closedReportCount || 0) >= 1 || healthAuditResults.get(job.id)?.isAlive === false;
-      if (!isDead) return false;
+  const getJobSortTimestamp = (j: JobPosting): number => {
+    if (j.id && j.id.startsWith('manual-')) {
+      const ts = parseInt(j.id.replace('manual-', ''), 10);
+      if (!isNaN(ts)) return ts;
     }
+    if (j.datePosted) {
+      const t = new Date(j.datePosted).getTime();
+      if (!isNaN(t)) return t;
+    }
+    return 0;
+  };
 
-    const q = manageSearchQuery.trim().toLowerCase();
-    if (!q) return true;
-    return (
-      job.title.toLowerCase().includes(q) ||
-      job.company.toLowerCase().includes(q) ||
-      job.location.toLowerCase().includes(q) ||
-      job.id.toLowerCase().includes(q) ||
-      (job.category && job.category.toLowerCase().includes(q))
-    );
-  });
+  const filteredManageJobs = jobs
+    .filter((job) => {
+      if (manageStatusFilter === 'active' && (job.status === 'DRAFT' || isJobExpired(job))) return false;
+      if (manageStatusFilter === 'drafts' && job.status !== 'DRAFT') return false;
+      if (manageStatusFilter === 'expired' && (job.status === 'DRAFT' || !isJobExpired(job))) return false;
+      if (manageStatusFilter === 'dead_or_flagged') {
+        const isDead = job.healthStatus === 'DEAD_LINK' || (job.closedReportCount || 0) >= 1 || healthAuditResults.get(job.id)?.isAlive === false;
+        if (!isDead) return false;
+      }
+
+      const q = manageSearchQuery.trim().toLowerCase();
+      if (!q) return true;
+      return (
+        job.title.toLowerCase().includes(q) ||
+        job.company.toLowerCase().includes(q) ||
+        job.location.toLowerCase().includes(q) ||
+        job.id.toLowerCase().includes(q) ||
+        (job.category && job.category.toLowerCase().includes(q))
+      );
+    })
+    .sort((a, b) => getJobSortTimestamp(b) - getJobSortTimestamp(a));
 
   const totalManagePages = Math.max(1, Math.ceil(filteredManageJobs.length / managePageSize));
   const activeManagePage = Math.min(manageCurrentPage, totalManagePages);
@@ -2550,11 +2666,71 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             </div>
           )}
 
+          {/* Bulk Selection Actions Bar */}
+          {selectedJobIds.size > 0 && (
+            <div className="mb-4 p-3 bg-indigo-50 border-2 border-indigo-300 rounded-xl flex items-center justify-between gap-3 flex-wrap animate-fade-in shadow-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-indigo-950">
+                  {selectedJobIds.size} Job{selectedJobIds.size > 1 ? 's' : ''} Selected
+                </span>
+                <span className="text-[11px] text-indigo-700">
+                  (out of {filteredManageJobs.length})
+                </span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={handleBulkApprove}
+                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1 cursor-pointer"
+                  title="Mark all selected roles as ACTIVE and publish them"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Bulk Approve / Publish</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleBulkExpire}
+                  className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1 cursor-pointer"
+                  title="Mark selected roles as EXPIRED"
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Bulk Mark Expired</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleBulkDelete}
+                  className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1 cursor-pointer"
+                  title="Permanently delete selected roles"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Bulk Delete</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedJobIds(new Set())}
+                  className="px-2.5 py-1.5 bg-white border border-indigo-200 text-indigo-800 hover:bg-indigo-100 rounded-lg text-xs font-semibold cursor-pointer"
+                >
+                  Deselect All
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead className="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200">
                 <tr>
+                  <th className="w-9 py-2.5 px-3">
+                    <input
+                      type="checkbox"
+                      checked={pagedManageJobs.length > 0 && pagedManageJobs.every((j) => selectedJobIds.has(j.id))}
+                      onChange={() => handleToggleSelectAllOnPage(pagedManageJobs)}
+                      className="rounded text-indigo-600 w-4 h-4 cursor-pointer"
+                      title="Select all on this page"
+                    />
+                  </th>
                   <th className="py-2.5 px-3">Company &amp; Role</th>
+                  <th className="py-2.5 px-3 whitespace-nowrap">Posted Date</th>
                   <th className="py-2.5 px-3">Location</th>
                   <th className="py-2.5 px-3">Level / YoE</th>
                   <th className="py-2.5 px-3">Salary</th>
@@ -2567,7 +2743,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               <tbody className="divide-y divide-slate-100">
                 {pagedManageJobs.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="py-12 text-center text-slate-500">
+                    <td colSpan={10} className="py-12 text-center text-slate-500">
                       <div className="space-y-2">
                         <Briefcase className="w-8 h-8 text-slate-300 mx-auto" />
                         <p className="font-semibold text-slate-700 text-xs">No job postings found</p>
@@ -2612,8 +2788,21 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         }`}
                       >
                         <td className="py-3 px-3">
+                          <input
+                            type="checkbox"
+                            checked={selectedJobIds.has(job.id)}
+                            onChange={() => handleToggleSelectJob(job.id)}
+                            className="rounded text-indigo-600 w-4 h-4 cursor-pointer"
+                          />
+                        </td>
+                        <td className="py-3 px-3">
                           <div className="font-bold text-slate-900">{job.title}</div>
                           <div className="text-slate-500 text-[11px]">{job.company}</div>
+                        </td>
+                        <td className="py-3 px-3 whitespace-nowrap">
+                          <div className="font-mono text-slate-900 font-semibold text-[11px]">
+                            {job.datePosted || 'Recent'}
+                          </div>
                         </td>
                         <td className="py-3 px-3">
                           <span>{job.location}</span>
