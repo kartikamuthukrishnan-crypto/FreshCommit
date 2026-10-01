@@ -30,6 +30,10 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
       const maxH = salary.max && salary.max !== salary.min ? `–${sym}${salary.max}` : '';
       return `${sym}${salary.min}${maxH} / hr`;
     }
+    if (salary.unit === 'MONTH') {
+      const maxM = salary.max && salary.max !== salary.min ? `–${sym}${salary.max.toLocaleString()}` : '';
+      return `${sym}${salary.min.toLocaleString()}${maxM} / mo`;
+    }
     const minK = Math.round(salary.min / 1000);
     const maxK = salary.max ? Math.round(salary.max / 1000) : minK;
     return `${sym}${minK}k – ${sym}${maxK}k / yr`;

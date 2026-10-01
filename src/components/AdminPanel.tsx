@@ -188,6 +188,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [maxYearsExperience, setMaxYearsExperience] = useState(0);
   const [employmentType, setEmploymentType] = useState<EmploymentType>('FULL_TIME');
   const [salaryCurrency, setSalaryCurrency] = useState('USD');
+  const [salaryUnit, setSalaryUnit] = useState<'YEAR' | 'MONTH' | 'HOUR'>('YEAR');
   const [salaryMin, setSalaryMin] = useState(0);
   const [salaryMax, setSalaryMax] = useState(0);
   const [description, setDescription] = useState('');
@@ -320,7 +321,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       min: salaryMin,
       max: salaryMax,
       currency: salaryCurrency,
-      unit: (salaryMax >= 500 || salaryMin >= 500) ? 'YEAR' : (employmentType === 'INTERN' ? 'HOUR' : 'YEAR'),
+      unit: salaryUnit,
     },
     description: description || 'Seeking enthusiastic junior software developer with foundational CS knowledge.',
     responsibilities: responsibilitiesText
@@ -371,6 +372,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setMaxYearsExperience(job.maxYearsExperience ?? 0);
     setEmploymentType(job.employmentType || 'FULL_TIME');
     setSalaryCurrency(job.salary?.currency || 'USD');
+    setSalaryUnit(job.salary?.unit || (job.salary?.max && job.salary.max < 500 ? 'HOUR' : 'YEAR'));
     setSalaryMin(job.salary?.min || 0);
     setSalaryMax(job.salary?.max || 0);
     setDescription(job.description || '');
@@ -404,6 +406,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setResponsibilitiesText('');
     setQualificationsText('');
     setSkillsText('TypeScript, React, Node.js');
+    setSalaryCurrency('USD');
+    setSalaryUnit('YEAR');
     setSalaryMin(0);
     setSalaryMax(0);
     setSelectedMicroNiche(null);
@@ -433,6 +437,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setMaxYearsExperience(data.maxYearsExperience);
       setEmploymentType(data.employmentType);
       setSalaryCurrency(data.salary.currency || 'USD');
+      setSalaryUnit(data.salary.unit || 'YEAR');
       setSalaryMin(data.salary.min);
       setSalaryMax(data.salary.max);
       setDescription(cleanHtml(data.description));
@@ -1684,7 +1689,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     <span className="flex items-center gap-1.5 font-medium">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
                       <span>
-                        Verified / Configured Salary: <strong>{salaryCurrency} {salaryMin.toLocaleString()} – {salaryMax.toLocaleString()} {employmentType === 'INTERN' ? '/hr' : '/yr'}</strong>. (Included in Google JobPosting Schema)
+                        Verified / Configured Salary: <strong>{salaryCurrency} {salaryMin.toLocaleString()} – {salaryMax.toLocaleString()} /{salaryUnit === 'HOUR' ? 'hr' : salaryUnit === 'MONTH' ? 'mo' : 'yr'}</strong>. (Included in Google JobPosting Schema)
                       </span>
                     </span>
                   </div>
@@ -1697,14 +1702,28 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </div>
                 )}
 
-                {/* Salary Range & Currency Input Fields */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                {/* Salary Range, Frequency & Currency Input Fields */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Pay Period / Frequency
+                    </label>
+                    <select
+                      value={salaryUnit}
+                      onChange={(e) => setSalaryUnit(e.target.value as 'YEAR' | 'MONTH' | 'HOUR')}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    >
+                      <option value="YEAR">Per Year (Annual /yr)</option>
+                      <option value="MONTH">Per Month (/mo)</option>
+                      <option value="HOUR">Per Hour (/hr)</option>
+                    </select>
+                  </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Currency</label>
                     <select
                       value={salaryCurrency}
                       onChange={(e) => setSalaryCurrency(e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     >
                       <option value="USD">USD ($) - US Dollar</option>
                       <option value="GBP">GBP (£) - British Pound</option>
@@ -1716,28 +1735,28 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Minimum ({salaryCurrency}/{employmentType === 'INTERN' ? 'hr' : 'yr'})
+                      Minimum ({salaryCurrency}/{salaryUnit === 'HOUR' ? 'hr' : salaryUnit === 'MONTH' ? 'mo' : 'yr'})
                     </label>
                     <input
                       type="number"
-                      step={employmentType === 'INTERN' ? 1 : 1000}
+                      step={salaryUnit === 'HOUR' ? 1 : salaryUnit === 'MONTH' ? 100 : 1000}
                       value={salaryMin}
                       onChange={(e) => setSalaryMin(Number(e.target.value))}
                       placeholder="0 = Undisclosed"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Maximum ({salaryCurrency}/{employmentType === 'INTERN' ? 'hr' : 'yr'})
+                      Maximum ({salaryCurrency}/{salaryUnit === 'HOUR' ? 'hr' : salaryUnit === 'MONTH' ? 'mo' : 'yr'})
                     </label>
                     <input
                       type="number"
-                      step={employmentType === 'INTERN' ? 1 : 1000}
+                      step={salaryUnit === 'HOUR' ? 1 : salaryUnit === 'MONTH' ? 100 : 1000}
                       value={salaryMax}
                       onChange={(e) => setSalaryMax(Number(e.target.value))}
                       placeholder="0 = Undisclosed"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>

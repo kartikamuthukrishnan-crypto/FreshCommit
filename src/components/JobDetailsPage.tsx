@@ -244,10 +244,12 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Competitive compensation based on qualifications';
-    const currencySymbol = salary.currency === 'EUR' ? '€' : salary.currency === 'GBP' ? '£' : '$';
-    const isHourly = salary.unit === 'HOUR' && (salary.max || salary.min) < 500;
-    if (isHourly) {
+    const currencySymbol = salary.currency === 'EUR' ? '€' : salary.currency === 'GBP' ? '£' : salary.currency === 'INR' ? '₹' : salary.currency === 'CAD' ? 'CA$' : '$';
+    if (salary.unit === 'HOUR') {
       return `${currencySymbol}${salary.min}${salary.max && salary.max !== salary.min ? `–${currencySymbol}${salary.max}` : ''} / hour`;
+    }
+    if (salary.unit === 'MONTH') {
+      return `${currencySymbol}${salary.min.toLocaleString()}${salary.max && salary.max !== salary.min ? `–${currencySymbol}${salary.max.toLocaleString()}` : ''} / month`;
     }
     const minFormatted = salary.min >= 1000 ? `${Math.round(salary.min / 1000)}k` : `${salary.min}`;
     const maxFormatted = salary.max && salary.max >= 1000 ? `${Math.round(salary.max / 1000)}k` : `${salary.max}`;

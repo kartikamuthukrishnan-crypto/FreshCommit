@@ -110,9 +110,8 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nJoining Remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc. as a Remote Flexcompute Ambassador Program in Watertown at Flexcompute Inc. gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Remote - US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nRemote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc. is actively seeking an early-career Remote Flexcompute Ambassador Program in Watertown at Flexcompute Inc. to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level developers ready to move beyond tutorial projects and take ownership of user-facing features within a collaborative engineering culture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Remote - US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nRemote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc. is actively seeking an early-career Remote Flexcompute Ambassador Program in Watertown at Flexcompute Inc. to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
     "source": "MANUAL_ADMIN",
-    "title": "Remote Flexcompute Ambassador Program in Watertown at Flexcompute Inc.",
     "salary": {
       "unit": "YEAR",
       "min": 0,
@@ -141,9 +140,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
       "Document system architectures, API contracts, and onboarding playbooks for peer team members."
     ],
-    "fingerprint": "remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc--remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc--remote",
     "atsProvider": "Workable",
-    "company": "Remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc.",
     "id": "manual-1790863138880",
     "datePosted": "2026-10-01",
     "applicantLocationRequirements": "US",
@@ -157,6 +154,63 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Full Stack",
     "companyWebsite": "https://remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc..com",
+    "status": "ACTIVE",
+    "fingerprint": "flexcompute-flexcompute-ambassador-program-remote",
+    "company": "Flexcompute",
+    "title": "Flexcompute Ambassador Program"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Peloton emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nEdjd is actively seeking an early-career 188 to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Technical Implementation Consultant - Analyst",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Edjd's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "peloton-technical-implementation-consultant-analyst-united-states-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "Peloton",
+    "id": "manual-1790868968478",
+    "state": "CA",
+    "datePosted": "2026-10-01",
+    "validThrough": "2026-10-31",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://logo.clearbit.com/edjd.fa.us2.oraclecloud.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://edjd.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/188",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.edjd.fa.us2.oraclecloud.com",
     "status": "ACTIVE"
   },
   {
