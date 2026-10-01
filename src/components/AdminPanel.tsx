@@ -232,7 +232,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [copiedSchema, setCopiedSchema] = useState(false);
   // Manage Listings State
   const [manageSearchQuery, setManageSearchQuery] = useState('');
-  const [manageStatusFilter, setManageStatusFilter] = useState<'all' | 'active' | 'expired' | 'dead_or_flagged'>('all');
+  const [manageStatusFilter, setManageStatusFilter] = useState<'all' | 'active' | 'drafts' | 'expired' | 'dead_or_flagged'>('all');
   const [manageCurrentPage, setManageCurrentPage] = useState(1);
   const [managePageSize, setManagePageSize] = useState(10);
 
@@ -559,6 +559,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         return [...newJobs, ...updated];
       });
       setSyncLogs((prev) => [log, ...prev]);
+      if (newJobs.length > 0) {
+        alert(`📥 Ingested ${newJobs.length} role(s) directly into DRAFTS!\n\nThey are 100% hidden from public visitors until you review and approve them in 'Manage Listings -> 📝 Drafts'.`);
+      } else {
+        alert('Sync complete: No new unique roles found.');
+      }
     } catch (err) {
       console.error(err);
       alert('Sync failed. Please check the network.');
@@ -588,6 +593,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         return [...newJobs, ...updated];
       });
       setSyncLogs((prev) => [log, ...prev]);
+      if (newJobs.length > 0) {
+        alert(`📥 Ingested ${newJobs.length} role(s) directly into DRAFTS!\n\nThey are 100% hidden from public visitors until you review and approve them in 'Manage Listings -> 📝 Drafts'.`);
+      } else {
+        alert('SmartRecruiters sync complete: No new unique roles found.');
+      }
     } catch (err) {
       console.error(err);
       alert('SmartRecruiters live fetch encountered an issue.');
@@ -614,6 +624,67 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         return j;
       })
     );
+  };
+
+  const handleApproveDraft = async (id: string) => {
+    let approvedJob: JobPosting | null = null;
+    setJobs((prev) =>
+      prev.map((j) => {
+        if (j.id === id) {
+          const updated: JobPosting = { ...j, status: 'ACTIVE' as const };
+          approvedJob = updated;
+          saveJobToCloud(updated).catch((e) => console.warn('Cloud sync error for approved job:', e));
+          return updated;
+        }
+        return j;
+      })
+    );
+
+    if (approvedJob && indexingConfig.clientEmail && indexingConfig.privateKey) {
+      publishUrlToGoogle(`https://www.freshcommits.com/job/${id}`, 'URL_UPDATED').catch(() => null);
+    }
+  };
+
+  const handleApproveAllDrafts = async () => {
+    const drafts = jobs.filter((j) => j.status === 'DRAFT');
+    if (drafts.length === 0) return;
+    if (!confirm(`Approve and publish all ${drafts.length} draft job(s) to the live feed and Google?`)) return;
+
+    const approvedList: JobPosting[] = [];
+    const updated = jobs.map((j) => {
+      if (j.status === 'DRAFT') {
+        const item: JobPosting = { ...j, status: 'ACTIVE' as const };
+        approvedList.push(item);
+        return item;
+      }
+      return j;
+    });
+
+    setJobs(updated);
+    try {
+      await batchSaveJobsToCloud(approvedList);
+      if (indexingConfig.clientEmail && indexingConfig.privateKey) {
+        approvedList.forEach((j) => {
+          publishUrlToGoogle(`https://www.freshcommits.com/job/${j.id}`, 'URL_UPDATED').catch(() => null);
+        });
+      }
+      alert(`🎉 Successfully approved & published all ${approvedList.length} draft roles! Visitors now see them live.`);
+    } catch (e: any) {
+      alert('Cloud save error: ' + e.message);
+    }
+  };
+
+  const handleDiscardAllDrafts = async () => {
+    const drafts = jobs.filter((j) => j.status === 'DRAFT');
+    if (drafts.length === 0) return;
+    if (!confirm(`Discard and delete all ${drafts.length} draft job(s)? They will be removed permanently.`)) return;
+
+    const draftIds = new Set(drafts.map((d) => d.id));
+    setJobs((prev) => prev.filter((j) => !draftIds.has(j.id)));
+    for (const d of drafts) {
+      deleteJobFromCloud(d.id).catch(() => null);
+    }
+    alert(`Discarded ${drafts.length} draft listing(s).`);
   };
 
   const [pushingToCloud, setPushingToCloud] = useState(false);
@@ -724,15 +795,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
-  const expiredJobs = jobs.filter((j) => isJobExpired(j));
-  const liveActiveJobs = jobs.filter((j) => !isJobExpired(j));
+  const draftJobs = jobs.filter((j) => j.status === 'DRAFT');
+  const expiredJobs = jobs.filter((j) => j.status === 'EXPIRED' || (j.status !== 'DRAFT' && isJobExpired(j)));
+  const liveActiveJobs = jobs.filter((j) => (j.status === 'ACTIVE' || !j.status) && !isJobExpired(j));
   const deadOrFlaggedJobs = jobs.filter(
     (j) => j.healthStatus === 'DEAD_LINK' || (j.closedReportCount || 0) >= 1 || healthAuditResults.get(j.id)?.isAlive === false
   );
 
   const filteredManageJobs = jobs.filter((job) => {
-    if (manageStatusFilter === 'active' && isJobExpired(job)) return false;
-    if (manageStatusFilter === 'expired' && !isJobExpired(job)) return false;
+    if (manageStatusFilter === 'active' && (job.status === 'DRAFT' || isJobExpired(job))) return false;
+    if (manageStatusFilter === 'drafts' && job.status !== 'DRAFT') return false;
+    if (manageStatusFilter === 'expired' && (job.status === 'DRAFT' || !isJobExpired(job))) return false;
     if (manageStatusFilter === 'dead_or_flagged') {
       const isDead = job.healthStatus === 'DEAD_LINK' || (job.closedReportCount || 0) >= 1 || healthAuditResults.get(job.id)?.isAlive === false;
       if (!isDead) return false;
@@ -2208,6 +2281,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 <span className="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
                   {liveActiveJobs.length} Live Active
                 </span>
+                {draftJobs.length > 0 && (
+                  <span className="text-xs bg-amber-50 text-amber-900 font-bold px-2 py-0.5 rounded-full border border-amber-300">
+                    📝 {draftJobs.length} In Review (Drafts)
+                  </span>
+                )}
                 {expiredJobs.length > 0 && (
                   <span className="text-xs bg-rose-50 text-rose-700 font-bold px-2 py-0.5 rounded-full border border-rose-200">
                     {expiredJobs.length} Auto-Vanished (Expired)
@@ -2215,7 +2293,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 )}
               </div>
               <p className="text-xs text-slate-500 mt-1">
-                Active listings are live on the public feed and Google search index. Listings past their validity date automatically vanish.
+                Active listings are live on the public feed and Google search index. Newly ingested ATS jobs stay in Drafts until approved.
               </p>
             </div>
 
@@ -2372,11 +2450,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <div className="flex items-center gap-1.5 flex-wrap">
               {[
                 { id: 'all', label: `All (${jobs.length})` },
+                { id: 'drafts', label: `📝 Drafts (${draftJobs.length})` },
                 { id: 'active', label: `Active (${liveActiveJobs.length})` },
                 { id: 'expired', label: `Expired (${expiredJobs.length})` },
                 { id: 'dead_or_flagged', label: `Flagged/Dead (${deadOrFlaggedJobs.length})` },
               ].map((filter) => {
                 const isActive = manageStatusFilter === filter.id;
+                const isDraftFilter = filter.id === 'drafts';
                 return (
                   <button
                     key={filter.id}
@@ -2387,7 +2467,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     }}
                     className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       isActive
-                        ? 'bg-slate-900 text-white shadow-2xs font-bold'
+                        ? isDraftFilter
+                          ? 'bg-amber-500 text-slate-950 font-bold shadow-2xs'
+                          : 'bg-slate-900 text-white shadow-2xs font-bold'
+                        : isDraftFilter && draftJobs.length > 0
+                        ? 'bg-amber-100 text-amber-900 font-bold hover:bg-amber-200 border border-amber-300'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
                     }`}
                   >
@@ -2419,6 +2503,52 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               ))}
             </div>
           </div>
+
+          {/* Drafts Review Banner when incoming jobs exist */}
+          {draftJobs.length > 0 && (
+            <div className="mb-4 p-3.5 bg-amber-50/90 border border-amber-300 rounded-xl flex items-center justify-between gap-3 flex-wrap animate-fade-in shadow-2xs">
+              <div className="flex items-start gap-2.5">
+                <span className="text-xl">🛡️</span>
+                <div>
+                  <span className="text-xs font-bold text-amber-950 block">
+                    {draftJobs.length} Ingested Role{draftJobs.length > 1 ? 's' : ''} in Draft Review (Zero Fake Jobs Guarantee)
+                  </span>
+                  <p className="text-[11px] text-amber-800 mt-0.5">
+                    These automated ATS jobs are completely hidden from public visitors. Verify their details and approve them individually or in batch.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleApproveAllDrafts}
+                  className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 cursor-pointer"
+                  title="Publish all pending draft roles to the live candidate feed and Google"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Approve All ({draftJobs.length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDiscardAllDrafts}
+                  className="px-2.5 py-1.5 bg-white border border-rose-300 text-rose-700 hover:bg-rose-50 rounded-lg text-xs font-semibold cursor-pointer"
+                  title="Discard all pending drafts"
+                >
+                  Discard All
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setManageStatusFilter('drafts');
+                    setManageCurrentPage(1);
+                  }}
+                  className="px-2.5 py-1.5 bg-white border border-amber-300 text-amber-900 rounded-lg text-xs font-semibold hover:bg-amber-100 cursor-pointer"
+                >
+                  Filter Drafts
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
@@ -2557,23 +2687,40 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           )}
                         </td>
                         <td className="py-3 px-3">
-                          <button
-                            onClick={() => handleToggleStatus(job.id)}
-                            className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${
-                              job.status === 'ACTIVE' && !expired
-                                ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                            }`}
-                          >
-                            {job.status}
-                          </button>
+                          {job.status === 'DRAFT' ? (
+                            <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                              📝 DRAFT
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => handleToggleStatus(job.id)}
+                              className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors cursor-pointer ${
+                                job.status === 'ACTIVE' && !expired
+                                  ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                              }`}
+                            >
+                              {job.status}
+                            </button>
+                          )}
                         </td>
                         <td className="py-3 px-3 text-right">
                           <div className="flex items-center justify-end gap-2">
+                            {job.status === 'DRAFT' && (
+                              <button
+                                type="button"
+                                onClick={() => handleApproveDraft(job.id)}
+                                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
+                                title="Approve &amp; publish this draft role to live feed and Google"
+                              >
+                                <Check className="w-3.5 h-3.5" />
+                                <span>Approve</span>
+                              </button>
+                            )}
                             <button
                               onClick={() => handleStartEditJob(job)}
                               className="p-1.5 text-slate-500 hover:text-amber-700 hover:bg-amber-50 rounded-lg transition-colors cursor-pointer"
-                              title="Edit this listing"
+                              title={job.status === 'DRAFT' ? 'Review & edit draft details before publishing' : 'Edit this listing'}
                             >
                               <Edit3 className="w-3.5 h-3.5" />
                             </button>
@@ -2589,7 +2736,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             <button
                               onClick={() => handleDeleteJob(job.id)}
                               className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
-                              title="Delete listing"
+                              title={job.status === 'DRAFT' ? 'Discard / delete this draft' : 'Delete listing'}
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>

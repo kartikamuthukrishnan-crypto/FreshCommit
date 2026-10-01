@@ -608,7 +608,7 @@ export async function syncSmartRecruitersJobs(
       atsProvider: 'SmartRecruiters',
       smartRecruitersId: raw.id,
       sourceUrl: raw.sourceUrl,
-      status: 'ACTIVE',
+      status: 'DRAFT',
       fingerprint,
       viewsCount: Math.floor(Math.random() * 25) + 5,
       featured: false
@@ -764,7 +764,7 @@ export async function executeAutomatedSync(
       source: isSR ? 'SMARTRECRUITERS' : 'AUTOMATED_SYNC',
       atsProvider: isSR ? 'SmartRecruiters' : 'Verified ATS',
       sourceUrl: raw.sourceUrl,
-      status: 'ACTIVE',
+      status: 'DRAFT',
       fingerprint,
       viewsCount: 14,
       featured: false

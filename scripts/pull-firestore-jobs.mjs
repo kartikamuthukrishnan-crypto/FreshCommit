@@ -312,7 +312,7 @@ async function pullFirestoreJobs() {
 
   sitemapXml += '\n  <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->\n';
   for (const job of cloudJobs) {
-    if (!job || !job.id) continue;
+    if (!job || !job.id || job.status === 'DRAFT' || job.status === 'EXPIRED') continue;
     const jobDate = job.datePosted || today;
     sitemapXml += `  <url>\n    <loc>https://www.freshcommits.com/job/${job.id}</loc>\n    <lastmod>${jobDate}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.95</priority>\n  </url>\n`;
   }
