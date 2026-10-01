@@ -49,7 +49,7 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
     },
     experienceRequirements: {
       '@type': 'OccupationalExperienceRequirements',
-      monthsOfExperience: job.maxYearsExperience * 12,
+      monthsOfExperience: (job.maxYearsExperience === 0 ? 0 : (job.maxYearsExperience <= 2 ? 24 : job.maxYearsExperience * 12)),
     },
   };
 

@@ -185,7 +185,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [postalCode, setPostalCode] = useState('94105');
   const [category, setCategory] = useState<JobCategory>('Full Stack');
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevel>('Entry Level');
-  const [maxYearsExperience, setMaxYearsExperience] = useState(0);
+  const [maxYearsExperience, setMaxYearsExperience] = useState(2);
   const [employmentType, setEmploymentType] = useState<EmploymentType>('FULL_TIME');
   const [salaryCurrency, setSalaryCurrency] = useState('USD');
   const [salaryUnit, setSalaryUnit] = useState<'YEAR' | 'MONTH' | 'HOUR'>('YEAR');
@@ -1615,13 +1615,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Years of Experience</label>
                     <select
-                      value={maxYearsExperience}
+                      value={maxYearsExperience <= 2 ? 2 : maxYearsExperience}
                       onChange={(e) => setMaxYearsExperience(Number(e.target.value))}
                       className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white"
                     >
-                      <option value={0}>0 Years</option>
-                      <option value={1}>1 Year</option>
-                      <option value={2}>2 Years</option>
+                      <option value={2}>0–2 Years</option>
                       <option value={3}>3 Years</option>
                       <option value={4}>4 Years</option>
                       <option value={5}>5 Years</option>
@@ -2833,11 +2831,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         </td>
                         <td className="py-3 px-3">
                           <span className="bg-slate-100 px-2 py-0.5 rounded text-slate-700 font-medium">
-                            {job.experienceLevel} ({job.maxYearsExperience} YoE)
+                            {job.experienceLevel} ({job.maxYearsExperience <= 2 ? '0–2' : job.maxYearsExperience} YoE)
                           </span>
                         </td>
-                        <td className="py-3 px-3 font-semibold text-emerald-700">
-                          ${Math.round(job.salary.min / 1000)}k–${Math.round(job.salary.max / 1000)}k
+                        <td className="py-3 px-3 font-semibold text-emerald-700 whitespace-nowrap">
+                          {job.salary && job.salary.min > 0
+                            ? job.salary.unit === 'HOUR'
+                              ? `$${job.salary.min}–$${job.salary.max}/hr`
+                              : job.salary.unit === 'MONTH'
+                              ? `$${job.salary.min.toLocaleString()}–$${job.salary.max.toLocaleString()}/mo`
+                              : `$${Math.round(job.salary.min / 1000)}k–$${Math.round(job.salary.max / 1000)}k/yr`
+                            : 'Undisclosed'}
                         </td>
                         <td className="py-3 px-3">
                           <div className="space-y-1">
