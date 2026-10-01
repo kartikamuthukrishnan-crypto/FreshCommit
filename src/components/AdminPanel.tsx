@@ -647,13 +647,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setHealthAuditResults(results);
 
       let deadCount = 0;
+      const deadJobIds: string[] = [];
       const updatedJobs = jobs.map((j) => {
         const check = results.get(j.id);
         if (check && !check.isAlive) {
           deadCount++;
+          deadJobIds.push(j.id);
           return {
             ...j,
+            status: 'EXPIRED' as const,
             healthStatus: 'DEAD_LINK' as const,
+            validThrough: new Date(Date.now() - 86400000).toISOString().split('T')[0],
             lastHealthCheckedAt: new Date().toISOString()
           };
         } else if (check && check.isAlive) {
@@ -667,11 +671,18 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       });
 
       setJobs(updatedJobs);
-      // Persist health metadata to Firestore
+      // Persist auto-expired states to Firestore
       batchSaveJobsToCloud(updatedJobs).catch((e) => console.warn('Could not persist health states:', e));
 
+      // Auto de-index from Googlebot if Service Account is configured
+      if (deadJobIds.length > 0 && indexingConfig.clientEmail && indexingConfig.privateKey) {
+        deadJobIds.forEach((id) => {
+          publishUrlToGoogle(`https://www.freshcommits.com/job/${id}`, 'URL_DELETED').catch(() => null);
+        });
+      }
+
       if (deadCount > 0) {
-        setHealthAuditSummary(`⚠️ Audit complete: ${deadCount} dead/removed or candidate-flagged role(s) detected! You can archive them below.`);
+        setHealthAuditSummary(`⚠️ Audit complete: ${deadCount} dead/removed role(s) detected and automatically moved to EXPIRED (hidden from candidate feed & Google notified).`);
       } else {
         setHealthAuditSummary(`✓ Audit complete: All ${jobs.length} roles verified active on official ATS feeds!`);
       }
@@ -2213,13 +2224,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 onClick={handleRunAtsHealthAudit}
                 disabled={isAuditingHealth}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-50"
-                title="Directly checks Greenhouse, Lever, and SmartRecruiters public API endpoints for 404 take-downs at $0 cost"
+                title="Directly checks Greenhouse, Lever, SmartRecruiters, Workday, and ATS dead-page keywords. Automatically moves dead roles to EXPIRED in Firestore ($0 cost)."
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isAuditingHealth ? 'animate-spin' : ''}`} />
                 <span>
                   {isAuditingHealth
-                    ? `Auditing ATS Links (${healthProgress.checked}/${healthProgress.total})...`
-                    : '🔍 Audit ATS Link Health ($0)'}
+                    ? `Auditing & Expiring (${healthProgress.checked}/${healthProgress.total})...`
+                    : '🔍 Audit & Auto-Expire Dead Links ($0)'}
                 </span>
               </button>
 
