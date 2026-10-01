@@ -931,8 +931,84 @@ export interface JobHealthCheckResult {
 }
 
 /**
+ * ATS Closed / Soft-404 Requisition Detection Keywords
+ * Covers Workday, Taleo, Greenhouse, Lever, Ashby, BambooHR, iCIMS, Oracle Cloud, SuccessFactors, and custom portals.
+ */
+export const ATS_DEAD_PAGE_KEYWORDS: readonly string[] = [
+  // "Page doesn't exist" and related variations
+  "the page you are looking for doesn't exist",
+  "the page you are looking for does not exist",
+  "the page you're looking for doesn't exist",
+  "the page you're looking for does not exist",
+  "the job you are looking for doesn't exist",
+  "the job you are looking for does not exist",
+  "page you are looking for doesn't exist",
+  "page you are looking for does not exist",
+  "looking for doesn't exist",
+  "looking for does not exist",
+  "the page you requested cannot be found",
+  "the page you requested was not found",
+  "the page you requested could not be found",
+  "we can't find that page",
+  "we cannot find that page",
+  "we couldn't find that page",
+  "we could not find that page",
+  "page you are trying to reach is not available",
+  "page you are trying to view is no longer available",
+  "sorry, this page doesn't exist",
+  "sorry, this page does not exist",
+  "sorry, this job doesn't exist",
+  "sorry, this job does not exist",
+  "page not found",
+  "job not found",
+
+  // ATS closed requisition phrases
+  "this job is no longer available",
+  "job is no longer available",
+  "no longer accepting applications",
+  "not accepting applications at this time",
+  "this position has been filled",
+  "position has been filled",
+  "job requisition has expired",
+  "position is closed",
+  "job posting has expired",
+  "this opening has closed",
+  "opening has closed",
+  "requisition closed",
+  "the job you are looking for has been unposted",
+  "this listing is no longer active",
+  "listing is no longer active",
+  "opportunity is no longer available",
+  "job is no longer open",
+  "this requisition is closed",
+  "this posting is inactive",
+  "this job post has expired"
+];
+
+/**
+ * Checks text or HTML content for ATS dead-page / closed requisition phrases.
+ * Normalizes smart quotes (’) and whitespace for 100% reliable matching.
+ */
+export function detectAtsDeadPageKeyword(htmlOrText: string): string | null {
+  if (!htmlOrText) return null;
+  // Normalize curly apostrophes (’) to straight ('), remove multiple spaces, lowercase
+  const normalized = htmlOrText
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+
+  for (const phrase of ATS_DEAD_PAGE_KEYWORDS) {
+    if (normalized.includes(phrase)) {
+      return phrase;
+    }
+  }
+  return null;
+}
+
+/**
  * Verifies if an individual job posting is still live and accepting applications on its native ATS.
- * Uses lightweight public ATS endpoints (SmartRecruiters, Greenhouse, Lever) without paid proxies or scraping servers ($0 cost).
+ * Checks direct public APIs (SmartRecruiters, Greenhouse, Lever), Workday Soft-404 metadata,
+ * and scans page bodies for ATS dead-page closure keywords ($0 cost).
  */
 export async function verifyJobAtsHealth(job: JobPosting): Promise<JobHealthCheckResult> {
   const url = job.applyUrl || '';
@@ -1038,7 +1114,40 @@ export async function verifyJobAtsHealth(job: JobPosting): Promise<JobHealthChec
     }
   }
 
-  // 4. Candidate report threshold check
+  // 4. Workday ATS Soft-404 & Metadata Closure Check
+  if (url.includes('myworkdayjobs.com') || url.includes('workday.com')) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(3500) }).catch(() => null);
+      if (res) {
+        if (res.status === 404 || res.status === 410) {
+          return {
+            jobId: job.id,
+            isAlive: false,
+            status: 'DEAD_LINK',
+            statusCode: res.status,
+            reason: 'Workday requisition returned 404 Not Found'
+          };
+        }
+        const text = await res.text().catch(() => '');
+        const matched = detectAtsDeadPageKeyword(text);
+        const hasEmptyMeta = (text.includes('property="og:title"') && !text.includes('property="og:title" content="') && !text.includes('content="') && text.includes('window.workday')) ||
+          text.includes('<title></title>');
+
+        if (matched || (hasEmptyMeta && text.includes('window.workday'))) {
+          return {
+            jobId: job.id,
+            isAlive: false,
+            status: 'DEAD_LINK',
+            reason: matched ? `ATS closed requisition: "${matched}"` : 'Workday requisition is closed (empty metadata)'
+          };
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 5. Candidate report threshold check
   if ((job.closedReportCount || 0) >= 2) {
     return {
       jobId: job.id,
@@ -1046,6 +1155,36 @@ export async function verifyJobAtsHealth(job: JobPosting): Promise<JobHealthChec
       status: 'DEAD_LINK',
       reason: `Flagged by ${job.closedReportCount} applicants as closed or expired`
     };
+  }
+
+  // 6. General ATS & Career URL Body Keyword Inspection
+  if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(3000) }).catch(() => null);
+      if (res) {
+        if (res.status === 404 || res.status === 410) {
+          return {
+            jobId: job.id,
+            isAlive: false,
+            status: 'DEAD_LINK',
+            statusCode: res.status,
+            reason: `Career portal returned HTTP ${res.status}`
+          };
+        }
+        const text = await res.text().catch(() => '');
+        const matched = detectAtsDeadPageKeyword(text);
+        if (matched) {
+          return {
+            jobId: job.id,
+            isAlive: false,
+            status: 'DEAD_LINK',
+            reason: `ATS closed requisition: "${matched}"`
+          };
+        }
+      }
+    } catch {
+      // ignore network errors or CORS restrictions in browser
+    }
   }
 
   // Fallback: If not an API-checkable ATS and no reports, consider healthy
