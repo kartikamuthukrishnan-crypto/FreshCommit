@@ -28,6 +28,7 @@ import {
   Shield,
   CheckCircle2,
   AlertTriangle,
+  AlertCircle,
   Calendar,
   ExternalLink,
   Trash2,
@@ -69,7 +70,14 @@ import {
 import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl, cleanHtml } from '../utils/jobExtractor';
 import { cleanLocationString, cleanCityString } from '../utils/textHumanizer';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
-import { Target, Award, Zap } from 'lucide-react';
+import { Target, Award, Zap, Key, Send, Radio } from 'lucide-react';
+import {
+  getGoogleIndexingConfig,
+  saveGoogleIndexingConfig,
+  publishUrlToGoogle,
+  pingGoogleSitemap,
+  GoogleIndexingConfig
+} from '../utils/googleIndexingService';
 
 interface AdminPanelProps {
   jobs: JobPosting[];
@@ -96,7 +104,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onUpdatePasscode,
   onLogout,
 }) => {
-  const [activeTab, setActiveTab] = useState<'post' | 'sync' | 'manage' | 'adsense' | 'schema-tester' | 'inbox'>('post');
+  const [activeTab, setActiveTab] = useState<'post' | 'sync' | 'manage' | 'adsense' | 'schema-tester' | 'inbox' | 'google-indexing'>('post');
   const [supportTickets, setSupportTickets] = useState<any[]>(() => {
     try {
       return JSON.parse(localStorage.getItem('freshcommits_support_tickets') || '[]');
@@ -195,6 +203,24 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [isExtracting, setIsExtracting] = useState(false);
   const [extractSuccessMsg, setExtractSuccessMsg] = useState('');
   const [extractErrorMsg, setExtractErrorMsg] = useState('');
+
+  // Google Indexing API State
+  const [indexingConfig, setIndexingConfig] = useState<GoogleIndexingConfig>(() => {
+    return (
+      getGoogleIndexingConfig() || {
+        clientEmail: '',
+        privateKey: '',
+        autoIndexOnPublish: true
+      }
+    );
+  });
+  const [jsonKeyInput, setJsonKeyInput] = useState('');
+  const [singleUrlToIndex, setSingleUrlToIndex] = useState('');
+  const [singleUrlAction, setSingleUrlAction] = useState<'URL_UPDATED' | 'URL_DELETED'>('URL_UPDATED');
+  const [indexingStatusMsg, setIndexingStatusMsg] = useState<{ text: string; isError?: boolean } | null>(null);
+  const [isBatchIndexing, setIsBatchIndexing] = useState(false);
+  const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; lastUrl?: string } | null>(null);
+  const [sitemapPingMsg, setSitemapPingMsg] = useState('');
 
   // Status feedback
   const [postSuccess, setPostSuccess] = useState(false);
@@ -495,6 +521,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     saveJobToCloud(newJob).catch((e) => console.warn('Could not sync new job to cloud:', e));
     setLastPublishedJob(newJob);
     setPostSuccess(true);
+
+    // Google Indexing API Automation (Push directly to Googlebot within minutes)
+    if (indexingConfig.autoIndexOnPublish && indexingConfig.clientEmail && indexingConfig.privateKey) {
+      publishUrlToGoogle(`https://www.freshcommits.com/job/${newJob.id}`)
+        .then((res) => {
+          if (res.success) {
+            console.log(`[Google Indexing API] Notified Googlebot: https://www.freshcommits.com/job/${newJob.id}`);
+          }
+        })
+        .catch((err) => console.warn('[Google Indexing API]:', err));
+    }
 
     // Reset fields
     handleCancelEdit();
@@ -811,6 +848,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <span>Support Inbox ({supportTickets.length})</span>
           </button>
           <button
+            onClick={() => setActiveTab('google-indexing')}
+            className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer ${
+              activeTab === 'google-indexing'
+                ? 'bg-amber-400 text-slate-950 font-extrabold'
+                : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40'
+            }`}
+            title="Open Google Indexing API Controls"
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            <span>⚡ Google Indexing</span>
+          </button>
+
+          <button
             onClick={onClose}
             className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition-colors border border-slate-700"
           >
@@ -826,8 +876,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex border-b border-slate-200 mb-8 overflow-x-auto pb-1 gap-2 scrollbar-thin">
+      {/* Navigation Tabs (Wrap on all screens so no tab is ever hidden) */}
+      <div className="flex flex-wrap border-b border-slate-200 mb-8 gap-1.5 pb-2">
         <button
           onClick={() => setActiveTab('post')}
           className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
@@ -921,6 +971,21 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         >
           <Settings className="w-4 h-4 text-amber-600" />
           <span>Google AdSense Settings</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('google-indexing')}
+          className={`py-3 px-4 text-sm font-semibold flex items-center gap-2 border-b-2 whitespace-nowrap transition-colors rounded-t-lg ${
+            activeTab === 'google-indexing'
+              ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50'
+              : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          }`}
+        >
+          <Zap className="w-4 h-4 text-amber-500" />
+          <span>⚡ Google Indexing API</span>
+          {indexingConfig.clientEmail && (
+            <span className="w-2 h-2 rounded-full bg-emerald-500" title="Service Account Configured"></span>
+          )}
         </button>
       </div>
 
@@ -2179,6 +2244,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               })()}
 
               <button
+                onClick={() => setActiveTab('google-indexing')}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold transition-all shadow-xs cursor-pointer"
+                title="Open Google Indexing API controls to push or de-index URLs from Googlebot"
+              >
+                <Zap className="w-3.5 h-3.5 text-slate-950" />
+                <span>⚡ Google Indexing API</span>
+              </button>
+
+              <button
                 onClick={handlePushAllToCloud}
                 disabled={pushingToCloud}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-50"
@@ -3424,6 +3498,349 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 ))}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 7: GOOGLE INDEXING API AUTOMATION */}
+      {activeTab === 'google-indexing' && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shadow-2xs">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base font-extrabold text-slate-900">
+                      Google Indexing API Automation
+                    </h2>
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      100% Free &bull; 200 URLs/day
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Notifies Googlebot within minutes whenever new JobPosting URLs are published, bypassing multi-day sitemap crawl queues.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setSitemapPingMsg('Pinging Google Sitemap...');
+                    const ok = await pingGoogleSitemap();
+                    if (ok) {
+                      setSitemapPingMsg('✅ Google pinged! Googlebot scheduled to re-fetch sitemap.xml.');
+                    } else {
+                      setSitemapPingMsg('Google sitemap ping sent.');
+                    }
+                    setTimeout(() => setSitemapPingMsg(''), 6000);
+                  }}
+                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
+                  title="Ping Google's sitemap endpoint directly"
+                >
+                  <Radio className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>📡 Ping Google Sitemap</span>
+                </button>
+              </div>
+            </div>
+
+            {sitemapPingMsg && (
+              <div className="p-3 bg-sky-50 border border-sky-200 text-sky-900 rounded-xl text-xs flex items-center gap-2 animate-fade-in">
+                <CheckCircle2 className="w-4 h-4 text-sky-600 flex-shrink-0" />
+                <span>{sitemapPingMsg}</span>
+              </div>
+            )}
+
+            {/* Service Account Status Banner */}
+            {indexingConfig.clientEmail ? (
+              <div className="p-4 bg-emerald-50/80 border border-emerald-200 rounded-xl flex items-start justify-between gap-3 flex-wrap">
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-xs space-y-1">
+                    <span className="font-bold text-emerald-950 block">
+                      Google Service Account Connected &amp; Active
+                    </span>
+                    <p className="text-emerald-800 font-mono text-[11px] break-all">
+                      {indexingConfig.clientEmail}
+                    </p>
+                    <p className="text-[11px] text-emerald-700">
+                      Auto-index on publish is {indexingConfig.autoIndexOnPublish ? 'ENABLED (every new job automatically notifies Googlebot)' : 'DISABLED'}.
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = { ...indexingConfig, clientEmail: '', privateKey: '' };
+                    setIndexingConfig(updated);
+                    saveGoogleIndexingConfig(updated);
+                    setIndexingStatusMsg({ text: 'Service account credentials cleared.' });
+                  }}
+                  className="text-xs text-rose-600 hover:text-rose-800 font-semibold underline cursor-pointer"
+                >
+                  Disconnect Account
+                </button>
+              </div>
+            ) : (
+              <div className="p-4 bg-amber-50/90 border border-amber-200 rounded-xl flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                <div className="text-xs text-amber-900 space-y-1">
+                  <span className="font-bold block">Setup Required for Real-Time Indexing</span>
+                  <p className="leading-relaxed">
+                    Google requires a free Google Cloud Service Account to push URLs to Googlebot. Follow the 4 quick steps below and paste your JSON credentials key.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Step-by-Step 4-Step Setup Guide */}
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs space-y-3">
+              <span className="font-bold text-slate-900 block flex items-center gap-1.5">
+                <Key className="w-4 h-4 text-indigo-600" />
+                How to Get Your Free Google Indexing Credentials (Takes 2 Minutes)
+              </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-600">
+                <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                  <span className="font-bold text-slate-800 block">Step 1: Enable Indexing API</span>
+                  <p>
+                    Go to <a href="https://console.cloud.google.com/apis/library/indexing.googleapis.com" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline font-semibold">Google Cloud Console &rarr; Indexing API</a> and click <strong>Enable</strong>.
+                  </p>
+                </div>
+
+                <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                  <span className="font-bold text-slate-800 block">Step 2: Create Service Account</span>
+                  <p>
+                    Go to <a href="https://console.cloud.google.com/iam-admin/serviceaccounts" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline font-semibold">IAM &amp; Admin &rarr; Service Accounts</a> &rarr; Create Service Account (name: <code>freshcommits-indexer</code>).
+                  </p>
+                </div>
+
+                <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                  <span className="font-bold text-slate-800 block">Step 3: Download JSON Key</span>
+                  <p>
+                    Click on the created account &rarr; <strong>Keys</strong> tab &rarr; <strong>Add Key</strong> &rarr; <strong>Create New Key (JSON)</strong>. A <code>.json</code> file will download.
+                  </p>
+                </div>
+
+                <div className="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                  <span className="font-bold text-slate-800 block">Step 4: Grant Owner in Search Console</span>
+                  <p>
+                    Go to <a href="https://search.google.com/search-console/users" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline font-semibold">Search Console &rarr; Users</a> &rarr; Add the Service Account email as <strong>Owner</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick JSON Key Paste Box */}
+            <div className="space-y-2">
+              <label className="block text-xs font-bold text-slate-800">
+                Paste Google Service Account JSON Key (Auto-Parses Email &amp; Private Key)
+              </label>
+              <textarea
+                rows={4}
+                value={jsonKeyInput}
+                onChange={(e) => setJsonKeyInput(e.target.value)}
+                placeholder={'{\n  "type": "service_account",\n  "client_email": "freshcommits-indexer@your-project.iam.gserviceaccount.com",\n  "private_key": "-----BEGIN PRIVATE KEY-----\\n..."\n}'}
+                className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={indexingConfig.autoIndexOnPublish}
+                    onChange={(e) => {
+                      const updated = { ...indexingConfig, autoIndexOnPublish: e.target.checked };
+                      setIndexingConfig(updated);
+                      saveGoogleIndexingConfig(updated);
+                    }}
+                    className="rounded text-indigo-600 w-4 h-4"
+                  />
+                  <span>Automatically notify Googlebot whenever a job is published</span>
+                </label>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    try {
+                      if (!jsonKeyInput.trim()) {
+                        setIndexingStatusMsg({ text: 'Please paste the JSON file contents first.', isError: true });
+                        return;
+                      }
+                      const parsed = JSON.parse(jsonKeyInput.trim());
+                      if (!parsed.client_email || !parsed.private_key) {
+                        setIndexingStatusMsg({ text: 'Invalid JSON: missing client_email or private_key fields.', isError: true });
+                        return;
+                      }
+                      const updated: GoogleIndexingConfig = {
+                        clientEmail: parsed.client_email,
+                        privateKey: parsed.private_key,
+                        autoIndexOnPublish: indexingConfig.autoIndexOnPublish
+                      };
+                      setIndexingConfig(updated);
+                      saveGoogleIndexingConfig(updated);
+                      setJsonKeyInput('');
+                      setIndexingStatusMsg({ text: `Successfully saved credentials for ${parsed.client_email}!` });
+                    } catch (err: any) {
+                      setIndexingStatusMsg({ text: `Could not parse JSON: ${err.message}`, isError: true });
+                    }
+                  }}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
+                >
+                  <Key className="w-3.5 h-3.5" />
+                  <span>Save Service Account Credentials</span>
+                </button>
+              </div>
+            </div>
+
+            {indexingStatusMsg && (
+              <div className={`p-3 rounded-xl text-xs flex items-center gap-2 animate-fade-in ${
+                indexingStatusMsg.isError
+                  ? 'bg-rose-50 border border-rose-200 text-rose-800'
+                  : 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+              }`}>
+                {indexingStatusMsg.isError ? (
+                  <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                )}
+                <span>{indexingStatusMsg.text}</span>
+              </div>
+            )}
+
+            {/* Instant Actions (Single URL & Batch) */}
+            <div className="pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Push Single URL */}
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                <span className="text-xs font-bold text-slate-900 block flex items-center gap-1.5">
+                  <Send className="w-3.5 h-3.5 text-indigo-600" />
+                  Push Single URL to Googlebot
+                </span>
+                <p className="text-[11px] text-slate-500">
+                  Notify Googlebot of a specific job update or request immediate de-indexing of an expired/closed role.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex gap-2 items-center">
+                    <select
+                      value={singleUrlAction}
+                      onChange={(e) => setSingleUrlAction(e.target.value as 'URL_UPDATED' | 'URL_DELETED')}
+                      className={`text-xs font-bold px-2.5 py-2 rounded-lg border cursor-pointer ${
+                        singleUrlAction === 'URL_DELETED'
+                          ? 'bg-rose-50 border-rose-300 text-rose-800'
+                          : 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                      }`}
+                    >
+                      <option value="URL_DELETED">🗑️ URL_DELETED (De-Index Expired Job)</option>
+                      <option value="URL_UPDATED">⚡ URL_UPDATED (Index / Refresh Job)</option>
+                    </select>
+
+                    <input
+                      type="url"
+                      placeholder="https://www.freshcommits.com/job/manual-1790774488108"
+                      value={singleUrlToIndex}
+                      onChange={(e) => setSingleUrlToIndex(e.target.value)}
+                      className="flex-1 px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-mono"
+                    />
+
+                    <button
+                      type="button"
+                      disabled={!indexingConfig.clientEmail || !singleUrlToIndex.trim()}
+                      onClick={async () => {
+                        if (!singleUrlToIndex.trim()) return;
+                        setIndexingStatusMsg({ text: `Sending ${singleUrlAction} request to Google Indexing API...` });
+                        const res = await publishUrlToGoogle(singleUrlToIndex.trim(), singleUrlAction);
+                        if (res.success) {
+                          setIndexingStatusMsg({ text: `✅ Google Indexing API Accepted: ${singleUrlAction} for ${singleUrlToIndex.trim()} (${res.notificationTime})` });
+                        } else {
+                          setIndexingStatusMsg({ text: `❌ ${res.message}`, isError: true });
+                        }
+                      }}
+                      className={`px-3.5 py-2 rounded-lg font-bold text-xs transition-colors cursor-pointer text-white disabled:opacity-50 ${
+                        singleUrlAction === 'URL_DELETED'
+                          ? 'bg-rose-600 hover:bg-rose-700'
+                          : 'bg-indigo-600 hover:bg-indigo-700'
+                      }`}
+                    >
+                      {singleUrlAction === 'URL_DELETED' ? 'De-Index' : 'Push'}
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-slate-400">
+                    {singleUrlAction === 'URL_DELETED'
+                      ? 'Tip: Paste the freshcommits job link. Googlebot will de-index it from search results within 15–60 minutes.'
+                      : 'Tip: Tells Googlebot to immediately crawl and index this fresh listing.'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Batch Push All Active Jobs */}
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                <span className="text-xs font-bold text-slate-900 block flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-amber-500" />
+                  Batch Push All Active Jobs ({jobs.length} URLs)
+                </span>
+                <p className="text-[11px] text-slate-500">
+                  Loops through all {jobs.length} active jobs and notifies Googlebot with a polite delay (staying within the 200 URLs/day free quota).
+                </p>
+
+                {batchProgress ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-[11px] font-semibold text-slate-700">
+                      <span>Indexing progress: {batchProgress.current} / {batchProgress.total}</span>
+                      <span>{Math.round((batchProgress.current / batchProgress.total) * 100)}%</span>
+                    </div>
+                    <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="bg-emerald-500 h-full transition-all duration-300"
+                        style={{ width: `${(batchProgress.current / batchProgress.total) * 100}%` }}
+                      />
+                    </div>
+                    {batchProgress.lastUrl && (
+                      <p className="text-[10px] text-slate-500 font-mono truncate">
+                        Pushed: {batchProgress.lastUrl}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={!indexingConfig.clientEmail || isBatchIndexing || jobs.length === 0}
+                    onClick={async () => {
+                      if (!confirm(`Notify Googlebot of all ${jobs.length} active jobs? This uses ${jobs.length} of your 200 free daily quota.`)) {
+                        return;
+                      }
+                      setIsBatchIndexing(true);
+                      setBatchProgress({ current: 0, total: jobs.length });
+                      let successCount = 0;
+                      let failCount = 0;
+
+                      for (let i = 0; i < jobs.length; i++) {
+                        const job = jobs[i];
+                        const url = `https://www.freshcommits.com/job/${job.id}`;
+                        setBatchProgress({ current: i + 1, total: jobs.length, lastUrl: url });
+                        const res = await publishUrlToGoogle(url, 'URL_UPDATED');
+                        if (res.success) successCount++;
+                        else failCount++;
+                        // 250ms polite delay
+                        await new Promise((r) => setTimeout(r, 250));
+                      }
+
+                      setIsBatchIndexing(false);
+                      setBatchProgress(null);
+                      setIndexingStatusMsg({
+                        text: `Batch indexing finished! ${successCount} URLs submitted to Googlebot (${failCount} failed).`
+                      });
+                    }}
+                    className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-lg font-bold text-xs transition-colors cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
+                  >
+                    <Zap className="w-3.5 h-3.5" />
+                    <span>⚡ Push All {jobs.length} Jobs to Google</span>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
