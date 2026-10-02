@@ -888,8 +888,11 @@ export default function App() {
       }
 
       // Category
-      if (selectedCategory !== 'All' && job.category !== selectedCategory) {
-        return false;
+      if (selectedCategory !== 'All') {
+        const matchesCat =
+          job.category === selectedCategory ||
+          (selectedCategory === 'Others' && (job.category === 'Others' || job.category === 'Other'));
+        if (!matchesCat) return false;
       }
 
       // Experience Level
@@ -1252,6 +1255,7 @@ export default function App() {
                       <option value="DevOps / Cloud">DevOps</option>
                       <option value="Data / AI">Data / AI</option>
                       <option value="QA / Test">QA / Automation</option>
+                      <option value="Others">Others</option>
                     </select>
 
                     <label className="h-9 inline-flex items-center gap-2 px-3.5 rounded-full border border-[#dadce0] bg-white text-xs font-medium text-[#3c4043] cursor-pointer hover:bg-[#f8f9fa] transition-colors select-none">

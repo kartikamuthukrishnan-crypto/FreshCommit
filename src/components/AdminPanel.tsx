@@ -1484,6 +1484,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     <option value="DevOps / Cloud">DevOps / Cloud / SRE</option>
                     <option value="Data / AI">Data / AI Engineer</option>
                     <option value="QA / Test">QA / Test Automation</option>
+                    <option value="Others">Others</option>
                   </select>
                 </div>
               </div>
