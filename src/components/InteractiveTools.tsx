@@ -1303,8 +1303,33 @@ const ReverseInterviewGenerator: React.FC = () => {
 
   // Helper to personalize questions with company/team name
   const personalizeText = (text: string) => {
-    const target = companyName.trim() ? companyName.trim() : 'your team';
-    return text.replace(/\[Company\/Team\]/g, target);
+    const target = companyName.trim();
+    if (!target) {
+      return text.replace(/\[Company\/Team\]/g, 'your team');
+    }
+    let res = text.replace(/\[Company\/Team\]/g, target);
+    if (!res.toLowerCase().includes(target.toLowerCase())) {
+      if (res.includes('for an entry-level engineer')) {
+        res = res.replace('for an entry-level engineer', `for an entry-level engineer at ${target}`);
+      } else if (res.includes('at a new team')) {
+        res = res.replace('at a new team', `at ${target}`);
+      } else if (res.includes('on this team')) {
+        res = res.replace('on this team', `on ${target}'s team`);
+      } else if (res.includes('in this role')) {
+        res = res.replace('in this role', `in this role at ${target}`);
+      } else if (res.includes('this team')) {
+        res = res.replace('this team', `${target}'s team`);
+      } else if (res.includes('the codebase')) {
+        res = res.replace('the codebase', `${target}'s codebase`);
+      } else if (res.includes('the engineering culture')) {
+        res = res.replace('the engineering culture', `${target}'s engineering culture`);
+      } else if (res.includes('production')) {
+        res = res.replace('production', `${target}'s production environment`);
+      } else if (res.endsWith('?')) {
+        res = res.replace(/\?$/, ` at ${target}?`);
+      }
+    }
+    return res;
   };
 
   // Copy single question + elaboration
@@ -1477,7 +1502,7 @@ const ReverseInterviewGenerator: React.FC = () => {
             <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
               <span className="flex items-center gap-1">
                 <Zap className="w-3.5 h-3.5 text-amber-600" />
-                4. Target Company or Team Name (Optional — Auto-Personalizes Scripts)
+                4. Target Company or Team Name (Auto-Personalizes All Scripts)
               </span>
               <span className="text-[10px] text-slate-400 font-normal">e.g. Stripe, Datadog Platform, Series A AI</span>
             </label>
@@ -1492,12 +1517,40 @@ const ReverseInterviewGenerator: React.FC = () => {
               {companyName && (
                 <button
                   onClick={() => setCompanyName('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 hover:text-slate-600 font-semibold px-2 py-0.5 rounded bg-slate-100"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 hover:text-slate-600 font-semibold px-2 py-0.5 rounded bg-slate-100 cursor-pointer"
                 >
                   Clear
                 </button>
               )}
             </div>
+
+            {/* Quick Select Popular Target Companies */}
+            <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+              <span className="text-[10px] font-bold text-slate-500 mr-0.5">Quick Targets:</span>
+              {['Stripe', 'Google', 'Amazon', 'Figma', 'Peloton', 'Datadog', 'Mindex'].map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setCompanyName(c)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-semibold border transition-all cursor-pointer ${
+                    companyName.toLowerCase() === c.toLowerCase()
+                      ? 'bg-amber-500 text-slate-950 border-amber-500 shadow-2xs'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+
+            {companyName.trim() && (
+              <div className="flex items-center gap-1.5 text-xs text-amber-900 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl font-medium animate-in fade-in duration-150 mt-1">
+                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
+                <span>
+                  Actively injecting <strong>{companyName.trim()}</strong> into all interview scripts, questions, and openers below.
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Quick Scenario Preset Chips */}
@@ -1574,7 +1627,7 @@ const ReverseInterviewGenerator: React.FC = () => {
                     <div className="space-y-1.5 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 tracking-wider">
-                          #{idx + 1} &bull; {item.headline}
+                          #{idx + 1} &bull; {personalizeText(item.headline)}
                         </span>
                         <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
                           Category: {item.category.toUpperCase()}
