@@ -593,3 +593,94 @@ export function humanizeChecklistItems(
   });
 }
 
+export interface Round1InterviewDrill {
+  question: string;
+  testingObjective: string;
+  winningAnswerFormula: string;
+  interviewerVerdict: string;
+}
+
+/**
+ * Generates an authentic, highly practical Round-1 Technical Interview Drill tailored to the job's domain.
+ * Includes the exact question, the underlying interviewer motivation, the winning response formula,
+ * and the specific positive impression it creates in the interviewer's mind.
+ */
+export function generateRound1InterviewDrill(job: {
+  title: string;
+  category?: JobCategory | string;
+  skills?: string[];
+  company?: string;
+}): Round1InterviewDrill {
+  const t = (job.title || '').toLowerCase();
+  const cat = (job.category || '').toLowerCase();
+  const skillsStr = (job.skills || []).map((s) => s.toLowerCase()).join(' ');
+
+  // 1. Frontend / UI / React
+  if (cat.includes('front') || t.includes('frontend') || t.includes('ui') || t.includes('react') || t.includes('web') || skillsStr.includes('react') || skillsStr.includes('vue')) {
+    return {
+      question: "If a user has slow internet and impatiently clicks the 'Submit Order' button 3 times rapidly, how do you make sure they don't get charged 3 times?",
+      testingObjective: "Evaluating whether you write defensive UI code to protect user money and avoid duplicate background network requests.",
+      winningAnswerFormula: "Immediately disable the submit button and show a spinner upon first click, and attach a unique client transaction ID with the request so the backend safely deduplicates any repeat submissions.",
+      interviewerVerdict: "This answer makes the interviewer think: 'This person understands real customer problems. They won't cause expensive mistakes on Day 1.'"
+    };
+  }
+
+  // 2. Data / AI / Machine Learning / SQL
+  if (cat.includes('data') || cat.includes('ai') || t.includes('data') || t.includes('sql') || t.includes('analytics') || t.includes('machine learning') || skillsStr.includes('sql') || skillsStr.includes('python')) {
+    return {
+      question: "You have a table with 15 million user events and your analytical query takes 45 seconds to run. How do you diagnose and accelerate it?",
+      testingObjective: "Testing whether you know how to inspect query execution plans (EXPLAIN ANALYZE) and apply targeted indexing rather than writing blind SQL.",
+      winningAnswerFormula: "Run EXPLAIN ANALYZE to identify costly sequential table scans, add targeted compound indexes on the filtered columns (e.g. created_at, user_id), and prune unnecessary joins or wildcard SELECT * statements.",
+      interviewerVerdict: "This answer makes the interviewer think: 'This candidate has real production sense and won't accidentally freeze our analytical database with unoptimized queries.'"
+    };
+  }
+
+  // 3. DevOps / Cloud / SRE / Platform
+  if (cat.includes('devops') || cat.includes('cloud') || t.includes('devops') || t.includes('sre') || t.includes('infrastructure') || t.includes('kubernetes')) {
+    return {
+      question: "Your new code deployment triggers an immediate 500 error in production. What is your step-by-step triage sequence?",
+      testingObjective: "Testing incident response discipline: prioritizing customer uptime and safe rollbacks over chaotic live debugging.",
+      winningAnswerFormula: "Immediately initiate an automated rollback to the last known healthy deployment to restore customer service, inspect the centralized error logs for the specific stack trace, and reproduce the bug safely in staging before redeploying.",
+      interviewerVerdict: "This answer makes the interviewer think: 'This engineer stays calm under pressure and knows that minimizing customer downtime is the #1 priority.'"
+    };
+  }
+
+  // 4. QA / Test Automation
+  if (cat.includes('qa') || cat.includes('test') || t.includes('qa') || t.includes('quality') || t.includes('automation')) {
+    return {
+      question: "A critical checkout bug slipped past testing into production. How do you ensure this category of regression never happens again?",
+      testingObjective: "Testing preventative automated test hygiene and CI/CD quality gates rather than manual, finger-pointing bug hunts.",
+      winningAnswerFormula: "First write an automated integration test that reproduces the exact failure scenario, verify it fails against the bug, patch the code, and permanently add that test into the pre-merge pull-request CI pipeline so no future code can bypass it.",
+      interviewerVerdict: "This answer makes the interviewer think: 'They build automated safety nets that permanently protect our codebase from regressions.'"
+    };
+  }
+
+  // 5. Mobile (iOS / Android)
+  if (cat.includes('mobile') || t.includes('mobile') || t.includes('ios') || t.includes('android') || t.includes('flutter')) {
+    return {
+      question: "How do you handle saving user form data so that if the operating system suddenly terminates the app in the background, the user doesn't lose their progress?",
+      testingObjective: "Testing mobile lifecycle awareness and resilient local offline storage.",
+      winningAnswerFormula: "Debounce auto-save changes into local storage (like SQLite or EncryptedSharedPreferences) on every few keystrokes, and listen to the onPause / sceneWillDeactivate lifecycle events to flush any pending writes before process termination.",
+      interviewerVerdict: "This answer makes the interviewer think: 'They understand the mobile operating system's lifecycle and proactively prevent user frustration.'"
+    };
+  }
+
+  // 6. Backend / API / Distributed Systems
+  if (cat.includes('backend') || t.includes('backend') || t.includes('api') || t.includes('server') || t.includes('database')) {
+    return {
+      question: "How do you design an inventory update so that two users purchasing the last remaining concert ticket at the exact same millisecond don't both get confirmed?",
+      testingObjective: "Testing your grasp of database race conditions, atomic transactions, and concurrency safeguards in high-traffic applications.",
+      winningAnswerFormula: "Wrap the purchase in a database transaction with atomic row locking (SELECT ... FOR UPDATE) or a conditional update (UPDATE tickets SET reserved=true WHERE id=1 AND reserved=false), ensuring only the first query succeeds while gracefully rejecting the second.",
+      interviewerVerdict: "This answer makes the interviewer think: 'They understand data integrity and concurrency—essential habits that even many intermediate developers overlook.'"
+    };
+  }
+
+  // 7. Full Stack / General / Others
+  return {
+    question: "How do you manage sensitive API credentials (like Stripe or database passwords) so they never accidentally leak into a public GitHub repository?",
+    testingObjective: "Testing foundational security hygiene and environment variable management.",
+    winningAnswerFormula: "Store all secrets strictly in local .env files that are committed to .gitignore, inject them at runtime via server-side environment variables or a secrets manager, and configure automated git pre-commit hooks to block any accidental hardcoded credentials.",
+    interviewerVerdict: "This answer makes the interviewer think: 'This person has solid production hygiene. They won't accidentally leak company keys or expose customer data on Day 1.'"
+  };
+}
+

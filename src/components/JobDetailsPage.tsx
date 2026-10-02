@@ -8,7 +8,8 @@ import {
   generateLeadEngineerTake,
   generateCandidatePreparationChecklist,
   cleanLocationString,
-  humanizeChecklistItems
+  humanizeChecklistItems,
+  generateRound1InterviewDrill
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark } from '../utils/jobExtractor';
 import { resolveCompanyLogo } from '../utils/logoHelper';
@@ -242,6 +243,15 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
   }, [job.qualifications, cleanedResponsibilities, edgeData.roleOverview]);
 
   const daysLeft = getDaysUntilExpiration(job.validThrough);
+
+  const interviewDrill = useMemo(() => {
+    return generateRound1InterviewDrill({
+      title: job.title,
+      category: job.category,
+      skills: job.skills,
+      company: job.company
+    });
+  }, [job.title, job.category, job.skills, job.company]);
 
   const formatSalary = (salary: JobPosting['salary']) => {
     if (!salary || salary.min <= 0) return 'Competitive compensation based on qualifications';
@@ -524,6 +534,64 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                         Employer did not disclose compensation in requisition. FreshCommits 0–2 YoE market benchmark for {job.category?.replace(/_/g, ' ').toLowerCase() || 'early-career engineering'}: <strong className="text-emerald-700">{benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}</strong>.
                       </p>
                     )}
+                  </div>
+                </div>
+
+                {/* 🎯 Round 1 Interview Drill & Winning Formula */}
+                <div className="pt-3 border-t border-indigo-100/90 space-y-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                      🎯
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
+                        Round 1 Interview Drill &amp; Winning Formula
+                      </h4>
+                      <p className="text-[11px] text-slate-500">
+                        The practical engineering question tested in first-round technical screens for this role.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl border border-slate-200/90 p-4 space-y-3 shadow-2xs">
+                    {/* The Question */}
+                    <div>
+                      <span className="text-[10px] font-bold tracking-wider uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100 inline-block mb-1">
+                        1. The Core Question
+                      </span>
+                      <p className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug">
+                        &ldquo;{interviewDrill.question}&rdquo;
+                      </p>
+                    </div>
+
+                    {/* What They're Really Testing */}
+                    <div>
+                      <span className="text-[10px] font-bold tracking-wider uppercase text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80 inline-block mb-1">
+                        2. What the Interviewer is Really Testing
+                      </span>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {interviewDrill.testingObjective}
+                      </p>
+                    </div>
+
+                    {/* The Winning Answer Formula */}
+                    <div>
+                      <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block mb-1">
+                        3. The Winning Answer Formula
+                      </span>
+                      <p className="text-xs text-slate-700 leading-relaxed font-medium bg-slate-50 p-2.5 rounded-lg border border-slate-200/70">
+                        &ldquo;{interviewDrill.winningAnswerFormula}&rdquo;
+                      </p>
+                    </div>
+
+                    {/* The Interviewer's Verdict (The Result) */}
+                    <div className="pt-2 border-t border-slate-100 flex items-start gap-2 bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200/80">
+                      <span className="text-xs mt-0.5">💡</span>
+                      <div className="text-xs text-emerald-950 leading-relaxed">
+                        <strong className="text-emerald-900">The Result / Interviewer Perspective:</strong>{' '}
+                        <span>{interviewDrill.interviewerVerdict}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
