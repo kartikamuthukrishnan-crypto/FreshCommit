@@ -521,6 +521,8 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                     <div className="pt-2">
                       <a
                         href="/project-blueprints"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center justify-between gap-3 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200/80 rounded-xl hover:border-indigo-300 transition-all group"
                       >
                         <div className="flex items-center gap-2.5">
