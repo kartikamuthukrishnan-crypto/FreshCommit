@@ -32,8 +32,11 @@ import {
   ShieldCheck,
   ChevronRight,
   AlertTriangle,
-  AlertCircle
+  AlertCircle,
+  ArrowRight,
+  Target
 } from 'lucide-react';
+import { MockInterviewModal } from './MockInterviewModal';
 
 interface JobDetailsPageProps {
   job: JobPosting;
@@ -57,6 +60,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
   const [checkedPrepItems, setCheckedPrepItems] = useState<Record<number, boolean>>({});
+  const [isMockModalOpen, setIsMockModalOpen] = useState(false);
 
   const isExpired = isJobExpired(job) || (job.status && job.status !== 'ACTIVE');
 
@@ -592,6 +596,17 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                         <span>{interviewDrill.interviewerVerdict}</span>
                       </div>
                     </div>
+
+                    {/* Interactive 5-Round Mock Interview Launch Button */}
+                    <button
+                      type="button"
+                      onClick={() => setIsMockModalOpen(true)}
+                      className="w-full mt-2.5 py-3 px-4 bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:shadow-lg"
+                    >
+                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <span>Launch 5-Round Mock Interview for {job.company} (Interactive Simulator)</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -863,6 +878,11 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
           </div>
         </div>
       </main>
+
+      {/* 5-Round Mock Interview Modal Simulator */}
+      {isMockModalOpen && (
+        <MockInterviewModal job={job} onClose={() => setIsMockModalOpen(false)} />
+      )}
     </div>
   );
 };

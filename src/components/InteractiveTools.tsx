@@ -4,6 +4,7 @@ import {
   TrendingUp,
   AlertTriangle,
   CheckCircle,
+  CheckCircle2,
   Copy,
   Check,
   FileText,
@@ -13,6 +14,7 @@ import {
   Scale,
   DollarSign,
   HelpCircle,
+  Lightbulb,
   Info,
   Percent,
   Sliders,
@@ -21,6 +23,8 @@ import {
   MessageSquareQuote,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   RefreshCw,
   SlidersHorizontal,
   Building2,
@@ -34,6 +38,7 @@ import {
   Search,
   Eye
 } from 'lucide-react';
+import { generateFullMockInterview } from '../utils/mockInterviewEngine';
 
 interface CompensationState {
   baseSalary: number;
@@ -56,7 +61,9 @@ const TAX_PRESETS: Record<string, { name: string; rate: number; stateNote: strin
 };
 
 export const InteractiveToolsView: React.FC = () => {
-  const [activeSubTool, setActiveSubTool] = useState<'tc-calculator' | 'resume-grader' | 'reverse-interview'>('tc-calculator');
+  const [activeSubTool, setActiveSubTool] = useState<
+    'tc-calculator' | 'resume-grader' | 'reverse-interview' | 'mock-simulator'
+  >('mock-simulator');
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
@@ -70,12 +77,27 @@ export const InteractiveToolsView: React.FC = () => {
           Entry-Level SWE Interactive Career Tools
         </h1>
         <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
-          Mathematically model your 4-year tech offer vesting cliffs, audit project resume bullets against Google’s XYZ formula, and generate high-signal reverse interview questions.
+          Practice 5-round role &amp; employer mock technical drills, model 4-year tech offer vesting cliffs, audit project resume bullets, and generate high-signal reverse interview questions.
         </p>
       </div>
 
       {/* Tool Selector Tabs */}
       <div className="flex items-center justify-center gap-2 flex-wrap">
+        <button
+          onClick={() => setActiveSubTool('mock-simulator')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeSubTool === 'mock-simulator'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+          }`}
+        >
+          <Target className="w-4 h-4 text-amber-400" />
+          <span>Role Mock Interview Simulator</span>
+          <span className="text-[10px] bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded font-black uppercase">
+            NEW
+          </span>
+        </button>
+
         <button
           onClick={() => setActiveSubTool('tc-calculator')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
@@ -114,6 +136,7 @@ export const InteractiveToolsView: React.FC = () => {
       </div>
 
       {/* Active SubTool Component */}
+      {activeSubTool === 'mock-simulator' && <StandaloneMockSimulatorView />}
       {activeSubTool === 'tc-calculator' && <TotalCompensationCalculator />}
       {activeSubTool === 'resume-grader' && <ResumeBulletGrader />}
       {activeSubTool === 'reverse-interview' && <ReverseInterviewGenerator />}
@@ -1698,6 +1721,362 @@ const ReverseInterviewGenerator: React.FC = () => {
               </div>
             );
           })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// SUB-TOOL 4: ROLE & EMPLOYER MOCK INTERVIEW SIMULATOR
+// ==========================================
+export const StandaloneMockSimulatorView: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('Full Stack');
+  const [companyName, setCompanyName] = useState<string>('Stripe');
+  const [roleTitle, setRoleTitle] = useState<string>('Junior Full Stack Engineer');
+  const [currentRoundIdx, setCurrentRoundIdx] = useState(0);
+  const [revealedAnswers, setRevealedAnswers] = useState<Record<number, boolean>>({});
+  const [masteredRounds, setMasteredRounds] = useState<Record<number, boolean>>({});
+  const [userNotes, setUserNotes] = useState<Record<number, string>>({});
+  const [copiedAll, setCopiedAll] = useState(false);
+
+  const plan = useMemo(() => {
+    return generateFullMockInterview({
+      title: roleTitle,
+      company: companyName,
+      category: selectedCategory,
+      skills: [selectedCategory === 'Frontend' ? 'React, TypeScript' : selectedCategory === 'Backend' ? 'Node.js, PostgreSQL' : 'TypeScript, Full Stack']
+    });
+  }, [roleTitle, companyName, selectedCategory]);
+
+  const currentRound = plan.rounds[currentRoundIdx] || plan.rounds[0];
+  const isRevealed = Boolean(revealedAnswers[currentRoundIdx]);
+  const isMastered = Boolean(masteredRounds[currentRoundIdx]);
+  const masteredCount = Object.values(masteredRounds).filter(Boolean).length;
+  const progressPct = Math.round((masteredCount / plan.rounds.length) * 100);
+
+  const toggleReveal = (idx: number) => {
+    setRevealedAnswers((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  const toggleMastered = (idx: number) => {
+    setMasteredRounds((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  const handleCopyFullPrepSheet = () => {
+    const text = `🎯 FreshCommits 5-Round Mock Interview Prep for ${companyName} (${roleTitle})
+Category: ${selectedCategory}
+Verified Preparation Sheet (0–2 YoE)
+
+${plan.rounds
+  .map(
+    (r) =>
+      `--------------------------------------------------
+${r.roundTitle} (${r.roundType})
+QUESTION:
+"${r.question}"
+
+WHAT THEY ARE REALLY TESTING:
+${r.interviewerObjective}
+
+WINNING ANSWER FORMULA:
+"${r.winningAnswerFormula}"
+
+THE INTERVIEWER'S VERDICT:
+${r.interviewerVerdict}
+
+KEY POWER KEYWORDS:
+${r.keyKeywordsToSay.join(', ')}
+`
+  )
+  .join('\n')}
+
+Practiced on FreshCommits Interactive Career Tools – https://www.freshcommits.com/?view=tools`;
+
+    navigator.clipboard.writeText(text);
+    setCopiedAll(true);
+    setTimeout(() => setCopiedAll(false), 2500);
+  };
+
+  const POPULAR_COMPANIES = ['Google', 'Stripe', 'Amazon', 'Figma', 'Peloton', 'Datadog', 'Mindex', 'Cloudflare'];
+
+  return (
+    <div className="space-y-6">
+      {/* Configuration Header Card */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-5">
+        <div className="flex items-center justify-between gap-4 flex-wrap pb-4 border-b border-slate-100">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+              <Target className="w-6 h-6 text-amber-500" />
+              <span>Role &amp; Employer Mock Technical Simulator</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
+              Test yourself against the exact 5 questions hiring managers ask early-career candidates before your call.
+            </p>
+          </div>
+
+          <button
+            onClick={handleCopyFullPrepSheet}
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer"
+          >
+            {copiedAll ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+            <span>{copiedAll ? 'Copied Full Sheet!' : 'Copy 5-Round Prep Sheet'}</span>
+          </button>
+        </div>
+
+        {/* Inputs Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Target Engineering Role</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
+                setRoleTitle(`Junior ${e.target.value} Engineer`);
+              }}
+              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs font-medium bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            >
+              <option value="Full Stack">Full Stack</option>
+              <option value="Frontend">Frontend</option>
+              <option value="Backend">Backend</option>
+              <option value="Data / AI">Data / AI</option>
+              <option value="DevOps / Cloud">DevOps / Cloud</option>
+              <option value="QA / Test">QA / Automation</option>
+              <option value="Mobile">Mobile (iOS/Android)</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Target Employer / Company</label>
+            <input
+              type="text"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              placeholder="e.g. Stripe, Google, Acme Tech"
+              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Job Title</label>
+            <input
+              type="text"
+              value={roleTitle}
+              onChange={(e) => setRoleTitle(e.target.value)}
+              placeholder="e.g. Entry-Level Software Engineer"
+              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+        </div>
+
+        {/* Quick Select Popular Companies */}
+        <div className="flex items-center gap-1.5 flex-wrap pt-1">
+          <span className="text-[11px] font-bold text-slate-500 mr-1">Popular Targets:</span>
+          {POPULAR_COMPANIES.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setCompanyName(c)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                companyName.toLowerCase() === c.toLowerCase()
+                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-2xs'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Simulator Board */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden">
+        {/* Progress & Stepper Bar */}
+        <div className="bg-slate-50 border-b border-slate-200 p-4 sm:px-6">
+          <div className="flex items-center justify-between gap-3 text-xs mb-3">
+            <span className="font-semibold text-slate-700 flex items-center gap-1.5">
+              <Target className="w-4 h-4 text-indigo-600" />
+              <span>
+                Round {currentRoundIdx + 1} of {plan.rounds.length}:{' '}
+                <strong className="text-slate-900">{currentRound.roundType}</strong>
+              </span>
+            </span>
+            <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-0.5 rounded-full border border-emerald-300">
+              {masteredCount} / 5 Mastered ({progressPct}%)
+            </span>
+          </div>
+
+          <div className="grid grid-cols-5 gap-2">
+            {plan.rounds.map((r, idx) => {
+              const active = idx === currentRoundIdx;
+              const mastered = Boolean(masteredRounds[idx]);
+              return (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentRoundIdx(idx)}
+                  className={`py-2 px-2 rounded-xl text-xs font-bold transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer truncate ${
+                    active
+                      ? 'bg-indigo-600 text-white shadow-sm'
+                      : mastered
+                      ? 'bg-emerald-50 text-emerald-800 border border-emerald-300'
+                      : 'bg-white text-slate-600 hover:bg-slate-200 border border-slate-200'
+                  }`}
+                >
+                  {mastered ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" /> : null}
+                  <span>Round {r.roundNumber}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Question Details Area */}
+        <div className="p-6 sm:p-8 space-y-5">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <span className="text-xs uppercase tracking-wider font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
+              {currentRound.roundTitle}
+            </span>
+            <label className="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={isMastered}
+                onChange={() => toggleMastered(currentRoundIdx)}
+                className="rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 cursor-pointer"
+              />
+              <span className={isMastered ? 'text-emerald-700 font-bold' : ''}>
+                {isMastered ? '✓ Mastered for Interview' : 'Mark as Mastered'}
+              </span>
+            </label>
+          </div>
+
+          {/* Core Question Card */}
+          <div className="bg-slate-900 text-white p-5 rounded-2xl shadow-md space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider">
+              <HelpCircle className="w-4 h-4 text-amber-400" />
+              <span>{companyName} Interviewer Asks:</span>
+            </div>
+            <p className="text-base sm:text-lg font-semibold leading-relaxed text-slate-100">
+              &ldquo;{currentRound.question}&rdquo;
+            </p>
+          </div>
+
+          {/* What They're Really Testing */}
+          <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-4 space-y-1">
+            <div className="flex items-center gap-2 text-xs font-bold text-amber-900 uppercase tracking-wide">
+              <Lightbulb className="w-4 h-4 text-amber-600" />
+              <span>What the Interviewer is Really Testing:</span>
+            </div>
+            <p className="text-xs sm:text-sm text-amber-950 leading-relaxed font-normal">
+              {currentRound.interviewerObjective}
+            </p>
+          </div>
+
+          {/* Self-Practice Area */}
+          <div className="border border-slate-200 rounded-xl p-4 bg-white space-y-2">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+              Your Answer Outline (Test yourself before viewing the formula):
+            </label>
+            <textarea
+              rows={2}
+              value={userNotes[currentRoundIdx] || ''}
+              onChange={(e) =>
+                setUserNotes((prev) => ({ ...prev, [currentRoundIdx]: e.target.value }))
+              }
+              placeholder="e.g. In my answer, I will mention atomicity, locks, and 409 status code..."
+              className="w-full p-3 text-xs border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Reveal Formula Card */}
+          {!isRevealed ? (
+            <button
+              onClick={() => toggleReveal(currentRoundIdx)}
+              className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:shadow-lg"
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>Reveal Winning Answer Formula &amp; Interviewer Verdict</span>
+            </button>
+          ) : (
+            <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+              {/* The Winning Answer Formula */}
+              <div className="bg-emerald-50/90 border border-emerald-200 rounded-xl p-5 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    <span>The Winning Answer Formula:</span>
+                  </span>
+                  <button
+                    onClick={() => toggleReveal(currentRoundIdx)}
+                    className="text-xs text-slate-500 hover:text-slate-800 underline cursor-pointer"
+                  >
+                    Hide
+                  </button>
+                </div>
+                <p className="text-xs sm:text-sm text-emerald-950 font-medium leading-relaxed bg-white p-3.5 rounded-lg border border-emerald-200">
+                  &ldquo;{currentRound.winningAnswerFormula}&rdquo;
+                </p>
+              </div>
+
+              {/* The Interviewer's Verdict */}
+              <div className="bg-gradient-to-r from-emerald-100/90 via-teal-50 to-indigo-50 border border-emerald-300 rounded-xl p-4 flex items-start gap-3">
+                <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                  💡
+                </div>
+                <div className="space-y-0.5 text-xs text-slate-900">
+                  <strong className="block text-emerald-950 font-bold text-xs uppercase tracking-wide">
+                    The Result / Interviewer Perspective:
+                  </strong>
+                  <p className="text-slate-800 leading-relaxed italic text-xs sm:text-sm">
+                    &ldquo;{currentRound.interviewerVerdict}&rdquo;
+                  </p>
+                </div>
+              </div>
+
+              {/* Power Keywords */}
+              <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                <span className="text-xs font-bold text-slate-600 mr-1">Power Keywords to Mention:</span>
+                {currentRound.keyKeywordsToSay.map((kw, i) => (
+                  <span
+                    key={i}
+                    className="text-[11px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-0.5 rounded-full"
+                  >
+                    + {kw}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer Nav */}
+        <div className="bg-slate-50 border-t border-slate-200 p-4 px-6 flex items-center justify-between gap-3">
+          <button
+            onClick={() => setCurrentRoundIdx((prev) => Math.max(0, prev - 1))}
+            disabled={currentRoundIdx === 0}
+            className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Previous Round</span>
+          </button>
+
+          {currentRoundIdx < plan.rounds.length - 1 ? (
+            <button
+              onClick={() => setCurrentRoundIdx((prev) => Math.min(plan.rounds.length - 1, prev + 1))}
+              className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+            >
+              <span>Next: Round {currentRoundIdx + 2}</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          ) : (
+            <button
+              onClick={handleCopyFullPrepSheet}
+              className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+            >
+              <Check className="w-4 h-4" />
+              <span>Copy Full Prep Sheet ({masteredCount}/5 Mastered)</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
