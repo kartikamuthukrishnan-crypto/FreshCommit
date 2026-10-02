@@ -1749,6 +1749,14 @@ export const StandaloneMockSimulatorView: React.FC = () => {
     });
   }, [roleTitle, companyName, selectedCategory]);
 
+  // Reset drill progress when company or role changes so user sees fresh scenarios
+  React.useEffect(() => {
+    setCurrentRoundIdx(0);
+    setRevealedAnswers({});
+    setMasteredRounds({});
+    setUserNotes({});
+  }, [companyName, selectedCategory, roleTitle]);
+
   const currentRound = plan.rounds[currentRoundIdx] || plan.rounds[0];
   const isRevealed = Boolean(revealedAnswers[currentRoundIdx]);
   const isMastered = Boolean(masteredRounds[currentRoundIdx]);
@@ -1813,6 +1821,12 @@ Practiced on FreshCommits Interactive Career Tools – https://www.freshcommits.
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
               Test yourself against the exact 5 questions hiring managers ask early-career candidates before your call.
             </p>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold border border-indigo-200">
+                <Building2 className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Simulating: {companyName} &bull; {plan.companyDomain}</span>
+              </span>
+            </div>
           </div>
 
           <button
