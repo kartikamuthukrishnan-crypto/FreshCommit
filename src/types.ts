@@ -83,6 +83,7 @@ export type AppTab =
   | 'salary-guide'
   | 'insights'
   | 'tools'
+  | 'blueprints'
   | 'adsense-policy'
   | 'about'
   | 'contact'

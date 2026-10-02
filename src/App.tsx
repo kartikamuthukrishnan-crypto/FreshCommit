@@ -9,6 +9,7 @@ const AdminPanel = lazy(() => import('./components/AdminPanel').then((m) => ({ d
 import { AdSlot } from './components/AdSlot';
 import { SalaryGuideView, AdSensePolicyView, CareerInsightsView } from './components/OriginalGuides';
 import { InteractiveToolsView } from './components/InteractiveTools';
+import { ProjectBlueprintsView } from './components/ProjectBlueprintsView';
 import { AboutUsView, ContactUsView } from './components/TrustPages';
 import { LegalModal } from './components/LegalModals';
 import { LegalPageView } from './components/LegalPageView';
@@ -294,6 +295,7 @@ export default function App() {
         return 'insights';
       }
       if (path === '/tools' || path === '/career-tools' || path === '/calculator' || path.endsWith('/career-tools')) return 'tools';
+      if (path === '/project-blueprints' || path === '/blueprints' || path.endsWith('/project-blueprints')) return 'blueprints';
       if (path === '/policy' || path === '/adsense-policy' || path.endsWith('/adsense-policy')) return 'adsense-policy';
       if (path === '/disclaimer' || path.endsWith('/disclaimer')) return 'disclaimer';
       if (path === '/cookie-policy' || path === '/cookies' || path.endsWith('/cookie-policy')) return 'cookie-policy';
@@ -305,6 +307,7 @@ export default function App() {
       if (view === 'salary-guide' || view === 'salary') return 'salary-guide';
       if (view === 'insights' || view === 'career-insights' || view === 'guides' || view === 'blog' || view === 'articles') return 'insights';
       if (view === 'tools' || view === 'career-tools' || view === 'calculator') return 'tools';
+      if (view === 'blueprints' || view === 'project-blueprints') return 'blueprints';
       if (view === 'about' || view === 'about-us') return 'about';
       if (view === 'contact' || view === 'contact-us') return 'contact';
       if (view === 'policy' || view === 'adsense-policy') return 'adsense-policy';
@@ -318,6 +321,7 @@ export default function App() {
       const hash = rawHash.toLowerCase();
       if (view === 'admin' || urlParams.get('admin') === 'true' || hash === 'admin') return 'admin';
       if (hash === 'tools' || hash === 'calculator' || hash === 'career-tools' || hash === 'tc-calculator') return 'tools';
+      if (hash === 'blueprints' || hash === 'project-blueprints') return 'blueprints';
       if (hash === 'insights' || hash === 'career-insights' || hash === 'guides' || hash === 'blog' || hash === 'articles') return 'insights';
       if (hash === 'salary' || hash === 'salary-guide') return 'salary-guide';
       if (hash === 'about' || hash === 'about-us') return 'about';
@@ -347,6 +351,8 @@ export default function App() {
         return 'Engineering Career Insights & Practical Guides – FreshCommits';
       case 'tools':
         return 'Developer Career Tools & TC Calculator – FreshCommits';
+      case 'blueprints':
+        return 'Commercial Engineering Project Blueprints (0–2 YoE) – FreshCommits';
       case 'about':
         return 'About Us & Verification Standards – FreshCommits';
       case 'contact':
@@ -552,6 +558,7 @@ export default function App() {
         'salary-guide': '/salary-guide',
         insights: '/career-insights',
         tools: '/career-tools',
+        blueprints: '/project-blueprints',
         about: '/about',
         contact: '/contact',
         'adsense-policy': '/adsense-policy',
@@ -1513,7 +1520,19 @@ export default function App() {
         {/* VIEW 4: INTERACTIVE DEVELOPER TOOLS & TC CALCULATOR */}
         {activeTab === 'tools' && <InteractiveToolsView />}
 
-        {/* VIEW 5: ADSENSE POLICY & TRUST CENTER */}
+        {/* VIEW 5: PRODUCTION-READY PROJECT BLUEPRINTS */}
+        {activeTab === 'blueprints' && (
+          <ProjectBlueprintsView
+            onNavigateJobs={(category) => {
+              if (category) {
+                setSelectedCategory(category);
+              }
+              handleTabChange('jobs');
+            }}
+          />
+        )}
+
+        {/* VIEW 6: ADSENSE POLICY & TRUST CENTER */}
         {activeTab === 'adsense-policy' && <AdSensePolicyView />}
 
         {/* VIEW 4: ADMIN PANEL - RESTRICTED TO OWNER ONLY */}
@@ -1625,6 +1644,16 @@ export default function App() {
               className="text-[#1a73e8] font-medium hover:underline transition-colors"
             >
               Career Tools &amp; TC Calculator
+            </a>
+            <a
+              href="/project-blueprints"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('blueprints');
+              }}
+              className="text-[#1a73e8] font-medium hover:underline transition-colors"
+            >
+              Project Blueprints
             </a>
             <a
               href="/?view=insights"

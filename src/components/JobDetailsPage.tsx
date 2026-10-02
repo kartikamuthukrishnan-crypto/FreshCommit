@@ -516,6 +516,30 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                         );
                       })}
                     </ul>
+
+                    {/* Direct Project Blueprint Recommendation */}
+                    <div className="pt-2">
+                      <a
+                        href="/project-blueprints"
+                        className="flex items-center justify-between gap-3 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200/80 rounded-xl hover:border-indigo-300 transition-all group"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-base">🚀</span>
+                          <div className="text-xs">
+                            <span className="font-bold text-indigo-950 block">
+                              Need a Commercial Project on Your Resume for this Role?
+                            </span>
+                            <span className="text-indigo-700 text-[11px]">
+                              Build the verified {job.category || 'Engineering'} Blueprint to stand out in technical screens.
+                            </span>
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold text-indigo-700 group-hover:text-indigo-900 flex items-center gap-1 flex-shrink-0">
+                          <span>View Blueprint</span>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 )}
 

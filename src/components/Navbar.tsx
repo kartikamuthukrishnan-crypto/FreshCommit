@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Linkedin, Twitter, Youtube } from 'lucide-react';
+import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Layers, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { FreshCommitsLogo } from './FreshCommitsLogo';
 import { AppTab } from '../types';
 
@@ -108,7 +108,23 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <span>Tools</span>
-              <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-[#e8f0fe] text-[#1a73e8]">
+            </a>
+
+            <a
+              id="nav-tab-blueprints"
+              href="/project-blueprints"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('blueprints');
+              }}
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
+                activeTab === 'blueprints'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
+                  : 'text-[#5f6368] hover:text-[#202124]'
+              }`}
+            >
+              <span>Blueprints</span>
+              <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
                 New
               </span>
             </a>
@@ -317,7 +333,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Calculator className="w-4 h-4 text-emerald-600" />
               Career Tools &amp; TC Calculator
             </span>
-            <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+          </a>
+
+          <a
+            href="/project-blueprints"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab('blueprints');
+              setIsMobileMenuOpen(false);
+            }}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium ${
+              activeTab === 'blueprints' ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-600'
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <Layers className="w-4 h-4 text-indigo-600" />
+              Project Blueprints
+            </span>
+            <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
               New
             </span>
           </a>
