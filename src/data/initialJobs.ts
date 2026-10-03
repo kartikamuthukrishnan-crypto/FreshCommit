@@ -4,6 +4,60 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
+    "city": "Washington",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nJoining Quantic School Of Business And Technology as a Hybrid Marketing Manager gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Washington / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nQuantic School Of Business And Technology is actively seeking an early-career Hybrid Marketing Manager to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Hybrid Marketing Manager",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Quantic School Of Business And Technology's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "quantic-school-of-business-and-technology-hybrid-marketing-manager-washington-hybrid",
+    "atsProvider": "Workable",
+    "company": "Quantic School Of Business And Technology",
+    "id": "manual-1791040087527",
+    "state": "CA",
+    "datePosted": "2026-10-03",
+    "validThrough": "2026-11-02",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=quantic.edu&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/nSPdKabTJfwp6LsLM8UN63/hybrid-marketing-manager-in-washington-at-quantic-school-of-business-and-technology",
+    "location": "Washington / Hybrid",
+    "category": "Others",
+    "companyWebsite": "https://quantic.edu/",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
     "city": "Dallas",
     "postalCode": "94105",
     "description": "🎯 The FreshCommits Career Take:\nAn exciting opening for early-career technologists focused on clean code, software design patterns, and high-velocity team collaboration at Exotec.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Dallas / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nExotec is actively seeking an early-career Field Commissioning Engineer Warehouse Robotics & Automation to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
