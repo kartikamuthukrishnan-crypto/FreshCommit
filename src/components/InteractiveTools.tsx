@@ -61,10 +61,64 @@ const TAX_PRESETS: Record<string, { name: string; rate: number; stateNote: strin
   remote: { name: 'Remote / US National Average', rate: 0.27, stateNote: 'Standard blended federal + state baseline' },
 };
 
+interface ToolGlance {
+  badge: string;
+  badgeColor: string;
+  name: string;
+  what: string;
+  how: string;
+  benefit: string;
+}
+
+const TOOL_GLANCE_DATA: Record<string, ToolGlance> = {
+  'mock-simulator': {
+    badge: '⏱️ 3–5 Min Drill',
+    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+    name: 'Role Mock Interview Simulator',
+    what: 'A practical 5-round interactive interview that tests the exact architectural and coding patterns asked in first-round technical screens for 0–2 YoE engineering jobs.',
+    how: '1. Select target role or employer → 2. Answer rounds 1–5 with voice audio playback → 3. Reveal model answers & scoring criteria.',
+    benefit: 'You train real-time answering composure, identify technical gaps before facing real hiring managers, and master the exact phrasing senior interviewers look for.',
+  },
+  'readiness-auditor': {
+    badge: '⏱️ 60 Seconds',
+    badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+    name: 'Commercial Readiness Auditor',
+    what: 'A 60-second diagnostic tool that grades your personal GitHub repository against the 10 production standards evaluated during code reviews by engineering managers.',
+    how: '1. Enter project name → 2. Toggle the 10 production quality signals (tests, CI/CD, secrets, Docker) → 3. Get your 0–100% score.',
+    benefit: 'You pinpoint the exact red flags that cause recruiters to filter out junior applications, and get verified code blueprints to upgrade your repo to commercial grade.',
+  },
+  'tc-calculator': {
+    badge: '⏱️ Instant Math',
+    badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-300',
+    name: 'Total Compensation & Vesting Cliff Calculator',
+    what: 'An equity compensation calculator designed to demystify 4-year tech offer vesting schedules, stock appreciation, 1-year cliffs, and net take-home pay.',
+    how: '1. Enter base pay, equity grant & bonus → 2. Select state/metro tax preset → 3. Inspect year-by-year payout curves & tax estimates.',
+    benefit: 'Prevents costly offer mistakes, protects you from surprise tax cliffs in high-tax tech hubs, and gives you transparent data to negotiate early-career packages.',
+  },
+  'resume-grader': {
+    badge: '⏱️ Instant Audit',
+    badgeColor: 'bg-purple-100 text-purple-900 border-purple-300',
+    name: 'Google XYZ Resume Bullet Grader',
+    what: 'An interactive evaluator built on Laszlo Bock’s Google hiring formula: "Accomplished [X], as measured by [Y], by doing [Z]" to score project impact.',
+    how: '1. Paste your project bullet point → 2. Click "Grade Bullet" → 3. Review instant metric suggestions and 1-click optimized revisions.',
+    benefit: 'Replaces passive tutorial descriptions ("made a website") with high-signal commercial impact statements that pass recruiter ATS screenings.',
+  },
+  'reverse-interview': {
+    badge: '⏱️ 30 Seconds',
+    badgeColor: 'bg-blue-100 text-blue-900 border-blue-300',
+    name: 'Reverse-Interview Question Generator',
+    what: 'A curated bank of senior-grade architectural and team culture questions for candidates to ask the engineering team when they say "Do you have any questions for us?".',
+    how: '1. Select the focus area (engineering culture, tech debt, on-call balance, or promotion paths) → 2. Generate questions → 3. Copy to interview notes.',
+    benefit: 'Leaves a lasting impression of technical maturity with the hiring manager and protects you from accidentally joining toxic, high-burnout teams.',
+  },
+};
+
 export const InteractiveToolsView: React.FC = () => {
   const [activeSubTool, setActiveSubTool] = useState<
     'tc-calculator' | 'resume-grader' | 'reverse-interview' | 'mock-simulator' | 'readiness-auditor'
   >('mock-simulator');
+
+  const currentGlance = TOOL_GLANCE_DATA[activeSubTool] || TOOL_GLANCE_DATA['mock-simulator'];
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
@@ -146,6 +200,59 @@ export const InteractiveToolsView: React.FC = () => {
           <MessageSquareQuote className="w-4 h-4 text-amber-500" />
           <span>Reverse-Interview Generator</span>
         </button>
+      </div>
+
+      {/* 3-Pill "At-a-Glance" Quick-Start Card for Beginners */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="flex items-center justify-between gap-3 flex-wrap pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <span className="text-xs uppercase tracking-wider font-extrabold text-slate-500">
+              Quick Guide (At a Glance)
+            </span>
+            <span className="text-slate-300">•</span>
+            <span className="text-xs font-bold text-slate-800">
+              {currentGlance.name}
+            </span>
+          </div>
+          <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${currentGlance.badgeColor}`}>
+            {currentGlance.badge}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          {/* Pill 1: What It Is */}
+          <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/70 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-900">
+              <span className="text-base">🎯</span>
+              <span>1. WHAT IT IS</span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+              {currentGlance.what}
+            </p>
+          </div>
+
+          {/* Pill 2: How To Use It */}
+          <div className="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-100 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-indigo-950">
+              <span className="text-base">⚡</span>
+              <span>2. HOW TO USE IT</span>
+            </div>
+            <p className="text-xs text-indigo-900 leading-relaxed font-medium">
+              {currentGlance.how}
+            </p>
+          </div>
+
+          {/* Pill 3: The Result & Benefit */}
+          <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-100 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-emerald-950">
+              <span className="text-base">🏆</span>
+              <span>3. WHAT YOU GET</span>
+            </div>
+            <p className="text-xs text-emerald-900 leading-relaxed font-medium">
+              {currentGlance.benefit}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Active SubTool Component */}

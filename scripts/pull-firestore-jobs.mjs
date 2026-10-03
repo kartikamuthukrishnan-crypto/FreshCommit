@@ -298,8 +298,10 @@ async function pullFirestoreJobs() {
   const staticRoutes = [
     { loc: 'https://www.freshcommits.com/', priority: '1.0', changefreq: 'daily' },
     { loc: 'https://www.freshcommits.com/salary-guide', priority: '0.95', changefreq: 'weekly' },
-    { loc: 'https://www.freshcommits.com/insights', priority: '0.95', changefreq: 'weekly' },
+    { loc: 'https://www.freshcommits.com/project-blueprints', priority: '0.95', changefreq: 'weekly' },
+    { loc: 'https://www.freshcommits.com/career-tools', priority: '0.95', changefreq: 'weekly' },
     { loc: 'https://www.freshcommits.com/tools', priority: '0.90', changefreq: 'weekly' },
+    { loc: 'https://www.freshcommits.com/insights', priority: '0.95', changefreq: 'weekly' },
     { loc: 'https://www.freshcommits.com/about', priority: '0.80', changefreq: 'monthly' },
     { loc: 'https://www.freshcommits.com/contact', priority: '0.80', changefreq: 'monthly' },
     { loc: 'https://www.freshcommits.com/privacy', priority: '0.80', changefreq: 'monthly' },

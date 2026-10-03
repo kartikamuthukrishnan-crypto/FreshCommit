@@ -478,6 +478,59 @@ export const ProjectBlueprintsView: React.FC<ProjectBlueprintsViewProps> = ({ on
         </button>
       </div>
 
+      {/* 3-Pill "At-a-Glance" Quick-Start Card for Beginners */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="flex items-center justify-between gap-3 flex-wrap pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <span className="text-xs uppercase tracking-wider font-extrabold text-slate-500">
+              Quick Guide (At a Glance)
+            </span>
+            <span className="text-slate-300">•</span>
+            <span className="text-xs font-bold text-slate-800">
+              How to Use These Project Blueprints
+            </span>
+          </div>
+          <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border bg-indigo-50 text-indigo-800 border-indigo-200">
+            🚀 100% Free &bull; Zero Login
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          {/* Pill 1: What It Is */}
+          <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/70 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-900">
+              <span className="text-base">🎯</span>
+              <span>1. WHAT IT IS</span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+              4 production-grade system blueprints that replace generic tutorial clones (to-do lists, weather apps) with real commercial engineering patterns hiring managers actively respect.
+            </p>
+          </div>
+
+          {/* Pill 2: How To Use It */}
+          <div className="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-100 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-indigo-950">
+              <span className="text-base">⚡</span>
+              <span>2. HOW TO USE IT</span>
+            </div>
+            <p className="text-xs text-indigo-900 leading-relaxed font-medium">
+              1. Choose your engineering specialization &bull; 2. Follow the 5 progressive build steps &bull; 3. Verify implementation with the provided DevTools testing tips.
+            </p>
+          </div>
+
+          {/* Pill 3: The Result & Benefit */}
+          <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-100 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-emerald-950">
+              <span className="text-base">🏆</span>
+              <span>3. WHAT YOU GET</span>
+            </div>
+            <p className="text-xs text-emerald-900 leading-relaxed font-medium">
+              A standalone commercial repository that stands out in technical portfolio reviews, plus a 1-click copyable Google XYZ resume bullet ready to attach to your applications.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Blueprint Cards Grid */}
       <div className="space-y-8">
         {filteredBlueprints.map((bp) => {

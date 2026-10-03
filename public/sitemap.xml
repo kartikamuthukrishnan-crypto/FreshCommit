@@ -14,7 +14,13 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/insights</loc>
+    <loc>https://www.freshcommits.com/project-blueprints</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/career-tools</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
@@ -24,6 +30,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/about</loc>
