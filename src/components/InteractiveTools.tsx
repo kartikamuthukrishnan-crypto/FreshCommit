@@ -36,10 +36,12 @@ import {
   Volume2,
   Shield,
   Search,
-  Eye
+  Eye,
+  FileSearch
 } from 'lucide-react';
 import { generateFullMockInterview } from '../utils/mockInterviewEngine';
 import { CommercialReadinessAuditor } from './CommercialReadinessAuditor';
+import { AtsKeywordMatcher } from './AtsKeywordMatcher';
 
 interface CompensationState {
   baseSalary: number;
@@ -111,14 +113,22 @@ const TOOL_GLANCE_DATA: Record<string, ToolGlance> = {
     how: '1. Select the focus area (engineering culture, tech debt, on-call balance, or promotion paths) → 2. Generate questions → 3. Copy to interview notes.',
     benefit: 'Leaves a lasting impression of technical maturity with the hiring manager and protects you from accidentally joining toxic, high-burnout teams.',
   },
+  'ats-matcher': {
+    badge: '⏱️ 30 Seconds',
+    badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+    name: 'Instant ATS Tech Keyword Matcher',
+    what: 'A free client-side ATS diagnostic that compares your resume text against any job requisition to calculate your keyword match score.',
+    how: '1. Paste your resume text → 2. Paste target job description (or click sample) → 3. View matched vs missing technical keywords.',
+    benefit: 'You uncover the exact high-priority keywords missing from your resume that would trigger automated recruiter ATS rejection filters.',
+  },
 };
 
 export const InteractiveToolsView: React.FC = () => {
   const [activeSubTool, setActiveSubTool] = useState<
-    'tc-calculator' | 'resume-grader' | 'reverse-interview' | 'mock-simulator' | 'readiness-auditor'
-  >('mock-simulator');
+    'tc-calculator' | 'resume-grader' | 'reverse-interview' | 'mock-simulator' | 'readiness-auditor' | 'ats-matcher'
+  >('ats-matcher');
 
-  const currentGlance = TOOL_GLANCE_DATA[activeSubTool] || TOOL_GLANCE_DATA['mock-simulator'];
+  const currentGlance = TOOL_GLANCE_DATA[activeSubTool] || TOOL_GLANCE_DATA['ats-matcher'];
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
@@ -190,6 +200,21 @@ export const InteractiveToolsView: React.FC = () => {
         </button>
 
         <button
+          onClick={() => setActiveSubTool('ats-matcher')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeSubTool === 'ats-matcher'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+          }`}
+        >
+          <FileSearch className="w-4 h-4 text-emerald-400" />
+          <span>ATS Keyword Matcher</span>
+          <span className="text-[10px] bg-emerald-400 text-slate-950 px-1.5 py-0.5 rounded font-black uppercase">
+            NEW
+          </span>
+        </button>
+
+        <button
           onClick={() => setActiveSubTool('reverse-interview')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
             activeSubTool === 'reverse-interview'
@@ -256,6 +281,7 @@ export const InteractiveToolsView: React.FC = () => {
       </div>
 
       {/* Active SubTool Component */}
+      {activeSubTool === 'ats-matcher' && <AtsKeywordMatcher />}
       {activeSubTool === 'mock-simulator' && <StandaloneMockSimulatorView />}
       {activeSubTool === 'readiness-auditor' && <CommercialReadinessAuditor />}
       {activeSubTool === 'tc-calculator' && <TotalCompensationCalculator />}

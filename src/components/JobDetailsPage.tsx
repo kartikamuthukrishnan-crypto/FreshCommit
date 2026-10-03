@@ -34,7 +34,8 @@ import {
   AlertTriangle,
   AlertCircle,
   ArrowRight,
-  Target
+  Target,
+  FileSearch
 } from 'lucide-react';
 import { MockInterviewModal } from './MockInterviewModal';
 
@@ -736,6 +737,20 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
+
+                <button
+                  onClick={() => {
+                    const textToPass = `Job Title: ${job.title}\nCompany: ${job.company}\nLocation: ${job.location || 'Remote'}\nSkills: ${(job.skills || []).join(', ')}\n\nDescription:\n${job.description || ''}\n\nResponsibilities:\n${(job.responsibilities || []).join('\n')}\n\nQualifications:\n${(job.qualifications || []).join('\n')}`;
+                    try {
+                      sessionStorage.setItem('freshcommits_ats_target_jd', textToPass);
+                    } catch {}
+                    window.location.href = '/career-tools';
+                  }}
+                  className="w-full text-center text-xs font-bold py-2.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-2.5 shadow-2xs"
+                >
+                  <FileSearch className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Check Resume ATS Match for This Job &rarr;</span>
+                </button>
               </div>
             </div>
           </div>
