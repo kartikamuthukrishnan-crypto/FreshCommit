@@ -14,7 +14,14 @@ import {
   Info,
   ShieldAlert,
   Terminal,
-  ExternalLink
+  ExternalLink,
+  SlidersHorizontal,
+  ChevronDown,
+  ChevronUp,
+  CheckSquare,
+  FileCheck,
+  ShieldCheck,
+  BookOpen
 } from 'lucide-react';
 
 // Comprehensive dictionary of 180+ tech skills, frameworks, and engineering concepts
@@ -90,6 +97,60 @@ const TECH_SKILLS_DICTIONARY: { name: string; aliases: string[]; category: 'Fron
   { name: 'Object-Oriented Programming (OOP)', aliases: ['oop', 'object-oriented'], category: 'CS & Testing' }
 ];
 
+// Pre-crafted Google XYZ Bullet templates for the most common missing keywords
+const KEYWORD_BULLET_TEMPLATES: Record<string, string[]> = {
+  'Docker': [
+    'Containerized a full-stack microservice using multi-stage Docker builds, reducing deployment image footprint from 450MB to 42MB.',
+    'Engineered local development Docker Compose setups with PostgreSQL and Redis containers, decreasing developer onboarding time by 60%.'
+  ],
+  'Kubernetes': [
+    'Architected Kubernetes deployment manifests with automated horizontal pod autoscaling (HPA) to maintain sub-200ms latency under traffic spikes.'
+  ],
+  'PostgreSQL': [
+    'Designed relational PostgreSQL schemas with B-Tree compound indexing, decreasing analytical query execution latency by 45% on 200K+ rows.',
+    'Implemented ACID-compliant transactional workflows and row-level locks in PostgreSQL, eliminating payment race conditions.'
+  ],
+  'Redis': [
+    'Implemented distributed caching and sliding-window rate limiting in Redis, reducing backend database read IOPS by 70%.',
+    'Engineered pub/sub message brokers using Redis, broadcasting real-time notification events to 5,000+ active client sockets.'
+  ],
+  'TypeScript': [
+    'Refactored JavaScript services to TypeScript with strict type checking, catching 35+ potential null-pointer bugs prior to production release.',
+    'Authored end-to-end typed API contracts using TypeScript and Zod validation, ensuring type safety between client and server.'
+  ],
+  'React': [
+    'Engineered high-performance React component hierarchies with memoization and virtualized lists, maintaining 60 FPS scrolling on 10,000+ items.',
+    'Architected modular React single-page applications with custom hooks, reducing code duplication across 14 team views.'
+  ],
+  'Next.js': [
+    'Deployed server-side rendered (SSR) web applications on Next.js, achieving 98+ Google Lighthouse Performance scores and sub-second LCP.'
+  ],
+  'Node.js': [
+    'Built asynchronous Node.js microservices handling 1,500+ requests per second with structured Pino logging and non-blocking I/O.'
+  ],
+  'Jest': [
+    'Authored automated unit and integration test suites using Jest and React Testing Library, achieving 88% statement coverage.'
+  ],
+  'PyTest': [
+    'Developed comprehensive PyTest test suites with parameterized fixtures and mock services, reducing regression testing cycles by 75%.'
+  ],
+  'CI/CD Pipelines': [
+    'Configured automated GitHub Actions CI/CD pipelines enforcing linter, test gates, and container builds on every pull request.'
+  ],
+  'AWS': [
+    'Automated cloud infrastructure deployment on AWS using S3 static hosting, CloudFront CDN, and Lambda serverless functions.'
+  ],
+  'REST APIs': [
+    'Engineered RESTful API endpoints adhering to OpenAPI specifications, achieving 99.9% uptime across 100K daily consumer requests.'
+  ],
+  'GraphQL': [
+    'Designed unified GraphQL schemas and resolvers, eliminating network over-fetching and reducing mobile client payload size by 50%.'
+  ],
+  'Tailwind CSS': [
+    'Constructed fully responsive, mobile-first design systems with Tailwind CSS, ensuring 100% WCAG 2.1 AA accessibility compliance.'
+  ]
+};
+
 const SAMPLE_JOB_DESCRIPTION = `Job Title: Junior Full Stack Software Engineer (0–2 YoE)
 Location: Remote / US Tech Hubs
 Company: Apex Cloud Technologies
@@ -132,7 +193,10 @@ PROJECTS:
 2. Interactive E-Commerce Dashboard (React, TypeScript, Tailwind CSS)
 • Built responsive UI components with WCAG 2.1 AA keyboard accessibility.
 • Integrated REST API endpoints with optimistic cache updates, reducing latency.
-• Managed version control using Git feature branches and conventional pull requests.`;
+• Managed version control using Git feature branches and conventional pull requests.
+
+EDUCATION:
+B.S. in Computer Science - University of Technology, 2025`;
 
 export const AtsKeywordMatcher: React.FC = () => {
   // Pre-load from sessionStorage if user navigated from a specific job listing
@@ -149,6 +213,8 @@ export const AtsKeywordMatcher: React.FC = () => {
 
   const [resumeText, setResumeText] = useState<string>(SAMPLE_RESUME_TEXT);
   const [copiedReport, setCopiedReport] = useState(false);
+  const [copiedBullet, setCopiedBullet] = useState<string | null>(null);
+  const [selectedMissingKeyword, setSelectedMissingKeyword] = useState<string | null>(null);
 
   // Extract skills present in text
   const extractSkills = (text: string) => {
@@ -206,13 +272,32 @@ export const AtsKeywordMatcher: React.FC = () => {
       };
     }
 
+    // Health Checks on Resume Text
+    const wordCount = resumeText.trim().split(/\s+/).filter(Boolean).length;
+    const hasSkillsSection = /skills|technical skills|technologies/i.test(resumeText);
+    const hasProjectsSection = /projects|portfolio|personal projects/i.test(resumeText);
+    const hasEducationSection = /education|degree|bachelor|university|college/i.test(resumeText);
+    const hasContactSignal = /github\.com|linkedin\.com|@|\.com|\.dev/i.test(resumeText);
+
+    // Passive buzzwords check
+    const passiveBuzzwords = ['responsible for', 'helped with', 'assisted in', 'worked on', 'duties included'];
+    const detectedPassive = passiveBuzzwords.filter((w) => resumeText.toLowerCase().includes(w));
+
     return {
       score,
       matched,
       missing,
       bonus,
       totalJd,
-      verdict
+      verdict,
+      health: {
+        wordCount,
+        hasSkillsSection,
+        hasProjectsSection,
+        hasEducationSection,
+        hasContactSignal,
+        detectedPassive
+      }
     };
   }, [jobDescription, resumeText]);
 
@@ -238,6 +323,12 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
     setTimeout(() => setCopiedReport(false), 2500);
   };
 
+  const handleCopyBulletText = (bulletText: string) => {
+    navigator.clipboard.writeText(bulletText);
+    setCopiedBullet(bulletText);
+    setTimeout(() => setCopiedBullet(null), 2500);
+  };
+
   const handleLoadSample = () => {
     setJobDescription(SAMPLE_JOB_DESCRIPTION);
     setResumeText(SAMPLE_RESUME_TEXT);
@@ -256,7 +347,7 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 mb-2">
               <FileSearch className="w-3.5 h-3.5 text-emerald-600" />
-              100% Free &bull; Zero Login &bull; Real-Time Client Parsing
+              100% Free &bull; Zero Login &bull; Real-Time Client Parsing &bull; Under 3 Seconds
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
               Instant ATS Tech Keyword Matcher
@@ -384,38 +475,82 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
         </div>
       </div>
 
-      {/* Keyword Breakdown Cards */}
+      {/* Feature 1: Keyword Breakdown & 1-Click "Fix My Bullet" Generator */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Missing Keywords Box */}
+        {/* Missing Keywords Box with Click-to-Fix */}
         <div className="bg-white rounded-2xl border border-rose-200 p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-rose-100 pb-3">
             <h3 className="text-sm font-bold text-rose-950 flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-rose-600" />
-              <span>Missing Keywords from Requisition ({analysis.missing.length})</span>
+              <span>Missing Keywords ({analysis.missing.length}) &bull; Click to Generate Bullets</span>
             </h3>
             <span className="text-[10px] font-bold bg-rose-100 text-rose-800 px-2 py-0.5 rounded-full">
-              High Priority
+              Tap for Solution
             </span>
           </div>
 
           <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            ATS search algorithms look for exact or synonym matches of these terms. If you have practical experience with these, weave them into your Skills list or bullet points:
+            ATS search algorithms look for exact or synonym matches of these terms. Tap any keyword below to reveal Google XYZ bullet templates ready to paste:
           </p>
 
           {analysis.missing.length > 0 ? (
             <div className="flex items-center gap-2 flex-wrap pt-1">
               {analysis.missing.map((kw) => (
-                <span
+                <button
                   key={kw}
-                  className="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 text-xs font-bold font-mono"
+                  onClick={() => setSelectedMissingKeyword(selectedMissingKeyword === kw ? null : kw)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+                    selectedMissingKeyword === kw
+                      ? 'bg-rose-600 text-white shadow-xs'
+                      : 'bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100'
+                  }`}
                 >
-                  + {kw}
-                </span>
+                  <span>+ {kw}</span>
+                  <Sparkles className="w-3 h-3 text-amber-400" />
+                </button>
               ))}
             </div>
           ) : (
             <div className="p-4 bg-emerald-50 rounded-xl text-center text-xs font-bold text-emerald-800 border border-emerald-200">
               🎉 Zero Missing Keywords! Your resume mentions all technical skills detected in the job description.
+            </div>
+          )}
+
+          {/* 1-Click "Fix My Bullet" Generator Drawer */}
+          {selectedMissingKeyword && (
+            <div className="mt-4 p-4 rounded-xl bg-slate-900 text-white space-y-3 shadow-md animate-fadeIn">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Google XYZ Bullets for: <strong>{selectedMissingKeyword}</strong></span>
+                </span>
+                <button
+                  onClick={() => setSelectedMissingKeyword(null)}
+                  className="text-xs text-slate-400 hover:text-white cursor-pointer"
+                >
+                  ✕ Close
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                {(KEYWORD_BULLET_TEMPLATES[selectedMissingKeyword] || [
+                  `Implemented modular ${selectedMissingKeyword} services with clean architectural boundaries, improving code reliability and test coverage by 30%.`,
+                  `Integrated ${selectedMissingKeyword} into production workflows following conventional engineering patterns, eliminating manual overhead.`
+                ]).map((templateBullet, idx) => (
+                  <div key={idx} className="p-3 rounded-lg bg-slate-800/90 border border-slate-700 space-y-2">
+                    <p className="text-xs font-mono text-slate-200 leading-relaxed">
+                      • {templateBullet}
+                    </p>
+                    <button
+                      onClick={() => handleCopyBulletText(templateBullet)}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-emerald-300 cursor-pointer"
+                    >
+                      {copiedBullet === templateBullet ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedBullet === templateBullet ? 'Copied to Clipboard!' : 'Copy This Bullet'}</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -456,14 +591,103 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
         </div>
       </div>
 
-      {/* Actionable Recommendations to Hit 90%+ */}
+      {/* Feature 2: ATS Formatting & Cleanliness Health Check */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-indigo-600" />
+            <span>ATS Format &amp; Cleanliness Health Check</span>
+          </h3>
+          <span className="text-[11px] font-semibold text-slate-500">
+            Automated Parser Quality Signals
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          {/* Check 1: Length */}
+          <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800">Word Count</span>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                analysis.health.wordCount >= 350 && analysis.health.wordCount <= 750
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'bg-amber-100 text-amber-800'
+              }`}>
+                {analysis.health.wordCount} words
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              {analysis.health.wordCount >= 350 && analysis.health.wordCount <= 750
+                ? '✓ Optimal 1-page length for 0–2 YoE engineering resumes.'
+                : 'Aim for 400–700 words to ensure optimal 1-page scanning.'}
+            </p>
+          </div>
+
+          {/* Check 2: Core Sections */}
+          <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800">Core Sections</span>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                analysis.health.hasSkillsSection && analysis.health.hasProjectsSection
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'bg-rose-100 text-rose-800'
+              }`}>
+                {analysis.health.hasSkillsSection && analysis.health.hasProjectsSection ? 'Present' : 'Incomplete'}
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              {analysis.health.hasSkillsSection && analysis.health.hasProjectsSection
+                ? '✓ Contains explicit Skills and Projects sections.'
+                : 'Missing clear "TECHNICAL SKILLS" or "PROJECTS" headings.'}
+            </p>
+          </div>
+
+          {/* Check 3: Links */}
+          <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800">Portfolio Links</span>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                analysis.health.hasContactSignal ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+              }`}>
+                {analysis.health.hasContactSignal ? 'Detected' : 'Missing'}
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              {analysis.health.hasContactSignal
+                ? '✓ GitHub or portfolio URL detected in header.'
+                : 'Add your GitHub and live project link in the header.'}
+            </p>
+          </div>
+
+          {/* Check 4: Passive Buzzwords */}
+          <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800">Action Verbs</span>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                analysis.health.detectedPassive.length === 0
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'bg-amber-100 text-amber-800'
+              }`}>
+                {analysis.health.detectedPassive.length === 0 ? 'High Impact' : `${analysis.health.detectedPassive.length} Weak Verbs`}
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              {analysis.health.detectedPassive.length === 0
+                ? '✓ No weak passive phrases like "helped with" found.'
+                : `Replace "${analysis.health.detectedPassive[0]}" with "Engineered" or "Architected".`}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Feature 3: Actionable Strategy to Reach 90%+ */}
       {analysis.missing.length > 0 && (
         <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 space-y-5 shadow-md">
           <div className="flex items-center justify-between gap-3 flex-wrap pb-3 border-b border-slate-800">
             <div>
               <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                 <Zap className="w-5 h-5 text-amber-400" />
-                <span>3-Step Strategy to Boost Your ATS Pass Rate</span>
+                <span>3-Step Strategy to Clear the ATS Screen</span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
                 Recruiters spend 6 seconds reviewing matching applicants. Follow these 3 tweaks:
