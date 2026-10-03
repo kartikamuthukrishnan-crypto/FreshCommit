@@ -212,6 +212,8 @@ export const AtsKeywordMatcher: React.FC = () => {
   });
 
   const [resumeText, setResumeText] = useState<string>(SAMPLE_RESUME_TEXT);
+  const [hasScanned, setHasScanned] = useState<boolean>(true);
+  const [isScanning, setIsScanning] = useState<boolean>(false);
   const [copiedReport, setCopiedReport] = useState(false);
   const [copiedBullet, setCopiedBullet] = useState<string | null>(null);
   const [selectedMissingKeyword, setSelectedMissingKeyword] = useState<string | null>(null);
@@ -236,6 +238,10 @@ export const AtsKeywordMatcher: React.FC = () => {
   };
 
   const analysis = useMemo(() => {
+    const isBothEmpty = !resumeText.trim() && !jobDescription.trim();
+    const isResumeEmpty = !resumeText.trim();
+    const isJdEmpty = !jobDescription.trim();
+
     const jdSkills = extractSkills(jobDescription);
     const resumeSkills = extractSkills(resumeText);
 
@@ -256,7 +262,28 @@ export const AtsKeywordMatcher: React.FC = () => {
       description: 'Your resume covers the vast majority of critical technical skills. High likelihood of clearing automated recruiter keyword screens.'
     };
 
-    if (score < 50) {
+    if (isBothEmpty) {
+      verdict = {
+        label: 'Awaiting Inputs',
+        color: 'text-slate-800 bg-slate-50 border-slate-200',
+        badgeBg: 'bg-slate-600',
+        description: 'Paste your resume text and target job requisition below, then click "Match Resume to Target JD".'
+      };
+    } else if (isResumeEmpty) {
+      verdict = {
+        label: 'Resume Required',
+        color: 'text-amber-800 bg-amber-50 border-amber-200',
+        badgeBg: 'bg-amber-600',
+        description: 'Please paste your resume text on the left to compare against this job description.'
+      };
+    } else if (isJdEmpty) {
+      verdict = {
+        label: 'Job Requisition Required',
+        color: 'text-amber-800 bg-amber-50 border-amber-200',
+        badgeBg: 'bg-amber-600',
+        description: 'Please paste the target job description on the right to compare keyword match.'
+      };
+    } else if (score < 50) {
       verdict = {
         label: 'High ATS Filter-Out Risk (< 50%)',
         color: 'text-rose-800 bg-rose-50 border-rose-300',
@@ -290,6 +317,7 @@ export const AtsKeywordMatcher: React.FC = () => {
       bonus,
       totalJd,
       verdict,
+      isBothEmpty,
       health: {
         wordCount,
         hasSkillsSection,
@@ -300,6 +328,16 @@ export const AtsKeywordMatcher: React.FC = () => {
       }
     };
   }, [jobDescription, resumeText]);
+
+  const handleRunMatch = () => {
+    if (!resumeText.trim() || !jobDescription.trim()) return;
+    setIsScanning(true);
+    setTimeout(() => {
+      setIsScanning(false);
+      setHasScanned(true);
+      document.getElementById('ats-results-section')?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  };
 
   const handleCopyReport = () => {
     const text = `📋 FRESHCOMMITS ATS TECH KEYWORD MATCH REPORT
@@ -332,11 +370,14 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
   const handleLoadSample = () => {
     setJobDescription(SAMPLE_JOB_DESCRIPTION);
     setResumeText(SAMPLE_RESUME_TEXT);
+    setHasScanned(true);
   };
 
   const handleClearAll = () => {
     setJobDescription('');
     setResumeText('');
+    setHasScanned(false);
+    setSelectedMissingKeyword(null);
   };
 
   return (
@@ -370,18 +411,103 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
             >
               Clear
             </button>
-            <button
-              onClick={handleCopyReport}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer"
-            >
-              {copiedReport ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-              <span>{copiedReport ? 'Copied Match Report!' : 'Copy Report'}</span>
-            </button>
+            {hasScanned && (
+              <button
+                onClick={handleCopyReport}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer"
+              >
+                {copiedReport ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                <span>{copiedReport ? 'Copied Match Report!' : 'Copy Report'}</span>
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Live Score Gauge Banner */}
-        <div className={`p-6 sm:p-7 rounded-2xl border shadow-xs space-y-3.5 ${analysis.verdict.color}`}>
+        {/* Dual Input Area: Resume vs Job Description (PLACED FIRST FOR IMMEDIATE ACCESS) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Box 1: Resume Text Input */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                <span>📄 1. Paste Your Resume Text</span>
+                <span className="text-[10px] text-slate-500 font-normal">
+                  ({resumeText.length} chars)
+                </span>
+              </label>
+              <span className="text-[11px] font-semibold text-emerald-700">
+                {extractSkills(resumeText).length} tech skills detected
+              </span>
+            </div>
+            <textarea
+              value={resumeText}
+              onChange={(e) => setResumeText(e.target.value)}
+              placeholder="Paste your resume work experience, technical skills, or project bullets here..."
+              rows={9}
+              className="w-full p-3.5 border border-slate-300 rounded-xl text-xs font-mono leading-relaxed focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50/50"
+            />
+          </div>
+
+          {/* Box 2: Job Description Input */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🎯 2. Paste Target Job Description (Requisition)</span>
+                <span className="text-[10px] text-slate-500 font-normal">
+                  ({jobDescription.length} chars)
+                </span>
+              </label>
+              <span className="text-[11px] font-semibold text-indigo-700">
+                {analysis.totalJd} required skills detected
+              </span>
+            </div>
+            <textarea
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              placeholder="Paste the employer's job description, requirements, and tech stack here..."
+              rows={9}
+              className="w-full p-3.5 border border-slate-300 rounded-xl text-xs font-mono leading-relaxed focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50/50"
+            />
+          </div>
+        </div>
+
+        {/* PRIMARY CTA: BIG PROMINENT MATCH BUTTON */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 pb-1 border-t border-slate-100">
+          <button
+            onClick={handleRunMatch}
+            disabled={!resumeText.trim() || !jobDescription.trim() || isScanning}
+            className={`w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-extrabold flex items-center justify-center gap-2.5 shadow-md transition-all cursor-pointer ${
+              !resumeText.trim() || !jobDescription.trim()
+                ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+                : 'bg-emerald-600 hover:bg-emerald-700 text-white hover:shadow-lg active:scale-98'
+            }`}
+          >
+            {isScanning ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin text-white" />
+                <span>Matching 180+ Technical Keywords...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>Match Resume to Target JD (Under 3 Seconds)</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
+
+          {(!resumeText.trim() || !jobDescription.trim()) && (
+            <button
+              onClick={handleLoadSample}
+              className="w-full sm:w-auto px-4 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
+            >
+              <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
+              <span>Load Sample Resume &amp; JD</span>
+            </button>
+          )}
+        </div>
+
+        {/* RESULTS SECTION: Live Score Gauge Banner */}
+        <div id="ats-results-section" className={`p-6 sm:p-7 rounded-2xl border shadow-xs space-y-3.5 transition-all ${analysis.verdict.color}`}>
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div className="space-y-1">
               <span className="text-[11px] uppercase font-extrabold tracking-wider opacity-80">
@@ -389,8 +515,8 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
               </span>
               <div className="flex items-center gap-3">
                 <span className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-slate-900">
-                  {analysis.score}
-                  <span className="text-lg font-normal text-slate-500">%</span>
+                  {analysis.isBothEmpty ? '--' : analysis.score}
+                  {!analysis.isBothEmpty && <span className="text-lg font-normal text-slate-500">%</span>}
                 </span>
                 <span className={`px-3 py-1 text-xs font-bold text-white rounded-full ${analysis.verdict.badgeBg}`}>
                   {analysis.verdict.label}
@@ -415,63 +541,18 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
           </div>
 
           {/* Score Bar */}
-          <div className="w-full bg-slate-200/80 rounded-full h-3 overflow-hidden">
-            <div
-              className={`h-full transition-all duration-300 ${analysis.verdict.badgeBg}`}
-              style={{ width: `${Math.max(5, analysis.score)}%` }}
-            />
-          </div>
+          {!analysis.isBothEmpty && (
+            <div className="w-full bg-slate-200/80 rounded-full h-3 overflow-hidden">
+              <div
+                className={`h-full transition-all duration-300 ${analysis.verdict.badgeBg}`}
+                style={{ width: `${Math.max(5, analysis.score)}%` }}
+              />
+            </div>
+          )}
 
           <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
             {analysis.verdict.description}
           </p>
-        </div>
-
-        {/* Dual Input Area: Resume vs Job Description */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Box 1: Resume Text Input */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                <span>📄 Paste Your Resume Text</span>
-                <span className="text-[10px] text-slate-500 font-normal">
-                  ({resumeText.length} chars)
-                </span>
-              </label>
-              <span className="text-[11px] font-semibold text-emerald-700">
-                {extractSkills(resumeText).length} tech skills detected
-              </span>
-            </div>
-            <textarea
-              value={resumeText}
-              onChange={(e) => setResumeText(e.target.value)}
-              placeholder="Paste your resume work experience, technical skills, or project bullets here..."
-              rows={9}
-              className="w-full p-3.5 border border-slate-300 rounded-xl text-xs font-mono leading-relaxed focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50/50"
-            />
-          </div>
-
-          {/* Box 2: Job Description Input */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                <span>🎯 Paste Target Job Description (Requisition)</span>
-                <span className="text-[10px] text-slate-500 font-normal">
-                  ({jobDescription.length} chars)
-                </span>
-              </label>
-              <span className="text-[11px] font-semibold text-indigo-700">
-                {analysis.totalJd} required skills detected
-              </span>
-            </div>
-            <textarea
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-              placeholder="Paste the employer's job description, requirements, and tech stack here..."
-              rows={9}
-              className="w-full p-3.5 border border-slate-300 rounded-xl text-xs font-mono leading-relaxed focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50/50"
-            />
-          </div>
         </div>
       </div>
 
