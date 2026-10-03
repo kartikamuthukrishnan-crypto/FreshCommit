@@ -4855,7 +4855,10 @@
           }
 
           // Step 2: Try local browser cache
-          var raw = localStorage.getItem('freshcommit_jobs_v5') || localStorage.getItem('freshcommit_jobs_v4') || localStorage.getItem('freshcommit_jobs_v3');
+          var raw = null;
+          try {
+            raw = localStorage.getItem('freshcommit_jobs_v5') || localStorage.getItem('freshcommit_jobs_v4') || localStorage.getItem('freshcommit_jobs_v3');
+          } catch (e) {}
           if (raw) {
             try {
               var list = JSON.parse(raw);
@@ -4965,7 +4968,7 @@
               if (el && document.getElementById('root') && document.getElementById('root').contains(el)) {
                 el.style.display = 'block';
               }
-            }, 4500);
+            }, 12000);
           </script>
         </div>
       </div>

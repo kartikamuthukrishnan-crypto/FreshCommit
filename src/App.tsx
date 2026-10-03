@@ -6,13 +6,16 @@ import { Navbar } from './components/Navbar';
 import { JobCard } from './components/JobCard';
 import { JobDetailsPage } from './components/JobDetailsPage';
 const AdminPanel = lazy(() => import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel })));
+const SalaryGuideView = lazy(() => import('./components/OriginalGuides').then((m) => ({ default: m.SalaryGuideView })));
+const AdSensePolicyView = lazy(() => import('./components/OriginalGuides').then((m) => ({ default: m.AdSensePolicyView })));
+const CareerInsightsView = lazy(() => import('./components/OriginalGuides').then((m) => ({ default: m.CareerInsightsView })));
+const InteractiveToolsView = lazy(() => import('./components/InteractiveTools').then((m) => ({ default: m.InteractiveToolsView })));
+const ProjectBlueprintsView = lazy(() => import('./components/ProjectBlueprintsView').then((m) => ({ default: m.ProjectBlueprintsView })));
+const AboutUsView = lazy(() => import('./components/TrustPages').then((m) => ({ default: m.AboutUsView })));
+const ContactUsView = lazy(() => import('./components/TrustPages').then((m) => ({ default: m.ContactUsView })));
+const LegalPageView = lazy(() => import('./components/LegalPageView').then((m) => ({ default: m.LegalPageView })));
 import { AdSlot } from './components/AdSlot';
-import { SalaryGuideView, AdSensePolicyView, CareerInsightsView } from './components/OriginalGuides';
-import { InteractiveToolsView } from './components/InteractiveTools';
-import { ProjectBlueprintsView } from './components/ProjectBlueprintsView';
-import { AboutUsView, ContactUsView } from './components/TrustPages';
 import { LegalModal } from './components/LegalModals';
-import { LegalPageView } from './components/LegalPageView';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { FreshCommitsLogo } from './components/FreshCommitsLogo';
 import { HomeEditorialContent } from './components/HomeEditorialContent';
@@ -1511,29 +1514,56 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 2: ORIGINAL SALARY BENCHMARKS & GUIDES */}
-        {activeTab === 'salary-guide' && <SalaryGuideView />}
+        <Suspense
+          fallback={
+            <div className="max-w-4xl mx-auto py-24 px-4 text-center space-y-3">
+              <div className="w-8 h-8 border-3 border-[#1a73e8] border-t-transparent rounded-full animate-spin mx-auto" />
+              <p className="text-xs font-semibold text-[#5f6368]">Loading view...</p>
+            </div>
+          }
+        >
+          {/* VIEW 2: ORIGINAL SALARY BENCHMARKS & GUIDES */}
+          {activeTab === 'salary-guide' && <SalaryGuideView />}
 
-        {/* VIEW 3: CAREER INSIGHTS & ENGINEERING ARTICLES */}
-        {activeTab === 'insights' && <CareerInsightsView />}
+          {/* VIEW 3: CAREER INSIGHTS & ENGINEERING ARTICLES */}
+          {activeTab === 'insights' && <CareerInsightsView />}
 
-        {/* VIEW 4: INTERACTIVE DEVELOPER TOOLS & TC CALCULATOR */}
-        {activeTab === 'tools' && <InteractiveToolsView />}
+          {/* VIEW 4: INTERACTIVE DEVELOPER TOOLS & TC CALCULATOR */}
+          {activeTab === 'tools' && <InteractiveToolsView />}
 
-        {/* VIEW 5: PRODUCTION-READY PROJECT BLUEPRINTS */}
-        {activeTab === 'blueprints' && (
-          <ProjectBlueprintsView
-            onNavigateJobs={(category) => {
-              if (category) {
-                setSelectedCategory(category);
-              }
-              handleTabChange('jobs');
-            }}
-          />
-        )}
+          {/* VIEW 5: PRODUCTION-READY PROJECT BLUEPRINTS */}
+          {activeTab === 'blueprints' && (
+            <ProjectBlueprintsView
+              onNavigateJobs={(category) => {
+                if (category) {
+                  setSelectedCategory(category);
+                }
+                handleTabChange('jobs');
+              }}
+            />
+          )}
 
-        {/* VIEW 6: ADSENSE POLICY & TRUST CENTER */}
-        {activeTab === 'adsense-policy' && <AdSensePolicyView />}
+          {/* VIEW 6: ADSENSE POLICY & TRUST CENTER */}
+          {activeTab === 'adsense-policy' && <AdSensePolicyView />}
+
+          {/* VIEW 5: ABOUT US */}
+          {activeTab === 'about' && (
+            <AboutUsView onNavigateContact={() => handleTabChange('contact')} />
+          )}
+
+          {/* VIEW 6: CONTACT US */}
+          {activeTab === 'contact' && (
+            <ContactUsView />
+          )}
+
+          {/* VIEW 7: LEGAL, TERMS OF SERVICE & DISCLOSURES */}
+          {(activeTab === 'terms' || activeTab === 'privacy' || activeTab === 'disclaimer' || activeTab === 'cookie-policy') && (
+            <LegalPageView
+              initialSection={activeTab}
+              onNavigateTab={handleTabChange}
+            />
+          )}
+        </Suspense>
 
         {/* VIEW 4: ADMIN PANEL - RESTRICTED TO OWNER ONLY */}
         {activeTab === 'admin' && (
@@ -1586,24 +1616,6 @@ export default function App() {
               </div>
             </div>
           )
-        )}
-
-        {/* VIEW 5: ABOUT US */}
-        {activeTab === 'about' && (
-          <AboutUsView onNavigateContact={() => handleTabChange('contact')} />
-        )}
-
-        {/* VIEW 6: CONTACT US */}
-        {activeTab === 'contact' && (
-          <ContactUsView />
-        )}
-
-        {/* VIEW 7: LEGAL, TERMS OF SERVICE & DISCLOSURES */}
-        {(activeTab === 'terms' || activeTab === 'privacy' || activeTab === 'disclaimer' || activeTab === 'cookie-policy') && (
-          <LegalPageView
-            initialSection={activeTab}
-            onNavigateTab={handleTabChange}
-          />
         )}
       </main>
 
