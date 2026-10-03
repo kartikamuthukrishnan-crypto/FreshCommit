@@ -21,7 +21,8 @@ import {
   CheckSquare,
   FileCheck,
   ShieldCheck,
-  BookOpen
+  BookOpen,
+  Share2
 } from 'lucide-react';
 
 // Comprehensive dictionary of 180+ tech skills, frameworks, and engineering concepts
@@ -361,6 +362,19 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
     setTimeout(() => setCopiedReport(false), 2500);
   };
 
+  const handleShareLinkedIn = () => {
+    const postText = `I just tested my developer resume against a live software engineering requisition using FreshCommits.\n\nATS Keyword Match Score: ${analysis.score}%\n- Matched Skills: ${analysis.matched.slice(0, 4).join(', ')}\n- Missing Skills Identified: ${analysis.missing.slice(0, 3).join(', ')}\n\nFree 3-second diagnostic without account wall: https://www.freshcommits.com/career-tools`;
+    navigator.clipboard.writeText(postText);
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://www.freshcommits.com/career-tools')}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleShareX = () => {
+    const tweetText = `Just audited my SWE resume against a live tech job requisition using @FreshCommits! Match Score: ${analysis.score}% with instant keyword gaps. Free & zero-login:`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent('https://www.freshcommits.com/career-tools')}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   const handleCopyBulletText = (bulletText: string) => {
     navigator.clipboard.writeText(bulletText);
     setCopiedBullet(bulletText);
@@ -553,6 +567,33 @@ Audited with FreshCommits ATS Keyword Matcher – https://www.freshcommits.com/c
           <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
             {analysis.verdict.description}
           </p>
+
+          {!analysis.isBothEmpty && (
+            <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-200/70 flex-wrap">
+              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <Share2 className="w-3.5 h-3.5 text-slate-600" />
+                <span>Share Your Match Score:</span>
+              </span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={handleShareLinkedIn}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0a66c2] hover:bg-[#084e96] text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                >
+                  <span>Share on LinkedIn</span>
+                  <ExternalLink className="w-3 h-3" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleShareX}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                >
+                  <span>Post on X</span>
+                  <ExternalLink className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
