@@ -57,7 +57,9 @@ import {
   Share2,
   Bookmark,
   Target,
-  ArrowRight
+  ArrowRight,
+  FileSearch,
+  Layers
 } from 'lucide-react';
 
 const STORAGE_KEY_JOBS = 'freshcommit_jobs_v5';
@@ -962,7 +964,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F8FF] text-[#202124] flex flex-col selection:bg-[#1a73e8] selection:text-white font-sans">
+    <div className="min-h-screen bg-[#F0F8FF] text-[#202124] flex flex-col selection:bg-[#1a73e8] selection:text-white font-sans pb-16 md:pb-0">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -1160,6 +1162,186 @@ export default function App() {
                     <p className="text-sm text-[#5f6368] leading-relaxed max-w-xs font-normal">
                       Route directly to official company career portals and application forms with zero middleman friction.
                     </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Quick Guide & Platform Tools Availability Hub (Beginner friendly & at a glance) */}
+            <section id="platform-tools-hub" className="bg-[#f8fafd] border-b border-[#dadce0] py-12 px-4 sm:px-6 lg:px-8">
+              <div className="max-w-6xl mx-auto space-y-6">
+                <div className="text-center max-w-3xl mx-auto space-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                    Everything You Need to Break Into Tech &bull; 100% Free &bull; No Login Required
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#202124] tracking-tight">
+                    Tools &amp; Features Available On FreshCommits
+                  </h2>
+                  <p className="text-xs sm:text-sm text-[#5f6368] leading-relaxed">
+                    Designed specifically for early-career engineers and university graduates. Understand what each tool is, how to use it, and what you get in under 5 seconds.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {/* Card 1: Verified Job Feed */}
+                  <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between space-y-4 hover:border-blue-300 transition-all">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                          <Briefcase className="w-5 h-5" />
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                          {activeJobs.length} Live Openings
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900">
+                        Verified 0–2 YoE Job Feed
+                      </h3>
+                      <div className="space-y-2 text-xs">
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                          <span className="font-bold text-slate-800 block text-[11px] mb-0.5">🎯 WHAT IT IS:</span>
+                          <p className="text-slate-600 leading-snug">Strictly filtered entry-level and new grad SWE jobs with direct links to company ATS portals.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-blue-50/60 border border-blue-100">
+                          <span className="font-bold text-blue-900 block text-[11px] mb-0.5">⚡ HOW TO USE IT:</span>
+                          <p className="text-blue-800 leading-snug">Filter by stack (Frontend, Backend, AI) and click Direct Apply to bypass recruiting spam.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                          <span className="font-bold text-emerald-950 block text-[11px] mb-0.5">🏆 WHAT YOU GET:</span>
+                          <p className="text-emerald-900 leading-snug">Apply only to genuine 0–2 YoE postings that will never ghost you for lacking 5+ years experience.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        document.getElementById('job-feed-section')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Explore Jobs ({activeJobs.length})</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* Card 2: ATS Keyword Matcher */}
+                  <div className="bg-white rounded-2xl border border-emerald-200 p-5 shadow-xs flex flex-col justify-between space-y-4 hover:border-emerald-300 transition-all">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                          <FileSearch className="w-5 h-5" />
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500 text-white uppercase tracking-wider">
+                          NEW &bull; Free
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900">
+                        ATS Keyword Matcher
+                      </h3>
+                      <div className="space-y-2 text-xs">
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                          <span className="font-bold text-slate-800 block text-[11px] mb-0.5">🎯 WHAT IT IS:</span>
+                          <p className="text-slate-600 leading-snug">A client-side scanner that compares your resume text against any job requisition in 3 seconds.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                          <span className="font-bold text-emerald-950 block text-[11px] mb-0.5">⚡ HOW TO USE IT:</span>
+                          <p className="text-emerald-900 leading-snug">Paste your resume and target requisition. Click Scan to calculate your match score.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                          <span className="font-bold text-emerald-950 block text-[11px] mb-0.5">🏆 WHAT YOU GET:</span>
+                          <p className="text-emerald-900 leading-snug">Spot exact missing technologies and get pre-written XYZ bullets to pass automated screens.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleTabChange('tools');
+                        try { window.location.hash = '#ats-matcher'; } catch {}
+                      }}
+                      className="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Launch ATS Matcher (Free)</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* Card 3: Role Mock Interview Simulator */}
+                  <div className="bg-white rounded-2xl border border-amber-200 p-5 shadow-xs flex flex-col justify-between space-y-4 hover:border-amber-300 transition-all">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                          <Target className="w-5 h-5" />
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                          5 Rounds
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900">
+                        Role Mock Simulator
+                      </h3>
+                      <div className="space-y-2 text-xs">
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                          <span className="font-bold text-slate-800 block text-[11px] mb-0.5">🎯 WHAT IT IS:</span>
+                          <p className="text-slate-600 leading-snug">Simulated 5-round technical interview drill with realistic questions tailored to junior SWE roles.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-amber-50/60 border border-amber-100">
+                          <span className="font-bold text-amber-950 block text-[11px] mb-0.5">⚡ HOW TO USE IT:</span>
+                          <p className="text-amber-900 leading-snug">Choose your track, read/listen to questions, type answers, and check hints or model solutions.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                          <span className="font-bold text-emerald-950 block text-[11px] mb-0.5">🏆 WHAT YOU GET:</span>
+                          <p className="text-emerald-900 leading-snug">Zero-pressure practice that eliminates interview anxiety and sharpens your communication.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleTabChange('tools');
+                        try { window.location.hash = '#mock-simulator'; } catch {}
+                      }}
+                      className="w-full py-2 px-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Start Mock Practice</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* Card 4: Global Salary Index */}
+                  <div className="bg-white rounded-2xl border border-teal-200 p-5 shadow-xs flex flex-col justify-between space-y-4 hover:border-teal-300 transition-all">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold">
+                          <TrendingUp className="w-5 h-5" />
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
+                          12 Countries
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900">
+                        2025–2026 Salary Index
+                      </h3>
+                      <div className="space-y-2 text-xs">
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                          <span className="font-bold text-slate-800 block text-[11px] mb-0.5">🎯 WHAT IT IS:</span>
+                          <p className="text-slate-600 leading-snug">Transparent entry-level compensation benchmarks covering base pay, equity cliffs, and taxes.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-teal-50/60 border border-teal-100">
+                          <span className="font-bold text-teal-950 block text-[11px] mb-0.5">⚡ HOW TO USE IT:</span>
+                          <p className="text-teal-900 leading-snug">Select your country or US state from the drop-down to see realistic 0–2 YoE numbers.</p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                          <span className="font-bold text-emerald-950 block text-[11px] mb-0.5">🏆 WHAT YOU GET:</span>
+                          <p className="text-emerald-900 leading-snug">Accurate negotiation leverage so you never get lowballed on your first developer offer.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleTabChange('salary-guide')}
+                      className="w-full py-2 px-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Explore Salary Index</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
               </div>

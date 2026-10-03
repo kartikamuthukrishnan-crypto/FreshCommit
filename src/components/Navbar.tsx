@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Layers, Linkedin, Twitter, Youtube } from 'lucide-react';
+import { Shield, BarChart3, Lock, Menu, X, Sparkles, Users, Mail, BookOpen, Briefcase, Calculator, Layers, Linkedin, Twitter, Youtube, FileSearch, Home } from 'lucide-react';
 import { FreshCommitsLogo } from './FreshCommitsLogo';
 import { AppTab } from '../types';
 
@@ -21,7 +21,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 bg-white border-b border-[#dadce0]">
+    <>
+      <header className="sticky top-0 z-30 bg-white border-b border-[#dadce0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -263,6 +264,102 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
+      {/* Mobile Always-Visible Quick Discovery Strip (Visitors see all tools & jobs immediately) */}
+      <div className="md:hidden border-t border-slate-100 bg-[#f8fafd] px-3 py-1.5 flex items-center gap-1.5 overflow-x-auto scrollbar-none shadow-2xs">
+        <button
+          onClick={() => {
+            setActiveTab('jobs');
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex items-center gap-1.5 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
+            activeTab === 'jobs'
+              ? 'bg-[#1a73e8] text-white shadow-2xs font-semibold'
+              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+          }`}
+        >
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+          </span>
+          <span>Jobs ({jobCount})</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('tools');
+            try { window.location.hash = '#ats-matcher'; } catch {}
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex items-center gap-1 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
+            activeTab === 'tools'
+              ? 'bg-slate-900 text-white shadow-2xs font-semibold'
+              : 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
+          }`}
+        >
+          <FileSearch className="w-3 h-3 text-emerald-600" />
+          <span>ATS Matcher</span>
+          <span className="text-[9px] bg-emerald-500 text-white px-1 py-0.2 rounded font-black uppercase">
+            NEW
+          </span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('tools');
+            try { window.location.hash = '#mock-simulator'; } catch {}
+            setIsMobileMenuOpen(false);
+          }}
+          className="flex items-center gap-1 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors shrink-0 cursor-pointer"
+        >
+          <span>🎯 Mock Simulator</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('salary-guide');
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex items-center gap-1 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
+            activeTab === 'salary-guide'
+              ? 'bg-[#1a73e8] text-white shadow-2xs font-semibold'
+              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+          }`}
+        >
+          <BarChart3 className="w-3 h-3 text-teal-600" />
+          <span>Salary Index</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('blueprints');
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex items-center gap-1 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
+            activeTab === 'blueprints'
+              ? 'bg-[#1a73e8] text-white shadow-2xs font-semibold'
+              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+          }`}
+        >
+          <Layers className="w-3 h-3 text-indigo-600" />
+          <span>SWE Blueprints</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('insights');
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex items-center gap-1 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
+            activeTab === 'insights'
+              ? 'bg-[#1a73e8] text-white shadow-2xs font-semibold'
+              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+          }`}
+        >
+          <BookOpen className="w-3 h-3 text-violet-600" />
+          <span>Insights</span>
+        </button>
+      </div>
+
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1 shadow-lg">
@@ -465,5 +562,98 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       )}
     </header>
+
+    {/* Mobile Fixed Bottom Navigation Bar (Always visible on mobile devices) */}
+    <nav
+      aria-label="Mobile Navigation"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] px-2 py-1.5 flex items-center justify-around"
+    >
+      <button
+        onClick={() => {
+          setActiveTab('jobs');
+          setIsMobileMenuOpen(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer ${
+          activeTab === 'jobs' ? 'text-[#1a73e8]' : 'text-slate-500 hover:text-slate-800'
+        }`}
+      >
+        <div className="relative">
+          <Briefcase className="w-5 h-5" />
+          <span className="absolute -top-1 -right-2 text-[9px] font-bold bg-[#1a73e8] text-white rounded-full px-1 py-0 leading-tight">
+            {jobCount > 99 ? '99+' : jobCount}
+          </span>
+        </div>
+        <span className={`text-[10px] mt-0.5 ${activeTab === 'jobs' ? 'font-bold text-[#1a73e8]' : 'font-medium'}`}>
+          Jobs
+        </span>
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('tools');
+          setIsMobileMenuOpen(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer ${
+          activeTab === 'tools' ? 'text-[#1a73e8]' : 'text-slate-500 hover:text-slate-800'
+        }`}
+      >
+        <div className="relative">
+          <Sparkles className="w-5 h-5 text-amber-500" />
+          <span className="absolute -top-1 -right-2 text-[8px] font-black bg-emerald-500 text-white rounded-full px-1 py-0 leading-tight uppercase">
+            New
+          </span>
+        </div>
+        <span className={`text-[10px] mt-0.5 ${activeTab === 'tools' ? 'font-bold text-[#1a73e8]' : 'font-medium'}`}>
+          Tools
+        </span>
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('salary-guide');
+          setIsMobileMenuOpen(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer ${
+          activeTab === 'salary-guide' ? 'text-[#1a73e8]' : 'text-slate-500 hover:text-slate-800'
+        }`}
+      >
+        <BarChart3 className="w-5 h-5" />
+        <span className={`text-[10px] mt-0.5 ${activeTab === 'salary-guide' ? 'font-bold text-[#1a73e8]' : 'font-medium'}`}>
+          Salary
+        </span>
+      </button>
+
+      <button
+        onClick={() => {
+          setActiveTab('blueprints');
+          setIsMobileMenuOpen(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer ${
+          activeTab === 'blueprints' ? 'text-[#1a73e8]' : 'text-slate-500 hover:text-slate-800'
+        }`}
+      >
+        <Layers className="w-5 h-5" />
+        <span className={`text-[10px] mt-0.5 ${activeTab === 'blueprints' ? 'font-bold text-[#1a73e8]' : 'font-medium'}`}>
+          Blueprints
+        </span>
+      </button>
+
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer ${
+          isMobileMenuOpen ? 'text-[#1a73e8]' : 'text-slate-500 hover:text-slate-800'
+        }`}
+      >
+        {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        <span className={`text-[10px] mt-0.5 ${isMobileMenuOpen ? 'font-bold text-[#1a73e8]' : 'font-medium'}`}>
+          Menu
+        </span>
+      </button>
+    </nav>
+  </>
   );
 };

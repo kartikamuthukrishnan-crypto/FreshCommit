@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Calculator,
   TrendingUp,
@@ -128,6 +128,26 @@ export const InteractiveToolsView: React.FC = () => {
     'tc-calculator' | 'resume-grader' | 'reverse-interview' | 'mock-simulator' | 'readiness-auditor' | 'ats-matcher'
   >('ats-matcher');
 
+  useEffect(() => {
+    const checkHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      const validTools = ['ats-matcher', 'mock-simulator', 'readiness-auditor', 'tc-calculator', 'resume-grader', 'reverse-interview'] as const;
+      if (validTools.includes(hash as any)) {
+        setActiveSubTool(hash as any);
+      }
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
+
+  const handleSelectTool = (tool: typeof activeSubTool) => {
+    setActiveSubTool(tool);
+    try {
+      window.history.replaceState(null, '', `#${tool}`);
+    } catch {}
+  };
+
   const currentGlance = TOOL_GLANCE_DATA[activeSubTool] || TOOL_GLANCE_DATA['ats-matcher'];
 
   return (
@@ -149,58 +169,7 @@ export const InteractiveToolsView: React.FC = () => {
       {/* Tool Selector Tabs */}
       <div className="flex items-center justify-center gap-2 flex-wrap">
         <button
-          onClick={() => setActiveSubTool('mock-simulator')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-            activeSubTool === 'mock-simulator'
-              ? 'bg-slate-900 text-white shadow-md'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
-          }`}
-        >
-          <Target className="w-4 h-4 text-amber-400" />
-          <span>Role Mock Interview Simulator</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSubTool('readiness-auditor')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-            activeSubTool === 'readiness-auditor'
-              ? 'bg-slate-900 text-white shadow-md'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
-          }`}
-        >
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Commercial Readiness Auditor</span>
-          <span className="text-[10px] bg-emerald-400 text-slate-950 px-1.5 py-0.5 rounded font-black uppercase">
-            NEW
-          </span>
-        </button>
-
-        <button
-          onClick={() => setActiveSubTool('tc-calculator')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-            activeSubTool === 'tc-calculator'
-              ? 'bg-slate-900 text-white shadow-md'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
-          }`}
-        >
-          <Calculator className="w-4 h-4 text-emerald-400" />
-          <span>Total Compensation &amp; Cliff Calculator</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSubTool('resume-grader')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-            activeSubTool === 'resume-grader'
-              ? 'bg-slate-900 text-white shadow-md'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
-          }`}
-        >
-          <FileText className="w-4 h-4 text-indigo-400" />
-          <span>Google XYZ Resume Bullet Grader</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSubTool('ats-matcher')}
+          onClick={() => handleSelectTool('ats-matcher')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
             activeSubTool === 'ats-matcher'
               ? 'bg-slate-900 text-white shadow-md'
@@ -215,7 +184,55 @@ export const InteractiveToolsView: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setActiveSubTool('reverse-interview')}
+          onClick={() => handleSelectTool('mock-simulator')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeSubTool === 'mock-simulator'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+          }`}
+        >
+          <Target className="w-4 h-4 text-amber-400" />
+          <span>Role Mock Interview Simulator</span>
+        </button>
+
+        <button
+          onClick={() => handleSelectTool('readiness-auditor')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeSubTool === 'readiness-auditor'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+          }`}
+        >
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <span>Commercial Readiness Auditor</span>
+        </button>
+
+        <button
+          onClick={() => handleSelectTool('tc-calculator')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeSubTool === 'tc-calculator'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+          }`}
+        >
+          <Calculator className="w-4 h-4 text-emerald-400" />
+          <span>Total Compensation &amp; Cliff Calculator</span>
+        </button>
+
+        <button
+          onClick={() => handleSelectTool('resume-grader')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeSubTool === 'resume-grader'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+          }`}
+        >
+          <FileText className="w-4 h-4 text-indigo-400" />
+          <span>Google XYZ Resume Bullet Grader</span>
+        </button>
+
+        <button
+          onClick={() => handleSelectTool('reverse-interview')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
             activeSubTool === 'reverse-interview'
               ? 'bg-slate-900 text-white shadow-md'

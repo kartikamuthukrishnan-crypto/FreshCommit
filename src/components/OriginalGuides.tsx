@@ -16,87 +16,560 @@ import {
   ChevronRight,
   Search,
   X,
-  ShieldCheck
+  ShieldCheck,
+  Globe
 } from 'lucide-react';
 import { CAREER_ARTICLES } from '../data/careerArticles';
 import { CareerArticleReader } from './CareerArticleReader';
 
+interface SalaryHub {
+  city: string;
+  state: string;
+  medianNewGrad: string;
+  range: string;
+  costIndex: string;
+  topHiring: string;
+  notes: string;
+}
+
+interface CountrySalaryProfile {
+  countryCode: string;
+  countryName: string;
+  flag: string;
+  currency: string;
+  statutoryNotes: string;
+  hubs: SalaryHub[];
+}
+
+const GLOBAL_SALARY_DATA: CountrySalaryProfile[] = [
+  {
+    countryCode: 'US',
+    countryName: 'United States',
+    flag: '🇺🇸',
+    currency: 'USD ($)',
+    statutoryNotes: 'Salary transparency laws in CA, NY, WA, and CO require employers to publish baseline salary ranges on all job listings. Most tech employers offer health insurance, 401(k) matching, and annual equity (RSUs).',
+    hubs: [
+      {
+        city: 'San Francisco Bay Area',
+        state: 'CA',
+        medianNewGrad: '$142,000',
+        range: '$120,000 – $170,000',
+        costIndex: 'Very High',
+        topHiring: 'Stripe, Cloudflare, OpenAI, Figma, Datadog',
+        notes: 'Highest starting base compensation, high stock/RSU packages for fresh grads.',
+      },
+      {
+        city: 'New York City',
+        state: 'NY',
+        medianNewGrad: '$135,000',
+        range: '$115,000 – $165,000',
+        costIndex: 'Very High',
+        topHiring: 'Bloomberg, Datadog, Etsy, Google NYC, Palantir',
+        notes: 'Strong FinTech, adtech, and consumer web starting salaries.',
+      },
+      {
+        city: 'Seattle & Bellevue',
+        state: 'WA',
+        medianNewGrad: '$130,000',
+        range: '$110,000 – $155,000',
+        costIndex: 'High (0% State Tax)',
+        topHiring: 'Microsoft, Remitly, Amazon, Tableau, F5',
+        notes: 'No state income tax yields higher take-home compensation for new grads.',
+      },
+      {
+        city: 'Austin Tech Hub',
+        state: 'TX',
+        medianNewGrad: '$118,000',
+        range: '$95,000 – $135,000',
+        costIndex: 'Moderate (0% State Tax)',
+        topHiring: 'Atlassian, Dell, Indeed, Oracle, AMD',
+        notes: 'Rapidly growing early-career hardware and cloud software engineering scene.',
+      },
+      {
+        city: 'Boston & Cambridge',
+        state: 'MA',
+        medianNewGrad: '$116,000',
+        range: '$95,000 – $132,000',
+        costIndex: 'High',
+        topHiring: 'HubSpot, Wayfair, DraftKings, Toast',
+        notes: 'Thriving robotics, marketing tech, and biotech software development ecosystem.',
+      },
+      {
+        city: 'Remote (US Nationwide)',
+        state: 'US',
+        medianNewGrad: '$110,000',
+        range: '$85,000 – $130,000',
+        costIndex: 'Flexible',
+        topHiring: 'Automattic, GitLab, Vercel, Supabase, Zapier',
+        notes: 'Typically calculated via localized cost-of-living tiers or national flat rates.',
+      },
+    ]
+  },
+  {
+    countryCode: 'IN',
+    countryName: 'India',
+    flag: '🇮🇳',
+    currency: 'INR (₹ Lakhs Per Annum)',
+    statutoryNotes: 'Starting packages for 0–2 YoE typically structured as Fixed Base + PF + Gratuity + Performance Bonus. Product companies and top tier startups pay 2x–3x the IT services baseline.',
+    hubs: [
+      {
+        city: 'Bengaluru / Bangalore',
+        state: 'KA',
+        medianNewGrad: '₹14.5 LPA',
+        range: '₹8.5 LPA – ₹26.0 LPA',
+        costIndex: 'High (India Tech)',
+        topHiring: 'Swiggy, Flipkart, CRED, Google India, Amazon',
+        notes: 'India’s Silicon Valley; highest density of global GCCs and high-paying tech unicorns.',
+      },
+      {
+        city: 'Hyderabad',
+        state: 'TS',
+        medianNewGrad: '₹13.0 LPA',
+        range: '₹8.0 LPA – ₹22.0 LPA',
+        costIndex: 'Moderate-High',
+        topHiring: 'Microsoft IDC, Uber, ServiceNow, Qualcomm, Salesforce',
+        notes: 'Major cloud engineering and enterprise SaaS development hub with modern tech parks.',
+      },
+      {
+        city: 'Pune',
+        state: 'MH',
+        medianNewGrad: '₹11.0 LPA',
+        range: '₹6.5 LPA – ₹18.0 LPA',
+        costIndex: 'Moderate',
+        topHiring: 'Barclays, BMC Software, Nvidia, Bajaj Finserv Health',
+        notes: 'Strong automotive tech, FinTech, and enterprise systems engineering clusters.',
+      },
+      {
+        city: 'Delhi-NCR (Gurgaon / Noida)',
+        state: 'NCR',
+        medianNewGrad: '₹12.5 LPA',
+        range: '₹7.5 LPA – ₹20.0 LPA',
+        costIndex: 'High',
+        topHiring: 'Zomato, MakeMyTrip, PayTM, Adobe, Airtel Digital',
+        notes: 'Consumer tech, high-scale logistics, and media streaming platform engineering.',
+      },
+      {
+        city: 'Remote (India)',
+        state: 'IN',
+        medianNewGrad: '₹12.0 LPA',
+        range: '₹7.0 LPA – ₹24.0 LPA',
+        costIndex: 'Flexible',
+        topHiring: 'Postman, BrowserStack, Hasura, HackerRank',
+        notes: 'Global distributed companies hiring in India often pay dollar-pegged compensation.',
+      },
+    ]
+  },
+  {
+    countryCode: 'GB',
+    countryName: 'United Kingdom',
+    flag: '🇬🇧',
+    currency: 'GBP (£)',
+    statutoryNotes: 'Standard UK compensation includes workplace pension match (auto-enrolment 3%–8%), 25+ days paid annual leave, and statutory sick pay. London weighting typically adds 15%–25% to base pay.',
+    hubs: [
+      {
+        city: 'London Tech Hub',
+        state: 'ENG',
+        medianNewGrad: '£52,000',
+        range: '£40,000 – £70,000',
+        costIndex: 'Very High',
+        topHiring: 'Revolut, Monzo, DeepMind, Meta London, Bloomberg',
+        notes: 'Global FinTech and AI research center with the highest UK starting developer rates.',
+      },
+      {
+        city: 'Cambridge & Oxford',
+        state: 'ENG',
+        medianNewGrad: '£46,000',
+        range: '£36,000 – £60,000',
+        costIndex: 'High',
+        topHiring: 'ARM, Amazon Cambridge, Graphcore, Darktrace',
+        notes: 'Silicon Fen cluster; major hardware, semiconductor, and machine learning research.',
+      },
+      {
+        city: 'Manchester & Leeds',
+        state: 'ENG',
+        medianNewGrad: '£38,000',
+        range: '£30,000 – £48,000',
+        costIndex: 'Moderate',
+        topHiring: 'Auto Trader, Booking.com, BBC Technology, The Hut Group',
+        notes: 'Thriving northern digital hub with significantly lower living costs than London.',
+      },
+      {
+        city: 'Remote (United Kingdom)',
+        state: 'UK',
+        medianNewGrad: '£42,000',
+        range: '£34,000 – £55,000',
+        costIndex: 'Flexible',
+        topHiring: 'Wise, Deliveroo, Octopus Energy, Gousto',
+        notes: 'Competitive remote base salaries with standard UK statutory holiday and pension.',
+      },
+    ]
+  },
+  {
+    countryCode: 'CA',
+    countryName: 'Canada',
+    flag: '🇨🇦',
+    currency: 'CAD (C$)',
+    statutoryNotes: 'Canadian software packages include Canada Pension Plan (CPP) contributions, provincial health care coverage, and extended health/dental benefits.',
+    hubs: [
+      {
+        city: 'Toronto & Kitchener-Waterloo',
+        state: 'ON',
+        medianNewGrad: 'C$95,000',
+        range: 'C$80,000 – C$120,000',
+        costIndex: 'High',
+        topHiring: 'Shopify, Wealthsimple, Google Canada, Amazon',
+        notes: 'Canada’s largest tech corridor; strong university engineering talent pipeline.',
+      },
+      {
+        city: 'Vancouver',
+        state: 'BC',
+        medianNewGrad: 'C$92,000',
+        range: 'C$78,000 – C$115,000',
+        costIndex: 'Very High',
+        topHiring: 'Slack, Electronic Arts, Hootsuite, Microsoft Vancouver',
+        notes: 'Pacific Rim tech center; tight integration with Seattle engineering offices.',
+      },
+      {
+        city: 'Montreal',
+        state: 'QC',
+        medianNewGrad: 'C$84,000',
+        range: 'C$70,000 – C$105,000',
+        costIndex: 'Moderate',
+        topHiring: 'Ubisoft, Lightspeed, Morgan Stanley Technology, Element AI',
+        notes: 'World-renowned AI research labs and video game graphics engineering ecosystem.',
+      },
+      {
+        city: 'Remote (Canada)',
+        state: 'CA',
+        medianNewGrad: 'C$88,000',
+        range: 'C$72,000 – C$112,000',
+        costIndex: 'Flexible',
+        topHiring: '1Password, FreshBooks, D2L, Wave HQ',
+        notes: 'Remote-first Canadian companies often offer location-independent national rates.',
+      },
+    ]
+  },
+  {
+    countryCode: 'DE',
+    countryName: 'Germany & DACH',
+    flag: '🇩🇪',
+    currency: 'EUR (€)',
+    statutoryNotes: 'Strict statutory employee protections: 30 days statutory vacation, public healthcare, unemployment insurance, and pension contributions split 50/50 with employer.',
+    hubs: [
+      {
+        city: 'Berlin',
+        state: 'BE',
+        medianNewGrad: '€62,000',
+        range: '€52,000 – €75,000',
+        costIndex: 'High',
+        topHiring: 'Delivery Hero, N26, Zalando, SoundCloud, Trade Republic',
+        notes: 'Europe’s vibrant startup capital with English-first engineering teams and rapid career progression.',
+      },
+      {
+        city: 'Munich',
+        state: 'BY',
+        medianNewGrad: '€66,000',
+        range: '€56,000 – €80,000',
+        costIndex: 'Very High',
+        topHiring: 'Celonis, BMW Tech, Google Munich, Personio, Siemens',
+        notes: 'Enterprise software, industrial automation, and deep tech with highest German base salaries.',
+      },
+      {
+        city: 'Remote (Germany)',
+        state: 'DE',
+        medianNewGrad: '€60,000',
+        range: '€50,000 – €72,000',
+        costIndex: 'Flexible',
+        topHiring: 'Contentful, Freeletics, Taxfix, Blinkist',
+        notes: 'Standardized national contracts with standard German statutory social security contributions.',
+      },
+    ]
+  },
+  {
+    countryCode: 'NL',
+    countryName: 'Netherlands',
+    flag: '🇳🇱',
+    currency: 'EUR (€)',
+    statutoryNotes: 'Qualifying foreign knowledge migrants may be eligible for the 30% tax ruling. Includes 8% mandatory holiday allowance (Vakantiegeld) paid each May.',
+    hubs: [
+      {
+        city: 'Amsterdam',
+        state: 'NH',
+        medianNewGrad: '€64,000',
+        range: '€54,000 – €78,000',
+        costIndex: 'Very High',
+        topHiring: 'Adyen, Booking.com, Uber EMEA, Miro, Databricks',
+        notes: 'Global FinTech and internet infrastructure hub with highly international engineering cultures.',
+      },
+      {
+        city: 'Eindhoven Brainport',
+        state: 'NB',
+        medianNewGrad: '€58,000',
+        range: '€48,000 – €70,000',
+        costIndex: 'Moderate',
+        topHiring: 'ASML, Philips, NXP Semiconductors, VDL Group',
+        notes: 'Hardware-software embedded systems and semiconductor lithography technology capital.',
+      },
+    ]
+  },
+  {
+    countryCode: 'IE',
+    countryName: 'Ireland',
+    flag: '🇮🇪',
+    currency: 'EUR (€)',
+    statutoryNotes: 'European headquarters for the majority of US Big Tech firms. Highly competitive RSU stock grant culture alongside high Dublin rental costs.',
+    hubs: [
+      {
+        city: 'Dublin Silicon Docks',
+        state: 'LE',
+        medianNewGrad: '€65,000',
+        range: '€52,000 – €82,000',
+        costIndex: 'Very High',
+        topHiring: 'Stripe EMEA, Google, Workday, Meta, TikTok',
+        notes: 'Premier European hub for US tech giants offering aggressive equity packages to new grads.',
+      },
+      {
+        city: 'Cork & Galway',
+        state: 'MU',
+        medianNewGrad: '€54,000',
+        range: '€44,000 – €68,000',
+        costIndex: 'Moderate',
+        topHiring: 'Apple Cork, VMware, Teamwork, Cisco Galway',
+        notes: 'Lower living expenses with strong software and medical device technology employers.',
+      },
+    ]
+  },
+  {
+    countryCode: 'AU',
+    countryName: 'Australia',
+    flag: '🇦🇺',
+    currency: 'AUD (A$)',
+    statutoryNotes: 'Employers must pay mandatory Superannuation guarantee (11.5% in 2025–2026 on top of or inclusive of base salary). Standard 4 weeks annual leave.',
+    hubs: [
+      {
+        city: 'Sydney',
+        state: 'NSW',
+        medianNewGrad: 'A$98,000',
+        range: 'A$82,000 – A$125,000',
+        costIndex: 'Very High',
+        topHiring: 'Atlassian, Canva, Macquarie Group, Google Sydney, SafetyCulture',
+        notes: 'Australia’s tech engine with high venture capital concentration and product engineering.',
+      },
+      {
+        city: 'Melbourne',
+        state: 'VIC',
+        medianNewGrad: 'A$90,000',
+        range: 'A$76,000 – A$115,000',
+        costIndex: 'High',
+        topHiring: 'REA Group, SEEK, Zendesk, Square Australia, MYOB',
+        notes: 'Strong enterprise software, marketplace platforms, and design tech ecosystem.',
+      },
+      {
+        city: 'Remote (Australia)',
+        state: 'AU',
+        medianNewGrad: 'A$86,000',
+        range: 'A$72,000 – A$110,000',
+        costIndex: 'Flexible',
+        topHiring: 'Culture Amp, Deputy, Envato, Judo Bank',
+        notes: 'Growing remote-first engineering adoption across Queensland and regional hubs.',
+      },
+    ]
+  },
+  {
+    countryCode: 'SG',
+    countryName: 'Singapore',
+    flag: '🇸🇬',
+    currency: 'SGD (S$)',
+    statutoryNotes: 'Extremely favorable personal income tax rates (0%–22% progressive tier). Citizens and PRs contribute to Central Provident Fund (CPF).',
+    hubs: [
+      {
+        city: 'Singapore Central & One-North',
+        state: 'SG',
+        medianNewGrad: 'S$72,000',
+        range: 'S$58,000 – S$96,000',
+        costIndex: 'Very High',
+        topHiring: 'Grab, Shopee, Sea Group, ByteDance, GovTech Singapore',
+        notes: 'Southeast Asia’s primary tech and finance hub with high demand for backend and mobile SWEs.',
+      },
+    ]
+  },
+  {
+    countryCode: 'JP',
+    countryName: 'Japan',
+    flag: '🇯🇵',
+    currency: 'JPY (¥ Millions)',
+    statutoryNotes: 'Traditional bonus structures (summer + winter bonuses) are often included in total annual cash. English-speaking tech startups pay higher flat annual base salaries.',
+    hubs: [
+      {
+        city: 'Tokyo Shibuya & Roppongi',
+        state: 'TK',
+        medianNewGrad: '¥5.8M',
+        range: '¥4.5M – ¥8.2M',
+        costIndex: 'High',
+        topHiring: 'Mercari, LINE Yahoo, Rakuten, Woven Planet, Sony',
+        notes: 'Globalizing tech scene with strong demand for international bilingual software engineers.',
+      },
+    ]
+  },
+  {
+    countryCode: 'AE',
+    countryName: 'United Arab Emirates',
+    flag: '🇦🇪',
+    currency: 'AED (د.إ)',
+    statutoryNotes: '0% personal income tax and 0% capital gains tax. Expat employment packages typically include visa sponsorship, flight allowances, and private health insurance.',
+    hubs: [
+      {
+        city: 'Dubai Internet City & DIFC',
+        state: 'DXB',
+        medianNewGrad: 'AED 160,000',
+        range: 'AED 120,000 – AED 220,000',
+        costIndex: 'High (0% Income Tax)',
+        topHiring: 'Careem, Noon, Talabat, Kitopi, Binance Dubai',
+        notes: 'Rapidly expanding MENA tech hub with high net take-home pay for early-career developers.',
+      },
+    ]
+  },
+  {
+    countryCode: 'BR',
+    countryName: 'Brazil & LATAM',
+    flag: '🇧🇷',
+    currency: 'BRL (R$) / USD ($)',
+    statutoryNotes: 'CLT employment offers mandatory 13th salary, 30 days vacation, and FGTS fund. US companies hiring in LATAM typically pay in USD via Contractor agreements (PJ).',
+    hubs: [
+      {
+        city: 'São Paulo Tech Hub',
+        state: 'SP',
+        medianNewGrad: 'R$ 84,000',
+        range: 'R$ 60,000 – R$ 120,000',
+        costIndex: 'Moderate (LATAM)',
+        topHiring: 'Nubank, QuintoAndar, iFood, Stone, Mercado Libre',
+        notes: 'FinTech and marketplace software powerhouse; Latin America’s largest tech cluster.',
+      },
+      {
+        city: 'Remote LATAM (US Employers)',
+        state: 'USD',
+        medianNewGrad: '$42,000 USD',
+        range: '$30,000 – $60,000 USD',
+        costIndex: 'High Value',
+        topHiring: 'Toptal, Braintrust, Deel, US Startups',
+        notes: 'US tech startups hiring in same-timezone LATAM countries pay high-leverage USD rates.',
+      },
+    ]
+  },
+  {
+    countryCode: 'GLOBAL',
+    countryName: 'All Other Countries / Global Remote',
+    flag: '🌐',
+    currency: 'USD ($)',
+    statutoryNotes: 'For developers in Eastern Europe, Southeast Asia, Africa, and Latin America. International remote companies (GitLab, Automattic, Deel) calculate compensation using standardized Cost-of-Living (COL) multipliers and Purchasing Power Parity (PPP).',
+    hubs: [
+      {
+        city: 'Global Remote (Tier 1 Distributed)',
+        state: 'Worldwide',
+        medianNewGrad: '$58,000 USD',
+        range: '$42,000 – $78,000 USD',
+        costIndex: 'High Relative Value',
+        topHiring: 'GitLab, Automattic, Deel, Remote.com, DuckDuckGo',
+        notes: 'Worldwide contracts for entry-level developers regardless of geographic location.',
+      },
+      {
+        city: 'Global Emerging Markets Baseline',
+        state: 'Worldwide',
+        medianNewGrad: '$36,000 USD',
+        range: '$24,000 – $52,000 USD',
+        costIndex: 'Cost Adjusted',
+        topHiring: 'Canonical, Kraken, Buffer, Hotjar',
+        notes: 'Standardized compensation tiers adjusted to local market purchasing power.',
+      },
+    ]
+  }
+];
+
 export const SalaryGuideView: React.FC = () => {
-  const hubs = [
-    {
-      city: 'San Francisco Bay Area',
-      state: 'CA',
-      medianNewGrad: '$142,000',
-      range: '$120,000 – $170,000',
-      costIndex: 'Very High',
-      topHiring: 'Stripe, Cloudflare, OpenAI, Figma, Datadog',
-      notes: 'Highest starting base compensation, high stock/RSU packages for fresh grads.',
-    },
-    {
-      city: 'New York City',
-      state: 'NY',
-      medianNewGrad: '$135,000',
-      range: '$115,000 – $165,000',
-      costIndex: 'Very High',
-      topHiring: 'Bloomberg, Datadog, Etsy, Google NYC, Palantir',
-      notes: 'Strong FinTech, adtech, and consumer web starting salaries.',
-    },
-    {
-      city: 'Seattle & Bellevue',
-      state: 'WA',
-      medianNewGrad: '$130,000',
-      range: '$110,000 – $155,000',
-      costIndex: 'High (0% State Income Tax)',
-      topHiring: 'Microsoft, Remitly, Amazon, Tableau, F5',
-      notes: 'No state income tax yields higher take-home compensation for new grads.',
-    },
-    {
-      city: 'Austin Tech Hub',
-      state: 'TX',
-      medianNewGrad: '$118,000',
-      range: '$95,000 – $135,000',
-      costIndex: 'Moderate (0% State Income Tax)',
-      topHiring: 'Atlassian, Dell, Indeed, Oracle, AMD',
-      notes: 'Rapidly growing early-career hardware and cloud software engineering scene.',
-    },
-    {
-      city: 'Boston & Cambridge',
-      state: 'MA',
-      medianNewGrad: '$116,000',
-      range: '$95,000 – $132,000',
-      costIndex: 'High',
-      topHiring: 'HubSpot, Wayfair, DraftKings, Toast',
-      notes: 'Thriving robotics, marketing tech, and biotech software development ecosystem.',
-    },
-    {
-      city: 'Remote (US Nationwide)',
-      state: 'US',
-      medianNewGrad: '$110,000',
-      range: '$85,000 – $130,000',
-      costIndex: 'Flexible',
-      topHiring: 'Automattic, GitLab, Vercel, Supabase, Zapier',
-      notes: 'Typically calculated via localized cost-of-living tiers or national flat rates.',
-    },
-  ];
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string>('US');
+
+  const currentCountry =
+    GLOBAL_SALARY_DATA.find((c) => c.countryCode === selectedCountryCode) || GLOBAL_SALARY_DATA[0];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto">
+      <div className="text-center max-w-3xl mx-auto space-y-3">
         <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-          Original Industry Research & Insights
+          Original Industry Research &bull; 0–2 YoE Verification
         </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
-          2025–2026 Entry-Level Software Engineer Salary Index
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          2025–2026 Global Junior SWE Salary Index
         </h1>
-        <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
-          Comprehensive compensation benchmarks for fresh university graduates and junior software engineers (0–2 years of experience) across major US tech hubs.
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+          Comprehensive compensation benchmarks for fresh university graduates and junior software engineers (0–2 years of experience) across 12 countries and global remote markets.
         </p>
+
+        {/* Cross-Navigation Banners for Visitors */}
+        <div className="flex items-center justify-center gap-3 pt-2 flex-wrap">
+          <a
+            href="/"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs"
+          >
+            <span>💼 View 93+ Verified 0–2 YoE Jobs</span>
+            <ArrowRight className="w-3.5 h-3.5 text-emerald-400" />
+          </a>
+          <a
+            href="/career-tools"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold transition-all shadow-2xs"
+          >
+            <span>⚡ Test Your Resume on ATS Matcher (Free)</span>
+            <ArrowRight className="w-3.5 h-3.5 text-emerald-600" />
+          </a>
+        </div>
       </div>
 
-      {/* Benchmarks Grid */}
+      {/* Country Selector Dropdown & Region Info Card */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+          <div>
+            <label htmlFor="country-selector" className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-1">
+              Select Country / Region Benchmark:
+            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">{currentCountry.flag}</span>
+              <span className="text-lg sm:text-xl font-bold text-slate-900">
+                {currentCountry.countryName}
+              </span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                {currentCountry.currency}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex-shrink-0">
+            <select
+              id="country-selector"
+              value={selectedCountryCode}
+              onChange={(e) => setSelectedCountryCode(e.target.value)}
+              className="w-full sm:w-auto px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-2xs"
+            >
+              {GLOBAL_SALARY_DATA.map((c) => (
+                <option key={c.countryCode} value={c.countryCode}>
+                  {c.flag} {c.countryName} ({c.currency})
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Country Statutory & Compensation Notes */}
+        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200 text-xs text-slate-600 leading-relaxed space-y-1">
+          <strong className="text-slate-800 font-bold block">
+            Statutory &amp; Market Context for {currentCountry.countryName}:
+          </strong>
+          <p>{currentCountry.statutoryNotes}</p>
+        </div>
+      </div>
+
+      {/* Benchmarks Grid for Selected Country */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {hubs.map((hub, idx) => (
+        {currentCountry.hubs.map((hub, idx) => (
           <div
             key={idx}
             className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-indigo-300 transition-colors flex flex-col justify-between"
