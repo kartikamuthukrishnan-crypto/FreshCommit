@@ -166,6 +166,60 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level problem-solvers who enjoy diagnosing complex technical issues across live applications, bridging engineering fixes with real-world user requirements.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Git, Software Engineering, Problem Solving.\n• Interview Focus: Expect scenario roleplays diagnosing elusive platform errors, API integration failures, and client escalation triage.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Remote - US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nHybrid-associate-consultant---appian-in-tysons-at-vision-point-systems%2C-inc.- is actively seeking an early-career Hybrid Associate Consultant Appian in Tysons at Vision Point Systems, Inc. to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Hybrid Associate Consultant",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Hybrid-associate-consultant---appian-in-tysons-at-vision-point-systems%2C-inc.-'s engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "vision-point-systems-hybrid-associate-consultant-remote-us",
+    "atsProvider": "Workable",
+    "company": "Vision Point Systems",
+    "id": "manual-1790960645174",
+    "state": "CA",
+    "datePosted": "2026-10-02",
+    "validThrough": "2026-11-01",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=visionpointsystems.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/qjQV1r7FatYWcheAoNdbg5/hybrid-associate-consultant---appian-in-tysons-at-vision-point-systems%2C-inc.-",
+    "location": "Remote - US",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.visionpointsystems.com/",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
     "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at Acuityinternational.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Remote - US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAcuityinternational is actively seeking an early-career Software Application Developer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
     "source": "MANUAL_ADMIN",
     "title": "Software Application Developer",
@@ -213,6 +267,117 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Full Stack",
     "companyWebsite": "https://acuityinternational.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "🎯 The FreshCommits Career Take:\nJoining Teladoc as a Junior Software Engineering Program Associate Engineer gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Remote - US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nTeladoc is actively seeking a Junior Software Engineering Program Associate Engineer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Junior Software Engineering Program Associate Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Teladoc's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "teladoc-junior-software-engineering-program-associate-engineer-remote",
+    "atsProvider": "Workday",
+    "company": "Teladoc",
+    "id": "manual-1790960288990",
+    "datePosted": "2026-10-02",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-01",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=teladoc.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://teladoc.wd503.myworkdayjobs.com/en-US/teladochealth_is_hiring/job/USA---Any-Location-Remote/Junior-Software-Engineering-Program---Associate-Engineer_JR21085",
+    "location": "Remote (US)",
+    "category": "Full Stack",
+    "companyWebsite": "https://teladoc.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level technologists passionate about user-facing feature delivery, working alongside product designers and seasoned UI architects at Accenture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Java, React and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation Range: Verified employer range of ~USD 90k–120k/year with career progression reviews.\n• Location: Based in Annapolis Junction, MD (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAt Accenture Federal Services, nothing matters more than helping the US federal government make the nation stronger and safer and life better for people. Our 13,000+ people are united in a shared purpose to pursue the limitless potential of technology and ingenuity for clients across defense, national security, public safety, civilian, and military health organizations.\n\nJoin Accenture Federal Services, a technology company within global Accenture. Recognized as a Glassdoor Top 100 Best Place to Work, we offer a collaborative and caring community where you feel like you belong and are empowered to grow, learn and thrive through hands-on experience, certifications, industry training and more.\n\nJoin us to drive positive, lasting change that moves missions and the government forward!",
+    "source": "MANUAL_ADMIN",
+    "title": "Jr. Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 90000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "JavaScript",
+      "Python",
+      "Java",
+      "React",
+      "Vue",
+      "Angular",
+      "Django",
+      "Flask"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Accenturefederalservices's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "accenture-jr-software-engineer-annapolis-junction-md",
+    "atsProvider": "Greenhouse",
+    "company": "Accenture",
+    "id": "manual-1790960086511",
+    "state": "CA",
+    "datePosted": "2026-10-02",
+    "validThrough": "2026-11-01",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=accenture.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "http://job-boards.greenhouse.io/accenturefederalservices/jobs/4689025006?gh_jid=4689025006&gh_src=17d6aa496us",
+    "location": "Annapolis Junction, MD",
+    "category": "Frontend",
+    "companyWebsite": "https://www.accenture.com/en",
     "status": "ACTIVE"
   },
   {

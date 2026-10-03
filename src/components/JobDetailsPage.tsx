@@ -432,29 +432,6 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                 </span>
               </div>
 
-              {/* Mobile CTA Button */}
-              <div className="mt-6 pt-4 border-t border-[#f1f3f4] flex sm:hidden">
-                {isExpired ? (
-                  <button
-                    onClick={onBack}
-                    className="w-full text-center text-sm font-medium py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
-                  >
-                    <AlertCircle className="w-4 h-4" />
-                    <span>Position Closed – View Active Openings</span>
-                  </button>
-                ) : (
-                  <a
-                    href={job.applyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackApplyClick(job)}
-                    className="w-full text-center text-sm font-medium py-3 px-4 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-2 shadow-xs no-underline"
-                  >
-                    <span>{applyButtonText}</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                )}
-              </div>
             </div>
 
             {/* In-Article Leaderboard Ad if configured */}
@@ -812,8 +789,8 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                 </div>
               </div>
 
-              {/* Direct Apply Button in Sidebar */}
-              <div className="pt-2">
+              {/* Direct Apply Button in Sidebar (Desktop Only) */}
+              <div className="pt-2 hidden lg:block">
                 {isExpired ? (
                   <button
                     onClick={onBack}
