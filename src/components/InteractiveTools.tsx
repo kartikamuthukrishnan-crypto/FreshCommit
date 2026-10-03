@@ -39,6 +39,7 @@ import {
   Eye
 } from 'lucide-react';
 import { generateFullMockInterview } from '../utils/mockInterviewEngine';
+import { CommercialReadinessAuditor } from './CommercialReadinessAuditor';
 
 interface CompensationState {
   baseSalary: number;
@@ -62,7 +63,7 @@ const TAX_PRESETS: Record<string, { name: string; rate: number; stateNote: strin
 
 export const InteractiveToolsView: React.FC = () => {
   const [activeSubTool, setActiveSubTool] = useState<
-    'tc-calculator' | 'resume-grader' | 'reverse-interview' | 'mock-simulator'
+    'tc-calculator' | 'resume-grader' | 'reverse-interview' | 'mock-simulator' | 'readiness-auditor'
   >('mock-simulator');
 
   return (
@@ -77,7 +78,7 @@ export const InteractiveToolsView: React.FC = () => {
           Entry-Level SWE Interactive Career Tools
         </h1>
         <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
-          Practice 5-round role &amp; employer mock technical drills, model 4-year tech offer vesting cliffs, audit project resume bullets, and generate high-signal reverse interview questions.
+          Practice 5-round role &amp; employer mock technical drills, audit your portfolio for commercial engineering signals, model 4-year tech offer vesting cliffs, and generate high-signal reverse interview scripts.
         </p>
       </div>
 
@@ -93,7 +94,19 @@ export const InteractiveToolsView: React.FC = () => {
         >
           <Target className="w-4 h-4 text-amber-400" />
           <span>Role Mock Interview Simulator</span>
-          <span className="text-[10px] bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded font-black uppercase">
+        </button>
+
+        <button
+          onClick={() => setActiveSubTool('readiness-auditor')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeSubTool === 'readiness-auditor'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
+          }`}
+        >
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <span>Commercial Readiness Auditor</span>
+          <span className="text-[10px] bg-emerald-400 text-slate-950 px-1.5 py-0.5 rounded font-black uppercase">
             NEW
           </span>
         </button>
@@ -137,6 +150,7 @@ export const InteractiveToolsView: React.FC = () => {
 
       {/* Active SubTool Component */}
       {activeSubTool === 'mock-simulator' && <StandaloneMockSimulatorView />}
+      {activeSubTool === 'readiness-auditor' && <CommercialReadinessAuditor />}
       {activeSubTool === 'tc-calculator' && <TotalCompensationCalculator />}
       {activeSubTool === 'resume-grader' && <ResumeBulletGrader />}
       {activeSubTool === 'reverse-interview' && <ReverseInterviewGenerator />}
