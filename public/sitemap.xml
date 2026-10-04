@@ -240,12 +240,6 @@
 
   <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->
   <url>
-    <loc>https://www.freshcommits.com/job/manual-1791094895043</loc>
-    <lastmod>2026-10-04</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/manual-1791063370274</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>daily</changefreq>

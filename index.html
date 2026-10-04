@@ -186,60 +186,6 @@
 
           // Synchronous registry of manual & verified jobs for zero-latency crawler indexing
           var SYNCHRONOUS_JOBS = {
-  "manual-1791094895043": {
-    "id": "manual-1791094895043",
-    "title": "AI Response Evaluator",
-    "company": "iMerit",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=imerit.ai&sz=128",
-    "companyWebsite": "https://imerit.ai/",
-    "location": "Remote (Worldwide)",
-    "isRemote": true,
-    "applicantLocationRequirements": "Worldwide",
-    "city": "San Francisco",
-    "state": "CA",
-    "country": "Worldwide",
-    "postalCode": "94105",
-    "experienceLevel": "Entry Level",
-    "maxYearsExperience": 1,
-    "category": "Data / AI",
-    "employmentType": "FULL_TIME",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. iMerit pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Nodesk evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Remote - US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nNodesk is actively seeking an early-career Imerit Technology AI Response Evaluator to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
-    "responsibilities": [
-      "Develop, validate, and deploy data pipelines and analytical models that power Nodesk's production systems.",
-      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
-      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
-      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
-      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
-      "Participate in team sprint planning, architectural reviews, and peer code reviews."
-    ],
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
-      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
-      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
-      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
-      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
-      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
-    ],
-    "skills": [
-      "Python",
-      "SQL",
-      "Machine Learning",
-      "PyTorch",
-      "Pandas",
-      "Data Pipelines",
-      "GCP",
-      "Git"
-    ],
-    "applyUrl": "https://nodesk.co/remote-jobs/imerit-technology-ai-response-evaluator/",
-    "datePosted": "2026-10-04",
-    "validThrough": "2026-11-03"
-  },
   "manual-1791063370274": {
     "id": "manual-1791063370274",
     "title": "Software Engineer I",
@@ -4948,7 +4894,18 @@
               };
             }
 
+            // Strict singleton assignment: reuse pre-allocated or existing container without creating duplicates
             var existing = document.getElementById('google-job-posting-schema');
+            if (!existing) {
+              var allLd = document.querySelectorAll('script[type="application/ld+json"]');
+              for (var sIdx = 0; sIdx < allLd.length; sIdx++) {
+                if (allLd[sIdx].textContent && allLd[sIdx].textContent.indexOf('"JobPosting"') !== -1) {
+                  existing = allLd[sIdx];
+                  existing.id = 'google-job-posting-schema';
+                  break;
+                }
+              }
+            }
             if (existing) {
               existing.textContent = JSON.stringify(s, null, 2);
             } else {

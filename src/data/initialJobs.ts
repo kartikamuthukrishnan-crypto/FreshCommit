@@ -2,63 +2,6 @@ import { JobPosting } from '../types';
 
 export const INITIAL_JOBS: JobPosting[] = [
   {
-    "country": "Worldwide",
-    "maxYearsExperience": 1,
-    "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. iMerit pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Nodesk evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Remote - US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nNodesk is actively seeking an early-career Imerit Technology AI Response Evaluator to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
-    "source": "MANUAL_ADMIN",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Python",
-      "SQL",
-      "Machine Learning",
-      "PyTorch",
-      "Pandas",
-      "Data Pipelines",
-      "GCP",
-      "Git"
-    ],
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
-      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
-      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
-      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
-      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
-      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
-    ],
-    "experienceLevel": "Entry Level",
-    "responsibilities": [
-      "Develop, validate, and deploy data pipelines and analytical models that power Nodesk's production systems.",
-      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
-      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
-      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
-      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
-      "Participate in team sprint planning, architectural reviews, and peer code reviews."
-    ],
-    "atsProvider": "Direct Career Portal",
-    "company": "iMerit",
-    "id": "manual-1791094895043",
-    "datePosted": "2026-10-04",
-    "applicantLocationRequirements": "Worldwide",
-    "validThrough": "2026-11-03",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=imerit.ai&sz=128",
-    "isRemote": true,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://nodesk.co/remote-jobs/imerit-technology-ai-response-evaluator/",
-    "location": "Remote (Worldwide)",
-    "category": "Data / AI",
-    "companyWebsite": "https://imerit.ai/",
-    "status": "ACTIVE",
-    "fingerprint": "imerit-ai-response-evaluator-remote",
-    "title": "AI Response Evaluator"
-  },
-  {
     "country": "US",
     "maxYearsExperience": 1,
     "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. Opploans pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Java, Docker, Kubernetes, PostgreSQL.\n• Interview Focus: Opploans evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation Range: Verified employer range of ~USD 86k–128k/year with career progression reviews.\n• Location: Based in United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nOppFi is a leading tech-enabled digital finance platform that works with banks to provide financial products and services for everyday Americans. Through a transparent and responsible platform, which includes financial inclusion and excellent customer experience, the Company supports consumers who are turned away by mainstream options to build better financial health.\n\nWe are a team of caring, innovative, and inclusive individuals who thrive in being immersed in diverse talents, expertise, perspectives, and backgrounds. Our employees approach every new challenge with an unparalleled ability to see what could be rather than settle for what is. Our business principles guide us and create an open and collaborative culture where we improve 1% every day, and the best ideas always win! We welcome individuals who want to make an impact in the financial system by facilitating credit access, expanding financial inclusion, promoting financial health, and delivering exceptional customer service.\n\nA few other fun facts about us. OppFi is one of the top consumer-rated financial platforms online, maintaining a 4.4/5.0-star rating on Trustpilot. We are a 2025 Crain’s Fast 50™ company and were named on Built In's 2026 Best Places to Work in Chicago.",
