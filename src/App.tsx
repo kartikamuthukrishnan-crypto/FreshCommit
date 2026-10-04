@@ -837,8 +837,9 @@ export default function App() {
   // Global & Regional Tech Hubs
   const TECH_HUBS = [
     { label: 'All Locations & Remote', value: 'All' },
-    { label: 'Remote (Worldwide / Global)', value: 'Worldwide' },
-    { label: 'Remote (Any)', value: 'Remote' },
+    { label: '🇺🇸 All US Roles & Hubs', value: 'US' },
+    { label: '🌍 Remote (Worldwide / Global)', value: 'Worldwide' },
+    { label: 'Remote (Any Remote)', value: 'Remote' },
     { label: 'SF Bay Area, CA', value: 'San Francisco' },
     { label: 'New York, NY', value: 'New York' },
     { label: 'Seattle, WA', value: 'Seattle' },
@@ -885,9 +886,41 @@ export default function App() {
         } else if (selectedHub === 'Worldwide') {
           const loc = (job.location || '').toLowerCase();
           const req = (job.applicantLocationRequirements || '').toLowerCase();
-          if (!loc.includes('worldwide') && !loc.includes('global') && !req.includes('worldwide') && !req.includes('global')) {
+          if (
+            !loc.includes('worldwide') &&
+            !loc.includes('global') &&
+            !loc.includes('anywhere') &&
+            !req.includes('worldwide') &&
+            !req.includes('global') &&
+            !req.includes('anywhere')
+          ) {
             return false;
           }
+        } else if (selectedHub === 'US') {
+          const loc = (job.location || '').toLowerCase();
+          const country = (job.country || '').toLowerCase();
+          const isUS =
+            country === 'us' ||
+            country === 'united states' ||
+            country === 'usa' ||
+            loc.includes('united states') ||
+            loc.includes('us ') ||
+            loc.includes(', us') ||
+            loc.includes(', ca') ||
+            loc.includes(', ny') ||
+            loc.includes(', wa') ||
+            loc.includes(', tx') ||
+            loc.includes(', ma') ||
+            loc.includes(', il') ||
+            loc.includes(', co') ||
+            loc.includes('san francisco') ||
+            loc.includes('new york') ||
+            loc.includes('seattle') ||
+            loc.includes('austin') ||
+            loc.includes('boston') ||
+            loc.includes('us remote') ||
+            loc.includes('remote - us');
+          if (!isUS) return false;
         } else {
           const query = selectedHub.toLowerCase();
           const locMatch =
@@ -1404,6 +1437,27 @@ export default function App() {
                       }`}
                     >
                       <span>🎓 Internships</span>
+                    </button>
+                    <button
+                      onClick={() => setSelectedHub(selectedHub === 'US' ? 'All' : 'US')}
+                      className={`h-9 px-3.5 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
+                        selectedHub === 'US'
+                          ? 'bg-[#1a73e8] text-white shadow-xs font-bold'
+                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
+                      }`}
+                    >
+                      <span>🇺🇸 US Roles</span>
+                    </button>
+                    <button
+                      onClick={() => setSelectedHub(selectedHub === 'Worldwide' ? 'All' : 'Worldwide')}
+                      className={`h-9 px-3.5 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
+                        selectedHub === 'Worldwide'
+                          ? 'bg-emerald-600 text-white shadow-xs font-bold'
+                          : 'bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-50'
+                      }`}
+                    >
+                      <Globe className="w-3 h-3 text-emerald-600" />
+                      <span>🌍 Worldwide Remote</span>
                     </button>
                     <button
                       onClick={() => setSavedOnly(!savedOnly)}

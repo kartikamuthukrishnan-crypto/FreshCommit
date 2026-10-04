@@ -98,9 +98,23 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
                   {job.location}
                 </span>
                 {job.isRemote && (
-                  <span className="inline-flex items-center gap-1 text-[11px] text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
-                    <Globe className="w-2.5 h-2.5" /> Remote
-                  </span>
+                  (() => {
+                    const loc = (job.location || '').toLowerCase();
+                    const req = (job.applicantLocationRequirements || '').toLowerCase();
+                    const isWorldwide = loc.includes('worldwide') || loc.includes('global') || loc.includes('anywhere') || req.includes('worldwide') || req.includes('global');
+                    if (isWorldwide) {
+                      return (
+                        <span className="inline-flex items-center gap-1 text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">
+                          <Globe className="w-2.5 h-2.5 text-emerald-600" /> Worldwide Remote
+                        </span>
+                      );
+                    }
+                    return (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
+                        <Globe className="w-2.5 h-2.5" /> Remote
+                      </span>
+                    );
+                  })()
                 )}
               </div>
             </div>
