@@ -73,10 +73,12 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
 
   if (job.isRemote) {
     schema.jobLocationType = 'TELECOMMUTE';
-    schema.applicantLocationRequirements = {
-      '@type': 'Country',
-      name: countryName,
-    };
+    if (countryCode !== 'WORLDWIDE' && countryCode !== 'GLOBAL' && countryCode !== 'ANYWHERE') {
+      schema.applicantLocationRequirements = {
+        '@type': 'Country',
+        name: countryName,
+      };
+    }
   } else {
     const cleanLoc = cleanLocationString(String(job.location || ''));
     const rawLocParts = cleanLoc.split(',');

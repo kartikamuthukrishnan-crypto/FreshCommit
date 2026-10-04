@@ -1614,20 +1614,117 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
 
                 {isRemote ? (
-                  <div>
-                    <label className="block text-xs text-slate-600 mb-1">
-                      Applicant Location Requirements (Google Schema <code>applicantLocationRequirements</code>)
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g. US, North America, Worldwide"
-                      value={applicantLocationRequirements}
-                      onChange={(e) => setApplicantLocationRequirements(e.target.value)}
-                      className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs bg-white"
-                    />
-                    <p className="text-[11px] text-slate-500 mt-1">
-                      Google sets <code>jobLocationType: TELECOMMUTE</code> with country constraints.
-                    </p>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <label className="block text-xs font-bold text-slate-800">
+                        Applicant Location Requirements (Google Schema <code>applicantLocationRequirements</code>)
+                      </label>
+                      <span className="text-[11px] font-semibold text-slate-500">
+                        1-Click Location Presets:
+                      </span>
+                    </div>
+
+                    {/* 1-Click Presets: Worldwide vs US vs Canada vs UK/Europe */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <button
+                        type="button"
+                        id="admin-btn-worldwide"
+                        onClick={() => {
+                          setApplicantLocationRequirements('Worldwide');
+                          setLocation('Remote (Worldwide)');
+                          setCountry('Worldwide');
+                          setCity('Remote');
+                          setState('Worldwide');
+                        }}
+                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                          applicantLocationRequirements.toLowerCase() === 'worldwide' ||
+                          applicantLocationRequirements.toLowerCase() === 'global' ||
+                          applicantLocationRequirements.toLowerCase() === 'anywhere'
+                            ? 'bg-emerald-600 text-white shadow-md ring-2 ring-emerald-400'
+                            : 'bg-emerald-50 text-emerald-900 border-2 border-emerald-300 hover:bg-emerald-100'
+                        }`}
+                      >
+                        <Globe className="w-4 h-4 text-emerald-300" />
+                        <span>🌍 Worldwide (Any Country)</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        id="admin-btn-us"
+                        onClick={() => {
+                          setApplicantLocationRequirements('US');
+                          setLocation('Remote (US)');
+                          setCountry('US');
+                          setCity('Remote');
+                          setState('US');
+                        }}
+                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                          applicantLocationRequirements.toUpperCase() === 'US' ||
+                          applicantLocationRequirements.toLowerCase() === 'united states'
+                            ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-400'
+                            : 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-100'
+                        }`}
+                      >
+                        <span>🇺🇸 US Only (Telecommute)</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setApplicantLocationRequirements('Canada');
+                          setLocation('Remote (Canada)');
+                          setCountry('CA');
+                        }}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                          applicantLocationRequirements.toLowerCase() === 'canada' ||
+                          applicantLocationRequirements.toUpperCase() === 'CA'
+                            ? 'bg-red-600 text-white shadow-xs'
+                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span>🇨🇦 Canada</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setApplicantLocationRequirements('UK & Europe');
+                          setLocation('Remote (UK & Europe)');
+                          setCountry('UK');
+                        }}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                          applicantLocationRequirements.toLowerCase().includes('europe') ||
+                          applicantLocationRequirements.toUpperCase().includes('UK')
+                            ? 'bg-indigo-600 text-white shadow-xs'
+                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span>🇬🇧 UK &amp; Europe</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-1">
+                      <input
+                        type="text"
+                        placeholder="e.g. Worldwide, US, Canada, Europe"
+                        value={applicantLocationRequirements}
+                        onChange={(e) => setApplicantLocationRequirements(e.target.value)}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                      />
+                      <p className="text-[11px] text-slate-500">
+                        {applicantLocationRequirements.toLowerCase() === 'worldwide' ||
+                        applicantLocationRequirements.toLowerCase() === 'global' ||
+                        applicantLocationRequirements.toLowerCase() === 'anywhere' ? (
+                          <span className="text-emerald-700 font-semibold flex items-center gap-1">
+                            ✓ Configured as 100% Worldwide Telecommute. Eligible for candidates from any country across the globe!
+                          </span>
+                        ) : (
+                          <span>
+                            Google sets <code>jobLocationType: TELECOMMUTE</code> with <code>applicantLocationRequirements: {applicantLocationRequirements}</code>.
+                          </span>
+                        )}
+                      </p>
+                    </div>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
