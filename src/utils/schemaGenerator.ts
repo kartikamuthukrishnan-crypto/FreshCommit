@@ -68,17 +68,18 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
   }
 
   // Handle Remote / Telecommute vs Physical Location for Google
-  const countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
-  const countryName = COUNTRY_NAME_MAP[countryCode] || countryCode;
+  let countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
+  if (countryCode === 'WORLDWIDE' || countryCode === 'GLOBAL' || countryCode === 'ANYWHERE' || !COUNTRY_NAME_MAP[countryCode]) {
+    countryCode = 'US';
+  }
+  const countryName = COUNTRY_NAME_MAP[countryCode] || 'United States';
 
   if (job.isRemote) {
     schema.jobLocationType = 'TELECOMMUTE';
-    if (countryCode !== 'WORLDWIDE' && countryCode !== 'GLOBAL' && countryCode !== 'ANYWHERE') {
-      schema.applicantLocationRequirements = {
-        '@type': 'Country',
-        name: countryName,
-      };
-    }
+    schema.applicantLocationRequirements = {
+      '@type': 'Country',
+      name: countryName,
+    };
   } else {
     const cleanLoc = cleanLocationString(String(job.location || ''));
     const rawLocParts = cleanLoc.split(',');
