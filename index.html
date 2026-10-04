@@ -4894,26 +4894,35 @@
               };
             }
 
-            // Strict singleton assignment: reuse pre-allocated or existing container without creating duplicates
-            var existing = document.getElementById('google-job-posting-schema');
-            if (!existing) {
-              var allLd = document.querySelectorAll('script[type="application/ld+json"]');
-              for (var sIdx = 0; sIdx < allLd.length; sIdx++) {
-                if (allLd[sIdx].textContent && allLd[sIdx].textContent.indexOf('"JobPosting"') !== -1) {
-                  existing = allLd[sIdx];
-                  existing.id = 'google-job-posting-schema';
-                  break;
+            // Strict singleton assignment: prevent duplicate JobPosting schema injection
+            function applySchema() {
+              var existing = document.getElementById('google-job-posting-schema');
+              if (existing) {
+                // If it already has valid JobPosting content, leave it intact
+                if (existing.textContent && existing.textContent.indexOf('"JobPosting"') !== -1) {
+                  return;
                 }
+                existing.textContent = JSON.stringify(s, null, 2);
+              } else {
+                var allLd = document.querySelectorAll('script[type="application/ld+json"]');
+                for (var sIdx = 0; sIdx < allLd.length; sIdx++) {
+                  if (allLd[sIdx].textContent && allLd[sIdx].textContent.indexOf('"JobPosting"') !== -1) {
+                    allLd[sIdx].id = 'google-job-posting-schema';
+                    return;
+                  }
+                }
+                var scriptEl = document.createElement('script');
+                scriptEl.type = 'application/ld+json';
+                scriptEl.id = 'google-job-posting-schema';
+                scriptEl.textContent = JSON.stringify(s, null, 2);
+                document.head.appendChild(scriptEl);
               }
             }
-            if (existing) {
-              existing.textContent = JSON.stringify(s, null, 2);
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', applySchema);
             } else {
-              var scriptEl = document.createElement('script');
-              scriptEl.type = 'application/ld+json';
-              scriptEl.id = 'google-job-posting-schema';
-              scriptEl.textContent = JSON.stringify(s, null, 2);
-              document.head.appendChild(scriptEl);
+              applySchema();
             }
 
             document.title = job.title + ' at ' + job.company + ' (0-2 YoE) – FreshCommits';
