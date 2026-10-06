@@ -200,12 +200,13 @@ EDUCATION:
 B.S. in Computer Science - University of Technology, 2025`;
 
 export const AtsKeywordMatcher: React.FC = () => {
-  // Pre-load from sessionStorage if user navigated from a specific job listing
+  // Pre-load from sessionStorage or localStorage if user navigated from a specific job listing
   const [jobDescription, setJobDescription] = useState<string>(() => {
     try {
-      const saved = sessionStorage.getItem('freshcommits_ats_target_jd');
+      const saved = sessionStorage.getItem('freshcommits_ats_target_jd') || localStorage.getItem('freshcommits_ats_target_jd');
       if (saved) {
         sessionStorage.removeItem('freshcommits_ats_target_jd');
+        localStorage.removeItem('freshcommits_ats_target_jd');
         return saved;
       }
     } catch {}

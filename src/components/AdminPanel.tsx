@@ -80,6 +80,45 @@ import {
   GoogleIndexingConfig
 } from '../utils/googleIndexingService';
 
+// Verified US Tech Hubs & Major Cities Postal/ZIP Code Map
+const KNOWN_CITY_ZIP_MAP: Record<string, { state: string; zip: string }> = {
+  'san francisco': { state: 'CA', zip: '94105' },
+  'sf': { state: 'CA', zip: '94105' },
+  'new york': { state: 'NY', zip: '10001' },
+  'nyc': { state: 'NY', zip: '10001' },
+  'manhattan': { state: 'NY', zip: '10001' },
+  'seattle': { state: 'WA', zip: '98101' },
+  'austin': { state: 'TX', zip: '78701' },
+  'boston': { state: 'MA', zip: '02110' },
+  'cambridge': { state: 'MA', zip: '02138' },
+  'chicago': { state: 'IL', zip: '60601' },
+  'denver': { state: 'CO', zip: '80202' },
+  'boulder': { state: 'CO', zip: '80301' },
+  'los angeles': { state: 'CA', zip: '90012' },
+  'la': { state: 'CA', zip: '90012' },
+  'atlanta': { state: 'GA', zip: '30303' },
+  'san jose': { state: 'CA', zip: '95113' },
+  'sunnyvale': { state: 'CA', zip: '94086' },
+  'mountain view': { state: 'CA', zip: '94043' },
+  'palo alto': { state: 'CA', zip: '94301' },
+  'menlo park': { state: 'CA', zip: '94025' },
+  'redmond': { state: 'WA', zip: '98052' },
+  'bellevue': { state: 'WA', zip: '98004' },
+  'san diego': { state: 'CA', zip: '92101' },
+  'dallas': { state: 'TX', zip: '75201' },
+  'houston': { state: 'TX', zip: '77002' },
+  'phoenix': { state: 'AZ', zip: '85001' },
+  'philadelphia': { state: 'PA', zip: '19102' },
+  'washington': { state: 'DC', zip: '20001' },
+  'dc': { state: 'DC', zip: '20001' },
+  'raleigh': { state: 'NC', zip: '27601' },
+  'durham': { state: 'NC', zip: '27701' },
+  'portland': { state: 'OR', zip: '97201' },
+  'salt lake city': { state: 'UT', zip: '84101' },
+  'minneapolis': { state: 'MN', zip: '55401' },
+  'pittsburgh': { state: 'PA', zip: '15219' },
+};
+
 interface AdminPanelProps {
   jobs: JobPosting[];
   setJobs: React.Dispatch<React.SetStateAction<JobPosting[]>>;
@@ -351,7 +390,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     city: isRemote ? undefined : (cleanCityString(city) || undefined),
     state: isRemote ? undefined : state,
     country,
-    postalCode: isRemote ? undefined : postalCode,
+    postalCode: isRemote ? undefined : (postalCode && postalCode.trim() ? postalCode.trim() : undefined),
     experienceLevel,
     maxYearsExperience,
     category,
@@ -442,6 +481,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setDescription('');
     setApplyUrl('');
     setDatePosted(new Date().toISOString().split('T')[0]);
+    setLocation('San Francisco, CA');
+    setIsRemote(false);
+    setApplicantLocationRequirements('US');
+    setCity('San Francisco');
+    setState('CA');
+    setCountry('US');
+    setPostalCode('94105');
     setResponsibilitiesText('');
     setQualificationsText('');
     setSkillsText('TypeScript, React, Node.js');
@@ -469,6 +515,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       if (data.city) setCity(cleanCityString(cleanHtml(data.city)));
       if (data.state) setState(cleanHtml(data.state));
       if (data.country) setCountry(cleanHtml(data.country));
+      if (data.postalCode) {
+        setPostalCode(cleanHtml(data.postalCode));
+      } else if (data.city) {
+        const normCity = cleanCityString(cleanHtml(data.city)).toLowerCase();
+        const matched = KNOWN_CITY_ZIP_MAP[normCity];
+        if (matched) {
+          setPostalCode(matched.zip);
+          if (!data.state) setState(matched.state);
+        }
+      }
       if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
       if (data.datePosted) setDatePosted(data.datePosted);
       setCategory(data.category);
@@ -1727,53 +1783,113 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    <div>
-                      <label className="block text-[11px] text-slate-600 mb-0.5">City</label>
-                      <input
-                        type="text"
-                        placeholder="San Francisco"
-                        value={city}
-                        onChange={(e) => {
-                          setCity(e.target.value);
-                          setLocation(`${e.target.value}, ${state}`);
-                        }}
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white"
-                      />
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <label className="block text-xs font-bold text-slate-800">
+                        Physical / Office Location (Google Schema <code>jobLocation.address</code>)
+                      </label>
+                      <span className="text-[11px] font-semibold text-slate-500">
+                        1-Click Hub &amp; ZIP Presets:
+                      </span>
                     </div>
-                    <div>
-                      <label className="block text-[11px] text-slate-600 mb-0.5">State / Region</label>
-                      <input
-                        type="text"
-                        placeholder="CA"
-                        value={state}
-                        onChange={(e) => {
-                          setState(e.target.value);
-                          setLocation(`${city}, ${e.target.value}`);
-                        }}
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white"
-                      />
+
+                    {/* 1-Click Tech Hub & ZIP Code Presets */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {[
+                        { label: '🌉 SF Bay Area', city: 'San Francisco', state: 'CA', zip: '94105' },
+                        { label: '🗽 New York', city: 'New York', state: 'NY', zip: '10001' },
+                        { label: '🌲 Seattle', city: 'Seattle', state: 'WA', zip: '98101' },
+                        { label: '🤠 Austin', city: 'Austin', state: 'TX', zip: '78701' },
+                        { label: '🎓 Boston', city: 'Boston', state: 'MA', zip: '02110' },
+                        { label: '🌆 Chicago', city: 'Chicago', state: 'IL', zip: '60601' },
+                        { label: '🏔️ Denver', city: 'Denver', state: 'CO', zip: '80202' },
+                        { label: '🎬 Los Angeles', city: 'Los Angeles', state: 'CA', zip: '90012' }
+                      ].map((hub) => (
+                        <button
+                          key={hub.label}
+                          type="button"
+                          onClick={() => {
+                            setCity(hub.city);
+                            setState(hub.state);
+                            setCountry('US');
+                            setPostalCode(hub.zip);
+                            setLocation(`${hub.city}, ${hub.state}`);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                            city.toLowerCase() === hub.city.toLowerCase() && state.toUpperCase() === hub.state
+                              ? 'bg-indigo-600 text-white shadow-xs'
+                              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                          }`}
+                        >
+                          <span>{hub.label} ({hub.zip})</span>
+                        </button>
+                      ))}
                     </div>
-                    <div>
-                      <label className="block text-[11px] text-slate-600 mb-0.5">Country</label>
-                      <input
-                        type="text"
-                        placeholder="US"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white"
-                      />
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      <div>
+                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium">City</label>
+                        <input
+                          type="text"
+                          placeholder="San Francisco"
+                          value={city}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCity(val);
+                            setLocation(val ? `${val}, ${state}` : '');
+                            const norm = val.trim().toLowerCase();
+                            const matched = KNOWN_CITY_ZIP_MAP[norm];
+                            if (matched && (!postalCode || postalCode === '94105' || postalCode.length === 0)) {
+                              setState(matched.state);
+                              setPostalCode(matched.zip);
+                              setLocation(`${val}, ${matched.state}`);
+                            }
+                          }}
+                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium">State / Region</label>
+                        <input
+                          type="text"
+                          placeholder="CA"
+                          value={state}
+                          onChange={(e) => {
+                            setState(e.target.value);
+                            setLocation(`${city}, ${e.target.value}`);
+                          }}
+                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium">Country</label>
+                        <input
+                          type="text"
+                          placeholder="US"
+                          value={country}
+                          onChange={(e) => setCountry(e.target.value)}
+                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium flex items-center justify-between">
+                          <span>ZIP / Postal Code</span>
+                          {postalCode && (
+                            <span className="text-[10px] text-emerald-600 font-semibold">✓ Active</span>
+                          )}
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 94105 or 10001"
+                          value={postalCode}
+                          onChange={(e) => setPostalCode(e.target.value)}
+                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-[11px] text-slate-600 mb-0.5">Postal Code</label>
-                      <input
-                        type="text"
-                        placeholder="94105"
-                        value={postalCode}
-                        onChange={(e) => setPostalCode(e.target.value)}
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white"
-                      />
-                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Feeds directly into Google JobPosting schema <code>PostalAddress.postalCode: "{postalCode || 'none'}"</code> for enhanced Google for Jobs indexing.
+                    </p>
                   </div>
                 )}
               </div>

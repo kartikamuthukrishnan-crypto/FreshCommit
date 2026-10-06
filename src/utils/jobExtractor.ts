@@ -21,6 +21,7 @@ export interface ExtractedJobData {
   city?: string;
   state?: string;
   country?: string;
+  postalCode?: string;
   experienceLevel: ExperienceLevel;
   maxYearsExperience: number;
   category: JobCategory;
@@ -672,47 +673,47 @@ function extractJobSlugFromPath(pathname: string): string {
 /**
  * Detects location from URL path or query params
  */
-function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: string; isRemote: boolean; city?: string; state?: string; country?: string } {
+function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: string; isRemote: boolean; city?: string; state?: string; country?: string; postalCode?: string } {
   const fullStr = `${urlObj.pathname} ${urlObj.search}`.toLowerCase();
 
   const isRemote = fullStr.includes('remote') || fullStr.includes('wfh') || fullStr.includes('hybrid') || fullStr.includes('telecommute');
 
   // Check known hubs
   if (fullStr.includes('mountain-view') || fullStr.includes('mountain_view') || fullStr.includes('mountainview')) {
-    return { location: 'Mountain View, CA / Hybrid', isRemote, city: 'Mountain View', state: 'CA', country: 'US' };
+    return { location: 'Mountain View, CA / Hybrid', isRemote, city: 'Mountain View', state: 'CA', country: 'US', postalCode: '94043' };
   }
   if (fullStr.includes('santa-clara') || fullStr.includes('santa_clara')) {
-    return { location: 'Santa Clara, CA / Hybrid', isRemote, city: 'Santa Clara', state: 'CA', country: 'US' };
+    return { location: 'Santa Clara, CA / Hybrid', isRemote, city: 'Santa Clara', state: 'CA', country: 'US', postalCode: '95054' };
   }
   if (fullStr.includes('los-angeles') || fullStr.includes('los_angeles') || fullStr.includes('losangeles') || fullStr.includes('la-') || fullStr.includes('-la')) {
-    return { location: 'Los Angeles, CA / Hybrid', isRemote, city: 'Los Angeles', state: 'CA', country: 'US' };
+    return { location: 'Los Angeles, CA / Hybrid', isRemote, city: 'Los Angeles', state: 'CA', country: 'US', postalCode: '90012' };
   }
   if (fullStr.includes('san-francisco') || fullStr.includes('san_francisco') || fullStr.includes('sf-') || fullStr.includes('-sf')) {
-    return { location: 'San Francisco, CA / Hybrid', isRemote, city: 'San Francisco', state: 'CA', country: 'US' };
+    return { location: 'San Francisco, CA / Hybrid', isRemote, city: 'San Francisco', state: 'CA', country: 'US', postalCode: '94105' };
   }
   if (fullStr.includes('seattle') || fullStr.includes('redmond') || fullStr.includes('bellevue')) {
-    return { location: 'Seattle, WA / Hybrid', isRemote, city: 'Seattle', state: 'WA', country: 'US' };
+    return { location: 'Seattle, WA / Hybrid', isRemote, city: 'Seattle', state: 'WA', country: 'US', postalCode: '98101' };
   }
   if (fullStr.includes('new-york') || fullStr.includes('new_york') || fullStr.includes('nyc') || fullStr.includes('manhattan')) {
-    return { location: 'New York, NY / Hybrid', isRemote, city: 'New York', state: 'NY', country: 'US' };
+    return { location: 'New York, NY / Hybrid', isRemote, city: 'New York', state: 'NY', country: 'US', postalCode: '10001' };
   }
   if (fullStr.includes('austin')) {
-    return { location: 'Austin, TX / Hybrid', isRemote, city: 'Austin', state: 'TX', country: 'US' };
+    return { location: 'Austin, TX / Hybrid', isRemote, city: 'Austin', state: 'TX', country: 'US', postalCode: '78701' };
   }
   if (fullStr.includes('boston') || fullStr.includes('cambridge')) {
-    return { location: 'Boston, MA / Hybrid', isRemote, city: 'Boston', state: 'MA', country: 'US' };
+    return { location: 'Boston, MA / Hybrid', isRemote, city: 'Boston', state: 'MA', country: 'US', postalCode: '02110' };
   }
   if (fullStr.includes('chicago')) {
-    return { location: 'Chicago, IL / Hybrid', isRemote, city: 'Chicago', state: 'IL', country: 'US' };
+    return { location: 'Chicago, IL / Hybrid', isRemote, city: 'Chicago', state: 'IL', country: 'US', postalCode: '60601' };
   }
   if (fullStr.includes('san-diego') || fullStr.includes('sandiego')) {
-    return { location: 'San Diego, CA / Hybrid', isRemote, city: 'San Diego', state: 'CA', country: 'US' };
+    return { location: 'San Diego, CA / Hybrid', isRemote, city: 'San Diego', state: 'CA', country: 'US', postalCode: '92101' };
   }
   if (fullStr.includes('denver') || fullStr.includes('boulder')) {
-    return { location: 'Denver, CO / Hybrid', isRemote, city: 'Denver', state: 'CO', country: 'US' };
+    return { location: 'Denver, CO / Hybrid', isRemote, city: 'Denver', state: 'CO', country: 'US', postalCode: '80202' };
   }
   if (fullStr.includes('atlanta')) {
-    return { location: 'Atlanta, GA / Hybrid', isRemote, city: 'Atlanta', state: 'GA', country: 'US' };
+    return { location: 'Atlanta, GA / Hybrid', isRemote, city: 'Atlanta', state: 'GA', country: 'US', postalCode: '30303' };
   }
   if (fullStr.includes('london')) {
     return { location: 'London, UK / Hybrid', isRemote, city: 'London', country: 'UK' };
@@ -1248,6 +1249,7 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
     city: loc.city,
     state: loc.state,
     country: loc.country || 'US',
+    postalCode: loc.postalCode,
     applicantLocationRequirements: loc.isRemote ? (loc.country || 'US') : undefined,
     experienceLevel: expLevel,
     maxYearsExperience: maxYears,
@@ -1709,6 +1711,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
                   city: synth.city,
                   state: synth.state,
                   country: synth.country,
+                  postalCode: jobPosting.jobLocation?.address?.postalCode || synth.postalCode,
                   applicantLocationRequirements: synth.applicantLocationRequirements,
                   experienceLevel: expLevel,
                   maxYearsExperience: isIntern ? 0 : 1,

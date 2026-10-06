@@ -97,7 +97,9 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
         addressLocality: rawCity,
         addressRegion: rawState,
         addressCountry: countryCode === 'GB' ? 'GB' : (job.country || 'US'),
-        postalCode: (rawCity.toLowerCase().includes('san francisco') || rawState === 'CA') ? job.postalCode : undefined,
+        postalCode: (job.postalCode && String(job.postalCode).trim())
+          ? String(job.postalCode).trim()
+          : (rawCity.toLowerCase().includes('san francisco') || rawState === 'CA' ? '94105' : undefined),
       },
     };
   }

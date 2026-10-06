@@ -277,6 +277,18 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     .filter((j) => j.id !== job.id && !isJobExpired(j) && (j.category === job.category || j.experienceLevel === job.experienceLevel || j.isRemote))
     .slice(0, 4);
 
+  const handleOpenAtsMatcherInNewTab = (e?: React.MouseEvent) => {
+    const textToPass = `Job Title: ${job.title}\nCompany: ${job.company}\nLocation: ${job.location || 'Remote'}\nSkills: ${(job.skills || []).join(', ')}\n\nDescription:\n${job.description || ''}\n\nResponsibilities:\n${(job.responsibilities || []).join('\n')}\n\nQualifications:\n${(job.qualifications || []).join('\n')}`;
+    try {
+      sessionStorage.setItem('freshcommits_ats_target_jd', textToPass);
+      localStorage.setItem('freshcommits_ats_target_jd', textToPass);
+    } catch {}
+    // If clicked on an element that is not directly an <a> tag with target="_blank", open programmatically
+    if (!e || (e.target as HTMLElement).tagName !== 'A') {
+      window.open('/career-tools#ats-matcher', '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f8f9fa] text-[#202124]">
       {/* Top Navigation & Breadcrumb Header */}
@@ -437,37 +449,42 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
 
               {/* ATS Keyword Matcher Prompt Banner */}
               {!isExpired && (
-                <div className="mt-5 pt-4 border-t border-[#f1f3f4] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-emerald-50/90 to-teal-50/50 border border-emerald-200/90 rounded-2xl p-4 shadow-2xs">
+                <div
+                  onClick={(e) => handleOpenAtsMatcherInNewTab(e)}
+                  className="mt-5 pt-4 border-t border-[#f1f3f4] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-emerald-50/90 to-teal-50/50 border border-emerald-200/90 rounded-2xl p-4 shadow-2xs hover:border-emerald-300 hover:shadow-xs transition-all cursor-pointer group"
+                >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                       <FileSearch className="w-5 h-5" />
                     </div>
                     <div>
                       <div className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2 flex-wrap">
-                        <span>Check Resume Match for This Role</span>
+                        <span className="group-hover:text-emerald-700 transition-colors">Check Resume Match for This Role</span>
                         <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
                           Under 3 Seconds
                         </span>
                       </div>
-                      <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5">
-                        Free automated scan: detects missing skills &amp; ATS filter-out risks.
+                      <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 flex items-center gap-1.5 flex-wrap">
+                        <span>Free automated scan: detects missing skills &amp; ATS filter-out risks.</span>
+                        <span className="text-emerald-700 font-semibold">(Opens in new tab ↗)</span>
                       </p>
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const textToPass = `Job Title: ${job.title}\nCompany: ${job.company}\nLocation: ${job.location || 'Remote'}\nSkills: ${(job.skills || []).join(', ')}\n\nDescription:\n${job.description || ''}\n\nResponsibilities:\n${(job.responsibilities || []).join('\n')}\n\nQualifications:\n${(job.qualifications || []).join('\n')}`;
-                      try {
-                        sessionStorage.setItem('freshcommits_ats_target_jd', textToPass);
-                      } catch {}
-                      window.location.href = '/career-tools';
+                  <a
+                    href="/career-tools#ats-matcher"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenAtsMatcherInNewTab(e);
                     }}
-                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer flex-shrink-0"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer flex-shrink-0 no-underline"
+                    title="Open ATS Matcher in new tab"
                   >
-                    <span>Scan My Resume &rarr;</span>
-                  </button>
+                    <span>Scan My Resume</span>
+                    <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
+                  </a>
                 </div>
               )}
             </div>
@@ -775,19 +792,18 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                   </a>
                 )}
 
-                <button
-                  onClick={() => {
-                    const textToPass = `Job Title: ${job.title}\nCompany: ${job.company}\nLocation: ${job.location || 'Remote'}\nSkills: ${(job.skills || []).join(', ')}\n\nDescription:\n${job.description || ''}\n\nResponsibilities:\n${(job.responsibilities || []).join('\n')}\n\nQualifications:\n${(job.qualifications || []).join('\n')}`;
-                    try {
-                      sessionStorage.setItem('freshcommits_ats_target_jd', textToPass);
-                    } catch {}
-                    window.location.href = '/career-tools';
-                  }}
-                  className="w-full text-center text-xs font-bold py-2.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-2.5 shadow-2xs"
+                <a
+                  href="/career-tools#ats-matcher"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleOpenAtsMatcherInNewTab}
+                  className="w-full text-center text-xs font-bold py-2.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-2.5 shadow-2xs no-underline"
+                  title="Open ATS Matcher in new tab"
                 >
                   <FileSearch className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Check Resume ATS Match (Under 3 Seconds) &rarr;</span>
-                </button>
+                  <span>Check Resume ATS Match (Under 3 Seconds)</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-emerald-600 ml-0.5" />
+                </a>
               </div>
             </div>
           </div>
