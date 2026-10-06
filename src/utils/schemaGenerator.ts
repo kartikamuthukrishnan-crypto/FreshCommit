@@ -25,10 +25,14 @@ const COUNTRY_NAME_MAP: Record<string, string> = {
  * to Google Search Central guidelines (https://developers.google.com/search/docs/appearance/structured-data/job-posting)
  */
 export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
+  const hasLongTail = /(?:entry[\s-]level|0[\s-]2|junior|new\s*grad|intern|graduate|fresher)/i.test(job.title);
+  const expTag = hasLongTail ? '' : (job.experienceLevel === 'Internship' ? ' (Internship)' : (job.experienceLevel === 'New Grad' ? ' (2026 New Grad)' : ' (0–2 YoE / Entry Level)'));
+  const schemaTitle = `${job.title}${expTag}`;
+
   const schema: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
-    title: job.title,
+    title: schemaTitle,
     description: formatHtmlDescription(job),
     identifier: {
       '@type': 'PropertyValue',
@@ -178,6 +182,8 @@ function formatHtmlDescription(job: JobPosting): string {
   if (job.skills && job.skills.length > 0) {
     html += `<p><strong>Required Tech Stack:</strong> ${job.skills.map(escapeHtml).join(', ')}</p>`;
   }
+
+  html += `<p><em>Verified Early-Career Opening: Direct company ATS application link (no ghost jobs or third-party staffing agencies). Open to candidates with 0–2 years of experience and new graduates.</em></p>`;
 
   return html;
 }

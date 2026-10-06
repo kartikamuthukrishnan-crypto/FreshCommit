@@ -80,10 +80,12 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     const metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
     const originalDesc = metaDesc ? metaDesc.content : '';
 
-    // Update title and meta description dynamically for this dedicated page
-    document.title = `${job.title} at ${job.company} (${job.experienceLevel}) – FreshCommits`;
+    // Update title and meta description dynamically with long-tail keywords
+    const hasLongTail = /(?:entry[\s-]level|0[\s-]2|junior|new\s*grad|intern|graduate|fresher)/i.test(job.title);
+    const expTag = hasLongTail ? '' : (job.experienceLevel === 'Internship' ? ' (Internship)' : (job.experienceLevel === 'New Grad' ? ' (2026 New Grad)' : ' (0–2 YoE / Entry Level)'));
+    document.title = `${job.title}${expTag} at ${job.company} – Direct ATS Apply | FreshCommits`;
     if (metaDesc) {
-      metaDesc.content = `Apply directly for ${job.title} at ${job.company} in ${job.location}. Verified 0–2 YoE early-career software engineering opportunity with direct company application.`;
+      metaDesc.content = `Apply directly for ${job.title} at ${job.company} in ${job.location || 'Remote'}. Verified early-career software engineering opportunity with direct employer ATS link (0–2 YoE, no ghost jobs). Free ATS resume match checker included.`;
     }
 
     // Update canonical link to canonical job URL

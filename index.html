@@ -4925,15 +4925,17 @@
               applySchema();
             }
 
-            document.title = job.title + ' at ' + job.company + ' (0-2 YoE) – FreshCommits';
+            var hasLongTail = /(?:entry[\s-]level|0[\s-]2|junior|new\s*grad|intern|graduate|fresher)/i.test(job.title);
+            var expTag = hasLongTail ? '' : ' (0–2 YoE / Entry Level)';
+            document.title = job.title + expTag + ' at ' + job.company + ' – Direct ATS Apply | FreshCommits';
             var metaDesc = document.querySelector('meta[name="description"]');
             if (metaDesc) {
-              metaDesc.content = 'Apply directly for ' + job.title + ' at ' + job.company + ' in ' + (job.location || 'Remote') + '. Verified early-career software engineering opportunity with direct company application.';
+              metaDesc.content = 'Apply directly for ' + job.title + ' at ' + job.company + ' in ' + (job.location || 'Remote') + '. Verified 0–2 YoE software engineer opening with direct ATS link (no ghost jobs). Free ATS resume match checker.';
             }
             var ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.content = job.title + ' at ' + job.company + ' – FreshCommits';
+            if (ogTitle) ogTitle.content = job.title + expTag + ' at ' + job.company + ' – FreshCommits';
             var ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.content = 'Direct entry-level software engineering requisition at ' + job.company + '. 0–2 YoE.';
+            if (ogDesc) ogDesc.content = 'Direct entry-level software engineering requisition at ' + job.company + ' (0–2 YoE). No ghost jobs.';
             var canLink = document.querySelector('link[rel="canonical"]');
             if (canLink) canLink.href = 'https://www.freshcommits.com/job/' + encodeURIComponent(job.id || jobId);
 

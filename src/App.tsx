@@ -1591,24 +1591,69 @@ export default function App() {
               </div>
 
               {filteredJobs.length === 0 ? (
-                <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-lg mx-auto my-8">
-                  <Briefcase className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-                  <h3 className="text-base font-bold text-slate-800">No matching positions found</h3>
-                  <p className="text-xs text-slate-500 mt-1 mb-4">
-                    Try broadening your search keywords or switching locations.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSearchQuery('');
-                      setSelectedHub('All');
-                      setSelectedCategory('All');
-                      setSelectedExperience('All');
-                      setRemoteOnly(false);
-                    }}
-                    className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Reset Search Filters
-                  </button>
+                <div className="space-y-8 my-6">
+                  {/* Zero-Result Sentinel: Conversion & Retention Hub */}
+                  <div className="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 border border-slate-800 shadow-lg text-center max-w-2xl mx-auto">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-semibold mb-3 border border-indigo-400/30">
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                      <span>Pipeline Sentinel: 0–2 YoE Verification in Progress</span>
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+                      New openings for {searchQuery ? `"${searchQuery}"` : selectedCategory !== 'All' ? selectedCategory : 'this search'} are being verified
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto mb-6 leading-relaxed">
+                      We strictly filter out fake staffing listings and ghost jobs. While our next batch of direct ATS requisitions is reviewed, run your resume through our free tools or explore top active early-career roles below.
+                    </p>
+
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                      <button
+                        onClick={() => {
+                          setSearchQuery('');
+                          setSelectedHub('All');
+                          setSelectedCategory('All');
+                          setSelectedExperience('All');
+                          setRemoteOnly(false);
+                          setSavedOnly(false);
+                        }}
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-sm"
+                      >
+                        🔄 View All Open Positions
+                      </button>
+                      <button
+                        onClick={() => {
+                          window.open('?view=tools', '_blank');
+                        }}
+                        className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl transition-all cursor-pointer border border-white/20 flex items-center gap-1.5"
+                      >
+                        <FileSearch className="w-3.5 h-3.5 text-indigo-400" />
+                        <span>Check Resume ATS Match (Free)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Fallback Active Openings: Never leaves Google or candidate with zero cards */}
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-emerald-600" />
+                        <h4 className="text-sm font-bold text-slate-900">
+                          Verified Early-Career Openings Hiring Now (0–2 YoE)
+                        </h4>
+                      </div>
+                      <span className="text-xs text-slate-500 font-medium">Direct Requisitions</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {jobs.filter((j) => j.status === 'ACTIVE').slice(0, 3).map((job) => (
+                        <JobCard
+                          key={job.id}
+                          job={job}
+                          onSelect={handleSelectJob}
+                          isSaved={savedJobIds.includes(job.id)}
+                          onToggleSave={handleToggleSaveJob}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-6">
