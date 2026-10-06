@@ -202,7 +202,13 @@ const KNOWN_COMPANIES: Record<string, { name: string; website: string; logo?: st
     name: 'ByteDance',
     website: 'https://bytedance.com/careers',
     logo: 'https://www.google.com/s2/favicons?sz=128&domain=bytedance.com',
-    defaultLocation: 'San Jose, CA / Hybrid'
+    defaultLocation: 'Seattle, WA / Hybrid'
+  },
+  'joinbytedance.com': {
+    name: 'ByteDance',
+    website: 'https://joinbytedance.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=bytedance.com',
+    defaultLocation: 'Seattle, WA / Hybrid'
   },
   'tiktok.com': {
     name: 'TikTok',
@@ -743,11 +749,50 @@ function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: s
   }
 
   if (defaultLoc) {
+    const cleanDefault = defaultLoc.replace(/\s*\/\s*(?:Hybrid|Remote)/i, '').trim();
+    let dCity = cleanDefault;
+    let dState = 'WA';
+    let dZip = '98101';
+    const dCountry = 'US';
+
+    if (cleanDefault.includes(',')) {
+      const parts = cleanDefault.split(',');
+      dCity = parts[0].trim();
+      dState = parts[1].trim();
+    }
+    const normDCity = dCity.toLowerCase();
+    const cityZipMap: Record<string, { state: string; zip: string }> = {
+      'seattle': { state: 'WA', zip: '98101' },
+      'san francisco': { state: 'CA', zip: '94105' },
+      'san jose': { state: 'CA', zip: '95113' },
+      'new york': { state: 'NY', zip: '10001' },
+      'austin': { state: 'TX', zip: '78701' },
+      'boston': { state: 'MA', zip: '02110' },
+      'chicago': { state: 'IL', zip: '60601' },
+      'mountain view': { state: 'CA', zip: '94043' },
+      'sunnyvale': { state: 'CA', zip: '94086' },
+      'santa clara': { state: 'CA', zip: '95054' },
+      'los angeles': { state: 'CA', zip: '90012' },
+      'denver': { state: 'CO', zip: '80202' },
+      'atlanta': { state: 'GA', zip: '30303' },
+      'cupertino': { state: 'CA', zip: '95014' },
+      'menlo park': { state: 'CA', zip: '94025' },
+      'redmond': { state: 'WA', zip: '98052' },
+      'los gatos': { state: 'CA', zip: '95032' },
+      'santa monica': { state: 'CA', zip: '90401' }
+    };
+    if (cityZipMap[normDCity]) {
+      dState = cityZipMap[normDCity].state;
+      dZip = cityZipMap[normDCity].zip;
+    }
+
     return {
-      location: `${defaultLoc} / Hybrid`,
+      location: defaultLoc.includes('Hybrid') || defaultLoc.includes('Remote') ? defaultLoc : `${dCity}, ${dState} / Hybrid`,
       isRemote,
-      city: defaultLoc,
-      country: 'US'
+      city: dCity,
+      state: dState,
+      country: dCountry,
+      postalCode: dZip
     };
   }
 
@@ -756,9 +801,12 @@ function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: s
   }
 
   return {
-    location: 'United States / Hybrid',
+    location: 'Seattle, WA / Hybrid',
     isRemote: false,
-    country: 'US'
+    city: 'Seattle',
+    state: 'WA',
+    country: 'US',
+    postalCode: '98101'
   };
 }
 

@@ -512,17 +512,34 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
       setLocation(cleanLocationString(cleanHtml(data.location)));
       setIsRemote(data.isRemote);
-      if (data.city) setCity(cleanCityString(cleanHtml(data.city)));
-      if (data.state) setState(cleanHtml(data.state));
+
+      let extractedCity = data.city ? cleanCityString(cleanHtml(data.city)) : '';
+      let extractedState = data.state ? cleanHtml(data.state) : '';
+      const rawLocation = cleanLocationString(cleanHtml(data.location || ''));
+
+      if (!extractedCity && rawLocation) {
+        const cleanLocOnly = rawLocation.replace(/\s*\/\s*(?:Hybrid|Remote)/i, '').replace(/\s*\(Remote\)/i, '').trim();
+        if (cleanLocOnly.includes(',')) {
+          const parts = cleanLocOnly.split(',');
+          extractedCity = cleanCityString(parts[0]);
+          if (!extractedState) extractedState = parts[1]?.trim() || '';
+        } else if (cleanLocOnly.toLowerCase() !== 'united states' && cleanLocOnly.toLowerCase() !== 'remote') {
+          extractedCity = cleanCityString(cleanLocOnly);
+        }
+      }
+
+      if (extractedCity) setCity(extractedCity);
+      if (extractedState) setState(extractedState);
       if (data.country) setCountry(cleanHtml(data.country));
+
       if (data.postalCode) {
         setPostalCode(cleanHtml(data.postalCode));
-      } else if (data.city) {
-        const normCity = cleanCityString(cleanHtml(data.city)).toLowerCase();
+      } else if (extractedCity) {
+        const normCity = extractedCity.toLowerCase();
         const matched = KNOWN_CITY_ZIP_MAP[normCity];
         if (matched) {
           setPostalCode(matched.zip);
-          if (!data.state) setState(matched.state);
+          if (!extractedState) setState(matched.state);
         }
       }
       if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
