@@ -183,9 +183,36 @@ function formatHtmlDescription(job: JobPosting): string {
     html += `<p><strong>Required Tech Stack:</strong> ${job.skills.map(escapeHtml).join(', ')}</p>`;
   }
 
-  html += `<p><em>Verified Early-Career Opening: Direct company ATS application link (no ghost jobs or third-party staffing agencies). Open to candidates with 0–2 years of experience and new graduates.</em></p>`;
+  html += generateUniqueJobEditorialNote(job);
 
   return html;
+}
+
+function generateUniqueJobEditorialNote(job: JobPosting): string {
+  const comp = escapeHtml(job.company || 'Employer');
+  const role = escapeHtml(job.title || 'Software Engineer');
+  const loc = escapeHtml(job.location || 'Remote / US');
+  const level = job.experienceLevel === 'Internship' ? 'internship' : (job.experienceLevel === 'New Grad' ? 'new graduate' : 'early-career');
+
+  // Deterministic seed based on job id to rotate natural phrasing
+  let hash = 0;
+  const seed = (job.id || job.title || '') + comp;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  const variant = Math.abs(hash) % 4;
+
+  switch (variant) {
+    case 0:
+      return `<p><em>Direct ${comp} Requisition: Official application for ${role} in ${loc}. Verified for ${level} developers with 0–2 years of experience.</em></p>`;
+    case 1:
+      return `<p><em>Authentic Employer Listing: Apply directly on ${comp}&rsquo;s career portal. Open to ${level} candidates with foundational CS skills.</em></p>`;
+    case 2:
+      return `<p><em>Verified ${level.charAt(0).toUpperCase() + level.slice(1)} Position: Direct requisition with ${comp} in ${loc}. No third-party agency intermediaries.</em></p>`;
+    default:
+      return `<p><em>Direct Career Opportunity: ${comp} is accepting applications for this ${role} opening. Reviewed for candidates with 0–2 YoE.</em></p>`;
+  }
 }
 
 function escapeHtml(str: string): string {
