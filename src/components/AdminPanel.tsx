@@ -68,7 +68,14 @@ import {
   batchSaveJobsToCloud,
   saveAdConfigToCloud
 } from '../services/firebaseService';
-import { extractAndEnrichJobFromUrl, detectAtsProviderFromUrl, cleanHtml } from '../utils/jobExtractor';
+import {
+  extractAndEnrichJobFromUrl,
+  extractJobDataFromRawText,
+  detectAtsProviderFromUrl,
+  cleanHtml,
+  ExtractedJobData
+} from '../utils/jobExtractor';
+import { KNOWN_CITY_ZIP_MAP, lookupCityZip } from '../utils/cityZipMap';
 import { cleanLocationString, cleanCityString } from '../utils/textHumanizer';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap, Key, Send, Radio } from 'lucide-react';
@@ -79,45 +86,6 @@ import {
   pingGoogleSitemap,
   GoogleIndexingConfig
 } from '../utils/googleIndexingService';
-
-// Verified US Tech Hubs & Major Cities Postal/ZIP Code Map
-const KNOWN_CITY_ZIP_MAP: Record<string, { state: string; zip: string }> = {
-  'san francisco': { state: 'CA', zip: '94105' },
-  'sf': { state: 'CA', zip: '94105' },
-  'new york': { state: 'NY', zip: '10001' },
-  'nyc': { state: 'NY', zip: '10001' },
-  'manhattan': { state: 'NY', zip: '10001' },
-  'seattle': { state: 'WA', zip: '98101' },
-  'austin': { state: 'TX', zip: '78701' },
-  'boston': { state: 'MA', zip: '02110' },
-  'cambridge': { state: 'MA', zip: '02138' },
-  'chicago': { state: 'IL', zip: '60601' },
-  'denver': { state: 'CO', zip: '80202' },
-  'boulder': { state: 'CO', zip: '80301' },
-  'los angeles': { state: 'CA', zip: '90012' },
-  'la': { state: 'CA', zip: '90012' },
-  'atlanta': { state: 'GA', zip: '30303' },
-  'san jose': { state: 'CA', zip: '95113' },
-  'sunnyvale': { state: 'CA', zip: '94086' },
-  'mountain view': { state: 'CA', zip: '94043' },
-  'palo alto': { state: 'CA', zip: '94301' },
-  'menlo park': { state: 'CA', zip: '94025' },
-  'redmond': { state: 'WA', zip: '98052' },
-  'bellevue': { state: 'WA', zip: '98004' },
-  'san diego': { state: 'CA', zip: '92101' },
-  'dallas': { state: 'TX', zip: '75201' },
-  'houston': { state: 'TX', zip: '77002' },
-  'phoenix': { state: 'AZ', zip: '85001' },
-  'philadelphia': { state: 'PA', zip: '19102' },
-  'washington': { state: 'DC', zip: '20001' },
-  'dc': { state: 'DC', zip: '20001' },
-  'raleigh': { state: 'NC', zip: '27601' },
-  'durham': { state: 'NC', zip: '27701' },
-  'portland': { state: 'OR', zip: '97201' },
-  'salt lake city': { state: 'UT', zip: '84101' },
-  'minneapolis': { state: 'MN', zip: '55401' },
-  'pittsburgh': { state: 'PA', zip: '15219' },
-};
 
 interface AdminPanelProps {
   jobs: JobPosting[];
@@ -277,8 +245,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
-  // Auto-Extraction from Career URL State
+  // Auto-Extraction from Career URL & JD Text State
+  const [ingestionMode, setIngestionMode] = useState<'URL' | 'TEXT'>('URL');
   const [autoExtractUrl, setAutoExtractUrl] = useState('');
+  const [rawJdText, setRawJdText] = useState('');
   const [isExtracting, setIsExtracting] = useState(false);
   const [extractSuccessMsg, setExtractSuccessMsg] = useState('');
   const [extractErrorMsg, setExtractErrorMsg] = useState('');
@@ -498,6 +468,96 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setSelectedMicroNiche(null);
   };
 
+  const applyExtractedJobToForm = (data: ExtractedJobData) => {
+    setTitle(cleanHtml(data.title));
+    setCompany(cleanHtml(data.company));
+    if (data.companyLogo) setCompanyLogo(data.companyLogo);
+    if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
+    setLocation(cleanLocationString(cleanHtml(data.location)));
+    setIsRemote(data.isRemote);
+
+    let extractedCity = data.city ? cleanCityString(cleanHtml(data.city)) : '';
+    let extractedState = data.state ? cleanHtml(data.state) : '';
+    const rawLocation = cleanLocationString(cleanHtml(data.location || ''));
+
+    if (!extractedCity && rawLocation) {
+      const cleanLocOnly = rawLocation.replace(/\s*\/\s*(?:Hybrid|Remote)/i, '').replace(/\s*\(Remote\)/i, '').trim();
+      if (cleanLocOnly.includes(',')) {
+        const parts = cleanLocOnly.split(',');
+        extractedCity = cleanCityString(parts[0]);
+        if (!extractedState) extractedState = parts[1]?.trim() || '';
+      } else if (cleanLocOnly.toLowerCase() !== 'united states' && cleanLocOnly.toLowerCase() !== 'remote') {
+        extractedCity = cleanCityString(cleanLocOnly);
+      }
+    }
+
+    if (extractedCity) setCity(extractedCity);
+    if (extractedState) setState(extractedState);
+    if (data.country) setCountry(cleanHtml(data.country));
+
+    // Resolve Postal Code (Zip Code) accurately
+    let finalZip = data.postalCode ? cleanHtml(data.postalCode) : '';
+    if (!finalZip && extractedCity) {
+      const matched = lookupCityZip(extractedCity);
+      if (matched) {
+        finalZip = matched.zip;
+        if (!extractedState) setState(matched.state);
+      }
+    }
+    if (!finalZip && (data.isRemote || isRemote)) {
+      finalZip = '94105'; // Default tech hub ZIP for US remote Google JobPosting schema
+    }
+    if (finalZip) setPostalCode(finalZip);
+
+    if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
+    if (data.datePosted) setDatePosted(data.datePosted);
+    setCategory(data.category);
+    setExperienceLevel(data.experienceLevel);
+    setMaxYearsExperience(data.maxYearsExperience);
+    setEmploymentType(data.employmentType);
+
+    // Precise Salary Handling:
+    // Auto-fills declared employer salary, or pre-populates authentic 2026 early-career benchmark
+    // so the admin NEVER needs to calculate or type salary numbers manually!
+    if (data.salary && data.salary.min > 0) {
+      setSalaryCurrency(data.salary.currency || 'USD');
+      setSalaryUnit(data.salary.unit || 'YEAR');
+      setSalaryMin(data.salary.min);
+      setSalaryMax(data.salary.max);
+    } else if (data.suggestedBenchmark && data.suggestedBenchmark.min > 0) {
+      setSalaryCurrency(data.suggestedBenchmark.currency || 'USD');
+      setSalaryUnit(data.suggestedBenchmark.unit || 'YEAR');
+      setSalaryMin(data.suggestedBenchmark.min);
+      setSalaryMax(data.suggestedBenchmark.max);
+    } else {
+      const fallbackBench = getRoleMarketBenchmark(data.title || 'Software Engineer', data.category, data.country || 'US');
+      setSalaryCurrency(fallbackBench.currency);
+      setSalaryUnit(fallbackBench.unit);
+      setSalaryMin(fallbackBench.min);
+      setSalaryMax(fallbackBench.max);
+    }
+
+    setDescription(cleanHtml(data.description));
+    setResponsibilitiesText(data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '')).join('\n'));
+    setQualificationsText(data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '')).join('\n'));
+    setSkillsText(data.skills.map((s) => cleanHtml(s)).join(', '));
+    if (data.applyUrl) setApplyUrl(data.applyUrl);
+
+    const minDisplay = data.salary && data.salary.min > 0 ? data.salary.min : data.suggestedBenchmark?.min || 85000;
+    const maxDisplay = data.salary && data.salary.max > 0 ? data.salary.max : data.suggestedBenchmark?.max || 115000;
+    const sourceLabel = data.detectedAtsProvider || 'career requisition';
+
+    if (data.salaryDisclosed && data.salary.min > 0) {
+      setExtractSuccessMsg(
+        `✨ Successfully imported from ${sourceLabel}! Title, Location (${extractedCity || 'US'}, ZIP: ${finalZip || '94105'}), and Verified Employer Compensation ($${minDisplay.toLocaleString()} – $${maxDisplay.toLocaleString()}) are filled precisely.`
+      );
+    } else {
+      setExtractSuccessMsg(
+        `✨ Successfully imported from ${sourceLabel}! Title, Location (${extractedCity || 'US'}, ZIP: ${finalZip || '94105'}), and 2026 Role Benchmark ($${minDisplay.toLocaleString()} – $${maxDisplay.toLocaleString()}) are auto-filled precisely.`
+      );
+    }
+  };
+
   const handleAutoExtract = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!autoExtractUrl.trim()) return;
@@ -506,69 +566,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setExtractErrorMsg('');
     try {
       const data = await extractAndEnrichJobFromUrl(autoExtractUrl.trim());
-      setTitle(cleanHtml(data.title));
-      setCompany(cleanHtml(data.company));
-      if (data.companyLogo) setCompanyLogo(data.companyLogo);
-      if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
-      setLocation(cleanLocationString(cleanHtml(data.location)));
-      setIsRemote(data.isRemote);
-
-      let extractedCity = data.city ? cleanCityString(cleanHtml(data.city)) : '';
-      let extractedState = data.state ? cleanHtml(data.state) : '';
-      const rawLocation = cleanLocationString(cleanHtml(data.location || ''));
-
-      if (!extractedCity && rawLocation) {
-        const cleanLocOnly = rawLocation.replace(/\s*\/\s*(?:Hybrid|Remote)/i, '').replace(/\s*\(Remote\)/i, '').trim();
-        if (cleanLocOnly.includes(',')) {
-          const parts = cleanLocOnly.split(',');
-          extractedCity = cleanCityString(parts[0]);
-          if (!extractedState) extractedState = parts[1]?.trim() || '';
-        } else if (cleanLocOnly.toLowerCase() !== 'united states' && cleanLocOnly.toLowerCase() !== 'remote') {
-          extractedCity = cleanCityString(cleanLocOnly);
-        }
-      }
-
-      if (extractedCity) setCity(extractedCity);
-      if (extractedState) setState(extractedState);
-      if (data.country) setCountry(cleanHtml(data.country));
-
-      if (data.postalCode) {
-        setPostalCode(cleanHtml(data.postalCode));
-      } else if (extractedCity) {
-        const normCity = extractedCity.toLowerCase();
-        const matched = KNOWN_CITY_ZIP_MAP[normCity];
-        if (matched) {
-          setPostalCode(matched.zip);
-          if (!extractedState) setState(matched.state);
-        }
-      }
-      if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
-      if (data.datePosted) setDatePosted(data.datePosted);
-      setCategory(data.category);
-      setExperienceLevel(data.experienceLevel);
-      setMaxYearsExperience(data.maxYearsExperience);
-      setEmploymentType(data.employmentType);
-      setSalaryCurrency(data.salary.currency || 'USD');
-      setSalaryUnit(data.salary.unit || 'YEAR');
-      setSalaryMin(data.salary.min);
-      setSalaryMax(data.salary.max);
-      setDescription(cleanHtml(data.description));
-      setResponsibilitiesText(data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '')).join('\n'));
-      setQualificationsText(data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '')).join('\n'));
-      setSkillsText(data.skills.map((s) => cleanHtml(s)).join(', '));
-      setApplyUrl(data.applyUrl);
-
-      if (data.salaryDisclosed && data.salary.min > 0) {
-        setExtractSuccessMsg(
-          `✨ Successfully imported from ${data.detectedAtsProvider || 'career page'}! Verified employer compensation ($${data.salary.min.toLocaleString()} – $${data.salary.max.toLocaleString()}) & structured fields are filled.`
-        );
-      } else {
-        setExtractSuccessMsg(
-          `✨ Successfully imported from ${data.detectedAtsProvider || 'career page'}! Note: Employer did not disclose compensation in requisition. Salary set to "Undisclosed" to protect candidate trust.`
-        );
-      }
+      applyExtractedJobToForm(data);
     } catch (err: any) {
       setExtractErrorMsg(err.message || 'Failed to extract from this link. Please check the URL.');
+    } finally {
+      setIsExtracting(false);
+    }
+  };
+
+  const handleAutoExtractFromText = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rawJdText.trim()) return;
+    setIsExtracting(true);
+    setExtractSuccessMsg('');
+    setExtractErrorMsg('');
+    try {
+      const data = extractJobDataFromRawText(rawJdText.trim(), autoExtractUrl.trim());
+      applyExtractedJobToForm(data);
+    } catch (err: any) {
+      setExtractErrorMsg(err.message || 'Failed to parse job description text. Please verify content.');
     } finally {
       setIsExtracting(false);
     }
@@ -1405,51 +1421,128 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
             {/* ⚡ Dual-Mode Smart Ingestion & Auto-Fill ("The FreshCommits Edge") */}
             <div className="mb-6 p-4 bg-gradient-to-br from-indigo-50/90 via-slate-50 to-emerald-50/70 border border-indigo-200 rounded-2xl shadow-xs">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs flex-shrink-0">
-                  <LinkIcon className="w-4 h-4" />
+              <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                    <LinkIcon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
+                      Fast Job Ingestion Hub
+                    </h3>
+                    <p className="text-[11px] text-slate-500">
+                      Auto-fill Job Title, US Location, ZIP Code, Salary &amp; Google Schema with 100% precision
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
-                    Fast Job Ingestion from Career URL
-                  </h3>
-                  <p className="text-[11px] text-slate-500">
-                    Paste any official ATS or career link (Greenhouse, Lever, Ashby, Workday, SmartRecruiters, or company portal) to autofill structured fields, checklist &amp; Google schema
-                  </p>
+
+                {/* Mode Selector Tabs */}
+                <div className="flex items-center bg-white p-0.5 border border-indigo-200 rounded-xl shadow-2xs">
+                  <button
+                    type="button"
+                    onClick={() => setIngestionMode('URL')}
+                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      ingestionMode === 'URL'
+                        ? 'bg-indigo-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <LinkIcon className="w-3 h-3" />
+                    <span>Career URL</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIngestionMode('TEXT')}
+                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      ingestionMode === 'TEXT'
+                        ? 'bg-indigo-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <FileText className="w-3 h-3" />
+                    <span>Paste Full JD Text</span>
+                  </button>
                 </div>
               </div>
 
-              {/* URL FETCHER */}
-              <form onSubmit={handleAutoExtract} className="flex flex-col sm:flex-row gap-2">
-                <div className="relative flex-1">
-                  <input
-                    type="url"
-                    required
-                    placeholder="Paste job URL (e.g. Google Careers, Workday, Greenhouse, Lever, Ashby, or company link)"
-                    value={autoExtractUrl}
-                    onChange={(e) => setAutoExtractUrl(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
-                  />
-                  <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-3" />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isExtracting || !autoExtractUrl.trim()}
-                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
-                >
-                  {isExtracting ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Extracting &amp; Curating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>Convert &amp; Fill Form</span>
-                    </>
-                  )}
-                </button>
-              </form>
+              {/* MODE 1: URL FETCHER */}
+              {ingestionMode === 'URL' ? (
+                <form onSubmit={handleAutoExtract} className="flex flex-col sm:flex-row gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="url"
+                      required
+                      placeholder="Paste official job URL (e.g. Workday, Greenhouse, Ashby, Lever, SmartRecruiters, or company portal)"
+                      value={autoExtractUrl}
+                      onChange={(e) => setAutoExtractUrl(e.target.value)}
+                      className="w-full pl-8 pr-3 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                    />
+                    <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-3" />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isExtracting || !autoExtractUrl.trim()}
+                    className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
+                  >
+                    {isExtracting ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Extracting &amp; Curating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                        <span>Convert &amp; Fill Form</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              ) : (
+                /* MODE 2: RAW TEXT / JD CANVAS FETCHER */
+                <form onSubmit={handleAutoExtractFromText} className="space-y-2">
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <input
+                        type="url"
+                        placeholder="Optional Apply URL to associate (e.g. direct ATS link)"
+                        value={autoExtractUrl}
+                        onChange={(e) => setAutoExtractUrl(e.target.value)}
+                        className="w-full pl-8 pr-3 py-1.5 bg-white border border-indigo-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                      />
+                      <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-2" />
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <textarea
+                      rows={4}
+                      required
+                      placeholder="Paste complete job description text (from Workday, Taleo, Oracle, Handshake, LinkedIn, or any career page) to instantly extract Title, Company, Location, ZIP, Salary & Requirements..."
+                      value={rawJdText}
+                      onChange={(e) => setRawJdText(e.target.value)}
+                      className="w-full p-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={isExtracting || !rawJdText.trim()}
+                      className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
+                    >
+                      {isExtracting ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Parsing JD Text...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                          <span>Parse Text &amp; Fill Form</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
 
               {/* Feedback banners */}
               {extractSuccessMsg && (

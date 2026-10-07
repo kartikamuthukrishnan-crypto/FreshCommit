@@ -4,6 +4,60 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
+    "city": "Redmond",
+    "postalCode": "98052",
+    "description": "🎯 The FreshCommits Career Take:\nAn exciting opening for early-career technologists focused on clean code, software design patterns, and high-velocity team collaboration at Microsoft.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Redmond, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nMicrosoft is actively seeking a Software Engineer (Early-Career) to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer (Early-Career)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 85000,
+      "max": 168000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Microsoft's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "microsoft-software-engineer-early-career--redmond-wa-hybrid",
+    "atsProvider": "Microsoft Careers",
+    "company": "Microsoft",
+    "id": "manual-1791385515589",
+    "state": "WA",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=microsoft.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://apply.careers.microsoft.com/careers/job/1970393557022487",
+    "location": "Redmond, WA / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://careers.microsoft.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
     "city": "San Jose",
     "postalCode": "95113",
     "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. astera labs.com pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Azure, SQL, Data Analysis, Security.\n• Interview Focus: Technical leads evaluate live SQL schema queries, data pipeline reliability, and clear analytical problem-solving.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation Range: Verified employer range of ~USD 100k–110k/year with career progression reviews.\n• Location: Based in San Jose, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nData Analyst, New College Graduate (NCG)\n\nLocation: San Jose, California\n\nEmployment type: Full-time",
@@ -63,6 +117,65 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
+    "city": "New York",
+    "postalCode": "10001",
+    "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Python and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Workforcenow evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Seattle, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nWorkforcenow is actively seeking an early-career Recruitment.html to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Junior Full Stack Developer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 90000,
+      "max": 100000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "SQL",
+      "Machine Learning",
+      "PyTorch",
+      "Pandas",
+      "Data Pipelines",
+      "GCP",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
+      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
+      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
+      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
+      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
+      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop, validate, and deploy data pipelines and analytical models that power Workforcenow's production systems.",
+      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
+      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
+      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
+      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
+      "Participate in team sprint planning, architectural reviews, and peer code reviews."
+    ],
+    "fingerprint": "workforcenow-junior-full-stack-developer-new-york-ny",
+    "atsProvider": "Direct Career Portal",
+    "company": "Workforcenow",
+    "id": "manual-1791385773845",
+    "state": "NY",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=workforcenow.adp.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=77d040d9-afa5-44d0-b712-2aa98296db42&ccId=19000101_000001&lang=en_US&selectedMenuKey=CurrentOpenings&jobId=959684",
+    "location": "New York, NY",
+    "category": "Data / AI",
+    "companyWebsite": "https://www.workforcenow.adp.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
     "postalCode": "92101",
     "source": "MANUAL_ADMIN",
     "id": "manual-1791366264314",
@@ -115,6 +228,60 @@ export const INITIAL_JOBS: JobPosting[] = [
     "company": "Purestorage",
     "location": "Santa Clara, California",
     "companyWebsite": "https://purestorage.com"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "ADA",
+    "postalCode": "49355",
+    "description": "🎯 The FreshCommits Career Take:\nA strong pathway for junior engineers looking to master end-to-end software configurations and enterprise integrations. Amway provides dedicated senior guidance while giving candidates direct ownership of technical resolution workflows.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Git, Software Engineering, Problem Solving.\n• Interview Focus: Amway looks for analytical problem-solvers who can translate complex technical bugs into actionable engineering tickets.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Seattle, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nAmway is actively seeking an early-career Enterprise Integration Software Engineer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Enterprise Integration Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Amway's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "amway-enterprise-integration-software-engineer-ada-mi",
+    "atsProvider": "Direct Career Portal",
+    "company": "Amway",
+    "id": "manual-1791385121319",
+    "state": "MI",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amway.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.amway.com/job/Enterprise-Integration-Software-Engineer/43417-en_US",
+    "location": "ADA, MI",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.amway.com",
+    "status": "ACTIVE"
   },
   {
     "country": "US",
@@ -290,6 +457,60 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
+    "city": "Seattle",
+    "postalCode": "98101",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Seattle, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nNiantic-spatial is actively seeking an early-career 898b2da7 03cd 486e 96e3 to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineering Intern (Summer 2027)",
+    "salary": {
+      "unit": "HOUR",
+      "min": 40,
+      "max": 50,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Niantic-spatial's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "niantic-spatial-software-engineering-intern-summer-2027--seattle-wa-hybrid",
+    "atsProvider": "Ashby",
+    "company": "Niantic-spatial",
+    "id": "manual-1791385421054",
+    "state": "WA",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=niantic-spatial.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/niantic-spatial/898b2da7-03cd-486e-96e3-3430a148c8fd/",
+    "location": "Seattle, WA / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://niantic-spatial.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
     "city": "Boston",
     "postalCode": "02108",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level developers ready to move beyond tutorial projects and take ownership of user-facing features within a collaborative engineering culture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nWhoop is actively seeking an early-career F9985943 Da11 4cbd 9c44 D2f7e421f65e to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
@@ -348,9 +569,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 1,
     "city": "San Francisco",
     "postalCode": "94105",
-    "description": "🎯 The FreshCommits Career Take:\nAn engaging opening for junior engineers eager to build responsive user interfaces and modern component architectures. Boeing provides structured pair programming and active design-system collaboration.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Focus on responsive component hierarchy, CSS layout systems (Flexbox/Grid), and React, TypeScript, JavaScript, Next.js.\n• Interview Focus: Engineering leads at Phh assess responsive component layout, state architecture, and web accessibility (WCAG).\n• Portfolio Signal: Showcase a deployed web application demonstrating responsive mobile layout, clean component hierarchy, and zero console errors.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPhh is actively seeking an early-career Viewrequisition to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Focus on responsive component hierarchy, CSS layout systems (Flexbox/Grid), and React, TypeScript, JavaScript, Next.js.\n• Interview Focus: Engineering leads at Phh assess responsive component layout, state architecture, and web accessibility (WCAG).\n• Portfolio Signal: Showcase a deployed web application demonstrating responsive mobile layout, clean component hierarchy, and zero console errors.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPhh is actively seeking an early-career Viewrequisition to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
     "source": "MANUAL_ADMIN",
-    "title": "Viewrequisition",
     "salary": {
       "unit": "YEAR",
       "min": 89000,
@@ -384,13 +604,11 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Conduct active peer code reviews and contribute to design system documentation and accessibility compliance (WCAG).",
       "Participate in agile sprint ceremonies, daily standups, and retrospective continuous improvement discussions."
     ],
-    "fingerprint": "boeing-viewrequisition-san-francisco-ca",
     "atsProvider": "Taleo",
     "company": "Boeing",
     "id": "manual-1791293788891",
     "state": "CA",
     "datePosted": "2026-10-06",
-    "validThrough": "2026-11-05",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?domain=boeing.com&sz=128",
     "isRemote": false,
@@ -402,7 +620,10 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.boeing.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z",
+    "validThrough": "2026-11-06",
+    "fingerprint": "boeing-software-engineer-entry-level-san-francisco-ca",
+    "title": "Software Engineer - Entry Level"
   },
   {
     "country": "US",

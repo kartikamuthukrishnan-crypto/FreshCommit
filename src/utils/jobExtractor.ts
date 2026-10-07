@@ -1,5 +1,6 @@
 import { ExperienceLevel, EmploymentType, JobCategory, SalaryRange } from '../types';
 import { inferCategory, inferExperienceLevel } from './jobAggregator';
+import { KNOWN_CITY_ZIP_MAP, lookupCityZip } from './cityZipMap';
 import {
   humanizeCareerTake,
   generateLeadEngineerTake,
@@ -430,16 +431,19 @@ export function parseSlugMetadata(slug: string): {
   let inferredCompany: string | undefined;
   let inferredLocation: string | undefined;
 
-  // 1. Remove trailing requisition IDs if any (e.g. -1289381 or -JR91283)
-  s = s.replace(/[-_]+(?:JR|req|R)?-?[0-9]{4,}.*$/i, '');
+  // 1. Remove trailing requisition IDs if any (e.g. _26WD101433-1, -1289381, or -JR91283)
+  s = s.replace(/_[0-9A-Za-z-]{5,}$/, '');
+  s = s.replace(/[-_]+(?:JR|req|R|WD)?-?[0-9]{4,}.*$/i, '');
 
-  // 2. Extract trailing -at-[company] or -by-[company] or -for-[company]
-  const atMatch = s.match(/(.+?)[-_]+(?:at|by|for)[-_]+([a-zA-Z0-9-_]+)$/i);
+  // 2. Extract trailing -at-[company] (strictly -at-, never -for- which belongs to job titles)
+  const atMatch = s.match(/(.+?)[-_]+(?:at)[-_]+([a-zA-Z0-9-_]+)$/i);
   if (atMatch) {
-    s = atMatch[1];
-    const rawComp = atMatch[2].replace(/[-_]+/g, ' ').trim();
-    if (rawComp && rawComp.length > 1 && !/^[0-9]+$/.test(rawComp)) {
-      inferredCompany = rawComp
+    const candidateComp = atMatch[2].replace(/[-_]+/g, ' ').trim();
+    // Ensure it's not a common role word like "work", "home", "night", etc.
+    const nonCompanyWords = new Set(['work', 'home', 'scale', 'night', 'site', 'first']);
+    if (candidateComp && candidateComp.length > 1 && !/^[0-9]+$/.test(candidateComp) && !nonCompanyWords.has(candidateComp.toLowerCase())) {
+      s = atMatch[1];
+      inferredCompany = candidateComp
         .split(' ')
         .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
         .join(' ');
@@ -449,9 +453,10 @@ export function parseSlugMetadata(slug: string): {
   // 3. Extract trailing -in-[location]
   const inMatch = s.match(/(.+?)[-_]+(?:in)[-_]+([a-zA-Z0-9-_]+)$/i);
   if (inMatch) {
-    s = inMatch[1];
     const rawLoc = inMatch[2].replace(/[-_]+/g, ' ').trim();
-    if (rawLoc && rawLoc.length > 2 && !/^[0-9]+$/.test(rawLoc)) {
+    const nonLocationWords = new Set(['action', 'depth', 'production', 'cloud', 'python', 'java', 'react', 'c', 'cpp', 'rust']);
+    if (rawLoc && rawLoc.length > 2 && !/^[0-9]+$/.test(rawLoc) && !nonLocationWords.has(rawLoc.toLowerCase())) {
+      s = inMatch[1];
       inferredLocation = rawLoc
         .split(' ')
         .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
@@ -577,21 +582,32 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
 export function formatSlugToJobTitle(slug: string): string {
   if (!slug) return 'Software Engineer';
 
-  // 1. Extract clean title slug without -at-[company] and -in-[location]
-  const { cleanTitleSlug } = parseSlugMetadata(slug);
+  // 1. Guard against UUIDs, purely numeric tokens, or long hex hashes being converted to garbled text
+  const trimmed = slug.trim();
+  if (
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(trimmed) ||
+    /^[0-9]+$/.test(trimmed) ||
+    (/^[0-9a-zA-Z]{16,}$/.test(trimmed) && !trimmed.includes('-') && !trimmed.includes('_'))
+  ) {
+    return 'Software Engineer (Early-Career)';
+  }
+
+  // 2. Extract clean title slug without -at-[company] and -in-[location]
+  const { cleanTitleSlug } = parseSlugMetadata(trimmed);
   let s = cleanTitleSlug;
 
-  // 2. Remove ID prefixes and requisition tags
+  // 3. Remove ID prefixes and requisition tags (including Workday _26WD... and _JR...)
   s = s
-    .replace(/^[0-9]{6,}-?/, '')
+    .replace(/_[0-9A-Za-z-]{5,}$/, '')
+    .replace(/^[0-9]{5,}-?/, '')
     .replace(/^req-?[0-9]+-?/i, '')
     .replace(/^job-?[0-9]+-?/i, '')
     .replace(/[-_]JR[0-9]+.*$/i, '')
     .replace(/[-_]req[0-9]+.*$/i, '')
     .replace(/[-_]R-?[0-9]+.*$/i, '')
-    .replace(/[-_][0-9]{6,}.*$/, '');
+    .replace(/[-_][0-9]{5,}.*$/, '');
 
-  // 2. Acronym dictionary
+  // 4. Acronym dictionary
   const ACRONYMS: Record<string, string> = {
     ai: 'AI',
     ml: 'ML',
@@ -616,31 +632,30 @@ export function formatSlugToJobTitle(slug: string): string {
     llm: 'LLM',
     nlp: 'NLP',
     ci: 'CI',
-    cd: 'CD'
+    cd: 'CD',
+    phd: 'PhD'
   };
 
   const LOWER_WORDS = new Set(['and', 'of', 'in', 'for', 'to', 'at', 'the', 'on', 'with', 'a', 'an']);
 
-  // Split words by hyphens, underscores, or percent encodings
-  const rawWords = decodeURIComponent(s)
-    .split(/[-_+]+/)
-    .filter(Boolean);
-
-  // Drop leading numeric requisition IDs like 91823 or 12832289
-  while (rawWords.length > 1 && /^[0-9]+$/.test(rawWords[0])) {
-    rawWords.shift();
-  }
-
-  if (rawWords.length === 0) return 'Software Engineer (Early-Career)';
-
-  const formattedWords = rawWords.map((word, idx) => {
-    const low = word.toLowerCase();
-    if (ACRONYMS[low]) return ACRONYMS[low];
-    if (idx > 0 && LOWER_WORDS.has(low)) return low;
-    return low.charAt(0).toUpperCase() + low.slice(1);
+  // Convert double-dash or colon segments cleanly
+  const segments = decodeURIComponent(s).split(/--+|:\s*/);
+  const formattedSegments = segments.map((seg) => {
+    const rawWords = seg.split(/[-_+]+/).filter(Boolean);
+    while (rawWords.length > 1 && /^[0-9]+$/.test(rawWords[0])) {
+      rawWords.shift();
+    }
+    return rawWords
+      .map((word, idx) => {
+        const low = word.toLowerCase();
+        if (ACRONYMS[low]) return ACRONYMS[low];
+        if (idx > 0 && LOWER_WORDS.has(low)) return low;
+        return low.charAt(0).toUpperCase() + low.slice(1);
+      })
+      .join(' ');
   });
 
-  let title = formattedWords.join(' ');
+  let title = formattedSegments.filter(Boolean).join(' - ');
 
   // Smart comma insertion for compound roles like "Analyst Developer Experience" -> "Analyst, Developer Experience"
   title = title.replace(
@@ -658,11 +673,13 @@ function extractJobSlugFromPath(pathname: string): string {
   const segments = pathname.split('/').filter(Boolean);
   if (segments.length === 0) return '';
 
-  // Priority: segment containing job keywords
+  // Priority keywords for job titles
   const jobKeywords = [
     'engineer', 'developer', 'analyst', 'intern', 'associate', 'specialist',
     'scientist', 'architect', 'manager', 'campus', 'graduate', 'rotational',
-    'fellow', 'apprentice', 'designer', 'qa', 'sre', 'devops', 'tech'
+    'fellow', 'apprentice', 'designer', 'qa', 'sre', 'devops', 'tech',
+    'researcher', 'research', 'programmer', 'data', 'cloud', 'security',
+    'software', 'fullstack', 'frontend', 'backend', 'ai', 'ml'
   ];
 
   for (let i = segments.length - 1; i >= 0; i--) {
@@ -677,129 +694,201 @@ function extractJobSlugFromPath(pathname: string): string {
 }
 
 /**
- * Detects location from URL path or query params
+ * Universal Location Normalizer:
+ * Takes any raw location string from an ATS or career page and maps it precisely to:
+ * standard location, city, state, country ("US"), and verified 5-digit US ZIP Code
  */
-function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): { location: string; isRemote: boolean; city?: string; state?: string; country?: string; postalCode?: string } {
-  const fullStr = `${urlObj.pathname} ${urlObj.search}`.toLowerCase();
+export function resolveLocationDetails(rawLocation: string, isRemoteHint?: boolean): {
+  location: string;
+  isRemote: boolean;
+  city?: string;
+  state?: string;
+  country: string;
+  postalCode?: string;
+  applicantLocationRequirements?: string;
+} {
+  const cleanLoc = (rawLocation || '').trim();
+  const lowLoc = cleanLoc.toLowerCase();
+  const isRemote = Boolean(
+    isRemoteHint ||
+    lowLoc.includes('remote') ||
+    lowLoc.includes('wfh') ||
+    lowLoc.includes('hybrid') ||
+    lowLoc.includes('telecommute') ||
+    lowLoc.includes('anywhere')
+  );
 
-  const isRemote = fullStr.includes('remote') || fullStr.includes('wfh') || fullStr.includes('hybrid') || fullStr.includes('telecommute');
-
-  // Check known hubs
-  if (fullStr.includes('mountain-view') || fullStr.includes('mountain_view') || fullStr.includes('mountainview')) {
-    return { location: 'Mountain View, CA / Hybrid', isRemote, city: 'Mountain View', state: 'CA', country: 'US', postalCode: '94043' };
-  }
-  if (fullStr.includes('santa-clara') || fullStr.includes('santa_clara')) {
-    return { location: 'Santa Clara, CA / Hybrid', isRemote, city: 'Santa Clara', state: 'CA', country: 'US', postalCode: '95054' };
-  }
-  if (fullStr.includes('los-angeles') || fullStr.includes('los_angeles') || fullStr.includes('losangeles') || fullStr.includes('la-') || fullStr.includes('-la')) {
-    return { location: 'Los Angeles, CA / Hybrid', isRemote, city: 'Los Angeles', state: 'CA', country: 'US', postalCode: '90012' };
-  }
-  if (fullStr.includes('san-francisco') || fullStr.includes('san_francisco') || fullStr.includes('sf-') || fullStr.includes('-sf')) {
-    return { location: 'San Francisco, CA / Hybrid', isRemote, city: 'San Francisco', state: 'CA', country: 'US', postalCode: '94105' };
-  }
-  if (fullStr.includes('seattle') || fullStr.includes('redmond') || fullStr.includes('bellevue')) {
-    return { location: 'Seattle, WA / Hybrid', isRemote, city: 'Seattle', state: 'WA', country: 'US', postalCode: '98101' };
-  }
-  if (fullStr.includes('new-york') || fullStr.includes('new_york') || fullStr.includes('nyc') || fullStr.includes('manhattan')) {
-    return { location: 'New York, NY / Hybrid', isRemote, city: 'New York', state: 'NY', country: 'US', postalCode: '10001' };
-  }
-  if (fullStr.includes('austin')) {
-    return { location: 'Austin, TX / Hybrid', isRemote, city: 'Austin', state: 'TX', country: 'US', postalCode: '78701' };
-  }
-  if (fullStr.includes('boston') || fullStr.includes('cambridge')) {
-    return { location: 'Boston, MA / Hybrid', isRemote, city: 'Boston', state: 'MA', country: 'US', postalCode: '02110' };
-  }
-  if (fullStr.includes('chicago')) {
-    return { location: 'Chicago, IL / Hybrid', isRemote, city: 'Chicago', state: 'IL', country: 'US', postalCode: '60601' };
-  }
-  if (fullStr.includes('san-diego') || fullStr.includes('sandiego')) {
-    return { location: 'San Diego, CA / Hybrid', isRemote, city: 'San Diego', state: 'CA', country: 'US', postalCode: '92101' };
-  }
-  if (fullStr.includes('denver') || fullStr.includes('boulder')) {
-    return { location: 'Denver, CO / Hybrid', isRemote, city: 'Denver', state: 'CO', country: 'US', postalCode: '80202' };
-  }
-  if (fullStr.includes('atlanta')) {
-    return { location: 'Atlanta, GA / Hybrid', isRemote, city: 'Atlanta', state: 'GA', country: 'US', postalCode: '30303' };
-  }
-  if (fullStr.includes('london')) {
-    return { location: 'London, UK / Hybrid', isRemote, city: 'London', country: 'UK' };
-  }
-  if (fullStr.includes('toronto')) {
-    return { location: 'Toronto, Canada / Hybrid', isRemote, city: 'Toronto', country: 'CA' };
-  }
-  if (fullStr.includes('vancouver')) {
-    return { location: 'Vancouver, Canada / Hybrid', isRemote, city: 'Vancouver', country: 'CA' };
-  }
-  if (fullStr.includes('bengaluru') || fullStr.includes('bangalore')) {
-    return { location: 'Bangalore, India / Hybrid', isRemote, city: 'Bangalore', country: 'IN' };
+  // 1. Check known city zip map for exact or substring city matches
+  for (const [key, entry] of Object.entries(KNOWN_CITY_ZIP_MAP)) {
+    const keyWithHyphens = key.replace(/\s+/g, '-');
+    if (lowLoc.includes(key) || lowLoc.includes(keyWithHyphens)) {
+      return {
+        location: isRemote ? `${entry.city}, ${entry.state} / Hybrid` : `${entry.city}, ${entry.state}`,
+        isRemote,
+        city: entry.city,
+        state: entry.state,
+        country: 'US',
+        postalCode: entry.zip,
+        applicantLocationRequirements: isRemote ? 'US' : undefined
+      };
+    }
   }
 
-  // Workday US-CA-Santa-Clara pattern
-  const wdLocMatch = urlObj.pathname.match(/job\/([A-Z]{2})-([A-Z]{2})-([^/]+)/i);
-  if (wdLocMatch) {
-    const st = wdLocMatch[2].toUpperCase();
-    const ct = wdLocMatch[3].replace(/[-_]+/g, ' ');
+  // 2. Workday City-ST-USA / City-ST format (e.g. "Boston-MA-USA" or "Austin-TX")
+  const wdMatch = cleanLoc.match(/([a-zA-Z\s.-]+)[-_]([a-zA-Z]{2})(?:[-_](?:USA|US))?/);
+  if (wdMatch) {
+    const ct = cleanCityString(wdMatch[1].replace(/[-_]+/g, ' '));
+    const st = wdMatch[2].toUpperCase();
+    const mapped = lookupCityZip(ct);
     return {
-      location: `${ct}, ${st}`,
+      location: isRemote ? `${ct}, ${st} / Hybrid` : `${ct}, ${st}`,
       isRemote,
       city: ct,
       state: st,
-      country: wdLocMatch[1].toUpperCase()
+      country: 'US',
+      postalCode: mapped?.zip || '94105',
+      applicantLocationRequirements: isRemote ? 'US' : undefined
     };
   }
 
-  if (defaultLoc) {
-    const cleanDefault = defaultLoc.replace(/\s*\/\s*(?:Hybrid|Remote)/i, '').trim();
-    let dCity = cleanDefault;
-    let dState = 'WA';
-    let dZip = '98101';
-    const dCountry = 'US';
-
-    if (cleanDefault.includes(',')) {
-      const parts = cleanDefault.split(',');
-      dCity = parts[0].trim();
-      dState = parts[1].trim();
-    }
-    const normDCity = dCity.toLowerCase();
-    const cityZipMap: Record<string, { state: string; zip: string }> = {
-      'seattle': { state: 'WA', zip: '98101' },
-      'san francisco': { state: 'CA', zip: '94105' },
-      'san jose': { state: 'CA', zip: '95113' },
-      'new york': { state: 'NY', zip: '10001' },
-      'austin': { state: 'TX', zip: '78701' },
-      'boston': { state: 'MA', zip: '02110' },
-      'chicago': { state: 'IL', zip: '60601' },
-      'mountain view': { state: 'CA', zip: '94043' },
-      'sunnyvale': { state: 'CA', zip: '94086' },
-      'santa clara': { state: 'CA', zip: '95054' },
-      'los angeles': { state: 'CA', zip: '90012' },
-      'denver': { state: 'CO', zip: '80202' },
-      'atlanta': { state: 'GA', zip: '30303' },
-      'cupertino': { state: 'CA', zip: '95014' },
-      'menlo park': { state: 'CA', zip: '94025' },
-      'redmond': { state: 'WA', zip: '98052' },
-      'los gatos': { state: 'CA', zip: '95032' },
-      'santa monica': { state: 'CA', zip: '90401' }
-    };
-    if (cityZipMap[normDCity]) {
-      dState = cityZipMap[normDCity].state;
-      dZip = cityZipMap[normDCity].zip;
-    }
-
+  // 3. City, ST format (e.g. "Dallas, TX" or "San Jose, CA")
+  const cityStMatch = cleanLoc.match(/([A-Z][a-zA-Z\s.-]+),\s*([A-Z]{2})/);
+  if (cityStMatch) {
+    const ct = cleanCityString(cityStMatch[1]);
+    const st = cityStMatch[2].toUpperCase();
+    const mapped = lookupCityZip(ct);
     return {
-      location: defaultLoc.includes('Hybrid') || defaultLoc.includes('Remote') ? defaultLoc : `${dCity}, ${dState} / Hybrid`,
+      location: isRemote ? `${ct}, ${st} / Hybrid` : `${ct}, ${st}`,
       isRemote,
-      city: dCity,
-      state: dState,
-      country: dCountry,
-      postalCode: dZip
+      city: ct,
+      state: st,
+      country: 'US',
+      postalCode: mapped?.zip || '94105',
+      applicantLocationRequirements: isRemote ? 'US' : undefined
     };
   }
 
-  if (isRemote) {
-    return { location: 'Remote - US', isRemote: true, country: 'US' };
+  // 4. Remote fallbacks
+  if (isRemote || lowLoc.includes('united states') || lowLoc === 'us' || lowLoc === 'usa') {
+    return {
+      location: 'Remote - US',
+      isRemote: true,
+      city: 'Remote',
+      state: 'US',
+      country: 'US',
+      postalCode: '94105',
+      applicantLocationRequirements: 'US'
+    };
   }
 
+  return {
+    location: cleanLoc || 'Seattle, WA / Hybrid',
+    isRemote: false,
+    city: 'Seattle',
+    state: 'WA',
+    country: 'US',
+    postalCode: '98101'
+  };
+}
+
+/**
+ * Detects location from URL path, query params, or default company hub
+ */
+function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): {
+  location: string;
+  isRemote: boolean;
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+} {
+  const fullStr = `${urlObj.pathname} ${urlObj.search}`.toLowerCase();
+  const isRemote = fullStr.includes('remote') || fullStr.includes('wfh') || fullStr.includes('hybrid') || fullStr.includes('telecommute');
+
+  // 1. Workday /job/Boston-MA-USA/ or /job/US-CA-Santa-Clara/ patterns
+  const wdJobLocMatch = urlObj.pathname.match(/\/job\/([^/]+)/i);
+  if (wdJobLocMatch && wdJobLocMatch[1]) {
+    const rawLocSeg = wdJobLocMatch[1];
+    // Pattern: US-CA-Santa-Clara
+    const usStateCity = rawLocSeg.match(/^US-([A-Za-z]{2})-([^/]+)/i);
+    if (usStateCity) {
+      const st = usStateCity[1].toUpperCase();
+      const ct = usStateCity[2].replace(/[-_]+/g, ' ');
+      const mapped = lookupCityZip(ct);
+      return {
+        location: isRemote ? `${ct}, ${st} / Hybrid` : `${ct}, ${st}`,
+        isRemote,
+        city: ct,
+        state: st,
+        country: 'US',
+        postalCode: mapped?.zip || '94105'
+      };
+    }
+
+    // Pattern: Boston-MA-USA or Austin-TX
+    const cityStateUs = rawLocSeg.match(/^([A-Za-z-]+)-([A-Za-z]{2})(?:-(?:USA|US))?$/i);
+    if (cityStateUs) {
+      const ct = cityStateUs[1].replace(/[-_]+/g, ' ');
+      const st = cityStateUs[2].toUpperCase();
+      const mapped = lookupCityZip(ct);
+      return {
+        location: isRemote ? `${ct}, ${st} / Hybrid` : `${ct}, ${st}`,
+        isRemote,
+        city: ct,
+        state: st,
+        country: 'US',
+        postalCode: mapped?.zip || '94105'
+      };
+    }
+  }
+
+  // 2. Check query params e.g. ?location=Boston%2C%20MA
+  const queryLoc = urlObj.searchParams.get('location') || urlObj.searchParams.get('loc') || urlObj.searchParams.get('city');
+  if (queryLoc) {
+    const resolved = resolveLocationDetails(queryLoc, isRemote);
+    if (resolved.city && resolved.city !== 'Remote') {
+      return resolved;
+    }
+  }
+
+  // 3. Scan URL pathname and query for any known tech hub
+  for (const [cityNameKey, entry] of Object.entries(KNOWN_CITY_ZIP_MAP)) {
+    const keyWithHyphens = cityNameKey.replace(/\s+/g, '-');
+    const keyWithUnderscore = cityNameKey.replace(/\s+/g, '_');
+    if (
+      fullStr.includes(cityNameKey) ||
+      fullStr.includes(keyWithHyphens) ||
+      fullStr.includes(keyWithUnderscore)
+    ) {
+      return {
+        location: isRemote ? `${entry.city}, ${entry.state} / Hybrid` : `${entry.city}, ${entry.state}`,
+        isRemote,
+        city: entry.city,
+        state: entry.state,
+        country: 'US',
+        postalCode: entry.zip
+      };
+    }
+  }
+
+  // 4. Fallback to company's verified primary hub if provided
+  if (defaultLoc) {
+    return resolveLocationDetails(defaultLoc, isRemote);
+  }
+
+  // 5. Remote fallback
+  if (isRemote) {
+    return {
+      location: 'Remote - US',
+      isRemote: true,
+      city: 'Remote',
+      state: 'US',
+      country: 'US',
+      postalCode: '94105'
+    };
+  }
+
+  // 6. Default US Tech Hub
   return {
     location: 'Seattle, WA / Hybrid',
     isRemote: false,
@@ -1268,7 +1357,7 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
 
   const roleData = getRoleArchetypeContent(title, company);
   const benchmark = getRoleMarketBenchmark(title, roleData.category, loc.country || 'US');
-  const salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: benchmark.unit };
+  const salary: SalaryRange = { min: benchmark.min, max: benchmark.max, currency: benchmark.currency, unit: benchmark.unit };
 
   const baseTitle = stripSeniorityFromTitle(title);
   const titleHasSeniority = /(?:early[\s-]career|entry[\s-]level|junior|new\s*grad|intern|graduate|fresher)/i.test(title);
@@ -1327,8 +1416,163 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
 
   // Ensure protocol
   const fullUrl = url.startsWith('http') ? url : `https://${url}`;
+  const urlObj = new URL(fullUrl);
 
-  // 1. SMARTRECRUITERS DIRECT API
+  // 1. WORKDAY DIRECT CXS API
+  // e.g. https://autodesk.wd1.myworkdayjobs.com/Ext/job/Boston-MA-USA/PhD-Researcher--Multimodal-AI-for-Human-Experience_26WD101433-1
+  const wdMatch = fullUrl.match(/https:\/\/([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)\.myworkdayjobs\.com\/(?:[a-zA-Z-]{2,5}\/)?([^/]+)\/job\/([^/]+)\/([^/?#]+)/i);
+  if (wdMatch) {
+    const [, sub, dc, site, locSeg, slug] = wdMatch;
+    const apiUrl = `https://${sub}.${dc}.myworkdayjobs.com/wday/cxs/${sub}/${site}/job/${locSeg}/${slug}`;
+    try {
+      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4500) });
+      if (resp.ok) {
+        const data = await resp.json();
+        const post = data.jobPostingInfo || {};
+        const title = post.title || formatSlugToJobTitle(slug);
+        const knownComp = KNOWN_COMPANIES[`${sub.toLowerCase()}.com`];
+        const company = knownComp ? knownComp.name : sub.charAt(0).toUpperCase() + sub.slice(1);
+        const rawLoc = post.location || locSeg.replace(/[-_]+/g, ' ');
+        const locDetails = resolveLocationDetails(rawLoc);
+        const jobDescHtml = post.jobDescription || '';
+        const descText = cleanHtml(jobDescHtml);
+        const parsed = parseJobSections(jobDescHtml, title, company);
+        const skills = detectSkills(`${title} ${descText}`);
+        const category = inferCategory(title, skills);
+        const expLevel = inferExperienceLevel(title, descText);
+        const isIntern = title.toLowerCase().includes('intern');
+        const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+        const fromText = extractSalaryFromText(descText);
+        const salary = fromText || benchmark;
+        const salaryDisclosed = Boolean(fromText);
+
+        const cleanOverview = parsed.overview || `${company} is actively seeking an early-career ${title} to join their team.`;
+        const curatedDescription = composeFreshCommitsCuratedDescription({
+          title,
+          company,
+          cleanOverview,
+          skills,
+          salary,
+          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities.slice(0, 6) : getRoleArchetypeContent(title, company).responsibilities,
+          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications.slice(0, 6) : getRoleArchetypeContent(title, company).qualifications,
+          location: locDetails.location
+        });
+
+        return {
+          title,
+          company,
+          companyLogo: knownComp?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${sub}.com`,
+          companyWebsite: `https://${sub}.com`,
+          location: locDetails.location,
+          isRemote: locDetails.isRemote,
+          city: locDetails.city,
+          state: locDetails.state,
+          country: locDetails.country,
+          postalCode: locDetails.postalCode,
+          applicantLocationRequirements: locDetails.applicantLocationRequirements,
+          experienceLevel: expLevel,
+          maxYearsExperience: isIntern ? 0 : 1,
+          category,
+          employmentType: empType,
+          salary,
+          salaryDisclosed,
+          suggestedBenchmark: benchmark,
+          description: curatedDescription,
+          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities.slice(0, 6) : getRoleArchetypeContent(title, company).responsibilities,
+          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications.slice(0, 6) : getRoleArchetypeContent(title, company).qualifications,
+          skills,
+          applyUrl: fullUrl,
+          detectedAtsProvider: 'Workday'
+        };
+      }
+    } catch (err) {
+      console.warn('Workday CXS API fetch failed, falling back to heuristic synthesis:', err);
+    }
+  }
+
+  // 2. ASHBY DIRECT API
+  // e.g. https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff
+  const ashbyMatch = fullUrl.match(/jobs\.ashbyhq\.com\/([^/]+)\/([a-zA-Z0-9-]+)/i);
+  if (ashbyMatch) {
+    const [, companySlug, postingId] = ashbyMatch;
+    try {
+      const apiUrl = `https://api.ashbyhq.com/posting-api/job-board/${companySlug}`;
+      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4000) });
+      if (resp.ok) {
+        const boardData = await resp.json();
+        const job = (boardData.jobs || []).find((j: any) => j.id === postingId);
+        if (job) {
+          const title = job.title || 'Software Engineer';
+          const company = companySlug.charAt(0).toUpperCase() + companySlug.slice(1);
+          const rawLoc = job.location || job.address?.postalAddress?.addressLocality || 'Remote';
+          const locDetails = resolveLocationDetails(rawLoc, job.isRemote);
+          if (job.address?.postalAddress?.postalCode) {
+            locDetails.postalCode = job.address.postalAddress.postalCode;
+          }
+          const skills = detectSkills(`${title} ${job.department || ''} ${job.team || ''}`);
+          const category = inferCategory(title, skills);
+          const isIntern = title.toLowerCase().includes('intern');
+          const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
+          const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+
+          let salary: SalaryRange = benchmark;
+          let salaryDisclosed = false;
+          if (job.compensation?.compensationTierSummary) {
+            const compText = job.compensation.compensationTierSummary;
+            const fromText = extractSalaryFromText(compText);
+            if (fromText) {
+              salary = fromText;
+              salaryDisclosed = true;
+            }
+          }
+
+          const archetype = getRoleArchetypeContent(title, company);
+          const curatedDescription = composeFreshCommitsCuratedDescription({
+            title,
+            company,
+            cleanOverview: `${company} is actively hiring an early-career ${title} to join their ${job.department || 'engineering'} team.`,
+            skills: archetype.skills,
+            salary,
+            responsibilities: archetype.responsibilities,
+            qualifications: archetype.qualifications,
+            location: locDetails.location
+          });
+
+          return {
+            title,
+            company,
+            companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${companySlug}.com`,
+            companyWebsite: `https://${companySlug}.com`,
+            location: locDetails.location,
+            isRemote: locDetails.isRemote,
+            city: locDetails.city,
+            state: locDetails.state,
+            country: locDetails.country,
+            postalCode: locDetails.postalCode,
+            applicantLocationRequirements: locDetails.applicantLocationRequirements,
+            experienceLevel: isIntern ? 'Internship' : 'Entry Level',
+            maxYearsExperience: isIntern ? 0 : 1,
+            category,
+            employmentType: empType,
+            salary,
+            salaryDisclosed,
+            suggestedBenchmark: benchmark,
+            description: curatedDescription,
+            responsibilities: archetype.responsibilities,
+            qualifications: archetype.qualifications,
+            skills: archetype.skills,
+            applyUrl: fullUrl,
+            detectedAtsProvider: 'Ashby'
+          };
+        }
+      }
+    } catch (err) {
+      console.warn('Ashby API fetch failed, falling back:', err);
+    }
+  }
+
+  // 3. SMARTRECRUITERS DIRECT API
   const srMatch = fullUrl.match(/jobs\.smartrecruiters\.com\/([^/]+)\/([0-9a-zA-Z]+)(?:-[^/?#]+)?/i);
   if (srMatch) {
     const companyId = srMatch[1];
@@ -1342,11 +1586,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const title = data.name || 'Software Engineer';
         const company = data.company?.name || companyId;
         const companyLogo = data.company?.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(company)}&background=0F172A&color=fff&size=128`;
-        const city = data.location?.city || '';
-        const region = data.location?.region || '';
-        const country = (data.location?.country || 'US').toUpperCase();
-        const location = data.location?.fullLocation || (city ? `${city}${region ? `, ${region}` : ''}, ${country}` : 'Remote');
-        const isRemote = Boolean(data.location?.remote || data.location?.hybrid || location.toLowerCase().includes('remote'));
+        const rawLoc = data.location?.fullLocation || (data.location?.city ? `${data.location.city}, ${data.location.region || ''}` : 'Remote');
+        const locDetails = resolveLocationDetails(rawLoc, Boolean(data.location?.remote || data.location?.hybrid));
 
         const jobAd = data.jobAd?.sections || {};
         const jobDescText = cleanHtml(jobAd.jobDescription?.text || '');
@@ -1362,8 +1603,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
 
-        const benchmark = getRoleMarketBenchmark(title, category, country);
-        let salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: empType === 'INTERN' ? 'HOUR' : 'YEAR' };
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+        let salary: SalaryRange = benchmark;
         let salaryDisclosed = false;
 
         if (data.compensation?.max) {
@@ -1391,7 +1632,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salary,
           responsibilities,
           qualifications,
-          location
+          location: locDetails.location
         });
 
         return {
@@ -1399,12 +1640,13 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           company,
           companyLogo,
           companyWebsite: `https://${companyId.toLowerCase()}.com`,
-          location,
-          isRemote,
-          applicantLocationRequirements: isRemote ? country : undefined,
-          city,
-          state: region,
-          country,
+          location: locDetails.location,
+          isRemote: locDetails.isRemote,
+          applicantLocationRequirements: locDetails.applicantLocationRequirements,
+          city: locDetails.city,
+          state: locDetails.state,
+          country: locDetails.country,
+          postalCode: locDetails.postalCode,
           experienceLevel,
           maxYearsExperience: maxYears,
           category,
@@ -1425,21 +1667,36 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     }
   }
 
-  // 2. GREENHOUSE DIRECT API
+  // 4. GREENHOUSE DIRECT API
+  // Supports boards.greenhouse.io, job-boards.greenhouse.io, and ?gh_jid={id} parameter on company domains
+  let ghBoard = '';
+  let ghJobId = '';
   const ghMatch = fullUrl.match(/(?:boards|job-boards)\.greenhouse\.io\/([^/]+)\/jobs\/([0-9]+)/i);
   if (ghMatch) {
-    const board = ghMatch[1];
-    const jobId = ghMatch[2];
-    const apiUrl = `https://boards-api.greenhouse.io/v1/boards/${board}/jobs/${jobId}`;
+    ghBoard = ghMatch[1];
+    ghJobId = ghMatch[2];
+  } else {
+    const ghJidParam = urlObj.searchParams.get('gh_jid') || urlObj.searchParams.get('token');
+    if (ghJidParam && /^[0-9]+$/.test(ghJidParam)) {
+      ghJobId = ghJidParam;
+      const forParam = urlObj.searchParams.get('for');
+      ghBoard = forParam || urlObj.hostname.split('.')[0];
+      if (ghBoard === 'boards' || ghBoard === 'jobs') {
+        const segs = urlObj.pathname.split('/').filter(Boolean);
+        if (segs.length > 0) ghBoard = segs[0];
+      }
+    }
+  }
 
+  if (ghBoard && ghJobId) {
+    const apiUrl = `https://boards-api.greenhouse.io/v1/boards/${ghBoard}/jobs/${ghJobId}`;
     try {
       const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4000) });
       if (resp.ok) {
         const data = await resp.json();
         const title = data.title || 'Software Engineer';
-        const company = board.charAt(0).toUpperCase() + board.slice(1);
-        const location = data.location?.name || 'Remote - US';
-        const isRemote = Boolean(location.toLowerCase().includes('remote'));
+        const company = ghBoard.charAt(0).toUpperCase() + ghBoard.slice(1);
+        const locDetails = resolveLocationDetails(data.location?.name || 'Remote - US');
         const contentText = cleanHtml(data.content || '');
         const parsed = parseJobSections(data.content || '', title, company);
         const responsibilities = parsed.responsibilities;
@@ -1449,9 +1706,9 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const experienceLevel = inferExperienceLevel(title, contentText);
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
-        const benchmark = getRoleMarketBenchmark(title, category, 'US');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
         const fromText = extractSalaryFromText(contentText);
-        const salary = fromText || { min: 0, max: 0, currency: 'USD', unit: empType === 'INTERN' ? 'HOUR' : 'YEAR' };
+        const salary = fromText || benchmark;
         const salaryDisclosed = Boolean(fromText);
 
         const cleanOverview = parsed.overview || `${company} is actively seeking an early-career ${title} to join their team.`;
@@ -1463,18 +1720,21 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salary,
           responsibilities,
           qualifications,
-          location
+          location: locDetails.location
         });
 
         return {
           title,
           company,
-          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${board}.com`,
-          companyWebsite: `https://${board}.com`,
-          location,
-          isRemote,
-          applicantLocationRequirements: isRemote ? 'US' : undefined,
-          country: 'US',
+          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${ghBoard}.com`,
+          companyWebsite: `https://${ghBoard}.com`,
+          location: locDetails.location,
+          isRemote: locDetails.isRemote,
+          city: locDetails.city,
+          state: locDetails.state,
+          country: locDetails.country,
+          postalCode: locDetails.postalCode,
+          applicantLocationRequirements: locDetails.applicantLocationRequirements,
           experienceLevel,
           maxYearsExperience: maxYears,
           category,
@@ -1495,7 +1755,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     }
   }
 
-  // 3. LEVER DIRECT API
+  // 5. LEVER DIRECT API
   const leverMatch = fullUrl.match(/jobs\.lever\.co\/([^/]+)\/([a-zA-Z0-9-]+)/i);
   if (leverMatch) {
     const comp = leverMatch[1];
@@ -1508,17 +1768,16 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const data = await resp.json();
         const title = data.text || 'Software Engineer';
         const company = comp.charAt(0).toUpperCase() + comp.slice(1);
-        const location = data.categories?.location || 'Remote';
-        const isRemote = Boolean(location.toLowerCase().includes('remote') || data.workplaceType === 'remote');
+        const locDetails = resolveLocationDetails(data.categories?.location || 'Remote', data.workplaceType === 'remote');
         const descText = cleanHtml(data.description || '');
         const skills = detectSkills(`${title} ${descText}`);
         const category = inferCategory(title, skills);
         const experienceLevel = inferExperienceLevel(title, descText);
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
-        const benchmark = getRoleMarketBenchmark(title, category, 'US');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
 
-        let salary: SalaryRange = { min: 0, max: 0, currency: 'USD', unit: empType === 'INTERN' ? 'HOUR' : 'YEAR' };
+        let salary: SalaryRange = benchmark;
         let salaryDisclosed = false;
         if (data.salaryRange?.min && data.salaryRange?.max) {
           salary = {
@@ -1558,7 +1817,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salary,
           responsibilities,
           qualifications,
-          location
+          location: locDetails.location
         });
 
         return {
@@ -1566,10 +1825,13 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           company,
           companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${comp}.com`,
           companyWebsite: `https://${comp}.com`,
-          location,
-          isRemote,
-          applicantLocationRequirements: isRemote ? 'US' : undefined,
-          country: 'US',
+          location: locDetails.location,
+          isRemote: locDetails.isRemote,
+          city: locDetails.city,
+          state: locDetails.state,
+          country: locDetails.country,
+          postalCode: locDetails.postalCode,
+          applicantLocationRequirements: locDetails.applicantLocationRequirements,
           experienceLevel,
           maxYearsExperience: maxYears,
           category,
@@ -1590,7 +1852,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     }
   }
 
-  // 4. WORKABLE DIRECT MATCHER & API ENRICHMENT
+  // 6. WORKABLE DIRECT MATCHER & API ENRICHMENT
   const workableMatch = fullUrl.match(/jobs\.workable\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:view|jobs)\/([a-zA-Z0-9]+)(?:\/([^/?#]+))?/i);
   if (workableMatch) {
     const shortCode = workableMatch[1];
@@ -1607,11 +1869,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const cleanCompSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');
         const companyLogo = data.company?.image || `https://www.google.com/s2/favicons?sz=128&domain=${cleanCompSlug}.com`;
         const companyWebsite = data.company?.website || `https://${cleanCompSlug}.com`;
-        const city = data.location?.city || slugMeta.inferredLocation || '';
-        const region = data.location?.subregion || '';
-        const country = (data.location?.countryCode || 'US').toUpperCase();
-        const isRemote = data.workplace === 'remote' || data.workplace === 'hybrid';
-        const location = city ? `${city}${region ? `, ${region}` : ''}${data.workplace === 'hybrid' ? ' / Hybrid' : ''}` : isRemote ? 'Remote - US' : 'United States';
+        const rawLoc = data.location?.city ? `${data.location.city}${data.location.subregion ? `, ${data.location.subregion}` : ''}` : slugMeta.inferredLocation || 'Remote';
+        const locDetails = resolveLocationDetails(rawLoc, data.workplace === 'remote' || data.workplace === 'hybrid');
 
         const descText = cleanHtml(data.description || '');
         const reqText = cleanHtml(data.requirementsSection || '');
@@ -1623,9 +1882,9 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const expLevel = inferExperienceLevel(title, fullCorpus);
         const isIntern = title.toLowerCase().includes('intern');
         const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
-        const benchmark = getRoleMarketBenchmark(title, category, country);
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
 
-        let salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: isIntern ? 'HOUR' : 'YEAR' };
+        let salary: SalaryRange = benchmark;
         let salaryDisclosed = false;
         if (data.salary?.min && data.salary?.max) {
           salary = {
@@ -1652,7 +1911,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salary,
           responsibilities,
           qualifications,
-          location
+          location: locDetails.location
         });
 
         return {
@@ -1660,12 +1919,13 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           company,
           companyLogo,
           companyWebsite,
-          location,
-          isRemote,
-          applicantLocationRequirements: isRemote ? country : undefined,
-          city,
-          state: region,
-          country,
+          location: locDetails.location,
+          isRemote: locDetails.isRemote,
+          applicantLocationRequirements: locDetails.applicantLocationRequirements,
+          city: locDetails.city,
+          state: locDetails.state,
+          country: locDetails.country,
+          postalCode: locDetails.postalCode,
           experienceLevel: expLevel,
           maxYearsExperience: isIntern ? 0 : 1,
           category,
@@ -1689,7 +1949,6 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
   // Fast path for enterprise portals with strict bot defenses that block proxies
   const isDirectEnterprisePortal =
     fullUrl.includes('google.com') ||
-    fullUrl.includes('myworkdayjobs.com') ||
     fullUrl.includes('amazon.jobs') ||
     fullUrl.includes('microsoft.com') ||
     fullUrl.includes('apple.com') ||

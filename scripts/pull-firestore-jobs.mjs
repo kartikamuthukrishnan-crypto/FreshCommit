@@ -302,12 +302,12 @@ async function pullFirestoreJobs() {
     { loc: 'https://www.freshcommits.com/career-tools', priority: '0.95', changefreq: 'weekly' },
     { loc: 'https://www.freshcommits.com/tools', priority: '0.90', changefreq: 'weekly' },
     { loc: 'https://www.freshcommits.com/insights', priority: '0.95', changefreq: 'weekly' },
-    { loc: 'https://www.freshcommits.com/about', priority: '0.80', changefreq: 'monthly' },
-    { loc: 'https://www.freshcommits.com/contact', priority: '0.80', changefreq: 'monthly' },
-    { loc: 'https://www.freshcommits.com/privacy', priority: '0.80', changefreq: 'monthly' },
-    { loc: 'https://www.freshcommits.com/privacy-policy', priority: '0.80', changefreq: 'monthly' },
-    { loc: 'https://www.freshcommits.com/terms', priority: '0.80', changefreq: 'monthly' },
-    { loc: 'https://www.freshcommits.com/disclaimer', priority: '0.60', changefreq: 'monthly' }
+    { loc: 'https://www.freshcommits.com/about/', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/contact/', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/privacy/', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/privacy-policy/', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/terms/', priority: '0.80', changefreq: 'monthly' },
+    { loc: 'https://www.freshcommits.com/disclaimer/', priority: '0.60', changefreq: 'monthly' }
   ];
 
   // Read career article IDs from all article data files

@@ -38,37 +38,37 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/about</loc>
+    <loc>https://www.freshcommits.com/about/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/contact</loc>
+    <loc>https://www.freshcommits.com/contact/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/privacy</loc>
+    <loc>https://www.freshcommits.com/privacy/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/privacy-policy</loc>
+    <loc>https://www.freshcommits.com/privacy-policy/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/terms</loc>
+    <loc>https://www.freshcommits.com/terms/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/disclaimer</loc>
+    <loc>https://www.freshcommits.com/disclaimer/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
@@ -282,13 +282,31 @@
 
   <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->
   <url>
+    <loc>https://www.freshcommits.com/job/manual-1791385515589</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/manual-1791366605841</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/manual-1791385773845</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/manual-1791366264314</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/manual-1791385121319</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -307,6 +325,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/manual-1791360166810</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/manual-1791385421054</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
