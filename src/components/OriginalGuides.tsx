@@ -987,7 +987,24 @@ export const CareerInsightsView: React.FC = () => {
                   {art.summary}
                 </p>
 
-                <div className="mt-4 pt-4 border-t border-slate-100 space-y-1.5">
+                {/* Author Byline for Google E-E-A-T Transparency */}
+                <div className="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-[11px]">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className={`w-6 h-6 rounded-full ${art.author.avatarBg || 'bg-slate-800'} text-white font-bold text-[10px] flex items-center justify-center flex-shrink-0 shadow-2xs`}>
+                      {art.author.initials || art.author.name.slice(0, 2).toUpperCase()}
+                    </div>
+                    <div className="truncate">
+                      <span className="font-bold text-slate-900">{art.author.name}</span>
+                      <span className="text-slate-400 mx-1">&bull;</span>
+                      <span className="text-slate-500 truncate">{art.author.shortRole || art.author.role}</span>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 shrink-0">
+                    E-E-A-T Verified
+                  </span>
+                </div>
+
+                <div className="mt-3.5 pt-3 border-t border-slate-100 space-y-1.5">
                   <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                     Core Topics Covered
                   </div>

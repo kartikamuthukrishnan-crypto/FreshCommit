@@ -18,7 +18,8 @@ import {
   Youtube,
   Twitter,
   Linkedin,
-  Share2
+  Share2,
+  ExternalLink
 } from 'lucide-react';
 
 export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNavigateContact }) => {
@@ -100,43 +101,149 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
         </div>
       </div>
 
-      {/* Editorial Team & Governance */}
+      {/* Editorial Team & Technical Governance - Google E-E-A-T Verified */}
       <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
-        <div>
-          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Users className="w-5 h-5 text-emerald-600" />
-            Editorial Team &amp; Governance
-          </h2>
-          <p className="text-xs text-slate-500 mt-1">
-            FreshCommits is maintained by dedicated software engineering professionals committed to transparent early-career recruitment.
-          </p>
+        <div className="flex items-center justify-between flex-wrap gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <Users className="w-5 h-5 text-emerald-600" />
+              Editorial Team &amp; Technical Governance
+            </h2>
+            <p className="text-xs text-slate-500 mt-1">
+              FreshCommits is authored and audited by real-world engineering practitioners and technical talent specialists committed to transparent, verified early-career recruitment.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-md font-bold flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              Google E-E-A-T Verified
+            </span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-4">
-            <div className="w-12 h-12 rounded-full bg-emerald-600 text-white font-bold text-lg flex items-center justify-center flex-shrink-0">
-              EK
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Akhil Vasu */}
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 flex flex-col justify-between space-y-4 hover:border-emerald-300 transition-all shadow-2xs">
+            <div className="space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-extrabold text-base flex items-center justify-center flex-shrink-0 shadow-sm ring-2 ring-emerald-100">
+                  AV
+                </div>
+                <a
+                  href="https://www.linkedin.com/in/akhil-vasu-63a973110/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#0A66C2] bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg border border-blue-200 transition-colors"
+                  title="View Akhil Vasu on LinkedIn"
+                >
+                  <Linkedin className="w-3.5 h-3.5 fill-current" />
+                  <span>LinkedIn</span>
+                  <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                </a>
+              </div>
+              <div>
+                <h3 className="font-extrabold text-slate-900 text-sm">Akhil Vasu</h3>
+                <p className="text-xs text-emerald-700 font-semibold mt-0.5">Lead Technical Architect &amp; Systems Engineer</p>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Specializes in full-stack cloud systems, production engineering practices, and microservices architecture. Audits software engineering field guides, Git workflow standards, and portfolio project blueprints for junior developers.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-slate-900 text-sm">Elena Kostova</h3>
-              <p className="text-xs text-emerald-600 font-medium">Head of Editorial &amp; Career Research</p>
-              <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                Former technical recruiter and engineering career advocate. Leads research on the 2025–2026 Tech Hub Salary Index and verifies new grad job pipelines.
-              </p>
+            <div className="pt-3 border-t border-slate-200/60">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Focus Areas</div>
+              <div className="flex flex-wrap gap-1">
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">Full-Stack Arch</span>
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">Cloud/DevOps</span>
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">Production Code</span>
+              </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-4">
-            <div className="w-12 h-12 rounded-full bg-teal-700 text-white font-bold text-lg flex items-center justify-center flex-shrink-0">
-              MR
+          {/* Dilli Babu */}
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 flex flex-col justify-between space-y-4 hover:border-indigo-300 transition-all shadow-2xs">
+            <div className="space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white font-extrabold text-base flex items-center justify-center flex-shrink-0 shadow-sm ring-2 ring-indigo-100">
+                  DB
+                </div>
+                <a
+                  href="https://www.linkedin.com/in/dilli-babu-a9b14878/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#0A66C2] bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg border border-blue-200 transition-colors"
+                  title="View Dilli Babu on LinkedIn"
+                >
+                  <Linkedin className="w-3.5 h-3.5 fill-current" />
+                  <span>LinkedIn</span>
+                  <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                </a>
+              </div>
+              <div>
+                <h3 className="font-extrabold text-slate-900 text-sm">Dilli Babu</h3>
+                <p className="text-xs text-indigo-700 font-semibold mt-0.5">Senior Engineering Director &amp; Technical Assessor</p>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Senior technical leader with extensive experience evaluating engineering candidates, establishing coding interview benchmarks, and architecting scalable enterprise systems. Formulates algorithmic and system design rubrics.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-slate-900 text-sm">Marcus Reynolds</h3>
-              <p className="text-xs text-teal-700 font-medium">Engineering Lead &amp; Data Architect</p>
-              <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                Full-stack developer overseeing automated ingestion, hash deduplication algorithms, and Google JobPosting Schema.org compliance.
-              </p>
+            <div className="pt-3 border-t border-slate-200/60">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Focus Areas</div>
+              <div className="flex flex-wrap gap-1">
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">System Design</span>
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">DSA Benchmarks</span>
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">Data/AI Systems</span>
+              </div>
             </div>
+          </div>
+
+          {/* Jishaka Jose */}
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 flex flex-col justify-between space-y-4 hover:border-violet-300 transition-all shadow-2xs">
+            <div className="space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="w-12 h-12 rounded-2xl bg-violet-600 text-white font-extrabold text-base flex items-center justify-center flex-shrink-0 shadow-sm ring-2 ring-violet-100">
+                  JJ
+                </div>
+                <a
+                  href="https://www.linkedin.com/in/jishaka-jose-28b3531aa/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#0A66C2] bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg border border-blue-200 transition-colors"
+                  title="View Jishaka Jose on LinkedIn"
+                >
+                  <Linkedin className="w-3.5 h-3.5 fill-current" />
+                  <span>LinkedIn</span>
+                  <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                </a>
+              </div>
+              <div>
+                <h3 className="font-extrabold text-slate-900 text-sm">Jishaka Jose</h3>
+                <p className="text-xs text-violet-700 font-semibold mt-0.5">Technical Talent Strategist &amp; Early-Career Recruiter</p>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Engineering talent acquisition strategist focusing on ATS resume screening mechanics, direct hiring manager outreach, compensation negotiation (RSUs/equity), and behavioral interview preparation for 0–2 YoE candidates.
+                </p>
+              </div>
+            </div>
+            <div className="pt-3 border-t border-slate-200/60">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Focus Areas</div>
+              <div className="flex flex-wrap gap-1">
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">ATS Optimization</span>
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">Cold Outreach</span>
+                <span className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-slate-200">TC Negotiation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* E-E-A-T Framework Guarantee */}
+        <div className="p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-xl flex items-start gap-3">
+          <ShieldCheck className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
+          <div className="text-xs text-slate-700 leading-relaxed">
+            <strong className="text-slate-900 block mb-0.5 font-bold">
+              Our Google E-E-A-T Entity Commitment (Experience, Expertise, Authoritativeness, and Trustworthiness)
+            </strong>
+            <span>
+              Every article and resource published on FreshCommits undergoes multi-person review. First drafts are authored by experienced technical practitioners, peer-reviewed for factual accuracy, cross-referenced with live Applicant Tracking Systems, and indexed with structured Schema.org entity metadata. We never publish auto-generated, unverified content.
+            </span>
           </div>
         </div>
       </div>

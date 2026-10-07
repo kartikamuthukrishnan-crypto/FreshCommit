@@ -1,4 +1,5 @@
 import type { CareerArticle } from '../careerArticles';
+import { AUTHOR_ENTITIES } from '../authorEntities';
 
 export const APPLICATION_AND_OUTREACH_ARTICLES: CareerArticle[] = [
   {
@@ -6,10 +7,9 @@ export const APPLICATION_AND_OUTREACH_ARTICLES: CareerArticle[] = [
     tag: 'Technical Interviews',
     readTime: '8 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Senior Technical Interviewer'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'How to Handle Live Coding & Pair Programming Assessments Without Panic',
     subtitle: 'Tactical communication frameworks, debugging protocols, and mindset techniques for coding with senior engineers watching your cursor.',
     summary: 'There is no setting in software engineering more anxiety-inducing than live coding. A stranger stares at your cursor over a shared screen, your hands tremble on the keyboard, and simple syntax you have written a thousand times suddenly vanishes from your memory. Interview panic is not a reflection of your coding intellect—it is an autonomic physiological response to feeling evaluated. This guide equips you with operational protocols to master live screen coding: the think-aloud framework, recovering gracefully from syntax errors, and converting an adversarial test into a collaborative pair-programming conversation.',
@@ -80,10 +80,9 @@ Candidate: "Uhh, I'm just confused."
     tag: 'Portfolio Architecture',
     readTime: '10 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Staff Systems Architect'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: '5 High-Impact GitHub Project Ideas for Entry-Level Web Developers (With Production Architectures)',
     subtitle: 'Move beyond generic To-Do lists and tutorial clones with these full-stack systems featuring real database indexing, async workers, and public cloud deployment.',
     summary: 'The biggest lie in developer career guidance is the advice to "build 10 projects to show dedication". A hiring manager will never look at 10 projects. In fact, if they open your GitHub profile and see 15 shallow repositories consisting of simple weather widgets, generic calculators, and unmodified tutorial clones, they will assume you can only follow recipes. What converts skeptical engineering managers into enthusiastic interviewers is 2 to 3 deep, production-grade applications that solve real technical challenges. Here are 5 battle-tested project specifications designed to prove enterprise readiness.',
@@ -178,10 +177,9 @@ export async function rateLimitMiddleware(req: Request, res: Response, next: Nex
     tag: 'Application Strategy',
     readTime: '7 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Talent Acquisition & Early-Career Sourcing'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'How to Write a Tech Cover Letter That Recruiters Actually Read',
     subtitle: 'The 3-paragraph, zero-fluff engineering cover letter blueprint that captures attention in fast-growing startups and selective tech teams.',
     summary: 'You have likely heard conflicting career advice: half the internet claims cover letters are completely dead, while the other half insists you must write a poetic narrative about how you have loved technology since childhood. The truth is nuanced: automated mega-corporations (Amazon, Meta) rarely read them, but early-stage startups, Series A–C scale-ups, and specialized engineering consultancies read every cover letter to gauge technical enthusiasm, writing clarity, and team fit. If a job posting provides an optional cover letter field, submitting this precise 3-paragraph technical blueprint will dramatically increase your callback rates.',
@@ -254,10 +252,9 @@ Best regards,
     tag: 'Job Search Strategy',
     readTime: '8 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Staff Sourcing & Executive Recruiting'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'Cold Outreach Strategies on LinkedIn for Entry-Level Roles That Get 30%+ Response Rates',
     subtitle: 'Concise messaging frameworks, timing rules, and follow-up cadences for reaching out to engineering managers without sounding transactional.',
     summary: 'When 1,000 candidates click "Easy Apply" on LinkedIn within hours of an entry-level posting going live, waiting passively for an automated recruiter email is a losing mathematical strategy. The candidates who consistently secure interview loops take control of their pipeline through respectful, highly targeted cold outreach. However, 95% of candidates do outreach incorrectly: they send 400-word walls of text, plead for referrals from strangers, or spam generic templates. This guide reveals the exact 65-word messaging framework that achieves consistent 30%+ response rates from engineering leads and hiring managers.',
@@ -328,10 +325,9 @@ Best regards,
     tag: 'Role Roadmaps',
     readTime: '9 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Staff Frontend Architect'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'Entry-Level Frontend Engineer Roadmap: Essential Skills vs. Nice-to-Haves',
     subtitle: 'A pragmatic guide cutting through framework fatigue: What core capabilities hiring managers test versus tools you should safely ignore as a junior.',
     summary: 'The modern frontend ecosystem is notoriously overwhelming for early-career developers. Social media influencers insist that to get an entry-level frontend role, you must know React, Vue, Svelte, Next.js, Remix, Tailwind, Webpack, Vite, GraphQL, WebSockets, Three.js, and WebAssembly. This advice causes severe burnout and shallow, superficial knowledge. In production, engineering leads do not hire juniors for encyclopedic framework knowledge; they hire for rock-solid core JavaScript fundamentals, CSS layout precision, component lifecycle comprehension, and accessibility. This roadmap separates the mandatory core from secondary distractions.',

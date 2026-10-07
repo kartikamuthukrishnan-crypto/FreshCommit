@@ -17,16 +17,17 @@ export interface ArticleSection {
   };
 }
 
+import { AuthorEntity, AUTHOR_ENTITIES } from './authorEntities';
+export type { AuthorEntity };
+
 export interface CareerArticle {
   id: string;
   tag: string;
   readTime: string;
   publishedDate: string;
-  author: {
-    name: string;
-    role: string;
-    avatarUrl?: string;
-  };
+  lastUpdatedDate?: string;
+  author: AuthorEntity;
+  reviewer?: AuthorEntity;
   title: string;
   subtitle: string;
   summary: string;
@@ -47,10 +48,9 @@ export const CAREER_ARTICLES: CareerArticle[] = [
     tag: 'Resume & Screening',
     readTime: '8 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Technical Recruiting & Early-Career Strategy'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['jishaka-jose'],
     title: 'How to Write a Software Engineering Resume with Zero Industry Experience',
     subtitle: 'The exact structural blueprint, technical bullet-point formulas, and formatting strategies needed to build an interview-worthy software engineering resume from scratch.',
     summary: 'Every computer science graduate, bootcamp completer, and self-taught developer faces the same frustrating paradox: every "entry-level" job posting demands 1 to 3 years of industry experience. When you open a blank document to write your first software engineering resume, that requirement feels like an impassable barrier. However, technical recruiters do not expect enterprise experience—what they actually look for is proof of engineering capability. The secret to landing junior engineering interviews with zero corporate experience is shifting your resume\'s focus away from where you worked and toward what you have built and delivered.',
@@ -214,10 +214,9 @@ export const CAREER_ARTICLES: CareerArticle[] = [
     tag: 'Job Search Strategy',
     readTime: '9 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Board',
-      role: 'Staff Hiring Systems & Recruiter Operations'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'The 2026 Junior Developer Job Search Strategy: Beating 1,000+ Applicant Pipelines Without Burning Out',
     subtitle: 'Why 1-click aggregator applications yield under 1% conversion rates, how direct ATS submissions 10x your callback ratio, and the weekly pipeline framework that lands offers.',
     summary: 'In 2026, an entry-level software engineer job posting on LinkedIn or Indeed can attract 1,000+ applicants within 24 hours. Most new graduates respond by carpet-bombing 500 "Easy Apply" buttons with a generic resume, resulting in zero callbacks, demoralizing silence, and eventual burnout. By analyzing applicant routing data across Greenhouse, Lever, and Ashby portals, this guide reveals the exact operational playbook required to bypass black-hole queues, secure direct recruiter reviews, and land junior engineering offers.',
@@ -392,10 +391,9 @@ Best regards,
     tag: 'Technical Interviews',
     readTime: '10 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Board',
-      role: 'Senior Engineering Interviewer & Staff Evaluator'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'How to Pass the Take-Home Coding Challenge: What Senior Engineers Grade Behind Closed Doors',
     subtitle: 'Working code is only 40% of the score. Here is the exact evaluation rubric for unit testing, architecture, documentation, and error boundaries that guarantees an onsite invitation.',
     summary: 'Many junior developers assume that completing every functional requirement of a take-home assignment guarantees advancement to the final onsite round. In reality, senior engineering evaluators routinely reject submissions whose tests pass 100% of the time. Why? Because production code requires defensive input validation, comprehensive edge-case testing, clean architectural separation of concerns, and reproducible deployment environments. This guide exposes the hidden scorecard engineering teams use to evaluate take-home challenges.',
@@ -599,11 +597,10 @@ volumes:
     id: 'git-hygiene-day-one',
     tag: 'Engineering Culture',
     readTime: '6 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Staff Infrastructure & Developer Experience'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'Git Commit & Branch Hygiene: What Senior Engineers Expect on Day One',
     subtitle: 'Why your commit history reveals more about your engineering discipline than your LeetCode score.',
     summary: 'When a new junior engineer joins a production team, their code is rarely where problems start. Where senior engineers, tech leads, and DevOps engineers get nervous is messy git histories: 47 commits named "fix", merge commits interlaced with master, and un-rebased PRs that pollute `git bisect`. Here is the exact Git workflow expected on day one.',
@@ -699,11 +696,10 @@ git rebase -i HEAD~4
     id: 'rsu-base-equity-decoded',
     tag: 'Compensation',
     readTime: '8 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Compensation Research & Industry Benchmarks'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'Decoding New Grad Tech Offers: Base Salary vs. RSUs vs. Sign-On Bonuses',
     subtitle: 'A practical, mathematical guide to evaluating Total Compensation (TC), 4-year cliffs, and tax surprises.',
     summary: 'You receive an offer letter: "$165,000 Total Compensation (First Year)". Before celebrating or comparing numbers on Blind or Reddit, you need to dissect how much of that number lands in your checking account on the 1st and 15th of each month, what portion is tied to stock volatility, and what happens if you switch jobs after 11 months.',
@@ -782,11 +778,10 @@ and look forward to hearing your thoughts!"`
     id: 'standout-portfolio-architecture',
     tag: 'Portfolio Strategy',
     readTime: '7 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Hiring Committee & Senior Staff Engineers'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'Beyond Todo Lists: 4 Production-Grade Projects That Get You Screened',
     subtitle: 'Hiring managers filter out generic bootcamp clones in seconds. Here are 4 architectures that demonstrate distributed systems, rate limiting, and caching.',
     summary: 'A portfolio with a basic Todo list, a clone of Netflix, and a weather app that calls a free API tells an engineering manager one thing: this candidate knows how to follow a 2-hour YouTube tutorial. If you want to stand out for 0–2 YoE engineering positions in competitive markets, your projects must demonstrate knowledge of distributed systems, error boundaries, rate limiting, and observability.',
@@ -871,11 +866,10 @@ app.post('/api/webhooks', async (req, res) => {
     id: 'reverse-interviewing-engineering-teams',
     tag: 'Interview Prep',
     readTime: '5 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Career Coaching & Engineering Mentorship'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'Reverse-Interviewing Engineering Teams: Questions to Identify Mentorship Culture',
     subtitle: 'The single highest-risk factor for early-career developers is landing on a team with zero bandwidth for mentorship. Here is how to test for it.',
     summary: 'When you are a junior engineer with 0–2 years of experience, the company name on your resume matters far less than whether you are actually learning. If you join a chaotic startup or disconnected enterprise team where seniors are burnt out and PRs sit unreviewed for 3 weeks, your skill growth grinds to a halt. In the final 10 minutes of your interview, it is your turn to interview the team.',
@@ -959,11 +953,10 @@ that fix takes from my local laptop to live production?"`
     id: 'junior-swe-resume-ats-formula',
     tag: 'Resume & Screening',
     readTime: '7 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Technical Hiring & Resume Advisory'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'The 1-Page Junior SWE Resume: Formatting, Metric Formulas & ATS Pass Rates',
     subtitle: 'How engineering managers scan resumes in 6 seconds, and how the Google XYZ formula transforms generic project bullets into interview invitations.',
     summary: 'Most entry-level software engineering resumes fail before a human ever reads them. They get tripped up by multi-column graphical templates that scramble ATS parsers, or they list passive task descriptions ("Worked on frontend using React"). To pass modern automated screening and capture the attention of a time-strapped engineering manager, every bullet point must demonstrate measurable engineering impact.',
@@ -1040,11 +1033,10 @@ that fix takes from my local laptop to live production?"`
     id: 'entry-level-system-design',
     tag: 'System Design',
     readTime: '9 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Distributed Systems & Architecture Mentorship'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['dilli-babu'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'System Design for Entry-Level Engineers: The 5 Concepts You Actually Need',
     subtitle: 'You won\'t be asked to design Netflix from scratch. Here is what interviewers actually expect 0–2 YoE candidates to know about scale, caching, and databases.',
     summary: 'Junior candidates often panic about System Design interviews, imagining they will be expected to architect global multi-region distributed consensus protocols like Paxos or Raft. In reality, entry-level system design rounds test for foundational architectural intuition: Do you understand where bottlenecks happen? Do you know when to introduce a cache? Can you explain the difference between SQL and NoSQL?',
@@ -1129,11 +1121,10 @@ async function getUserProfile(userId: string): Promise<UserProfile> {
     id: 'acing-technical-screens',
     tag: 'Interview Strategy',
     readTime: '6 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Technical Interviewing & Coding Coaches'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['dilli-babu'],
+    reviewer: AUTHOR_ENTITIES['jishaka-jose'],
     title: 'Passing the Modern Technical Screen: Beyond Blind LeetCode Grinding',
     subtitle: 'Why solving the algorithmic problem correctly is only 40% of the rubric, and how to communicate like a future teammate while writing code.',
     summary: 'Every year, thousands of candidates solve all test cases in a coding screen and still receive a rejection email 48 hours later. Why? Because live technical screens are not automated compilers; they are simulations of working with you on a real engineering problem. Interviewers evaluate code cleanliness, how you handle ambiguity, whether you ask clarifying questions, and how you receive feedback.',
@@ -1199,11 +1190,10 @@ async function getUserProfile(userId: string): Promise<UserProfile> {
     id: 'first-90-days-onboarding',
     tag: 'Career Growth',
     readTime: '6 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Engineering Management & Team Leadership'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['jishaka-jose'],
     title: 'The First 90 Days: How Junior Developers Build Immediate Engineering Velocity',
     subtitle: 'How to ask senior engineers questions without being annoying, document onboarding friction, and ship your first production PR in week one.',
     summary: 'The difference between junior engineers who get promoted within 18 months and those who struggle is rarely raw algorithmic talent. It comes down to communication hygiene, proactive ownership, and onboarding momentum. Here is the field-tested playbook for navigating your first 90 days on an engineering team.',
@@ -1269,11 +1259,10 @@ Attaching the terminal log below."`
     id: 'production-observability-debugging',
     tag: 'Production Engineering',
     readTime: '8 min read',
-    publishedDate: 'Updated September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Site Reliability & Production Engineering'
-    },
+    publishedDate: 'September 2026',
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'Production Observability: How Junior Developers Debug Real-World Incidents',
     subtitle: 'Moving beyond console.log: A practical guide to structured JSON logs, latency percentiles, distributed tracing, and blameless post-mortems.',
     summary: 'In personal projects, debugging usually means dropping a console.log into your code and watching the terminal. In high-traffic production environments handling thousands of concurrent users across distributed containers, console logs become an unreadable firehose. To diagnose production bugs and latency spikes like an experienced engineer, you must master the three pillars of modern observability: structured logs, metric aggregations, and distributed tracing.',

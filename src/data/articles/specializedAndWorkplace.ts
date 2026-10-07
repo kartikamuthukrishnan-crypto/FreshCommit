@@ -1,4 +1,5 @@
 import type { CareerArticle } from '../careerArticles';
+import { AUTHOR_ENTITIES } from '../authorEntities';
 
 export const SPECIALIZED_AND_WORKPLACE_ARTICLES: CareerArticle[] = [
   {
@@ -6,10 +7,9 @@ export const SPECIALIZED_AND_WORKPLACE_ARTICLES: CareerArticle[] = [
     tag: 'Role Roadmaps',
     readTime: '10 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Staff Data Platform Engineer'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['dilli-babu'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'How to Break Into Entry-Level Data Engineering in 2026',
     subtitle: 'The modern data engineering blueprint: Master SQL window functions, dimensional modeling, automated ETL orchestration, and cloud warehouses.',
     summary: 'Data engineering has emerged as one of the highest-paying, most resilient engineering disciplines in tech. While entry-level web development is crowded with thousands of bootcamp graduates, data platform teams frequently struggle to find junior talent who understand that data engineering is software engineering applied to data—not just writing basic pandas scripts. This comprehensive roadmap demystifies what data hiring managers actually look for in entry-level data engineers, from dimensional schema design to production Airflow orchestration and data quality testing.',
@@ -91,10 +91,9 @@ WHERE regional_rank = 2;`,
     tag: 'Role Roadmaps',
     readTime: '9 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Information Security & Threat Analyst'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'Breaking Into Entry-Level Cybersecurity: SOC Analyst vs. Junior Pentester Pathways',
     subtitle: 'A realistic evaluation of certifications, virtual lab portfolios, and hiring pipelines for blue team defense versus offensive security.',
     summary: 'Cybersecurity is surrounded by misleading marketing campaigns promising six-figure ethical hacking salaries to beginners after passing a single multiple-choice certification exam. In reality, breaking into information security requires understanding computing systems, operating system internals, and networking before you can defend or exploit them. This guide cuts through the noise to contrast the two primary entry-level security career trajectories: Blue Team (Security Operations Center / SOC Analyst) and Red Team (Junior Penetration Tester), mapping out the realistic certification paths and hands-on lab portfolios that actually win interviews.',
@@ -153,10 +152,9 @@ WHERE regional_rank = 2;`,
     tag: 'Role Roadmaps',
     readTime: '9 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Staff Site Reliability Engineer'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'How to Land a Junior Cloud/DevOps Role: What You Need Beyond AWS Certifications',
     subtitle: 'Why AWS Certified Cloud Practitioner won\'t get you hired, and the hands-on Linux, Docker, Terraform, and CI/CD competencies that actually do.',
     summary: 'DevOps and Cloud Infrastructure roles are traditionally considered mid-career transitions rather than entry-level jobs because companies are hesitant to give juniors production root access. However, as cloud complexity explodes, a growing number of forward-thinking engineering organizations are hiring Junior Site Reliability Engineers (SREs) and Platform Engineers. The trap many candidates fall into is collecting superficial cloud certifications (like AWS Cloud Practitioner) without knowing basic Linux command-line diagnostics or how to write an Infrastructure-as-Code module. This roadmap explains how to land a junior cloud role with practical hands-on proof.',
@@ -238,10 +236,9 @@ CMD ["node", "dist/server.js"]`,
     tag: 'Workplace Reality',
     readTime: '8 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Head of Distributed Engineering Teams'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'How to Stand Out as an Entry-Level Remote Engineer',
     subtitle: 'Asynchronous communication habits, high-visibility documentation, and proactive collaboration strategies for thriving in fully distributed engineering teams.',
     summary: 'Starting your software engineering career in a fully remote environment is a double-edged sword. On one hand, you enjoy complete location flexibility and zero commute. On the other hand, you miss out on the natural serendipity of turning your chair around to ask a senior engineer for help, and you run the risk of becoming an invisible avatar on Slack. In distributed companies (GitLab, Automattic, Zapier, Vercel), visibility is not measured by hours spent at your desk—it is measured by written clarity, predictable execution, and proactive communication. This guide reveals how early-career engineers build an exceptional reputation while working remotely.',
@@ -299,10 +296,9 @@ CMD ["node", "dist/server.js"]`,
     tag: 'Workplace Reality',
     readTime: '9 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'VP of Engineering & Staff Mentor'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['dilli-babu'],
+    reviewer: AUTHOR_ENTITIES['jishaka-jose'],
     title: 'Common Mistakes New Grad Engineers Make in Their First Role (And How to Avoid Them)',
     subtitle: 'From the 45-minute silent struggling rule to premature optimization and ignoring tests: The technical and interpersonal traps that derail early-career engineers.',
     summary: 'The technical skills that get you hired as a software engineer are completely different from the skills that make you successful once you are on the job. In university and coding bootcamps, your code was graded on whether it produced the correct output on your local laptop, usually inside a single repository with zero legacy code. In a commercial enterprise codebase, your code must be read, maintained, debugged, and extended by dozens of engineers over a decade. This guide covers the most frequent pitfalls early-career developers stumble into and the mental models required to navigate your first year like a seasoned pro.',

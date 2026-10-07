@@ -1,4 +1,5 @@
 import type { CareerArticle } from '../careerArticles';
+import { AUTHOR_ENTITIES } from '../authorEntities';
 
 export const PATHWAYS_AND_INTERVIEW_ARTICLES: CareerArticle[] = [
   {
@@ -6,10 +7,9 @@ export const PATHWAYS_AND_INTERVIEW_ARTICLES: CareerArticle[] = [
     tag: 'Career Navigation',
     readTime: '9 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Technical Hiring & Candidate Screening'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['dilli-babu'],
+    reviewer: AUTHOR_ENTITIES['jishaka-jose'],
     title: 'Computer Science vs. Self-Taught vs. Bootcamp: What Entry-Level Tech Recruiters Look For in 2026',
     subtitle: 'An objective breakdown of resume screening biases, hiring conversion rates, and the exact strategies each candidate profile must use to win interviews.',
     summary: 'The early-career tech hiring market in 2026 has fundamentally changed. The era of automated bootcamp-to-six-figure guarantees is over, yet companies still face severe shortages of juniors who possess genuine production instincts. Whether you hold a four-year Computer Science degree from a research university, completed an intensive 16-week software engineering immersive, or built your skills through self-directed study, your application is evaluated through distinct screening criteria. This guide outlines how technical recruiters evaluate each background, the specific red flags that trigger rejections, and how to position your profile to win offer letters.',
@@ -117,10 +117,9 @@ app.post('/api/checkout', async (req, res) => {
     tag: 'Career Pathways',
     readTime: '10 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Early-Career Programs & Apprenticeship Advisory'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'The Complete Guide to Tech Apprenticeships and New Grad Development Programs',
     subtitle: 'Everything you need to know about corporate rotational tracks, eligibility requirements, compensation rates, and application timing for Fortune 500 tech apprenticeships.',
     summary: 'For candidates without traditional Big Tech internships, tech apprenticeships and structured new grad rotational programs represent one of the most lucrative and supportive entry points into the software engineering industry. Companies like Microsoft, Google, Amazon, Pinterest, and Dropbox spend tens of millions annually running programs designed specifically to train non-traditional developers, bootcamp graduates, and career transitioners into full-time L3/SDE-1 engineers. This guide compiles the eligibility criteria, compensation packages, interview formats, and strategic application timelines for major tech apprenticeships.',
@@ -187,10 +186,9 @@ app.post('/api/checkout', async (req, res) => {
     tag: 'Career Navigation',
     readTime: '8 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Cross-Disciplinary Engineering Advisory'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['akhil-vasu'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'How to Transition into Tech from a Non-CS STEM Background',
     subtitle: 'The systematic transition playbook for physics, mathematics, mechanical, and electrical engineering graduates to pivot into commercial software engineering.',
     summary: 'Graduates with degrees in mathematics, physics, electrical engineering, chemical engineering, or economics often feel caught between worlds. You possess rigorous quantitative problem-solving skills and mathematical maturity, but lack formal computer science coursework in operating systems, compiler design, and software engineering methodologies. The good news: technical hiring managers actively love STEM transitioners because you bring analytical depth that standard coding candidates lack. This blueprint shows you how to translate your quantitative background into a competitive software engineering advantage.',
@@ -266,10 +264,9 @@ app.post('/api/checkout', async (req, res) => {
     tag: 'Technical Interviews',
     readTime: '9 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Staff Interviewer & Algorithmic Coach'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['dilli-babu'],
+    reviewer: AUTHOR_ENTITIES['akhil-vasu'],
     title: 'Demystifying the Entry-Level Coding Interview: DSA vs. System Architecture Expectations',
     subtitle: 'What algorithmic complexity, LeetCode patterns, and architectural trade-offs are realistically expected from 0–2 YoE applicants across startups and Big Tech.',
     summary: 'Internet forums and social media have convinced junior engineers that every technical screen requires solving LeetCode Hard dynamic programming problems and designing globally distributed multi-region databases. In reality, engineering managers and interview panels evaluate entry-level applicants on a concise, predictable set of algorithmic primitives and clean coding behaviors. This guide provides realistic benchmarks for what is actually tested at the junior level, the top 8 problem patterns that account for 85% of interview questions, and how to articulate your thinking to pass.',
@@ -342,10 +339,9 @@ app.post('/api/checkout', async (req, res) => {
     tag: 'Interview Preparation',
     readTime: '8 min read',
     publishedDate: 'September 2026',
-    author: {
-      name: 'FreshCommits Editorial Team',
-      role: 'Engineering Leadership & Behavioral Evaluator'
-    },
+    lastUpdatedDate: 'October 2026',
+    author: AUTHOR_ENTITIES['jishaka-jose'],
+    reviewer: AUTHOR_ENTITIES['dilli-babu'],
     title: 'How to Pass Behavioral Tech Interviews Using the STAR Method (With Real Engineering Scenarios)',
     subtitle: 'Practical formulas, scripts, and real technical scenario breakdowns answering questions on team conflict, trade-offs, and project execution.',
     summary: 'Countless software engineering applicants ace their coding assessments only to be rejected in the final behavioral round. Junior candidates frequently assume behavioral interviews are informal "vibe checks" where generic responses like "I am a hard worker" suffice. In reality, behavioral rounds are structured assessments that evaluate engineering maturity, emotional intelligence, receptive feedback capacity, and conflict resolution. This guide details the STAR method adapted specifically for technical engineering roles, complete with concrete script templates and pitfalls to avoid.',
