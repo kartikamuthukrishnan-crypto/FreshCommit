@@ -38,6 +38,7 @@ import {
   Check,
   Sparkles,
   Globe,
+  MapPin,
   DollarSign,
   Building,
   Briefcase,
@@ -245,10 +246,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
-  // Auto-Extraction from Career URL & JD Text State
-  const [ingestionMode, setIngestionMode] = useState<'URL' | 'TEXT'>('URL');
+  // Auto-Extraction from Career URL State
   const [autoExtractUrl, setAutoExtractUrl] = useState('');
-  const [rawJdText, setRawJdText] = useState('');
   const [isExtracting, setIsExtracting] = useState(false);
   const [extractSuccessMsg, setExtractSuccessMsg] = useState('');
   const [extractErrorMsg, setExtractErrorMsg] = useState('');
@@ -473,9 +472,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setCompany(cleanHtml(data.company));
     if (data.companyLogo) setCompanyLogo(data.companyLogo);
     if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
-    setLocation(cleanLocationString(cleanHtml(data.location)));
-    setIsRemote(data.isRemote);
-
     let extractedCity = data.city ? cleanCityString(cleanHtml(data.city)) : '';
     let extractedState = data.state ? cleanHtml(data.state) : '';
     const rawLocation = cleanLocationString(cleanHtml(data.location || ''));
@@ -485,31 +481,51 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       if (cleanLocOnly.includes(',')) {
         const parts = cleanLocOnly.split(',');
         extractedCity = cleanCityString(parts[0]);
-        if (!extractedState) extractedState = parts[1]?.trim() || '';
+        if (!extractedState) extractedState = parts[1]?.trim().replace(/[^A-Za-z]/g, '') || '';
       } else if (cleanLocOnly.toLowerCase() !== 'united states' && cleanLocOnly.toLowerCase() !== 'remote') {
         extractedCity = cleanCityString(cleanLocOnly);
       }
     }
 
-    if (extractedCity) setCity(extractedCity);
-    if (extractedState) setState(extractedState);
-    if (data.country) setCountry(cleanHtml(data.country));
-
-    // Resolve Postal Code (Zip Code) accurately
+    // Try lookup from city zip map for state and zip code
     let finalZip = data.postalCode ? cleanHtml(data.postalCode) : '';
-    if (!finalZip && extractedCity) {
+    if (extractedCity) {
       const matched = lookupCityZip(extractedCity);
       if (matched) {
-        finalZip = matched.zip;
-        if (!extractedState) setState(matched.state);
+        if (!finalZip) finalZip = matched.zip;
+        if (!extractedState) extractedState = matched.state;
       }
     }
-    if (!finalZip && (data.isRemote || isRemote)) {
-      finalZip = '94105'; // Default tech hub ZIP for US remote Google JobPosting schema
-    }
-    if (finalZip) setPostalCode(finalZip);
 
-    if (data.applicantLocationRequirements) setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
+    // A hybrid role or role with a physical city is an office location, not 100% remote telecommute
+    const isPureRemote = (data.isRemote || rawLocation.toLowerCase() === 'remote' || rawLocation.toLowerCase().includes('telecommute')) && !extractedCity;
+    setIsRemote(isPureRemote);
+
+    if (extractedCity) {
+      setCity(extractedCity);
+      setState(extractedState || 'US');
+      setPostalCode(finalZip || '94105');
+      setCountry(data.country ? cleanHtml(data.country) : 'US');
+      const isHybrid = rawLocation.toLowerCase().includes('hybrid');
+      setLocation(extractedState ? (isHybrid ? `${extractedCity}, ${extractedState} / Hybrid` : `${extractedCity}, ${extractedState}`) : extractedCity);
+    } else if (isPureRemote) {
+      setCity('Remote');
+      setState('US');
+      setPostalCode('94105');
+      setCountry('US');
+      setLocation('Remote (US)');
+      setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements || 'US'));
+    } else {
+      setCity('San Francisco');
+      setState('CA');
+      setPostalCode('94105');
+      setCountry('US');
+      setLocation('San Francisco, CA');
+    }
+
+    if (data.applicantLocationRequirements) {
+      setApplicantLocationRequirements(cleanHtml(data.applicantLocationRequirements));
+    }
     if (data.datePosted) setDatePosted(data.datePosted);
     setCategory(data.category);
     setExperienceLevel(data.experienceLevel);
@@ -517,7 +533,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setEmploymentType(data.employmentType);
 
     // Precise Salary Handling:
-    // Auto-fills declared employer salary, or pre-populates authentic 2026 early-career benchmark
+    // Auto-fills declared employer salary from JD, or pre-populates authentic 2026 early-career benchmark
     // so the admin NEVER needs to calculate or type salary numbers manually!
     if (data.salary && data.salary.min > 0) {
       setSalaryCurrency(data.salary.currency || 'USD');
@@ -569,22 +585,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       applyExtractedJobToForm(data);
     } catch (err: any) {
       setExtractErrorMsg(err.message || 'Failed to extract from this link. Please check the URL.');
-    } finally {
-      setIsExtracting(false);
-    }
-  };
-
-  const handleAutoExtractFromText = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!rawJdText.trim()) return;
-    setIsExtracting(true);
-    setExtractSuccessMsg('');
-    setExtractErrorMsg('');
-    try {
-      const data = extractJobDataFromRawText(rawJdText.trim(), autoExtractUrl.trim());
-      applyExtractedJobToForm(data);
-    } catch (err: any) {
-      setExtractErrorMsg(err.message || 'Failed to parse job description text. Please verify content.');
     } finally {
       setIsExtracting(false);
     }
@@ -1419,130 +1419,53 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               )}
             </div>
 
-            {/* ⚡ Dual-Mode Smart Ingestion & Auto-Fill ("The FreshCommits Edge") */}
+            {/* Fast Job Ingestion Hub */}
             <div className="mb-6 p-4 bg-gradient-to-br from-indigo-50/90 via-slate-50 to-emerald-50/70 border border-indigo-200 rounded-2xl shadow-xs">
-              <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs flex-shrink-0">
-                    <LinkIcon className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
-                      Fast Job Ingestion Hub
-                    </h3>
-                    <p className="text-[11px] text-slate-500">
-                      Auto-fill Job Title, US Location, ZIP Code, Salary &amp; Google Schema with 100% precision
-                    </p>
-                  </div>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                  <LinkIcon className="w-4 h-4" />
                 </div>
-
-                {/* Mode Selector Tabs */}
-                <div className="flex items-center bg-white p-0.5 border border-indigo-200 rounded-xl shadow-2xs">
-                  <button
-                    type="button"
-                    onClick={() => setIngestionMode('URL')}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                      ingestionMode === 'URL'
-                        ? 'bg-indigo-600 text-white shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    <LinkIcon className="w-3 h-3" />
-                    <span>Career URL</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIngestionMode('TEXT')}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                      ingestionMode === 'TEXT'
-                        ? 'bg-indigo-600 text-white shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    <FileText className="w-3 h-3" />
-                    <span>Paste Full JD Text</span>
-                  </button>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
+                    Fast Job Ingestion Hub
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    Auto-fill Job Title, US Location, ZIP Code, Salary &amp; JD with 100% precision
+                  </p>
                 </div>
               </div>
 
-              {/* MODE 1: URL FETCHER */}
-              {ingestionMode === 'URL' ? (
-                <form onSubmit={handleAutoExtract} className="flex flex-col sm:flex-row gap-2">
-                  <div className="relative flex-1">
-                    <input
-                      type="url"
-                      required
-                      placeholder="Paste official job URL (e.g. Workday, Greenhouse, Ashby, Lever, SmartRecruiters, or company portal)"
-                      value={autoExtractUrl}
-                      onChange={(e) => setAutoExtractUrl(e.target.value)}
-                      className="w-full pl-8 pr-3 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
-                    />
-                    <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-3" />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={isExtracting || !autoExtractUrl.trim()}
-                    className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
-                  >
-                    {isExtracting ? (
-                      <>
-                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                        <span>Extracting &amp; Curating...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                        <span>Convert &amp; Fill Form</span>
-                      </>
-                    )}
-                  </button>
-                </form>
-              ) : (
-                /* MODE 2: RAW TEXT / JD CANVAS FETCHER */
-                <form onSubmit={handleAutoExtractFromText} className="space-y-2">
-                  <div className="flex gap-2">
-                    <div className="relative flex-1">
-                      <input
-                        type="url"
-                        placeholder="Optional Apply URL to associate (e.g. direct ATS link)"
-                        value={autoExtractUrl}
-                        onChange={(e) => setAutoExtractUrl(e.target.value)}
-                        className="w-full pl-8 pr-3 py-1.5 bg-white border border-indigo-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
-                      />
-                      <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-2" />
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <textarea
-                      rows={4}
-                      required
-                      placeholder="Paste complete job description text (from Workday, Taleo, Oracle, Handshake, LinkedIn, or any career page) to instantly extract Title, Company, Location, ZIP, Salary & Requirements..."
-                      value={rawJdText}
-                      onChange={(e) => setRawJdText(e.target.value)}
-                      className="w-full p-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
-                    />
-                  </div>
-                  <div className="flex justify-end">
-                    <button
-                      type="submit"
-                      disabled={isExtracting || !rawJdText.trim()}
-                      className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
-                    >
-                      {isExtracting ? (
-                        <>
-                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                          <span>Parsing JD Text...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                          <span>Parse Text &amp; Fill Form</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </form>
-              )}
+              {/* Career URL Ingestion Form */}
+              <form onSubmit={handleAutoExtract} className="flex flex-col sm:flex-row gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="url"
+                    required
+                    placeholder="Paste official job URL (e.g. Workday, Greenhouse, Ashby, Lever, SmartRecruiters, or company portal)"
+                    value={autoExtractUrl}
+                    onChange={(e) => setAutoExtractUrl(e.target.value)}
+                    className="w-full pl-8 pr-3 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                  />
+                  <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-3" />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isExtracting || !autoExtractUrl.trim()}
+                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
+                >
+                  {isExtracting ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      <span>Extracting &amp; Curating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                      <span>Convert &amp; Fill Form</span>
+                    </>
+                  )}
+                </button>
+              </form>
 
               {/* Feedback banners */}
               {extractSuccessMsg && (
@@ -1762,244 +1685,113 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </div>
 
               {/* Remote & Location Options */}
-              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-                <div className="flex items-center justify-between mb-3">
+              {/* Location & Workplace */}
+              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                <div className="flex items-center justify-between flex-wrap gap-2">
                   <span className="font-bold text-slate-800 text-xs flex items-center gap-1.5">
-                    <Globe className="w-3.5 h-3.5 text-indigo-600" />
-                    Remote & Telecommute Configuration (Google Schema)
+                    <MapPin className="w-3.5 h-3.5 text-indigo-600" />
+                    Location
                   </span>
                   <label className="flex items-center gap-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={isRemote}
-                      onChange={(e) => setIsRemote(e.target.checked)}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        setIsRemote(checked);
+                        if (checked && !applicantLocationRequirements) {
+                          setApplicantLocationRequirements('US');
+                        }
+                      }}
                       className="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4"
                     />
                     <span className="text-xs font-semibold text-slate-700">100% Remote / Telecommute</span>
                   </label>
                 </div>
 
-                {isRemote ? (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <label className="block text-xs font-bold text-slate-800">
-                        Applicant Location Requirements (Google Schema <code>applicantLocationRequirements</code>)
-                      </label>
-                      <span className="text-[11px] font-semibold text-slate-500">
-                        1-Click Location Presets:
-                      </span>
-                    </div>
+                <div>
+                  <label className="block text-[11px] text-slate-600 mb-1 font-semibold">
+                    Display Location
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Boston, MA or San Francisco, CA or Remote (US)"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  />
+                </div>
 
-                    {/* 1-Click Presets: Worldwide vs US vs Canada vs UK/Europe */}
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <button
-                        type="button"
-                        id="admin-btn-worldwide"
-                        onClick={() => {
-                          setApplicantLocationRequirements('Worldwide');
-                          setLocation('Remote (Worldwide)');
-                          setCountry('Worldwide');
-                          setCity('Remote');
-                          setState('Worldwide');
-                        }}
-                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                          applicantLocationRequirements.toLowerCase() === 'worldwide' ||
-                          applicantLocationRequirements.toLowerCase() === 'global' ||
-                          applicantLocationRequirements.toLowerCase() === 'anywhere'
-                            ? 'bg-emerald-600 text-white shadow-md ring-2 ring-emerald-400'
-                            : 'bg-emerald-50 text-emerald-900 border-2 border-emerald-300 hover:bg-emerald-100'
-                        }`}
-                      >
-                        <Globe className="w-4 h-4 text-emerald-300" />
-                        <span>🌍 Worldwide (Any Country)</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        id="admin-btn-us"
-                        onClick={() => {
-                          setApplicantLocationRequirements('US');
-                          setLocation('Remote (US)');
-                          setCountry('US');
-                          setCity('Remote');
-                          setState('US');
-                        }}
-                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                          applicantLocationRequirements.toUpperCase() === 'US' ||
-                          applicantLocationRequirements.toLowerCase() === 'united states'
-                            ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-400'
-                            : 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-100'
-                        }`}
-                      >
-                        <span>🇺🇸 US Only (Telecommute)</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setApplicantLocationRequirements('Canada');
-                          setLocation('Remote (Canada)');
-                          setCountry('CA');
-                        }}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-                          applicantLocationRequirements.toLowerCase() === 'canada' ||
-                          applicantLocationRequirements.toUpperCase() === 'CA'
-                            ? 'bg-red-600 text-white shadow-xs'
-                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                        }`}
-                      >
-                        <span>🇨🇦 Canada</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setApplicantLocationRequirements('UK & Europe');
-                          setLocation('Remote (UK & Europe)');
-                          setCountry('UK');
-                        }}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-                          applicantLocationRequirements.toLowerCase().includes('europe') ||
-                          applicantLocationRequirements.toUpperCase().includes('UK')
-                            ? 'bg-indigo-600 text-white shadow-xs'
-                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                        }`}
-                      >
-                        <span>🇬🇧 UK &amp; Europe</span>
-                      </button>
-                    </div>
-
-                    <div className="space-y-1">
-                      <input
-                        type="text"
-                        placeholder="e.g. Worldwide, US, Canada, Europe"
-                        value={applicantLocationRequirements}
-                        onChange={(e) => setApplicantLocationRequirements(e.target.value)}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                      />
-                      <p className="text-[11px] text-slate-500">
-                        {applicantLocationRequirements.toLowerCase() === 'worldwide' ||
-                        applicantLocationRequirements.toLowerCase() === 'global' ||
-                        applicantLocationRequirements.toLowerCase() === 'anywhere' ? (
-                          <span className="text-emerald-700 font-semibold flex items-center gap-1">
-                            ✓ Configured as 100% Worldwide Telecommute. Eligible for candidates from any country across the globe!
-                          </span>
-                        ) : (
-                          <span>
-                            Google sets <code>jobLocationType: TELECOMMUTE</code> with <code>applicantLocationRequirements: {applicantLocationRequirements}</code>.
-                          </span>
-                        )}
-                      </p>
-                    </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <div>
+                    <label className="block text-[11px] text-slate-600 mb-1 font-medium">City</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Boston"
+                      value={city}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCity(val);
+                        const matched = lookupCityZip(val);
+                        if (matched) {
+                          if (!state || state === 'US') setState(matched.state);
+                          if (!postalCode || postalCode === '94105') setPostalCode(matched.zip);
+                          if (!location || location.includes('Remote')) setLocation(`${matched.city}, ${matched.state}`);
+                        }
+                      }}
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
                   </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <label className="block text-xs font-bold text-slate-800">
-                        Physical / Office Location (Google Schema <code>jobLocation.address</code>)
-                      </label>
-                      <span className="text-[11px] font-semibold text-slate-500">
-                        1-Click Hub &amp; ZIP Presets:
-                      </span>
-                    </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-600 mb-1 font-medium">State / Region</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. MA"
+                      value={state}
+                      onChange={(e) => setState(e.target.value)}
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-600 mb-1 font-medium">Country</label>
+                    <input
+                      type="text"
+                      placeholder="US"
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-600 mb-1 font-medium flex items-center justify-between">
+                      <span>ZIP / Postal Code</span>
+                      {postalCode && (
+                        <span className="text-[10px] text-emerald-600 font-bold">✓ Active</span>
+                      )}
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 02110 or 94105"
+                      value={postalCode}
+                      onChange={(e) => setPostalCode(e.target.value)}
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
 
-                    {/* 1-Click Tech Hub & ZIP Code Presets */}
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {[
-                        { label: '🌉 SF Bay Area', city: 'San Francisco', state: 'CA', zip: '94105' },
-                        { label: '🗽 New York', city: 'New York', state: 'NY', zip: '10001' },
-                        { label: '🌲 Seattle', city: 'Seattle', state: 'WA', zip: '98101' },
-                        { label: '🤠 Austin', city: 'Austin', state: 'TX', zip: '78701' },
-                        { label: '🎓 Boston', city: 'Boston', state: 'MA', zip: '02110' },
-                        { label: '🌆 Chicago', city: 'Chicago', state: 'IL', zip: '60601' },
-                        { label: '🏔️ Denver', city: 'Denver', state: 'CO', zip: '80202' },
-                        { label: '🎬 Los Angeles', city: 'Los Angeles', state: 'CA', zip: '90012' }
-                      ].map((hub) => (
-                        <button
-                          key={hub.label}
-                          type="button"
-                          onClick={() => {
-                            setCity(hub.city);
-                            setState(hub.state);
-                            setCountry('US');
-                            setPostalCode(hub.zip);
-                            setLocation(`${hub.city}, ${hub.state}`);
-                          }}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-                            city.toLowerCase() === hub.city.toLowerCase() && state.toUpperCase() === hub.state
-                              ? 'bg-indigo-600 text-white shadow-xs'
-                              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                          }`}
-                        >
-                          <span>{hub.label} ({hub.zip})</span>
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                      <div>
-                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium">City</label>
-                        <input
-                          type="text"
-                          placeholder="San Francisco"
-                          value={city}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setCity(val);
-                            setLocation(val ? `${val}, ${state}` : '');
-                            const norm = val.trim().toLowerCase();
-                            const matched = KNOWN_CITY_ZIP_MAP[norm];
-                            if (matched && (!postalCode || postalCode === '94105' || postalCode.length === 0)) {
-                              setState(matched.state);
-                              setPostalCode(matched.zip);
-                              setLocation(`${val}, ${matched.state}`);
-                            }
-                          }}
-                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium">State / Region</label>
-                        <input
-                          type="text"
-                          placeholder="CA"
-                          value={state}
-                          onChange={(e) => {
-                            setState(e.target.value);
-                            setLocation(`${city}, ${e.target.value}`);
-                          }}
-                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium">Country</label>
-                        <input
-                          type="text"
-                          placeholder="US"
-                          value={country}
-                          onChange={(e) => setCountry(e.target.value)}
-                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] text-slate-600 mb-0.5 font-medium flex items-center justify-between">
-                          <span>ZIP / Postal Code</span>
-                          {postalCode && (
-                            <span className="text-[10px] text-emerald-600 font-semibold">✓ Active</span>
-                          )}
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="e.g. 94105 or 10001"
-                          value={postalCode}
-                          onChange={(e) => setPostalCode(e.target.value)}
-                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                        />
-                      </div>
-                    </div>
-                    <p className="text-[11px] text-slate-500">
-                      Feeds directly into Google JobPosting schema <code>PostalAddress.postalCode: "{postalCode || 'none'}"</code> for enhanced Google for Jobs indexing.
-                    </p>
+                {isRemote && (
+                  <div>
+                    <label className="block text-[11px] text-slate-600 mb-1 font-medium">
+                      Applicant Location Requirements (for Telecommute / Remote)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. US or Worldwide"
+                      value={applicantLocationRequirements}
+                      onChange={(e) => setApplicantLocationRequirements(e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    />
                   </div>
                 )}
               </div>

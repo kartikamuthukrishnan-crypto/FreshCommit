@@ -709,27 +709,30 @@ export function resolveLocationDetails(rawLocation: string, isRemoteHint?: boole
 } {
   const cleanLoc = (rawLocation || '').trim();
   const lowLoc = cleanLoc.toLowerCase();
-  const isRemote = Boolean(
-    isRemoteHint ||
-    lowLoc.includes('remote') ||
-    lowLoc.includes('wfh') ||
-    lowLoc.includes('hybrid') ||
-    lowLoc.includes('telecommute') ||
-    lowLoc.includes('anywhere')
-  );
+  const isHybrid = lowLoc.includes('hybrid');
+  const isPureRemote = (Boolean(isRemoteHint) || lowLoc.includes('remote') || lowLoc.includes('telecommute') || lowLoc.includes('wfh') || lowLoc.includes('anywhere')) && !isHybrid;
 
-  // 1. Check known city zip map for exact or substring city matches
-  for (const [key, entry] of Object.entries(KNOWN_CITY_ZIP_MAP)) {
+  // 1. Check known city zip map for exact or phrase matches (sorted by length to match specific cities first)
+  const sortedEntries = Object.entries(KNOWN_CITY_ZIP_MAP).sort((a, b) => b[0].length - a[0].length);
+  for (const [key, entry] of sortedEntries) {
     const keyWithHyphens = key.replace(/\s+/g, '-');
-    if (lowLoc.includes(key) || lowLoc.includes(keyWithHyphens)) {
+    const matched = key.length <= 3
+      ? new RegExp(`\\b(${key}|${keyWithHyphens})\\b`, 'i').test(cleanLoc)
+      : lowLoc.includes(key) || lowLoc.includes(keyWithHyphens);
+    if (matched) {
+      const locStr = isHybrid
+        ? `${entry.city}, ${entry.state} / Hybrid`
+        : lowLoc.includes('remote')
+        ? `${entry.city}, ${entry.state} (Remote)`
+        : `${entry.city}, ${entry.state}`;
       return {
-        location: isRemote ? `${entry.city}, ${entry.state} / Hybrid` : `${entry.city}, ${entry.state}`,
-        isRemote,
+        location: locStr,
+        isRemote: false, // Physical office hub present
         city: entry.city,
         state: entry.state,
         country: 'US',
         postalCode: entry.zip,
-        applicantLocationRequirements: isRemote ? 'US' : undefined
+        applicantLocationRequirements: undefined
       };
     }
   }
@@ -740,14 +743,19 @@ export function resolveLocationDetails(rawLocation: string, isRemoteHint?: boole
     const ct = cleanCityString(wdMatch[1].replace(/[-_]+/g, ' '));
     const st = wdMatch[2].toUpperCase();
     const mapped = lookupCityZip(ct);
+    const locStr = isHybrid
+      ? `${ct}, ${st} / Hybrid`
+      : lowLoc.includes('remote')
+      ? `${ct}, ${st} (Remote)`
+      : `${ct}, ${st}`;
     return {
-      location: isRemote ? `${ct}, ${st} / Hybrid` : `${ct}, ${st}`,
-      isRemote,
+      location: locStr,
+      isRemote: false,
       city: ct,
       state: st,
       country: 'US',
       postalCode: mapped?.zip || '94105',
-      applicantLocationRequirements: isRemote ? 'US' : undefined
+      applicantLocationRequirements: undefined
     };
   }
 
@@ -757,19 +765,24 @@ export function resolveLocationDetails(rawLocation: string, isRemoteHint?: boole
     const ct = cleanCityString(cityStMatch[1]);
     const st = cityStMatch[2].toUpperCase();
     const mapped = lookupCityZip(ct);
+    const locStr = isHybrid
+      ? `${ct}, ${st} / Hybrid`
+      : lowLoc.includes('remote')
+      ? `${ct}, ${st} (Remote)`
+      : `${ct}, ${st}`;
     return {
-      location: isRemote ? `${ct}, ${st} / Hybrid` : `${ct}, ${st}`,
-      isRemote,
+      location: locStr,
+      isRemote: false,
       city: ct,
       state: st,
       country: 'US',
       postalCode: mapped?.zip || '94105',
-      applicantLocationRequirements: isRemote ? 'US' : undefined
+      applicantLocationRequirements: undefined
     };
   }
 
   // 4. Remote fallbacks
-  if (isRemote || lowLoc.includes('united states') || lowLoc === 'us' || lowLoc === 'usa') {
+  if (isPureRemote || isRemoteHint || lowLoc.includes('united states') || lowLoc === 'us' || lowLoc === 'usa' || lowLoc.includes('remote')) {
     return {
       location: 'Remote - US',
       isRemote: true,
@@ -907,11 +920,16 @@ function extractLocationFromUrl(urlObj: URL, defaultLoc?: string): {
 export function extractSalaryFromText(text: string): SalaryRange | null {
   if (!text) return null;
 
-  // Clean html tags if present
   const clean = text.replace(/<[^>]*>/g, ' ');
 
-  // 1. Hourly Pattern: e.g. "$25 - $35 an hour", "$28.50 to $34.00 / hr", "$22 - $30/hour", "$25/hr"
-  const hourlyRangeMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2}(?:\.[0-9]{2})?)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2}(?:\.[0-9]{2})?)\s*(?:per|\/|an)?\s*(?:hour|hr)/i);
+  const parseVal = (str: string) => {
+    const lower = str.toLowerCase().replace(/,/g, '').trim();
+    if (lower.endsWith('k')) return parseFloat(lower.replace('k', '')) * 1000;
+    return parseFloat(lower);
+  };
+
+  // 1. Hourly Range: e.g. "$25 - $35 an hour", "$28.50 to $34.00 / hr", "$22 - $30/hour", "$25/hr"
+  const hourlyRangeMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2}(?:\.[0-9]{2})?)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2}(?:\.[0-9]{2})?)\s*(?:USD\s*)?(?:per|\/|an)?\s*(?:hour|hr)/i);
   if (hourlyRangeMatch) {
     const min = parseFloat(hourlyRangeMatch[1]);
     const max = parseFloat(hourlyRangeMatch[2]);
@@ -920,27 +938,41 @@ export function extractSalaryFromText(text: string): SalaryRange | null {
     }
   }
 
-  // 2. Annual Range Pattern: e.g. "$55,000 - $75,000", "$60k - $80k", "$70,000 to $90,000 per year"
-  const annualRangeMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2,3}(?:,[0-9]{3})*|[0-9]{2,3}k)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})*|[0-9]{2,3}k)(?:\s*(?:per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
+  // 1b. Single hourly: e.g. "$35/hour", "$42.50 per hr"
+  const singleHourlyMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2}(?:\.[0-9]{2})?)\s*(?:USD\s*)?(?:per|\/|an)\s*(?:hour|hr)/i);
+  if (singleHourlyMatch) {
+    const rate = parseFloat(singleHourlyMatch[1]);
+    if (rate >= 14 && rate <= 250) {
+      return { min: Math.round(rate), max: Math.round(rate), currency: 'USD', unit: 'HOUR' };
+    }
+  }
+
+  // 2. Annual Range Pattern: e.g. "$55,000 - $75,000", "$60k - $80k", "$120,000.00 - $145,000.00 USD"
+  const annualRangeMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2,3}[kK]|[0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{5,6}(?:\.[0-9]{2})?)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}[kK]|[0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{5,6}(?:\.[0-9]{2})?)(?:\s*(?:USD|per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
   if (annualRangeMatch) {
-    const parseVal = (str: string) => {
-      const lower = str.toLowerCase().replace(/,/g, '');
-      if (lower.endsWith('k')) return parseFloat(lower.replace('k', '')) * 1000;
-      return parseFloat(lower);
-    };
     const min = parseVal(annualRangeMatch[1]);
     const max = parseVal(annualRangeMatch[2]);
-    if (min >= 25000 && max >= min && max <= 450000) {
+    if (min >= 25000 && max >= min && max <= 500000) {
       return { min: Math.round(min), max: Math.round(max), currency: 'USD', unit: 'YEAR' };
     }
   }
 
-  // 3. Single Stated Annual: e.g. "Starting salary: $65,000 / year"
-  const singleAnnualMatch = clean.match(/(?:salary|pay|compensation)[\s:]+(?:\$|USD\s*)\s*([0-9]{2,3},[0-9]{3})(?:\s*(?:per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
+  // 3. Annual range after keywords: e.g. "Pay range: 75,000 - 110,000 USD", "Salary: 85,000 to 120,000"
+  const keywordRangeMatch = clean.match(/(?:salary|pay|compensation|base pay|hiring range|rate|tier)[\s\w:]+(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+)/i);
+  if (keywordRangeMatch) {
+    const min = parseVal(keywordRangeMatch[1]);
+    const max = parseVal(keywordRangeMatch[2]);
+    if (min >= 25000 && max >= min && max <= 500000) {
+      return { min: Math.round(min), max: Math.round(max), currency: 'USD', unit: 'YEAR' };
+    }
+  }
+
+  // 4. Single Stated Annual: e.g. "Starting salary: $65,000 / year", "Base salary: $95,000"
+  const singleAnnualMatch = clean.match(/(?:salary|pay|compensation|starting at|base)[\s:]+(?:\$|USD\s*)\s*([0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{2,3}[kK])(?:\s*(?:USD|per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
   if (singleAnnualMatch) {
-    const val = parseFloat(singleAnnualMatch[1].replace(/,/g, ''));
+    const val = parseVal(singleAnnualMatch[1]);
     if (val >= 25000 && val <= 400000) {
-      return { min: Math.round(val), max: Math.round(val), currency: 'USD', unit: 'YEAR' };
+      return { min: Math.round(val), max: Math.round(val * 1.2), currency: 'USD', unit: 'YEAR' };
     }
   }
 
@@ -1405,6 +1437,53 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
 }
 
 /**
+ * Universal resource fetcher that leverages the server-side dev proxy
+ * to completely eliminate CORS failures in browser environments, with graceful fallbacks.
+ */
+async function fetchResourceWithProxy(url: string, asJson = false): Promise<any> {
+  // 1. Try local Vite dev proxy middleware (Node.js fetch, bypasses browser CORS)
+  try {
+    const localProxyUrl = `/api/fetch-career-url?url=${encodeURIComponent(url)}`;
+    const resp = await fetch(localProxyUrl, { signal: AbortSignal.timeout(6000) });
+    if (resp.ok) {
+      return asJson ? await resp.json() : await resp.text();
+    }
+  } catch {
+    // continue
+  }
+
+  // 2. Direct fetch (works for CORS-enabled public APIs)
+  try {
+    const resp = await fetch(url, {
+      headers: asJson ? { Accept: 'application/json' } : undefined,
+      signal: AbortSignal.timeout(4500)
+    });
+    if (resp.ok) {
+      return asJson ? await resp.json() : await resp.text();
+    }
+  } catch {
+    // continue
+  }
+
+  // 3. Fallback to public CORS proxy
+  try {
+    const pubProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    const resp = await fetch(pubProxy, { signal: AbortSignal.timeout(4000) });
+    if (resp.ok) {
+      if (asJson) {
+        const text = await resp.text();
+        return JSON.parse(text);
+      }
+      return await resp.text();
+    }
+  } catch {
+    // continue
+  }
+
+  return null;
+}
+
+/**
  * Main parser: Given any career page / ATS URL, fetches data and returns populated fields
  * Guaranteed to succeed without crashing or throwing on any valid URL!
  */
@@ -1425,9 +1504,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     const [, sub, dc, site, locSeg, slug] = wdMatch;
     const apiUrl = `https://${sub}.${dc}.myworkdayjobs.com/wday/cxs/${sub}/${site}/job/${locSeg}/${slug}`;
     try {
-      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4500) });
-      if (resp.ok) {
-        const data = await resp.json();
+      const data = await fetchResourceWithProxy(apiUrl, true);
+      if (data && data.jobPostingInfo) {
         const post = data.jobPostingInfo || {};
         const title = post.title || formatSlugToJobTitle(slug);
         const knownComp = KNOWN_COMPANIES[`${sub.toLowerCase()}.com`];
@@ -1498,9 +1576,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     const [, companySlug, postingId] = ashbyMatch;
     try {
       const apiUrl = `https://api.ashbyhq.com/posting-api/job-board/${companySlug}`;
-      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4000) });
-      if (resp.ok) {
-        const boardData = await resp.json();
+      const boardData = await fetchResourceWithProxy(apiUrl, true);
+      if (boardData && boardData.jobs) {
         const job = (boardData.jobs || []).find((j: any) => j.id === postingId);
         if (job) {
           const title = job.title || 'Software Engineer';
@@ -1580,9 +1657,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     const apiUrl = `https://api.smartrecruiters.com/v1/companies/${companyId}/postings/${postingId}`;
 
     try {
-      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4000) });
-      if (resp.ok) {
-        const data = await resp.json();
+      const data = await fetchResourceWithProxy(apiUrl, true);
+      if (data && (data.name || data.jobAd)) {
         const title = data.name || 'Software Engineer';
         const company = data.company?.name || companyId;
         const companyLogo = data.company?.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(company)}&background=0F172A&color=fff&size=128`;
@@ -1691,9 +1767,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
   if (ghBoard && ghJobId) {
     const apiUrl = `https://boards-api.greenhouse.io/v1/boards/${ghBoard}/jobs/${ghJobId}`;
     try {
-      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4000) });
-      if (resp.ok) {
-        const data = await resp.json();
+      const data = await fetchResourceWithProxy(apiUrl, true);
+      if (data && (data.title || data.content)) {
         const title = data.title || 'Software Engineer';
         const company = ghBoard.charAt(0).toUpperCase() + ghBoard.slice(1);
         const locDetails = resolveLocationDetails(data.location?.name || 'Remote - US');
@@ -1763,9 +1838,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     const apiUrl = `https://api.lever.co/v0/postings/${comp}/${postingId}`;
 
     try {
-      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4000) });
-      if (resp.ok) {
-        const data = await resp.json();
+      const data = await fetchResourceWithProxy(apiUrl, true);
+      if (data && (data.text || data.description)) {
         const title = data.text || 'Software Engineer';
         const company = comp.charAt(0).toUpperCase() + comp.slice(1);
         const locDetails = resolveLocationDetails(data.categories?.location || 'Remote', data.workplaceType === 'remote');
@@ -1861,9 +1935,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
 
     try {
       const apiUrl = `https://jobs.workable.com/api/v1/jobs/${shortCode}`;
-      const resp = await fetch(apiUrl, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(3500) });
-      if (resp.ok) {
-        const data = await resp.json();
+      const data = await fetchResourceWithProxy(apiUrl, true);
+      if (data && (data.title || data.description)) {
         const title = data.title || formatSlugToJobTitle(slug);
         const company = data.company?.title || slugMeta.inferredCompany || 'Company';
         const cleanCompSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -1961,94 +2034,152 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
   // 5. ATTEMPT LIGHTWEIGHT CORS PROXY FETCH (3-second timeout)
   // If the target page allows proxy fetching (like Ashby or certain company career sites), parse HTML & JSON-LD
   try {
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(fullUrl)}`;
-    const resp = await fetch(proxyUrl, { signal: AbortSignal.timeout(3000) });
-    if (resp.ok) {
-      const html = await resp.text();
-      if (html && html.length > 100) {
-        // A. Check for Schema.org JobPosting JSON-LD
-        const jsonLdMatch = html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
-        if (jsonLdMatch) {
-          for (const block of jsonLdMatch) {
-            try {
-              const jsonContent = block.replace(/<\/?script[^>]*>/gi, '').trim();
-              const parsed = JSON.parse(jsonContent);
-              const jobPosting = Array.isArray(parsed) ? parsed.find((item) => item['@type'] === 'JobPosting') : parsed['@type'] === 'JobPosting' ? parsed : null;
+    const html = await fetchResourceWithProxy(fullUrl, false);
+    if (html && html.length > 100) {
+      // A. Check for Schema.org JobPosting JSON-LD
+      const jsonLdMatch = html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
+      if (jsonLdMatch) {
+        for (const block of jsonLdMatch) {
+          try {
+            const jsonContent = block.replace(/<\/?script[^>]*>/gi, '').trim();
+            const parsed = JSON.parse(jsonContent);
+            const jobPosting = Array.isArray(parsed) ? parsed.find((item) => item['@type'] === 'JobPosting') : parsed['@type'] === 'JobPosting' ? parsed : null;
 
-              if (jobPosting && jobPosting.title) {
-                const title = cleanHtml(jobPosting.title);
-                const hiringOrg = jobPosting.hiringOrganization?.name;
-                const synth = synthesizeJobFromUrl(fullUrl);
-                const company = hiringOrg || synth.company;
-                const desc = cleanHtml(jobPosting.description || '');
-                const rawResp = extractBulletPoints(jobPosting.responsibilities || desc);
-                const rawQual = extractBulletPoints(jobPosting.qualifications || desc);
-                const skills = detectSkills(`${title} ${desc}`);
-                const category = inferCategory(title, skills);
-                const expLevel = inferExperienceLevel(title, desc);
-                const isIntern = title.toLowerCase().includes('intern');
-                const benchmark = getRoleMarketBenchmark(title, category, 'US');
+            if (jobPosting && jobPosting.title) {
+              const title = cleanHtml(jobPosting.title);
+              const hiringOrg = jobPosting.hiringOrganization?.name;
+              const synth = synthesizeJobFromUrl(fullUrl);
+              const company = hiringOrg ? cleanHtml(hiringOrg) : synth.company;
+              const desc = cleanHtml(jobPosting.description || '');
+              const rawResp = extractBulletPoints(jobPosting.responsibilities || desc);
+              const rawQual = extractBulletPoints(jobPosting.qualifications || desc);
+              const skills = detectSkills(`${title} ${desc}`);
+              const category = inferCategory(title, skills);
+              const expLevel = inferExperienceLevel(title, desc);
+              const isIntern = title.toLowerCase().includes('intern');
+              const benchmark = getRoleMarketBenchmark(title, category, 'US');
 
-                let salary: SalaryRange = { min: 0, max: 0, currency: benchmark.currency, unit: isIntern ? 'HOUR' : 'YEAR' };
-                let salaryDisclosed = false;
+              // Location Extraction from Schema.org jobLocation
+              const jobLoc = Array.isArray(jobPosting.jobLocation) ? jobPosting.jobLocation[0] : jobPosting.jobLocation;
+              const addr = jobLoc?.address;
+              const isRemoteSchema = jobPosting.jobLocationType === 'TELECOMMUTE' || String(jobPosting.jobLocationType || '').toLowerCase().includes('remote');
 
-                if (jobPosting.baseSalary?.value?.minValue && jobPosting.baseSalary?.value?.maxValue) {
+              let locDetails: {
+                location: string;
+                isRemote: boolean;
+                city?: string;
+                state?: string;
+                country?: string;
+                postalCode?: string;
+                applicantLocationRequirements?: string;
+              };
+
+              if (addr && (addr.addressLocality || addr.addressRegion)) {
+                const rawCity = cleanCityString(addr.addressLocality || '');
+                const rawState = (addr.addressRegion || '').replace(/[^A-Za-z]/g, '').toUpperCase();
+                const rawCountry = (addr.addressCountry || 'US').toUpperCase();
+                const zip = addr.postalCode || lookupCityZip(rawCity)?.zip || '94105';
+                const locStr = rawCity && rawState ? `${rawCity}, ${rawState}` : rawCity || rawState || 'United States';
+                locDetails = {
+                  location: isRemoteSchema ? `${locStr} (Remote)` : locStr,
+                  isRemote: Boolean(isRemoteSchema && !rawCity),
+                  city: rawCity,
+                  state: rawState,
+                  country: rawCountry,
+                  postalCode: zip,
+                  applicantLocationRequirements: jobPosting.applicantLocationRequirements?.name || (isRemoteSchema ? 'US' : undefined)
+                };
+              } else if (isRemoteSchema) {
+                locDetails = {
+                  location: 'Remote - US',
+                  isRemote: true,
+                  city: 'Remote',
+                  state: 'US',
+                  country: 'US',
+                  postalCode: '94105',
+                  applicantLocationRequirements: 'US'
+                };
+              } else {
+                locDetails = synth;
+              }
+
+              // Salary Extraction from Schema.org baseSalary or text
+              let salary: SalaryRange = benchmark;
+              let salaryDisclosed = false;
+
+              const bs = jobPosting.baseSalary || jobPosting.estimatedSalary;
+              if (bs) {
+                const val = bs.value;
+                const minVal = bs.minValue || val?.minValue || (typeof val === 'number' ? val : undefined);
+                const maxVal = bs.maxValue || val?.maxValue || (typeof val === 'number' ? val : undefined);
+                const unit = (bs.unitText || val?.unitText || '').toUpperCase() === 'HOUR' ? 'HOUR' : 'YEAR';
+                const cur = bs.currency || val?.currency || 'USD';
+
+                if (minVal && Number(minVal) > 0) {
                   salary = {
-                    min: Number(jobPosting.baseSalary.value.minValue),
-                    max: Number(jobPosting.baseSalary.value.maxValue),
-                    currency: jobPosting.baseSalary.currency || 'USD',
-                    unit: jobPosting.baseSalary.value.unitText === 'HOUR' ? 'HOUR' : 'YEAR'
+                    min: Math.round(Number(minVal)),
+                    max: Math.round(Number(maxVal || minVal)),
+                    currency: cur,
+                    unit
                   };
                   salaryDisclosed = true;
-                } else {
-                  const fromText = extractSalaryFromText(desc);
-                  if (fromText) {
-                    salary = fromText;
-                    salaryDisclosed = true;
-                  }
                 }
+              }
 
-                return {
+              if (!salaryDisclosed) {
+                const fromText = extractSalaryFromText(desc);
+                if (fromText) {
+                  salary = fromText;
+                  salaryDisclosed = true;
+                }
+              }
+
+              const parsedSections = parseJobSections(jobPosting.description || '', title, company);
+              const responsibilities = rawResp.length >= 2 ? rawResp.slice(0, 8) : parsedSections.responsibilities;
+              const qualifications = rawQual.length >= 2 ? rawQual.slice(0, 8) : parsedSections.qualifications;
+              const cleanOverview = parsedSections.overview || desc.slice(0, 600);
+
+              return {
+                title,
+                company,
+                companyLogo: jobPosting.hiringOrganization?.logo || synth.companyLogo,
+                companyWebsite: synth.companyWebsite,
+                location: locDetails.location,
+                isRemote: locDetails.isRemote,
+                city: locDetails.city,
+                state: locDetails.state,
+                country: locDetails.country,
+                postalCode: locDetails.postalCode,
+                applicantLocationRequirements: locDetails.applicantLocationRequirements,
+                experienceLevel: expLevel,
+                maxYearsExperience: isIntern ? 0 : 1,
+                category,
+                employmentType: isIntern ? 'INTERN' : 'FULL_TIME',
+                salary,
+                salaryDisclosed,
+                suggestedBenchmark: benchmark,
+                description: composeFreshCommitsCuratedDescription({
                   title,
                   company,
-                  companyLogo: jobPosting.hiringOrganization?.logo || synth.companyLogo,
-                  companyWebsite: synth.companyWebsite,
-                  location: synth.location,
-                  isRemote: synth.isRemote,
-                  city: synth.city,
-                  state: synth.state,
-                  country: synth.country,
-                  postalCode: jobPosting.jobLocation?.address?.postalCode || synth.postalCode,
-                  applicantLocationRequirements: synth.applicantLocationRequirements,
-                  experienceLevel: expLevel,
-                  maxYearsExperience: isIntern ? 0 : 1,
-                  category,
-                  employmentType: isIntern ? 'INTERN' : 'FULL_TIME',
-                  salary,
-                  salaryDisclosed,
-                  suggestedBenchmark: benchmark,
-                  description: composeFreshCommitsCuratedDescription({
-                    title,
-                    company,
-                    cleanOverview: desc.slice(0, 300),
-                    skills,
-                    salary,
-                    responsibilities: rawResp.slice(0, 6),
-                    qualifications: rawQual.slice(0, 6),
-                    location: synth.location
-                  }),
-                  responsibilities: rawResp.length > 0 ? rawResp.slice(0, 6) : synth.responsibilities,
-                  qualifications: rawQual.length > 0 ? rawQual.slice(0, 6) : synth.qualifications,
+                  cleanOverview,
                   skills,
-                  applyUrl: fullUrl,
-                  detectedAtsProvider: synth.detectedAtsProvider
-                };
-              }
-            } catch {
-              // continue
+                  salary,
+                  responsibilities,
+                  qualifications,
+                  location: locDetails.location
+                }),
+                responsibilities,
+                qualifications,
+                skills,
+                applyUrl: fullUrl,
+                detectedAtsProvider: synth.detectedAtsProvider
+              };
             }
+          } catch {
+            // continue
           }
         }
+      }
 
         // B. Check OpenGraph / Meta Title
         const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i) ||
@@ -2061,7 +2192,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
 
           // Check "Title | Company | Board"
           if (rawOg.includes('|')) {
-            const parts = rawOg.split('|').map((p) => p.trim()).filter(Boolean);
+            const parts = rawOg.split('|').map((p: string) => p.trim()).filter(Boolean);
             if (parts.length >= 2) {
               parsedTitle = parts[0];
               const p1Low = parts[1].toLowerCase();
@@ -2070,7 +2201,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
               }
             }
           } else if (rawOg.includes(' at ')) {
-            const parts = rawOg.split(' at ').map((p) => p.trim()).filter(Boolean);
+            const parts = rawOg.split(' at ').map((p: string) => p.trim()).filter(Boolean);
             parsedTitle = parts[0];
             parsedCompany = parts[1];
           } else {
@@ -2088,7 +2219,6 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           }
         }
       }
-    }
   } catch {
     // Network proxy failed or timed out — seamlessly proceed to heuristic synthesis
   }

@@ -149,6 +149,31 @@ export const KNOWN_CITY_ZIP_MAP: Record<string, CityZipEntry> = {
  */
 export function lookupCityZip(cityName: string): CityZipEntry | undefined {
   if (!cityName) return undefined;
-  const norm = cityName.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '');
-  return KNOWN_CITY_ZIP_MAP[norm];
+  const raw = cityName.trim();
+
+  // 1. Direct exact match
+  const norm = raw.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+  if (KNOWN_CITY_ZIP_MAP[norm]) return KNOWN_CITY_ZIP_MAP[norm];
+
+  // 2. Extract city before comma (e.g. "Boston, MA" -> "boston")
+  if (raw.includes(',')) {
+    const cityPart = raw.split(',')[0].trim().toLowerCase().replace(/[^a-z0-9\s]/g, '');
+    if (KNOWN_CITY_ZIP_MAP[cityPart]) return KNOWN_CITY_ZIP_MAP[cityPart];
+  }
+
+  // 3. Extract city before hyphen or slash (e.g. "Boston-MA-USA" -> "boston")
+  const dashParts = raw.split(/[-_/]/);
+  if (dashParts.length > 1) {
+    const firstPart = dashParts[0].trim().toLowerCase().replace(/[^a-z0-9\s]/g, '');
+    if (KNOWN_CITY_ZIP_MAP[firstPart]) return KNOWN_CITY_ZIP_MAP[firstPart];
+  }
+
+  // 4. Substring scan across known tech hubs
+  for (const [key, entry] of Object.entries(KNOWN_CITY_ZIP_MAP)) {
+    if (norm.startsWith(key) || norm.includes(key)) {
+      return entry;
+    }
+  }
+
+  return undefined;
 }
