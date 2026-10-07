@@ -1,2 +1,1 @@
-# FreshCommits Google AdSense ads.txt
 google.com, pub-5760843724020240, DIRECT, f08c47fec0942fa0

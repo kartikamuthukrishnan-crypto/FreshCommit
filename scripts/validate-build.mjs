@@ -60,9 +60,28 @@ for (let i = 0; i < inlineScripts.length; i++) {
   }
 }
 
+// 4. Verify sitemap.xml and ads.txt integrity
+const sitemapPath = path.join(rootDir, 'public', 'sitemap.xml');
+if (!fs.existsSync(sitemapPath)) {
+  console.error('❌ public/sitemap.xml missing!');
+  hasError = true;
+} else {
+  const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
+  if (!sitemapContent.includes('<urlset') || !sitemapContent.includes('</urlset>')) {
+    console.error('❌ Invalid sitemap.xml structure!');
+    hasError = true;
+  }
+}
+
+const adsTxtPath = path.join(rootDir, 'public', 'ads.txt');
+if (!fs.existsSync(adsTxtPath)) {
+  console.error('❌ public/ads.txt missing!');
+  hasError = true;
+}
+
 if (hasError) {
   console.error('🚨 Build validation failed! Do not deploy.');
   process.exit(1);
 }
 
-console.log('✅ Build validation passed: All scripts & bundles verified cleanly with 0 errors!');
+console.log('✅ Build validation passed: All scripts, bundles, sitemap, and ads.txt verified cleanly with 0 errors!');

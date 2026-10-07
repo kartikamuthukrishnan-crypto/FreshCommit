@@ -316,13 +316,16 @@ async function pullFirestoreJobs() {
     path.join(rootDir, 'src', 'data', 'articles', 'pathwaysAndInterviews.ts'),
     path.join(rootDir, 'src', 'data', 'articles', 'applicationAndOutreach.ts'),
     path.join(rootDir, 'src', 'data', 'articles', 'specializedAndWorkplace.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'expandedFlagshipArticles.ts')
+    path.join(rootDir, 'src', 'data', 'articles', 'expandedFlagshipArticles.ts'),
+    path.join(rootDir, 'src', 'data', 'articles', 'technicalMasteryArticles.ts')
   ];
   const allArticleIds = [];
   for (const f of articleFiles) {
     if (fs.existsSync(f)) {
       const content = fs.readFileSync(f, 'utf8');
-      const matches = [...content.matchAll(/id:\s*'([a-z0-9-]+)'/g)].map((m) => m[1]);
+      const matches = [...content.matchAll(/id:\s*'([a-z0-9-]+)'/g)]
+        .map((m) => m[1])
+        .filter((id) => !id.startsWith('doc-40')); // Exclude vector snippet IDs
       allArticleIds.push(...matches);
     }
   }

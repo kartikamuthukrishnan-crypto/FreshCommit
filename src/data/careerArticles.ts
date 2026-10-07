@@ -39,9 +39,11 @@ import { PATHWAYS_AND_INTERVIEW_ARTICLES } from './articles/pathwaysAndInterview
 import { APPLICATION_AND_OUTREACH_ARTICLES } from './articles/applicationAndOutreach';
 import { SPECIALIZED_AND_WORKPLACE_ARTICLES } from './articles/specializedAndWorkplace';
 import { EXPANDED_FLAGSHIP_ARTICLES } from './articles/expandedFlagshipArticles';
+import { TECHNICAL_MASTERY_ARTICLES } from './articles/technicalMasteryArticles';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
   ...EXPANDED_FLAGSHIP_ARTICLES,
+  ...TECHNICAL_MASTERY_ARTICLES,
   ...PATHWAYS_AND_INTERVIEW_ARTICLES,
   ...APPLICATION_AND_OUTREACH_ARTICLES,
   ...SPECIALIZED_AND_WORKPLACE_ARTICLES,

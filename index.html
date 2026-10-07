@@ -222,6 +222,154 @@
       "linkedinUrl": "https://www.linkedin.com/in/akhil-vasu-63a973110/"
     }
   },
+  "docker-containerization-production-junior-guide": {
+    "id": "docker-containerization-production-junior-guide",
+    "title": "Docker & Containerization for Entry-Level Engineers: From Local Dev to Production Multi-Stage Builds",
+    "subtitle": "Why standard Docker tutorial builds create bloated 1.4GB attack vectors, and how junior engineers write secure, 65MB multi-stage Alpine images with non-root runtime users.",
+    "summary": "Containerization is no longer a senior-only requirement. In modern engineering teams, early-career engineers are expected to debug failed container builds, isolate microservices locally with Docker Compose, and ship container images that meet enterprise security scanning standards. Too many junior developers publish Dockerfiles that install entire build toolchains into production, run containers as root, and leak sensitive credentials in build layers. This guide provides the complete production mental model: multi-stage builds, caching layer optimization, non-root user isolation, .dockerignore security, and health check integration.",
+    "tag": "DevOps & Tooling",
+    "readTime": "12 min read",
+    "publishedDate": "October 2026",
+    "lastUpdatedDate": "October 2026",
+    "highlights": [
+      "The 1.4GB Bloat Problem: How multi-stage compilation slashes image size by 95% while eliminating build tool vulnerabilities",
+      "Layer Caching Hierarchy: Ordering Dockerfile instructions to cut rebuild times from 4 minutes down to 3 seconds",
+      "Production Security Hardening: Dropping root privileges, running dedicated runtime users, and pinning SHA digests",
+      "Container Health & Observability: Implementing native HEALTHCHECK instructions and graceful SIGTERM signal handling"
+    ],
+    "author": {
+      "name": "Dilli Babu",
+      "role": "Senior Engineering Director & Technical Assessor",
+      "shortRole": "Senior Engineering Director",
+      "initials": "DB",
+      "linkedinUrl": "https://www.linkedin.com/in/dilli-babu-a9b14878/",
+      "bio": "Senior Technical Leader and Systems Evaluator with deep experience conducting high-stakes technical screens, architecting distributed enterprise systems, and establishing engineering hiring benchmarks across global technology hubs.",
+      "expertise": [
+        "System Design & Scalability",
+        "Data Structures & Algorithmic Rigor",
+        "Technical Interview Benchmarking",
+        "Data & AI Engineering",
+        "Engineering Career Laddering"
+      ]
+    },
+    "reviewer": {
+      "name": "Akhil Vasu",
+      "role": "Lead Technical Architect & Systems Engineer",
+      "shortRole": "Lead Technical Architect",
+      "linkedinUrl": "https://www.linkedin.com/in/akhil-vasu-63a973110/"
+    }
+  },
+  "cicd-github-actions-testing-pipeline-entry-level": {
+    "id": "cicd-github-actions-testing-pipeline-entry-level",
+    "title": "CI/CD & GitHub Actions for Junior Developers: Building Automated Test & Deployment Pipelines from Scratch",
+    "subtitle": "Move beyond \"it works on my machine\": How early-career engineers set up automated linting, test suites, branch protection rules, and zero-downtime deployment workflows.",
+    "summary": "The defining characteristic of an engineering team operating at scale is Continuous Integration and Continuous Delivery (CI/CD). When code cannot be merged without passing automated test matrices, linting checks, and security audits, software stability increases exponentially. Yet many junior engineers have never written a GitHub Actions workflow file from scratch and struggle when asked to diagnose failed pull request checks. This comprehensive guide walks you through building an enterprise-grade CI pipeline from zero: step-by-step workflow syntax, dependency caching, matrix testing across Node versions, secret management, and branch protection enforcement.",
+    "tag": "DevOps & Tooling",
+    "readTime": "13 min read",
+    "publishedDate": "October 2026",
+    "lastUpdatedDate": "October 2026",
+    "highlights": [
+      "The CI/CD Feedback Loop: Why manual testing fails at team scale and how pull request automation protects production",
+      "GitHub Actions Architecture: Workflows, Triggers, Jobs, Runners, and Steps demystified",
+      "Dependency Caching & Performance: Accelerating PR build times using setup-node and cache action keys",
+      "Enterprise Branch Protection: Setting up mandatory status checks that prevent untested code from reaching main"
+    ],
+    "author": {
+      "name": "Dilli Babu",
+      "role": "Senior Engineering Director & Technical Assessor",
+      "shortRole": "Senior Engineering Director",
+      "initials": "DB",
+      "linkedinUrl": "https://www.linkedin.com/in/dilli-babu-a9b14878/",
+      "bio": "Senior Technical Leader and Systems Evaluator with deep experience conducting high-stakes technical screens, architecting distributed enterprise systems, and establishing engineering hiring benchmarks across global technology hubs.",
+      "expertise": [
+        "System Design & Scalability",
+        "Data Structures & Algorithmic Rigor",
+        "Technical Interview Benchmarking",
+        "Data & AI Engineering",
+        "Engineering Career Laddering"
+      ]
+    },
+    "reviewer": {
+      "name": "Akhil Vasu",
+      "role": "Lead Technical Architect & Systems Engineer",
+      "shortRole": "Lead Technical Architect",
+      "linkedinUrl": "https://www.linkedin.com/in/akhil-vasu-63a973110/"
+    }
+  },
+  "api-design-rest-graphql-standards-junior-swe": {
+    "id": "api-design-rest-graphql-standards-junior-swe",
+    "title": "Production API Design for Junior Backend Developers: Idempotency, Pagination, Rate-Limiting & Versioning",
+    "subtitle": "Why beginner Express and Fastify endpoints break under real load, and the RFC-compliant error structures, cursor pagination, and idempotency patterns that senior architects demand.",
+    "summary": "Building a simple endpoint that returns JSON is trivial. Building an enterprise API that gracefully handles network retries, scales past millions of records without database timeouts, prevents abusive traffic spikes, and provides predictable error diagnostics is what separates junior tutorial followers from hired software engineers. Senior backend interviewers consistently test junior candidates on real-world API failure modes: What happens if a network drops during a charge request? How do you paginate 500,000 rows without OFFSET performance degradation? This guide covers the complete playbook for architecting enterprise-grade RESTful APIs.",
+    "tag": "System Design",
+    "readTime": "14 min read",
+    "publishedDate": "October 2026",
+    "lastUpdatedDate": "October 2026",
+    "highlights": [
+      "Idempotency Keys: Protecting financial mutations and critical writes against duplicate execution during network retries",
+      "Cursor vs. Offset Pagination: Why `OFFSET 100000` cripples SQL databases and how cursor-based pointers deliver O(1) performance",
+      "RFC 7807 Problem Details: Replacing messy ad-hoc error formats with standardized HTTP diagnostic schemas",
+      "Token Bucket Rate-Limiting: Defending API availability using Redis sliding-window algorithms and standard rate-limit headers"
+    ],
+    "author": {
+      "name": "Dilli Babu",
+      "role": "Senior Engineering Director & Technical Assessor",
+      "shortRole": "Senior Engineering Director",
+      "initials": "DB",
+      "linkedinUrl": "https://www.linkedin.com/in/dilli-babu-a9b14878/",
+      "bio": "Senior Technical Leader and Systems Evaluator with deep experience conducting high-stakes technical screens, architecting distributed enterprise systems, and establishing engineering hiring benchmarks across global technology hubs.",
+      "expertise": [
+        "System Design & Scalability",
+        "Data Structures & Algorithmic Rigor",
+        "Technical Interview Benchmarking",
+        "Data & AI Engineering",
+        "Engineering Career Laddering"
+      ]
+    },
+    "reviewer": {
+      "name": "Jishaka Jose",
+      "role": "Technical Talent Strategist & Early-Career Recruiter",
+      "shortRole": "Technical Talent Strategist",
+      "linkedinUrl": "https://www.linkedin.com/in/jishaka-jose-28b3531aa/"
+    }
+  },
+  "typescript-enterprise-patterns-react-node": {
+    "id": "typescript-enterprise-patterns-react-node",
+    "title": "TypeScript Enterprise Patterns for Entry-Level Developers: Generics, Discriminated Unions & Strict Typing Without \"any\"",
+    "subtitle": "How senior engineers instantly spot junior TypeScript habits, and how to master type narrowing, discriminated unions, utility types, and generic component contracts.",
+    "summary": "Almost every frontend and full-stack developer lists TypeScript on their resume. However, engineering managers and technical interviewers know that 80% of candidates use TypeScript as \"JavaScript with a few interfaces thrown on top\"—relying heavily on `any`, type assertions with `as`, and loose object shapes. When you write enterprise TypeScript, the type system is not an afterthought; it is an active architecture tool that makes illegal application states unrepresentable at compile time. This guide covers the four foundational TypeScript patterns that distinguish novice candidates from production-ready software engineers.",
+    "tag": "Frontend Engineering",
+    "readTime": "12 min read",
+    "publishedDate": "October 2026",
+    "lastUpdatedDate": "October 2026",
+    "highlights": [
+      "The \"Illegal States Unrepresentable\" Doctrine: Replacing loose boolean flags with Discriminated Unions",
+      "Eliminating `any` and `as`: Type narrowing, `unknown`, and runtime validation guards using type predicates",
+      "Advanced Utility Types in Practice: Mastering `Pick`, `Omit`, `Record`, `Extract`, and `ReturnType`",
+      "Generic React Component Architecture: Writing reusable UI components with type-safe prop polymorphism"
+    ],
+    "author": {
+      "name": "Akhil Vasu",
+      "role": "Lead Technical Architect & Systems Engineer",
+      "shortRole": "Lead Technical Architect",
+      "initials": "AV",
+      "linkedinUrl": "https://www.linkedin.com/in/akhil-vasu-63a973110/",
+      "bio": "Lead Software Architect specializing in full-stack cloud applications, distributed systems, and production engineering practices. Oversees technical resume blueprints, Git workflow hygiene, and code review rubrics for early-career developers.",
+      "expertise": [
+        "Full-Stack Architecture",
+        "Distributed Systems & APIs",
+        "Cloud & CI/CD Pipelines",
+        "Technical Portfolio Projects",
+        "Production Code Quality & Git Hygiene"
+      ]
+    },
+    "reviewer": {
+      "name": "Dilli Babu",
+      "role": "Senior Engineering Director & Technical Assessor",
+      "shortRole": "Senior Engineering Director",
+      "linkedinUrl": "https://www.linkedin.com/in/dilli-babu-a9b14878/"
+    }
+  },
   "cs-vs-self-taught-vs-bootcamp-2026": {
     "id": "cs-vs-self-taught-vs-bootcamp-2026",
     "title": "Computer Science vs. Self-Taught vs. Bootcamp: What Entry-Level Tech Recruiters Look For in 2026",
@@ -1393,6 +1541,267 @@
 
           // Synchronous registry of manual & verified jobs for zero-latency crawler indexing
           var SYNCHRONOUS_JOBS = {
+  "manual-1791366605841": {
+    "id": "manual-1791366605841",
+    "title": "Data Analyst NCG",
+    "company": "astera labs.com",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=asteralabs.com&sz=128",
+    "companyWebsite": "https://www.asteralabs.com/",
+    "location": "San Jose, CA",
+    "isRemote": false,
+    "applicantLocationRequirements": "US",
+    "city": "San Jose",
+    "state": "CA",
+    "country": "US",
+    "postalCode": "95113",
+    "experienceLevel": "New Grad",
+    "maxYearsExperience": 1,
+    "category": "Data / AI",
+    "employmentType": "FULL_TIME",
+    "salary": {
+      "unit": "YEAR",
+      "min": 100000,
+      "max": 110000,
+      "currency": "USD"
+    },
+    "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. astera labs.com pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Azure, SQL, Data Analysis, Security.\n• Interview Focus: Technical leads evaluate live SQL schema queries, data pipeline reliability, and clear analytical problem-solving.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation Range: Verified employer range of ~USD 100k–110k/year with career progression reviews.\n• Location: Based in San Jose, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nData Analyst, New College Graduate (NCG)\n\nLocation: San Jose, California\n\nEmployment type: Full-time",
+    "responsibilities": [
+      "Assist in the development and maintenance of Power BI dashboards and reports to support business and operational insights",
+      "Support data preparation activities, including data cleaning, transformation, and validation using Power Query and SQL",
+      "Help connect and integrate data from multiple sources, such as databases, spreadsheets, and business systems, into Power BI",
+      "Create and maintain basic DAX measures and calculations under guidance from senior analysts",
+      "Assist with data modeling tasks, including building and validating relationships and tables used for reporting",
+      "Write SQL queries in Azure SQL Database to support reporting, data validation, and business analysis",
+      "Help create and maintain automated workflows in Power Automate for notifications, approvals, and recurring business processes",
+      "Support lightweight integrations and automation using Azure Functions where applicable"
+    ],
+    "qualifications": [
+      "Bachelor’s degree in Data Analytics, Computer Science, Information Systems, Business Analytics, Engineering, or a related field",
+      "Familiarity with Power BI, Power Query , and DAX",
+      "Experience using Excel for data analysis, such as PivotTables, formulas, charts, lookups, and basic dashboards",
+      "Power Automate skills, such as flows, connectors, approvals, scheduled and event-based triggers, conditions, loops, integrations, and error handling",
+      "Azure SQL Database skills, such as writing queries, working with tables and views, joins, aggregations, stored procedures, triggers, and query optimization",
+      "Azure Data Factory skills, such as linked services, datasets, copy activities, pipeline development, triggers, parameterization, monitoring, and error handling",
+      "Azure Functions skills, such as Function Apps, triggers, bindings, service integrations, logging, troubleshooting, and serverless design",
+      "Familiarity with databases, data warehouses, or ETL concepts from classes, projects, or internships"
+    ],
+    "skills": [
+      "Azure",
+      "SQL",
+      "Data Analysis",
+      "Security"
+    ],
+    "applyUrl": "https://job-boards.greenhouse.io/asteraearlycareer2027/jobs/4731994005",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06"
+  },
+  "manual-1791366264314": {
+    "id": "manual-1791366264314",
+    "title": "Software Engineer Grad 2027",
+    "company": "Purestorage",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=purestorage.com",
+    "companyWebsite": "https://purestorage.com",
+    "location": "Santa Clara, California",
+    "isRemote": false,
+    "applicantLocationRequirements": "US",
+    "city": "Santa Clara",
+    "state": "California",
+    "country": "US",
+    "postalCode": "92101",
+    "experienceLevel": "Entry Level",
+    "maxYearsExperience": 1,
+    "category": "Full Stack",
+    "employmentType": "FULL_TIME",
+    "salary": {
+      "unit": "YEAR",
+      "currency": "USD",
+      "min": 122000,
+      "max": 183000
+    },
+    "description": "🎯 The FreshCommits Career Take:\nA structured runway for new graduates seeking broad engineering exposure, code review hygiene, and cross-functional agile development from day one at Purestorage.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Purestorage values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 122k–183k/year with career progression reviews.\n• Location: Based in Santa Clara, California (On-Site Team Collaboration).\n\n🏢 Role Overview:\nEverpure (NYSE: P) has evolved from storage pioneer to data platform, closing fiscal 2026 with $3.7 billion in revenue, its first billion-dollar quarter, and accelerating growth into FY27. Our strategic agenda spans the companies defining the next era of technology - hyperscalers, AI labs, the AI hardware supply chain, data platform providers, and the broader AI ecosystem.\n\nThis type of work—work that changes the world—is what the tech industry was founded on. So, if you're ready to seize the endless opportunities and leave your mark, come join us.",
+    "responsibilities": [
+      "As a Software Engineer Grad, you will be part of a team that's building the future of data storage and management. You’ll apply your foundational knowledge to tackle challenging, real-world problems from low-level hardware to large-scale cloud systems. This role is a unique opportunity to directly contribute to mission-critical features that ensure our customers have a seamless, high-performance, and reliable data experience.",
+      "Contribute to core product development: Take ownership of key tasks within the software development lifecycle, from ideation and design to implementation and testing.",
+      "Innovate and solve complex problems: Research and develop solutions for challenges related to data efficiency, such as optimizing data deduplication and reclamation, or improving replication across wide-area networks.",
+      "Enhance system performance and scalability: Work on projects that improve the performance of our software, ensuring it scales effectively with ever-increasing data volumes and hardware capabilities.",
+      "Collaborate across teams: Partner with senior engineers and cross-functional teams to integrate new features and maintain a high standard of code quality through extensive automated testing.",
+      "We are primarily an in-office environment and therefore, you will be expected to work from the Santa Clara, CA office in compliance with Everpure's policies, unless you are on PTO, or work travel, or other approved leave"
+    ],
+    "qualifications": [
+      "Strong computer science fundamentals: A solid understanding of data structures, algorithms, concurrency, and design principles. You can apply these concepts to solve practical engineering problems.",
+      "Proficiency in C++: You're comfortable writing clean, efficient, and well-structured code in C++.",
+      "Problem-solving aptitude: A proactive and self-motivated approach to identifying and solving complex problems with a focus on delivering high-quality, impactful results.",
+      "Collaboration and communication skills: The ability to articulate complex technical ideas clearly and work effectively in a team-based, open office environment.",
+      "#LI-ONSITE",
+      "Salary ranges are determined based on role, level and location. For positions open to candidates in multiple geographical locations, the base salary range is reflective of the labor market across the applicable locations.",
+      "This role may be eligible for incentive pay and/or equity.",
+      "There is no application deadline and we accept applications on an ongoing basis until the job is filled."
+    ],
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "applyUrl": "https://job-boards.greenhouse.io/purestorage/jobs/8249851",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06"
+  },
+  "manual-1791366511272": {
+    "id": "manual-1791366511272",
+    "title": "December 2026 New Graduate Engineer, Software / GNC",
+    "company": "Machindustries",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=machindustries.com",
+    "companyWebsite": "https://machindustries.com",
+    "location": "Huntington Beach, California, United States",
+    "isRemote": false,
+    "applicantLocationRequirements": "US",
+    "city": "Huntington Beach",
+    "state": "California",
+    "country": "US",
+    "postalCode": "94105",
+    "experienceLevel": "New Grad",
+    "maxYearsExperience": 1,
+    "category": "Full Stack",
+    "employmentType": "FULL_TIME",
+    "salary": {
+      "unit": "YEAR",
+      "min": 130000,
+      "max": 135000,
+      "currency": "USD"
+    },
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Machindustries's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Python, Rust, Linux, CI/CD), Git workflow, and code documentation.\n• Interview Focus: Expect project walk-throughs, practical Git version control scenarios, and discussions of past coursework or personal builds.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 130k–135k/year with career progression reviews.\n• Location: Based in Huntington Beach, California, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAbout Mach Industries\n\nFounded in 2023, Mach Industries is a rapidly growing defense technology company focused on developing next-generation autonomous defense platforms. At the core of our mission is the commitment to delivering scalable, decentralized defense systems that enhance the strategic capabilities of the United States and its allies. With a workforce of approximately 350 employees, we operate with startup agility and ambition.\n\nOur vision is to redefine the future of warfare through cutting-edge manufacturing, innovation at speed, and unwavering focus on national security. We are dedicated to solving the next generation of warfare with lethal systems that deter kinetic conflict and protect global security.",
+    "responsibilities": [
+      "Mach Industries is seeking a New Grad Software Engineer to join our team in developing the software that powers our autonomous defense systems. You will design, build, and optimize mission-critical software , working across real-time systems, embedded platforms, and autonomy applications. This role demands strong technical fundamentals, adaptability, and ownership , as you will work closely with engineers across software, GNC, embedded systems, and hardware to build and deploy high-performance systems in a fast-paced environment.",
+      "Develop, test, and maintain software for autonomous defense platforms, with a focus on performance, reliability, and scalability.",
+      "Design and implement clean, efficient, and well-tested code in C++, Rust, Python, or C.",
+      "Develop software across the stack, from low-level embedded software and firmware to higher-level autonomy and mission applications.",
+      "Work closely with GNC, embedded, systems, and hardware engineers to integrate software with complex electromechanical systems.",
+      "Optimize software for real-time execution, low-latency performance, and resource-constrained embedded platforms.",
+      "Build simulation, testing, and development infrastructure to accelerate software development and validate system performance.",
+      "Debug and troubleshoot complex software and hardware-software integration issues."
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "skills": [
+      "Python",
+      "Rust",
+      "Linux",
+      "CI/CD",
+      "Security"
+    ],
+    "applyUrl": "https://job-boards.greenhouse.io/machindustries/jobs/4390274009",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-12-06"
+  },
+  "manual-1791359960795": {
+    "id": "manual-1791359960795",
+    "title": "Data Scientist AI and Data Science Engineer I",
+    "company": "Deloitte",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=deloitte.com",
+    "companyWebsite": "https://www.deloitte.com",
+    "location": "Jersey City, New Jersey",
+    "isRemote": false,
+    "applicantLocationRequirements": "US",
+    "city": "Jersey City",
+    "state": "New Jersey",
+    "country": "US",
+    "postalCode": "07001",
+    "experienceLevel": "Entry Level",
+    "maxYearsExperience": 1,
+    "category": "Data / AI",
+    "employmentType": "FULL_TIME",
+    "salary": {
+      "unit": "YEAR",
+      "min": 76000,
+      "max": 127000,
+      "currency": "USD"
+    },
+    "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. Deloitte pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Deloitte evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Seattle, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nDeloitte is actively seeking an early-career Data Scientist AI and Data Science Engineer I to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "responsibilities": [
+      "Develop, validate, and deploy data pipelines and analytical models that power Deloitte's production systems.",
+      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
+      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
+      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
+      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
+      "Participate in team sprint planning, architectural reviews, and peer code reviews."
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
+      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
+      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
+      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
+      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
+      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
+    ],
+    "skills": [
+      "Python",
+      "SQL",
+      "Machine Learning",
+      "PyTorch",
+      "Pandas",
+      "Data Pipelines",
+      "GCP",
+      "Git"
+    ],
+    "applyUrl": "https://apply.deloitte.com/en_US/careers/JobDetail/Data-Scientist-AI-and-Data-Science-Engineer-I/369586",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06"
+  },
+  "manual-1791360166810": {
+    "id": "manual-1791360166810",
+    "title": "Junior Full Stack Engineer",
+    "company": "Careers-daddario",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=careers-daddario.icims.com",
+    "companyWebsite": "https://www.careers-daddario.icims.com",
+    "location": "New York, Farmingdale",
+    "isRemote": false,
+    "applicantLocationRequirements": "US",
+    "city": "New York",
+    "state": "Farmingdale",
+    "country": "US",
+    "postalCode": "11735",
+    "experienceLevel": "Entry Level",
+    "maxYearsExperience": 1,
+    "category": "Full Stack",
+    "employmentType": "FULL_TIME",
+    "salary": {
+      "unit": "YEAR",
+      "min": 75000,
+      "max": 80000,
+      "currency": "USD"
+    },
+    "description": "🎯 The FreshCommits Career Take:\nJoining Careers-daddario as a Junior Full Stack Engineer gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Seattle, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nCareers-daddario is actively seeking an early-career Job to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Careers-daddario's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "applyUrl": "https://careers-daddario.icims.com/jobs/2680/job",
+    "datePosted": "2026-10-07",
+    "validThrough": "2026-11-06"
+  },
   "manual-1791273727372": {
     "id": "manual-1791273727372",
     "title": "IOS Engineer 1",
@@ -8343,7 +8752,7 @@
             <div>
               <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase;">Google E-E-A-T Verified Field Guides</span>
               <h2 style="font-size: 24px; font-weight: 700; color: #202124; margin: 4px 0 0 0;">
-                Engineering Career Insights &amp; Technical Roadmaps (30 Field Guides)
+                Engineering Career Insights &amp; Technical Roadmaps (34 Field Guides)
               </h2>
             </div>
             <span style="font-size: 12px; color: #5f6368; font-weight: 500;">
@@ -8412,6 +8821,86 @@
                   By Jishaka Jose <span style="color: #70757a; font-weight: 400;">(Technical Talent Strategist)</span>
                 </span>
                 <a href="/insights/engineering-mentorship-evaluation-matrix" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
+              </div>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase; background: #e6f4ea; padding: 2px 8px; border-radius: 4px;">DevOps & Tooling</span>
+                  <span style="font-size: 11px; color: #5f6368;">12 min read</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #202124; margin: 6px 0 8px 0; line-height: 1.4;">
+                  <a href="/insights/docker-containerization-production-junior-guide" style="color: #202124; text-decoration: none;">Docker & Containerization for Entry-Level Engineers: From Local Dev to Production Multi-Stage Builds</a>
+                </h3>
+                <p style="font-size: 12px; color: #5f6368; line-height: 1.6; margin-bottom: 12px;">
+                  Containerization is no longer a senior-only requirement. In modern engineering teams, early-career engineers are expected to debug failed container builds, isolate microservices locally with Docker Co...
+                </p>
+              </div>
+              <div style="border-top: 1px solid #e8eaed; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="color: #3c4043; font-weight: 600;">
+                  By Dilli Babu <span style="color: #70757a; font-weight: 400;">(Senior Engineering Director)</span>
+                </span>
+                <a href="/insights/docker-containerization-production-junior-guide" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
+              </div>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase; background: #e6f4ea; padding: 2px 8px; border-radius: 4px;">DevOps & Tooling</span>
+                  <span style="font-size: 11px; color: #5f6368;">13 min read</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #202124; margin: 6px 0 8px 0; line-height: 1.4;">
+                  <a href="/insights/cicd-github-actions-testing-pipeline-entry-level" style="color: #202124; text-decoration: none;">CI/CD & GitHub Actions for Junior Developers: Building Automated Test & Deployment Pipelines from Scratch</a>
+                </h3>
+                <p style="font-size: 12px; color: #5f6368; line-height: 1.6; margin-bottom: 12px;">
+                  The defining characteristic of an engineering team operating at scale is Continuous Integration and Continuous Delivery (CI/CD). When code cannot be merged without passing automated test matrices, lin...
+                </p>
+              </div>
+              <div style="border-top: 1px solid #e8eaed; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="color: #3c4043; font-weight: 600;">
+                  By Dilli Babu <span style="color: #70757a; font-weight: 400;">(Senior Engineering Director)</span>
+                </span>
+                <a href="/insights/cicd-github-actions-testing-pipeline-entry-level" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
+              </div>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase; background: #e6f4ea; padding: 2px 8px; border-radius: 4px;">System Design</span>
+                  <span style="font-size: 11px; color: #5f6368;">14 min read</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #202124; margin: 6px 0 8px 0; line-height: 1.4;">
+                  <a href="/insights/api-design-rest-graphql-standards-junior-swe" style="color: #202124; text-decoration: none;">Production API Design for Junior Backend Developers: Idempotency, Pagination, Rate-Limiting & Versioning</a>
+                </h3>
+                <p style="font-size: 12px; color: #5f6368; line-height: 1.6; margin-bottom: 12px;">
+                  Building a simple endpoint that returns JSON is trivial. Building an enterprise API that gracefully handles network retries, scales past millions of records without database timeouts, prevents abusive...
+                </p>
+              </div>
+              <div style="border-top: 1px solid #e8eaed; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="color: #3c4043; font-weight: 600;">
+                  By Dilli Babu <span style="color: #70757a; font-weight: 400;">(Senior Engineering Director)</span>
+                </span>
+                <a href="/insights/api-design-rest-graphql-standards-junior-swe" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
+              </div>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase; background: #e6f4ea; padding: 2px 8px; border-radius: 4px;">Frontend Engineering</span>
+                  <span style="font-size: 11px; color: #5f6368;">12 min read</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #202124; margin: 6px 0 8px 0; line-height: 1.4;">
+                  <a href="/insights/typescript-enterprise-patterns-react-node" style="color: #202124; text-decoration: none;">TypeScript Enterprise Patterns for Entry-Level Developers: Generics, Discriminated Unions & Strict Typing Without "any"</a>
+                </h3>
+                <p style="font-size: 12px; color: #5f6368; line-height: 1.6; margin-bottom: 12px;">
+                  Almost every frontend and full-stack developer lists TypeScript on their resume. However, engineering managers and technical interviewers know that 80% of candidates use TypeScript as "JavaScript with...
+                </p>
+              </div>
+              <div style="border-top: 1px solid #e8eaed; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="color: #3c4043; font-weight: 600;">
+                  By Akhil Vasu <span style="color: #70757a; font-weight: 400;">(Lead Technical Architect)</span>
+                </span>
+                <a href="/insights/typescript-enterprise-patterns-react-node" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
               </div>
             </article>
             <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
