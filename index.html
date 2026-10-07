@@ -111,6 +111,117 @@
         try {
           var pathname = window.location.pathname || '';
           var SYNCHRONOUS_ARTICLES = {
+  "ai-engineering-llm-integration-junior-swe": {
+    "id": "ai-engineering-llm-integration-junior-swe",
+    "title": "AI Engineering & LLM Integration for Junior SWEs: Beyond Basic Wrapper APIs",
+    "subtitle": "Why copying 10-line OpenAI wrapper scripts gets rejected by hiring managers, and the production-grade RAG, token budgeting, and evals architecture that proves real systems competence.",
+    "summary": "The tech industry is flooded with junior developer resumes boasting \"AI Engineer\" titles whose only project is a 15-line copy-paste script calling an external chat completions endpoint. Senior engineering hiring managers and AI infrastructure teams can spot trivial API wrappers within seconds. To stand out in the 2026 market, early-career developers must demonstrate enterprise-grade engineering principles around generative models: deterministic chunking strategies, vector database indexing with semantic similarity thresholds, token consumption rate-limiting, prompt injection sanitization, and automated evaluation pipelines (Evals). This field guide delivers the complete blueprint for architecting real-world AI systems.",
+    "tag": "Role Roadmaps",
+    "readTime": "11 min read",
+    "publishedDate": "October 2026",
+    "lastUpdatedDate": "October 2026",
+    "highlights": [
+      "Toy Wrapper vs. Enterprise AI Service: The 5 architectural pillars that separate tutorial scripts from production systems",
+      "Retrieval-Augmented Generation (RAG) Architecture: Recursive text chunking, hybrid keyword + dense vector search, and reranking",
+      "Production Guardrails: Prompt injection defensive filtering, PII masking, and structured JSON output validation via schemas",
+      "Token Economics & Cost Control: Redis semantic caching, sliding window context management, and rate-limiting middleware"
+    ],
+    "author": {
+      "name": "Akhil Vasu",
+      "role": "Lead Technical Architect & Systems Engineer",
+      "shortRole": "Lead Technical Architect",
+      "initials": "AV",
+      "linkedinUrl": "https://www.linkedin.com/in/akhil-vasu-63a973110/",
+      "bio": "Lead Software Architect specializing in full-stack cloud applications, distributed systems, and production engineering practices. Oversees technical resume blueprints, Git workflow hygiene, and code review rubrics for early-career developers.",
+      "expertise": [
+        "Full-Stack Architecture",
+        "Distributed Systems & APIs",
+        "Cloud & CI/CD Pipelines",
+        "Technical Portfolio Projects",
+        "Production Code Quality & Git Hygiene"
+      ]
+    },
+    "reviewer": {
+      "name": "Dilli Babu",
+      "role": "Senior Engineering Director & Technical Assessor",
+      "shortRole": "Senior Engineering Director",
+      "linkedinUrl": "https://www.linkedin.com/in/dilli-babu-a9b14878/"
+    }
+  },
+  "sql-mastery-query-tuning-junior-backend": {
+    "id": "sql-mastery-query-tuning-junior-backend",
+    "title": "SQL Mastery, Indexing & Query Tuning for Entry-Level Backend Developers",
+    "subtitle": "Why relying exclusively on ORMs fails technical interviews, how B-Tree indexes actually work under the hood, and how to read EXPLAIN ANALYZE execution plans to eliminate 4-second bottlenecks.",
+    "summary": "Most aspiring junior backend engineers can write basic SELECT queries and know how to call findMany() in an ORM like Prisma, TypeORM, or Hibernate. However, when an interviewer asks \"Why is this endpoint taking 4 seconds on a table with 1.5 million rows?\" or \"Explain the difference between a Sequential Scan and an Index Scan,\" 90% of entry-level candidates fail. In production systems, database I/O is almost always the primary bottleneck of your application. This masterclass breaks down how relational databases store data on disk, how B-Tree indexes transform O(N) full-table scans into O(log N) lookups, and how to eliminate the infamous N+1 query problem.",
+    "tag": "System Design",
+    "readTime": "10 min read",
+    "publishedDate": "October 2026",
+    "lastUpdatedDate": "October 2026",
+    "highlights": [
+      "The Anatomy of a B-Tree Index: Leaf nodes, balanced depth, and why composite index column order is critical",
+      "Decoding EXPLAIN ANALYZE: How to spot sequential scans, high disk buffer reads, and unexpected hash joins",
+      "The N+1 Query Trap: Concrete Node.js/TypeScript code demonstrating how 1 query silently becomes 101 queries",
+      "ACID Properties in the Real World: Transaction isolation levels and optimistic vs. pessimistic row locking"
+    ],
+    "author": {
+      "name": "Dilli Babu",
+      "role": "Senior Engineering Director & Technical Assessor",
+      "shortRole": "Senior Engineering Director",
+      "initials": "DB",
+      "linkedinUrl": "https://www.linkedin.com/in/dilli-babu-a9b14878/",
+      "bio": "Senior Technical Leader and Systems Evaluator with deep experience conducting high-stakes technical screens, architecting distributed enterprise systems, and establishing engineering hiring benchmarks across global technology hubs.",
+      "expertise": [
+        "System Design & Scalability",
+        "Data Structures & Algorithmic Rigor",
+        "Technical Interview Benchmarking",
+        "Data & AI Engineering",
+        "Engineering Career Laddering"
+      ]
+    },
+    "reviewer": {
+      "name": "Akhil Vasu",
+      "role": "Lead Technical Architect & Systems Engineer",
+      "shortRole": "Lead Technical Architect",
+      "linkedinUrl": "https://www.linkedin.com/in/akhil-vasu-63a973110/"
+    }
+  },
+  "engineering-mentorship-evaluation-matrix": {
+    "id": "engineering-mentorship-evaluation-matrix",
+    "title": "The Engineering Mentorship Evaluation Matrix: How to Spot Teams That Actually Grow Junior Developers",
+    "subtitle": "Why 40% of early-career engineers leave their first role within 12 months, the exact reverse-interview questions to ask managers, and how to detect \"sink or swim\" red flags before signing an offer.",
+    "summary": "Accepting your first software engineering offer is exciting, but landing at a company with zero mentorship culture can stall your career for years. In unhealthy engineering environments, junior engineers are often left stranded in chaotic codebases with no onboarding documentation, PR reviews that sit unread for two weeks, and managers who measure output solely by tickets closed rather than engineering capability developed. To ensure your first 2 years build a resilient, high-velocity career trajectory, you must actively evaluate potential employers on their mentorship infrastructure. This guide delivers a tactical evaluation framework and reverse-interview question playbook to identify high-growth engineering cultures.",
+    "tag": "Engineering Culture",
+    "readTime": "9 min read",
+    "publishedDate": "October 2026",
+    "lastUpdatedDate": "October 2026",
+    "highlights": [
+      "The 12-Month Departure Trap: Why high junior attrition is almost always a failure of engineering governance",
+      "The 4 Pillars of Mentorship Infrastructure: Dedicated onboarding buddies, documented RFC processes, pair programming, and PR SLAs",
+      "8 Subtle Reverse-Interview Questions: How to interrogate team culture and review velocity without sounding timid or incompetent",
+      "The Promotion Ladder Diagnostic: How to verify whether a company actually promotes junior SWEs or treats them as disposable ticket-churners"
+    ],
+    "author": {
+      "name": "Jishaka Jose",
+      "role": "Technical Talent Strategist & Early-Career Recruiter",
+      "shortRole": "Technical Talent Strategist",
+      "initials": "JJ",
+      "linkedinUrl": "https://www.linkedin.com/in/jishaka-jose-28b3531aa/",
+      "bio": "Engineering Talent Acquisition Strategist focused on technical recruiting pipelines, automated ATS resume screening mechanics, compensation negotiation (RSUs & equity), and direct hiring manager outreach strategies for early-career technologists.",
+      "expertise": [
+        "ATS Resume Screening Mechanics",
+        "Technical Sourcing & Cold Outreach",
+        "Salary & Equity (RSU) Negotiation",
+        "Behavioral STAR Interviews",
+        "Early-Career Career Strategy"
+      ]
+    },
+    "reviewer": {
+      "name": "Akhil Vasu",
+      "role": "Lead Technical Architect & Systems Engineer",
+      "shortRole": "Lead Technical Architect",
+      "linkedinUrl": "https://www.linkedin.com/in/akhil-vasu-63a973110/"
+    }
+  },
   "cs-vs-self-taught-vs-bootcamp-2026": {
     "id": "cs-vs-self-taught-vs-bootcamp-2026",
     "title": "Computer Science vs. Self-Taught vs. Bootcamp: What Entry-Level Tech Recruiters Look For in 2026",
@@ -8232,7 +8343,7 @@
             <div>
               <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase;">Google E-E-A-T Verified Field Guides</span>
               <h2 style="font-size: 24px; font-weight: 700; color: #202124; margin: 4px 0 0 0;">
-                Engineering Career Insights &amp; Technical Roadmaps (27 Field Guides)
+                Engineering Career Insights &amp; Technical Roadmaps (30 Field Guides)
               </h2>
             </div>
             <span style="font-size: 12px; color: #5f6368; font-weight: 500;">
@@ -8243,6 +8354,66 @@
             Peer-reviewed early-career engineering guides covering applicant tracking systems (ATS), coding interview benchmarks, system design foundations, Git hygiene, and total compensation negotiation for developers with 0–2 years of experience.
           </p>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+            <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase; background: #e6f4ea; padding: 2px 8px; border-radius: 4px;">Role Roadmaps</span>
+                  <span style="font-size: 11px; color: #5f6368;">11 min read</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #202124; margin: 6px 0 8px 0; line-height: 1.4;">
+                  <a href="/insights/ai-engineering-llm-integration-junior-swe" style="color: #202124; text-decoration: none;">AI Engineering & LLM Integration for Junior SWEs: Beyond Basic Wrapper APIs</a>
+                </h3>
+                <p style="font-size: 12px; color: #5f6368; line-height: 1.6; margin-bottom: 12px;">
+                  The tech industry is flooded with junior developer resumes boasting "AI Engineer" titles whose only project is a 15-line copy-paste script calling an external chat completions endpoint. Senior enginee...
+                </p>
+              </div>
+              <div style="border-top: 1px solid #e8eaed; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="color: #3c4043; font-weight: 600;">
+                  By Akhil Vasu <span style="color: #70757a; font-weight: 400;">(Lead Technical Architect)</span>
+                </span>
+                <a href="/insights/ai-engineering-llm-integration-junior-swe" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
+              </div>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase; background: #e6f4ea; padding: 2px 8px; border-radius: 4px;">System Design</span>
+                  <span style="font-size: 11px; color: #5f6368;">10 min read</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #202124; margin: 6px 0 8px 0; line-height: 1.4;">
+                  <a href="/insights/sql-mastery-query-tuning-junior-backend" style="color: #202124; text-decoration: none;">SQL Mastery, Indexing & Query Tuning for Entry-Level Backend Developers</a>
+                </h3>
+                <p style="font-size: 12px; color: #5f6368; line-height: 1.6; margin-bottom: 12px;">
+                  Most aspiring junior backend engineers can write basic SELECT queries and know how to call findMany() in an ORM like Prisma, TypeORM, or Hibernate. However, when an interviewer asks "Why is this endpo...
+                </p>
+              </div>
+              <div style="border-top: 1px solid #e8eaed; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="color: #3c4043; font-weight: 600;">
+                  By Dilli Babu <span style="color: #70757a; font-weight: 400;">(Senior Engineering Director)</span>
+                </span>
+                <a href="/insights/sql-mastery-query-tuning-junior-backend" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
+              </div>
+            </article>
+            <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 11px; color: #0d904f; font-weight: 700; text-transform: uppercase; background: #e6f4ea; padding: 2px 8px; border-radius: 4px;">Engineering Culture</span>
+                  <span style="font-size: 11px; color: #5f6368;">9 min read</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #202124; margin: 6px 0 8px 0; line-height: 1.4;">
+                  <a href="/insights/engineering-mentorship-evaluation-matrix" style="color: #202124; text-decoration: none;">The Engineering Mentorship Evaluation Matrix: How to Spot Teams That Actually Grow Junior Developers</a>
+                </h3>
+                <p style="font-size: 12px; color: #5f6368; line-height: 1.6; margin-bottom: 12px;">
+                  Accepting your first software engineering offer is exciting, but landing at a company with zero mentorship culture can stall your career for years. In unhealthy engineering environments, junior engine...
+                </p>
+              </div>
+              <div style="border-top: 1px solid #e8eaed; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="color: #3c4043; font-weight: 600;">
+                  By Jishaka Jose <span style="color: #70757a; font-weight: 400;">(Technical Talent Strategist)</span>
+                </span>
+                <a href="/insights/engineering-mentorship-evaluation-matrix" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Read Guide &rarr;</a>
+              </div>
+            </article>
             <article style="background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
