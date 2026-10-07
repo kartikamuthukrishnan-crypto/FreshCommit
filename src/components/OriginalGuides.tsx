@@ -707,7 +707,18 @@ export const AdSensePolicyView: React.FC = () => {
   );
 };
 
-export const CareerInsightsView: React.FC = () => {
+import { JobPosting } from '../types';
+import { INITIAL_JOBS } from '../data/initialJobs';
+
+interface CareerInsightsViewProps {
+  jobs?: JobPosting[];
+  onSelectJob?: (job: JobPosting) => void;
+}
+
+export const CareerInsightsView: React.FC<CareerInsightsViewProps> = ({
+  jobs = INITIAL_JOBS,
+  onSelectJob,
+}) => {
   const [selectedTag, setSelectedTag] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -803,6 +814,8 @@ export const CareerInsightsView: React.FC = () => {
         onBack={handleBackToOverview}
         onSelectArticle={handleSelectArticle}
         allArticles={CAREER_ARTICLES}
+        jobs={jobs}
+        onSelectJob={onSelectJob}
       />
     );
   }

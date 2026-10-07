@@ -13,6 +13,8 @@ import {
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark } from '../utils/jobExtractor';
 import { resolveCompanyLogo } from '../utils/logoHelper';
+import { CAREER_ARTICLES } from '../data/careerArticles';
+import { getContextualArticlesForJob } from '../utils/relatedJobsMatcher';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -35,7 +37,8 @@ import {
   AlertCircle,
   ArrowRight,
   Target,
-  FileSearch
+  FileSearch,
+  BookOpen
 } from 'lucide-react';
 import { MockInterviewModal } from './MockInterviewModal';
 
@@ -948,6 +951,67 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                 </div>
               </div>
             )}
+
+            {/* Internal Linking Mesh: Relevant Career Field Guides for this Role */}
+            {(() => {
+              const contextualArticles = getContextualArticlesForJob(job, CAREER_ARTICLES, 2);
+              if (contextualArticles.length === 0) return null;
+
+              return (
+                <div className="bg-gradient-to-br from-emerald-50/60 to-white rounded-2xl border border-emerald-200 p-5 shadow-2xs space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <BookOpen className="w-4 h-4 text-emerald-700" />
+                      <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-900">
+                        Interview &amp; Strategy Guides
+                      </h3>
+                    </div>
+                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-200">
+                      E-E-A-T Verified
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    Peer-reviewed engineering field guides tailored to prepare for {job.category?.toLowerCase() || 'technical'} screening rounds:
+                  </p>
+
+                  <div className="space-y-2.5">
+                    {contextualArticles.map((art) => (
+                      <a
+                        key={art.id}
+                        href={`/insights/${art.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 rounded-xl border border-emerald-200/80 bg-white hover:border-emerald-500 hover:shadow-xs transition-all block group text-left no-underline"
+                      >
+                        <div className="flex items-center justify-between text-[10px] text-emerald-700 font-bold mb-1">
+                          <span>{art.tag}</span>
+                          <span className="text-slate-400 font-medium">{art.readTime}</span>
+                        </div>
+                        <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+                          {art.title}
+                        </h4>
+                        <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                          <span>By {art.author.name}</span>
+                          <span className="text-emerald-700 font-bold flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                            Read Guide &rarr;
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+
+                  <div className="pt-1">
+                    <a
+                      href="/insights"
+                      className="text-center block text-[11px] font-bold text-emerald-800 hover:text-emerald-900 py-1.5 hover:underline"
+                    >
+                      Browse all {CAREER_ARTICLES.length} Technical Guides &rarr;
+                    </a>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </div>
       </main>

@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CareerArticle } from '../data/careerArticles';
+import { JobPosting } from '../types';
+import { INITIAL_JOBS } from '../data/initialJobs';
+import { getContextualJobsForArticle } from '../utils/relatedJobsMatcher';
 import {
   ArrowLeft,
   Clock,
@@ -20,7 +23,13 @@ import {
   Linkedin,
   ExternalLink,
   Award,
-  Sparkles
+  Sparkles,
+  MapPin,
+  Building2,
+  DollarSign,
+  TrendingUp,
+  Flame,
+  CheckCircle
 } from 'lucide-react';
 
 interface CareerArticleReaderProps {
@@ -28,6 +37,8 @@ interface CareerArticleReaderProps {
   onBack: () => void;
   onSelectArticle: (id: string) => void;
   allArticles: CareerArticle[];
+  jobs?: JobPosting[];
+  onSelectJob?: (job: JobPosting) => void;
 }
 
 export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
@@ -35,6 +46,8 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
   onBack,
   onSelectArticle,
   allArticles,
+  jobs = INITIAL_JOBS,
+  onSelectJob,
 }) => {
   const [copiedCodeIndex, setCopiedCodeIndex] = useState<number | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -519,6 +532,122 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
           </div>
         )}
       </section>
+
+      {/* Internal Linking Mesh: Contextual Verified Live Job Requisitions (0-2 YoE) */}
+      {(() => {
+        const contextualJobs = getContextualJobsForArticle(article, jobs, 3);
+        if (contextualJobs.length === 0) return null;
+
+        return (
+          <section className="my-10 p-6 sm:p-7 bg-white rounded-2xl border-2 border-emerald-200/90 shadow-sm space-y-5">
+            <div className="flex items-center justify-between flex-wrap gap-2 pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+                  <Briefcase className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                    <span>Target Openings: Relevant Early-Career Requisitions</span>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-200 uppercase tracking-wide">
+                      0–2 YoE Verified
+                    </span>
+                  </h3>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Apply this guide&apos;s benchmarks directly to active openings hiring across our verified repository.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onBack) onBack();
+                  window.history.pushState(null, '', '/');
+                }}
+                className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 hover:underline"
+              >
+                <span>View all {jobs.length} jobs</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {contextualJobs.map((job) => (
+                <div
+                  key={job.id}
+                  className="p-4 rounded-xl border border-slate-200/90 bg-slate-50 hover:bg-white hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-between group text-left"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded border border-emerald-200 truncate">
+                        {job.category}
+                      </span>
+                      <span className="text-[10px] font-mono text-slate-500 whitespace-nowrap">
+                        {job.experienceLevel}
+                      </span>
+                    </div>
+
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+                      <a
+                        href={`/job/${job.id}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (onSelectJob) {
+                            onSelectJob(job);
+                          } else {
+                            window.open(`/job/${job.id}`, '_blank');
+                          }
+                        }}
+                        className="hover:underline"
+                      >
+                        {job.title}
+                      </a>
+                    </h4>
+
+                    <div className="text-[11px] text-slate-600 font-medium flex items-center gap-1 truncate">
+                      <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="truncate">{job.company}</span>
+                    </div>
+
+                    <div className="text-[11px] text-slate-500 flex items-center gap-1 truncate">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="truncate">{job.isRemote ? 'Remote / ' : ''}{job.location}</span>
+                    </div>
+
+                    {job.salary && job.salary.min > 0 && (
+                      <div className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1">
+                        <DollarSign className="w-3 h-3 text-emerald-600 shrink-0" />
+                        <span>${(job.salary.min / 1000).toFixed(0)}k – ${(job.salary.max / 1000).toFixed(0)}k / {job.salary.unit.toLowerCase()}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-slate-200/70 flex items-center justify-between gap-2">
+                    <span className="text-[10px] text-slate-400 font-mono">
+                      Max {job.maxYearsExperience}y exp
+                    </span>
+                    <a
+                      href={`/job/${job.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (onSelectJob) {
+                          onSelectJob(job);
+                        } else {
+                          window.open(`/job/${job.id}`, '_blank');
+                        }
+                      }}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-white bg-slate-900 group-hover:bg-emerald-600 px-2.5 py-1 rounded-lg transition-colors shadow-2xs"
+                    >
+                      <span>View Role</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Topical Cluster & Contextual Internal Links (SOP Step 1 & 3 Compliance) */}
       {(() => {

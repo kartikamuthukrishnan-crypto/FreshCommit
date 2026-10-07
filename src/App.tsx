@@ -1807,7 +1807,12 @@ export default function App() {
           {activeTab === 'salary-guide' && <SalaryGuideView />}
 
           {/* VIEW 3: CAREER INSIGHTS & ENGINEERING ARTICLES */}
-          {activeTab === 'insights' && <CareerInsightsView />}
+          {activeTab === 'insights' && (
+            <CareerInsightsView
+              jobs={jobs}
+              onSelectJob={(job) => handleSelectJob(job, false)}
+            />
+          )}
 
           {/* VIEW 4: INTERACTIVE DEVELOPER TOOLS & TC CALCULATOR */}
           {activeTab === 'tools' && <InteractiveToolsView />}

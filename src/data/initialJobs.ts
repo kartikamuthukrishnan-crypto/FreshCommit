@@ -4,6 +4,1593 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
+    "city": "Boston",
+    "postalCode": "02108",
+    "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level developers ready to move beyond tutorial projects and take ownership of user-facing features within a collaborative engineering culture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nWhoop is actively seeking an early-career F9985943 Da11 4cbd 9c44 D2f7e421f65e to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "IOS Engineer 1",
+    "salary": {
+      "unit": "YEAR",
+      "min": 105000,
+      "max": 145000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Whoop's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "whoop-ios-engineer-1-boston-ma",
+    "atsProvider": "Ashby",
+    "company": "Whoop",
+    "id": "manual-1791273727372",
+    "state": "MA",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=whoop.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/whoop/f9985943-da11-4cbd-9c44-d2f7e421f65e",
+    "location": "Boston, MA",
+    "category": "Mobile",
+    "companyWebsite": "https://whoop.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn engaging opening for junior engineers eager to build responsive user interfaces and modern component architectures. Boeing provides structured pair programming and active design-system collaboration.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Focus on responsive component hierarchy, CSS layout systems (Flexbox/Grid), and React, TypeScript, JavaScript, Next.js.\n• Interview Focus: Engineering leads at Phh assess responsive component layout, state architecture, and web accessibility (WCAG).\n• Portfolio Signal: Showcase a deployed web application demonstrating responsive mobile layout, clean component hierarchy, and zero console errors.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPhh is actively seeking an early-career Viewrequisition to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Viewrequisition",
+    "salary": {
+      "unit": "YEAR",
+      "min": 89000,
+      "max": 111000,
+      "currency": "USD"
+    },
+    "skills": [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "Next.js",
+      "HTML/CSS",
+      "Tailwind CSS",
+      "REST APIs",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science or equivalent practical coding bootcamp / project portfolio experience.",
+      "0–2 years of frontend engineering experience utilizing modern JavaScript/TypeScript and React/Next.js.",
+      "Solid foundation in semantic HTML5, modern CSS3/Tailwind, and client-server HTTP communication.",
+      "Familiarity with state management libraries, Git version control, and component-driven development.",
+      "Keen eye for visual precision, user-centric interaction design, and interface responsiveness.",
+      "Collaborative problem solver eager to learn from senior engineering mentors in a fast-paced environment."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Build responsive, accessible, and high-performance user interfaces for Phh's web applications.",
+      "Collaborate with UI/UX designers and product managers to translate Figma mockups into reusable component architectures.",
+      "Implement automated frontend testing utilizing Jest, React Testing Library, or Playwright to maintain zero regressions.",
+      "Optimize client-side performance, Core Web Vitals, and asset delivery across mobile and desktop viewports.",
+      "Conduct active peer code reviews and contribute to design system documentation and accessibility compliance (WCAG).",
+      "Participate in agile sprint ceremonies, daily standups, and retrospective continuous improvement discussions."
+    ],
+    "fingerprint": "boeing-viewrequisition-san-francisco-ca",
+    "atsProvider": "Taleo",
+    "company": "Boeing",
+    "id": "manual-1791293788891",
+    "state": "CA",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=boeing.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://phh.tbe.taleo.net/phh01/ats/careers/v2/viewRequisition?org=BIA&cws=38&rid=7650&Taleo",
+    "location": "San Francisco, CA",
+    "category": "Frontend",
+    "companyWebsite": "https://www.boeing.com/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Bloomington",
+    "postalCode": "55425",
+    "description": "🎯 The FreshCommits Career Take:\nA structured runway for new graduates seeking broad engineering exposure, code review hygiene, and cross-functional agile development from day one at Hpe.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Hpe values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Seattle, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nHpe is actively seeking a Graduate Systems Software Engineer I to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Graduate Systems Software Engineer I",
+    "salary": {
+      "unit": "YEAR",
+      "min": 73000,
+      "max": 171000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Hpe's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "hpe-graduate-systems-software-engineer-i-bloomington-minnesota",
+    "atsProvider": "Direct Career Portal",
+    "company": "Hpe",
+    "id": "manual-1791309393970",
+    "state": "Minnesota",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=hpe.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.hpe.com/us/en/job/1213439/Graduate-Systems-Software-Engineer-I",
+    "location": "Bloomington, Minnesota",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.hpe.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "TUCSON",
+    "postalCode": "02108",
+    "description": "🎯 The FreshCommits Career Take:\nJoining RTX as a Software Engineer I Onsite gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in TUCSON 805 1151 E Hermans Rd BLDG 805, AZ (On-Site Team Collaboration).\n\n🏢 Role Overview:\nGlobalhr is actively seeking an early-career Software Engineer I Onsite to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer I Onsite",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Globalhr's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "atsProvider": "Workday",
+    "id": "manual-1791273977459",
+    "state": "AZ",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=rtx.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-AZ-TUCSON-805--1151-E-Hermans-Rd--BLDG-805/Software-Engineer-I--Onsite-_01879432",
+    "location": "TUCSON, AZ",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.rtx.com/",
+    "status": "ACTIVE",
+    "fingerprint": "rtx-software-engineer-i-onsite-tucson-az",
+    "company": "RTX",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Boston",
+    "postalCode": "02108",
+    "description": "🎯 The FreshCommits Career Take:\nA robust launchpad for junior engineers looking to build scalable backend services, RESTful APIs, and reliable database integrations under guided technical leadership at Whoop.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nWhoop is actively seeking an early-career 0623a9e9 D7bb 4ee5 to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer I (Backend)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 105000,
+      "max": 145000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Whoop's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "whoop-software-engineer-i-backend--united-states-hybrid",
+    "atsProvider": "Ashby",
+    "company": "Whoop",
+    "id": "manual-1791273858436",
+    "state": "MA",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=whoop.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/whoop/0623a9e9-d7bb-4ee5-8100-51c68df81133/",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://whoop.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Seattle",
+    "postalCode": "98101",
+    "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at Joinbytedance.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nJoinbytedance is actively seeking a Software Engineer (Early-Career) to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer (Early-Career)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 153000,
+      "max": 300000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Joinbytedance's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "joinbytedance-software-engineer-early-career--seattle-wa",
+    "atsProvider": "Direct Career Portal",
+    "company": "Joinbytedance",
+    "id": "manual-1791294331354",
+    "state": "WA",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=joinbytedance.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://joinbytedance.com/search/7672389696568510773",
+    "location": "Seattle, WA",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.joinbytedance.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "🎯 The FreshCommits Career Take:\nAn ideal position for entry-level technologists looking to strengthen foundational distributed system design, cloud primitives, and containerized deployments.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Refresh RESTful endpoint architecture, database queries/indexing, and Git, Software Engineering, Problem Solving.\n• Interview Focus: Leads evaluate clean RESTful architecture, transactional integrity, boundary validations, and edge-case handling.\n• Portfolio Signal: Pin a public repository featuring documented API endpoints, relational database schema migrations, and automated unit tests.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nCodehunter is actively seeking a Remote Junior Backend Developer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Remote Junior Backend Developer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 85000,
+      "max": 110000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Codehunter's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "codehunter-remote-junior-backend-developer-remote",
+    "atsProvider": "Workable",
+    "company": "Codehunter",
+    "id": "manual-1791289446936",
+    "datePosted": "2026-10-06",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=codehunter.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/aAztmVU77ZuZzrrqCPbvkc/remote-junior-backend-developer-in-united-states-at-codehunter",
+    "location": "Remote (US)",
+    "category": "Backend",
+    "companyWebsite": "https://www.codehunter.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "🎯 The FreshCommits Career Take:\nAn exciting opening for early-career technologists focused on clean code, software design patterns, and high-velocity team collaboration at Highmarkhealth.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nHighmarkhealth is actively seeking an early-career Associate, Software Engineer J286291 to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "salary": {
+      "unit": "YEAR",
+      "min": 68000,
+      "max": 105000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Highmarkhealth's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "atsProvider": "Workday",
+    "company": "Highmarkhealth",
+    "id": "manual-1791294549656",
+    "datePosted": "2026-10-06",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=highmarkhealth.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://highmarkhealth.wd1.myworkdayjobs.com/highmark/job/PA-Working-at-Home---Pennsylvania/Associate-Software-Engineer_J286291",
+    "location": "Remote (US)",
+    "category": "Full Stack",
+    "companyWebsite": "https://highmarkhealth.com",
+    "status": "ACTIVE",
+    "fingerprint": "highmarkhealth-associate-software-engineer-remote",
+    "title": "Associate, Software Engineer",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Fremont",
+    "postalCode": "94536",
+    "description": "🎯 The FreshCommits Career Take:\nJoining Amax as a Junior System Engineer gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Fremont, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nAmax is actively seeking a Junior System Engineer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Junior System Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 80000,
+      "max": 95000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Amax's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "amax-junior-system-engineer-fremont-ca",
+    "atsProvider": "Workable",
+    "company": "Amax",
+    "id": "manual-1791310872213",
+    "state": "CA",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amax.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/8epXqkeQCkNdScMPTYecE4/junior-system-engineer-in-fremont-at-amax",
+    "location": "Fremont, CA",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.amax.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Plano",
+    "postalCode": "75024",
+    "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at Jpmc.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nJpmc is actively seeking a Software Engineer (Early-Career) to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer (Early-Career)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Jpmc's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "jpmc-software-engineer-early-career--plano-tx",
+    "atsProvider": "Direct Career Portal",
+    "company": "Jpmc",
+    "id": "manual-1791273498926",
+    "state": "TX",
+    "datePosted": "2026-10-06",
+    "validThrough": "2026-11-05",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=jpmorganchase.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210795475",
+    "location": "Plano, TX",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.jpmorganchase.com/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Santa Clara",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at NVIDIA.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Santa Clara, CA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nNVIDIA is actively seeking an early-career Nvidia to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with NVIDIA's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "atsProvider": "Workday",
+    "company": "NVIDIA",
+    "id": "manual-1791201461721",
+    "state": "CA",
+    "datePosted": "2026-10-05",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=nvidia.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Ignite-Internships--Software-Engineering_JR2026958",
+    "location": "Santa Clara, CA / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://nvidia.com",
+    "status": "ACTIVE",
+    "experienceLevel": "Internship",
+    "validThrough": "2026-10-20",
+    "employmentType": "INTERN",
+    "fingerprint": "nvidia-software-engineering-intern-santa-clara-ca-hybrid",
+    "title": "Software Engineering Intern",
+    "salary": {
+      "currency": "USD",
+      "unit": "HOUR",
+      "min": 20,
+      "max": 56
+    },
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Boston",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Python and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Human Experience 26wd101433 1 evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Boston, MA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nHuman Experience 26wd101433 1 is actively seeking an early-career Phd Researcher Multimodal AI to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Phd Researcher Multimodal AI",
+    "salary": {
+      "unit": "YEAR",
+      "min": 47000,
+      "max": 160000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "SQL",
+      "Machine Learning",
+      "PyTorch",
+      "Pandas",
+      "Data Pipelines",
+      "GCP",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
+      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
+      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
+      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
+      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
+      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop, validate, and deploy data pipelines and analytical models that power Human Experience 26wd101433 1's production systems.",
+      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
+      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
+      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
+      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
+      "Participate in team sprint planning, architectural reviews, and peer code reviews."
+    ],
+    "fingerprint": "autodesk-phd-researcher-multimodal-ai-boston-ma-hybrid",
+    "atsProvider": "Workday",
+    "company": "AutoDesk",
+    "id": "manual-1791215525299",
+    "state": "MA",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=autodesk.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://autodesk.wd1.myworkdayjobs.com/Ext/job/Boston-MA-USA/PhD-Researcher--Multimodal-AI-for-Human-Experience_26WD101433-1",
+    "location": "Boston, MA / Hybrid",
+    "category": "Data / AI",
+    "companyWebsite": "https://www.autodesk.com/in",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Oklahoma City",
+    "postalCode": "73008",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Caci values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nCaci is actively seeking a Software Development Intern Summer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Development Intern Summer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 39000,
+      "max": 71000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Caci's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "caci-software-development-intern-summer-oklahoma-city-ok",
+    "atsProvider": "Workday",
+    "company": "Caci",
+    "id": "manual-1791221470032",
+    "state": "OK",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=caci.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://caci.wd1.myworkdayjobs.com/external/job/Oklahoma-City-OK-US/Software-Development-Intern---Summer-2027_333085",
+    "location": "Oklahoma City, OK",
+    "category": "Full Stack",
+    "companyWebsite": "https://caci.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Chicago",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Expect project walk-throughs, practical Git version control scenarios, and discussions of past coursework or personal builds.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Chicago, IL / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nMotorolasolutions is actively seeking an Android Applications Developer Intern Summer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Android Applications Developer Intern Summer",
+    "salary": {
+      "unit": "HOUR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Motorolasolutions's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "motorola-solutions-android-applications-developer-intern-summer-chicago-il-hybrid",
+    "atsProvider": "Workday",
+    "company": "Motorola Solutions",
+    "id": "manual-1791221311112",
+    "state": "IL",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=motorolasolutions.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://motorolasolutions.wd5.myworkdayjobs.com/Careers/job/Chicago-IL/Android-Applications-Developer-Intern---Summer-2027_R69313",
+    "location": "Chicago, IL / Hybrid",
+    "category": "Mobile",
+    "companyWebsite": "https://motorolasolutions.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn exceptional starting point for new graduates ready to contribute to active codebases while receiving continuous architectural guidance and career progression milestones.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Pinterestcareers values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPinterestcareers is actively seeking an early-career University Grad Software Engineer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "University Grad Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 129000,
+      "max": 174000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Pinterestcareers's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "pinterestcareers-university-grad-software-engineer-united-states-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "Pinterestcareers",
+    "id": "manual-1791187925437",
+    "state": "CA",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=pinterestcareers.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.pinterestcareers.com/jobs/7838591/university-grad-software-engineer-2027-usa/",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.pinterestcareers.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Santa Clara",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nA supportive program where aspiring engineers work on real product deliverables alongside seasoned mentors, gaining foundational industry credentials.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Santa Clara, CA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nNVIDIA is actively seeking an early-career Nvidia to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": " Internships: Hardware Engineering",
+    "salary": {
+      "unit": "YEAR",
+      "min": 20,
+      "max": 56,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with NVIDIA's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "nvidia--internships-hardware-engineering-santa-clara-ca-hybrid",
+    "atsProvider": "Workday",
+    "company": "NVIDIA",
+    "id": "manual-1791220043764",
+    "state": "CA",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-10-19",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=nvidia.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Ignite-Internships--Hardware-Engineering_JR2027047",
+    "location": "Santa Clara, CA / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://nvidia.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Quantumsignalai.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Expect project walk-throughs, practical Git version control scenarios, and discussions of past coursework or personal builds.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nQuantumsignalai is actively seeking a Software Engineering Intern Tools and Prototypes to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineering Intern Tools and Prototypes",
+    "salary": {
+      "unit": "HOUR",
+      "min": 28,
+      "max": 30,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Quantumsignalai's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "quantumsignalai-software-engineering-intern-tools-and-prototypes-united-states-hybrid",
+    "atsProvider": "JazzHR",
+    "company": "Quantumsignalai",
+    "id": "manual-1791215275076",
+    "state": "CA",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=quantumsignalai.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://quantumsignalai.applytojob.com/apply/MWrhQD8Hn9/Software-Engineering-Intern-Tools-And-Prototypes",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://quantumsignalai.com/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn exceptional starting point for new graduates ready to contribute to active codebases while receiving continuous architectural guidance and career progression milestones.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nMicron is actively seeking an early-career New College Grad Semiconductor Design Engineer Dram Products Group to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "New College Grad Semiconductor Design Engineer Dram Products Group",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Micron's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "micron-new-college-grad-semiconductor-design-engineer-dram-products-group-united-states-hybrid",
+    "atsProvider": "Workday",
+    "company": "Micron",
+    "id": "manual-1791188639417",
+    "state": "CA",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=micron.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://micron.wd1.myworkdayjobs.com/External/job/Boise-ID---Main-Site/New-College-Grad---Semiconductor-Design-Engineer--DRAM-Products-Group_JR114119",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://micron.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Schaumburg",
+    "postalCode": "60173",
+    "description": "🎯 The FreshCommits Career Take:\nA supportive program where aspiring engineers work on real product deliverables alongside seasoned mentors, gaining foundational industry credentials.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Python, SQL, Machine Learning, PyTorch), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPrimient is actively seeking an AI Analyst Intern Summer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "AI Analyst Intern Summer",
+    "salary": {
+      "unit": "HOUR",
+      "min": 22,
+      "max": 24,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "SQL",
+      "Machine Learning",
+      "PyTorch",
+      "Pandas",
+      "Data Pipelines",
+      "GCP",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
+      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
+      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
+      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
+      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
+      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop, validate, and deploy data pipelines and analytical models that power Primient's production systems.",
+      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
+      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
+      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
+      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
+      "Participate in team sprint planning, architectural reviews, and peer code reviews."
+    ],
+    "fingerprint": "primient-ai-analyst-intern-summer-schaumburg-il",
+    "atsProvider": "Workday",
+    "company": "Primient",
+    "id": "manual-1791190533572",
+    "state": "IL",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=primient.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://primient.wd1.myworkdayjobs.com/External_Careers/job/Schaumburg-IL/AI-Analyst-Intern---Summer-2027_JREQ7056",
+    "location": "Schaumburg, IL",
+    "category": "Data / AI",
+    "companyWebsite": "https://primient.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Pangramlabs.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPangramlabs is actively seeking an early-career 2d00752c B3f2 40e1 9c50 to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "AI Research Intern",
+    "salary": {
+      "unit": "YEAR",
+      "min": 8000,
+      "max": 11000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Pangramlabs's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "pangramlabs-ai-research-intern-united-states-hybrid",
+    "atsProvider": "Ashby",
+    "company": "Pangramlabs",
+    "id": "manual-1791190377741",
+    "state": "CA",
+    "datePosted": "2026-10-05",
+    "validThrough": "2026-11-04",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=pangramlabs.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/pangramlabs/2d00752c-b3f2-40e1-9c50-60147c858d0b",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://pangramlabs.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "🎯 The FreshCommits Career Take:\nAn engaging opening for junior engineers eager to build responsive user interfaces and modern component architectures. Affirm provides structured pair programming and active design-system collaboration.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, Kotlin, React, Vue and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation Range: Verified employer range of ~USD 165k–225k/year with career progression reviews.\n• Location: Based in Remote US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAt Affirm, we exist for the moments that matter—giving people a clear, predictable way to pay over time, with no hidden fees, no surprises, and no tradeoffs on what matters most.\n\nThe Marketplace and App Experience domain is the main pillar of our core consumer strategy, driving the user journey across all of our frontend surfaces: Mobile and Web. The teams span across multiple products and areas to engage and provide value to our customers, starting with the Home hub in the app or website, which expands into the various product offers and journeys a user can embark on with Affirm. This role will be at the forefront of our front-end facing cross-team projects, working closely with other teams and engineers across our mobile and web technologies, while also evolving and collaborating with every product experience team at Affirm.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer II, Fullstack (App Experience)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 165000,
+      "max": 225000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "Kotlin",
+      "React",
+      "Vue",
+      "APIs"
+    ],
+    "qualifications": [
+      "· You have a total of 1.5+ years of experience as a software engineer.",
+      "· You have experience shipping web apps using declarative UI frameworks like React or Vue",
+      "· You have experience shipping mobile apps using native or cross-platform languages like React Native",
+      "· You have experience designing, developing and launching APIs at scale using languages like Kotlin or Python.",
+      "· You have mastered taking a simple problem or business scenario into a solution that interacts with multiple software components, and executing on it by writing clear, easily understood, well tested and extensible code.",
+      "· You are comfortable navigating a large code base, debugging others' code, and providing feedback to other engineers through code reviews.",
+      "· Your experience demonstrates that you take ownership of your growth, proactively seeking feedback from your team, your manager, and your stakeholders.",
+      "· You have strong verbal and written communication skills that support effective collaboration with our global engineering team."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "· With the support of your team’s tech lead and manager, you will break down larger projects into individual tasks, deliver them in multiple phases, and collaborate with others to ensure timely delivery of your work.",
+      "· You will support your peers and stakeholders in the product development lifecycle by collaborating with product management, design & analytics by participating in ideation, articulating technical constraints, and partnering on decisions that properly consider risks and trade-offs.",
+      "· You will support the operations and availability of your team’s artifacts by creating and monitoring metrics, escalating when needed, and supporting “keep the lights on” & on-call efforts.",
+      "· You will contribute to a sense of community on your team by engaging in growth and development activities such as participation in the interview process."
+    ],
+    "fingerprint": "affirm-software-engineer-ii-fullstack-app-experience--remote",
+    "atsProvider": "Greenhouse",
+    "company": "Affirm",
+    "id": "manual-1791132126777",
+    "datePosted": "2026-10-04",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-03",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=affirm.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/affirm/jobs/7819445003",
+    "location": "Remote (US)",
+    "category": "Frontend",
+    "companyWebsite": "https://affirm.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Los Altos",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Python, SQL, Machine Learning, PyTorch), Git workflow, and code documentation.\n• Interview Focus: Palona Ai values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Los Altos / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPalona Ai is actively seeking a Phd Research Intern Robotics & Physical AI to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Phd Research Intern Robotics & Physical AI",
+    "salary": {
+      "unit": "HOUR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "SQL",
+      "Machine Learning",
+      "PyTorch",
+      "Pandas",
+      "Data Pipelines",
+      "GCP",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
+      "0–2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
+      "Familiarity with machine learning fundamentals, statistics, and model validation techniques.",
+      "Experience with relational databases (PostgreSQL, MySQL) and version control tools (Git).",
+      "Demonstrated curiosity for continuous learning and solving complex real-world data challenges.",
+      "Strong communication skills for presenting quantitative findings to technical and business stakeholders."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop, validate, and deploy data pipelines and analytical models that power Palona Ai's production systems.",
+      "Perform exploratory data analysis to uncover statistical trends, optimize model features, and identify anomalies.",
+      "Collaborate with machine learning engineers and product managers to formulate measurable evaluation metrics.",
+      "Write clean, modular Python and SQL code accompanied by comprehensive automated tests and documentation.",
+      "Monitor model inference latency, pipeline data freshness, and model drift in live environments.",
+      "Participate in team sprint planning, architectural reviews, and peer code reviews."
+    ],
+    "fingerprint": "palona-ai-phd-research-intern-robotics-physical-ai-los-altos-hybrid",
+    "atsProvider": "Workable",
+    "company": "Palona Ai",
+    "id": "manual-1791103193152",
+    "state": "CA",
+    "datePosted": "2026-10-04",
+    "validThrough": "2026-11-03",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=palona.ai&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/bR5CvEvX7oFRB2ZpyuB47V/phd-research-intern---robotics-%26-physical-ai-in-los-altos-at-palona-ai",
+    "location": "Los Altos / Hybrid",
+    "category": "Data / AI",
+    "companyWebsite": "https://palona.ai/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Ea.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Expect project walk-throughs, practical Git version control scenarios, and discussions of past coursework or personal builds.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nEa is actively seeking a Software Engineer Intern Summer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer Intern Summer",
+    "salary": {
+      "unit": "HOUR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Ea's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "ea-software-engineer-intern-summer-united-states-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "Ea",
+    "id": "manual-1791135754357",
+    "state": "CA",
+    "datePosted": "2026-10-04",
+    "validThrough": "2026-11-03",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=ea.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ea.com/en_US/careers/JobDetail/Software-Engineer-Intern-Summer-2027/216239",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.ea.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Seattle, WA / Hybrid",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for early-career developers seeking immersion in live server architectures, automated CI/CD pipelines, and rigorous code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Refresh RESTful endpoint architecture, database queries/indexing, and Git, Software Engineering, Problem Solving.\n• Interview Focus: Expect discussions around database schema modeling, API authentication patterns, and scalable microservice logic.\n• Portfolio Signal: Pin a public repository featuring documented API endpoints, relational database schema migrations, and automated unit tests.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Seattle, WA / Hybrid / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nAmazon is actively seeking a Software Development Engineer Amazon Dedicated Cloud Early Career to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Development Engineer Amazon Dedicated Cloud Early Career",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Amazon's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "amazon-software-development-engineer-amazon-dedicated-cloud-early-career-seattle-wa-hybrid-hybrid",
+    "atsProvider": "Amazon Jobs",
+    "company": "Amazon",
+    "id": "manual-1791134255977",
+    "state": "CA",
+    "datePosted": "2026-10-04",
+    "validThrough": "2026-11-03",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://amazon.jobs/en/jobs/10529546/software-development-engineer-amazon-dedicated-cloud-early-career-2026-amazon-dedicated-cloud-",
+    "location": "Seattle, WA / Hybrid / Hybrid",
+    "category": "DevOps / Cloud",
+    "companyWebsite": "https://amazon.jobs",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nA supportive program where aspiring engineers work on real product deliverables alongside seasoned mentors, gaining foundational industry credentials.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (JavaScript, Python, Java), Git workflow, and code documentation.\n• Interview Focus: Xai values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Palo Alto, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nSpaceXAI’s mission is to create AI systems that can accurately understand the universe and aid humanity in its pursuit of knowledge. Our team is small, highly motivated, and focused on engineering excellence. This organization is for individuals who appreciate challenging themselves and thrive on curiosity. We operate with a flat organizational structure. All employees are expected to be hands-on and to contribute directly to the company’s mission. Leadership is given to those who show initiative and consistently deliver excellence. Work ethic and strong prioritization skills are important. All employees are expected to have strong communication skills. They should be able to concisely and accurately share knowledge with their teammates.\n\nABOUT THE ROLE:\n\nSpaceXAI seeks extraordinary students to join us for Summer 2027 software engineering roles. As an intern, you will work closely with your mentor and other employees who will help you apply your knowledge and grow your skills on projects that have a significant impact. If you’ve demonstrated a commitment to academic success and motivation to apply your knowledge outside of the classroom, you are a great candidate!",
+    "source": "MANUAL_ADMIN",
+    "title": "Summer 2027 Software Engineering Internship/Co-op",
+    "salary": {
+      "unit": "HOUR",
+      "min": 30,
+      "max": 40,
+      "currency": "USD"
+    },
+    "skills": [
+      "JavaScript",
+      "Python",
+      "Java"
+    ],
+    "qualifications": [
+      "Must be enrolled in a bachelor’s degree or graduate program",
+      "3+ months of software programming or development experience",
+      "Software coding experience in one or more of the following: C, C++, C#, Java, JavaScript, Python",
+      "PREFERRED SKILLS AND EXPERIENCE:",
+      "GPA of 3.5 or above",
+      "6+ months experience developing and deploying software that has been used on real-world applications and projects",
+      "Strong fundamental knowledge of computer architecture and networks",
+      "Experience with software documentation, creating system diagrams, and enumerating software requirements"
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Xai's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "xai-summer-2027-software-engineering-internship-co-op-palo-alto-ca",
+    "atsProvider": "Greenhouse",
+    "company": "Xai",
+    "id": "manual-1791136067012",
+    "state": "CA",
+    "datePosted": "2026-10-04",
+    "validThrough": "2026-11-03",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=x.ai&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/xai/jobs/5255111007",
+    "location": "Palo Alto, CA",
+    "category": "Backend",
+    "companyWebsite": "https://x.ai/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Parasail's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nParasail is actively seeking an early-career Da595923 4e35 4ba1 875d to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer, Forward Deploy -- New Graduate '27",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Parasail's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "parasail-software-engineer-forward-deploy-new-graduate-27-united-states-hybrid",
+    "atsProvider": "Ashby",
+    "company": "Parasail",
+    "id": "manual-1791133968306",
+    "state": "CA",
+    "datePosted": "2026-10-04",
+    "validThrough": "2026-11-03",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=parasail.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/parasail/da595923-4e35-4ba1-875d-383276069cf7",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://parasail.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn exceptional starting point for new graduates ready to contribute to active codebases while receiving continuous architectural guidance and career progression milestones.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nHarvey is actively seeking an early-career 4d8dc9ba Eb86 4d88 Af7d 65d2fdaf3fdc to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer, New Grad (2027)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
+      "0–2 years of software engineering experience or relevant university project/open-source contributions.",
+      "Solid understanding of core computer science fundamentals: algorithms, data structures, and object-oriented design.",
+      "Working knowledge of at least one modern programming language (Java, Python, TypeScript, Go, or C++) and Git.",
+      "Passionate curiosity for learning modern cloud technologies, distributed systems, and collaborative development.",
+      "Strong analytical thinking, clear communication skills, and enthusiastic team-first mindset."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design, implement, and test scalable software components in close collaboration with Harvey's engineering mentors.",
+      "Contribute clean, maintainable code to production codebases adhering to established engineering best practices.",
+      "Participate in agile sprint ceremonies, collaborative peer code reviews, and architectural design reviews.",
+      "Diagnose, debug, and resolve software defects, performance bottlenecks, and system integration challenges.",
+      "Author automated unit and integration tests to ensure exceptional system reliability and CI/CD delivery standards.",
+      "Document system architectures, API contracts, and onboarding playbooks for peer team members."
+    ],
+    "fingerprint": "harvey-software-engineer-new-grad-2027--united-states-hybrid",
+    "atsProvider": "Ashby",
+    "company": "Harvey",
+    "id": "manual-1791134074195",
+    "state": "CA",
+    "datePosted": "2026-10-04",
+    "validThrough": "2026-11-03",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=harvey.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/harvey/4d8dc9ba-eb86-4d88-af7d-65d2fdaf3fdc",
+    "location": "United States / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://harvey.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Arcboatcompany.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (TypeScript, Python, Go, AWS), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Torrance, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWhat we’re building\n\nThe marine industry supports recreation, global commerce, and national defense. And yet it runs on technology that hasn't meaningfully changed in fifty years. Until now.\n\nArc is on a mission to electrify the marine industry. We're rethinking powertrains, software, and vessel designs from first principles. And we're already executing. We started with consumers to develop and harden our core technology. We’re now scaling production of our flagship model with new models and sectors on the horizon. Now we’re extending our platform to commercial applications, starting with tugs, ferries, and defense, with years worth of signed contracts and a pipeline that spans every vessel type on the water.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineering Intern",
+    "salary": {
+      "unit": "HOUR",
+      "min": 40,
+      "max": 45,
+      "currency": "USD"
+    },
+    "skills": [
+      "TypeScript",
+      "Python",
+      "Go",
+      "AWS",
+      "Git"
+    ],
+    "qualifications": [
+      "Familiarity with at least one general purpose programming language",
+      "Strong software development fundamentals",
+      "Productive with standard software development tools (an IDE, git, the command line, etc.)",
+      "Strong analytical and problem-solving skills.",
+      "Ability to work collaboratively in a team environment.",
+      "Eagerness to learn and adapt in a dynamic setting.",
+      "Ability to effectively communicate progress and status of your work",
+      "Bonus Qualifications"
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Contributing to the boat infotainment unit, mobile app, backend, or boat firmware",
+      "Owning a project end-to-end that meaningfully drives the business forward",
+      "Collaborating with members of the software team as well as other stakeholders"
+    ],
+    "fingerprint": "arcboatcompany-software-engineering-intern-torrance-ca",
+    "atsProvider": "Greenhouse",
+    "company": "Arcboatcompany",
+    "id": "manual-1791135851157",
+    "state": "CA",
+    "datePosted": "2026-10-04",
+    "validThrough": "2026-11-03",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=arcboatcompany.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/arcboatcompany/jobs/5442881008",
+    "location": "Torrance, CA",
+    "category": "Backend",
+    "companyWebsite": "https://arcboatcompany.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
     "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. Opploans pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Java, Docker, Kubernetes, PostgreSQL.\n• Interview Focus: Opploans evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation Range: Verified employer range of ~USD 86k–128k/year with career progression reviews.\n• Location: Based in United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nOppFi is a leading tech-enabled digital finance platform that works with banks to provide financial products and services for everyday Americans. Through a transparent and responsible platform, which includes financial inclusion and excellent customer experience, the Company supports consumers who are turned away by mainstream options to build better financial health.\n\nWe are a team of caring, innovative, and inclusive individuals who thrive in being immersed in diverse talents, expertise, perspectives, and backgrounds. Our employees approach every new challenge with an unparalleled ability to see what could be rather than settle for what is. Our business principles guide us and create an open and collaborative culture where we improve 1% every day, and the best ideas always win! We welcome individuals who want to make an impact in the financial system by facilitating credit access, expanding financial inclusion, promoting financial health, and delivering exceptional customer service.\n\nA few other fun facts about us. OppFi is one of the top consumer-rated financial platforms online, maintaining a 4.4/5.0-star rating on Trustpilot. We are a 2025 Crain’s Fast 50™ company and were named on Built In's 2026 Best Places to Work in Chicago.",
     "source": "MANUAL_ADMIN",
     "title": "Software Engineer I",
@@ -57,7 +1644,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://opploans.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
   },
   {
     "country": "US",
@@ -113,7 +1700,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://quantic.edu/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
   },
   {
     "country": "US",
@@ -174,7 +1761,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.syntiant.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.890Z"
   },
   {
     "country": "US",
@@ -230,7 +1817,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.exotec.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -286,7 +1873,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://parivedasolutions.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -342,7 +1929,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.bostonscientific.eightfold.ai",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -398,7 +1985,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.visionpointsystems.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -452,7 +2039,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://acuityinternational.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -506,7 +2093,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://teladoc.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -567,7 +2154,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.accenture.com/en",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -621,7 +2208,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://toomeytechnologies.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -676,7 +2263,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sutherland.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -732,7 +2319,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "company": "Oracle",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=eeho.fa.us2.oraclecloud.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -786,7 +2373,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=rhondosinc.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -840,7 +2427,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "title": "Flexcompute Ambassador Program",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc..com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -896,7 +2483,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.penguinrandomhouse.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -957,7 +2544,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?domain=texassportsacademymain.com&sz=128",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1013,7 +2600,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=edjd.fa.us2.oraclecloud.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1074,7 +2661,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1130,7 +2717,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=oneoncology.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1186,7 +2773,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=mindex.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1237,7 +2824,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://resultant.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1293,7 +2880,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level developers ready to move beyond tutorial projects and take ownership of user-facing features within a collaborative engineering culture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nRedhat is actively seeking an early-career Associate Deal Management Analyst to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=redhat.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1350,7 +2937,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=illumiallc.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1406,7 +2993,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level developers ready to move beyond tutorial projects and take ownership of user-facing features within a collaborative engineering culture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Atlanta, GA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nWalaris is actively seeking an early-career Hybrid Software Engineer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=walaris.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "FR",
@@ -1461,7 +3048,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "fingerprint": "sap-it-business-systeme-internship-ai-automation-developer-f-m-levallois-perret-france",
     "title": "Internship: AI Automation Developer F/M",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1517,7 +3104,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nJoining Regeneron as a IT Applications Analyst Labware gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Los Angeles, CA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nRegeneron is actively seeking an early-career IT Applications Analyst Labware to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=regeneron.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1573,7 +3160,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for early-career developers seeking immersion in live server architectures, automated CI/CD pipelines, and rigorous code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Manchester / Hybrid.\n\n🏢 Role Overview:\nUbds Group is actively seeking an early-career Hybrid Cloud Engineer Early Years to join their team. This direct opening was discovered on Ubds Group's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=ubdsgroup.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1629,7 +3216,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Man Group's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Boston, MA / Hybrid.\n\n🏢 Role Overview:\nMan Group is actively seeking an early-career Technology Rotational Program Associate Engineer to join their team. This direct opening was discovered on Man Group's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=mangroup.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1690,7 +3277,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on React, TypeScript, JavaScript, Next.js, HTML/CSS and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nCgi is actively seeking an early-career Xweb.asp to join their team. This direct opening was discovered on Cgi's official Direct Career Portal portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=cgi.njoyn.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1743,7 +3330,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Evolutioniq emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Python, SQL, ServiceNow scripting for system integrations.\n• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation Range: Verified employer range of ~8k–5k/year with career progression reviews.\n• Location: Based in New York, NY (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAbout Us: EvolutionIQ’s mission is to deliver state of the art technology that helps insurance claims teams make claims handling more accurate, fair, and efficient, so that more people impacted by injury or illness can continue their lives with dignity and stability. We are currently experiencing massive growth and to accomplish our goals, we are hiring world-class talent who want to help build and scale internally, and transform the insurance space. Our team is our #1 priority, and we have been named one of Inc.’s Best Workplaces 3 years in a row and Built In’s Best Places to work in 2025 and 2026!",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=evolutioniq.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1799,7 +3386,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Boston, MA / Hybrid.\n\n🏢 Role Overview:\nHyperlight is actively seeking an early-career R&d Operations & Automation Engineer Intern to join their team. This direct opening was discovered on Hyperlight's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=hyperlight.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1855,7 +3442,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://infinitive.com",
     "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Infinitive.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (AWS, Data Analysis, Security), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~8–5/hr with career progression reviews.\n• Location: Based in Ashburn, VA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nInfinitive is actively welcoming an Infiniterns (2027 Technology Internship) to join their engineering team. Candidates will collaborate closely with experienced technical mentors, contributing directly to live software workflows, system components, and client-facing digital solutions.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=infinitive.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1916,7 +3503,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Python and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nIbm is actively seeking an early-career Jobdetail to join their team. This direct opening was discovered on Ibm's official Direct Career Portal portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=ibm.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -1972,7 +3559,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Newport Beach / Hybrid.\n\n🏢 Role Overview:\nPimco is actively seeking an early-career Summer Intern Trade Floor Operations Analyst to join their team. This direct opening was discovered on Pimco's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=pimco.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "Greece",
@@ -2033,7 +3620,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Python and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Athens / Hybrid.\n\n🏢 Role Overview:\nSatori Analytics is actively seeking an early-career Hybrid Junior Data Engineer to join their team. This direct opening was discovered on Satori Analytics's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=satorianalytics.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "GB",
@@ -2089,7 +3676,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA strong pathway for junior engineers looking to master end-to-end software configurations and enterprise integrations. NielsenIQ provides dedicated senior guidance while giving candidates direct ownership of technical resolution workflows.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Oxford, OXF, United Kingdom.\n\n🏢 Role Overview:\nThe Customer Success Junior Consultant will be working very closely with less complex but strategically important clients (Silver/Gold NSM clients) in Grocery industry to have a rigorous understanding of their business, objectives, priorities, and investment decisions they are making or considering. This will enable you to highlight unmet client needs and identify sales opportunities to pass to our account development associates.  ",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "PT",
@@ -2143,7 +3730,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Natixis in Portugal emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Portugal, , Portugal.\n\n🏢 Role Overview:\nNatixis in Portugal is currently seeking a Junior SQL Developer (French Speaker) to join its BPCE SI (BPCE Solutions Informatiques) team, within the IT (Information Technologies) department. ",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2201,7 +3788,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Security, Figma, Design Systems, UI/UX, Prototyping and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation Range: Verified employer range of ~USD 85k–105k/year with career progression reviews.\n• Location: Based in New York, NY.\n\n🏢 Role Overview:\nJPMorganChase is actively seeking an early-career Product Designer – Private Bank Digital, Early Career to join their team. This direct opening was discovered on JPMorganChase's official Direct Career Portal portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=jpmorganchase.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "FR",
@@ -2255,7 +3842,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn ideal position for entry-level technologists looking to strengthen foundational distributed system design, cloud primitives, and containerized deployments.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Flask, Docker and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nSia recrute un(e) Software Engineer pour accompagner le développement des activités de la Business Unit Data Science.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "Greece",
@@ -2316,7 +3903,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. Peoplecert pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Athens / Hybrid.\n\n🏢 Role Overview:\nPeoplecert is actively seeking an early-career Junior Data Analyst to join their team. This direct opening was discovered on Peoplecert's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=peoplecert.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "DE",
@@ -2369,7 +3956,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Data Analysis and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Düsseldorf, NRW, Germany.\n\n🏢 Role Overview:\nStart date: 01.09.2026",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2425,7 +4012,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at The Garam Group emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in East Syracuse / Hybrid.\n\n🏢 Role Overview:\nThe Garam Group is actively seeking an early-career IT Help Desk Support Engineer to join their team. This direct opening was discovered on The Garam Group's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=thegaramgroup.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2481,7 +4068,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Vista Group emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Los Angeles, CA / Hybrid.\n\n🏢 Role Overview:\nVista Group is actively seeking an early-career Hybrid Solution Specialist to join their team. This direct opening was discovered on Vista Group's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=vistagroup.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "NL",
@@ -2536,7 +4123,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA strong pathway for junior engineers looking to master end-to-end software configurations and enterprise integrations. Lely provides dedicated senior guidance while giving candidates direct ownership of technical resolution workflows.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Maassluis, ZH, Netherlands.\n\n🏢 Role Overview:\nWerk jij graag met techniek, vind je het leuk om dingen uit te zoeken en wil je jezelf ontwikkelen tot specialist in de nieuwste robottechnologie? Dan is dit een mooie kans om je technische carrière bij Lely te starten.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "DE",
@@ -2591,7 +4178,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at Ströer SE & Co. KGaA (Ströer Gruppe).\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Leipzig, SN, Germany.\n\n🏢 Role Overview:\nDu koordinierst als Projektverantwortliche:r eigenständig Bauunternehmer:innen und Energieversorger:innen bei der Planung, Durchführung und Abwicklung von Bau- und Instandhaltungsmaßnahmen an Werbeanlagen und Stadtmöbeln\nDu betreust unsere Bewirtschaftungsdienstleister:innen und koordinierst und überwachst dabei in enger Abstimmung Wartungsarbeiten sowie die Mängelbeseitigung und gewährleistest einen reibungslosen Betrieb\nDu sicherst dabei die Einhaltung technischer Vorgaben, Termine und Qualitätsstandards\nDu führst regelmäßige Kontrollabfahrten in Deinem Gebiet durch und dokumentierst und steuerst anfallende Aufgaben an sowie um unsere Werbeanlagen\nDu prüfst die Abrechnung beauftragter Leistungen\nDu holst notwendige behördliche Dokumente für die Durchführung von Baumaßnahmen ein und unterstützt ferner den Bereich Public Affairs im kontinuierlichen Austausch mit unseren Vertragspartnern",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2645,7 +4232,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level problem-solvers who enjoy diagnosing complex technical issues across live applications, bridging engineering fixes with real-world user requirements.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Remote - US.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Remote IT Support Test Technician (entry Level) in United States at J Mack Technologies to join their team. This direct opening was discovered on En's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=en.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2701,7 +4288,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exciting opening for early-career technologists focused on clean code, software design patterns, and high-velocity team collaboration at Spring Venture Group.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Kansas City, MO, United States.\n\n🏢 Role Overview:\nPosition Overview",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2760,7 +4347,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Python and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 100k–135k/year with career progression reviews.\n• Location: Based in Remote - US.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Remote Security Engineer I, Application Security in United States at Trail of Bits to join their team. This direct opening was discovered on En's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=en.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2816,7 +4403,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at Pattersoncompanies.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nPattersoncompanies is actively seeking an early-career Software Engineer (Early-Career) to join their team. This direct opening was discovered on Pattersoncompanies's official Direct Career Portal portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=pattersoncompanies.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2870,7 +4457,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at Elevenlabs.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nElevenlabs is actively seeking an early-career 9aca205e B2bc 405b 85d6 3d2aadbe49b1 to join their team. This direct opening was discovered on Elevenlabs's official Ashby portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=elevenlabs.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2926,7 +4513,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 38–55/hr with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nEn is actively seeking an early-career Junior Systems & Network Administrator Internship (tallahassee, Fl) in Tallahassee at Diverse Computing to join their team. This direct opening was discovered on En's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=en.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -2982,7 +4569,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exciting opening for early-career technologists focused on clean code, software design patterns, and high-velocity team collaboration at Paramount.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in United States / Hybrid.\n\n🏢 Role Overview:\nParamount is actively seeking an early-career Los Angeles Business Analyst Ca 90038 to join their team. This direct opening was discovered on Paramount's official Direct Career Portal portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=paramount.com",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -3035,7 +4622,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level problem-solvers who enjoy diagnosing complex technical issues across live applications, bridging engineering fixes with real-world user requirements.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Go, Security and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Remote, USA, United States.\n\n🏢 Role Overview:\nThe Tier 2 Technical Support Analyst serves as a key technical leader responsible for resolving complex, high-priority escalations and maintaining business-critical IT operations nationwide. Operating with high autonomy, this role drives technical decision-making across advanced infrastructure, network systems, telephony, and specialized clinical hardware.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -3087,7 +4674,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level developers ready to move beyond tutorial projects and take ownership of user-facing features within a collaborative engineering culture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in New York, NY, United States.\n\n🏢 Role Overview:\nPA's Growth Strategy team helps organizations identify opportunities for sustainable growth through customer insight, market analysis, and strategic thinking. As an Analyst in our Early Career Program, you will work alongside experienced practitioners to solve complex business challenges and help clients make confident strategic decisions.  ",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "IT",
@@ -3137,7 +4724,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 595–700/hr with career progression reviews.\n• Location: Based in Milano, Via Tortona 33, Italy.\n\n🏢 Role Overview:\nSupport the team in analyzing in-market data, studying results, and summarizing insights in emails, reports, and slides\nManage basic client requests\nDeliver insights on FMCG/retail phenomena.\nBe point of contact and interface with several company departments, in order to be a collector among them and the clients",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "NG",
@@ -3190,7 +4777,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at The Place.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Lagos, LA, Nigeria.\n\n🏢 Role Overview:\nSite reconnaissance for proposed new site\nDesign and drawing conceptualization for new outlet, including equipment electrical ceiling layout.\nCarry assignments to completion with considerable independence in accordance with project objectives, professional standards, and policies and procedures\nInspect and supervises the inspection of construction projects while in progress and upon completion for adherence to plans and specification; advises contractors on the interpretation of plans and specifications; approves minor designs changes in the course of the construction; reviews contractors’ requests for payment.\nConducts research and special studies pertaining to buildings and facilities development and maintenance; prepares reports and recommendations for the review of a superior.\nPrepares materials, writes construction specifications, and prepares detailed requisitions for equipment and materials.\nWall elevations and detailed construction drawings\nAssist in visual presentations (interiors and exteriors) for club and eatery\nKnowledge on site supervision and project management",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "FR",
@@ -3246,7 +4833,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "state": "IDF",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at MAZARS emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on ServiceNow, Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 48k–65k/year with career progression reviews.\n• Location: Based in Levallois-Perret, IDF, France.\n\n🏢 Role Overview:\nThe Independence Support Analyst supports the Network’s independence and compliance processes by providing technical assistance, troubleshooting issues, and performing basic data analytics under supervision. This role is ideal for early‑career professionals seeking experience in compliance operations, technology support, and global collaboration.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -3307,7 +4894,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. Google pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, SQL, Machine Learning, PyTorch, Pandas and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 110k–155k/year with career progression reviews.\n• Location: Based in Mountain View, CA / Hybrid.\n\n🏢 Role Overview:\nGoogle is actively seeking an early-career Data Center Facilities Technician I Electrical to join their team. This direct opening was discovered on Google's official Google Careers portal.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "GB",
@@ -3355,7 +4942,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA structured runway for new graduates seeking broad engineering exposure, code review hygiene, and cross-functional agile development from day one at EDF UK.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Bridgwater, , United Kingdom.\n\n🏢 Role Overview:\nLooking for a career where you can learn, grow, and make an impact? At EDF, Success is Personal. From day one, you'll be supported by experts, build skills for the future, and play a part in powering Britain's transition to a more electrified, low-carbon future.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "IE",
@@ -3409,7 +4996,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level problem-solvers who enjoy diagnosing complex technical issues across live applications, bridging engineering fixes with real-world user requirements.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Dublin, County Dublin, Ireland.\n\n🏢 Role Overview:\nWe are looking for a Service Engineer to join our dedicated onsite engineering team at Dublin Airport. This is an exciting opportunity to work with market-leading security screening technologies that help keep people safe across the world's transportation hubs.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "VN",
@@ -3459,7 +5046,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for freshers seeking a high-support team culture where curiosity, clean problem-solving, and continuous learning are actively nurtured.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Thành phố Hồ Chí Minh, Hồ Chí Minh, Vietnam.\n\n🏢 Role Overview:\n• Support or perform EHS sampling as instructed by Technical Supervisor/Manager including Field, Monitoring and Marine services.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "US",
@@ -3511,7 +5098,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -3562,7 +5149,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 60132.23–105231.39/hr with career progression reviews.\n• Location: Based in Pomona, CA, United States.\n\n🏢 Role Overview:\nJoin AECOM at the Cal Poly Pomona, STEM Career Fair 2026.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "NL",
@@ -3616,7 +5203,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Eurofins emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 3k–3k/year with career progression reviews.\n• Location: Based in Maastricht, LI, Netherlands.\n\n🏢 Role Overview:\nDo you enjoy helping colleagues get the most out of their IT environment and do you want to play a key role in supporting critical laboratory operations? At Eurofins, you’ll have the opportunity to make a direct impact by ensuring reliable, secure, and efficient IT services across multiple locations.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
   },
   {
     "country": "TR",
@@ -3670,7 +5257,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at JYSK emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Maltepe, İstanbul, Turkey.\n\n🏢 Role Overview:\nWHAT YOUR NEXT JOB WILL BE ABOUT",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "FR",
@@ -3726,7 +5313,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for early-career developers seeking immersion in live server architectures, automated CI/CD pipelines, and rigorous code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Java, Spring Boot, Docker, Kubernetes and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nRejoins un programme stratégique de transformation à grande échelle dans le domaine du Cash Management au sein d’un environnement bancaire international en pleine modernisation.",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "IT",
@@ -3778,7 +5365,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "GB",
@@ -3829,7 +5416,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Data Intellect's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Belfast, Northern Ireland, United Kingdom.\n\n🏢 Role Overview:\nWhat We Offer:",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -3885,7 +5472,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://duolingo.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "GB",
@@ -3941,7 +5528,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in JavaScript and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Java, SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Belfast, Northern Ireland, United Kingdom.\n\n🏢 Role Overview:\nJunior ServiceNow Consultant",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "IN",
@@ -3993,7 +5580,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/Ubisoft2",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4048,7 +5635,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4104,7 +5691,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4159,7 +5746,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4214,7 +5801,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://resend.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4269,7 +5856,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://linear.app",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "VN",
@@ -4321,7 +5908,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4376,62 +5963,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://supabase.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
-  },
-  {
-    "country": "US",
-    "featured": false,
-    "maxYearsExperience": 2,
-    "city": "San Francisco",
-    "description": "Work on the massive distributed data infrastructure that handles analytics for over 20% of the internet. You will build and optimize distributed databases, streaming pipelines, and storage engines in Rust and Go.",
-    "source": "EMPLOYER_POST",
-    "title": "Distributed Systems Engineer - Data Platform",
-    "salary": {
-      "unit": "YEAR",
-      "min": 130000,
-      "max": 165000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Rust",
-      "Go",
-      "ClickHouse",
-      "Kafka",
-      "Distributed Systems",
-      "Linux"
-    ],
-    "sourceUrl": "https://job-boards.greenhouse.io/cloudflare/jobs/7462801",
-    "qualifications": [
-      "Proficiency in Rust, Go, C++, or modern systems programming languages.",
-      "Solid grasp of operating systems concepts: memory management, threads, sockets, and I/O.",
-      "Understanding of distributed consensus protocols (Raft/Paxos) and distributed storage.",
-      "Bachelor’s or Master’s in Computer Science or related engineering discipline."
-    ],
-    "experienceLevel": "Entry Level",
-    "responsibilities": [
-      "Write highly concurrent backend services in Rust and Go for real-time log ingestion.",
-      "Optimize data storage schemas and partitioning strategies on ClickHouse and Kafka.",
-      "Design fault-tolerant protocols that withstand edge node failures and packet drops.",
-      "Contribute to open-source distributed systems and database tooling."
-    ],
-    "fingerprint": "cloudflare-distributed-systems-engineer-san-francisco",
-    "company": "Cloudflare",
-    "id": "job-cfl-015",
-    "state": "CA",
-    "datePosted": "2026-09-17",
-    "applicantLocationRequirements": "US",
-    "validThrough": "2026-12-31",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=128&auto=format&fit=crop&q=80",
-    "isRemote": true,
-    "viewsCount": 3100,
-    "applyUrl": "https://job-boards.greenhouse.io/cloudflare/jobs/7462801",
-    "location": "San Francisco, CA, USA",
-    "category": "Backend",
-    "companyWebsite": "https://www.cloudflare.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4486,7 +6018,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://ramp.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4541,7 +6073,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.notion.so",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4596,7 +6128,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.datadoghq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4651,7 +6183,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.affirm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4706,7 +6238,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://zapier.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4761,7 +6293,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "NL",
@@ -4813,7 +6345,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4868,7 +6400,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://webflow.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4923,7 +6455,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gusto.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -4978,7 +6510,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://robinhood.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -5033,7 +6565,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.palantir.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -5088,7 +6620,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sentry.io",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "US",
@@ -5143,7 +6675,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.937Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   },
   {
     "country": "AT",
@@ -5195,6 +6727,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-03T21:37:00.938Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.892Z"
   }
 ];
