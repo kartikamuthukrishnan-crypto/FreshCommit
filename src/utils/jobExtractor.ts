@@ -360,11 +360,13 @@ export function extractBulletPoints(html: string): string[] {
  */
 export function detectSkills(text: string): string[] {
   const commonSkills = [
-    'JavaScript', 'TypeScript', 'Python', 'Java', 'C++', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin',
+    'FPGA', 'Verilog', 'SystemVerilog', 'VHDL', 'Digital Logic', 'Hardware Design', 'Circuit Design',
+    'Embedded Systems', 'Firmware', 'C', 'C++', 'Microcontrollers', 'RTOS', 'PCB Design', 'LabVIEW', 'MATLAB',
+    'JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin',
     'React', 'Next.js', 'Vue', 'Angular', 'Node.js', 'Express', 'Django', 'Flask', 'Spring Boot', 'FastAPI',
     'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Linux', 'SQL', 'PostgreSQL', 'MySQL', 'MongoDB',
     'Redis', 'GraphQL', 'REST APIs', 'APIs', 'Git', 'CI/CD', 'ServiceNow', 'Terraform', 'Kafka', 'Jest', 'Playwright',
-    'Developer Experience', 'Trust & Safety', 'Risk Analysis', 'Policy Operations', 'Data Analysis', 'Security'
+    'PyTorch', 'TensorFlow', 'Data Analysis', 'Security', 'Developer Experience', 'Trust & Safety'
   ];
   const lower = text.toLowerCase();
   const found: string[] = [];
@@ -1367,39 +1369,11 @@ function composeFreshCommitsCuratedDescription(params: {
   qualifications: string[];
   location: string;
 }): string {
-  const { title, company, cleanOverview, skills, salary, location } = params;
-
-  const dynamicTake = generateLeadEngineerTake({
-    id: `${company}-${title}`,
-    title,
-    company,
-    skills
-  });
-
-  const dynamicChecklist = generateCandidatePreparationChecklist({
-    id: `${company}-${title}`,
-    title,
-    company,
-    skills,
-    salary,
-    location
-  });
-
-  const edgeBlock = [
-    `🎯 The FreshCommits Career Take:`,
-    dynamicTake,
-    ``,
-    `💡 Candidate Preparation Checklist:`,
-    ...dynamicChecklist,
-    ``,
-    `🏢 Role Overview:`,
-    (cleanOverview || `${company} is actively seeking an enthusiastic ${title} to join their team and contribute to high-impact products and customer experiences.`)
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
-      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
-  ].join('\n');
-
-  return edgeBlock;
+  const { title, company, cleanOverview } = params;
+  if (cleanOverview && cleanOverview.trim().length > 20) {
+    return cleanOverview.trim();
+  }
+  return `${company} is actively seeking an early-career ${title} to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.`;
 }
 
 /**
@@ -1563,13 +1537,14 @@ export function parseJobSections(
 
   const lines = text
     .split('\n')
-    .map((l) => l.replace(/[ \t]+/g, ' ').trim())
+    .map((l) => l.replace(/[\s\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]+/g, ' ').trim())
     .filter(Boolean);
 
   let currentSection: 'overview' | 'responsibilities' | 'qualifications' | 'other' = 'overview';
   const overviewParas: string[] = [];
   const respLines: string[] = [];
   const qualLines: string[] = [];
+  const titleLow = (title || '').toLowerCase();
 
   for (const line of lines) {
     const headerMatch = line.match(/^===HEADER:\s*(.+?)===$/i);
@@ -1578,19 +1553,19 @@ export function parseJobSections(
 
     // Section transitions
     if (
-      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*do|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|role responsibilities|in this role,\s*(?:your\s*)?responsibilities\s*will\s*be)[:\s]*$/i.test(low)
+      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*do|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|role responsibilities|in this role,\s*(?:your\s*)?responsibilities\s*will\s*be|what you(?:’|'| )*ll be doing|day-to-day)[:\s]*$/i.test(low)
     ) {
       currentSection = 'responsibilities';
       continue;
     }
     if (
-      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we(?:’|'| )*(?:are looking for|look for)|who you are|skills & experience|about you|eligibility)[:\s]*$/i.test(low)
+      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:bring|need)|for this role you will need|qualifications|requirements|basic qualifications|minimum qualifications|required qualifications|preferred qualifications|desired qualifications|what we(?:’|'| )*(?:are looking for|look for)|who you are|skills & experience|about you|eligibility|key requirements|what you need to succeed)[:\s]*$/i.test(low)
     ) {
       currentSection = 'qualifications';
       continue;
     }
     if (
-      /^(?:what we offer|benefits|perks|compensation|about the team|equal opportunity|diversity)[:\s]*$/i.test(low)
+      /^(?:our offer to you|what we offer|benefits|perks|compensation|about the team|equal opportunity|diversity|why\s+[a-z0-9&.\-\s]+|our commitment to our people|about\s+[a-z0-9&.\-\s]+)[:\s]*$/i.test(low)
     ) {
       currentSection = 'other';
       continue;
@@ -1598,11 +1573,16 @@ export function parseJobSections(
 
     if (headerMatch) continue;
 
-    // Filter out common header leftovers
+    // Filter out common header leftovers and label fragments
     if (
-      /^(?:what you will do|what you'll do|what you bring|what you'll bring|responsibilities|key responsibilities|qualifications|requirements|basic qualifications|minimum qualifications|about us|who you are|who we are)[:\s]*$/i.test(low) ||
+      /^(?:job title|job summary|role summary|position summary|title)[:\s]*$/i.test(low) ||
+      low === titleLow ||
+      /^(?:what you will do|what you'll do|what you bring|what you'll bring|what you need|what you'll need|for this role you will need|responsibilities|key responsibilities|qualifications|requirements|basic qualifications|minimum qualifications|preferred qualifications|about us|who you are|who we are)[:\s]*$/i.test(low) ||
       /^(?:in this role,\s*you will|as an?\s*[^,]+,\s*you will|you will\s*(?:be responsible for)?)[:\s]*$/i.test(low) ||
-      /^(?:to be successful|requirements|qualifications|basic qualifications|minimum qualifications)[:\s]*$/i.test(low)
+      /^(?:to be successful|requirements|qualifications|basic qualifications|minimum qualifications)[:\s]*$/i.test(low) ||
+      /^(?:working knowledge of|proficiency in|experience in|knowledge of|familiarity with|preferred skills|minimum|demonstrated ability to)[:\s]*$/i.test(low) ||
+      low.startsWith('preferred qualifications that set you apart') ||
+      (candidate.endsWith(':') && candidate.length < 40)
     ) {
       continue;
     }
@@ -1627,7 +1607,7 @@ export function parseJobSections(
     }
 
     const cleanBullet = candidate.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim();
-    if (!cleanBullet || cleanBullet.length < 8) continue;
+    if (!cleanBullet || cleanBullet.length < 12) continue;
 
     if (currentSection === 'overview') {
       if (!overviewParas.includes(cleanBullet)) {
@@ -1645,7 +1625,7 @@ export function parseJobSections(
   }
 
   // Deduplicate against overview
-  const overviewText = overviewParas.slice(0, 3).join('\n\n');
+  const overviewText = overviewParas.join('\n\n');
   const overviewLower = overviewText.toLowerCase();
 
   const finalResp = respLines
@@ -1826,23 +1806,49 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
       const data = await fetchResourceWithProxy(apiUrl, true);
       if (data && data.Title) {
         const title = cleanHtml(data.Title);
-        // Deduce company name from LegalEmployer, Organization, or subdomain
+        // Deduce company name and website with precision
         let company = data.LegalEmployer || data.Organization || data.BusinessUnit;
+        let companyWebsite = '';
+        const corpStr = data.CorporateDescriptionStr || '';
+        const extDesc = data.ExternalDescriptionStr || '';
+        const combinedDesc = `${corpStr} ${extDesc}`;
+
+        // Match company domain link in descriptions (e.g. emerson.com)
+        const domainMatch = combinedDesc.match(/https?:\/\/(?:www\d?\.)?([a-zA-Z0-9-]+)\.(?:com|org|net|io)\b/i);
+        if (domainMatch && !['oraclecloud', 'oracle', 'linkedin', 'google', 'twitter', 'facebook', 'youtube'].includes(domainMatch[1].toLowerCase())) {
+          const rawDomain = domainMatch[1];
+          companyWebsite = `https://${rawDomain}.com`;
+          if (!company || company === 'None') {
+            company = rawDomain.charAt(0).toUpperCase() + rawDomain.slice(1);
+          }
+        }
+
+        // Match "WHY [Company]" or "About [Company]"
+        const whyMatch = corpStr.match(/(?:WHY|About)\s+([A-Z][a-zA-Z0-9&.\s]{2,25})/i);
+        if (whyMatch && whyMatch[1] && (!company || company === 'None' || company.length < 3)) {
+          company = whyMatch[1].trim();
+        }
+
+        // Match "At [Company]"
         if (!company || company === 'None') {
-          // Check if description has "At Emerson", "NI", etc.
-          const descStr = data.ExternalDescriptionStr || '';
-          const atMatch = descStr.match(/At\s+([A-Z][a-zA-Z0-9&.\s]{2,30}?)(?:,|\.|is\b|we\b)/);
+          const atMatch = combinedDesc.match(/At\s+([A-Z][a-zA-Z0-9&.\s]{2,25}?)(?:,|\.|is\b|we\b)/);
           if (atMatch && atMatch[1]) {
             company = atMatch[1].trim();
-          } else {
-            company = hostPrefix.split('.')[0];
-            company = company.charAt(0).toUpperCase() + company.slice(1);
           }
+        }
+
+        if (!company || company === 'None') {
+          const cleanSub = hostPrefix.split('.')[0].replace(/[^a-zA-Z]/g, '');
+          company = cleanSub ? cleanSub.charAt(0).toUpperCase() + cleanSub.slice(1) : 'Hiring Organization';
+        }
+
+        if (!companyWebsite && company) {
+          companyWebsite = `https://${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`;
         }
 
         const rawLoc = data.PrimaryLocation || 'United States';
         const isRemoteHint = data.WorkplaceType?.toLowerCase() === 'remote' || data.WorkplaceTypeCode === 'REMOTE';
-        const isHybridHint = data.WorkplaceType?.toLowerCase() === 'hybrid' || data.WorkplaceTypeCode === 'HYBRID';
+        const isHybridHint = data.WorkplaceType?.toLowerCase() === 'hybrid' || data.WorkplaceTypeCode === 'HYBRID' || data.WorkplaceTypeCode === 'ORA_HYBRID';
         const locDetails = resolveLocationDetails(rawLoc, isRemoteHint);
         if (isHybridHint && locDetails.city && locDetails.state) {
           locDetails.location = `${locDetails.city}, ${locDetails.state} / Hybrid`;
@@ -1854,8 +1860,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const fullCorpus = `${rawDesc}\n${rawQual}\n${rawResp}`;
 
         const parsed = parseJobSections(data.ExternalDescriptionStr || '', title, company);
-        const responsibilities = parsed.responsibilities.length > 0 ? parsed.responsibilities : extractBulletPoints(data.ExternalDescriptionStr || '').slice(0, 8);
-        const qualifications = parsed.qualifications.length > 0 ? parsed.qualifications : extractBulletPoints(data.ExternalQualificationsStr || '').slice(0, 8);
+        const responsibilities = parsed.responsibilities.length > 0 ? parsed.responsibilities : extractBulletPoints(data.ExternalResponsibilitiesStr || data.ExternalDescriptionStr || '').slice(0, 8);
+        const qualifications = parsed.qualifications.length > 0 ? parsed.qualifications : extractBulletPoints(data.ExternalQualificationsStr || data.ExternalDescriptionStr || '').slice(0, 8);
         const skills = detectSkills(`${title} ${fullCorpus}`);
         const category = inferCategory(title, skills);
         const expLevel = inferExperienceLevel(title, fullCorpus);
@@ -1866,7 +1872,20 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const salary = fromText || benchmark;
         const salaryDisclosed = Boolean(fromText);
 
-        const cleanOverview = parsed.overview || `${company} is actively seeking an early-career ${title} to join their team.`;
+        let cleanOverview = parsed.overview || cleanHtml(data.ShortDescriptionStr || '');
+        if (data.ShortDescriptionStr && cleanOverview && !cleanOverview.includes(data.ShortDescriptionStr.slice(0, 30))) {
+          cleanOverview = `${cleanHtml(data.ShortDescriptionStr)}\n\n${cleanOverview}`;
+        }
+        if (corpStr) {
+          const corpText = cleanHtml(corpStr).replace(/^WHY\s+[A-Z\s]+/i, '').trim();
+          if (corpText && !cleanOverview.includes(corpText.slice(0, 30))) {
+            cleanOverview = `${cleanOverview}\n\nAbout ${company}:\n${corpText.slice(0, 400)}`;
+          }
+        }
+        if (!cleanOverview) {
+          cleanOverview = `${company} is actively seeking an early-career ${title} to join their team.`;
+        }
+
         const curatedDescription = composeFreshCommitsCuratedDescription({
           title,
           company,
@@ -1882,7 +1901,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           title,
           company,
           companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`,
-          companyWebsite: `https://${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`,
+          companyWebsite,
           location: locDetails.location,
           isRemote: locDetails.isRemote,
           city: locDetails.city,
@@ -1891,7 +1910,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           postalCode: locDetails.postalCode,
           applicantLocationRequirements: locDetails.applicantLocationRequirements,
           experienceLevel: expLevel,
-          maxYearsExperience: isIntern ? 0 : 1,
+          maxYearsExperience: isIntern ? 0 : 2,
           category,
           employmentType: empType,
           salary,

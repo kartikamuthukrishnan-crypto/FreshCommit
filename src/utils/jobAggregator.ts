@@ -300,6 +300,22 @@ export function evaluateJobRelevancy(job: RawExternalJob): { isRelevant: boolean
  */
 export function inferCategory(title: string, skills: string[] = []): JobCategory {
   const t = (title + ' ' + skills.join(' ')).toLowerCase();
+  if (
+    t.includes('hardware') ||
+    t.includes('fpga') ||
+    t.includes('verilog') ||
+    t.includes('vhdl') ||
+    t.includes('digital design') ||
+    t.includes('embedded') ||
+    t.includes('firmware') ||
+    t.includes('circuits') ||
+    t.includes('electrical') ||
+    t.includes('mechanical') ||
+    t.includes('semiconductor') ||
+    t.includes('silicon')
+  ) {
+    return 'Others';
+  }
   if (t.includes('frontend') || t.includes('react') || t.includes('ui') || t.includes('web')) return 'Frontend';
   if (t.includes('backend') || t.includes('ruby') || t.includes('go') || t.includes('api') || t.includes('java')) return 'Backend';
   if (t.includes('mobile') || t.includes('ios') || t.includes('android') || t.includes('swift')) return 'Mobile';

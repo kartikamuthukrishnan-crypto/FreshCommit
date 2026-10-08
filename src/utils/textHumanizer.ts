@@ -178,6 +178,25 @@ function inferRoleArchetype(title: string, category?: string, skills: string[] =
     return 'qa_testing';
   }
 
+  if (
+    t.includes('hardware') ||
+    t.includes('fpga') ||
+    t.includes('verilog') ||
+    t.includes('vhdl') ||
+    t.includes('digital design') ||
+    t.includes('embedded') ||
+    t.includes('firmware') ||
+    t.includes('circuits') ||
+    t.includes('silicon') ||
+    t.includes('electrical') ||
+    allSkills.includes('fpga') ||
+    allSkills.includes('verilog') ||
+    allSkills.includes('vhdl') ||
+    allSkills.includes('hardware')
+  ) {
+    return 'hardware_embedded';
+  }
+
   return 'fullstack_general';
 }
 
@@ -358,7 +377,17 @@ export function generateLeadEngineerTake(job: {
     return takes[seed % takes.length];
   }
 
-  // 9. General Software Engineering & Full Stack
+  // 9. Hardware, Embedded & Digital Systems
+  if (archetype === 'hardware_embedded') {
+    const takes = [
+      `A compelling opportunity for ${targetAudience} to work directly on hardware validation, digital systems, and embedded architecture. ${company} pairs this role with experienced engineering leads to develop cutting-edge physical and electronic systems.`,
+      `Well-suited for ${targetAudience} passionate about digital logic, board bring-up, and hardware-software integration. This opening at ${company} provides hands-on ownership across the full hardware design lifecycle.`,
+      `An exceptional launchpad for emerging hardware engineers to master digital design, signal integrity, and test & measurement technologies alongside experienced industry specialists at ${company}.`
+    ];
+    return takes[seed % takes.length];
+  }
+
+  // 10. General Software Engineering & Full Stack
   const generalTakes = [
     `A well-rounded opportunity for ${targetAudience} to touch both client-side interfaces and backend logic, shipping real features directly into production at ${company}.`,
     `Joining ${company} as a ${cleanTitle} gives ${targetAudience} practical experience with modern development workflows, automated testing, and agile team cadences.`,
