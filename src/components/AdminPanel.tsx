@@ -246,9 +246,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
-  // Auto-Extraction from Career URL State
+  // Auto-Extraction from Career URL & Raw JD State
+  const [ingestionMode, setIngestionMode] = useState<'url' | 'raw_text'>('url');
   const [autoExtractUrl, setAutoExtractUrl] = useState('');
+  const [rawJdText, setRawJdText] = useState('');
+  const [rawJdApplyUrl, setRawJdApplyUrl] = useState('');
   const [isExtracting, setIsExtracting] = useState(false);
+  const [isInstantPosting, setIsInstantPosting] = useState(false);
+  const [instantPostJob, setInstantPostJob] = useState<JobPosting | null>(null);
+  const [instantPostCopied, setInstantPostCopied] = useState(false);
   const [extractSuccessMsg, setExtractSuccessMsg] = useState('');
   const [extractErrorMsg, setExtractErrorMsg] = useState('');
 
@@ -593,6 +599,188 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setExtractErrorMsg(err.message || 'Failed to extract from this link. Please check the URL.');
     } finally {
       setIsExtracting(false);
+    }
+  };
+
+  const handleRawTextExtract = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rawJdText.trim()) return;
+    setIsExtracting(true);
+    setExtractSuccessMsg('');
+    setExtractErrorMsg('');
+    try {
+      const data = extractJobDataFromRawText(rawJdText.trim(), rawJdApplyUrl.trim());
+      applyExtractedJobToForm(data);
+      setExtractSuccessMsg('✨ Successfully parsed pasted job description! All fields populated.');
+    } catch (err: any) {
+      setExtractErrorMsg(err.message || 'Failed to parse job description. Please ensure you pasted text.');
+    } finally {
+      setIsExtracting(false);
+    }
+  };
+
+  const handleDirectInstantPost = async (sourceType: 'url' | 'raw_text') => {
+    if (sourceType === 'url' && !autoExtractUrl.trim()) return;
+    if (sourceType === 'raw_text' && !rawJdText.trim()) return;
+
+    setIsInstantPosting(true);
+    setExtractErrorMsg('');
+    setExtractSuccessMsg('');
+    setInstantPostJob(null);
+
+    try {
+      let data;
+      if (sourceType === 'url') {
+        data = await extractAndEnrichJobFromUrl(autoExtractUrl.trim());
+      } else {
+        data = extractJobDataFromRawText(rawJdText.trim(), rawJdApplyUrl.trim());
+      }
+
+      // Also populate the form fields below so the admin has full visibility
+      applyExtractedJobToForm(data);
+
+      let extractedCity = data.city ? cleanCityString(cleanHtml(data.city)) : '';
+      let extractedState = data.state ? cleanHtml(data.state) : '';
+      const rawLocation = cleanLocationString(cleanHtml(data.location || ''));
+      const isPureRemote =
+        data.isRemote ||
+        rawLocation.toLowerCase().includes('remote') ||
+        (data.applicantLocationRequirements && !rawLocation);
+
+      let finalCity = 'San Francisco';
+      let finalState = 'CA';
+      let finalPostalCode = '94105';
+      let finalCountry = data.country ? cleanHtml(data.country) : 'US';
+      let finalLocation = 'San Francisco, CA';
+      let finalIsRemote = Boolean(isPureRemote);
+      let finalApplicantLocReq = data.applicantLocationRequirements ? cleanHtml(data.applicantLocationRequirements) : 'US';
+
+      if (extractedCity && !isPureRemote) {
+        finalCity = extractedCity;
+        finalState = extractedState || 'CA';
+        finalPostalCode = data.postalCode ? cleanHtml(data.postalCode) : '94105';
+        const isHybrid = rawLocation.toLowerCase().includes('hybrid');
+        finalLocation = extractedState
+          ? (isHybrid ? `${extractedCity}, ${extractedState} / Hybrid` : `${extractedCity}, ${extractedState}`)
+          : extractedCity;
+      } else if (isPureRemote) {
+        finalCity = 'Remote';
+        finalState = 'US';
+        finalLocation = 'Remote (US)';
+      }
+
+      // Salary resolution
+      let finalSalary: { min: number; max: number; currency: string; unit: 'YEAR' | 'HOUR' } = {
+        min: 85000,
+        max: 115000,
+        currency: 'USD',
+        unit: 'YEAR'
+      };
+      if (data.salary && data.salary.min > 0) {
+        finalSalary = {
+          min: data.salary.min,
+          max: data.salary.max,
+          currency: data.salary.currency || 'USD',
+          unit: data.salary.unit === 'HOUR' ? 'HOUR' : 'YEAR'
+        };
+      } else if (data.suggestedBenchmark && data.suggestedBenchmark.min > 0) {
+        finalSalary = {
+          min: data.suggestedBenchmark.min,
+          max: data.suggestedBenchmark.max,
+          currency: data.suggestedBenchmark.currency || 'USD',
+          unit: data.suggestedBenchmark.unit === 'HOUR' ? 'HOUR' : 'YEAR'
+        };
+      } else {
+        const fallbackBench = getRoleMarketBenchmark(
+          data.title || 'Software Engineer',
+          data.category,
+          data.country || 'US',
+          data.location || `${data.city || ''} ${data.state || ''}`,
+          data.experienceLevel
+        );
+        finalSalary = {
+          min: fallbackBench.min,
+          max: fallbackBench.max,
+          currency: fallbackBench.currency,
+          unit: fallbackBench.unit === 'HOUR' ? 'HOUR' : 'YEAR'
+        };
+      }
+
+      const jobTitle = cleanHtml(data.title) || 'Software Engineer';
+      const companyName = cleanHtml(data.company) || 'Tech Employer';
+      const targetApplyUrl = data.applyUrl || (sourceType === 'url' ? autoExtractUrl.trim() : rawJdApplyUrl.trim()) || 'https://www.freshcommits.com';
+      const safeDatePosted = data.datePosted || new Date().toISOString().split('T')[0];
+      const safeValidThrough = new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const jobFingerprint = generateFingerprint(companyName, jobTitle, finalIsRemote ? 'remote' : finalLocation);
+
+      // Check if exact duplicate exists
+      const existing = jobs.find((j) => j.fingerprint === jobFingerprint);
+      if (existing) {
+        throw new Error(`Duplicate detected: "${jobTitle}" at ${companyName} already exists on the site (ID: ${existing.id}).`);
+      }
+
+      const newJob: JobPosting = {
+        id: `manual-${Date.now()}`,
+        title: jobTitle,
+        company: companyName,
+        companyLogo: data.companyLogo || resolveCompanyLogo(companyName),
+        companyWebsite: data.companyWebsite || undefined,
+        location: finalLocation,
+        isRemote: finalIsRemote,
+        applicantLocationRequirements: finalIsRemote ? finalApplicantLocReq : undefined,
+        city: finalIsRemote ? undefined : finalCity,
+        state: finalIsRemote ? undefined : finalState,
+        country: finalCountry,
+        postalCode: finalIsRemote ? undefined : finalPostalCode,
+        experienceLevel: data.experienceLevel,
+        maxYearsExperience: data.maxYearsExperience,
+        category: data.category,
+        employmentType: data.employmentType,
+        salary: finalSalary,
+        description: cleanHtml(data.description) || `${jobTitle} opportunity at ${companyName}.`,
+        responsibilities: data.responsibilities && data.responsibilities.length > 0
+          ? data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, ''))
+          : [`Contribute to core engineering tasks at ${companyName}.`],
+        qualifications: data.qualifications && data.qualifications.length > 0
+          ? data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, ''))
+          : [`Background or degree related to ${data.category || 'Software Engineering'}.`],
+        skills: data.skills && data.skills.length > 0
+          ? data.skills.map((s) => cleanHtml(s))
+          : ['Software Development', 'Problem Solving'],
+        applyUrl: targetApplyUrl,
+        datePosted: safeDatePosted,
+        validThrough: safeValidThrough,
+        source: 'MANUAL_ADMIN',
+        status: 'ACTIVE',
+        viewsCount: 0,
+        atsVerified: true,
+        fingerprint: jobFingerprint
+      };
+
+      setJobs((prev) => [newJob, ...prev]);
+      saveJobToCloud(newJob).catch((e) => console.warn('Could not sync new job to cloud:', e));
+      setLastPublishedJob(newJob);
+      setInstantPostJob(newJob);
+      setPostSuccess(true);
+
+      // Google Indexing notification
+      if (indexingConfig.autoIndexOnPublish && indexingConfig.clientEmail && indexingConfig.privateKey) {
+        publishUrlToGoogle(`https://www.freshcommits.com/job/${newJob.id}`)
+          .then((res) => {
+            if (res.success) {
+              console.log(`[Google Indexing API] Notified Googlebot: https://www.freshcommits.com/job/${newJob.id}`);
+            }
+          })
+          .catch((err) => console.warn('[Google Indexing API]:', err));
+      }
+
+      setExtractSuccessMsg(
+        `⚡ Live Job Posted Instantly! "${newJob.title}" at ${newJob.company} (${newJob.location}) has been published to FreshCommits and saved directly to Firestore.`
+      );
+    } catch (err: any) {
+      setExtractErrorMsg(err.message || 'Failed to extract and publish. Please check the URL.');
+    } finally {
+      setIsInstantPosting(false);
     }
   };
 
@@ -1427,54 +1615,236 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
             {/* Fast Job Ingestion Hub */}
             <div className="mb-6 p-4 bg-gradient-to-br from-indigo-50/90 via-slate-50 to-emerald-50/70 border border-indigo-200 rounded-2xl shadow-xs">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs flex-shrink-0">
-                  <LinkIcon className="w-4 h-4" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                    <LinkIcon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
+                      Fast Job Ingestion Hub
+                    </h3>
+                    <p className="text-[11px] text-slate-500">
+                      Auto-fill Job Title, Location, ZIP Code, Salary &amp; JD with 100% precision
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
-                    Fast Job Ingestion Hub
-                  </h3>
-                  <p className="text-[11px] text-slate-500">
-                    Auto-fill Job Title, US Location, ZIP Code, Salary &amp; JD with 100% precision
-                  </p>
+
+                {/* Sub-tabs: URL vs Paste Raw JD */}
+                <div className="flex items-center bg-white/80 p-1 rounded-xl border border-indigo-200/80 shadow-2xs self-start sm:self-auto">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIngestionMode('url');
+                      setExtractErrorMsg('');
+                      setExtractSuccessMsg('');
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                      ingestionMode === 'url'
+                        ? 'bg-indigo-600 text-white shadow-2xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <LinkIcon className="w-3 h-3" />
+                    <span>Career / ATS URL</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIngestionMode('raw_text');
+                      setExtractErrorMsg('');
+                      setExtractSuccessMsg('');
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                      ingestionMode === 'raw_text'
+                        ? 'bg-indigo-600 text-white shadow-2xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <FileText className="w-3 h-3" />
+                    <span>Paste Raw JD</span>
+                  </button>
                 </div>
               </div>
 
-              {/* Career URL Ingestion Form */}
-              <form onSubmit={handleAutoExtract} className="flex flex-col sm:flex-row gap-2">
-                <div className="relative flex-1">
-                  <input
-                    type="url"
-                    required
-                    placeholder="Paste official job URL (e.g. Workday, Greenhouse, Ashby, Lever, SmartRecruiters, or company portal)"
-                    value={autoExtractUrl}
-                    onChange={(e) => setAutoExtractUrl(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
-                  />
-                  <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-3" />
+              {/* Mode 1: Career URL Ingestion Form */}
+              {ingestionMode === 'url' ? (
+                <form onSubmit={handleAutoExtract} className="space-y-2.5">
+                  <div className="relative">
+                    <input
+                      type="url"
+                      required
+                      placeholder="Paste official job URL (e.g. Workday, Greenhouse, Oracle Cloud, Ashby, Lever, SmartRecruiters, or company portal)"
+                      value={autoExtractUrl}
+                      onChange={(e) => setAutoExtractUrl(e.target.value)}
+                      className="w-full pl-8 pr-3 py-2.5 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                    />
+                    <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-3" />
+                  </div>
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleDirectInstantPost('url')}
+                      disabled={isInstantPosting || isExtracting || !autoExtractUrl.trim()}
+                      className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
+                      title="Directly extract, enrich, save to Firestore, and post live with 1 click"
+                    >
+                      {isInstantPosting ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Publishing Live Job...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+                          <span>⚡ 1-Click Instant Post Live</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isExtracting || isInstantPosting || !autoExtractUrl.trim()}
+                      className="px-4 py-2.5 bg-white border border-indigo-300 hover:bg-indigo-50 active:bg-indigo-100 text-indigo-700 font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-2xs transition-colors disabled:opacity-50 cursor-pointer"
+                      title="Extract fields into manual form below for review"
+                    >
+                      {isExtracting ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Extracting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+                          <span>Convert &amp; Review Form</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                /* Mode 2: Paste Raw JD Canvas Form */
+                <form onSubmit={handleRawTextExtract} className="space-y-2.5">
+                  <div className="relative">
+                    <textarea
+                      required
+                      rows={4}
+                      placeholder="Paste complete raw job description text here (e.g., copied from Oracle Cloud, SAP, Taleo, LinkedIn, or any career page)..."
+                      value={rawJdText}
+                      onChange={(e) => setRawJdText(e.target.value)}
+                      className="w-full p-3 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-sans resize-y"
+                    />
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+                    <div className="relative flex-1">
+                      <input
+                        type="url"
+                        placeholder="Optional Apply URL (e.g. Oracle Cloud, Taleo, or company careers link)"
+                        value={rawJdApplyUrl}
+                        onChange={(e) => setRawJdApplyUrl(e.target.value)}
+                        className="w-full pl-8 pr-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs font-mono"
+                      />
+                      <LinkIcon className="w-3.5 h-3.5 text-indigo-400 absolute left-2.5 top-2.5" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleDirectInstantPost('raw_text')}
+                        disabled={isInstantPosting || isExtracting || !rawJdText.trim()}
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
+                        title="Directly parse raw text, enrich, save to Firestore, and post live with 1 click"
+                      >
+                        {isInstantPosting ? (
+                          <>
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                            <span>Publishing Live Job...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Zap className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+                            <span>⚡ 1-Click Instant Post Live</span>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isExtracting || isInstantPosting || !rawJdText.trim()}
+                        className="px-3.5 py-2 bg-white border border-emerald-300 hover:bg-emerald-50 text-emerald-800 font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-2xs transition-colors disabled:opacity-50 cursor-pointer"
+                      >
+                        {isExtracting ? (
+                          <>
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                            <span>Parsing JD...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>Parse &amp; Review</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
+
+              {/* Instant Post Success Card */}
+              {instantPostJob && (
+                <div className="mt-3.5 p-3.5 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-300 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs animate-fade-in">
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white flex-shrink-0 mt-0.5 shadow-2xs">
+                      <CheckCircle2 className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs font-bold text-emerald-950">
+                          {instantPostJob.title}
+                        </span>
+                        <span className="text-[11px] font-semibold text-emerald-800">
+                          @ {instantPostJob.company}
+                        </span>
+                        <span className="text-[10px] px-1.5 py-0.5 bg-emerald-200 text-emerald-900 rounded font-medium">
+                          {instantPostJob.location}
+                        </span>
+                        {instantPostJob.salary && instantPostJob.salary.min > 0 && (
+                          <span className="text-[10px] px-1.5 py-0.5 bg-teal-100 text-teal-800 rounded font-medium font-mono">
+                            ${instantPostJob.salary.min.toLocaleString()} – ${instantPostJob.salary.max.toLocaleString()}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-emerald-800 mt-0.5 flex items-center gap-1 font-mono break-all">
+                        <span className="text-emerald-950 font-semibold">Live URL:</span>
+                        <span>https://www.freshcommits.com/job/{instantPostJob.id}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0 self-end sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`https://www.freshcommits.com/job/${instantPostJob.id}`);
+                        setInstantPostCopied(true);
+                        setTimeout(() => setInstantPostCopied(false), 2500);
+                      }}
+                      className="px-2.5 py-1.5 bg-white border border-emerald-300 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
+                    >
+                      {instantPostCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{instantPostCopied ? 'Copied Link!' : 'Copy Link'}</span>
+                    </button>
+                    <a
+                      href={`/?job=${instantPostJob.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors shadow-2xs"
+                    >
+                      <span>View Live Job</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
                 </div>
-                <button
-                  type="submit"
-                  disabled={isExtracting || !autoExtractUrl.trim()}
-                  className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer"
-                >
-                  {isExtracting ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Extracting &amp; Curating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>Convert &amp; Fill Form</span>
-                    </>
-                  )}
-                </button>
-              </form>
+              )}
 
               {/* Feedback banners */}
-              {extractSuccessMsg && (
+              {extractSuccessMsg && !instantPostJob && (
                 <div className="mt-3 p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center gap-2 animate-fade-in">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                   <span>{extractSuccessMsg}</span>

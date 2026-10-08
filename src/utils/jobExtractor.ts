@@ -1578,7 +1578,7 @@ export function parseJobSections(
 
     // Section transitions
     if (
-      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*do|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|role responsibilities)[:\s]*$/i.test(low)
+      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*do|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|role responsibilities|in this role,\s*(?:your\s*)?responsibilities\s*will\s*be)[:\s]*$/i.test(low)
     ) {
       currentSection = 'responsibilities';
       continue;
@@ -1815,6 +1815,100 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
   // Ensure protocol
   const fullUrl = url.startsWith('http') ? url : `https://${url}`;
   const urlObj = new URL(fullUrl);
+
+  // 0. ORACLE CLOUD CANDIDATE EXPERIENCE DIRECT REST API
+  // e.g. https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/26011531
+  const oracleMatch = fullUrl.match(/https:\/\/([a-zA-Z0-9_.-]+)\.oraclecloud\.com\/hcmUI\/CandidateExperience\/[^/]+\/sites\/([^/]+)\/job\/([0-9]+)/i);
+  if (oracleMatch) {
+    const [, hostPrefix, siteNumber, reqId] = oracleMatch;
+    const apiUrl = `https://${hostPrefix}.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails/${reqId}`;
+    try {
+      const data = await fetchResourceWithProxy(apiUrl, true);
+      if (data && data.Title) {
+        const title = cleanHtml(data.Title);
+        // Deduce company name from LegalEmployer, Organization, or subdomain
+        let company = data.LegalEmployer || data.Organization || data.BusinessUnit;
+        if (!company || company === 'None') {
+          // Check if description has "At Emerson", "NI", etc.
+          const descStr = data.ExternalDescriptionStr || '';
+          const atMatch = descStr.match(/At\s+([A-Z][a-zA-Z0-9&.\s]{2,30}?)(?:,|\.|is\b|we\b)/);
+          if (atMatch && atMatch[1]) {
+            company = atMatch[1].trim();
+          } else {
+            company = hostPrefix.split('.')[0];
+            company = company.charAt(0).toUpperCase() + company.slice(1);
+          }
+        }
+
+        const rawLoc = data.PrimaryLocation || 'United States';
+        const isRemoteHint = data.WorkplaceType?.toLowerCase() === 'remote' || data.WorkplaceTypeCode === 'REMOTE';
+        const isHybridHint = data.WorkplaceType?.toLowerCase() === 'hybrid' || data.WorkplaceTypeCode === 'HYBRID';
+        const locDetails = resolveLocationDetails(rawLoc, isRemoteHint);
+        if (isHybridHint && locDetails.city && locDetails.state) {
+          locDetails.location = `${locDetails.city}, ${locDetails.state} / Hybrid`;
+        }
+
+        const rawDesc = cleanHtml(data.ExternalDescriptionStr || '');
+        const rawQual = cleanHtml(data.ExternalQualificationsStr || '');
+        const rawResp = cleanHtml(data.ExternalResponsibilitiesStr || '');
+        const fullCorpus = `${rawDesc}\n${rawQual}\n${rawResp}`;
+
+        const parsed = parseJobSections(data.ExternalDescriptionStr || '', title, company);
+        const responsibilities = parsed.responsibilities.length > 0 ? parsed.responsibilities : extractBulletPoints(data.ExternalDescriptionStr || '').slice(0, 8);
+        const qualifications = parsed.qualifications.length > 0 ? parsed.qualifications : extractBulletPoints(data.ExternalQualificationsStr || '').slice(0, 8);
+        const skills = detectSkills(`${title} ${fullCorpus}`);
+        const category = inferCategory(title, skills);
+        const expLevel = inferExperienceLevel(title, fullCorpus);
+        const isIntern = title.toLowerCase().includes('intern');
+        const empType: EmploymentType = isIntern ? 'INTERN' : (data.JobSchedule?.toLowerCase().includes('part') ? 'PART_TIME' : 'FULL_TIME');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, expLevel);
+        const fromText = extractSalaryFromText(fullCorpus);
+        const salary = fromText || benchmark;
+        const salaryDisclosed = Boolean(fromText);
+
+        const cleanOverview = parsed.overview || `${company} is actively seeking an early-career ${title} to join their team.`;
+        const curatedDescription = composeFreshCommitsCuratedDescription({
+          title,
+          company,
+          cleanOverview,
+          skills,
+          salary,
+          responsibilities: responsibilities.length > 0 ? responsibilities.slice(0, 6) : getRoleArchetypeContent(title, company).responsibilities,
+          qualifications: qualifications.length > 0 ? qualifications.slice(0, 6) : getRoleArchetypeContent(title, company).qualifications,
+          location: locDetails.location
+        });
+
+        return {
+          title,
+          company,
+          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`,
+          companyWebsite: `https://${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`,
+          location: locDetails.location,
+          isRemote: locDetails.isRemote,
+          city: locDetails.city,
+          state: locDetails.state,
+          country: locDetails.country,
+          postalCode: locDetails.postalCode,
+          applicantLocationRequirements: locDetails.applicantLocationRequirements,
+          experienceLevel: expLevel,
+          maxYearsExperience: isIntern ? 0 : 1,
+          category,
+          employmentType: empType,
+          salary,
+          salaryDisclosed,
+          suggestedBenchmark: benchmark,
+          description: curatedDescription,
+          responsibilities: responsibilities.length > 0 ? responsibilities.slice(0, 6) : getRoleArchetypeContent(title, company).responsibilities,
+          qualifications: qualifications.length > 0 ? qualifications.slice(0, 6) : getRoleArchetypeContent(title, company).qualifications,
+          skills,
+          applyUrl: fullUrl,
+          detectedAtsProvider: 'Oracle Cloud HCM'
+        };
+      }
+    } catch (err) {
+      console.warn('Oracle Cloud HCM API fetch failed, falling back:', err);
+    }
+  }
 
   // 1. WORKDAY DIRECT CXS API
   // e.g. https://autodesk.wd1.myworkdayjobs.com/Ext/job/Boston-MA-USA/PhD-Researcher--Multimodal-AI-for-Human-Experience_26WD101433-1
