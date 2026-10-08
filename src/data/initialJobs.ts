@@ -4,6 +4,58 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
+    "description": "🎯 The FreshCommits Career Take:\nJoining BorderBuddy as a Junior Entry Writer - U.S. (100% Remote) gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation Range: Verified employer range of ~USD 82k–112k/year with career progression reviews.\n• Location: Based in Blaine, WA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nMajor duties and responsibilities include:",
+    "source": "MANUAL_ADMIN",
+    "title": "Junior Entry Writer - U.S. (100% Remote)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "2+ years of experience in customs brokerage, logistics, or ecommerce operations (preferred).",
+      "Familiarity with US Customs procedures and entry types (e.g., Section 321, informal, formal entries).",
+      "Strong attention to detail and high data accuracy.",
+      "Excellent written and verbal communication skills.",
+      "Proven ability to prioritize and manage competing deadlines in a remote setting.",
+      "Tech-savvy, comfortable using brokerage or logistics platforms and Excel/Google Sheets."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Process and submit customs entries accurately and in a timely manner.",
+      "Review documentation for completeness and compliance with US Customs regulations.",
+      "Communicate with clients, carriers, and brokers to resolve issues and facilitate timely shipment clearance.",
+      "Maintain up-to-date records in internal systems and client databases.",
+      "Help identify process improvements to manage volume efficiently.",
+      "Provide administrative support and assist with additional operational tasks as needed."
+    ],
+    "fingerprint": "borderbuddy-junior-entry-writer-u-s-100-remote--remote",
+    "atsProvider": "SmartRecruiters",
+    "company": "BorderBuddy",
+    "id": "manual-1791396716514",
+    "datePosted": "2026-10-07",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-06",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://ui-avatars.com/api/?name=BorderBuddy&background=0F172A&color=fff&size=128",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.smartrecruiters.com/BorderBuddy/744000154162484-junior-entry-writer-u-s-100-remote-",
+    "location": "Remote (US)",
+    "category": "Full Stack",
+    "companyWebsite": "https://borderbuddy.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
     "city": "Redmond",
     "postalCode": "98052",
     "description": "🎯 The FreshCommits Career Take:\nAn exciting opening for early-career technologists focused on clean code, software design patterns, and high-velocity team collaboration at Microsoft.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Redmond, WA / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nMicrosoft is actively seeking a Software Engineer (Early-Career) to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
@@ -3843,12 +3895,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "94105",
     "source": "MANUAL_ADMIN",
     "title": "Technology Rotational Program Associate Engineer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 82000,
-      "max": 112000,
-      "currency": "USD"
-    },
     "skills": [
       "Git",
       "Software Engineering",
@@ -3890,7 +3936,13 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Man Group's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Boston, MA / Hybrid.\n\n🏢 Role Overview:\nMan Group is actively seeking an early-career Technology Rotational Program Associate Engineer to join their team. This direct opening was discovered on Man Group's official Workable portal.",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=mangroup.com",
-    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z"
+    "lastHealthCheckedAt": "2026-10-07T05:26:25.891Z",
+    "salary": {
+      "min": 0,
+      "max": 0,
+      "currency": "USD",
+      "unit": "YEAR"
+    }
   },
   {
     "country": "US",

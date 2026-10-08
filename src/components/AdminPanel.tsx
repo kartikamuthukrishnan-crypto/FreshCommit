@@ -546,7 +546,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setSalaryMin(data.suggestedBenchmark.min);
       setSalaryMax(data.suggestedBenchmark.max);
     } else {
-      const fallbackBench = getRoleMarketBenchmark(data.title || 'Software Engineer', data.category, data.country || 'US');
+      const fallbackBench = getRoleMarketBenchmark(
+        data.title || 'Software Engineer',
+        data.category,
+        data.country || 'US',
+        data.location || `${data.city || ''} ${data.state || ''}`,
+        data.experienceLevel
+      );
       setSalaryCurrency(fallbackBench.currency);
       setSalaryUnit(fallbackBench.unit);
       setSalaryMin(fallbackBench.min);
@@ -1879,8 +1885,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     <button
                       type="button"
                       onClick={() => {
-                        const bench = getRoleMarketBenchmark(title || 'Software Engineer', category, country);
+                        const locHint = isRemote ? 'Remote' : `${city} ${state} ${country}`;
+                        const bench = getRoleMarketBenchmark(title || 'Software Engineer', category, country, locHint, experienceLevel);
                         setSalaryCurrency(bench.currency);
+                        setSalaryUnit(bench.unit);
                         setSalaryMin(bench.min);
                         setSalaryMax(bench.max);
                       }}

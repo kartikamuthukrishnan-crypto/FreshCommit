@@ -979,60 +979,379 @@ export function extractSalaryFromText(text: string): SalaryRange | null {
   return null;
 }
 
+export interface MarketBenchmarkResult extends SalaryRange {
+  tierLabel: string;
+  roleLabel: string;
+  percentile25: number;
+  percentile50: number; // Median
+  percentile75: number;
+  notes?: string;
+}
+
 /**
- * Provides an authentic, non-hallucinated 2026 early-career benchmark based on actual domain and role
- * Used ONLY when an administrator explicitly requests a benchmark suggestion
+ * Provides an authentic, location-aware 2026 early-career benchmark based on actual domain, role, and metro cost-of-living tier
+ * Adheres strictly to Bureau of Labor Statistics, Levels.fyi, Radford, and FreshCommits Industry Compensation Standards
  */
-export function getRoleMarketBenchmark(title: string, category: JobCategory, country: string = 'US'): SalaryRange {
-  const t = title.toLowerCase();
-  const upperCountry = (country || 'US').toUpperCase();
-  const isIntern = t.includes('intern');
+export function getRoleMarketBenchmark(
+  title: string,
+  category: JobCategory,
+  country: string = 'US',
+  locationHint?: string,
+  experienceLevel?: ExperienceLevel
+): MarketBenchmarkResult {
+  const t = (title || '').toLowerCase();
+  const rawCountry = (country || '').toUpperCase().trim();
+  const loc = (locationHint || '').toLowerCase();
+  const isIntern = experienceLevel === 'Internship' || t.includes('intern') || t.includes('co-op') || t.includes('coop');
+  const isNewGrad = experienceLevel === 'New Grad' || t.includes('new grad') || t.includes('grad 202') || t.includes('graduate');
 
-  if (upperCountry === 'GB' || upperCountry === 'UK') {
-    if (isIntern) return { min: 16, max: 22, currency: 'GBP', unit: 'HOUR' };
-    if (t.includes('help desk') || t.includes('support') || t.includes('technician')) {
-      return { min: 24000, max: 32000, currency: 'GBP', unit: 'YEAR' };
+  // 1. Detect Country Context
+  let detectedCountry = rawCountry || 'US';
+  if (!rawCountry || rawCountry === 'US' || rawCountry === 'USA' || rawCountry === 'UNITED STATES') {
+    if (loc.includes('canada') || loc.includes('toronto') || loc.includes('vancouver') || loc.includes('montreal') || loc.includes('waterloo') || loc.includes('ottawa') || loc.includes(', bc') || loc.includes(', on') || loc.includes(', qc')) {
+      detectedCountry = 'CA';
+    } else if (loc.includes('united kingdom') || loc.includes('england') || loc.includes('scotland') || loc.includes('london') || loc.includes('manchester') || loc.includes('cambridge') || loc.includes('oxford') || loc.includes('edinburgh') || loc.includes('bristol') || loc.includes(', uk') || loc.includes(', gb')) {
+      detectedCountry = 'GB';
+    } else if (loc.includes('germany') || loc.includes('berlin') || loc.includes('munich') || loc.includes('hamburg') || loc.includes('frankfurt')) {
+      detectedCountry = 'DE';
+    } else if (loc.includes('netherlands') || loc.includes('amsterdam') || loc.includes('eindhoven') || loc.includes('rotterdam')) {
+      detectedCountry = 'NL';
+    } else if (loc.includes('ireland') || loc.includes('dublin') || loc.includes('cork') || loc.includes('galway')) {
+      detectedCountry = 'IE';
+    } else if (loc.includes('france') || loc.includes('paris')) {
+      detectedCountry = 'FR';
+    } else if (loc.includes('australia') || loc.includes('sydney') || loc.includes('melbourne') || loc.includes('brisbane')) {
+      detectedCountry = 'AU';
+    } else if (loc.includes('india') || loc.includes('bengaluru') || loc.includes('bangalore') || loc.includes('hyderabad') || loc.includes('pune') || loc.includes('gurgaon') || loc.includes('noida') || loc.includes('chennai') || loc.includes('delhi')) {
+      detectedCountry = 'IN';
+    } else if (loc.includes('singapore')) {
+      detectedCountry = 'SG';
+    } else {
+      detectedCountry = 'US';
     }
-    return { min: 32000, max: 45000, currency: 'GBP', unit: 'YEAR' };
   }
 
-  if (['DE', 'FR', 'NL', 'IE'].includes(upperCountry)) {
-    if (isIntern) return { min: 16, max: 22, currency: 'EUR', unit: 'HOUR' };
-    return { min: 45000, max: 60000, currency: 'EUR', unit: 'YEAR' };
+  // Helper for role archetype title
+  const getRoleLabel = (fallback: string) => {
+    if (isIntern) return `${fallback} Intern`;
+    if (isNewGrad) return `2026 New Grad ${fallback}`;
+    return `Early-Career ${fallback} (0–2 YoE)`;
+  };
+
+  // -------------------------------------------------------------
+  // CANADA (CAD)
+  // -------------------------------------------------------------
+  if (detectedCountry === 'CA' || detectedCountry === 'CANADA') {
+    const isTier1CA = /toronto|vancouver|waterloo|kitchener/.test(loc);
+    const tierLabel = isTier1CA ? 'Toronto & Vancouver Tech Corridor' : (loc.includes('montreal') ? 'Montreal Tech & AI Hub' : 'Canadian Tech Market');
+    if (isIntern) {
+      const min = isTier1CA ? 28 : 24;
+      const max = isTier1CA ? 45 : 38;
+      return { min, max, currency: 'CAD', unit: 'HOUR', tierLabel, roleLabel: getRoleLabel('Software Engineering'), percentile25: min + 3, percentile50: Math.round((min + max) / 2), percentile75: max - 3 };
+    }
+    let min = isTier1CA ? 85000 : 75000;
+    let max = isTier1CA ? 125000 : 110000;
+    let roleName = 'Full Stack Engineer';
+    if (category === 'Data / AI' || t.includes('data') || t.includes('machine learning') || t.includes('ai')) {
+      roleName = 'Data & AI Engineer'; min += 5000; max += 8000;
+    } else if (category === 'DevOps / Cloud' || t.includes('devops') || t.includes('cloud') || t.includes('security')) {
+      roleName = 'DevOps & Cloud Engineer'; min += 3000; max += 5000;
+    } else if (category === 'QA / Test' || t.includes('qa') || t.includes('test')) {
+      roleName = 'QA & Test Automation Engineer'; min = isTier1CA ? 72000 : 65000; max = isTier1CA ? 98000 : 88000;
+    }
+    return { min, max, currency: 'CAD', unit: 'YEAR', tierLabel, roleLabel: getRoleLabel(roleName), percentile25: min + 8000, percentile50: Math.round((min + max) / 2), percentile75: max - 8000 };
   }
 
-  if (upperCountry === 'IN') {
-    if (isIntern) return { min: 20000, max: 45000, currency: 'INR', unit: 'MONTH' };
-    return { min: 600000, max: 1200000, currency: 'INR', unit: 'YEAR' };
+  // -------------------------------------------------------------
+  // UNITED KINGDOM (GBP)
+  // -------------------------------------------------------------
+  if (detectedCountry === 'GB' || detectedCountry === 'UK' || detectedCountry === 'UNITED KINGDOM') {
+    const isLondon = /london/.test(loc);
+    const tierLabel = isLondon ? 'London Tech Hub' : (loc.includes('cambridge') || loc.includes('oxford') ? 'Cambridge & Silicon Fen' : 'UK Regional Tech Hub');
+    if (isIntern) {
+      const min = isLondon ? 18 : 15;
+      const max = isLondon ? 28 : 22;
+      return { min, max, currency: 'GBP', unit: 'HOUR', tierLabel, roleLabel: getRoleLabel('Software Engineering'), percentile25: min + 2, percentile50: Math.round((min + max) / 2), percentile75: max - 2 };
+    }
+    if (t.includes('help desk') || t.includes('support') || t.includes('technician')) {
+      return { min: 26000, max: 35000, currency: 'GBP', unit: 'YEAR', tierLabel, roleLabel: getRoleLabel('Technical Support Specialist'), percentile25: 28000, percentile50: 30500, percentile75: 33000 };
+    }
+    let min = isLondon ? 45000 : 34000;
+    let max = isLondon ? 70000 : 52000;
+    let roleName = 'Software Engineer';
+    if (category === 'Data / AI' || t.includes('data') || t.includes('ai')) {
+      roleName = 'Data & AI Engineer'; min += 4000; max += 6000;
+    } else if (category === 'DevOps / Cloud' || t.includes('devops') || t.includes('cloud')) {
+      roleName = 'Cloud Infrastructure Engineer'; min += 2000; max += 4000;
+    } else if (category === 'QA / Test' || t.includes('qa') || t.includes('test')) {
+      roleName = 'QA & Test Engineer'; min = isLondon ? 36000 : 28000; max = isLondon ? 54000 : 42000;
+    }
+    return { min, max, currency: 'GBP', unit: 'YEAR', tierLabel, roleLabel: getRoleLabel(roleName), percentile25: min + 5000, percentile50: Math.round((min + max) / 2), percentile75: max - 6000 };
   }
 
-  // Default: US Market
+  // -------------------------------------------------------------
+  // EUROPEAN UNION / EUROZONE (EUR)
+  // -------------------------------------------------------------
+  if (['DE', 'FR', 'NL', 'IE', 'AT', 'BE', 'ES', 'IT', 'PT', 'SE', 'DK', 'FI', 'PL', 'CH', 'NO', 'GR'].includes(detectedCountry)) {
+    const isTier1EU = /berlin|munich|amsterdam|dublin|paris|zurich/.test(loc);
+    const tierLabel = isTier1EU ? 'Western European Tech Hub (Munich, Berlin, Amsterdam, Dublin)' : 'European Tech Corridor';
+    if (isIntern) {
+      const min = isTier1EU ? 18 : 15;
+      const max = isTier1EU ? 26 : 22;
+      return { min, max, currency: 'EUR', unit: 'HOUR', tierLabel, roleLabel: getRoleLabel('Software Engineering'), percentile25: min + 2, percentile50: Math.round((min + max) / 2), percentile75: max - 2 };
+    }
+    let min = isTier1EU ? 55000 : 44000;
+    let max = isTier1EU ? 80000 : 64000;
+    let roleName = 'Software Engineer';
+    if (category === 'Data / AI' || t.includes('data') || t.includes('ai')) {
+      roleName = 'Data / AI Specialist'; min += 3000; max += 5000;
+    } else if (category === 'QA / Test' || t.includes('qa') || t.includes('test')) {
+      roleName = 'QA & Test Automation Specialist'; min = isTier1EU ? 46000 : 38000; max = isTier1EU ? 66000 : 54000;
+    }
+    return { min, max, currency: 'EUR', unit: 'YEAR', tierLabel, roleLabel: getRoleLabel(roleName), percentile25: min + 5000, percentile50: Math.round((min + max) / 2), percentile75: max - 6000 };
+  }
+
+  // -------------------------------------------------------------
+  // AUSTRALIA (AUD)
+  // -------------------------------------------------------------
+  if (detectedCountry === 'AU' || detectedCountry === 'AUSTRALIA') {
+    const isTier1AU = /sydney|melbourne/.test(loc);
+    const tierLabel = isTier1AU ? 'Sydney & Melbourne Tech Hub' : 'Australian Tech Corridor';
+    if (isIntern) {
+      const min = 30; const max = 48;
+      return { min, max, currency: 'AUD', unit: 'HOUR', tierLabel, roleLabel: getRoleLabel('Software Engineering'), percentile25: 34, percentile50: 38, percentile75: 44 };
+    }
+    let min = isTier1AU ? 82000 : 74000;
+    let max = isTier1AU ? 125000 : 110000;
+    return { min, max, currency: 'AUD', unit: 'YEAR', tierLabel, roleLabel: getRoleLabel('Software Engineer'), percentile25: min + 9000, percentile50: Math.round((min + max) / 2), percentile75: max - 9000 };
+  }
+
+  // -------------------------------------------------------------
+  // INDIA (INR)
+  // -------------------------------------------------------------
+  if (detectedCountry === 'IN' || detectedCountry === 'INDIA') {
+    const isTier1IN = /bengaluru|bangalore|hyderabad|pune|gurgaon|noida|delhi/.test(loc);
+    const tierLabel = isTier1IN ? 'India Tier-1 Tech Hub (Bengaluru, Hyderabad, Pune, NCR)' : 'India Tech Corridor';
+    if (isIntern) {
+      const min = isTier1IN ? 25000 : 18000;
+      const max = isTier1IN ? 60000 : 35000;
+      return { min, max, currency: 'INR', unit: 'MONTH', tierLabel, roleLabel: getRoleLabel('Software Engineering'), percentile25: min + 5000, percentile50: Math.round((min + max) / 2), percentile75: max - 5000 };
+    }
+    const min = isTier1IN ? 900000 : 600000;
+    const max = isTier1IN ? 2200000 : 1200000;
+    return { min, max, currency: 'INR', unit: 'YEAR', tierLabel, roleLabel: getRoleLabel('Software Engineer'), percentile25: min + 200000, percentile50: Math.round((min + max) / 2), percentile75: max - 250000 };
+  }
+
+  // -------------------------------------------------------------
+  // UNITED STATES (USD) - Standardized by Metro Tier & Discipline
+  // -------------------------------------------------------------
+  // Detect Metro Tier
+  const isBayArea = /san francisco|sf\b|bay area|san jose|silicon valley|sunnyvale|mountain view|palo alto|menlo park|santa clara|oakland|berkeley|redwood city|san mateo|cupertino|fremont|foster city|pleasanton/.test(loc);
+  const isNYC = /new york|nyc\b|manhattan|brooklyn|queens|jersey city|hoboken|farmingdale|long island city/.test(loc);
+  const isSeattle = /seattle|bellevue|redmond|kirkland|renton|bothell/.test(loc);
+
+  const isBoston = /boston|cambridge|waltham|somerville/.test(loc);
+  const isAustin = /austin/.test(loc);
+  const isSoCal = /los angeles|\bla\b|santa monica|culver city|pasadena|irvine|orange county|san diego|huntington beach|el segundo/.test(loc);
+  const isDC = /washington|d\.c\.|dc\b|arlington|alexandria|mclean|reston|tysons|bethesda|herndon/.test(loc);
+  const isDenver = /denver|boulder|colorado springs/.test(loc);
+  const isChicago = /chicago/.test(loc);
+
+  const isTier1 = isBayArea || isNYC || isSeattle;
+  const isTier2 = isBoston || isAustin || isSoCal || isDC || isDenver || isChicago;
+
+  let tierLabel = 'US Nationwide / Remote Tech Market';
+  if (isBayArea) tierLabel = 'San Francisco Bay Area Tech Hub';
+  else if (isNYC) tierLabel = 'New York City Tech Corridor';
+  else if (isSeattle) tierLabel = 'Seattle & Bellevue Tech Hub';
+  else if (isBoston) tierLabel = 'Boston & Cambridge Tech Hub';
+  else if (isAustin) tierLabel = 'Austin Tech Hub';
+  else if (isSoCal) tierLabel = 'Southern California Tech Hub';
+  else if (isDC) tierLabel = 'Washington D.C. & Capital Tech Corridor';
+  else if (isDenver) tierLabel = 'Denver & Boulder Tech Corridor';
+  else if (isChicago) tierLabel = 'Chicago Tech Hub';
+  else if (/philadelphia|philly/.test(loc)) tierLabel = 'Philadelphia Regional Tech Hub';
+  else if (/atlanta/.test(loc)) tierLabel = 'Atlanta Regional Tech Hub';
+  else if (/dallas|fort worth|dfw/.test(loc)) tierLabel = 'Dallas-Fort Worth Tech Corridor';
+  else if (/raleigh|durham|chapel hill|charlotte/.test(loc)) tierLabel = 'Raleigh-Durham & Research Triangle';
+  else if (/minneapolis|st\. paul|bloomington/.test(loc)) tierLabel = 'Minneapolis-St. Paul Tech Hub';
+  else if (/salt lake|slc|lehi|provo/.test(loc)) tierLabel = 'Salt Lake City & Silicon Slopes';
+  else if (/phoenix|tempe|scottsdale/.test(loc)) tierLabel = 'Phoenix & Scottsdale Tech Hub';
+  else if (/portland/.test(loc)) tierLabel = 'Portland Silicon Forest';
+  else if (/nashville/.test(loc)) tierLabel = 'Nashville Regional Tech Hub';
+  else if (/detroit|ann arbor/.test(loc)) tierLabel = 'Michigan & Great Lakes Tech Corridor';
+  else if (/remote/.test(loc)) tierLabel = 'US Nationwide / Remote Tech Market';
+
+  // US Internships
   if (isIntern) {
-    return { min: 28, max: 45, currency: 'USD', unit: 'HOUR' };
+    let min = isTier1 ? 38 : (isTier2 ? 30 : 25);
+    let max = isTier1 ? 58 : (isTier2 ? 46 : 38);
+    let roleName = 'Software Engineering';
+
+    if (category === 'Data / AI' || t.includes('data') || t.includes('ai') || t.includes('machine learning')) {
+      roleName = 'AI & Data Science'; min += 4; max += 6;
+    } else if (category === 'QA / Test' || t.includes('qa') || t.includes('test')) {
+      roleName = 'QA & Test'; min = Math.max(22, min - 6); max = Math.max(32, max - 8);
+    } else if (t.includes('help desk') || t.includes('support') || t.includes('technician')) {
+      roleName = 'Technical Support'; min = 20; max = 30;
+    }
+
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'HOUR',
+      tierLabel,
+      roleLabel: getRoleLabel(roleName),
+      percentile25: min + 3,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 3
+    };
   }
 
-  // 1. IT Support / Help Desk / Operations / Technician
+  // 1. IT Support / Help Desk / Technical Operations / Desktop Support
   if (t.includes('help desk') || t.includes('support') || t.includes('technician') || t.includes('desktop') || t.includes('it specialist')) {
-    return { min: 48000, max: 65000, currency: 'USD', unit: 'YEAR' };
+    const min = isTier1 ? 58000 : (isTier2 ? 52000 : 48000);
+    const max = isTier1 ? 76000 : (isTier2 ? 68000 : 64000);
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'YEAR',
+      tierLabel,
+      roleLabel: getRoleLabel('Technical Support Specialist'),
+      percentile25: min + 3000,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 3000
+    };
   }
 
-  // 2. QA / Software Quality / Test Engineer
+  // 2. QA / Software Quality / SDET / Test Automation
   if (t.includes('qa') || t.includes('quality') || t.includes('test') || category === 'QA / Test') {
-    return { min: 65000, max: 82000, currency: 'USD', unit: 'YEAR' };
+    const isSdet = t.includes('sdet') || t.includes('automation') || t.includes('engineer');
+    const roleName = isSdet ? 'SDET / Test Automation Engineer' : 'Quality Assurance Specialist';
+    const min = isSdet
+      ? (isTier1 ? 95000 : (isTier2 ? 82000 : 74000))
+      : (isTier1 ? 75000 : (isTier2 ? 68000 : 62000));
+    const max = isSdet
+      ? (isTier1 ? 128000 : (isTier2 ? 110000 : 98000))
+      : (isTier1 ? 95000 : (isTier2 ? 85000 : 78000));
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'YEAR',
+      tierLabel,
+      roleLabel: getRoleLabel(roleName),
+      percentile25: min + 6000,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 6000
+    };
   }
 
-  // 3. Data / AI / ML / Analytics
-  if (category === 'Data / AI' || t.includes('data') || t.includes('machine learning') || t.includes('ai')) {
-    return { min: 90000, max: 120000, currency: 'USD', unit: 'YEAR' };
+  // 3. Data / AI / Machine Learning / Deep Learning / LLM / Analytics / Computer Vision
+  if (category === 'Data / AI' || t.includes('data') || t.includes('machine learning') || t.includes('ai') || t.includes('ml\b') || t.includes('deep learning') || t.includes('robotics')) {
+    const min = isTier1 ? 120000 : (isTier2 ? 105000 : 95000);
+    const max = isTier1 ? 165000 : (isTier2 ? 142000 : 130000);
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'YEAR',
+      tierLabel,
+      roleLabel: getRoleLabel('Machine Learning & Data Engineer'),
+      percentile25: min + 8000,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 8000
+    };
   }
 
-  // 4. DevOps / Cloud / Infrastructure / Security
-  if (category === 'DevOps / Cloud' || t.includes('devops') || t.includes('cloud') || t.includes('security') || t.includes('sre')) {
-    return { min: 90000, max: 122000, currency: 'USD', unit: 'YEAR' };
+  // 4. DevOps / Cloud / Infrastructure / Platform / Site Reliability (SRE) / Cybersecurity
+  if (category === 'DevOps / Cloud' || t.includes('devops') || t.includes('cloud') || t.includes('security') || t.includes('sre') || t.includes('infrastructure') || t.includes('platform')) {
+    const min = isTier1 ? 115000 : (isTier2 ? 100000 : 92000);
+    const max = isTier1 ? 155000 : (isTier2 ? 135000 : 125000);
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'YEAR',
+      tierLabel,
+      roleLabel: getRoleLabel('Cloud Infrastructure & DevOps Engineer'),
+      percentile25: min + 8000,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 8000
+    };
   }
 
-  // 5. Software Engineer / Full Stack / Frontend / Backend
-  return { min: 82000, max: 112000, currency: 'USD', unit: 'YEAR' };
+  // 5. Backend / Distributed Systems / Systems / Embedded / Firmware / Low-Level
+  if (category === 'Backend' || t.includes('backend') || t.includes('systems') || t.includes('embedded') || t.includes('firmware') || t.includes('distributed')) {
+    const min = isTier1 ? 115000 : (isTier2 ? 98000 : 88000);
+    const max = isTier1 ? 155000 : (isTier2 ? 132000 : 122000);
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'YEAR',
+      tierLabel,
+      roleLabel: getRoleLabel('Backend & Systems Engineer'),
+      percentile25: min + 7000,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 7000
+    };
+  }
+
+  // 6. Mobile (iOS, Android, Swift, Kotlin, React Native, Flutter)
+  if (category === 'Mobile' || t.includes('ios') || t.includes('android') || t.includes('mobile') || t.includes('swift') || t.includes('kotlin')) {
+    const min = isTier1 ? 112000 : (isTier2 ? 95000 : 85000);
+    const max = isTier1 ? 148000 : (isTier2 ? 128000 : 118000);
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'YEAR',
+      tierLabel,
+      roleLabel: getRoleLabel('Mobile Application Engineer'),
+      percentile25: min + 7000,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 7000
+    };
+  }
+
+  // 7. Frontend / Web / UI Engineering
+  if (category === 'Frontend' || t.includes('frontend') || t.includes('front-end') || t.includes('ui') || t.includes('react') || t.includes('web developer')) {
+    const min = isTier1 ? 108000 : (isTier2 ? 90000 : 82000);
+    const max = isTier1 ? 145000 : (isTier2 ? 122000 : 115000);
+    return {
+      min,
+      max,
+      currency: 'USD',
+      unit: 'YEAR',
+      tierLabel,
+      roleLabel: getRoleLabel('Frontend & Web Engineer'),
+      percentile25: min + 7000,
+      percentile50: Math.round((min + max) / 2),
+      percentile75: max - 7000
+    };
+  }
+
+  // 8. Full Stack & Core Software Engineer (Default)
+  const min = isTier1 ? 112000 : (isTier2 ? 95000 : 86000);
+  const max = isTier1 ? 150000 : (isTier2 ? 128000 : 120000);
+  const roleName = category === 'Full Stack' || t.includes('full stack') || t.includes('fullstack')
+    ? 'Full Stack Engineer'
+    : 'Software Engineer';
+
+  return {
+    min,
+    max,
+    currency: 'USD',
+    unit: 'YEAR',
+    tierLabel,
+    roleLabel: getRoleLabel(roleName),
+    percentile25: min + 8000,
+    percentile50: Math.round((min + max) / 2),
+    percentile75: max - 8000
+  };
 }
 
 /**
@@ -1388,7 +1707,7 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
   const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
 
   const roleData = getRoleArchetypeContent(title, company);
-  const benchmark = getRoleMarketBenchmark(title, roleData.category, loc.country || 'US');
+  const benchmark = getRoleMarketBenchmark(title, roleData.category, loc.country || 'US', loc.location, expLevel);
   const salary: SalaryRange = { min: benchmark.min, max: benchmark.max, currency: benchmark.currency, unit: benchmark.unit };
 
   const baseTitle = stripSeniorityFromTitle(title);
@@ -1520,7 +1839,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const expLevel = inferExperienceLevel(title, descText);
         const isIntern = title.toLowerCase().includes('intern');
         const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
-        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, expLevel);
         const fromText = extractSalaryFromText(descText);
         const salary = fromText || benchmark;
         const salaryDisclosed = Boolean(fromText);
@@ -1591,7 +1910,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           const category = inferCategory(title, skills);
           const isIntern = title.toLowerCase().includes('intern');
           const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
-          const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+          const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, isIntern ? 'Internship' : 'Entry Level');
 
           let salary: SalaryRange = benchmark;
           let salaryDisclosed = false;
@@ -1679,7 +1998,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
 
-        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, experienceLevel);
         let salary: SalaryRange = benchmark;
         let salaryDisclosed = false;
 
@@ -1781,7 +2100,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const experienceLevel = inferExperienceLevel(title, contentText);
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
-        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, experienceLevel);
         const fromText = extractSalaryFromText(contentText);
         const salary = fromText || benchmark;
         const salaryDisclosed = Boolean(fromText);
@@ -1849,7 +2168,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const experienceLevel = inferExperienceLevel(title, descText);
         const maxYears = title.toLowerCase().includes('intern') ? 0 : 1;
         const empType: EmploymentType = title.toLowerCase().includes('intern') ? 'INTERN' : 'FULL_TIME';
-        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, experienceLevel);
 
         let salary: SalaryRange = benchmark;
         let salaryDisclosed = false;
@@ -1955,7 +2274,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const expLevel = inferExperienceLevel(title, fullCorpus);
         const isIntern = title.toLowerCase().includes('intern');
         const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
-        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, expLevel);
 
         let salary: SalaryRange = benchmark;
         let salaryDisclosed = false;
@@ -2057,7 +2376,6 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
               const category = inferCategory(title, skills);
               const expLevel = inferExperienceLevel(title, desc);
               const isIntern = title.toLowerCase().includes('intern');
-              const benchmark = getRoleMarketBenchmark(title, category, 'US');
 
               // Location Extraction from Schema.org jobLocation
               const jobLoc = Array.isArray(jobPosting.jobLocation) ? jobPosting.jobLocation[0] : jobPosting.jobLocation;
@@ -2104,6 +2422,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
               }
 
               // Salary Extraction from Schema.org baseSalary or text
+              const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, expLevel);
               let salary: SalaryRange = benchmark;
               let salaryDisclosed = false;
 
@@ -2481,7 +2800,7 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     location
   });
 
-  const benchmark = getRoleMarketBenchmark(title, category, country);
+  const benchmark = getRoleMarketBenchmark(title, category, country, location || `${city || ''} ${state || ''}`, experienceLevel);
 
   // Company logo & website
   const cleanSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');

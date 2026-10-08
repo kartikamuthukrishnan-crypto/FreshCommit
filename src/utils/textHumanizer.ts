@@ -581,8 +581,13 @@ export function humanizeChecklistItems(
     item.includes('Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.')
   );
   const hasCorruptedLocation = items.some((item) => item.includes('s office is located in'));
+  const hasStaleCompensation = items.some((item) =>
+    item.includes('82k–112k') ||
+    item.includes('82,000') ||
+    (item.includes('Verified employer range') && (!job.salary || job.salary.min <= 0))
+  );
 
-  if (hasStaticInterviewFocus || hasCorruptedLocation || items.length < 3) {
+  if (hasStaticInterviewFocus || hasCorruptedLocation || hasStaleCompensation || items.length < 3) {
     return generateCandidatePreparationChecklist(job);
   }
 

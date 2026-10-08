@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { JobPosting, AdSenseConfig } from '../types';
 import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { trackJobView, trackApplyClick } from '../utils/analytics';
@@ -235,7 +235,15 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
     return `${sym}${minK}k – ${sym}${maxK}k / year`;
   };
 
-  const benchmark = getRoleMarketBenchmark(job.title, job.category, job.country || 'US');
+  const benchmark = useMemo(() => {
+    return getRoleMarketBenchmark(
+      job.title,
+      job.category,
+      job.country || 'US',
+      job.location || `${job.city || ''} ${job.state || ''}`,
+      job.experienceLevel
+    );
+  }, [job.title, job.category, job.country, job.location, job.city, job.state, job.experienceLevel]);
 
   return (
     <div
@@ -502,23 +510,52 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               )}
 
               {/* Dynamic Early-Career Market Benchmark Insight */}
-              <div className="pt-3 border-t border-indigo-100 flex items-start gap-3 bg-white/90 p-3 rounded-xl border border-indigo-100 shadow-2xs">
+              <div className="pt-3 border-t border-indigo-100 flex items-start gap-3 bg-white/90 p-3.5 rounded-xl border border-indigo-100 shadow-2xs">
                 <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 flex-shrink-0 mt-0.5">
                   <DollarSign className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="space-y-0.5 text-xs text-slate-700">
-                  <span className="font-bold text-slate-900 block">
-                    Market Benchmark &amp; Salary Intelligence (0–2 YoE)
-                  </span>
+                <div className="space-y-1 text-xs text-slate-700 w-full">
+                  <div className="flex flex-wrap items-center justify-between gap-1.5">
+                    <span className="font-bold text-slate-900">
+                      Market Benchmark &amp; Salary Intelligence (0–2 YoE)
+                    </span>
+                    {benchmark.tierLabel && (
+                      <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100/70">
+                        {benchmark.tierLabel}
+                      </span>
+                    )}
+                  </div>
+
                   {job.salary && job.salary.min > 0 ? (
-                    <p className="text-slate-600 leading-relaxed">
-                      Verified Employer Compensation: <strong className="text-emerald-700">{formatSalary(job.salary)}</strong>.
-                      Industry benchmark for early-career {job.category?.replace(/_/g, ' ').toLowerCase() || 'software'} roles: <strong>{benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}</strong>.
-                    </p>
+                    <div className="text-slate-600 leading-relaxed space-y-1">
+                      <p>
+                        Verified Employer Compensation: <strong className="text-emerald-700">{formatSalary(job.salary)}</strong>.
+                      </p>
+                      <p className="text-slate-500 text-[11px]">
+                        Verified industry standard for {benchmark.roleLabel} in {benchmark.tierLabel}:{' '}
+                        <strong className="text-slate-700 font-semibold">
+                          {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
+                        </strong>
+                        {benchmark.unit === 'YEAR' && (
+                          <span className="text-slate-400"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()})</span>
+                        )}.
+                      </p>
+                    </div>
                   ) : (
-                    <p className="text-slate-600 leading-relaxed">
-                      Employer did not disclose compensation in requisition. FreshCommits 0–2 YoE market benchmark for {job.category?.replace(/_/g, ' ').toLowerCase() || 'early-career engineering'}: <strong className="text-emerald-700">{benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}</strong>.
-                    </p>
+                    <div className="text-slate-600 leading-relaxed space-y-1">
+                      <p>
+                        Employer did not disclose compensation in requisition.
+                      </p>
+                      <p className="text-slate-600">
+                        FreshCommits 0–2 YoE market benchmark for {benchmark.roleLabel} in <span className="font-medium text-slate-800">{benchmark.tierLabel}</span>:{' '}
+                        <strong className="text-emerald-700">
+                          {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
+                        </strong>
+                        {benchmark.unit === 'YEAR' && (
+                          <span className="text-slate-500 text-[11px]"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()}/yr)</span>
+                        )}.
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
