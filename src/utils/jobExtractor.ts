@@ -1685,6 +1685,16 @@ export function parseJobSections(
     // Section transitions ONLY trigger on genuine headings, NEVER on bullet points!
     if (isHeaderLine) {
       if (
+        low.includes('job description') ||
+        low.includes('position overview') ||
+        low.includes('role overview') ||
+        low.includes('about the role') ||
+        low.includes('the position')
+      ) {
+        currentSection = 'overview';
+        continue;
+      }
+      if (
         low.includes('responsibilit') ||
         low.includes('what you will do') ||
         low.includes("what you'll do") ||
@@ -1719,6 +1729,10 @@ export function parseJobSections(
         low.includes('benefits') ||
         low.includes('perks') ||
         low.includes('compensation') ||
+        low.includes('physical demands') ||
+        low.includes('clearance level') ||
+        low.includes('itar') ||
+        low.includes('export administration') ||
         low.includes('security clearance') ||
         low.includes('position role type') ||
         low.includes('equal opportunity') ||
@@ -1735,9 +1749,25 @@ export function parseJobSections(
 
     if (headerMatch) continue;
 
+    // Detect standalone section headers that might not have colons
+    if (/^(?:position responsibilities|key responsibilities|core responsibilities|responsibilities|what you will do|what you'll do)$/i.test(candidate)) {
+      currentSection = 'responsibilities';
+      continue;
+    }
+    if (/^(?:position qualifications|basic qualifications|minimum qualifications|preferred qualifications|qualifications|requirements|what we look for)$/i.test(candidate)) {
+      currentSection = 'qualifications';
+      continue;
+    }
+    if (/^(?:physical demands|clearance level|benefits|equal opportunity employer|about us)$/i.test(candidate)) {
+      currentSection = 'other';
+      continue;
+    }
+
     // Filter out common header leftovers and label fragments
     if (
-      /^(?:job title|job summary|role summary|position summary|title)[:\s]*$/i.test(low) ||
+      /^(?:job title|job summary|role summary|position summary|title|job requisition id|job description)[:\s]*$/i.test(low) ||
+      /^(?:posted (?:yesterday|today|\d+ days? ago)|requisition id)[:\s]*$/i.test(low) ||
+      /^[A-Za-z\s,.-]+,\s*[A-Z]{2}$/.test(candidate) ||
       low === titleLow ||
       (candidate.endsWith(':') && (candidate.length < 90 || /you will|responsibilities include|duties include|include the following|looking for/i.test(candidate)))
     ) {
@@ -1764,51 +1794,38 @@ export function parseJobSections(
     }
 
     const cleanBullet = candidate.replace(/^[•\-\*–—\d\.\)]\s*/, '').replace(/&(?:amp;)?#xa;/gi, ' ').trim();
-    if (!cleanBullet || cleanBullet.length < 12) continue;
+    if (!cleanBullet || cleanBullet.length < 10) continue;
 
     if (currentSection === 'overview') {
       if (!overviewParas.includes(cleanBullet)) {
         overviewParas.push(cleanBullet);
       }
     } else if (currentSection === 'responsibilities') {
-      if (isExplicitBullet || (!line.includes('.') && cleanBullet.length < 140)) {
-        if (!respLines.includes(cleanBullet)) {
-          respLines.push(cleanBullet);
-        }
-      } else if (cleanBullet.length > 40 && !overviewParas.includes(cleanBullet)) {
-        overviewParas.push(cleanBullet);
+      if (!respLines.includes(cleanBullet)) {
+        respLines.push(cleanBullet);
       }
     } else if (currentSection === 'qualifications') {
-      if (!qualLines.includes(cleanBullet)) {
+      // Exclude legal / ITAR / EEO / benefits boilerplate from technical qualifications
+      const isLegalBoilerplate =
+        low.includes('itar') ||
+        low.includes('export administration regulations') ||
+        low.includes('equal opportunity employer') ||
+        low.includes('eeo/aa') ||
+        low.includes('benefits:') ||
+        low.includes('principals only') ||
+        low.includes('no agencies') ||
+        low.includes('physical demands') ||
+        low.includes('travel required to domestic') ||
+        low.includes('required to sit and stand');
+
+      if (!isLegalBoilerplate && !qualLines.includes(cleanBullet)) {
         qualLines.push(cleanBullet);
       }
     }
   }
 
-  // Deduplicate against overview
-  const overviewText = overviewParas.join('\n\n');
-  const overviewLower = overviewText.toLowerCase();
-
-  const finalResp = respLines
-    .filter((r) => {
-      const low = r.toLowerCase();
-      if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) {
-        return false;
-      }
-      return true;
-    })
-    .slice(0, 10);
-
-  const finalQual = qualLines
-    .filter((q) => {
-      const low = q.toLowerCase();
-      if (finalResp.some((r) => r.toLowerCase() === low)) return false;
-      if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) {
-        return false;
-      }
-      return true;
-    })
-    .slice(0, 10);
+  const finalResp = respLines.slice(0, 12);
+  const finalQual = qualLines.slice(0, 14);
 
   // Preserve exact employer requirements without overriding with generic archetypes
   const responsibilities = [...finalResp];
@@ -1841,6 +1858,7 @@ export function parseJobSections(
     }
   }
 
+  const overviewText = overviewParas.join('\n\n');
   let finalOverview = overviewText.trim();
   if (!finalOverview) {
     const introParas = lines.filter((l) => !l.startsWith('•') && !l.startsWith('-') && !l.startsWith('*') && l.length > 40 && !l.endsWith(':')).slice(0, 3);

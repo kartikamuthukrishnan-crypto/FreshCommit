@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel } from './types';
 import { INITIAL_JOBS } from './data/initialJobs';
 import { CAREER_ARTICLES } from './data/careerArticles';
@@ -219,38 +219,23 @@ export default function App() {
     };
   }, []);
 
-  // Save changes to localStorage and notify other tabs/windows
+  // Save changes to localStorage for 0-cost instant cached reload (strictly guarded against echo loops)
+  const lastSavedJobsHash = useRef<string>('');
   useEffect(() => {
+    if (!jobs || jobs.length === 0) return;
+    const summaryKey = `${jobs.length}-${jobs[0]?.id || ''}-${jobs[jobs.length - 1]?.id || ''}`;
+    if (lastSavedJobsHash.current === summaryKey) return;
+    lastSavedJobsHash.current = summaryKey;
     try {
       localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobs));
-      window.dispatchEvent(new CustomEvent('freshcommits_jobs_updated', { detail: jobs }));
     } catch (e) {
-      console.warn('Failed saving jobs', e);
+      console.warn('Failed saving jobs to localStorage', e);
     }
   }, [jobs]);
 
-  // Synchronize state across different browser tabs/windows via storage event without echo loops
+  // Synchronize AdSense configuration across tabs if modified in Admin panel
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY_JOBS && e.newValue) {
-        try {
-          const updatedJobs = JSON.parse(e.newValue);
-          if (Array.isArray(updatedJobs)) {
-            setJobs((prev) => {
-              if (
-                prev.length === updatedJobs.length &&
-                prev[0]?.id === updatedJobs[0]?.id &&
-                prev[prev.length - 1]?.id === updatedJobs[updatedJobs.length - 1]?.id
-              ) {
-                return prev;
-              }
-              return updatedJobs;
-            });
-          }
-        } catch (err) {
-          console.warn('Failed syncing jobs from storage event', err);
-        }
-      }
       if (e.key === STORAGE_KEY_ADSENSE && e.newValue) {
         try {
           const updatedAd = JSON.parse(e.newValue);

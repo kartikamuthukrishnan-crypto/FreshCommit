@@ -167,6 +167,39 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     : 'Apply on Company Site';
 
   // Extract curated editorial insights if present or synthesize dynamically
+  // Helper to isolate clean introductory role overview paragraphs
+  const extractCleanRoleOverview = (rawDesc: string, titleStr: string, compStr: string): string => {
+    if (!rawDesc) return `${compStr} is seeking an enthusiastic ${titleStr} to join their engineering team.`;
+    let text = rawDesc;
+    if (text.includes('🏢 Role Overview:')) {
+      text = text.split('🏢 Role Overview:')[1]?.trim() || text;
+    }
+
+    // Strip leading pasted metadata: location, posted date, requisition IDs, "Job Description" label
+    text = text.replace(/^[A-Za-z\s,.-]+,\s*[A-Z]{2}\b\s*/i, '');
+    text = text.replace(/^posted\s+(?:yesterday|today|\d+\s+days?\s+ago)\b\s*/gi, '');
+    text = text.replace(/^job\s+requisition\s+id\s*(?::|[0-9a-z_-]+)?\s*/gi, '');
+    text = text.replace(/^job\s+description\s*/gi, '');
+    text = text.trim();
+
+    // Isolate overview text before any embedded responsibilities or qualifications headings
+    const cutOffRegex = /(?:\n\s*(?:position\s+responsibilities|key\s+responsibilities|core\s+responsibilities|responsibilities|what\s+you(?:'ll| will)\s+do|position\s+qualifications|basic\s+qualifications|qualifications|requirements)\b[\s:]*)/i;
+    const cutIdx = text.search(cutOffRegex);
+    if (cutIdx > 60) {
+      text = text.substring(0, cutIdx).trim();
+    }
+
+    return cleanHtml(text)
+      .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${titleStr}`)
+      .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${titleStr}`)
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
+      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
+      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
+      .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, 'Candidates will collaborate closely with experienced technical mentors, contributing directly to live production systems.')
+      .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.') || `${compStr} is seeking an enthusiastic ${titleStr} to join their team.`;
+  };
+
+  // Extract curated editorial insights if present or synthesize dynamically
   const edgeData = (() => {
     if (!job.description || !job.description.includes('🎯 The FreshCommits Career Take:')) {
       const dynamicTake = generateLeadEngineerTake({
@@ -181,9 +214,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         hasEdge: true,
         careerTake: dynamicTake,
         checklistItems: dynamicChecklist,
-        roleOverview: cleanHtml(job.description)
-          .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
-          .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`) || `${job.company} is seeking an enthusiastic ${job.title} to join their team.`
+        roleOverview: extractCleanRoleOverview(job.description, job.title, job.company)
       };
     }
     const parts = job.description.split('🏢 Role Overview:');
@@ -204,15 +235,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       : [];
 
     const checklistItems = humanizeChecklistItems(rawChecklistItems, job);
-
-    const cleanRoleOverview = cleanHtml(rawRoleOverview || job.description)
-      .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
-      .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`)
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
-      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
-      .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, 'Candidates will collaborate closely with experienced technical mentors, contributing directly to live production systems.')
-      .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.');
+    const cleanRoleOverview = extractCleanRoleOverview(rawRoleOverview || job.description, job.title, job.company);
 
     return {
       hasEdge: true,
@@ -223,7 +246,6 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
   })();
 
   const cleanedResponsibilities = useMemo(() => {
-    const overviewLower = (edgeData.roleOverview || '').toLowerCase();
     const list = (job.responsibilities || [])
       .map(cleanHtml)
       .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
@@ -236,17 +258,13 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         if (/^who we are[:\s]/i.test(low)) return false;
         if (/^our mission[:\s]/i.test(low)) return false;
         if (/^we are looking for\b/i.test(low)) return false;
-        if (/^this is an ideal role\b/i.test(low)) return false;
-        if (/^our team is\b/i.test(low)) return false;
         if (/^(?:in this role,\s*you will|as an?\s*[^,]+,\s*you will|you will\s*(?:be responsible for)?)[:\s]*$/i.test(low)) return false;
-        if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) return false;
         return true;
       });
     return list;
-  }, [job.responsibilities, edgeData.roleOverview]);
+  }, [job.responsibilities]);
 
   const cleanedQualifications = useMemo(() => {
-    const overviewLower = (edgeData.roleOverview || '').toLowerCase();
     return (job.qualifications || [])
       .map(cleanHtml)
       .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
@@ -256,11 +274,21 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
         if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
         if (/^(?:to be successful|requirements|qualifications|basic qualifications|minimum qualifications)[:\s]*$/i.test(low)) return false;
+        // Filter out corporate/legal/compliance boilerplate from technical qualifications
+        if (
+          low.includes('itar') ||
+          low.includes('export administration regulations') ||
+          low.includes('equal opportunity employer') ||
+          low.includes('eeo/aa') ||
+          low.includes('benefits:') ||
+          low.includes('principals only') ||
+          low.includes('no agencies') ||
+          low.includes('physical demands')
+        ) return false;
         if (cleanedResponsibilities.some((r: string) => r.toLowerCase() === low)) return false;
-        if (overviewLower && (overviewLower.includes(low.slice(0, 35)) || (low.length > 40 && overviewLower.includes(low.slice(0, 50))))) return false;
         return true;
       });
-  }, [job.qualifications, cleanedResponsibilities, edgeData.roleOverview]);
+  }, [job.qualifications, cleanedResponsibilities]);
 
   const daysLeft = getDaysUntilExpiration(job.validThrough);
 

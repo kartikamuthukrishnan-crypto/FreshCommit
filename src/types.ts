@@ -33,6 +33,7 @@ export interface JobPosting {
   category: JobCategory;
   employmentType: EmploymentType;
   salary: SalaryRange;
+  salaryDisclosed?: boolean;
   description: string;
   responsibilities: string[];
   qualifications: string[];
