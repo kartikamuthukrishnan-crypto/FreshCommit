@@ -181,7 +181,9 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         hasEdge: true,
         careerTake: dynamicTake,
         checklistItems: dynamicChecklist,
-        roleOverview: cleanHtml(job.description) || `${job.company} is seeking an enthusiastic ${job.title} to join their team.`
+        roleOverview: cleanHtml(job.description)
+          .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
+          .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`) || `${job.company} is seeking an enthusiastic ${job.title} to join their team.`
       };
     }
     const parts = job.description.split('🏢 Role Overview:');
@@ -204,6 +206,8 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     const checklistItems = humanizeChecklistItems(rawChecklistItems, job);
 
     const cleanRoleOverview = cleanHtml(rawRoleOverview || job.description)
+      .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
+      .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`)
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
       .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
       .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')

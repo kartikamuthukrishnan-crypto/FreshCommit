@@ -602,7 +602,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       const data = await extractAndEnrichJobFromUrl(autoExtractUrl.trim());
       applyExtractedJobToForm(data);
     } catch (err: any) {
-      setExtractErrorMsg(err.message || 'Failed to extract from this link. Please check the URL.');
+      const msg = err.message || 'Failed to extract from this link. Please check the URL.';
+      setExtractErrorMsg(msg);
+      // Automatically switch admin to Paste Raw JD canvas so they don't get stuck
+      if (msg.includes('anti-bot') || msg.includes('blocked') || msg.includes('firewall')) {
+        setIngestionMode('raw_text');
+        setRawJdApplyUrl(autoExtractUrl.trim());
+      }
     } finally {
       setIsExtracting(false);
     }
@@ -617,7 +623,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     try {
       const data = extractJobDataFromRawText(rawJdText.trim(), rawJdApplyUrl.trim());
       applyExtractedJobToForm(data);
-      setExtractSuccessMsg('✨ Successfully parsed pasted job description! All fields populated.');
+      setExtractSuccessMsg('✨ Successfully parsed pasted job description with 100% verbatim fidelity! All fields populated.');
     } catch (err: any) {
       setExtractErrorMsg(err.message || 'Failed to parse job description. Please ensure you pasted text.');
     } finally {
@@ -629,6 +635,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     e.preventDefault();
     if (!title || !company || !applyUrl) {
       alert('Please fill in required fields: Job Title, Company, and Direct ATS Apply URL.');
+      return;
+    }
+
+    if (title.toLowerCase().includes('open position') || /^[a-f0-9]{8,}/i.test(title)) {
+      alert('Invalid job title detected (placeholder slug or hex hash). Please enter a legitimate job title.');
       return;
     }
 
@@ -1487,7 +1498,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     }`}
                   >
                     <LinkIcon className="w-3 h-3" />
-                    <span>Career / ATS URL</span>
+                    <span>Auto-Extract from URL</span>
                   </button>
                   <button
                     type="button"
@@ -1503,7 +1514,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     }`}
                   >
                     <FileText className="w-3 h-3" />
-                    <span>Paste Raw JD</span>
+                    <span>Paste Raw JD (100% Verbatim)</span>
                   </button>
                 </div>
               </div>

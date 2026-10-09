@@ -223,6 +223,8 @@ async function pullFirestoreJobs() {
       }
     }
 
+    jobObj.isRemote = Boolean(jobObj.isRemote || (jobObj.location && jobObj.location.toLowerCase().includes('remote')));
+
     if (jobObj.title && jobObj.company && jobObj.applyUrl) {
       cloudJobs.push(jobObj);
     }

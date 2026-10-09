@@ -685,12 +685,14 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
 export function formatSlugToJobTitle(slug: string): string {
   if (!slug) return 'Software Engineer';
 
-  // 1. Guard against UUIDs, purely numeric tokens, or long hex hashes being converted to garbled text
+  // 1. Guard against UUIDs, purely numeric tokens, hex hashes, or generic slug tokens being converted to garbled text
   const trimmed = slug.trim();
   if (
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(trimmed) ||
     /^[0-9]+$/.test(trimmed) ||
-    (/^[0-9a-zA-Z]{16,}$/.test(trimmed) && !trimmed.includes('-') && !trimmed.includes('_'))
+    /^[0-9a-f]{6,}$/i.test(trimmed) ||
+    (/^[0-9a-zA-Z]{12,}$/.test(trimmed) && !trimmed.includes('-') && !trimmed.includes('_')) ||
+    /^(?:open-positions|open-position|careers|jobs|job|position|positions|apply|detail|requisition|external|all-jobs)$/i.test(trimmed)
   ) {
     return 'Software Engineer (Early-Career)';
   }
@@ -1808,13 +1810,48 @@ export function parseJobSections(
     })
     .slice(0, 10);
 
-  // If parsed sections were found, preserve exact employer requirements without overriding with generic archetypes
-  const archetype = getRoleArchetypeContent(title, company);
-  const responsibilities = finalResp.length >= 1 ? finalResp : archetype.responsibilities;
-  const qualifications = finalQual.length >= 1 ? finalQual : archetype.qualifications;
+  // Preserve exact employer requirements without overriding with generic archetypes
+  const responsibilities = [...finalResp];
+  const qualifications = [...finalQual];
+
+  // If no explicit section headers were found, intelligently scan lines for genuine duties and requirements
+  if (responsibilities.length === 0) {
+    const actionVerbs = /^(?:design|develop|build|implement|test|debug|maintain|collaborate|write|author|deploy|support|create|participate|analyze|ensure|partner|contribute|troubleshoot|optimize|evaluate|investigate|manage|work closely|work with|assist|conduct|review|execute|configure|monitor|deliver|integrate)\b/i;
+    for (const line of lines) {
+      const clean = line.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim();
+      if (clean.length > 20 && clean.length < 240 && actionVerbs.test(clean)) {
+        if (!responsibilities.includes(clean) && !qualifications.includes(clean)) {
+          responsibilities.push(clean);
+          if (responsibilities.length >= 8) break;
+        }
+      }
+    }
+  }
+
+  if (qualifications.length === 0) {
+    const qualIndicators = /(?:degree|bachelor|master|b\.?s|m\.?s|0[–-]2\s*year|experience\b|proficien|knowledge\b|familiar|fluent|understanding of|skills in|ability to|passion for|coursework|curiosity|authorized to work)/i;
+    for (const line of lines) {
+      const clean = line.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim();
+      if (clean.length > 20 && clean.length < 240 && qualIndicators.test(clean) && !responsibilities.includes(clean)) {
+        if (!qualifications.includes(clean)) {
+          qualifications.push(clean);
+          if (qualifications.length >= 8) break;
+        }
+      }
+    }
+  }
+
+  let finalOverview = overviewText.trim();
+  if (!finalOverview) {
+    const introParas = lines.filter((l) => !l.startsWith('•') && !l.startsWith('-') && !l.startsWith('*') && l.length > 40 && !l.endsWith(':')).slice(0, 3);
+    finalOverview = introParas.join('\n\n');
+  }
+  if (!finalOverview) {
+    finalOverview = `${company} is hiring for the ${title} opportunity. Review the complete responsibilities and qualifications below.`;
+  }
 
   return {
-    overview: overviewText || `${company} is actively seeking an early-career ${title} to join their team.`,
+    overview: finalOverview,
     responsibilities,
     qualifications
   };
@@ -2198,15 +2235,15 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const salary = fromText || benchmark;
         const salaryDisclosed = Boolean(fromText);
 
-        const cleanOverview = parsed.overview || `${company} is actively seeking an early-career ${title} to join their team.`;
+        const cleanOverview = parsed.overview || `${company} is seeking an enthusiastic ${title} to join their team.`;
         const curatedDescription = composeFreshCommitsCuratedDescription({
           title,
           company,
           cleanOverview,
           skills,
           salary,
-          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities : getRoleArchetypeContent(title, company).responsibilities,
-          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications : getRoleArchetypeContent(title, company).qualifications,
+          responsibilities: parsed.responsibilities,
+          qualifications: parsed.qualifications,
           location: locDetails.location
         });
 
@@ -2230,8 +2267,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salaryDisclosed,
           suggestedBenchmark: benchmark,
           description: curatedDescription,
-          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities : getRoleArchetypeContent(title, company).responsibilities,
-          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications : getRoleArchetypeContent(title, company).qualifications,
+          responsibilities: parsed.responsibilities,
+          qualifications: parsed.qualifications,
           skills,
           applyUrl: fullUrl,
           detectedAtsProvider: 'Workday'
@@ -2242,12 +2279,75 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     }
   }
 
-  // 2. ASHBY DIRECT API
+  // 2. ASHBY DIRECT API & HTML
   // e.g. https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff
   const ashbyMatch = fullUrl.match(/jobs\.ashbyhq\.com\/([^/]+)\/([a-zA-Z0-9-]+)/i);
   if (ashbyMatch) {
     const [, companySlug, postingId] = ashbyMatch;
     try {
+      // First attempt: fetch Ashby page HTML directly (contains Schema.org JSON-LD with full authentic JD)
+      const pageHtml = await fetchResourceWithProxy(fullUrl, false);
+      if (pageHtml) {
+        const jsonLdMatch = pageHtml.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
+        if (jsonLdMatch) {
+          try {
+            const ldData = JSON.parse(jsonLdMatch[1]);
+            if (ldData && ldData.title) {
+              const title = cleanHtml(ldData.title);
+              const company = ldData.hiringOrganization?.name || companySlug.charAt(0).toUpperCase() + companySlug.slice(1);
+              const descHtml = ldData.description || '';
+              const parsed = parseJobSections(descHtml, title, company);
+              const rawLoc = ldData.jobLocation?.address?.addressLocality || 'Remote';
+              const locDetails = resolveLocationDetails(rawLoc, ldData.jobLocationType === 'TELECOMMUTE');
+              const isIntern = title.toLowerCase().includes('intern');
+              const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
+              const skills = detectSkills(`${title} ${parsed.overview}`);
+              const category = inferCategory(title, skills);
+              const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, isIntern ? 'Internship' : 'Entry Level');
+              let salary: SalaryRange = benchmark;
+              let salaryDisclosed = false;
+              if (ldData.baseSalary?.value) {
+                const val = ldData.baseSalary.value;
+                const min = val.minValue || (typeof val === 'number' ? val : 0);
+                const max = val.maxValue || min;
+                if (min > 0) {
+                  salary = { min: Math.round(min), max: Math.round(max), currency: ldData.baseSalary.currency || 'USD', unit: 'YEAR' };
+                  salaryDisclosed = true;
+                }
+              }
+
+              return {
+                title,
+                company,
+                companyLogo: ldData.hiringOrganization?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${companySlug}.com`,
+                companyWebsite: `https://${companySlug}.com`,
+                location: locDetails.location,
+                isRemote: locDetails.isRemote,
+                city: locDetails.city,
+                state: locDetails.state,
+                country: locDetails.country,
+                postalCode: locDetails.postalCode,
+                applicantLocationRequirements: locDetails.applicantLocationRequirements,
+                experienceLevel: isIntern ? 'Internship' : 'Entry Level',
+                maxYearsExperience: isIntern ? 0 : 1,
+                category,
+                employmentType: empType,
+                salary,
+                salaryDisclosed,
+                suggestedBenchmark: benchmark,
+                description: parsed.overview,
+                responsibilities: parsed.responsibilities,
+                qualifications: parsed.qualifications,
+                skills,
+                applyUrl: fullUrl,
+                detectedAtsProvider: 'Ashby'
+              };
+            }
+          } catch {}
+        }
+      }
+
+      // Second attempt: Ashby Job Board API
       const apiUrl = `https://api.ashbyhq.com/posting-api/job-board/${companySlug}`;
       const boardData = await fetchResourceWithProxy(apiUrl, true);
       if (boardData && boardData.jobs) {
@@ -2277,17 +2377,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
             }
           }
 
-          const archetype = getRoleArchetypeContent(title, company);
-          const curatedDescription = composeFreshCommitsCuratedDescription({
-            title,
-            company,
-            cleanOverview: `${company} is actively hiring an early-career ${title} to join their ${job.department || 'engineering'} team.`,
-            skills: archetype.skills,
-            salary,
-            responsibilities: archetype.responsibilities,
-            qualifications: archetype.qualifications,
-            location: locDetails.location
-          });
+          const parsed = parseJobSections(job.descriptionHtml || job.description || '', title, company);
 
           return {
             title,
@@ -2308,10 +2398,10 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
             salary,
             salaryDisclosed,
             suggestedBenchmark: benchmark,
-            description: curatedDescription,
-            responsibilities: archetype.responsibilities,
-            qualifications: archetype.qualifications,
-            skills: archetype.skills,
+            description: parsed.overview || `${company} is hiring for the ${title} opportunity.`,
+            responsibilities: parsed.responsibilities,
+            qualifications: parsed.qualifications,
+            skills,
             applyUrl: fullUrl,
             detectedAtsProvider: 'Ashby'
           };
@@ -2438,12 +2528,34 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
   }
 
   if (ghBoard && ghJobId) {
-    const apiUrl = `https://boards-api.greenhouse.io/v1/boards/${ghBoard}/jobs/${ghJobId}`;
+    const candidateBoards = [
+      ghBoard,
+      `${ghBoard}corporation`,
+      `${ghBoard}careers`,
+      `${ghBoard}-careers`,
+      `${ghBoard}tech`
+    ];
+    let data: any = null;
+    let actualBoard = ghBoard;
+    for (const b of candidateBoards) {
+      try {
+        const apiUrl = `https://boards-api.greenhouse.io/v1/boards/${b}/jobs/${ghJobId}`;
+        const res = await fetchResourceWithProxy(apiUrl, true);
+        if (res && (res.title || res.content)) {
+          data = res;
+          actualBoard = b;
+          break;
+        }
+      } catch {}
+    }
+
     try {
-      const data = await fetchResourceWithProxy(apiUrl, true);
       if (data && (data.title || data.content)) {
-        const title = data.title || 'Software Engineer';
-        const company = ghBoard.charAt(0).toUpperCase() + ghBoard.slice(1);
+        const title = cleanHtml(data.title || 'Software Engineer');
+        let company = (data.company_name || ghBoard).replace(/[-_]+/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+        if (company.toLowerCase().includes('braincorp') || company.toLowerCase().includes('braincorporation')) {
+          company = 'Braincorp';
+        }
         const locDetails = resolveLocationDetails(data.location?.name || 'Remote - US');
         const contentText = cleanHtml(data.content || '');
         const parsed = parseJobSections(data.content || '', title, company);
@@ -2459,7 +2571,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         const salary = fromText || benchmark;
         const salaryDisclosed = Boolean(fromText);
 
-        const cleanOverview = parsed.overview || `${company} is actively seeking an early-career ${title} to join their team.`;
+        const cleanOverview = parsed.overview || contentText.slice(0, 400);
         const curatedDescription = composeFreshCommitsCuratedDescription({
           title,
           company,
@@ -2474,8 +2586,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         return {
           title,
           company,
-          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${ghBoard}.com`,
-          companyWebsite: `https://${ghBoard}.com`,
+          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${actualBoard}.com`,
+          companyWebsite: `https://${actualBoard}.com`,
           location: locDetails.location,
           isRemote: locDetails.isRemote,
           city: locDetails.city,
@@ -2500,6 +2612,65 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
       }
     } catch (err) {
       console.warn('Greenhouse API fetch failed, falling back:', err);
+    }
+  }
+
+  // 4b. BREEZY HR DIRECT MATCHER & PARSER
+  // e.g. https://forge-nano.breezy.hr/p/66630c61f7e4
+  const breezyMatch = fullUrl.match(/https:\/\/([a-zA-Z0-9_-]+)\.breezy\.hr\/p\/([a-zA-Z0-9]+)/i);
+  if (breezyMatch) {
+    const [, compSlug] = breezyMatch;
+    try {
+      const html = await fetchResourceWithProxy(fullUrl, false);
+      if (html) {
+        const titleMatch = html.match(/<h1[^>]*>([^<]+)<\/h1>/i) || html.match(/<title>([^<]+?)(?:\s+at\s+[^<]+)?<\/title>/i);
+        const title = titleMatch ? cleanHtml(titleMatch[1]).replace(/\s+at\s+.*$/i, '').trim() : 'Software Engineer';
+        const rawComp = compSlug.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+        const company = rawComp.toLowerCase().includes('forge') ? 'Forge Nano' : rawComp;
+        const descMatch = html.match(/<div[^>]*class=["']description["'][^>]*>([\s\S]*?)<\/div>/i);
+        const descHtml = descMatch ? descMatch[1] : html;
+        const parsed = parseJobSections(descHtml, title, company);
+        const descText = cleanHtml(descHtml);
+        const skills = detectSkills(`${title} ${descText}`);
+        const category = inferCategory(title, skills);
+        const expLevel = inferExperienceLevel(title, descText);
+        const isIntern = title.toLowerCase().includes('intern');
+        const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
+        const locMatch = html.match(/<li[^>]*class=["']location["'][^>]*>([\s\S]*?)<\/li>/i) || html.match(/<span[^>]*class=["']location["'][^>]*>([\s\S]*?)<\/span>/i);
+        const locDetails = resolveLocationDetails(locMatch ? cleanHtml(locMatch[1]) : 'Thornton, CO');
+        const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, expLevel);
+        const fromText = extractSalaryFromText(descText);
+        const salary = fromText || benchmark;
+        const salaryDisclosed = Boolean(fromText);
+
+        return {
+          title,
+          company,
+          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${compSlug}.com`,
+          companyWebsite: `https://${compSlug}.com`,
+          location: locDetails.location,
+          isRemote: locDetails.isRemote,
+          city: locDetails.city,
+          state: locDetails.state,
+          country: locDetails.country,
+          postalCode: locDetails.postalCode,
+          experienceLevel: expLevel,
+          maxYearsExperience: isIntern ? 0 : 1,
+          category,
+          employmentType: empType,
+          salary,
+          salaryDisclosed,
+          suggestedBenchmark: benchmark,
+          description: parsed.overview || descText.slice(0, 400),
+          responsibilities: parsed.responsibilities,
+          qualifications: parsed.qualifications,
+          skills,
+          applyUrl: fullUrl,
+          detectedAtsProvider: 'Breezy HR'
+        };
+      }
+    } catch (err) {
+      console.warn('Breezy HR fetch failed:', err);
     }
   }
 
@@ -2680,28 +2851,16 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salaryDisclosed,
           suggestedBenchmark: benchmark,
           description: curatedDescription,
-          responsibilities: responsibilities.length > 0 ? responsibilities : getRoleArchetypeContent(title, company).responsibilities,
-          qualifications: qualifications.length > 0 ? qualifications : getRoleArchetypeContent(title, company).qualifications,
+          responsibilities,
+          qualifications,
           skills,
           applyUrl: fullUrl,
           detectedAtsProvider: 'Workable'
         };
       }
     } catch {
-      // If direct API fails due to CORS, seamlessly proceed to synthesizer or proxy
+      // If direct API fails due to CORS, seamlessly proceed to proxy
     }
-  }
-
-  // Fast path for enterprise portals with strict bot defenses that block proxies
-  const isDirectEnterprisePortal =
-    fullUrl.includes('google.com') ||
-    fullUrl.includes('amazon.jobs') ||
-    fullUrl.includes('microsoft.com') ||
-    fullUrl.includes('apple.com') ||
-    fullUrl.includes('metacareers.com');
-
-  if (isDirectEnterprisePortal) {
-    return synthesizeJobFromUrl(fullUrl);
   }
 
   // 5. ATTEMPT LIGHTWEIGHT CORS PROXY FETCH (3-second timeout)
@@ -2854,7 +3013,7 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
         }
       }
 
-        // B. Check OpenGraph / Meta Title
+        // B. Check OpenGraph / Meta Title & Extract Authentic HTML Body
         const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i) ||
                              html.match(/<title[^>]*>([^<]+)<\/title>/i);
 
@@ -2881,24 +3040,56 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
             parsedTitle = rawOg.replace(/[-|•].*$/, '').trim();
           }
 
-          if (parsedTitle && parsedTitle.length > 3 && parsedTitle.length < 90) {
-            const synth = synthesizeJobFromUrl(fullUrl);
+          parsedTitle = formatSlugToJobTitle(parsedTitle);
+          const synth = synthesizeJobFromUrl(fullUrl);
+          const finalCompany = parsedCompany || synth.company;
+
+          // Try extracting main body content
+          const bodyContainerMatch = html.match(/<div[^>]*class=["'][^"']*(?:job-description|description|job-details|posting-content)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i) ||
+                                    html.match(/<article[^>]*>([\s\S]*?)<\/article>/i) ||
+                                    html.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
+
+          const targetContent = bodyContainerMatch ? bodyContainerMatch[1] : html;
+          const parsedSections = parseJobSections(targetContent, parsedTitle, finalCompany);
+
+          if (parsedSections.responsibilities.length > 0 || parsedSections.overview.length > 50) {
+            const descText = cleanHtml(targetContent);
+            const skills = detectSkills(`${parsedTitle} ${descText}`);
+            const category = inferCategory(parsedTitle, skills);
+            const expLevel = inferExperienceLevel(parsedTitle, descText);
+            const isIntern = parsedTitle.toLowerCase().includes('intern');
+            const empType: EmploymentType = isIntern ? 'INTERN' : 'FULL_TIME';
+            const benchmark = getRoleMarketBenchmark(parsedTitle, category, synth.country || 'US', synth.location, expLevel);
+            const fromText = extractSalaryFromText(descText);
+            const salary = fromText || benchmark;
+
             return {
               ...synth,
               title: parsedTitle,
-              company: parsedCompany || synth.company,
+              company: finalCompany,
+              description: parsedSections.overview,
+              responsibilities: parsedSections.responsibilities,
+              qualifications: parsedSections.qualifications,
+              skills,
+              salary,
+              salaryDisclosed: Boolean(fromText),
+              category,
+              experienceLevel: expLevel,
+              employmentType: empType,
               applyUrl: fullUrl
             };
           }
         }
       }
   } catch {
-    // Network proxy failed or timed out — seamlessly proceed to heuristic synthesis
+    // Network proxy failed or timed out — fail informatively rather than silently injecting fake templates
   }
 
-  // 5. UNIVERSAL ZERO-FAILURE SYNTHESIS
-  // Works flawlessly for Google Careers, Workday, Amazon, Microsoft, Apple, and all enterprise career pages!
-  return synthesizeJobFromUrl(fullUrl);
+  // 6. If automated URL extraction could not parse authentic content, fail informatively
+  // rather than injecting fake synthetic filler!
+  throw new Error(
+    "⚠️ Automated fetching from this career portal was blocked by its anti-bot security firewall. Please use the 'Paste Raw JD' option to paste the text directly from the job page for 100% authentic verbatim extraction."
+  );
 }
 
 /**
@@ -3135,14 +3326,7 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   }
 
   // 10. CLEAN OVERVIEW & CURATED DESCRIPTION
-  const baseTitle = stripSeniorityFromTitle(title);
-  const titleHasSeniority = /(?:early[\s-]career|entry[\s-]level|junior|new\s*grad|intern|graduate|fresher)/i.test(title);
-  const article = /^[aeiou]/i.test(baseTitle) ? 'an' : 'a';
-  const defaultOverview = titleHasSeniority
-    ? `${company} is actively welcoming ${article} ${baseTitle} to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.`
-    : `${company} is actively seeking an early-career ${baseTitle} to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.`;
-
-  const cleanOverview = parsedSections.overview || defaultOverview;
+  const cleanOverview = parsedSections.overview || lines.slice(0, 3).join('\n\n') || `${company} is hiring for the ${title} position.`;
   const curatedDescription = composeFreshCommitsCuratedDescription({
     title,
     company,
