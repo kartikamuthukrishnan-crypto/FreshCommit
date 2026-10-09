@@ -84,4 +84,4 @@ if (hasError) {
   process.exit(1);
 }
 
-console.log('✅ Build validation passed: All scripts, bundles, sitemap, and ads.txt verified cleanly with 0 errors!');
+console.log('✅ Build validation passed: All scripts, bundles, sitemap, and ads.txt verified cleanly.');
