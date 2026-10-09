@@ -39,6 +39,7 @@ export const KNOWN_CITY_ZIP_MAP: Record<string, CityZipEntry> = {
   'pasadena': { city: 'Pasadena', state: 'CA', zip: '91101', defaultLocation: 'Pasadena, CA / Hybrid' },
   'burbank': { city: 'Burbank', state: 'CA', zip: '91502', defaultLocation: 'Burbank, CA / Hybrid' },
   'san diego': { city: 'San Diego', state: 'CA', zip: '92101', defaultLocation: 'San Diego, CA / Hybrid' },
+  'el segundo': { city: 'El Segundo', state: 'CA', zip: '90245', defaultLocation: 'El Segundo, CA / Hybrid' },
 
   // --- Washington (Greater Seattle & Puget Sound) ---
   'seattle': { city: 'Seattle', state: 'WA', zip: '98101', defaultLocation: 'Seattle, WA / Hybrid' },
@@ -71,6 +72,9 @@ export const KNOWN_CITY_ZIP_MAP: Record<string, CityZipEntry> = {
   'round rock': { city: 'Round Rock', state: 'TX', zip: '78664', defaultLocation: 'Round Rock, TX / Hybrid' },
   'dallas': { city: 'Dallas', state: 'TX', zip: '75201', defaultLocation: 'Dallas, TX / Hybrid' },
   'plano': { city: 'Plano', state: 'TX', zip: '75024', defaultLocation: 'Plano, TX / Hybrid' },
+  'mckinney': { city: 'McKinney', state: 'TX', zip: '75070', defaultLocation: 'McKinney, TX' },
+  'frisco': { city: 'Frisco', state: 'TX', zip: '75034', defaultLocation: 'Frisco, TX / Hybrid' },
+  'richardson': { city: 'Richardson', state: 'TX', zip: '75080', defaultLocation: 'Richardson, TX / Hybrid' },
   'irving': { city: 'Irving', state: 'TX', zip: '75038', defaultLocation: 'Irving, TX / Hybrid' },
   'fort worth': { city: 'Fort Worth', state: 'TX', zip: '76102', defaultLocation: 'Fort Worth, TX / Hybrid' },
   'houston': { city: 'Houston', state: 'TX', zip: '77002', defaultLocation: 'Houston, TX / Hybrid' },
@@ -121,6 +125,7 @@ export const KNOWN_CITY_ZIP_MAP: Record<string, CityZipEntry> = {
   'tempe': { city: 'Tempe', state: 'AZ', zip: '85281', defaultLocation: 'Tempe, AZ / Hybrid' },
   'scottsdale': { city: 'Scottsdale', state: 'AZ', zip: '85251', defaultLocation: 'Scottsdale, AZ / Hybrid' },
   'chandler': { city: 'Chandler', state: 'AZ', zip: '85224', defaultLocation: 'Chandler, AZ / Hybrid' },
+  'tucson': { city: 'Tucson', state: 'AZ', zip: '85706', defaultLocation: 'Tucson, AZ / Hybrid' },
   'las vegas': { city: 'Las Vegas', state: 'NV', zip: '89101', defaultLocation: 'Las Vegas, NV / Hybrid' },
 
   // --- Midwest Tech Hubs ---

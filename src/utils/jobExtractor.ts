@@ -288,6 +288,42 @@ const KNOWN_COMPANIES: Record<string, { name: string; website: string; logo?: st
     website: 'https://bloomberg.com/careers',
     logo: 'https://www.google.com/s2/favicons?sz=128&domain=bloomberg.com',
     defaultLocation: 'New York, NY / Hybrid'
+  },
+  'rtx.com': {
+    name: 'RTX',
+    website: 'https://rtx.com/careers',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=rtx.com',
+    defaultLocation: 'McKinney, TX'
+  },
+  'raytheon.com': {
+    name: 'Raytheon',
+    website: 'https://rtx.com/careers',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=rtx.com',
+    defaultLocation: 'McKinney, TX'
+  },
+  'lockheedmartin.com': {
+    name: 'Lockheed Martin',
+    website: 'https://www.lockheedmartinjobs.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=lockheedmartin.com',
+    defaultLocation: 'Fort Worth, TX'
+  },
+  'northropgrumman.com': {
+    name: 'Northrop Grumman',
+    website: 'https://www.northropgrumman.com/careers',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=northropgrumman.com',
+    defaultLocation: 'Melbourne, FL'
+  },
+  'boeing.com': {
+    name: 'Boeing',
+    website: 'https://jobs.boeing.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=boeing.com',
+    defaultLocation: 'Seattle, WA'
+  },
+  'l3harris.com': {
+    name: 'L3Harris',
+    website: 'https://careers.l3harris.com',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=l3harris.com',
+    defaultLocation: 'Melbourne, FL'
   }
 };
 
@@ -321,10 +357,13 @@ export function cleanHtml(html: string): string {
   // 3. Decode remaining entities
   text = text
     .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;#xa;/gi, ' ')
+    .replace(/&#xa;/gi, ' ')
+    .replace(/&#xa0;/gi, ' ')
+    .replace(/&#43;/g, '+')
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&#xa0;/gi, ' ')
     .replace(/&ndash;/g, '–')
     .replace(/&mdash;/g, '—')
     .replace(/&bull;/g, '•');
@@ -371,6 +410,18 @@ export function detectSkills(text: string): string[] {
   const lower = text.toLowerCase();
   const found: string[] = [];
   for (const skill of commonSkills) {
+    if (skill === 'C++') {
+      if (/(?:^|\W)c\+\+(?:\W|$)/i.test(text) || text.includes('&#43;&#43;')) {
+        found.push('C++');
+      }
+      continue;
+    }
+    if (skill === 'C#') {
+      if (/(?:^|\W)c#(?:\W|$)/i.test(text)) {
+        found.push('C#');
+      }
+      continue;
+    }
     const escaped = skill.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`\\b${escaped}\\b`, 'i');
     if (regex.test(lower)) {
@@ -504,12 +555,31 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
   // 3. ATS Subdomains or path segments
   if (host.includes('myworkdayjobs.com')) {
     const sub = host.split('.')[0];
-    const known = KNOWN_COMPANIES[`${sub}.com`];
-    const name = known ? known.name : sub.charAt(0).toUpperCase() + sub.slice(1);
+    let compKey = sub.toLowerCase();
+    const siteMatch = path.match(/^\/(?:[a-zA-Z-]{2,5}\/)?([a-zA-Z0-9_-]+)/);
+    const siteSlug = siteMatch ? siteMatch[1].toLowerCase() : '';
+
+    if (compKey === 'globalhr' || compKey === 'external' || compKey === 'myworkday' || compKey === 'recruiting' || compKey.startsWith('wd')) {
+      if (siteSlug.includes('rtx') || siteSlug.includes('raytheon')) {
+        compKey = 'rtx';
+      } else if (siteSlug.includes('boeing')) {
+        compKey = 'boeing';
+      } else if (siteSlug.includes('lockheed')) {
+        compKey = 'lockheedmartin';
+      } else if (siteSlug.includes('northrop')) {
+        compKey = 'northropgrumman';
+      } else {
+        const cleanedSite = siteSlug.replace(/^(?:rec_|ext_|external_|careers_)/, '').replace(/(?:_ext|_gateway|_jobs|_careers)$/, '');
+        if (cleanedSite.length > 2) compKey = cleanedSite;
+      }
+    }
+
+    const known = KNOWN_COMPANIES[`${compKey}.com`];
+    const name = known ? known.name : compKey.charAt(0).toUpperCase() + compKey.slice(1);
     return {
       company: name,
-      companyWebsite: `https://${sub}.com`,
-      companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${sub}.com`,
+      companyWebsite: known?.website || `https://${compKey}.com`,
+      companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${compKey}.com`,
       defaultLocation: known?.defaultLocation
     };
   }
@@ -739,7 +809,30 @@ export function resolveLocationDetails(rawLocation: string, isRemoteHint?: boole
     }
   }
 
-  // 2. Workday City-ST-USA / City-ST format (e.g. "Boston-MA-USA" or "Austin-TX")
+  // 2. Workday Requisition Format: US-TX-MCKINNEY-513PW - 2501 W University Dr... or US-CA-EL-SEGUNDO...
+  const wdReqMatch = cleanLoc.match(/^US[-_]([A-Z]{2})[-_]([A-Za-z]+(?:[-_][A-Za-z]+)*?)(?:[-_][0-9A-Z]+|\s*[-–—]|$)/i);
+  if (wdReqMatch) {
+    const st = wdReqMatch[1].toUpperCase();
+    const rawCity = wdReqMatch[2].replace(/[-_]+/g, ' ');
+    const ct = cleanCityString(rawCity);
+    const mapped = lookupCityZip(ct);
+    const locStr = isHybrid
+      ? `${ct}, ${st} / Hybrid`
+      : lowLoc.includes('remote')
+      ? `${ct}, ${st} (Remote)`
+      : `${ct}, ${st}`;
+    return {
+      location: locStr,
+      isRemote: false,
+      city: ct,
+      state: st,
+      country: 'US',
+      postalCode: mapped?.zip || '75070',
+      applicantLocationRequirements: undefined
+    };
+  }
+
+  // 3. Workday City-ST-USA / City-ST format (e.g. "Boston-MA-USA" or "Austin-TX")
   const wdMatch = cleanLoc.match(/([a-zA-Z\s.-]+)[-_]([a-zA-Z]{2})(?:[-_](?:USA|US))?/);
   if (wdMatch) {
     const ct = cleanCityString(wdMatch[1].replace(/[-_]+/g, ' '));
@@ -949,8 +1042,18 @@ export function extractSalaryFromText(text: string): SalaryRange | null {
     }
   }
 
-  // 2. Annual Range Pattern: e.g. "$55,000 - $75,000", "$60k - $80k", "$120,000.00 - $145,000.00 USD"
-  const annualRangeMatch = clean.match(/(?:\$|USD\s*)\s*([0-9]{2,3}[kK]|[0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{5,6}(?:\.[0-9]{2})?)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}[kK]|[0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{5,6}(?:\.[0-9]{2})?)(?:\s*(?:USD|per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
+  // 2. Workday Explicit Phrasing: e.g. "The salary range for this role is 57,200 USD - 108,800 USD."
+  const workdaySalaryMatch = clean.match(/(?:salary range for this role is|salary range is|pay range is)[\s:]+(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+|[0-9]{2,3}[kK])\s*(?:USD)?\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+|[0-9]{2,3}[kK])\s*(?:USD)?/i);
+  if (workdaySalaryMatch) {
+    const min = parseVal(workdaySalaryMatch[1]);
+    const max = parseVal(workdaySalaryMatch[2]);
+    if (min >= 25000 && max >= min && max <= 500000) {
+      return { min: Math.round(min), max: Math.round(max), currency: 'USD', unit: 'YEAR' };
+    }
+  }
+
+  // 3. Annual Range Pattern: e.g. "$55,000 - $75,000", "$60k - $80k", "$120,000.00 - $145,000.00 USD", "57,200 USD - 108,800 USD"
+  const annualRangeMatch = clean.match(/(?:\$|USD\s*)?\s*([0-9]{2,3}[kK]|[0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{5,6}(?:\.[0-9]{2})?)\s*(?:USD)?\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}[kK]|[0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{5,6}(?:\.[0-9]{2})?)\s*(?:USD)?(?:\s*(?:per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
   if (annualRangeMatch) {
     const min = parseVal(annualRangeMatch[1]);
     const max = parseVal(annualRangeMatch[2]);
@@ -959,8 +1062,8 @@ export function extractSalaryFromText(text: string): SalaryRange | null {
     }
   }
 
-  // 3. Annual range after keywords: e.g. "Pay range: 75,000 - 110,000 USD", "Salary: 85,000 to 120,000"
-  const keywordRangeMatch = clean.match(/(?:salary|pay|compensation|base pay|hiring range|rate|tier)[\s\w:]+(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+)\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+)/i);
+  // 4. Annual range after keywords: e.g. "Pay range: 75,000 - 110,000 USD", "Salary: 85,000 to 120,000"
+  const keywordRangeMatch = clean.match(/(?:salary|pay|compensation|base pay|hiring range|rate|tier)[\s\w:]+(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+|[0-9]{2,3}[kK])\s*(?:USD)?\s*(?:-|–|—|to)\s*(?:\$|USD\s*)?\s*([0-9]{2,3}(?:,[0-9]{3})+|[0-9]{2,3}[kK])\s*(?:USD)?/i);
   if (keywordRangeMatch) {
     const min = parseVal(keywordRangeMatch[1]);
     const max = parseVal(keywordRangeMatch[2]);
@@ -969,7 +1072,7 @@ export function extractSalaryFromText(text: string): SalaryRange | null {
     }
   }
 
-  // 4. Single Stated Annual: e.g. "Starting salary: $65,000 / year", "Base salary: $95,000"
+  // 5. Single Stated Annual: e.g. "Starting salary: $65,000 / year", "Base salary: $95,000"
   const singleAnnualMatch = clean.match(/(?:salary|pay|compensation|starting at|base)[\s:]+(?:\$|USD\s*)\s*([0-9]{2,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{2,3}[kK])(?:\s*(?:USD|per|\/|a)?\s*(?:year|yr|annually|annual))?/i);
   if (singleAnnualMatch) {
     const val = parseVal(singleAnnualMatch[1]);
@@ -1504,33 +1607,26 @@ export function parseJobSections(
 
   let text = rawContent;
 
-  // 1. Decode entities & preserve headings
-  if (text.includes('&lt;') || text.includes('&gt;')) {
-    text = text
-      .replace(/&lt;br\s*[\/]?&gt;/gi, '\n')
-      .replace(/&lt;\/(?:p|div|h[1-6]|li|ul|ol)&gt;/gi, '\n\n')
-      .replace(/&lt;li[^&]*&gt;/gi, '\n• ')
-      .replace(/&lt;[^&gt;]+&gt;/g, ' ')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>');
-  }
-
+  // Decode entities & preserve headings
   text = text
-    .replace(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/gi, '\n\n===HEADER: $1===\n\n')
-    .replace(
-      /<strong>\s*(What you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|Responsibilities|Key Responsibilities|Qualifications|Requirements|Basic Qualifications|About Us[:\s]*)\s*<\/strong>/gi,
-      '\n\n===HEADER: $1===\n\n'
-    )
+    .replace(/&#43;/g, '+')
+    .replace(/&#xa;/gi, '\n')
+    .replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, '\n• $1\n')
+    .replace(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi, '\n\n===HEADER: $1===\n\n')
+    .replace(/<(?:strong|b)[^>]*>([\s\S]*?)<\/(?:strong|b)>/gi, (match, inner) => {
+      const pure = inner.replace(/<[^>]+>/g, '').trim();
+      if (pure.length > 2 && pure.length < 80 && !pure.includes('\n')) {
+        return '\n\n===HEADER: ' + pure + '===\n\n';
+      }
+      return match;
+    })
     .replace(/<br\s*[\/]?>/gi, '\n')
     .replace(/<\/(?:p|div|section|article)>/gi, '\n\n')
-    .replace(/<\/li>/gi, '\n')
-    .replace(/<li[^>]*>/gi, '\n• ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&#xa0;/gi, ' ')
     .replace(/&ndash;/g, '–')
     .replace(/&mdash;/g, '—')
     .replace(/&bull;/g, '•');
@@ -1547,28 +1643,61 @@ export function parseJobSections(
   const titleLow = (title || '').toLowerCase();
 
   for (const line of lines) {
+    const isExplicitBullet = line.startsWith('•') || line.startsWith('-') || line.startsWith('*');
     const headerMatch = line.match(/^===HEADER:\s*(.+?)===$/i);
+    const isHeaderLine = Boolean(headerMatch) || (!isExplicitBullet && line.length < 80 && (line.endsWith(':') || /^(?:Qualifications|Responsibilities|Requirements|What You Will Do|What You Bring|What We Offer)/i.test(line)));
     const candidate = headerMatch ? headerMatch[1].trim() : line;
     const low = candidate.toLowerCase();
 
-    // Section transitions
-    if (
-      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*do|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|role responsibilities|in this role,\s*(?:your\s*)?responsibilities\s*will\s*be|what you(?:’|'| )*ll be doing|day-to-day)[:\s]*$/i.test(low)
-    ) {
-      currentSection = 'responsibilities';
-      continue;
-    }
-    if (
-      /^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:bring|need)|for this role you will need|qualifications|requirements|basic qualifications|minimum qualifications|required qualifications|preferred qualifications|desired qualifications|what we(?:’|'| )*(?:are looking for|look for)|who you are|skills & experience|about you|eligibility|key requirements|what you need to succeed)[:\s]*$/i.test(low)
-    ) {
-      currentSection = 'qualifications';
-      continue;
-    }
-    if (
-      /^(?:our offer to you|what we offer|benefits|perks|compensation|about the team|equal opportunity|diversity|why\s+[a-z0-9&.\-\s]+|our commitment to our people|about\s+[a-z0-9&.\-\s]+)[:\s]*$/i.test(low)
-    ) {
-      currentSection = 'other';
-      continue;
+    // Section transitions ONLY trigger on genuine headings, NEVER on bullet points!
+    if (isHeaderLine) {
+      if (
+        low.includes('responsibilit') ||
+        low.includes('what you will do') ||
+        low.includes("what you'll do") ||
+        low.includes('what you do') ||
+        low.includes('core duties') ||
+        low.includes('role responsibilities') ||
+        low.includes('day-to-day') ||
+        low.includes('day to day')
+      ) {
+        currentSection = 'responsibilities';
+        continue;
+      }
+      if (
+        low.includes('qualification') ||
+        low.includes('requirement') ||
+        low.includes('what you need') ||
+        low.includes('what we look for') ||
+        low.includes('what we are looking for') ||
+        low.includes('who you are') ||
+        low.includes('what you bring') ||
+        low.includes("what you'll bring") ||
+        low.includes('skills & experience') ||
+        low.includes('skills and experience') ||
+        low.includes('eligibility')
+      ) {
+        currentSection = 'qualifications';
+        continue;
+      }
+      if (
+        low.includes('what we offer') ||
+        low.includes('our offer') ||
+        low.includes('benefits') ||
+        low.includes('perks') ||
+        low.includes('compensation') ||
+        low.includes('security clearance') ||
+        low.includes('position role type') ||
+        low.includes('equal opportunity') ||
+        low.includes('privacy policy') ||
+        low.includes('learn more & apply') ||
+        low.includes('about the company') ||
+        low.includes('about us') ||
+        low.includes('diversity')
+      ) {
+        currentSection = 'other';
+        continue;
+      }
     }
 
     if (headerMatch) continue;
@@ -1577,11 +1706,6 @@ export function parseJobSections(
     if (
       /^(?:job title|job summary|role summary|position summary|title)[:\s]*$/i.test(low) ||
       low === titleLow ||
-      /^(?:what you will do|what you'll do|what you bring|what you'll bring|what you need|what you'll need|for this role you will need|responsibilities|key responsibilities|qualifications|requirements|basic qualifications|minimum qualifications|preferred qualifications|about us|who you are|who we are)[:\s]*$/i.test(low) ||
-      /^(?:in this role,\s*you will|as an?\s*[^,]+,\s*you will|you will\s*(?:be responsible for)?)[:\s]*$/i.test(low) ||
-      /^(?:to be successful|requirements|qualifications|basic qualifications|minimum qualifications)[:\s]*$/i.test(low) ||
-      /^(?:working knowledge of|proficiency in|experience in|knowledge of|familiarity with|preferred skills|minimum|demonstrated ability to)[:\s]*$/i.test(low) ||
-      low.startsWith('preferred qualifications that set you apart') ||
       (candidate.endsWith(':') && candidate.length < 40)
     ) {
       continue;
@@ -1606,7 +1730,7 @@ export function parseJobSections(
       continue;
     }
 
-    const cleanBullet = candidate.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim();
+    const cleanBullet = candidate.replace(/^[•\-\*–—\d\.\)]\s*/, '').replace(/&(?:amp;)?#xa;/gi, ' ').trim();
     if (!cleanBullet || cleanBullet.length < 12) continue;
 
     if (currentSection === 'overview') {
@@ -1614,8 +1738,12 @@ export function parseJobSections(
         overviewParas.push(cleanBullet);
       }
     } else if (currentSection === 'responsibilities') {
-      if (!respLines.includes(cleanBullet)) {
-        respLines.push(cleanBullet);
+      if (isExplicitBullet || (!line.includes('.') && cleanBullet.length < 140)) {
+        if (!respLines.includes(cleanBullet)) {
+          respLines.push(cleanBullet);
+        }
+      } else if (cleanBullet.length > 40 && !overviewParas.includes(cleanBullet)) {
+        overviewParas.push(cleanBullet);
       }
     } else if (currentSection === 'qualifications') {
       if (!qualLines.includes(cleanBullet)) {
@@ -1636,7 +1764,7 @@ export function parseJobSections(
       }
       return true;
     })
-    .slice(0, 8);
+    .slice(0, 10);
 
   const finalQual = qualLines
     .filter((q) => {
@@ -1647,12 +1775,12 @@ export function parseJobSections(
       }
       return true;
     })
-    .slice(0, 8);
+    .slice(0, 10);
 
-  // If parsed sections were sparse, augment with archetype defaults
+  // If parsed sections were found, preserve exact employer requirements without overriding with generic archetypes
   const archetype = getRoleArchetypeContent(title, company);
-  const responsibilities = finalResp.length >= 2 ? finalResp : archetype.responsibilities;
-  const qualifications = finalQual.length >= 2 ? finalQual : archetype.qualifications;
+  const responsibilities = finalResp.length >= 1 ? finalResp : archetype.responsibilities;
+  const qualifications = finalQual.length >= 1 ? finalQual : archetype.qualifications;
 
   return {
     overview: overviewText || `${company} is actively seeking an early-career ${title} to join their team.`,
@@ -1740,12 +1868,20 @@ function synthesizeJobFromUrl(rawUrl: string): ExtractedJobData {
  * to completely eliminate CORS failures in browser environments, with graceful fallbacks.
  */
 async function fetchResourceWithProxy(url: string, asJson = false): Promise<any> {
-  // 1. Try local Vite dev proxy middleware (Node.js fetch, bypasses browser CORS)
+  // 1. Try first-party API endpoint (Cloudflare Pages Function / Vite Dev Proxy)
   try {
     const localProxyUrl = `/api/fetch-career-url?url=${encodeURIComponent(url)}`;
-    const resp = await fetch(localProxyUrl, { signal: AbortSignal.timeout(6000) });
+    const resp = await fetch(localProxyUrl, { signal: AbortSignal.timeout(8000) });
     if (resp.ok) {
-      return asJson ? await resp.json() : await resp.text();
+      const text = await resp.text();
+      if (asJson) {
+        try {
+          return JSON.parse(text);
+        } catch {
+          return null;
+        }
+      }
+      return text;
     }
   } catch {
     // continue
@@ -1755,25 +1891,37 @@ async function fetchResourceWithProxy(url: string, asJson = false): Promise<any>
   try {
     const resp = await fetch(url, {
       headers: asJson ? { Accept: 'application/json' } : undefined,
-      signal: AbortSignal.timeout(4500)
+      signal: AbortSignal.timeout(5000)
     });
     if (resp.ok) {
-      return asJson ? await resp.json() : await resp.text();
+      const text = await resp.text();
+      if (asJson) {
+        try {
+          return JSON.parse(text);
+        } catch {
+          return null;
+        }
+      }
+      return text;
     }
   } catch {
     // continue
   }
 
-  // 3. Fallback to public CORS proxy
+  // 3. Fallback to public proxy if available
   try {
     const pubProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-    const resp = await fetch(pubProxy, { signal: AbortSignal.timeout(4000) });
+    const resp = await fetch(pubProxy, { signal: AbortSignal.timeout(4500) });
     if (resp.ok) {
+      const text = await resp.text();
       if (asJson) {
-        const text = await resp.text();
-        return JSON.parse(text);
+        try {
+          return JSON.parse(text);
+        } catch {
+          return null;
+        }
       }
-      return await resp.text();
+      return text;
     }
   } catch {
     // continue
@@ -1940,12 +2088,40 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
       if (data && data.jobPostingInfo) {
         const post = data.jobPostingInfo || {};
         const title = post.title || formatSlugToJobTitle(slug);
-        const knownComp = KNOWN_COMPANIES[`${sub.toLowerCase()}.com`];
-        const company = knownComp ? knownComp.name : sub.charAt(0).toUpperCase() + sub.slice(1);
-        const rawLoc = post.location || locSeg.replace(/[-_]+/g, ' ');
-        const locDetails = resolveLocationDetails(rawLoc);
         const jobDescHtml = post.jobDescription || '';
         const descText = cleanHtml(jobDescHtml);
+
+        let compKey = sub.toLowerCase();
+        const siteSlug = (site || '').toLowerCase();
+        if (compKey === 'globalhr' || compKey === 'external' || compKey === 'myworkday' || compKey === 'recruiting' || compKey.startsWith('wd')) {
+          if (siteSlug.includes('rtx') || siteSlug.includes('raytheon') || descText.includes('Raytheon') || descText.includes('RTX')) {
+            compKey = 'rtx';
+          } else if (siteSlug.includes('boeing') || descText.includes('Boeing')) {
+            compKey = 'boeing';
+          } else if (siteSlug.includes('lockheed') || descText.includes('Lockheed Martin')) {
+            compKey = 'lockheedmartin';
+          } else if (siteSlug.includes('northrop') || descText.includes('Northrop Grumman')) {
+            compKey = 'northropgrumman';
+          } else {
+            const cleanedSite = siteSlug.replace(/^(?:rec_|ext_|external_|careers_)/, '').replace(/(?:_ext|_gateway|_jobs|_careers)$/, '');
+            if (cleanedSite.length > 2) compKey = cleanedSite;
+          }
+        }
+
+        let knownComp = KNOWN_COMPANIES[`${compKey}.com`];
+        let company = knownComp ? knownComp.name : '';
+        if (!company) {
+          if (descText.includes('Raytheon') || descText.includes('At RTX') || descText.includes('RTX is an')) {
+            company = 'RTX';
+            compKey = 'rtx';
+            knownComp = KNOWN_COMPANIES['rtx.com'];
+          } else {
+            company = compKey.charAt(0).toUpperCase() + compKey.slice(1);
+          }
+        }
+
+        const rawLoc = post.location || locSeg.replace(/[-_]+/g, ' ');
+        const locDetails = resolveLocationDetails(rawLoc);
         const parsed = parseJobSections(jobDescHtml, title, company);
         const skills = detectSkills(`${title} ${descText}`);
         const category = inferCategory(title, skills);
@@ -1964,16 +2140,16 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           cleanOverview,
           skills,
           salary,
-          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities.slice(0, 6) : getRoleArchetypeContent(title, company).responsibilities,
-          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications.slice(0, 6) : getRoleArchetypeContent(title, company).qualifications,
+          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities : getRoleArchetypeContent(title, company).responsibilities,
+          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications : getRoleArchetypeContent(title, company).qualifications,
           location: locDetails.location
         });
 
         return {
           title,
           company,
-          companyLogo: knownComp?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${sub}.com`,
-          companyWebsite: `https://${sub}.com`,
+          companyLogo: knownComp?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${compKey}.com`,
+          companyWebsite: knownComp?.website || `https://${compKey}.com`,
           location: locDetails.location,
           isRemote: locDetails.isRemote,
           city: locDetails.city,
@@ -1989,8 +2165,8 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
           salaryDisclosed,
           suggestedBenchmark: benchmark,
           description: curatedDescription,
-          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities.slice(0, 6) : getRoleArchetypeContent(title, company).responsibilities,
-          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications.slice(0, 6) : getRoleArchetypeContent(title, company).qualifications,
+          responsibilities: parsed.responsibilities.length > 0 ? parsed.responsibilities : getRoleArchetypeContent(title, company).responsibilities,
+          qualifications: parsed.qualifications.length > 0 ? parsed.qualifications : getRoleArchetypeContent(title, company).qualifications,
           skills,
           applyUrl: fullUrl,
           detectedAtsProvider: 'Workday'
