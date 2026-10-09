@@ -203,6 +203,16 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
       ? `₹${(salaryMin / 100000).toFixed(1)}L - ₹${(salaryMax / 100000).toFixed(1)}L CTC / year`
       : `${salaryCurrency} $${Math.round(salaryMin / 1000)}k - $${Math.round(salaryMax / 1000)}k / year`;
 
+  let cleanedOverview = (rawOverview || '').trim();
+  if (cleanedOverview) {
+    cleanedOverview = cleanedOverview
+      .replace(/\bGlobalhr\b/g, company)
+      .replace(/\brec_rtx_ext_gateway\b/gi, company)
+      .replace(/\bUS-[A-Z]{2}-[A-Z0-9-]+~?[^.\n]*/gi, '')
+      .replace(/^(?:United States of America|United States)\s*/gim, '')
+      .trim();
+  }
+
   // Composed AdSense-grade editorial overview
   const descriptionParagraphs = [
     `🎯 FreshCommits Editorial Review & Candidate Insights:`,
@@ -221,12 +231,12 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
     `• Candidate Edge: Prior open-source contributions, polished GitHub portfolios, and clear communication will distinguish top applicants for ${secondaryKeyword}.`,
     ``,
     `🏢 About the Opportunity at ${company}:`,
-    rawOverview ||
+    cleanedOverview ||
       `${company} is a forward-thinking engineering team building reliable, user-centric software. As a ${title}, you will be paired with seasoned tech leads to contribute high-visibility features, participate in architecture discussions, and scale backend/frontend systems.`
   ];
 
-  // Enhanced structured responsibilities
-  const enhancedResponsibilities = responsibilities.length >= 3
+  // Enhanced structured responsibilities: Always respect genuine employer bullets
+  const enhancedResponsibilities = responsibilities.length >= 1
     ? responsibilities
     : [
         `Develop, test, and deploy resilient application code using ${topSkillsStr}.`,
@@ -236,8 +246,8 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
         `Document system architecture, API endpoints, and onboarding guides for cross-functional peers.`
       ];
 
-  // Enhanced structured qualifications
-  const enhancedQualifications = qualifications.length >= 3
+  // Enhanced structured qualifications: Always respect genuine employer bullets
+  const enhancedQualifications = qualifications.length >= 1
     ? qualifications
     : [
         `0 to 2 years of relevant software development experience, or Bachelor's degree in Computer Science/related discipline.`,

@@ -472,7 +472,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
   const applyExtractedJobToForm = (data: ExtractedJobData) => {
     setTitle(cleanHtml(data.title));
-    setCompany(cleanHtml(data.company));
+    let finalCompany = cleanHtml(data.company || '');
+    if (finalCompany.toLowerCase() === 'globalhr' || finalCompany.toLowerCase() === 'rec_rtx_ext_gateway' || finalCompany.toLowerCase() === 'external') {
+      if ((data.applyUrl || '').toLowerCase().includes('rtx') || (data.title || '').toLowerCase().includes('rtx') || (data.description || '').toLowerCase().includes('raytheon') || (data.description || '').toLowerCase().includes('rtx')) {
+        finalCompany = 'RTX';
+      }
+    }
+    setCompany(finalCompany);
     if (data.companyLogo) setCompanyLogo(data.companyLogo);
     if (data.companyWebsite) setCompanyWebsite(data.companyWebsite);
     let extractedCity = data.city ? cleanCityString(cleanHtml(data.city)) : '';
@@ -562,7 +568,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setSalaryMax(fallbackBench.max);
     }
 
-    setDescription(cleanHtml(data.description));
+    const sanitizedDesc = cleanHtml(data.description || '')
+      .replace(/\bGlobalhr\b/g, finalCompany)
+      .replace(/\brec_rtx_ext_gateway\b/gi, finalCompany);
+    setDescription(sanitizedDesc);
     setResponsibilitiesText(data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '')).join('\n'));
     setQualificationsText(data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '')).join('\n'));
     setSkillsText(data.skills.map((s) => cleanHtml(s)).join(', '));

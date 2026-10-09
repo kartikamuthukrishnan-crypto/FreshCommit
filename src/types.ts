@@ -8,6 +8,11 @@ export interface SalaryRange {
   max: number;
   currency: string;
   unit: 'YEAR' | 'MONTH' | 'HOUR';
+  percentile25?: number;
+  percentile50?: number;
+  percentile75?: number;
+  tierLabel?: string;
+  roleLabel?: string;
 }
 
 export interface JobPosting {

@@ -404,7 +404,25 @@ export function generateLeadEngineerTake(job: {
  */
 export function cleanLocationString(loc: string): string {
   if (!loc) return '';
-  return loc
+  let str = loc.trim();
+  const formatCity = (c: string) =>
+    c.toLowerCase().replace(/\b[a-z]/g, (l) => l.toUpperCase()).replace(/\bmc([a-z])/i, (_, l) => 'Mc' + l.toUpperCase());
+
+  // Workday US pattern: US-TX-MCKINNEY-... or US-AZ-TUCSON-...
+  const wdUsMatch = str.match(/^US[-_]([a-zA-Z]{2})[-_]([a-zA-Z\s]+?)(?:[-_]\d+.*)?$/i);
+  if (wdUsMatch) {
+    const state = wdUsMatch[1].toUpperCase();
+    const city = formatCity(wdUsMatch[2].replace(/[-_]+/g, ' ').trim());
+    return `${city}, ${state}`;
+  }
+  // Workday State - City pattern: TX---Austin---Park-Centre or TX - Austin - Park Centre
+  const wdStateCityMatch = str.match(/^([a-zA-Z]{2})[-_\s]+([a-zA-Z\s]+?)(?:[-_\s]+(?:Park|Centre|Center|Site|Building|BLDG|HQ|Campus|Office|Floor|Main).*|\s*)$/i);
+  if (wdStateCityMatch) {
+    const state = wdStateCityMatch[1].toUpperCase();
+    const city = formatCity(wdStateCityMatch[2].replace(/[-_]+/g, ' ').trim());
+    return `${city}, ${state}`;
+  }
+  return str
     .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in|position\s+is\s+based\s+in)\s+/i, '')
     .replace(/^s\s+office\s+is\s+located\s+in\s+/i, '')
     .replace(/\s+/g, ' ')
@@ -417,11 +435,26 @@ export function cleanLocationString(loc: string): string {
  */
 export function cleanCityString(city: string): string {
   if (!city) return '';
-  const cleaned = cleanLocationString(city)
+  let str = city.trim();
+  const formatCity = (c: string) =>
+    c.toLowerCase().replace(/\b[a-z]/g, (l) => l.toUpperCase()).replace(/\bmc([a-z])/i, (_, l) => 'Mc' + l.toUpperCase());
+
+  const wdUsMatch = str.match(/^US[-_]([a-zA-Z]{2})[-_]([a-zA-Z\s]+?)(?:[-_]\d+.*)?$/i);
+  if (wdUsMatch) {
+    const raw = wdUsMatch[2].replace(/[-_]+/g, ' ').trim();
+    return formatCity(raw);
+  }
+  const wdStateCityMatch = str.match(/^([a-zA-Z]{2})[-_\s]+([a-zA-Z\s]+?)(?:[-_\s]+(?:Park|Centre|Center|Site|Building|BLDG|HQ|Campus|Office|Floor|Main).*|\s*)$/i);
+  if (wdStateCityMatch) {
+    const raw = wdStateCityMatch[2].replace(/[-_]+/g, ' ').trim();
+    return formatCity(raw);
+  }
+  const cleaned = cleanLocationString(str)
     .replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '')
     .replace(/^(?:office|headquarters|location)\s+in\s+/i, '')
+    .replace(/,\s*[A-Z]{2}$/, '')
     .trim();
-  return cleaned || city.trim();
+  return formatCity(cleaned || str.trim());
 }
 
 /**
