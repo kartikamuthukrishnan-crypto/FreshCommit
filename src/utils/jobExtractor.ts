@@ -324,6 +324,12 @@ const KNOWN_COMPANIES: Record<string, { name: string; website: string; logo?: st
     website: 'https://careers.l3harris.com',
     logo: 'https://www.google.com/s2/favicons?sz=128&domain=l3harris.com',
     defaultLocation: 'Melbourne, FL'
+  },
+  'microchip.com': {
+    name: 'Microchip Technology',
+    website: 'https://www.microchip.com/careers',
+    logo: 'https://www.google.com/s2/favicons?sz=128&domain=microchip.com',
+    defaultLocation: 'Austin, TX / Hybrid'
   }
 };
 
@@ -401,6 +407,8 @@ export function detectSkills(text: string): string[] {
   const commonSkills = [
     'FPGA', 'Verilog', 'SystemVerilog', 'VHDL', 'Digital Logic', 'Hardware Design', 'Circuit Design',
     'Embedded Systems', 'Firmware', 'C', 'C++', 'Microcontrollers', 'RTOS', 'PCB Design', 'LabVIEW', 'MATLAB',
+    'Semiconductors', 'Automated Test Equipment', 'ATE', 'Oscilloscopes', 'Test Engineering', 'Product Engineering',
+    'Hardware Debugging', 'Scripting', 'Statistics', 'Electrical Engineering', 'Computer Engineering', 'RF',
     'JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin',
     'React', 'Next.js', 'Vue', 'Angular', 'Node.js', 'Express', 'Django', 'Flask', 'Spring Boot', 'FastAPI',
     'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Linux', 'SQL', 'PostgreSQL', 'MySQL', 'MongoDB',
@@ -419,6 +427,20 @@ export function detectSkills(text: string): string[] {
     if (skill === 'C#') {
       if (/(?:^|\W)c#(?:\W|$)/i.test(text)) {
         found.push('C#');
+      }
+      continue;
+    }
+    if (skill === 'ATE') {
+      if (/\b(?:ate|automated test equipment|ic automated test)\b/i.test(lower)) {
+        if (!found.includes('Automated Test Equipment')) {
+          found.push('Automated Test Equipment');
+        }
+      }
+      continue;
+    }
+    if (skill === 'Scripting') {
+      if (/\b(?:scripting|program scripts|scripts)\b/i.test(lower)) {
+        found.push('Scripting');
       }
       continue;
     }
@@ -445,7 +467,7 @@ export function detectAtsProviderFromUrl(rawUrl: string): string {
     if (host.includes('microsoft.com') && (path.includes('job') || host.includes('careers'))) return 'Microsoft Careers';
     if (host.includes('apple.com') && (path.includes('job') || host.includes('jobs'))) return 'Apple Jobs';
     if (host.includes('metacareers.com') || (host.includes('facebook.com') && path.includes('careers'))) return 'Meta Careers';
-    if (host.includes('myworkdayjobs.com')) return 'Workday';
+    if (host.includes('myworkdayjobs.com') || host.includes('myworkdaysite.com') || host.includes('workday')) return 'Workday';
     if (host.includes('smartrecruiters.com')) return 'SmartRecruiters';
     if (host.includes('greenhouse.io')) return 'Greenhouse';
     if (host.includes('lever.co')) return 'Lever';
@@ -552,25 +574,34 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     }
   }
 
-  // 3. ATS Subdomains or path segments
-  if (host.includes('myworkdayjobs.com')) {
+  // 3. Workday ATS Subdomains or path segments (supports myworkdayjobs.com and myworkdaysite.com)
+  if (host.includes('myworkdayjobs.com') || host.includes('myworkdaysite.com')) {
     const sub = host.split('.')[0];
     let compKey = sub.toLowerCase();
-    const siteMatch = path.match(/^\/(?:[a-zA-Z-]{2,5}\/)?([a-zA-Z0-9_-]+)/);
-    const siteSlug = siteMatch ? siteMatch[1].toLowerCase() : '';
 
-    if (compKey === 'globalhr' || compKey === 'external' || compKey === 'myworkday' || compKey === 'recruiting' || compKey.startsWith('wd')) {
-      if (siteSlug.includes('rtx') || siteSlug.includes('raytheon')) {
-        compKey = 'rtx';
-      } else if (siteSlug.includes('boeing')) {
-        compKey = 'boeing';
-      } else if (siteSlug.includes('lockheed')) {
-        compKey = 'lockheedmartin';
-      } else if (siteSlug.includes('northrop')) {
-        compKey = 'northropgrumman';
-      } else {
-        const cleanedSite = siteSlug.replace(/^(?:rec_|ext_|external_|careers_)/, '').replace(/(?:_ext|_gateway|_jobs|_careers)$/, '');
-        if (cleanedSite.length > 2) compKey = cleanedSite;
+    // In myworkdaysite.com (e.g. wd5.myworkdaysite.com/recruiting/microchiphr/External/...)
+    const siteRecruitingMatch = path.match(/^\/recruiting\/([a-zA-Z0-9_-]+)/i);
+    if (siteRecruitingMatch) {
+      compKey = siteRecruitingMatch[1].toLowerCase().replace(/(?:hr|jobs|careers)$/i, '');
+    } else {
+      const siteMatch = path.match(/^\/(?:[a-zA-Z-]{2,5}\/)?([a-zA-Z0-9_-]+)/);
+      const siteSlug = siteMatch ? siteMatch[1].toLowerCase() : '';
+
+      if (compKey === 'globalhr' || compKey === 'external' || compKey === 'myworkday' || compKey === 'recruiting' || compKey.startsWith('wd')) {
+        if (siteSlug.includes('rtx') || siteSlug.includes('raytheon')) {
+          compKey = 'rtx';
+        } else if (siteSlug.includes('boeing')) {
+          compKey = 'boeing';
+        } else if (siteSlug.includes('lockheed')) {
+          compKey = 'lockheedmartin';
+        } else if (siteSlug.includes('northrop')) {
+          compKey = 'northropgrumman';
+        } else if (siteSlug.includes('microchip')) {
+          compKey = 'microchip';
+        } else {
+          const cleanedSite = siteSlug.replace(/^(?:rec_|ext_|external_|careers_)/, '').replace(/(?:_ext|_gateway|_jobs|_careers)$/, '');
+          if (cleanedSite.length > 2) compKey = cleanedSite;
+        }
       }
     }
 
@@ -1706,7 +1737,7 @@ export function parseJobSections(
     if (
       /^(?:job title|job summary|role summary|position summary|title)[:\s]*$/i.test(low) ||
       low === titleLow ||
-      (candidate.endsWith(':') && candidate.length < 40)
+      (candidate.endsWith(':') && (candidate.length < 90 || /you will|responsibilities include|duties include|include the following|looking for/i.test(candidate)))
     ) {
       continue;
     }
@@ -2078,21 +2109,45 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
   }
 
   // 1. WORKDAY DIRECT CXS API
-  // e.g. https://autodesk.wd1.myworkdayjobs.com/Ext/job/Boston-MA-USA/PhD-Researcher--Multimodal-AI-for-Human-Experience_26WD101433-1
-  const wdMatch = fullUrl.match(/https:\/\/([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)\.myworkdayjobs\.com\/(?:[a-zA-Z-]{2,5}\/)?([^/]+)\/job\/([^/]+)\/([^/?#]+)/i);
-  if (wdMatch) {
-    const [, sub, dc, site, locSeg, slug] = wdMatch;
-    const apiUrl = `https://${sub}.${dc}.myworkdayjobs.com/wday/cxs/${sub}/${site}/job/${locSeg}/${slug}`;
+  // Supports both *.myworkdayjobs.com and *.myworkdaysite.com architectures
+  let wdApiUrl = '';
+  let wdSub = '';
+  let wdSite = '';
+  let wdLocSeg = '';
+  let wdSlug = '';
+
+  const wdSiteMatch = fullUrl.match(/https:\/\/([a-zA-Z0-9_-]+)\.myworkdaysite\.com\/(?:[a-zA-Z-]{2,5}\/)?recruiting\/([a-zA-Z0-9_-]+)\/([^/]+)\/job\/([^/]+)\/([^/?#]+)/i);
+  const wdJobsMatch = fullUrl.match(/https:\/\/([a-zA-Z0-9_-]+)(?:\.([a-zA-Z0-9_-]+))?\.myworkdayjobs\.com\/(?:[a-zA-Z-]{2,5}\/)?([^/]+)\/job\/([^/]+)\/([^/?#]+)/i);
+
+  if (wdSiteMatch) {
+    const [, dc, sub, site, locSeg, slug] = wdSiteMatch;
+    wdSub = sub;
+    wdSite = site;
+    wdLocSeg = locSeg;
+    wdSlug = slug;
+    wdApiUrl = `https://${dc}.myworkdaysite.com/wday/cxs/${sub}/${site}/job/${locSeg}/${slug}`;
+  } else if (wdJobsMatch) {
+    const [, sub, dc, site, locSeg, slug] = wdJobsMatch;
+    wdSub = sub;
+    wdSite = site;
+    wdLocSeg = locSeg;
+    wdSlug = slug;
+    wdApiUrl = dc 
+      ? `https://${sub}.${dc}.myworkdayjobs.com/wday/cxs/${sub}/${site}/job/${locSeg}/${slug}`
+      : `https://${sub}.myworkdayjobs.com/wday/cxs/${sub}/${site}/job/${locSeg}/${slug}`;
+  }
+
+  if (wdApiUrl) {
     try {
-      const data = await fetchResourceWithProxy(apiUrl, true);
+      const data = await fetchResourceWithProxy(wdApiUrl, true);
       if (data && data.jobPostingInfo) {
         const post = data.jobPostingInfo || {};
-        const title = post.title || formatSlugToJobTitle(slug);
+        const title = post.title || formatSlugToJobTitle(wdSlug);
         const jobDescHtml = post.jobDescription || '';
         const descText = cleanHtml(jobDescHtml);
 
-        let compKey = sub.toLowerCase();
-        const siteSlug = (site || '').toLowerCase();
+        let compKey = wdSub.toLowerCase().replace(/(?:hr|jobs|careers)$/i, '');
+        const siteSlug = (wdSite || '').toLowerCase();
         if (compKey === 'globalhr' || compKey === 'external' || compKey === 'myworkday' || compKey === 'recruiting' || compKey.startsWith('wd')) {
           if (siteSlug.includes('rtx') || siteSlug.includes('raytheon') || descText.includes('Raytheon') || descText.includes('RTX')) {
             compKey = 'rtx';
@@ -2102,10 +2157,16 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
             compKey = 'lockheedmartin';
           } else if (siteSlug.includes('northrop') || descText.includes('Northrop Grumman')) {
             compKey = 'northropgrumman';
+          } else if (siteSlug.includes('microchip') || descText.includes('Microchip')) {
+            compKey = 'microchip';
           } else {
             const cleanedSite = siteSlug.replace(/^(?:rec_|ext_|external_|careers_)/, '').replace(/(?:_ext|_gateway|_jobs|_careers)$/, '');
             if (cleanedSite.length > 2) compKey = cleanedSite;
           }
+        }
+
+        if (descText.includes('Microchip Technology') || descText.includes('Microchip Inc')) {
+          compKey = 'microchip';
         }
 
         let knownComp = KNOWN_COMPANIES[`${compKey}.com`];
@@ -2115,12 +2176,16 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
             company = 'RTX';
             compKey = 'rtx';
             knownComp = KNOWN_COMPANIES['rtx.com'];
+          } else if (descText.includes('Microchip Technology') || descText.includes('Microchip')) {
+            company = 'Microchip Technology';
+            compKey = 'microchip';
+            knownComp = KNOWN_COMPANIES['microchip.com'];
           } else {
             company = compKey.charAt(0).toUpperCase() + compKey.slice(1);
           }
         }
 
-        const rawLoc = post.location || locSeg.replace(/[-_]+/g, ' ');
+        const rawLoc = post.location || wdLocSeg.replace(/[-_]+/g, ' ');
         const locDetails = resolveLocationDetails(rawLoc);
         const parsed = parseJobSections(jobDescHtml, title, company);
         const skills = detectSkills(`${title} ${descText}`);
