@@ -9,7 +9,8 @@ import {
   generateCandidatePreparationChecklist,
   cleanLocationString,
   humanizeChecklistItems,
-  generateRound1InterviewDrill
+  generateRound1InterviewDrill,
+  generateCompliantJobSummary
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark } from '../utils/jobExtractor';
 import { resolveCompanyLogo } from '../utils/logoHelper';
@@ -167,37 +168,6 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     : 'Apply on Company Site';
 
   // Extract curated editorial insights if present or synthesize dynamically
-  // Helper to isolate clean introductory role overview paragraphs
-  const extractCleanRoleOverview = (rawDesc: string, titleStr: string, compStr: string): string => {
-    if (!rawDesc) return `${compStr} is seeking an enthusiastic ${titleStr} to join their engineering team.`;
-    let text = rawDesc;
-    if (text.includes('🏢 Role Overview:')) {
-      text = text.split('🏢 Role Overview:')[1]?.trim() || text;
-    }
-
-    // Strip leading pasted metadata: location, posted date, requisition IDs, "Job Description" label
-    text = text.replace(/^[A-Za-z\s,.-]+,\s*[A-Z]{2}\b\s*/i, '');
-    text = text.replace(/^posted\s+(?:yesterday|today|\d+\s+days?\s+ago)\b\s*/gi, '');
-    text = text.replace(/^job\s+requisition\s+id\s*(?::|[0-9a-z_-]+)?\s*/gi, '');
-    text = text.replace(/^job\s+description\s*/gi, '');
-    text = text.trim();
-
-    // Isolate overview text before any embedded responsibilities or qualifications headings
-    const cutOffRegex = /(?:\n\s*(?:position\s+responsibilities|key\s+responsibilities|core\s+responsibilities|responsibilities|what\s+you(?:'ll| will)\s+do|position\s+qualifications|basic\s+qualifications|qualifications|requirements)\b[\s:]*)/i;
-    const cutIdx = text.search(cutOffRegex);
-    if (cutIdx > 60) {
-      text = text.substring(0, cutIdx).trim();
-    }
-
-    return cleanHtml(text)
-      .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${titleStr}`)
-      .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${titleStr}`)
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
-      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
-      .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, 'Candidates will collaborate closely with experienced technical mentors, contributing directly to live production systems.')
-      .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.') || `${compStr} is seeking an enthusiastic ${titleStr} to join their team.`;
-  };
 
   // Extract curated editorial insights if present or synthesize dynamically
   const edgeData = (() => {
@@ -214,12 +184,11 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         hasEdge: true,
         careerTake: dynamicTake,
         checklistItems: dynamicChecklist,
-        roleOverview: extractCleanRoleOverview(job.description, job.title, job.company)
+        roleOverview: generateCompliantJobSummary(job)
       };
     }
     const parts = job.description.split('🏢 Role Overview:');
     const edgeContent = parts[0] || '';
-    const rawRoleOverview = parts[1]?.trim() || '';
 
     const takeMatch = edgeContent.match(/🎯 The FreshCommits Career Take:\s*([\s\S]*?)(?=💡 Candidate Preparation Checklist:|$)/i);
     const checklistMatch = edgeContent.match(/💡 Candidate Preparation Checklist:\s*([\s\S]*?)$/i);
@@ -235,7 +204,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       : [];
 
     const checklistItems = humanizeChecklistItems(rawChecklistItems, job);
-    const cleanRoleOverview = extractCleanRoleOverview(rawRoleOverview || job.description, job.title, job.company);
+    const cleanRoleOverview = generateCompliantJobSummary(job);
 
     return {
       hasEdge: true,

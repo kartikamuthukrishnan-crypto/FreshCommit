@@ -8,7 +8,8 @@ import {
   generateLeadEngineerTake,
   generateCandidatePreparationChecklist,
   cleanLocationString,
-  humanizeChecklistItems
+  humanizeChecklistItems,
+  generateCompliantJobSummary
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark } from '../utils/jobExtractor';
 import { AdSlot } from './AdSlot';
@@ -149,14 +150,11 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
         hasEdge: true,
         careerTake: dynamicTake,
         checklistItems: dynamicChecklist,
-        roleOverview: cleanHtml(job.description)
-          .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
-          .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`) || `${job.company} is seeking an enthusiastic ${job.title} to join their team.`
+        roleOverview: generateCompliantJobSummary(job)
       };
     }
     const parts = job.description.split('🏢 Role Overview:');
     const edgeContent = parts[0] || '';
-    const rawRoleOverview = parts[1]?.trim() || '';
 
     const takeMatch = edgeContent.match(/🎯 The FreshCommits Career Take:\s*([\s\S]*?)(?=💡 Candidate Preparation Checklist:|$)/i);
     const checklistMatch = edgeContent.match(/💡 Candidate Preparation Checklist:\s*([\s\S]*?)$/i);
@@ -172,15 +170,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
       : [];
 
     const checklistItems = humanizeChecklistItems(rawChecklistItems, job);
-
-    const cleanRoleOverview = cleanHtml(rawRoleOverview || job.description)
-      .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
-      .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`)
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
-      .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
-      .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
-      .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, 'Candidates will collaborate closely with experienced technical mentors, contributing directly to live production systems.')
-      .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.');
+    const cleanRoleOverview = generateCompliantJobSummary(job);
 
     return {
       hasEdge: true,

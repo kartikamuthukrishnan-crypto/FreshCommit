@@ -751,3 +751,138 @@ export function generateRound1InterviewDrill(job: {
   };
 }
 
+/**
+ * AdSense & Google Search Policy Compliant 1st Paragraph Summarizer:
+ * Generates an authoritative, 75–100 word editorial job summary (Role Overview)
+ * satisfying Google Search Quality Rater Guidelines (E-E-A-T) and AdSense Helpful Content standards.
+ *
+ * Architecture (4-Sentence Formula):
+ * 1. Role & Location Anchor: Employer, exact title, workplace model.
+ * 2. Core Technical Scope: Concrete tech stack and primary engineering systems.
+ * 3. Mentorship & Production Code: Mentorship by senior engineers & code reviews.
+ * 4. High-Value Career Impact: Practical impact on live systems and engineering growth.
+ */
+export function generateCompliantJobSummary(job: {
+  id?: string;
+  title: string;
+  company: string;
+  location?: string;
+  isRemote?: boolean;
+  category?: JobCategory | string;
+  skills?: string[];
+  description?: string;
+  responsibilities?: string[];
+  qualifications?: string[];
+  experienceLevel?: string;
+}): string {
+  let raw = job.description || '';
+  if (raw.includes('🏢 Role Overview:')) {
+    raw = raw.split('🏢 Role Overview:')[1]?.trim() || raw;
+  }
+
+  // 1. Strip leading scraped metadata: location tag, posted date, requisition IDs, headers
+  raw = raw.replace(/^[A-Za-z\s,.-]+,\s*[A-Z]{2}\b\s*/i, '');
+  raw = raw.replace(/^posted\s+(?:yesterday|today|\d+\s+days?\s+ago)\b\s*/gi, '');
+  raw = raw.replace(/^job\s+requisition\s+id\s*(?::|[0-9a-z_-]+)?\s*/gi, '');
+  raw = raw.replace(/^job\s+description\s*[:\s]*/gi, '');
+  raw = raw.replace(/^position\s+summary\s*[:\s]*/gi, '');
+  raw = raw.replace(/^about\s+(?:the\s+role|the\s+position|the\s+job|us|our\s+team|the\s+company)\s*[:\s]*/gi, '');
+  raw = raw.trim();
+
+  // 2. Cut off before embedded responsibilities, qualifications, or legal sections
+  const cutOffRegex = /(?:\n\s*(?:position\s+responsibilities|key\s+responsibilities|core\s+responsibilities|responsibilities|what\s+you(?:'ll| will)\s+do|position\s+qualifications|basic\s+qualifications|qualifications|requirements|what\s+we\s+look\s+for|what\s+you(?:'ll| will)\s+bring|equal\s+opportunity|benefits)\b[\s:]*)/i;
+  const cutIdx = raw.search(cutOffRegex);
+  if (cutIdx > 40) {
+    raw = raw.substring(0, cutIdx).trim();
+  }
+
+  // 3. Clean markup & common scraping artifacts
+  let cleaned = raw
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
+    .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`)
+    .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
+    .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
+    .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
+    .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, '')
+    .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const rawWordCount = cleaned ? cleaned.split(/\s+/).filter(Boolean).length : 0;
+  const hasJobDescText = !cleaned.toLowerCase().includes('apply directly for') && !cleaned.toLowerCase().includes('apply on company site');
+
+  // Case A: Authentic employer overview is already substantive (55–105 words)
+  if (hasJobDescText && rawWordCount >= 55 && rawWordCount <= 105) {
+    if (!/[.!?]$/.test(cleaned)) cleaned += '.';
+    return cleaned;
+  }
+
+  // Case B: Authentic employer overview is lengthy (> 105 words): extract first 2-3 coherent sentences
+  if (hasJobDescText && rawWordCount > 105) {
+    const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [];
+    let excerpt = '';
+    for (const sentence of sentences) {
+      const candidate = excerpt ? `${excerpt} ${sentence.trim()}` : sentence.trim();
+      const count = candidate.split(/\s+/).filter(Boolean).length;
+      if (count <= 100) {
+        excerpt = candidate;
+      } else {
+        break;
+      }
+    }
+    if (excerpt && excerpt.split(/\s+/).filter(Boolean).length >= 50) {
+      return excerpt;
+    }
+  }
+
+  // Case C: Thin (< 50 words), missing, or boilerplate overview: synthesize the 4-sentence Google E-E-A-T summary
+  const title = stripSeniorityFromTitle(job.title) || job.title;
+  const company = job.company || 'The employer';
+  const cleanLoc = cleanLocationString(job.location || (job.isRemote ? 'Remote (US & Global)' : 'Primary Engineering Hub'));
+  const workModel = job.isRemote
+    ? '100% Remote Opportunity'
+    : cleanLoc.toLowerCase().includes('hybrid')
+    ? 'Hybrid Work Model'
+    : 'On-Site Team Collaboration';
+
+  const archetype = inferRoleArchetype(job.title, job.category, job.skills);
+  const skillsList = job.skills && job.skills.length > 0
+    ? job.skills.slice(0, 3).join(', ')
+    : 'modern engineering tools and version control';
+
+  // Sentence 1: Role & Location Anchor
+  const s1 = `${company} is welcoming an early-career ${title} to join their technical team in ${cleanLoc} (${workModel}).`;
+
+  // Sentence 2: Core Technical Scope & Systems
+  let s2 = `In this role, you will work hands-on with ${skillsList} to engineer modular features, optimize production workflows, and resolve practical technical challenges.`;
+  if (archetype === 'frontend') {
+    s2 = `In this role, you will work hands-on with ${skillsList} to build responsive user interfaces, manage client-side state lifecycles, and deliver accessible web experiences.`;
+  } else if (archetype === 'backend_cloud') {
+    s2 = `In this role, you will work hands-on with ${skillsList} to design resilient API endpoints, optimize database queries, and scale reliable backend services.`;
+  } else if (archetype === 'data_sql') {
+    s2 = `In this role, you will work hands-on with ${skillsList} to develop reliable data pipelines, analyze core analytical datasets, and support data-driven decision workflows.`;
+  } else if (archetype === 'hardware_embedded') {
+    s2 = `In this role, you will work hands-on with ${skillsList} to develop and test embedded firmware, validate hardware controllers, and debug system-level signals.`;
+  } else if (archetype === 'qa_testing') {
+    s2 = `In this role, you will work hands-on with ${skillsList} to write robust automated test suites, uncover regression edge cases, and maintain high deployment confidence.`;
+  } else if (archetype === 'design_uiux') {
+    s2 = `In this role, you will work hands-on with ${skillsList} to translate user research into intuitive design prototypes, maintain reusable component systems, and conduct usability tests.`;
+  } else if (archetype === 'solutions_systems') {
+    s2 = `In this role, you will work hands-on with ${skillsList} to diagnose elusive software bugs, streamline client system integrations, and document reproducible technical solutions.`;
+  }
+
+  // Sentence 3: Mentorship & Engineering Standards
+  const s3 = `You will collaborate closely with experienced senior engineers and cross-functional teammates, receiving structured technical mentorship while taking ownership of production-grade code.`;
+
+  // Sentence 4: High-Value Career Impact
+  const s4 = `This position provides an accelerated launchpad for emerging technologists to refine their software craftsmanship, participate in peer code reviews, and deliver tangible commercial impact.`;
+
+  return `${s1} ${s2} ${s3} ${s4}`;
+}
+
+
