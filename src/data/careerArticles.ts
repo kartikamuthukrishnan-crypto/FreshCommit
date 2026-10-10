@@ -40,8 +40,10 @@ import { APPLICATION_AND_OUTREACH_ARTICLES } from './articles/applicationAndOutr
 import { SPECIALIZED_AND_WORKPLACE_ARTICLES } from './articles/specializedAndWorkplace';
 import { EXPANDED_FLAGSHIP_ARTICLES } from './articles/expandedFlagshipArticles';
 import { TECHNICAL_MASTERY_ARTICLES } from './articles/technicalMasteryArticles';
+import { US_SEARCH_DOMINANCE_ARTICLES } from './articles/usSearchDominanceArticles';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
+  ...US_SEARCH_DOMINANCE_ARTICLES,
   ...EXPANDED_FLAGSHIP_ARTICLES,
   ...TECHNICAL_MASTERY_ARTICLES,
   ...PATHWAYS_AND_INTERVIEW_ARTICLES,
