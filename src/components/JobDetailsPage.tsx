@@ -1003,7 +1003,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                       </h3>
                     </div>
                     <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-200">
-                      E-E-A-T Verified
+                      Peer-Reviewed &amp; Verified
                     </span>
                   </div>
 

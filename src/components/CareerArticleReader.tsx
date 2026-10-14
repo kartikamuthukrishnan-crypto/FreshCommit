@@ -71,7 +71,7 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
     }
 
     // Google E-E-A-T Article Schema.org structured data injection
-    const schemaScriptId = 'google-article-eeat-schema';
+    const schemaScriptId = 'career-article-schema';
     let schemaScript = document.getElementById(schemaScriptId) as HTMLScriptElement | null;
     if (!schemaScript) {
       schemaScript = document.createElement('script');
@@ -272,13 +272,13 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
         </div>
       </header>
 
-      {/* Mandatory Editorial & Google E-E-A-T Disclosure */}
+      {/* Editorial & Verification Standards Disclosure */}
       <div className="my-6 p-4 bg-slate-50/90 border border-slate-200/90 rounded-2xl flex items-start gap-3 shadow-2xs">
         <ShieldCheck className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
         <div className="text-xs text-slate-600 leading-relaxed">
           <div className="flex items-center gap-2 mb-0.5">
             <strong className="text-slate-900 font-bold">
-              Google E-E-A-T &amp; Editorial Verification Standards
+              Editorial Review &amp; Verification Standards
             </strong>
             <span className="text-[10px] font-mono bg-slate-200/80 text-slate-700 px-1.5 py-0.2 rounded font-semibold">
               Human-Authored
@@ -419,7 +419,7 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
         ))}
       </div>
 
-      {/* Google E-E-A-T Author Entity & Fact-Checking Verification Box */}
+      {/* Verified Author Entity & Fact-Checking Verification Box */}
       <section className="my-12 p-6 sm:p-8 bg-gradient-to-br from-white to-slate-50 rounded-2xl border-2 border-slate-200/90 shadow-sm space-y-6">
         <div className="flex items-center justify-between border-b border-slate-200/80 pb-4 flex-wrap gap-2">
           <div className="flex items-center gap-2">
@@ -428,10 +428,10 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
             </span>
             <div>
               <span className="text-xs font-extrabold uppercase tracking-wider text-slate-900 block">
-                Google E-E-A-T Verified Author Entity
+                Verified Author &amp; Editorial Contributor
               </span>
               <span className="text-[11px] text-slate-500 font-medium">
-                Experience &bull; Expertise &bull; Authoritativeness &bull; Trustworthiness
+                Subject Matter Expertise &bull; Practitioner Verified &bull; Fact-Checked
               </span>
             </div>
           </div>

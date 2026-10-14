@@ -1000,7 +1000,7 @@ export const CareerInsightsView: React.FC<CareerInsightsViewProps> = ({
                   {art.summary}
                 </p>
 
-                {/* Author Byline for Google E-E-A-T Transparency */}
+                {/* Author Byline & Verification Transparency */}
                 <div className="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-[11px]">
                   <div className="flex items-center gap-2 min-w-0">
                     <div className={`w-6 h-6 rounded-full ${art.author.avatarBg || 'bg-slate-800'} text-white font-bold text-[10px] flex items-center justify-center flex-shrink-0 shadow-2xs`}>
@@ -1013,7 +1013,7 @@ export const CareerInsightsView: React.FC<CareerInsightsViewProps> = ({
                     </div>
                   </div>
                   <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 shrink-0">
-                    E-E-A-T Verified
+                    Peer-Reviewed
                   </span>
                 </div>
 

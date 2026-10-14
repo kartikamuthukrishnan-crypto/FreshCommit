@@ -101,7 +101,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
         </div>
       </div>
 
-      {/* Editorial Team & Technical Governance - Google E-E-A-T Verified */}
+      {/* Editorial Team & Technical Governance */}
       <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-3 border-b border-slate-100 pb-4">
           <div>
@@ -116,7 +116,7 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-md font-bold flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              Google E-E-A-T Verified
+              Editorial Board Verified
             </span>
           </div>
         </div>
@@ -234,12 +234,12 @@ export const AboutUsView: React.FC<{ onNavigateContact: () => void }> = ({ onNav
           </div>
         </div>
 
-        {/* E-E-A-T Framework Guarantee */}
+        {/* Editorial Standards & Quality Framework */}
         <div className="p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-xl flex items-start gap-3">
           <ShieldCheck className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
           <div className="text-xs text-slate-700 leading-relaxed">
             <strong className="text-slate-900 block mb-0.5 font-bold">
-              Our Google E-E-A-T Entity Commitment (Experience, Expertise, Authoritativeness, and Trustworthiness)
+              Our Editorial Quality &amp; Transparency Commitment
             </strong>
             <span>
               Every article and resource published on FreshCommits undergoes multi-person review. First drafts are authored by experienced technical practitioners, peer-reviewed for factual accuracy, cross-referenced with live Applicant Tracking Systems, and indexed with structured Schema.org entity metadata. We never publish auto-generated, unverified content.
