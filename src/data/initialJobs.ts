@@ -967,7 +967,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 1,
     "city": "San Diego",
     "postalCode": "92101",
-    "description": "Use educational background, experience and reasoning skills to plan, collect and analyze data/information and communicate the process and the results for assigned tasks.\n\nUse tenacity, patience, self-discipline and passion for excellence to responsibly make and keep made commitments.\n\nUse every opportunity to grow competency thru mentorship, curiosity, communication, exposure and initiative. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop modular code features participate in peer code reviews. Candidates should have strong fundamentals in use educational background, experience and reasoning skills to plan, collect and analyze data/information and communicate the process and the results for assigned tasks. use tenacity, patience, self-discipline and passion for excellence to responsibly make and keep made commitments..",
+    "description": "Use educational background, experience and reasoning skills to plan, collect and analyze data/information and communicate the process and the results for assigned tasks.\n\nUse tenacity, patience, self-discipline and passion for excellence to responsibly make and keep made commitments.\n\nUse every opportunity to grow competency thru mentorship, curiosity, communication, exposure and initiative.",
     "source": "MANUAL_ADMIN",
     "title": "Robotics Process Engineer 1",
     "salary": {
@@ -2241,7 +2241,7 @@ export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
     "maxYearsExperience": 1,
-    "description": "At Piedmont Healthcare, you’ll love a shared purpose, be motivated to be your best, and be recognized for your contributions. Piedmont Healthcare leaders are in your corner and invested in your success. Our wellness programs and comprehensive total benefits and rewards will meet your needs for today and help you plan for the future. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include responsible for developing dashboards and data solutions in conjunction with key piedmont healthcare initiatives. assists with the development and promotion of business intelligence functions within piedmont healthcare. maintains strict confidentiality with all patient, employee and company information. stays informed on new technologies and identifies opportunities to improve business intelligence processes. proactively seeks opportunities to increase usage of tableau among current end-users.. Candidates should have strong fundamentals in bachelor’s degree from a recognized college or university in business, finance, accounting, information technology, or closely-related field required work experience.",
+    "description": "At Piedmont Healthcare, you’ll love a shared purpose, be motivated to be your best, and be recognized for your contributions. Piedmont Healthcare leaders are in your corner and invested in your success. Our wellness programs and comprehensive total benefits and rewards will meet your needs for today and help you plan for the future.",
     "source": "MANUAL_ADMIN",
     "title": "BI Developer",
     "salary": {
@@ -7949,7 +7949,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 0,
     "city": "",
-    "description": "Engineering Intern - Airbag ECU at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
+    "description": "Engineering Intern - Airbag ECU at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
     "source": "SMARTRECRUITERS",
     "title": "Engineering Intern - Airbag ECU",
     "salary": {
@@ -8216,7 +8216,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "",
-    "description": "Junior Digital Verification Engineer at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
+    "description": "Junior Digital Verification Engineer at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
     "source": "SMARTRECRUITERS",
     "title": "Junior Digital Verification Engineer",
     "salary": {
@@ -8268,7 +8268,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Seattle",
-    "description": "Duolingo is looking for a Fresher / Early-Career Mobile Software Engineer to build engaging learning experiences for over 80 million monthly active language learners worldwide. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop interactive lesson exercises and gamified animations in swift and swiftui. collaborate with ui/ux designers and audio engineers to deliver delight in every screen interaction.. Candidates should have strong fundamentals in 0 to 1 year of ios development experience; fresh graduates with personal apps on the app store or github are encouraged! working knowledge of swift, swiftui, or uikit..",
+    "description": "Duolingo is looking for a Fresher / Early-Career Mobile Software Engineer to build engaging learning experiences for over 80 million monthly active language learners worldwide.",
     "source": "AUTOMATED_SYNC",
     "title": "Fresher Mobile Software Engineer (iOS / Swift)",
     "salary": {
@@ -8380,7 +8380,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Pune",
-    "description": "Junior R&D Engineer (GEN AI/ML) at Ubisoft. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
+    "description": "Junior R&D Engineer (GEN AI/ML) at Ubisoft. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
     "source": "SMARTRECRUITERS",
     "title": "Junior R&D Engineer (GEN AI/ML)",
     "salary": {
@@ -8432,7 +8432,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Remote",
-    "description": "GitLab is hiring an Entry-Level / Associate Quality Assurance Engineer to build end-to-end testing frameworks, regression pipelines, and performance benchmark suites for our DevOps platform. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include create and maintain automated test scripts using playwright and cypress. integrate test suites into gitlab ci/cd pipelines to prevent code regressions.. Candidates should have strong fundamentals in 0-2 years of software engineering or software testing experience. basic scripting proficiency in javascript, typescript, or ruby..",
+    "description": "GitLab is hiring an Entry-Level / Associate Quality Assurance Engineer to build end-to-end testing frameworks, regression pipelines, and performance benchmark suites for our DevOps platform.",
     "source": "AUTOMATED_SYNC",
     "title": "Associate QA & Test Automation Engineer",
     "salary": {
@@ -8487,7 +8487,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Austin",
-    "description": "Cloudflare is seeking a Junior Cloud Infrastructure Engineer to join our global edge network engineering team. In this role, you will help monitor, automate, and expand our edge server clusters running across 300+ cities. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include write deployment scripts and system automation using go and python. assist in troubleshooting linux kernel network queues and bgp routing edge anomalies.. Candidates should have strong fundamentals in 0-1 year experience in software or systems engineering; recent grads welcome. fundamental understanding of linux systems, tcp/ip networking, and dns..",
+    "description": "Cloudflare is seeking a Junior Cloud Infrastructure Engineer to join our global edge network engineering team. In this role, you will help monitor, automate, and expand our edge server clusters running across 300+ cities.",
     "source": "AUTOMATED_SYNC",
     "title": "Junior Cloud Infrastructure Engineer",
     "salary": {
@@ -8543,7 +8543,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Figma is hiring University Graduate Software Engineers for our San Francisco office. You will work across the stack—from WebAssembly rendering engines and multiplayer WebSocket sync to collaborative web canvas interfaces. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include implement collaborative editor features used by millions of designers and product managers. optimize webgl and webassembly canvas rendering performance.. Candidates should have strong fundamentals in anticipated graduation between december 2024 and summer 2026 in computer science or related degree. sound knowledge of algorithms, systems programming, and modern web protocols..",
+    "description": "Figma is hiring University Graduate Software Engineers for our San Francisco office. You will work across the stack—from WebAssembly rendering engines and multiplayer WebSocket sync to collaborative web canvas interfaces.",
     "source": "AUTOMATED_SYNC",
     "title": "Software Engineer - University Graduate 2025/2026",
     "salary": {
@@ -8598,7 +8598,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": true,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Resend is building the modern email platform for developers. As a Product Engineer, you will own features end-to-end, from sleek Next.js interfaces and React Email templates to real-time analytics pipelines and developer APIs. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include ship polished, responsive user interfaces using next.js, tailwind css, and react email. implement performant backend routes and background queues for email delivery and webhook tracking.. Candidates should have strong fundamentals in experience building full-stack web applications with react, next.js, and typescript. strong visual sensibility and attention to detail in ui/ux implementation..",
+    "description": "Resend is building the modern email platform for developers. As a Product Engineer, you will own features end-to-end, from sleek Next.js interfaces and React Email templates to real-time analytics pipelines and developer APIs.",
     "source": "EMPLOYER_POST",
     "title": "Product Engineer",
     "salary": {
@@ -8653,7 +8653,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": true,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Join the team redefining software project management. Linear is built on local-first architecture, sub-50ms interaction latencies, and keyboard shortcuts. You will work on our synchronized TypeScript and SQLite client engine. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build realtime, offline-capable features using react, typescript, and local sqlite caching. optimize rendering pipelines and layout calculations for instant keyboard navigation.. Candidates should have strong fundamentals in proficiency in typescript, react, and browser performance profiling. curiosity for local-first architecture, sync protocols, and state management..",
+    "description": "Join the team redefining software project management. Linear is built on local-first architecture, sub-50ms interaction latencies, and keyboard shortcuts. You will work on our synchronized TypeScript and SQLite client engine.",
     "source": "EMPLOYER_POST",
     "title": "Fullstack Engineer - Product & Platform",
     "salary": {
@@ -8708,7 +8708,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Ho Chi Minh",
-    "description": "[EJV] Junior Telematics Software Engineer — Embedded Android at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include contribute to software engineering features, bug fixes, and system improvements. write clean, maintainable code with unit tests and peer code reviews.. Candidates should have strong fundamentals in 0–2 years of software engineering or coursework experience; entry level and fresh graduates welcome. core foundation in computer science, algorithms, and data structures..",
+    "description": "[EJV] Junior Telematics Software Engineer — Embedded Android at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
     "source": "SMARTRECRUITERS",
     "smartRecruitersId": "sr-744000150340229",
     "title": "[EJV] Junior Telematics Software Engineer — Embedded Android",
@@ -8760,7 +8760,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": true,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Help developers around the world build applications on Supabase, the open-source Firebase alternative. You will build open-source starter kits, write guides, create interactive demos, and assist the developer community on GitHub and Discord. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include create high-quality sample applications and templates using next.js, react, and supabase database. contribute to open-source client libraries and documentation for typescript, python, or go.. Candidates should have strong fundamentals in passion for open-source software, developer education, and clean code. familiarity with typescript, modern frontend frameworks (next.js, react), and sql basics..",
+    "description": "Help developers around the world build applications on Supabase, the open-source Firebase alternative. You will build open-source starter kits, write guides, create interactive demos, and assist the developer community on GitHub and Discord.",
     "source": "EMPLOYER_POST",
     "title": "Developer Relations Engineer",
     "salary": {
@@ -8815,7 +8815,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "New York",
-    "description": "Protect billions of dollars in corporate financial transactions. At Ramp, you will automate cloud security posture, build automated secret rotation tools, and harden AWS and Kubernetes production clusters. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include write infrastructure-as-code and automated security scans using terraform and python. monitor and respond to aws cloudtrail and container runtime anomalies.. Candidates should have strong fundamentals in knowledge of cloud fundamentals (aws, gcp, or azure) and networking principles. proficiency in python, go, or bash scripting for security automation..",
+    "description": "Protect billions of dollars in corporate financial transactions. At Ramp, you will automate cloud security posture, build automated secret rotation tools, and harden AWS and Kubernetes production clusters.",
     "source": "EMPLOYER_POST",
     "title": "Security Engineer, Cloud Infrastructure",
     "salary": {
@@ -8870,7 +8870,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": true,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Build the foundational APIs, SDKs, and webhook infrastructure that power Notion’s developer ecosystem. Tens of thousands of developers use Notion’s APIs to automate workflows, build AI integrations, and synchronize enterprise data. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include design, implement, and maintain public api endpoints and developer tooling in typescript and node.js. optimize api query performance, rate limiting, and caching layers with redis and postgresql.. Candidates should have strong fundamentals in solid programming skills in typescript, javascript, or python. understanding of database fundamentals, transactional consistency, and data modeling in sql..",
+    "description": "Build the foundational APIs, SDKs, and webhook infrastructure that power Notion’s developer ecosystem. Tens of thousands of developers use Notion’s APIs to automate workflows, build AI integrations, and synchronize enterprise data.",
     "source": "EMPLOYER_POST",
     "title": "Software Engineer, Developer Platform",
     "salary": {
@@ -8925,7 +8925,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": true,
     "maxYearsExperience": 1,
     "city": "New York",
-    "description": "Join DAIR (Datadog AI Research) to build the next generation of intelligent observability models. You will train models to automatically detect software regressions, diagnose distributed tracing anomalies, and generate incident remediation scripts. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include train, fine-tune, and evaluate deep learning and transformer models on telemetry time-series and log data. develop distributed training pipelines in pytorch running on gpu clusters.. Candidates should have strong fundamentals in proficiency in python and deep learning frameworks (pytorch, hugging face transformers). understanding of machine learning fundamentals: optimization, loss functions, tokenization, and attention..",
+    "description": "Join DAIR (Datadog AI Research) to build the next generation of intelligent observability models. You will train models to automatically detect software regressions, diagnose distributed tracing anomalies, and generate incident remediation scripts.",
     "source": "EMPLOYER_POST",
     "title": "AI Research Engineer - Datadog AI Research",
     "salary": {
@@ -8980,7 +8980,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Affirm is reinventing credit without hidden fees. As an Analytics Engineer, you will build verified data models, dbt transformation workflows, and underwriting metrics in Snowflake that guide lending decisions. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include design and deploy robust sql data models and transformations using dbt and snowflake. build automated data quality tests to ensure 100% reconciliation accuracy for merchant settlements.. Candidates should have strong fundamentals in advanced sql modeling skills and experience with modern data warehouses (snowflake, bigquery). familiarity with dbt, airflow, and python scripting for data automation..",
+    "description": "Affirm is reinventing credit without hidden fees. As an Analytics Engineer, you will build verified data models, dbt transformation workflows, and underwriting metrics in Snowflake that guide lending decisions.",
     "source": "EMPLOYER_POST",
     "title": "Analytics Engineer II - Financial Products",
     "salary": {
@@ -9035,7 +9035,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Help automate work for millions of businesses. You will build and scale backend subscription services, payment integrations, and usage metering systems across Zapier’s 100% distributed engineering organization. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop backend apis and asynchronous event processing workers in python and django. integrate third-party payment gateways and subscription management systems.. Candidates should have strong fundamentals in experience with python, django, or modern backend web frameworks. solid understanding of relational databases and sql queries..",
+    "description": "Help automate work for millions of businesses. You will build and scale backend subscription services, payment integrations, and usage metering systems across Zapier’s 100% distributed engineering organization.",
     "source": "EMPLOYER_POST",
     "title": "Backend Engineer, Commerce & Billing",
     "salary": {
@@ -9090,7 +9090,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 0,
     "city": "Helmond",
-    "description": "NYCU Internship Program - Field Application Engineer Intern at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
+    "description": "NYCU Internship Program - Field Application Engineer Intern at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
     "source": "SMARTRECRUITERS",
     "title": "NYCU Internship Program - Field Application Engineer Intern",
     "salary": {
@@ -9142,7 +9142,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Help businesses build visually stunning, production-ready web experiences. As a Solutions Engineer at Webflow, you will write custom JavaScript integrations, architect headless CMS pipelines, and troubleshoot frontend performance. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop custom client-side scripts, animations, and webhook integrations for enterprise webflow sites. advise technical leads on security, sso, cdn caching, and custom domain routing.. Candidates should have strong fundamentals in strong knowledge of html5, modern css (flexbox, grid), and vanilla javascript. experience interacting with rest apis, authentication protocols, and webhooks..",
+    "description": "Help businesses build visually stunning, production-ready web experiences. As a Solutions Engineer at Webflow, you will write custom JavaScript integrations, architect headless CMS pipelines, and troubleshoot frontend performance.",
     "source": "EMPLOYER_POST",
     "title": "Solutions Engineer - Web Platform",
     "salary": {
@@ -9197,7 +9197,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Gusto serves over 300,000 small businesses with payroll, benefits, and HR. As an Enterprise Application AI Engineer, you will build generative AI assistants that streamline payroll compliance and employee onboarding. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build ai-powered workflows using python, typescript, and modern llm orchestration frameworks. develop guardrails and testing pipelines to ensure high precision on financial calculations.. Candidates should have strong fundamentals in programming experience in python or ruby and modern javascript/typescript. understanding of llm tool-calling, embeddings, and prompt architecture..",
+    "description": "Gusto serves over 300,000 small businesses with payroll, benefits, and HR. As an Enterprise Application AI Engineer, you will build generative AI assistants that streamline payroll compliance and employee onboarding.",
     "source": "EMPLOYER_POST",
     "title": "Enterprise Application AI Engineer",
     "salary": {
@@ -9252,7 +9252,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Menlo Park",
-    "description": "Democratize finance for all. As an Android Engineer at Robinhood, you will build consumer-facing mobile features with Jetpack Compose, Kotlin coroutines, and real-time market data streams. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build smooth, responsive user interfaces in kotlin using jetpack compose and modern android architecture. integrate websocket streams for realtime ticker quotes and trade execution confirmations.. Candidates should have strong fundamentals in experience developing android applications in kotlin or java. familiarity with android jetpack, compose, viewmodel, and coroutines..",
+    "description": "Democratize finance for all. As an Android Engineer at Robinhood, you will build consumer-facing mobile features with Jetpack Compose, Kotlin coroutines, and real-time market data streams.",
     "source": "EMPLOYER_POST",
     "title": "Android Engineer, Mobile Products",
     "salary": {
@@ -9307,7 +9307,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": true,
     "maxYearsExperience": 1,
     "city": "New York",
-    "description": "Work on Palantir Foundry and Gotham, building high-throughput backend services that integrate complex enterprise datasets for government, healthcare, and humanitarian organizations worldwide. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include design, implement, and test robust backend microservices in java, typescript, or go. build scalable data ingestion and transformation pipelines handling millions of records.. Candidates should have strong fundamentals in strong programming skills in java, c++, typescript, or go. deep understanding of data structures, algorithms, object-oriented design, and complexity..",
+    "description": "Work on Palantir Foundry and Gotham, building high-throughput backend services that integrate complex enterprise datasets for government, healthcare, and humanitarian organizations worldwide.",
     "source": "EMPLOYER_POST",
     "title": "Backend Software Engineer - Application Development",
     "salary": {
@@ -9362,7 +9362,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Empower developers to fix crashes, slow database queries, and frontend bugs with Sentry. As a Solutions Engineer, you will write custom SDK integrations, build debugging workflows, and guide software teams in implementing error monitoring. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include write sample applications and plugins demonstrating sentry sdk integration across react, node, and python. guide developers through profiling, distributed tracing, and session replay instrumentation.. Candidates should have strong fundamentals in hands-on experience with javascript/typescript, python, or another modern programming language. understanding of web architecture, http, browser developer tools, and backend server logs..",
+    "description": "Empower developers to fix crashes, slow database queries, and frontend bugs with Sentry. As a Solutions Engineer, you will write custom SDK integrations, build debugging workflows, and guide software teams in implementing error monitoring.",
     "source": "EMPLOYER_POST",
     "title": "Solutions Engineer - Developer Tooling",
     "salary": {
@@ -9417,7 +9417,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": true,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Join Figma’s Forward Deployed Engineering team to bridge product engineering with our largest strategic customers. You will build custom integrations, Figma plugins, and design systems tooling that unlock collaborative design at scale. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop high-performance figma plugins and rest/websocket integrations using typescript and webassembly. work directly with design and engineering teams to solve complex design token synchronization challenges.. Candidates should have strong fundamentals in proficiency in modern typescript, javascript (es6+), and css layout systems. strong communication skills and enthusiasm for customer-facing technical problem solving..",
+    "description": "Join Figma’s Forward Deployed Engineering team to bridge product engineering with our largest strategic customers. You will build custom integrations, Figma plugins, and design systems tooling that unlock collaborative design at scale.",
     "source": "EMPLOYER_POST",
     "title": "Forward Deployed Engineer",
     "salary": {
@@ -9472,7 +9472,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Vienna",
-    "description": "Junior QA Engineer at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
+    "description": "Junior QA Engineer at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
     "source": "SMARTRECRUITERS",
     "title": "Junior QA Engineer",
     "salary": {

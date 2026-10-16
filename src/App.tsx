@@ -125,8 +125,15 @@ export default function App() {
           const deduped: JobPosting[] = [];
           for (const item of parsed) {
             if (item && item.id && !seen.has(item.id)) {
-              seen.add(item.id);
-              deduped.push(item);
+              // Automatically purge deprecated thin scraped stubs from stale browser caches
+              const words = (item.description || '').trim().split(/\s+/).filter(Boolean).length;
+              const isThinStub = (item.id.startsWith('manual-179') && words <= 48) ||
+                                 item.id === 'manual-1792069663312' ||
+                                 item.id === 'manual-1791997615288';
+              if (!isThinStub) {
+                seen.add(item.id);
+                deduped.push(item);
+              }
             }
           }
           if (deduped.length > 0) {
