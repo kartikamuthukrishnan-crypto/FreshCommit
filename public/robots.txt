@@ -1,4 +1,10 @@
-# robots.txt for https://freshcommits.com & https://www.freshcommits.com
+# Google AdSense Review & Contextual Verification Crawlers
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Google-AdSense-Bot
+Allow: /
+
 User-agent: *
 Allow: /
 Allow: /job/
