@@ -1,17 +1,435 @@
-import { JobPosting } from '../types';
+import { JobPosting } from "../types";
 
 export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Diego",
-    "postalCode": "92199",
+    "maxYearsExperience": 0,
+    "city": "Santa Clara",
+    "postalCode": "95054",
+    "description": "As a full stack Software Development Engineer Intern , you'll help design, build, and maintain software across the entire application stack from user-facing interfaces to APIs, data stores, and cloud infrastructure. You'll write well-tested, maintainable code, participate actively in code review, and use AI coding assistants to accelerate delivery while critically evaluating AI-generated output for correctness and security. Strong collaboration with product managers, designers, and peer engineers is essential to create resilient, scalable solutions.",
     "source": "MANUAL_ADMIN",
-    "title": "Software Engineer I, Firmware",
+    "title": "AI Engineering - Software Engineer Internships - Summer 2027 (Masters)",
+    "salary": {
+      "unit": "HOUR",
+      "min": 42,
+      "max": 64,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "Java",
+      "Go",
+      "React",
+      "Vue",
+      "Angular",
+      "Node.js",
+      "AWS"
+    ],
+    "qualifications": [
+      "Currently pursuing a Master’s degree in Computer Science, or related field; with a graduation date no earlier than May 2028",
+      "• Must be available to work full-time hours, for a 12- week period, either May – August or June – September in 2027",
+      "Experience in leveraging or critically thinking about how to integrate AI into work processes, decision-making, or problem-solving. This may include using AI-powered tools, automating workflows, analyzing AI-driven insights, or exploring AI's potential impact on the function or industry.",
+      "Full-stack development skills: Hands on experience through coursework, research, projects, or internships with front-end frameworks (React/Angular/Vue), back-end languages (Node.js, Python, Java, Go), databases, REST/GraphQL APIs, and cloud platforms (AWS/Azure/GCP), plus comfort adopting emerging AI/ML tools.",
+      "Systems thinking: Understanding of trade-offs between consistency, availability, and performance, and working knowledge of distributed system patterns and API/database design.",
+      "Working knowledge of software engineering fundamentals: Prior experience writing clean, secure, well-tested code and examples of treating code review as a quality practice.",
+      "AI fluency: Effectively incorporates AI coding assistants (Copilot, Cursor, Codeium, etc) and LLM APIs (OpenAI, Anthropic, open-weight models) to build features, and applies sound judgment when reviewing AI-generated code for correctness and security."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Full Software Development Lifecycle:",
+      "• Build features end-to-end—from design through deployment—building front-end (React/Angular/Vue) and back-end (REST/GraphQL, microservices) solutions",
+      "System Design & Architecture",
+      "• Contribute to scalable system design: evaluate architectural trade-offs, define data models and API contracts, and choose the right cloud-native and persistence strategies for your project",
+      "Code Quality Testing and Review",
+      "• Write comprehensive tests, uphold coding standards, and review code—including AI-generated code—for security, performance, and maintainability.",
+      "Develop, maintain, and execute automated test suites to validate software functionality, catch defects early.",
+      "CI/CD, DevOps & Operational Readiness",
+      "• Maintain CI/CD pipelines and infrastructure-as-code, monitor systems in production, and participate in incident response including AI-integrated components.",
+      "Cross Functional Collaboration & Technical Communication",
+      "• Partner with product managers, designers, and platform teams to scope and deliver features, writing clear specs and communicating trade-offs to technical and non-technical audiences."
+    ],
+    "fingerprint": "servicenow-ai-engineering-software-engineer-internships-summer-2027-masters--santa-clara-ca",
+    "atsProvider": "SmartRecruiters",
+    "company": "ServiceNow",
+    "id": "manual-1792085896106",
+    "state": "CA",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "INTERN",
+    "companyLogo": "https://ui-avatars.com/api/?name=ServiceNow&background=0F172A&color=fff&size=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.smartrecruiters.com/ServiceNow/744000155345689",
+    "location": "Santa Clara, CA",
+    "category": "Frontend",
+    "companyWebsite": "https://servicenow.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Austin",
+    "postalCode": "78701",
+    "description": "CLEAR is building THE secure identity company of the future. Our mission is to make experiences safer and easier—physically and digitally. With more than 43 million Members and a growing network of partners across the world, CLEAR's secure identity platform is transforming the way people live, work, and travel. Whether it’s at the airport, stadium, or throughout your everyday life, CLEAR unlocks the magic of frictionless experiences.\n\nWe're looking for Software Engineers to help build the next generation of CLEAR's identity platform. Beyond verifying identity, we're creating a secure, networked digital identity that enables seamless experiences across travel, enterprise, healthcare, financial services, and beyond.\n\nAs a Software Engineer, you'll own complex technical problems from design through deployment, partnering closely with Product, Design, Security, and Operations to deliver reliable, scalable solutions. We're looking for engineers with a strong builder mindset who thrive in ambiguity, take ownership, and enjoy turning ideas into production systems.\n\nWe’re looking for an early career Software Engineer to join our Digital Experience team. In this role, you will build and ship full-stack features on some of CLEAR's highest-traffic sites, used by millions of members to enroll, manage their membership, and book services. The ideal candidate for this role will bring strong fundamentals, a bias for action, and a desire to grow quickly alongside experienced engineers. Tech stack overview: Java / React / Typescript\n\nWhat you’ll do:\n\n• Design, build, test, and deploy scalable full-stack applications that power CLEAR's identity platform.\n\n• Own projects end-to-end from technical discovery and architecture through implementation, rollout, and operational support.\n\n• Partner closely with Product, Design, Data, Security, and Operations to translate business problems into simple, scalable technical solutions.\n\n• Drive engineering excellence by improving system reliability, performance, testing, observability, and developer experience.\n\n• Contribute to architectural decisions and continuously improve the scalability, security, and maintainability of our platform.\n\n• Partner with teammates through thoughtful code reviews, technical collaboration, and sharing engineering best practices.\n\nWhat you’re great at:\n\n• 0-2 years of professional full-stack software engineering experience building production applications using technologies such as Python, React, and TypeScript.\n\n• Strong technical fundamentals across distributed systems, APIs, cloud infrastructure, and modern software architecture.\n\n• Experience building and operating cloud-native applications using AWS and technologies such as Docker, Kubernetes, GitHub, and CI/CD pipelines.\n\n• A demonstrated history of owning complex, cross-functional projects and driving them from idea to production with a bias for action.\n\n• Excellent communication skills with the ability to explain technical concepts and influence both technical and non-technical stakeholders.\n\n• Comfortable operating in ambiguous environments, making thoughtful tradeoffs, and independently driving work forward.\n\n• A collaborative mindset with a passion for partnering with others, continuously improving engineering practices, and building products that deliver measurable customer and business impact.\n\nHow You’ll be Rewarded:\n\nAt CLEAR, we help YOU move forward - because when you’re at your best, we’re at our best. You’ll work with talented team members motivated by our mission of making experiences safer and easier. Our offices are bright and energetic with an open concept and plenty of conference rooms and casual co-working spaces. We also offer catered lunches every day and have fully stocked kitchens. Outside of the office, we invest in your well-being and learning & development with stipends and reimbursement programs.\n\nWe offer holistic total rewards, including comprehensive healthcare plans, family-building benefits (fertility and adoption/surrogacy support), flexible time off, annual wellness stipend, free OneMedical memberships for you and your dependents, a CLEAR Plus membership, and a 401(k) retirement plan with employer match. The base salary range for this role is $105,000-$125,000.\n\nThis range represents the combined base salary, annual bonus incentive, and new hire equity package (in Restricted Stock Units) for this position at CLEAR. Additionally, this role will be eligible for refresh equity grants as part of our ongoing compensation program. Actual compensation will vary based on factors including, but not limited to, location, education, skills, experience, and performance. All stock based compensation will be subject to the terms and conditions of applicable agreements.\n\nQualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, protected veteran status or other characteristics protected by law.\n\nCLEAR provides reasonable accommodation to qualified individuals with disabilities or protected needs. Please let us know if you require a reasonable accommodation to apply for a job or perform your job. Examples of reasonable accommodation include, but are not limited to, time off, extra breaks, making a change to the application process or work procedures, policy exceptions, providing documents in an alternative format, live captioning or using a sign language interpreter, or using specialized equipment.\n\nWe are committed to a transparent and secure hiring process. All communications related to this role will come directly from a CLEAR employee through valid CLEAR channels (e.g., a valid @clearme.com email address or verified CLEAR LinkedIn profile). We encourage candidates to remain alert to job scams and to report any suspicious activity.\n\n#LI-Onsite",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Development Engineer I",
     "salary": {
       "unit": "YEAR",
-      "min": 0,
-      "max": 0,
+      "min": 105000,
+      "max": 125000,
+      "currency": "USD"
+    },
+    "skills": [
+      "TypeScript",
+      "Python",
+      "Java",
+      "React",
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "APIs"
+    ],
+    "qualifications": [
+      "Partner closely with Product, Design, Data, Security, and Operations to translate business problems into simple, scalable technical solutions.",
+      "Drive engineering excellence by improving system reliability, performance, testing, observability, and developer experience.",
+      "0-2 years of professional full-stack software engineering experience building production applications using technologies such as Python, React, and TypeScript.",
+      "Strong technical fundamentals across distributed systems, APIs, cloud infrastructure, and modern software architecture.",
+      "Experience building and operating cloud-native applications using AWS and technologies such as Docker, Kubernetes, GitHub, and CI/CD pipelines.",
+      "Excellent communication skills with the ability to explain technical concepts and influence both technical and non-technical stakeholders.",
+      "A collaborative mindset with a passion for partnering with others, continuously improving engineering practices, and building products that deliver measurable customer and business impact."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "clear-corporate-software-development-engineer-i-austin-tx",
+    "atsProvider": "Greenhouse",
+    "company": "CLEAR Corporate",
+    "id": "manual-1792085160493",
+    "state": "TX",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=clear.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/clear/jobs/8241829",
+    "location": "Austin, TX",
+    "category": "Frontend",
+    "companyWebsite": "https://clear.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "UNITED STATES",
+    "maxYearsExperience": 1,
+    "city": "Richland",
+    "postalCode": "Richland",
+    "description": "At PNNL, our core capabilities are divided among major departments that we refer to as Directorates within the Lab, focused on a specific area of scientific research or other function, with its own leadership team and dedicated budget.\n\nOur Science & Technology directorates include National Security, Integrated Discovery Sciences, and Energy and Environment. In addition, we have an Environmental Molecular Sciences Laboratory, a Department of Energy, Office of Science user facility housed on the PNNL campus.\n\nThe National Security Directorate (NSD) drives science-based, mission-focused solutions to take on complex, real-world threats to our nation and the world.\n\nThe AI and Data Analytics Division, part of the National Security Directorate, combines profound domain expertise and creative integration of advanced hardware and software to deliver computational solutions that address complex data and analytic challenges. Working in multidisciplinary teams, we connect foundational research to engineering to operations, providing the tools to innovate quickly and field results faster. Our strengths are integrated across the data analytics lifecycle, from data acquisition and management to analysis and decision support.",
+    "source": "MANUAL_ADMIN",
+    "title": "Early Career Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 83000,
+      "max": 122000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Python",
+      "C#",
+      "Go",
+      "Rust",
+      "AWS",
+      "Azure"
+    ],
+    "qualifications": [
+      "Completed BS/BA or higher in computer science or software engineering",
+      "Hands-on experience building and delivering software applications using Python through professional, internship, academic, or personal projects.",
+      "Experience programming in Python, Go, Rust, C#/.NET, C++.",
+      "Understanding of software engineering and data management best practices.",
+      "Strong communication and collaborative skills to work effectively with cross-functional teams."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "AI-Powered Software – Help develop applications that use AI agents and large language models (LLMs). Gain hands-on experience with LLM integrations, evaluation, testing, and foundational MLOps practices.",
+      "Intelligence Platform Development – Contribute to software that combines multiple sources of intelligence, supports geospatial analysis, and helps users understand complex information.",
+      "Data Engineering – Build and maintain data pipelines, develop analytics workflows, and learn how cloud-native systems process and manage data at scale.",
+      "Collaborative Software Development – Work alongside experienced engineers, participate in code reviews and design discussions, and build your skills in testing, debugging, documentation, and enterprise software development.",
+      "Professional Growth – Receive mentorship, take on increasing responsibility, and learn how to design, build, deploy, and support production-quality software.",
+      "Programming Foundation – Solid Python skills and experience with at least one additional language, such as Go, Rust, C#/.NET, C++, or a similar language.",
+      "Platform Experience – Exposure to at least one cloud platform, such as AWS, Azure, or GCP and familiarity with Linux environments.",
+      "Development Practices – Understanding of Git and version control, exposure to CI/CD practices, and familiarity with Agile or Scrum development environments."
+    ],
+    "fingerprint": "pacific-northwest-national-laboratory-early-career-software-engineer-richland-washington",
+    "atsProvider": "Direct Career Portal",
+    "company": "Pacific Northwest National Laboratory",
+    "id": "manual-1792085120781",
+    "state": "WASHINGTON",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.pnnl.gov/themes/gesso/images/pnnl-logo.svg",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.pnnl.gov/jobs/12427",
+    "location": "Richland, WASHINGTON",
+    "category": "Backend",
+    "companyWebsite": "https://www.pnnl.gov",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "We anticipate the application window for this opening will close on - 21 Oct 2026\n\nCareers that change lives start here. Medtronic is a global leader in healthcare technology with a Mission to alleviate pain, restore health, and extend life. Our 95,000 employees work across more than 150 countries to put patients first — developing innovative medical technologies that improve the lives of 72+ million patients each year. Your unique talents will help shape the future of healthcare while building a career grounded in purpose, growth, and impact.\n\nAt Medtronic, we bring bold ideas forward with speed and decisiveness to put patients first in everything we do. In-person exchanges are invaluable to our work. We’re working a minimum of 4 days a week onsite as part of our commitment to fostering a culture of professional growth and cross-functional collaboration as we work together to engineer the extraordinary.\n\nThis position is not eligible for immigration sponsorship. Applicants must be authorized to work in the country of employment without sponsorship*\n\nIn this dynamic role, you’ll work alongside a team of engineers and cross-functional partners to drive quality for design, development, and maintenance of software for Affera cardiac electrophysiology systems. By blending technical expertise with a passion for quality, compliance, and improving patient outcomes, you'll have the opportunity to impact global healthcare as the usage of Affera grows rapidly worldwide.\n\nPrimary Responsibilities\n\nSupport software quality efforts for Cardiac Ablation Solutions products, ensuring compliance with regulatory standards such as FDA CFR, MDR, IEC 62304, and ISO 13485.\n\nServe as member of the extended quality team for Affera software releases used for electrophysiology procedures. Collaborate with other quality team members to take accountability for completing assigned functional work within program deadlines.\n\nParticipate in software risk analysis activities to ensure comprehensive risk file coverage for software.\n\nProvide software quality support for post-market activities and analysis as assigned, including work supporting defect assessments, issue assessments, health risk assessments, and CAPAs.\n\nReview and approve various Design History File documents related to software and security, including requirements, design, development, integration, test protocols, test reports, verification, validation, and tooling. Ensure all documentation meets reliability standards and follows QMS processes.\n\nDevelop and review documentation for traceability, testability, and compliance according to standard operating procedures.\n\nDevelop expertise in assigned products and projects, including hands-on time in the engineering lab and participation in product training as assigned.\n\nContribute to tracking software quality metrics for assigned programs, supporting continuous monitoring and improvement of quality outcomes to achieve required levels of product reliability.\n\nRecommend design or test methods to achieve appropriate levels of product reliability and security. Propose changes to design or testing as necessary to improve software and/or process reliability.\n\nContribute to quality engineering program strategies to achieve Medtronic, customer, and regulatory reliability objectives for assigned programs.\n\nReview and support strategies for product security testing as assigned.\n\nAs available, attend a live EP case at least once per year to enhance workflow and product knowledge. Regularly participate in virtual live case learning opportunities.\n\nCollaborate with cross-functional teams, including R&D, medical safety, regulatory affairs, and clinical teams, to ensure alignment on quality and compliance requirements.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Quality Engineer I (Reliability/Compliance)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 64800,
+      "max": 97200,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "Python",
+      "Docker",
+      "Linux",
+      "Security"
+    ],
+    "qualifications": [
+      "Bachelor's degree and a minimum of 0 years of relevant experience",
+      "Though this is not a coding role, the candidate must have proven ability to write new software code, and quickly and effectively read, interpret, and understand existing software code, to collaborate and execute necessary work with software engineers.",
+      "Excellent written and oral communication skills.",
+      "Medical device or other regulated industry (such as defense or aerospace) experience and/or industry experience working with a software development team.",
+      "Experience performing formal risk analysis.",
+      "Experience using or working with Python, Qt, Docker, and Linux.",
+      "Knowledge of cybersecurity and the software lifecycle within regulated environments, including design, development, and post-market support.",
+      "Experience with cardiac/electrophysiology medical specialties.",
+      "Advanced degree in a relevant field.",
+      "For Baccalaureate degrees earned outside of the United States, a degree that satisfies the requirements of 8 C.F.R. § 214.2(h)(4)(iii)(A) is required.",
+      "Physical Job Requirements",
+      "The above statements are intended to describe the general nature and level of work being performed by employees assigned to this position, but they are not an exhaustive list of all the required responsibilities and skills of this position.",
+      "At Medtronic, we are committed to fostering an environment where employees can thrive and make a meaningful impact. In alignment with our enterprise-wide workforce planning approach, U.S. work authorization sponsorship (H-1B, TN, J, etc.) is offered exclusively for Principal-level roles and above, where specialized expertise aligns with long-term business needs. Roles below the Principal level require candidates to possess unrestricted U.S. work authorization at the time of hire and for the duration of employment.",
+      "Apply only through official Medtronic channels. All legitimate Medtronic recruiting communications come from approved Medtronic platforms and official &#64;medtronic.com email addresses."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Support software quality efforts for Cardiac Ablation Solutions products, ensuring compliance with regulatory standards such as FDA CFR, MDR, IEC 62304, and ISO 13485.",
+      "Participate in software risk analysis activities to ensure comprehensive risk file coverage for software.",
+      "Develop and review documentation for traceability, testability, and compliance according to standard operating procedures.",
+      "Develop expertise in assigned products and projects, including hands-on time in the engineering lab and participation in product training as assigned.",
+      "Contribute to tracking software quality metrics for assigned programs, supporting continuous monitoring and improvement of quality outcomes to achieve required levels of product reliability.",
+      "Contribute to quality engineering program strategies to achieve Medtronic, customer, and regulatory reliability objectives for assigned programs.",
+      "Review and support strategies for product security testing as assigned.",
+      "Collaborate with cross-functional teams, including R&D, medical safety, regulatory affairs, and clinical teams, to ensure alignment on quality and compliance requirements."
+    ],
+    "fingerprint": "medtronic-software-quality-engineer-i-reliability-compliance--remote",
+    "atsProvider": "Workday",
+    "company": "Medtronic",
+    "id": "manual-1792070032854",
+    "datePosted": "2026-10-15",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-10-29",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=medtronic.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://medtronic.wd1.myworkdayjobs.com/MedtronicCareers/job/Mounds-View-Minnesota-United-States-of-America/Software-Quality-Engineer-I_R71062-1",
+    "location": "Remote (US)",
+    "category": "QA / Test",
+    "companyWebsite": "https://medtronic.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Rockville",
+    "postalCode": "94105",
+    "description": "Description\n\nWho is USP?\n\nThe U.S. Pharmacopeial Convention (USP) is an independent scientific organization that collaborates with the world’s leading health and science experts to develop rigorous quality standards for medicines, dietary supplements, and food ingredients. At USP, we believe that scientific excellence is driven by a commitment to fairness, integrity, and global collaboration. This belief is embedded in our core value of Passion for Quality and is demonstrated through the contributions of more than 1,300 professionals across twenty global locations, working to strengthen the supply of safe, high-quality medicines worldwide.\n\nAt USP, we value inclusive scientific collaboration and recognize that attracting diverse expertise strengthens our ability to develop trusted public health standards. We foster an organizational culture that supports equitable access to mentorship, professional development, and leadership opportunities. Our partnerships, standards, and research reflect our belief that ensuring broad participation in scientific leadership results in stronger, more impactful outcomes for global health.\n\nUSP is proud to be an equal employment opportunity employer (EEOE) and is committed to ensuring fair, merit-based selection processes that enable the best scientific minds—regardless of background—to contribute to advancing public health solutions worldwide. We provide reasonable accommodations to individuals with disabilities and uphold policies that create an inclusive and collaborative work environment.\n\nBrief Job Overview\n\nThe Associate Software Engineer – is responsible for supporting and enhancing the Marketo platform through technical configuration, integration management, campaign automation, and data governance. This role partners with IT, Marketing Operations, and Sales Operations to ensure scalable, reliable, and compliant marketing automation processes. The engineer owns day‑to‑day platform operations while contributing to system improvements and cross‑system alignment.\n\nHow will YOU create impact here at USP?\n\nAs part of our mission to advance scientific rigor and public health standards, you will play a vital role in increasing global access to high-quality medicines through public standards and related programs. USP prioritizes scientific integrity, regulatory excellence, and evidence-based decision-making to ensure health systems worldwide can rely on strong, tested, and globally relevant quality standards.\n\nAdditionally, USP’s People and Culture division, in partnership with the Equity Office, invests in leadership and workforce development to equip all employees with the skills to create high-performing, inclusive teams. This includes training in equitable management practices and tools to promote engaged, collaborative, and results-driven work environments.",
+    "source": "MANUAL_ADMIN",
+    "title": "Associate Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 71420,
+      "max": 93726,
+      "currency": "USD"
+    },
+    "skills": [
+      "JavaScript",
+      "REST APIs",
+      "APIs"
+    ],
+    "qualifications": [
+      "Description",
+      "Who is USP?",
+      "The U.S. Pharmacopeial Convention (USP) is an independent scientific organization that collaborates with the world’s leading health and science experts to develop rigorous quality standards for medicines, dietary supplements, and food ingredients. At USP, we believe that scientific excellence is driven by a commitment to fairness, integrity, and global collaboration. This belief is embedded in our core value of Passion for Quality and is demonstrated through the contributions of more than 1,300 professionals across twenty global locations, working to strengthen the supply of safe, high-quality medicines worldwide.",
+      "At USP, we value inclusive scientific collaboration and recognize that attracting diverse expertise strengthens our ability to develop trusted public health standards. We foster an organizational culture that supports equitable access to mentorship, professional development, and leadership opportunities. Our partnerships, standards, and research reflect our belief that ensuring broad participation in scientific leadership results in stronger, more impactful outcomes for global health.",
+      "USP is proud to be an equal employment opportunity employer (EEOE) and is committed to ensuring fair, merit-based selection processes that enable the best scientific minds—regardless of background—to contribute to advancing public health solutions worldwide. We provide reasonable accommodations to individuals with disabilities and uphold policies that create an inclusive and collaborative work environment.",
+      "Brief Job Overview",
+      "The Associate Software Engineer – is responsible for supporting and enhancing the Marketo platform through technical configuration, integration management, campaign automation, and data governance. This role partners with IT, Marketing Operations, and Sales Operations to ensure scalable, reliable, and compliant marketing automation processes. The engineer owns day‑to‑day platform operations while contributing to system improvements and cross‑system alignment.",
+      "How will YOU create impact here at USP?"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Description",
+      "Who is USP?",
+      "The U.S. Pharmacopeial Convention (USP) is an independent scientific organization that collaborates with the world’s leading health and science experts to develop rigorous quality standards for medicines, dietary supplements, and food ingredients. At USP, we believe that scientific excellence is driven by a commitment to fairness, integrity, and global collaboration. This belief is embedded in our core value of Passion for Quality and is demonstrated through the contributions of more than 1,300 professionals across twenty global locations, working to strengthen the supply of safe, high-quality medicines worldwide.",
+      "At USP, we value inclusive scientific collaboration and recognize that attracting diverse expertise strengthens our ability to develop trusted public health standards. We foster an organizational culture that supports equitable access to mentorship, professional development, and leadership opportunities. Our partnerships, standards, and research reflect our belief that ensuring broad participation in scientific leadership results in stronger, more impactful outcomes for global health.",
+      "USP is proud to be an equal employment opportunity employer (EEOE) and is committed to ensuring fair, merit-based selection processes that enable the best scientific minds—regardless of background—to contribute to advancing public health solutions worldwide. We provide reasonable accommodations to individuals with disabilities and uphold policies that create an inclusive and collaborative work environment.",
+      "Brief Job Overview",
+      "The Associate Software Engineer – is responsible for supporting and enhancing the Marketo platform through technical configuration, integration management, campaign automation, and data governance. This role partners with IT, Marketing Operations, and Sales Operations to ensure scalable, reliable, and compliant marketing automation processes. The engineer owns day‑to‑day platform operations while contributing to system improvements and cross‑system alignment.",
+      "How will YOU create impact here at USP?"
+    ],
+    "fingerprint": "united-states-pharmacopeia-associate-software-engineer-rockville-maryland",
+    "atsProvider": "Direct Career Portal",
+    "company": "United States Pharmacopeia",
+    "id": "manual-1792069822503",
+    "state": "MARYLAND",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://assets.biospace.com/public/logos/1959841?w=360&h=180&format=webp",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.biospace.com/job/3083527/associate-software-engineer?TrackID=433984",
+    "location": "Rockville, MARYLAND",
+    "category": "Backend",
+    "companyWebsite": "https://www.biospace.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Leandro",
+    "postalCode": "94577",
+    "description": "About SirenOpt\n\nSirenOpt helps manufacturers make better, safer, and more reliable micro- and nano-materials. These materials are the building blocks of critical sectors of the global economy such as batteries, computer chips, aircraft components, and power systems. But, surging material demand and growing complexity are pushing production to unprecedented scales and speeds, leaving manufacturers effectively flying blind. Small, undetected variations during production lead to wastage, lower performance, higher costs, and safety risks.\n\nSirenOpt is changing this by developing a manufacturing intelligence platform that non-destructively probes materials during production, revealing critical internal information without damaging them. Using a novel combination of cold atmospheric plasma, physics-informed machine learning, and predictive analytics, SirenOpt generates unique, real-time material fingerprints that capture material signals not accessible through conventional measurement techniques. These insights give manufacturers unprecedented visibility into how materials behave as they are made.\n\nWe turn hidden data into actionable intelligence to help manufacturers reduce variability and thus increase yield and performance. The technology can be deployed as a standalone tool or integrated directly into factory production lines. SirenOpt is currently deploying early versions of its platform with some of the largest industrial manufacturers in the world across North America, Europe, and Asia.\n\nAbout the job\n\nJob Title: Software Engineer (Early Career) – C++ & Systems\n\nLocation: On-Site (San Leandro, CA)\n\nJob Type: Full-Time\n\nRole Overview\n\nSirenOpt is seeking a Software Engineer to help build and maintain the real-time data pipeline behind our sensing platform: acquiring data from multiple sensors, processing and storing it on Linux-based systems, and delivering it to the applications our customers rely on.\n\nYou will work primarily in modern C++ and Python, with mentorship from senior engineers, and you will be hands-on with real hardware in our lab to test and validate what you build. This is a role for someone who wants to grow into a well-rounded systems engineer by shipping production software end to end, from a first design discussion to a feature running at a customer site.\n\nWhat You'll Do\n\n• Develop and maintain software components in modern C++ (C++17/20) for Linux-based systems, with guidance from senior engineers\n\n• Implement features, fix bugs, and write unit and integration tests across the data pipeline, from sensor acquisition through processing and storage to the services that deliver results to applications\n\n• Write and maintain Python scripts for automation, testing, and data analysis\n\n• Read, and where needed modify, existing code written in other languages across our codebase\n\n• Use AI coding tools (e.g., Claude Code, GitHub Copilot) to accelerate development, and verify their output through testing, profiling, and code review\n\n• Run the system on real hardware in the lab to test and validate your changes, including setting up sensors and collecting data\n\n• Participate in code reviews, both receiving and giving feedback, and follow team conventions for code quality\n\n• Help diagnose and debug issues across software and hardware boundaries, working with firmware and hardware engineers\n\n• Measure and improve performance of existing code under the direction of senior engineers\n\n• Document your work so that others on the team can build on it\n\nWhat We're Looking For\n\n• Bachelor's or Master's degree in Computer Science, Computer Engineering, Electrical Engineering, or a related technical field (recent graduates welcome)\n\n• 0–2 years of professional software development experience; internships, co-ops, research, and substantial personal or open-source projects count\n\n• Solid foundation in C++, including memory management, references and pointers, the standard library, and basic object-oriented and generic programming\n\n• Strong ability to read, understand, and write Python, including working within existing Python codebases used for automation, testing, and data analysis\n\n• Ability to pick up new programming languages quickly; our codebase spans several languages and you will need to read, and occasionally modify, code outside of C++ and Python\n\n• Understanding of core computer science fundamentals: data structures, algorithms, operating systems, and concurrency basics\n\n• Comfortable with the everyday toolchain: Linux command line, build tools (CMake or similar), a debugger, and Git-based workflows (branches, pull requests, code review)\n\n• Hands-on experience using AI coding tools (e.g., Claude Code, GitHub Copilot, Cursor) as part of a real development workflow, and the judgment to review and test what they produce\n\n• Comfortable working hands-on with lab and test equipment: setting up sensors, running the system on real hardware, and collecting data for testing and validation (we will train you on our specific equipment)\n\n• Clear written and verbal communication, and the ability to work well with teammates across disciplines\n\nNice to have:\n\n• Experience with Qt, gRPC, or Protocol Buffers\n\n• Familiarity with CI/CD pipelines and automated testing\n\n• Experience with profiling and debugging tools such as perf, Valgrind, GDB, or sanitizers\n\n• Familiarity with hardware communication interfaces such as Ethernet, USB, or Serial\n\n• Contributions to open-source projects\n\nWhat You'll Learn\n\nYou will work on a real-time sensing platform that is already running at some of the largest manufacturers in the world, on a small team where your code reaches customers quickly.\n\n• How a high-throughput, multi-sensor data pipeline is built end to end, from acquisition through processing and storage, and kept reliable in production\n\n• Modern C++ and Linux systems engineering, with regular code review and mentorship from senior engineers\n\n• How software, firmware, and hardware teams work together to ship a physical product\n\n• How to use AI coding tools effectively and responsibly in a professional engineering workflow\n\n• A clear path to grow into a mid-level engineer with ownership of your own components\n\nBase Pay Range\n\n$120,000 — $160,000 USD\n\nBenefits\n\n• Equity and Salary compensation depends on experience\n\n• Health, Dental, Vision plans provided\n\n• 401k matching provided\n\n• Time off: 20 days of PTO per year, plus approximately 15 paid US holidays per year",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer (Early Career) – C++ & Systems",
+    "salary": {
+      "unit": "YEAR",
+      "min": 120000,
+      "max": 160000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Firmware",
+      "C",
+      "C++",
+      "Scripting",
+      "Electrical Engineering",
+      "Computer Engineering",
+      "Python",
+      "Linux"
+    ],
+    "qualifications": [
+      "Job Title: Software Engineer (Early Career) – C++ & Systems",
+      "Develop and maintain software components in modern C++ (C++17/20) for Linux-based systems, with guidance from senior engineers",
+      "Implement features, fix bugs, and write unit and integration tests across the data pipeline, from sensor acquisition through processing and storage to the services that deliver results to applications",
+      "Write and maintain Python scripts for automation, testing, and data analysis",
+      "Read, and where needed modify, existing code written in other languages across our codebase",
+      "Use AI coding tools (e.g., Claude Code, GitHub Copilot) to accelerate development, and verify their output through testing, profiling, and code review",
+      "Run the system on real hardware in the lab to test and validate your changes, including setting up sensors and collecting data",
+      "Participate in code reviews, both receiving and giving feedback, and follow team conventions for code quality"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "sirenopt-software-engineer-early-career-c-systems-san-leandro-california",
+    "atsProvider": "Greenhouse",
+    "company": "SirenOpt",
+    "id": "manual-1792085248396",
+    "state": "US",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=sirenopt.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/sirenopt/jobs/4452002009",
+    "location": "San Leandro, California",
+    "category": "Frontend",
+    "companyWebsite": "https://sirenopt.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Mateo",
+    "postalCode": "94402",
+    "description": "Skydio is the leading US drone company and the world leader in autonomous flight, the key technology for the future of drones and aerial mobility. The Skydio team combines deep expertise in artificial intelligence, best-in-class hardware and software product development, operational excellence, and customer obsession to empower a broader, more diverse audience of drone users, from utility inspectors to first responders , soldiers in battlefield scenarios , and beyond .\n\nWith best-in-class autonomy and real-time cloud connectivity, drones are becoming critical infrastructure for solving real-world problems faster, safer, and more efficiently.\n\nAs an intern on the Cloud Platform and Infrastructure team, you’ll help build and scale the cloud systems that make this possible. Our team works across a wide range of challenges and we go where we're needed:\n\nTackling scalability and deployment in both cloud and air-gapped environments\n\nDesigning and improving core cloud infrastructure and CI/CD systems\n\nEnhancing telemetry, observability, and developer productivity\n\nThe variety of work means there are plenty of opportunities to learn and have a meaningful impact on how Skydio builds and delivers software. The ideal candidate is a junior, senior, or master’s student with hands-on experience developing complex web applications or backend systems, but above all, we're looking for a highly curious and resourceful candidate, capable of using tools and AI at their disposal to accelerate their understanding and productivity.\n\nBuilding a system for allowing product teams to manage feature flags and rollouts of functionality to customers.\n\nProfiling server and backend system workloads, and optimizing performance or resource utilization.\n\nDeveloping a test framework to allow developers to simulate certain vehicle states and test application behavior.\n\nDeveloping and packaging a small form factor Skydio cloud offering for use in airgapped or edge environments.\n\nSolid computer science fundamentals.\n\nMeaningful project and/or internship experience developing complex web applications or backend data systems.\n\nProficiency with C/C++, Python, Golang, and/or Javascript/Typescript.\n\nFamiliarity with REST-ful APIs, Linux operating system configuration, build tools, relational databases (e.g. Postgres, MySQL) and caching systems (Redis, Memcached).\n\nUnderstanding of cloud service offerings (e.g. AWS, GCP, Azure), deployment techniques, and configuration management",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer Intern - Summer 2027",
+    "salary": {
+      "unit": "HOUR",
+      "min": 38,
+      "max": 58,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Go",
+      "AWS",
+      "Azure"
+    ],
+    "qualifications": [
+      "With best-in-class autonomy and real-time cloud connectivity, drones are becoming critical infrastructure for solving real-world problems faster, safer, and more efficiently.",
+      "As an intern on the Cloud Platform and Infrastructure team, you’ll help build and scale the cloud systems that make this possible. Our team works across a wide range of challenges and we go where we're needed:",
+      "Designing and improving core cloud infrastructure and CI/CD systems",
+      "Enhancing telemetry, observability, and developer productivity",
+      "Building a system for allowing product teams to manage feature flags and rollouts of functionality to customers.",
+      "Meaningful project and/or internship experience developing complex web applications or backend data systems.",
+      "Proficiency with C/C++, Python, Golang, and/or Javascript/Typescript.",
+      "Familiarity with REST-ful APIs, Linux operating system configuration, build tools, relational databases (e.g. Postgres, MySQL) and caching systems (Redis, Memcached)."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "skydio-software-engineer-intern-summer-2027-san-mateo-ca",
+    "atsProvider": "Ashby",
+    "company": "Skydio",
+    "id": "manual-1792085520219",
+    "state": "CA",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "INTERN",
+    "companyLogo": "https://app.ashbyhq.com/api/images/org-theme-logo/21a61557-3218-41ab-8ad9-0e51787557d8/a9e76ce4-e230-42bd-bb82-b6c903c38b46/8ed341db-f97d-4659-ae4c-000ef80249bc.png",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/skydio/79fdda46-4ff5-42c7-b208-55f2084cdb8c",
+    "location": "San Mateo, CA",
+    "category": "Backend",
+    "companyWebsite": "https://skydio.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Charleston",
+    "postalCode": "29407",
+    "description": "For 75 years, Charles River employees have worked together to assist in the discovery, development and safe manufacture of new drug therapies. When you join our family, you will have a significant impact on the health and well-being of people across the globe. Whether your background is in life sciences, finance, IT, sales or another area, your skills will play an important role in the work we perform. In return, we’ll help you build a career that you can feel passionate about.\n\nWe are seeking a Test Engineer I for our Microbial Solutions site in Charleston, SC.\n\nEssential Duties and Responsibilities\n\nDesign and execute User Acceptant Test (UAT) cases for software/hardware\n\nIdentification of software/hardware defects with detailed reporting\n\nCollaboration with Software Development team along with other internal groups to satisfy project timelines\n\nProvide technical assistance of released/unreleased software for field teams, internal departments, and satellite facilities\n\nTechnical efficiency with base Windows software applications (Word, Excel, PowerPoint)\n\nContribute to software development sprint cycles (standup meetings, sprint demos, technical reviews)\n\nAssist in drafting of technical documents per software development cycles\n\nAbout Charles River",
+    "source": "MANUAL_ADMIN",
+    "title": "Test Engineer I",
+    "salary": {
+      "unit": "YEAR",
+      "min": 59000,
+      "max": 65000,
       "currency": "USD"
     },
     "skills": [
@@ -19,43 +437,2632 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Software Engineering",
       "Problem Solving"
     ],
+    "qualifications": [
+      "For 75 years, Charles River employees have worked together to assist in the discovery, development and safe manufacture of new drug therapies. When you join our family, you will have a significant impact on the health and well-being of people across the globe. Whether your background is in life sciences, finance, IT, sales or another area, your skills will play an important role in the work we perform. In return, we’ll help you build a career that you can feel passionate about.",
+      "Job Overview",
+      "We are seeking a Test Engineer I for our Microbial Solutions site in Charleston, SC.",
+      "Essential Duties and Responsibilities",
+      "Design and execute User Acceptant Test (UAT) cases for software/hardware",
+      "Identification of software/hardware defects with detailed reporting",
+      "Collaboration with Software Development team along with other internal groups to satisfy project timelines",
+      "Provide technical assistance of released/unreleased software for field teams, internal departments, and satellite facilities"
+    ],
     "experienceLevel": "Entry Level",
-    "fingerprint": "braincorp-software-engineer-i-firmware-san-diego-ca",
+    "responsibilities": [
+      "For 75 years, Charles River employees have worked together to assist in the discovery, development and safe manufacture of new drug therapies. When you join our family, you will have a significant impact on the health and well-being of people across the globe. Whether your background is in life sciences, finance, IT, sales or another area, your skills will play an important role in the work we perform. In return, we’ll help you build a career that you can feel passionate about.",
+      "Job Overview",
+      "We are seeking a Test Engineer I for our Microbial Solutions site in Charleston, SC.",
+      "Essential Duties and Responsibilities",
+      "Design and execute User Acceptant Test (UAT) cases for software/hardware",
+      "Identification of software/hardware defects with detailed reporting",
+      "Collaboration with Software Development team along with other internal groups to satisfy project timelines",
+      "Provide technical assistance of released/unreleased software for field teams, internal departments, and satellite facilities"
+    ],
+    "fingerprint": "charles-river-test-engineer-i-charleston-sc",
     "atsProvider": "Direct Career Portal",
-    "company": "Braincorp",
-    "id": "manual-1791522895908",
+    "company": "Charles River",
+    "id": "manual-1792070129702",
+    "state": "SC",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://cdn-static.findly.com/wp-content/uploads/sites/3251/2024/05/08054502/charles-river-logo-vector-01.svg",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.criver.com/job/23769516/test-engineer-i-charleston-sc/",
+    "location": "Charleston, SC",
+    "category": "QA / Test",
+    "companyWebsite": "https://www.criver.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Brooklyn Park",
+    "postalCode": "55445",
+    "description": "The pay range is $75,400.00 - $135,700.00\n\nPay is based on several factors which vary based on position. These include labor markets and in some instances may include education, work experience and certifications. In addition to your pay, Target cares about and invests in you as a team member, so that you can take care of yourself and your family. Target offers eligible team members and their dependents comprehensive health benefits and programs, which may include medical, vision, dental, life insurance and more, to help you and your family take care of your whole selves.&#x202F;Other benefits for eligible team members include 401(k), employee discount, short term disability, long term disability, paid sick leave, paid national holidays, and paid vacation.&#x202F;Find competitive benefits from financial and education to well-being and beyond at https://corporate.target.com/careers/benefits .\n\nJOIN TARGET AS A DATA ENGINEER &#x2013; FINANCE AI SOLUTIONS\n\nAbout Us:\n\nWorking at Target means helping all families discover the joy of everyday life. We bring that vision to life through our values and culture. Learn more about Target here .\n\nTeam Overview:\nFinance Technology within Core Retail Services powers the financial backbone of Target's enterprise operations. We build and support platforms that enable critical business capabilities across Accounts Payable, Accounts Receivable, Vendor Income, Treasury, Financial Planning, Core Accounting, Revenue & Receivables, and Enterprise Financial Controls. Our financial reporting platform brings these data domains together to deliver near real-time insights, enabling accurate financial reporting and faster, data-driven decision-making. Join our global in-house technology team of more than 5,000 engineers, data scientists, architects, and product managers who are striving to make Target the most convenient, safe, and joyful place to shop. We use agile practices and leverage open-source technologies to build best-in-class solutions for our team members and guests.\n\nPosition Overview:\nAs a Data Engineer, you will develop and maintain scalable data solutions that support Target's financial systems and enterprise reporting capabilities. Working as part of an agile engineering team, you'll build reliable data pipelines, develop data services, and help deliver high-quality data that enables business insights and operational excellence. You'll collaborate closely with engineers, product managers, data scientists, and business partners to build efficient, scalable, and maintainable data solutions while continuing to grow your technical expertise in cloud technologies and distributed data processing.\n\nKey Responsibilities:\n\n• Develop and maintain scalable data pipelines and distributed data processing solutions using Spark, Scala/Java, and cloud platforms (AWS, GCP, or Azure)\n\n• Build and enhance batch and real-time data processing solutions to support analytical and operational workloads\n\n• Develop APIs and data services that enable secure/efficient access to enterprise data\n\n• Create and maintain data models, ETL workflows, and processing frameworks that support business requirements\n\n• Apply established data governance, security, and quality standards throughout the development lifecycle\n\n• Collaborate with engineers, product teams, and business stakeholders to understand requirements and deliver reliable data solutions\n\n• Troubleshoot production issues, optimize data processing performance, and improve system reliability\n\n• Participate in code reviews, testing, and continuous improvement initiatives to maintain engineering quality.\n\n• Continuously learn and adopt new technologies, tools, and engineering best practices\n\nCore responsibilities of this job are articulated within this job description. Job duties may change at any time due to business needs.\n\nAbout You:\n\n• 4 year degree in Computer Science, Applied Mathematics, Physics, Information Technology, Engineering, etc. or equivalent industry experience\n\n• 1plus year of software development experience with Big Data technologies such as Spark, Hadoop, or distributed data processing frameworks\n\n• Programming experience with PySpark, Scala, Java, or Python\n\n• Experience with cloud platforms (AWS, GCP, or Azure) and cloud-based data services\n\n• Familiarity with data modeling, ETL development, and data pipeline design\n\n• Exposure to API development using REST or similar technologies\n\n• Experience with SQL and relational or distributed databases\n\n• Understanding of data governance, security, and software development best practices\n\n• Strong analytical and problem-solving skills\n\n• Excellent communication and collaboration skills with the ability to work effectively on cross-functional teams\n\nThis position will operate as a Hybrid/Flex for Your Day work arrangement based on Target&#x2019;s needs. A Hybrid/Flex for Your Day work arrangement means the team member&#x2019;s core role will need to be performed both onsite at the Target HQ MN location the role is assigned to and virtually, depending upon what your role, team and tasks require for that day. Work duties cannot be performed outside of the country of the primary work location, unless otherwise prescribed by Target. Click here if you are curious to learn more about Minnesota.\n\nBenefits Eligibility\n\nPlease paste this url into your preferred browser to learn about benefits eligibility for this role: https://tgt.biz/BenefitsForYou_D Americans with Disabilities Act (ADA)\n\nIn compliance with state and federal laws, Target will make reasonable accommodations for applicants with disabilities. If a reasonable accommodation is needed to participate in the job application or interview process, please reach out to candidate.accommodations&#64;HRHelp.Target.com. Non-accommodation-related requests, such as application follow-ups or technical issues, will not be addressed through this channel.&#x202F;&#x202F;\n\nApplication deadline is : 10/15/2026",
+    "source": "MANUAL_ADMIN",
+    "title": "Data Engineer - Finance AI Solutions",
+    "salary": {
+      "unit": "YEAR",
+      "min": 75400,
+      "max": 135700,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "Java",
+      "AWS",
+      "Azure",
+      "GCP",
+      "SQL",
+      "APIs",
+      "Security"
+    ],
+    "qualifications": [
+      "The pay range is $75,400.00 - $135,700.00",
+      "Pay is based on several factors which vary based on position. These include labor markets and in some instances may include education, work experience and certifications. In addition to your pay, Target cares about and invests in you as a team member, so that you can take care of yourself and your family. Target offers eligible team members and their dependents comprehensive health benefits and programs, which may include medical, vision, dental, life insurance and more, to help you and your family take care of your whole selves.&#x202F;Other benefits for eligible team members include 401(k), employee discount, short term disability, long term disability, paid sick leave, paid national holidays, and paid vacation.&#x202F;Find competitive benefits from financial and education to well-being and beyond at https://corporate.target.com/careers/benefits .",
+      "JOIN TARGET AS A DATA ENGINEER &#x2013; FINANCE AI SOLUTIONS",
+      "Working at Target means helping all families discover the joy of everyday life. We bring that vision to life through our values and culture. Learn more about Target here .",
+      "Team Overview:",
+      "Finance Technology within Core Retail Services powers the financial backbone of Target's enterprise operations. We build and support platforms that enable critical business capabilities across Accounts Payable, Accounts Receivable, Vendor Income, Treasury, Financial Planning, Core Accounting, Revenue & Receivables, and Enterprise Financial Controls. Our financial reporting platform brings these data domains together to deliver near real-time insights, enabling accurate financial reporting and faster, data-driven decision-making. Join our global in-house technology team of more than 5,000 engineers, data scientists, architects, and product managers who are striving to make Target the most convenient, safe, and joyful place to shop. We use agile practices and leverage open-source technologies to build best-in-class solutions for our team members and guests.",
+      "Position Overview:",
+      "As a Data Engineer, you will develop and maintain scalable data solutions that support Target's financial systems and enterprise reporting capabilities. Working as part of an agile engineering team, you'll build reliable data pipelines, develop data services, and help deliver high-quality data that enables business insights and operational excellence. You'll collaborate closely with engineers, product managers, data scientists, and business partners to build efficient, scalable, and maintainable data solutions while continuing to grow your technical expertise in cloud technologies and distributed data processing."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "The pay range is $75,400.00 - $135,700.00",
+      "Pay is based on several factors which vary based on position. These include labor markets and in some instances may include education, work experience and certifications. In addition to your pay, Target cares about and invests in you as a team member, so that you can take care of yourself and your family. Target offers eligible team members and their dependents comprehensive health benefits and programs, which may include medical, vision, dental, life insurance and more, to help you and your family take care of your whole selves.&#x202F;Other benefits for eligible team members include 401(k), employee discount, short term disability, long term disability, paid sick leave, paid national holidays, and paid vacation.&#x202F;Find competitive benefits from financial and education to well-being and beyond at https://corporate.target.com/careers/benefits .",
+      "JOIN TARGET AS A DATA ENGINEER &#x2013; FINANCE AI SOLUTIONS",
+      "Working at Target means helping all families discover the joy of everyday life. We bring that vision to life through our values and culture. Learn more about Target here .",
+      "Team Overview:",
+      "Finance Technology within Core Retail Services powers the financial backbone of Target's enterprise operations. We build and support platforms that enable critical business capabilities across Accounts Payable, Accounts Receivable, Vendor Income, Treasury, Financial Planning, Core Accounting, Revenue & Receivables, and Enterprise Financial Controls. Our financial reporting platform brings these data domains together to deliver near real-time insights, enabling accurate financial reporting and faster, data-driven decision-making. Join our global in-house technology team of more than 5,000 engineers, data scientists, architects, and product managers who are striving to make Target the most convenient, safe, and joyful place to shop. We use agile practices and leverage open-source technologies to build best-in-class solutions for our team members and guests.",
+      "Position Overview:",
+      "As a Data Engineer, you will develop and maintain scalable data solutions that support Target's financial systems and enterprise reporting capabilities. Working as part of an agile engineering team, you'll build reliable data pipelines, develop data services, and help deliver high-quality data that enables business insights and operational excellence. You'll collaborate closely with engineers, product managers, data scientists, and business partners to build efficient, scalable, and maintainable data solutions while continuing to grow your technical expertise in cloud technologies and distributed data processing."
+    ],
+    "fingerprint": "target-data-engineer-finance-ai-solutions-brooklyn-park-minnesota",
+    "atsProvider": "Direct Career Portal",
+    "company": "Target",
+    "id": "manual-1792070463055",
+    "state": "MINNESOTA",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=corporate.target.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://corporate.target.com/jobs/w48/66/data-engineer-finance-ai-solutions",
+    "location": "Brooklyn Park, MINNESOTA",
+    "category": "Backend",
+    "companyWebsite": "https://www.corporate.target.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Seattle",
+    "postalCode": "98101",
+    "description": "Embedded Software Engineer (Bachelor's Level, Early Career) Job Details | Seagate Technology\n\nbreadcrumbtrail{display:none!important}\n\nkeyword-title\n\n{display:none !important}\n\nsecuritySearchString\n\n{font-size:100%!important}\n\nsearch-page.coreCSB.body #rss-wrapper #rss-label{padding:0!important;margin-bottom:0;font-size:1.4rem}@media(max-width:524px)\n\n(function() {\n\nvar faviconUrl = '//rmkcdn.successfactors.com/b756c600/9af4dca3-36bd-43b1-9865-2.ico';\n\n// Check if favicon link already exists in head\n\nvar headElement = document.getElementsByTagName('head')[0];\n\nvar existingFavicon = headElement.querySelector(\"link[rel*='icon']\");\n\n// Only inject if not found\n\nif (!existingFavicon) {\n\nvar link = document.createElement('link');\n\nlink.type = 'image/x-icon';\n\nlink.rel = 'shortcut icon';\n\nlink.href = faviconUrl;\n\nheadElement.appendChild(link);\n\nbody{display:none !important;}\n\nif (self === top) {\n\nvar antiClickjack = document.getElementById(\"antiClickjack\");\n\nantiClickjack.parentNode.removeChild(antiClickjack);\n\ntop.location = self.location;\n\n$(document).ready(function() {\n\n$(\"#skipLink\").click(function (e) {\n\ne.preventDefault();\n\n$(\"#content\").focus().css('outline','none');\n\nvar offset = $(':target').offset();\n\nvar fixedHeaderHeight = $(\"#header\").innerHeight();\n\nvar scrollto = offset.top - fixedHeaderHeight;\n\n$('html, body').animate({scrollTop:scrollto}, 0);\n\nSkip to main content\n\nSeagate's Data Privacy\n\nRecruitment Fraud Alert\n\nJoin Talent Network\n\nMeet Seagate\n\nLife at Seagate\n\nHiring Process\n\nUniversity Programs\n\nDiversity, Equity & Inclusion\n\nVIEW PROFILE\n\nSearch Jobs\n\nWhere we work\n\nHow we work\n\n// @media only screen and (min-width: 767px) { body { padding-top: \" + $('#header').outerHeight(true) + \"px;} } \").appendTo(\"head\");\n\n}).trigger('resizeFixedHeader');\n\n$(window).on( \"ready\", function() {\n\n$(document).trigger('resizeFixedHeader');\n\n$(window).on( \"load\", function() {\n\n// Variables for CSB determined properties\n\nvar jobAlertLinkLabelTextFontColor = \"\";\n\nvar jobAlertLinkLabelTextHoverColor = \"\";\n\ndocument.getElementById(\"aria-pageTitleText-hidden\").innerText = \"Embedded Software Engineer (Bachelor's Level, Early Career)\";\n\n// input');\n\nvar submitButton = $('.searchwell .keywordsearchbutton:visible');\n\noSearchInputs.on('keyup', function (e) {\n\nif(e?.key?.toLowerCase() === 'enter') {\n\nsubmitButton.trigger('click');\n\n#body.unify div.unify-button-container .unify-apply-now:focus, #body.unify div.unify-button-container .unify-apply-now:hover{color:rgb(0,0,0) !important;}#body.unify div.unify-button-container .unify-apply-now:focus, #body.unify div.unify-button-container .unify-apply-now:hover{background:rgba(93,166,59,1.0) !important;}\n\nEmbedded Software Engineer (Bachelor's Level, Early Career)\n\nSeagate is a global leader in mass-capacity data storage, helping organizations and people around the world create, protect, and unlock the value of their data. With over 45 years of technology leadership, Seagate delivers trusted storage solutions for Cloud, Enterprise, Edge, and Consumer markets, powering the infrastructure behind AI, digital transformation, and the world’s growing data economy.\n\nOur Software Engineering organization develops embedded software for Seagate storage products, combining strong software fundamentals with close-to-hardware design to deliver reliable, high-performance product behavior.\n\nAnalyze, design, implement, debug, and maintain embedded software components in C/C++.\n\nApply computer science fundamentals to solve product software problems.\n\nBuild modular, testable software with clear interfaces, appropriate abstraction, and maintainable structure.\n\nImprove embedded software architecture for reuse, performance, reliability, and long-term ownership.\n\nTroubleshoot software and system-level issues across embedded software, hardware, and storage product behavior.\n\nParticipate in code reviews, design discussions, and defect prevention practices to improve software quality.\n\nYou want to build reliable embedded systems with software that is understandable, testable, extensible, and sustainable.\n\nYou are curious about how software interacts with hardware, operating systems, storage architecture, and product behavior.\n\nYou break down complex problems, reason from first principles, and communicate technical tradeoffs clearly.\n\nBachelor's degree in Computer Science or a related technical discipline.\n\nStrong foundation in core computer science concepts, including operating systems, concurrency, memory management, and computer architecture.\n\nProgramming experience in C/C++, Rust, Python or similar languages.\n\nUnderstanding embedded systems, resource-constrained design, hardware/software interaction, and modern development practices.\n\nExperience with embedded operating systems, device drivers, storage systems, real-time software, or low-level platform software.\n\nExposure to modular architecture, interface contracts, testable design, build systems, CI/CD, or software quality tools.\n\nKnowledge of HDD devices, storage protocols, system-level performance analysis, or storage subsystem topologies.\n\nOur Longmont product-design campus is nestled against the foothills with exceptional views of the Rocky Mountains. Here at work, you can grab breakfast and lunch in the on-site cafeteria or get an afternoon espresso, prepared by a professional barista. Our employees enjoy an active on-site experience from sporting activities (get in a few laps at lunch on our 1-mile walking path around campus, play ping-pong or volleyball, or stop in our 24- hour fitness center for a group or individual workout) to community service and many employee resource groups.\n\nOur Shakopee campus is located 25 minutes southwest of Minneapolis in a setting with a rural vibe – it overlooks a horse racing track and stables, yet it has great entertainment venues close by as well. With wide-open spaces, the campus has plenty of space for running, biking, shooting some hoops or playing volleyball over lunch. If working out is your thing, the on-site fully equipped fitness center hosts wellness programs, tournaments and group workouts. Hungry? Seagate offers an on-site café with freshly sourced foods and specialty coffees, or if you prefer, drive to one of many restaurants just minutes away.\n\nThe estimated base salary range for this position is $72,571.00 - $103,784.00. The individual salary is based on work location and additional factors, including job-related skills, experience, and relevant education or training.\n\nSeagate offers comprehensive benefits to its eligible employees, including, but not limited to, , eligibility to participate in discretionary bonus program, medical, dental, vision, and life insurance, short-and long-term disability, 401(k), employee stock purchase plan, health savings account, dependent care, and healthcare spending accounts. Seagate also offers paid time off, including 12 holidays, flexible time off provided pursuant to Seagate policy, a minimum of 48 hours of paid sick leave, and 16 weeks of paid parental leave. The benefits for this position are based on a full-time schedule for a full calendar year and may differ depending on work location.\n\n: Longmont, United States, Shakopee, United States\n\nInformation at a Glance\n\nbuttontext489d51fbfbf8b0e2 a{\n\nborder: 1px solid transparent;\n\nbuttontext489d51fbfbf8b0e2 a:focus{\n\nborder: 1px dashed #5da63b !important;\n\noutline: none !important;",
+    "source": "MANUAL_ADMIN",
+    "title": "Embedded software engineer (bachelor",
+    "salary": {
+      "unit": "YEAR",
+      "min": 72571,
+      "max": 103784,
+      "currency": "USD"
+    },
+    "skills": [
+      "Hardware Design",
+      "Embedded Systems",
+      "C",
+      "C++",
+      "Python",
+      "Rust",
+      "CI/CD"
+    ],
+    "qualifications": [
+      "Embedded Software Engineer (Bachelor's Level, Early Career) Job Details | Seagate Technology",
+      "document.getElementById(\"aria-pageTitleText-hidden\").innerText = \"Embedded Software Engineer (Bachelor's Level, Early Career)\";",
+      "Embedded Software Engineer (Bachelor's Level, Early Career)",
+      "Apply computer science fundamentals to solve product software problems.",
+      "You want to build reliable embedded systems with software that is understandable, testable, extensible, and sustainable.",
+      "You are curious about how software interacts with hardware, operating systems, storage architecture, and product behavior.",
+      "You break down complex problems, reason from first principles, and communicate technical tradeoffs clearly.",
+      "===HEADER: Your experience includes:==="
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Analyze, design, implement, debug, and maintain embedded software components in C/C++.",
+      "Build modular, testable software with clear interfaces, appropriate abstraction, and maintainable structure.",
+      "Troubleshoot software and system-level issues across embedded software, hardware, and storage product behavior.",
+      "Participate in code reviews, design discussions, and defect prevention practices to improve software quality."
+    ],
+    "fingerprint": "seagatecareers-embedded-software-engineer-bachelor-seattle-wa-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "Seagatecareers",
+    "id": "manual-1792069970167",
+    "state": "WA",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=seagatecareers.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://seagatecareers.com/job/Longmont-Embedded-Software-Engineer-(Bachelor&apos;s-Level,-Early-Career)-CO-80501/15166-en_US",
+    "location": "Seattle, WA / Hybrid",
+    "category": "Others",
+    "companyWebsite": "https://www.seagatecareers.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Jose",
+    "postalCode": "95113",
+    "description": "Tessera Labs is redefining how enterprises adop and operationalize Artificial Intelligence. Backed by Foundation and with a recent $60M Series A led by Andreessen Horowitz (a16z), we build multi-agent AI Systems that automate complex business workflows across platforms like SAP, Salesforce, Workday, Snowflake, Databricks and more.\n\nOur mission: bring real AI automation to the enterprise - with speed and precision and measurable impact. We move fast, operate with extreme ownership, and build at the frontier of applied AI.\n\nWe're hiring a Full Stack Software Engineering Intern to help build Tessera Mosaic, where AI agents work alongside people to transform how enterprises operate. You'll help drive product problems end to end, from interfaces for understanding and controlling agents to the data and backend systems that power them.\n\nYou'll work closely with product and design, with real ownership over what we build and how we build it. If you enjoy turning ambiguous problems into polished products, you can have an outsized impact on a platform that's still early. You can lean toward frontend or backend depending on your preference, or do both.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineering Intern, Full Stack",
+    "salary": {
+      "unit": "YEAR",
+      "min": 40,
+      "max": 45,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "===HEADER: About Tessera Labs===",
+      "Familiarity with React, TypeScript, or Python, which make up most of our stack.",
+      "Tessera Labs is an equal opportunity employer and welcomes candidates from all backgrounds and experiences."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Build product features in React and TypeScript on the frontend and/or Python on the backend, including APIs, data models, and services.",
+      "Take problems from a rough starting point to shipped: figure out what's actually being asked, dig into the data and code, propose an approach, and build it.",
+      "Build the tools that make AI agents understandable and controllable for the people using them: seeing what an agent is doing, reviewing its work, and stepping in when needed.",
+      "Work with data from systems like SAP, Salesforce, and Oracle, including their complex data models and real-world edge cases.",
+      "Partner with product and design to question assumptions, shape solutions, get feedback early, and iterate.",
+      "Strong product sense. You think about the people using what you build and have ideas about how to make it better, whether you're working on the frontend or the backend.",
+      "Experience building software, through class projects, side projects, or a previous internship. Any language is fine.",
+      "You learn quickly and can make progress on a problem without being told exactly what to do. We care far more about how fast you're growing than where you're starting.",
+      "Some comfort with data, like SQL and how tables relate to each other, and a willingness to learn whatever a feature needs, from the database to the UI.",
+      "You explain your thinking clearly and ask questions early.",
+      "Proactively ask for help when blocked and communicate openly about challenges.",
+      "You've built something with LLMs or agents."
+    ],
+    "fingerprint": "tessera-labs-software-engineering-intern-full-stack-san-jose-ca",
+    "atsProvider": "Ashby",
+    "company": "Tessera Labs",
+    "id": "manual-1792085596203",
+    "state": "CA",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "INTERN",
+    "companyLogo": "https://app.ashbyhq.com/api/images/org-theme-logo/7450f582-80b9-495c-b4f0-a985b1cee61f/117706d9-adfa-4f80-aaf5-604b2e8a1e24/2a9a9535-8bdd-46f4-b9af-4d2d34eb8657.png",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/tessera-labs/892bb150-8c98-47f4-a8b6-93633ecb2ea7",
+    "location": "San Jose, CA",
+    "category": "Full Stack",
+    "companyWebsite": "https://tessera-labs.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Hopewell Junction",
+    "postalCode": "12533",
+    "description": "An internship at onsemi offers a dynamic opportunity to gain hands-on experience through real-world projects that drive innovation in the semiconductor industry. Interns are entrusted with meaningful responsibilities and exposed to cutting-edge technologies, fostering both technical skill development and professional growth.\n\nonsemi views internships as a strategic pipeline for entry-level career positions, providing a collaborative and inclusive environment where interns work alongside diverse teams and contribute to high-impact initiatives. The company’s commitment to sustainability, including its goal of achieving net-zero emissions by 2040, enables interns to engage in projects that align with global environmental priorities.\n\nAbout Onsemi:\nonsemi (Nasdaq: ON) is driving disruptive innovations to help build a better future. With a focus on automotive and industrial end-markets, the company is accelerating change in megatrends such as vehicle electrification and safety, sustainable energy grids, industrial automation, and 5G and cloud infrastructure. With a highly differentiated and innovative product portfolio, onsemi creates intelli",
+    "source": "MANUAL_ADMIN",
+    "title": "Summer 2027 - Manufacturing AI Intern",
+    "salary": {
+      "unit": "HOUR",
+      "min": 26,
+      "max": 44,
+      "currency": "USD"
+    },
+    "skills": [
+      "Electrical Engineering",
+      "Computer Engineering",
+      "Python",
+      "Azure",
+      "SQL",
+      "APIs"
+    ],
+    "qualifications": [
+      "Qualifications – External",
+      "Minimum Qualifications:",
+      "· Pursuing or recently completed a BS or MS degree in Computer Science, Data Science, Software Engineering, Computer Engineering, Electrical Engineering, Industrial Engineering, or a related technical discipline.",
+      "· Strong programming, analytical, and problem-solving skills.",
+      "· Interest in artificial intelligence and emerging technologies.",
+      "· Strong written and verbal communication skills."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "The Yield Enhancement Systems (YES) team is seeking a motivated AI Engineering Intern to help develop next-generation AI solutions that improve manufacturing analytics, engineering productivity, and yield improvement across the semiconductor manufacturing lifecycle.",
+      "This role sits at the intersection of artificial intelligence, data engineering, manufacturing analytics, and software development. The intern will work with engineers, data scientists, and AI developers to build intelligent agents, curate engineering knowledge, develop data-driven workflows, and explore how Large Language Models (LLMs) can accelerate engineering decision-making.",
+      "Projects may include conversational AI, automated report generation, anomaly detection, yield analysis, document intelligence, and natural-language access to engineering and manufacturing data.",
+      "What You'll Do?",
+      "· Develop and evaluate AI agents that assist engineers with manufacturing, yield, and engineering analytics.",
+      "· Prototype intelligent workflows and engineering copilots using modern LLM platforms and agent frameworks."
+    ],
+    "fingerprint": "onsemi-summer-2027-manufacturing-ai-intern-hopewell-junction-ny",
+    "atsProvider": "Direct Career Portal",
+    "company": "Onsemi",
+    "id": "manual-1792085654339",
+    "state": "NY",
+    "datePosted": "2026-10-15",
+    "validThrough": "2026-11-14",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=onsemi.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://hctz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/2506642",
+    "location": "Hopewell Junction, NY",
+    "category": "Others",
+    "companyWebsite": "https://onsemi.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "We have many opportunities available on our other career site pages. Click here to link to our careers page!\n\nSignet Jewelers is the world's largest retailer of diamond jewelry, operating more than 2,800 stores worldwide under the iconic brands: Kay Jewelers, Zales, Jared, H.Samuel, Ernest Jones, Peoples, Banter by Piercing Pagoda, Rocksbox, JamesAllen.com and Diamonds Direct. We are a people-first company and t his core value is at the heart of everything we do, from empowering our valued team members, to collaborating with our customers, to fostering the communities in which we live and serve. People – and the love their actions inspire – are what drive us. We’re not only proud of the love we inspire outside our walls, we’re especially proud of the diversity, inclusion and equity we’re inspiring inside. There are dynamic career paths awaiting you – rewarding opportunities to impact the lives of others and inspire love. Join us!\n\nWe are seeking a Software Engineer to join our Enterprise Services Integration team. This role is well suited for someone early in their career who is interested in AWS cloud development and enterprise integration.\n\nThe engineer will contribute to the development, testing, troubleshooting, and support of AWS-based integrations while working closely with senior engineers and architects. Responsibilities will include hands-on coding, validating integrations, resolving defects, and supporting AWS integration solutions. More complex integration work will be performed with guidance and oversight from experienced engineers.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer I (Remote)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 57000,
+      "max": 72500,
+      "currency": "USD"
+    },
+    "skills": [
+      "Scripting",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "Node.js",
+      "AWS",
+      "APIs"
+    ],
+    "qualifications": [
+      "Technical education, coursework, training, or equivalent practical experience in software development, information technology, or a related technical field.",
+      "Relevant experience may include software or web development, application or technical support, QA/testing, internships, academic projects, or other related technical work.",
+      "Foundational programming or scripting skills using JavaScript, TypeScript, Node.js, Python, Java, or a similar language.",
+      "Basic understanding of APIs, software development concepts, testing practices, and source control such as Git.",
+      "Strong analytical, troubleshooting, and problem-solving skills.",
+      "Ability to learn new technologies, work effectively with guidance, and collaborate with others.",
+      "Hands-on experience with AWS through professional work, internships, coursework, training, labs, or personal projects.",
+      "Familiarity with AWS services such as Lambda, S3, SQS, SNS, API Gateway, or CloudWatch.",
+      "Experience with JavaScript, TypeScript, Node.js, or web application development.",
+      "Exposure to API testing, automated testing, enterprise integration, messaging, or event-driven systems.",
+      "AWS certification, such as AWS Certified Cloud Practitioner or AWS Certified Solutions Architect."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Support the development and maintenance of AWS-based applications and integrations.",
+      "Write and modify code using JavaScript, TypeScript, Node.js, or similar technologies.",
+      "Work with senior engineers on the design and implementation of integration solutions.",
+      "Perform functional, integration, regression, and automated testing of AWS-based integrations.",
+      "Develop and maintain test scripts and automated tests for APIs, data flows, and event-driven integrations.",
+      "Validate integration behavior, including payloads, error handling, logging, monitoring, and expected outcomes.",
+      "Troubleshoot defects, assist with root-cause analysis, and verify fixes.",
+      "Work with AWS services such as Lambda, SQS, SNS, S3, CloudWatch, and API Gateway.",
+      "Participate in code reviews and follow established engineering standards.",
+      "Assist with application and integration support activities.",
+      "Create and maintain technical and testing documentation.",
+      "Participate in Agile development activities and collaborate with developers, architects, product teams, and other technology teams."
+    ],
+    "fingerprint": "signetjewelers-software-engineer-i-remote--remote",
+    "atsProvider": "Workday",
+    "company": "Signetjewelers",
+    "id": "manual-1792085379156",
+    "datePosted": "2026-10-15",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-14",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=signetjewelers.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://signetjewelers.wd1.myworkdayjobs.com/SignetCorporateCareers/job/Support-Center---Akron-OH/Software-Engineer-I--Remote-_REQ_83354-1",
+    "location": "Remote (US)",
+    "category": "Backend",
+    "companyWebsite": "https://signetjewelers.com",
+    "status": "ACTIVE"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "description": "When you’re the best, we’re the best. We instill an environment where employees feel engaged, satisfied and able to contribute their unique skills and talents while living and working as their authentic selves. We provide extensive opportunities for personal and professional development, building both employee competence and organizational capability to fuel exceptional performance through an inclusive environment both now and in the future.\n\nIn this role, you will contribute to the design, development, testing, and delivery of scalable, secure, and user-centered software solutions across Vizient. You will work closely with product managers, business stakeholders, architects, data scientists, quality engineers, and experienced software engineers to deliver small, independently demonstrable increments while developing strong engineering skills. This role will leverage AI-assisted development practices, including structured work items, repository guidance, automated implementation, pull requests, testing, and continuous feedback.",
+    "source": "MANUAL_ADMIN",
+    "title": "Associate Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 59600,
+      "max": 101200,
+      "currency": "USD"
+    },
+    "skills": [
+      "JavaScript",
+      "TypeScript",
+      "Java",
+      "React",
+      "Spring Boot",
+      "PostgreSQL",
+      "REST APIs",
+      "APIs"
+    ],
+    "qualifications": [
+      "Bachelor’s degree in Computer Science, Engineering, or a related field, or equivalent professional experience required.",
+      "to two years of professional software engineering experience, including internships, co-ops, or relevant project experience required.",
+      "Foundational knowledge of software development principles, object-oriented programming, data structures, and algorithms required.",
+      "Experience with Java or another object-oriented programming language required.",
+      "Familiarity with web development concepts and technologies such as React, TypeScript, JavaScript, HTML, or CSS required.",
+      "Familiarity with REST APIs, relational databases, and source-control systems such as Git required.",
+      "Understanding of software testing and the importance of writing maintainable and reliable code required.",
+      "Familiarity with basic application security and secure-coding practices required.",
+      "Ability to deliver work incrementally through small, independently testable units required.",
+      "Ability to work effectively with product, architecture, data, quality engineering, and business stakeholders required.",
+      "Strong communication, problem-solving, collaboration, attention-to-detail, and customer-focus skills required.",
+      "Demonstrated ownership, accountability, integrity, commitment to inclusion, and willingness to receive feedback and continuously improve required.",
+      "At Vizient, we consider skills, experience, and organizational needs in our compensation approach. Geographic factors may adjust the range estimate and hires typically fall below the top range. Compensation decisions are tailored to individual circumstances. The current salary range for this role is $59,600.00 to $101,200.00.",
+      "This position is also incentive eligible."
+    ],
+    "responsibilities": [
+      "Develop and maintain applications, services, APIs, and user interfaces under the guidance of experienced engineers.",
+      "Translate defined requirements and technical designs into clean, maintainable, and testable software.",
+      "Contribute to backend services using Java, Spring Boot, or comparable technologies.",
+      "Contribute to modern web applications using React, TypeScript, JavaScript, or comparable frontend technologies.",
+      "Develop and consume REST APIs and support event-driven integrations.",
+      "Work with relational databases such as PostgreSQL and apply basic data-modeling and query-development practices.",
+      "Write and maintain unit, integration, API, and end-to-end tests.",
+      "Participate in debugging, code reviews, technical discussions, backlog refinement, demonstrations, and continuous-improvement activities.",
+      "Contribute to application security, accessibility, observability, performance, scalability, and operational readiness.",
+      "Use AI-assisted development tools responsibly and validate generated code with guidance from experienced engineers.",
+      "Follow repository guidance, coding standards, testing expectations, technical documentation, and Software Factory development practices.",
+      "Ask questions, seek feedback, share knowledge, and collaborate respectfully while demonstrating ownership, accountability, attention to detail, and a willingness to learn."
+    ],
+    "atsProvider": "Direct Career Portal",
+    "company": "Vizientinc",
+    "id": "manual-1791996719788",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=vizientinc.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.vizientinc.com/careers/job/446721364120?domain=vizientinc.com",
+    "category": "Frontend",
+    "companyWebsite": "https://www.vizientinc.com",
+    "status": "ACTIVE",
+    "experienceLevel": "Entry Level",
+    "city": "Irving",
+    "employmentType": "FULL_TIME",
+    "postalCode": "75038",
+    "fingerprint": "vizientinc-associate-software-engineer-tx-irving-",
+    "location": "Irving, TX",
+    "state": "TX",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "New York",
+    "postalCode": "10001",
+    "description": "A Career with Point72’s Technology Team\n\nAs Point72 reimagines the future of investing, our Technology team is constantly improving our company’s IT infrastructure, positioning us at the forefront of a rapidly evolving technology landscape. We’re a team of experts experimenting, discovering new ways to harness the power of open-source solutions, and embracing enterprise agile methodology. We encourage professional development to ensure you bring innovative ideas to our products while satisfying your own intellectual curiosity.\n\nAbout the Software Engineer Internship\n\nThe Software Engineer Internship at Point72 provides individuals interested in pursuing a career in technology at an investment firm with a valuable, hands-on experience. During the program, you will gain exposure to:\n\n• Developing and enhancing software applications that support asset management functions, including trading systems, research platforms, and data analysis tools\n\n• Code reviews, maintaining existing codebases, and ensuring software scalability and integrity\n\n• Technologies and methodologies like AI, machine learning, big data, and cloud computing to solve complex problems\n\n• Collaborating with cross-functional teams to ensure technology solutions align with business goals and processes\n\n• Documenting and presenting design decisions, code, and functionalities to team members and stakeholders\n\n• Interacting with senior-level professionals\n\n• The fast-paced, competitive hedge fund world and industry best practices\n\nSummer Internship Program at Point72\n\nIn addition to the learning and development you’ll receive in your day-to-day role with your team, as a part of our summer internship program you will:\n\n• Work alongside your fellow interns and be mentored by experienced professionals\n\n• Meet your peers through designated intern programming, volunteer opportunities, and social events\n\n• Attend sessions with senior leaders discussing their expertise and career paths\n\n• Get hands on access to the wealth of tools and resources that Point72 employees use every day\n\n• Gain exposure to groups and functions with unique responsibilities and perspectives on our industry\n\n• Develop technical, writing, and presentation skills\n\n• Participate in networking opportunities across the firm, with groups such as Trading, Finance, Trade Support, Compliance, and Market Intelligence\n\nWhat’s Required\n\n• Bachelor’s degree expected between Fall 2027 and Spring 2028\n\n• Strong programming skills in one or more of the following languages: Python, Java, C++, or similar\n\n• Familiarity with software development methodologies and tools (e.g., Git, JIRA)\n\n• Ability to manage multiple tasks and deadlines in a fast-paced environment\n\n• Strong attention to detail\n\n• Strong analytical, writing, verbal communication, and technical skills\n\n• Demonstrated ability to work cooperatively with all levels of the team\n\n• Ability and willingness to conduct yourself with professionalism and integrity at all times\n\n• Commitment to the highest ethical standards\n\nAbout Point72\nPoint72 is a leading global alternative investment firm led by Steven A. Cohen. Building on more than 30 years of investing experience, Point72 seeks to deliver superior returns for its investors through fundamental and systematic investing strategies across asset classes and geographies. We aim to attract and retain the industry’s brightest talent by cultivating an investor-led culture and committing to our people’s long-term growth. For more information, visit https://point72.com/ .\n\nThe annual base salary is $130,000 (USD), which will be prorated based on internship start and end date; this does not include overtime compensation. Actual compensation offered to the successful candidate may vary from posted hiring based upon geographic location, work experience, education, and/or skill level, among other things.",
+    "source": "MANUAL_ADMIN",
+    "title": "2027 Summer Internship – Software Engineer",
+    "salary": {
+      "unit": "HOUR",
+      "min": 38,
+      "max": 58,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Python",
+      "Java",
+      "Git",
+      "Data Analysis"
+    ],
+    "qualifications": [
+      "A Career with Point72’s Technology Team",
+      "About the Software Engineer Internship",
+      "Interacting with senior-level professionals",
+      "Summer Internship Program at Point72",
+      "Develop technical, writing, and presentation skills",
+      "What’s Required",
+      "Bachelor’s degree expected between Fall 2027 and Spring 2028",
+      "Familiarity with software development methodologies and tools (e.g., Git, JIRA)"
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "point72-2027-summer-internship-software-engineer-new-york-ny",
+    "atsProvider": "Greenhouse",
+    "company": "Point72",
+    "id": "manual-1791995897773",
+    "state": "NY",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=point72.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/point72/jobs/8885733002",
+    "location": "New York, NY",
+    "category": "Backend",
+    "companyWebsite": "https://point72.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Seattle",
+    "postalCode": "98101",
+    "description": "Carbon Robotics is the leader in physical AI for agriculture, helping farmers become more profitable and sustainable. Its flagship product, the LaserWeeder™, is the world’s leading commercial laser weeding system with hundreds of units operated by farmers in 15 countries worldwide.\n\nLaserWeeder combines computer vision, AI, robotics, and high-powered lasers to identify weeds and destroy them with sub-millimeter precision—no herbicides, hand labor, or soil disturbance required. Growers achieve weed control cost reductions of up to 80% and crop yield increases of 5–50%, with payback in one to three years. The system is powered by Carbon AI’s Large Plant Model (LPM), trained on 150 million labeled plants, and can start weeding any crop or field in minutes.\n\nThe company's second product is Carbon Autonomy, the most dependable tractor autonomy solution. Carbon Autonomy includes a retrofit tractor autonomy kit for John Deere tractors, autonomy software, and remote supervision for real-time interventions if required.\n\nCarbon Robotics is based in Seattle, Washington State, USA and has raised $185 million in capital since 2018 from leading investors including NVIDIA’s NVentures and BOND.\n\nYouTube | X | Instagram | LinkedIn | News\n\nCarbon Robotics is seeking passionate, hands-on Summer 2027 Engineering Interns (Hardware & Software) to join our team in Seattle, WA . As an intern, you will work alongside cross-disciplinary peers to build physical AI and advanced robotics—like our revolutionary LaserWeeder G2 and Carbon Autonomy Tractor Kit—to increase farming profitability, food abundance, and planetary health.\n\nHardware Engineering Intern\n\n• What You'll Do: Partner with mechanical and electrical engineers to design, prototype, and troubleshoot physical robot components, ensuring field-ready reliability.\n\n• Requirements: Pursuing a BS/MS in Mechanical Engineering, Electrical Engineering, or Robotics; hands-on experience with CAD tooling, circuit design, or hardware prototyping.\n\nSoftware Engineering Intern\n\n• What You'll Do: Build robotic software, design features or machine learning pipelines, and optimize algorithms that support high-performance physical AI.\n\n• Requirements: Pursuing a BSCS or equivalent; knowledge of data structures, algorithms, and concurrency; proficiency in at least one language like Python, Go, or JavaScript/React.\n\nWhy Carbon Robotics?\n\n• Impact: Real-world physical AI applications with trips to the farm to see your code and hardware in action.\n\n• Environment: A high-autonomy, fast-paced culture based in our Seattle HQ.\n\nCarbon Robotics follows equitable hiring practices. Flexibility in our hiring process allows hiring of talent at levels different from what are posted. The compensation range outlined is based on a target budgeted base salary. Individual base pay depends on various factors such as relevant experience and skill, Interview assessments and responsibility of role, job duties/requirements. Offers are determined using our equitable hiring practices. Carbon Robotics offers additional compensation in the form of benefits premiums, pre-IPO stock options and On Target Earning commissions for appropriate positions. Base pay ranges are reviewed each year. We are committed to the principle of pay equity – paying employees equitably for similar work.\n\nCarbon Robotics' base salary pay range:\n\n$20 — $40 USD\n\nWhy would you join Carbon Robotics?\n\nPassion for building teams capable of solving uniquely interesting problems . Innovation while disrupting the market is what we do. Profiled in WSJ and Forbes, Carbon Robotics is poised to become the next billion dollar company in the rapidly growing worldwide Ag-Tech industry.\n\nWe offer competitive compensation and benefits to our full time US based* employees, including:\n\n• Competitive salaries\n\n• Pre-IPO Stock Options",
+    "source": "MANUAL_ADMIN",
+    "title": "2027 Summer Intern",
+    "salary": {
+      "unit": "HOUR",
+      "min": 38,
+      "max": 58,
+      "currency": "USD"
+    },
+    "skills": [
+      "Circuit Design",
+      "C",
+      "Electrical Engineering",
+      "JavaScript",
+      "Python",
+      "Go",
+      "React"
+    ],
+    "qualifications": [
+      "Fully-paid medical, dental, and vision insurance premiums for you and all dependents"
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "carbon-robotics-2027-summer-intern-seattle-wa",
+    "atsProvider": "Direct Career Portal",
+    "company": "Carbon Robotics",
+    "id": "manual-1791995975645",
+    "state": "WA",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=carbonrobotics.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://carbonrobotics.com/job-openings?gh_jid=4721558006",
+    "location": "Seattle, WA",
+    "category": "Others",
+    "companyWebsite": "https://carbonrobotics.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Diego",
+    "postalCode": "92101",
+    "description": "Use educational background, experience and reasoning skills to plan, collect and analyze data/information and communicate the process and the results for assigned tasks.\n\nUse tenacity, patience, self-discipline and passion for excellence to responsibly make and keep made commitments.\n\nUse every opportunity to grow competency thru mentorship, curiosity, communication, exposure and initiative. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop modular code features participate in peer code reviews. Candidates should have strong fundamentals in use educational background, experience and reasoning skills to plan, collect and analyze data/information and communicate the process and the results for assigned tasks. use tenacity, patience, self-discipline and passion for excellence to responsibly make and keep made commitments..",
+    "source": "MANUAL_ADMIN",
+    "title": "Robotics Process Engineer 1",
+    "salary": {
+      "unit": "YEAR",
+      "min": 70000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Use educational background, experience and reasoning skills to plan, collect and analyze data/information and communicate the process and the results for assigned tasks.",
+      "Use tenacity, patience, self-discipline and passion for excellence to responsibly make and keep made commitments.",
+      "Use every opportunity to grow competency thru mentorship, curiosity, communication, exposure and initiative."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "monarch-quantum-robotics-process-engineer-1-san-diego-california-united-states",
+    "atsProvider": "Workable",
+    "company": "Monarch Quantum",
+    "id": "manual-1791995148744",
+    "state": "CA",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=monarchquantum.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/bVp7kaKuA39GpaprNa99Ng/robotics-process-engineer-1-in-san-diego-at-monarch-quantum",
+    "location": "San Diego, California, United States",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.monarchquantum.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Santa Clara",
+    "postalCode": "95054",
+    "description": "Today, NVIDIA is tapping into the unlimited potential of AI to define the next era of computing. An era in which our GPU acts as the brains of computers, robots, and self-driving cars that can understand the world. Doing what’s never been done before takes vision, innovation, and the world’s best talent. As an NVIDIAN, you’ll be immersed in a diverse, encouraging environment where everyone is inspired to do their best work. Come join the team and see how we can make a lasting impact on the world!\n\nWe are now looking for an Low Power Design/Verification ASIC Engineer - New College Grad 2026. We continue to rapidly grow the research and development of energy-efficient GPU and SOC architectures. We are continually innovating in creative and unrivaled ways to improve our ability to deliver exceptional perf/watt solutions in a wide range of sectors. Come join NVIDIAs Low Power DV team to develop state of the art GPUs to power AI, Automotive, GeForce, and Mobile products.\n\nWorking very closely with Low Power Architecture, Design, and Software teams to understand next generation features.\n\nResponsible for architecting/developing testbench, infrastructure, and testplans to verify various power management solutions for NVIDIA products.\n\nYou will have the opportunity bring creative ideas that help improve power-aware DV methodologies, as well as influence EDA vendors to improve our simulation and debug efficiencies.\n\nRecently completed a BS, MS or PhD in Electrical or Computer Engineering, or equivalent experience.\n\nYou have an understanding of low power design techniques such as multi VT, Clock gating, Power gating, Block Activity Power, and Dynamic Voltage-Frequency Scaling (DVFS) etc.\n\nGood understanding of processor architecture (GPU is a plus), and related power management design/DV techniques.\n\nMust be experienced with Incisive Low-Power or Synopsys VCS NLP\n\nStrong debug skills and experience with Verdi is needed\n\nMust be fluent in Verilog, SystemVerilog, and understanding of UVM.\n\nPrior knowledge of Low Power Architecture, Low Power CV, and deep learning\n\nGood understanding of power intent in UPF format is a plus\n\nA strong background in Low Power architectures or verification is a plus.\n\nScripting abilities in Python or PERL is a plus and knowledge of C or C++ is a plus\n\nExperience writing or maintaining the script or Makefile that builds the simulation program is a plus\n\nNVIDIA is widely considered to be one of the technology world’s most desirable employers. We have some of the most forward-thinking and hardworking people in the world working for us. Are you creative and autonomous? Do you love a challenge? If so, we want to hear from you.\n\nYour base salary will be determined based on your location, experience, and the pay of employees in similar positions. The base salary range is 100,000 USD - 166,750 USD for Level 1, and 116,000 USD - 189,750 USD for Level 2.\n\nYou will also be eligible for equity and benefits .\n\nApplications for this job will be accepted at least until October 17, 2026.\n\nThis posting is for an existing vacancy.\n\nNVIDIA uses AI tools in its recruiting processes.\n\nNVIDIA is committed to fostering an inclusive work environment and proud to be an equal opportunity employer. As we highly value diversity in our current and future employees, we do not discriminate (including in our hiring and promotion practices) on the basis of race, religion, color, national origin, gender, gender expression, sexual orientation, age, marital status, veteran status, disability status or any other characteristic protected by law.",
+    "source": "MANUAL_ADMIN",
+    "title": "Low Power ASIC Engineer - New College Grad 2027",
+    "salary": {
+      "unit": "YEAR",
+      "min": 100000,
+      "max": 166750,
+      "currency": "USD"
+    },
+    "skills": [
+      "Verilog",
+      "SystemVerilog",
+      "C",
+      "C++",
+      "Scripting",
+      "Computer Engineering",
+      "Python"
+    ],
+    "qualifications": [
+      "Working very closely with Low Power Architecture, Design, and Software teams to understand next generation features.",
+      "Recently completed a BS, MS or PhD in Electrical or Computer Engineering, or equivalent experience.",
+      "You have an understanding of low power design techniques such as multi VT, Clock gating, Power gating, Block Activity Power, and Dynamic Voltage-Frequency Scaling (DVFS) etc.",
+      "Good understanding of processor architecture (GPU is a plus), and related power management design/DV techniques.",
+      "Strong debug skills and experience with Verdi is needed",
+      "Must be fluent in Verilog, SystemVerilog, and understanding of UVM.",
+      "Prior knowledge of Low Power Architecture, Low Power CV, and deep learning",
+      "Good understanding of power intent in UPF format is a plus"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "nvidia-low-power-asic-engineer-new-college-grad-2027-santa-clara-ca",
+    "atsProvider": "Workday",
+    "company": "NVIDIA",
+    "id": "manual-1791995629974",
+    "state": "CA",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=nvidia.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Low-Power-ASIC-Engineer---New-College-Grad-2027_JR2027850",
+    "location": "Santa Clara, CA",
+    "category": "Others",
+    "companyWebsite": "https://nvidia.com/careers",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Cary",
+    "postalCode": "94105",
+    "description": "CWILL (pronounced 'quill') is a post-purchase and retention suite built for Shopify brands. Reduce support tickets, recover lost revenue from returns, and turn one-time buyers into loyal fans — with tools purpose-built for every touchpoint that follows the sale.\n\nTrackingMore is CWILL's shipment tracking platform and API, tracking parcels across 1,600+ carriers for e-commerce brands, 3PLs and developers worldwide.\n\nCustomer issues, production bug fixes and data support for enterprise customers take up a full engineer's time today. As an R&D Trainee, you'll own much of this work, learning our systems from the inside, while growing into a full-stack engineer.\n\nhttps://www.trackingmore.com/\n\n(We are unable to hire in other states; relocation will be required.)\n\nHybrid remote working setting",
+    "source": "MANUAL_ADMIN",
+    "title": "TrackingMore R&D Trainee - Full-Stack Engineer (Backend) - Bilingual Mandarin",
+    "salary": {
+      "unit": "YEAR",
+      "min": 80000,
+      "max": 110000,
+      "currency": "USD"
+    },
+    "skills": [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "Go",
+      "PHP",
+      "React",
+      "Vue"
+    ],
+    "qualifications": [
+      "Bachelor's degree or higher in Computer Science, Software Engineering, Information Technology or a related field; Class of 2026 or recent graduate",
+      "Strong programming fundamentals: proficient in at least one backend language (Java, Go, Python, Node.js or PHP), with a good grasp of common data structures and algorithms",
+      "Frontend basics (HTML, CSS, JavaScript) and at least one framework (React or Vue)",
+      "Backend fundamentals: HTTP, RESTful API design and MVC; able to build basic APIs on your own",
+      "At least one relational database (MySQL or PostgreSQL): able to write SQL and understand indexes and transactions",
+      "Comfortable using Git for version control and team collaboration",
+      "Good coding habits, with attention to readability and maintainability",
+      "Strong learner who picks up new technologies quickly and solves problems by reading documentation",
+      "Clear logical thinking: able to break down problems and explain technical choices",
+      "Good communication and ownership; you share progress proactively and stay calm under pressure",
+      "Professional working proficiency in Mandarin Chinese and English (you will work daily with our engineering team in China)",
+      "Nice to Have",
+      "A complete full-stack project you can show (coursework, competition, open source or internship)",
+      "Internship experience on a software team"
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Customer Issue Support",
+      "Investigate and resolve technical issues from user and support tickets, quickly finding the root cause across frontend and backend (data errors, API errors, display problems and more)",
+      "Classify issues by type and severity, respond quickly to urgent ones and drive fixes to completion",
+      "Document frequent issues as troubleshooting guides and FAQs to reduce repeat tickets",
+      "Work with support and product to reproduce problems, and provide data corrections or workarounds when needed",
+      "Enterprise Customer Support",
+      "Prioritize production issues from enterprise customers, track progress and keep stakeholders updated",
+      "Product Improvements",
+      "Build feature improvements and experience upgrades requested by product and operations, from frontend and backend development through testing and release",
+      "Improve performance, refactor code and reduce technical debt to make the system more stable and responsive",
+      "Join requirement reviews and give input on technical feasibility"
+    ],
+    "fingerprint": "cwill-trackingmore-r-d-trainee-full-stack-engineer-backend-bilingual-mandarin-cary-nc-hybrid",
+    "atsProvider": "Workable",
+    "company": "Cwill",
+    "id": "manual-1791994574338",
+    "state": "NC",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=cwill.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/wFcXYoaXLmmRnVSMtn62Nz/hybrid-trackingmore-r%26d-trainee---full-stack-engineer-(backend)---bilingual-mandarin-in-cary-at-cwill",
+    "location": "Cary, NC / Hybrid",
+    "category": "Frontend",
+    "companyWebsite": "https://www.cwill.com/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Sunnyvale",
+    "postalCode": "94086",
+    "description": "Meta's Silicon Engineering organization is building custom silicon solutions that power the infrastructure underpinning Meta's AI and data center workloads at scale. As an ASIC Engineer specializing in architecture, performance and modeling, you will define and drive the architectural performance analysis, pre-silicon modeling, and microarchitectural exploration of custom ASICs designed for Meta's infrastructure. In this role, you will establish functional and performance modeling methodologies and long-term silicon roadmap strategy, as well as develop and analyze workloads, partnering with architecture, design, and software teams to ensure Meta's infrastructure silicon meets the demanding throughput, latency, and efficiency targets required at hyperscale.\n\nDrive microarchitectural exploration and trade-off analysis across compute, memory subsystem, interconnect, and I/O domains to inform silicon architecture decisions\n\nDefine and own the performance modeling strategy for custom infrastructure ASICs, including development of cycle-accurate and transaction-level simulation environments\n\nDevelop and maintain C++ models of AI chip IPs and subsystems for architecture exploration, performance analysis, and software development\n\nDevelop low-level workloads and kernels for machine learning training and inference applications\n\nEstablish performance analysis methodologies, benchmarking frameworks, and bottleneck identification techniques across the full ASIC pipeline\n\nCollaborate with architecture, RTL design, and physical design teams to translate performance requirements into implementable microarchitectural specifications\n\nPartner with software and systems teams to co-optimize workload scheduling, firmware, and driver behavior against silicon performance characteristics\n\nLead cross-functional technical reviews and communicate performance modeling results and architectural recommendations to engineering leadership\n\nDefine long-term performance modeling infrastructure roadmaps, including tooling, automation, and simulation platform investments\n\nMentor other engineers on performance modeling techniques, simulation methodology, and microarchitectural analysis best practices\n\nIdentify and resolve performance gaps between modeled and measured silicon behavior through structured root-cause analysis and model calibration",
+    "source": "MANUAL_ADMIN",
+    "title": "ASIC Engineer, Performance Architecture and Modeling (University Grad) Responsibilities",
+    "salary": {
+      "unit": "YEAR",
+      "min": 114000,
+      "max": 172000,
+      "currency": "USD"
+    },
+    "skills": [
+      "SystemVerilog",
+      "VHDL",
+      "Firmware",
+      "C",
+      "C++",
+      "Electrical Engineering",
+      "Computer Engineering",
+      "Python"
+    ],
+    "qualifications": [
+      "Currently has, or is in the process of obtaining a Bachelor's degree in Computer Science, Computer Engineering, relevant technical field, or equivalent practical experience. Degree must be completed prior to joining Meta",
+      "Currently has, or is in the process of obtaining a Master's or PhD degree in Computer Science, Computer Engineering, Electrical Engineering, relevant technical field, or equivalent practical experience. Degree must be completed prior to joining Meta",
+      "Proficiency in C++ and Python for developing simulation models, automation frameworks, and performance analysis tools",
+      "Experience in ASIC performance modeling, microarchitectural analysis, or pre-silicon simulation for custom silicon or SoC designs",
+      "Experience with the performance analysis of data center, AI accelerator, or high-performance computing workloads on custom silicon",
+      "Experience developing cycle-accurate or transaction-level performance models using C++ and SystemC for complex digital systems, including processors, memory subsystems, or high-speed interconnects",
+      "Experience defining microarchitectural specifications and driving cross-functional alignment across architecture, RTL, and physical design teams",
+      "Experience with assembly programming languages, and with compiler technologies",
+      "Experience developing Python-based automation pipelines for simulation orchestration, regression testing, and performance data analysis",
+      "Experience with AI numerics, data types, math functions, and precision/accuracy analysis",
+      "Experience building or scaling performance modeling infrastructure for hyperscale data center ASICs, including network, storage, or AI inference accelerator designs",
+      "Experience writing and optimizing compute/collective kernels in CUDA or equivalent GPU programming frameworks",
+      "Familiarity with post-silicon performance validation and model-to-hardware correlation methodologies",
+      "Experience with hardware description languages (e.g., SystemVerilog, VHDL) and simulation environments used in ASIC development flows"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop and maintain C++ models of AI chip IPs and subsystems for architecture exploration, performance analysis, and software development",
+      "Develop low-level workloads and kernels for machine learning training and inference applications",
+      "Collaborate with architecture, RTL design, and physical design teams to translate performance requirements into implementable microarchitectural specifications",
+      "Partner with software and systems teams to co-optimize workload scheduling, firmware, and driver behavior against silicon performance characteristics"
+    ],
+    "fingerprint": "meta-asic-engineer-performance-architecture-and-modeling-university-grad-responsibilities-sunnyvale-ca",
+    "atsProvider": "Meta Careers",
+    "company": "Meta",
+    "id": "manual-1791995518574",
+    "state": "CA",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=meta.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.metacareers.com/profile/job_details/4596319193960098/",
+    "location": "Sunnyvale, CA",
+    "category": "Others",
+    "companyWebsite": "https://www.meta.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Seattle",
+    "postalCode": "98101",
+    "description": "AARP is the nation's largest nonprofit, nonpartisan organization dedicated to empowering people 50 and older to choose how they live as they age. With a nationwide presence, AARP strengthens communities and advocates for what matters most to the more than 100 million Americans 50-plus and their families: health and financial security, and personal fulfillment. AARP also works for individuals in the marketplace by sparking new solutions and allowing carefully chosen, high-quality products and services to carry the AARP name. As a trusted source for news and information, AARP produces the nation's largest-circulation publications, AARP The Magazine and the AARP Bulletin.\n\nInformation Technology Services is responsible for AARP enterprise-wide technology and information security functions. Services range from infrastructure design and operations, system and software lifecycle implementations, enabling the mobile workforce and protecting AARP network, systems and data. A variety of technologies and practices are used including cloud computing, automation, artificial intelligence and machine learning within highly collaborative Agile teams.\n\nThe Engineer I, PeopleSoft is a technical resource on a platform/capability team responsible for supporting the day to-day design, implementation and operational activities of the team.\n\n\nResponsibilities:\nAssisting the team with processing transactions, resolving issues, and administering platform or capability systems, solutions, and services.\nMaintaining code repositories and Git-based services, if applicable.\nWriting code, leveraging third-party services, configuring systems, and implementing solutions in an agile way.\nCollaborating with team to identify technical solutions for business and enterprise needs.\nDeveloping technical knowledge and expertise related to domain area systems, solutions, services and applications.\n\nQualifications:\nBachelor's degree or equivalent in Information Technology, Computer Science, Engineering or related field.\nWillingness to coordinate with suppliers and end users on day-to-day issues and maintain audit logs and other important communication.\nAbility to prepare notes and presentations using the MS Office suite of applications, including CoPilot or other enterprise AI tools.\nLeverage AI technologies to enhance productivity and demonstrate strong scripting and automation capabilities using Python, PowerShell, Groovy and other automation tools.\nKnowledge of Agile and Scrum methodologies, including sprint planning, daily stand-ups, backlog management, retrospectives, and iterative software development practices.\nExcellent problem-solving, collaboration, communication, and critical thinking skills.\nSelf-motivated and independent learner with the ability to quickly acquire new skills, adapt to changing technologies, and work effectively with minimal supervision.\nPreferred:\n\nKnowledge in AWS, Active Directory, networking concepts, and information security is preferred.\nAARP will not sponsor an employment visa for this position.\n\nAdditional Requirements\n\nRegular and reliable job attendance\nEffective verbal and written communication skills\nExhibit respect and understanding of others to maintain professional relationships\nIndependent judgement in evaluation options to make sound decisions\nIn office/open office environment with the ability to work effectively surrounded by moderate noise",
+    "source": "MANUAL_ADMIN",
+    "title": "Engineer i, peoplesoft/epm",
+    "salary": {
+      "unit": "YEAR",
+      "min": 112000,
+      "max": 150000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "Scripting",
+      "Python",
+      "AWS",
+      "Git",
+      "Security"
+    ],
+    "qualifications": [
+      "Bachelor degree or equivalent in CS",
+      "0-2 years experience"
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "aarp-engineer-i-peoplesoft-epm-seattle-wa-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "AARP",
+    "id": "manual-1791996286756",
+    "state": "WA",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=aarp.org",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://apply.aarp.org/careers/job/1443153897543?domain=aarp.org",
+    "location": "Seattle, WA / Hybrid",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.aarp.org",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "UNITED STATES",
+    "maxYearsExperience": 0,
+    "city": "Cincinnati",
+    "postalCode": "45227",
+    "description": "The Medpace Analytics and Business Intelligence team is growing rapidly and is focused on building a data-driven culture across the enterprise. We build software that turns data into durable, reusable products—APIs, internal web apps, automated ingestion pipelines, and analytics services—that help teams make faster, better decisions. As a Python Intern you will hold a highly visible role that blends engineering and analytics and requires interaction and partnership with leadership across the Medpace organization.\n\nWhat&rsquo;s in this for you?\n\nWork in a collaborative, fast paced, entrepreneurial, and innovative workplace.\n\nBuild real software products (APIs, internal tools, and data services) used by leaders and teams across the enterprise.\n\nDevelop your engineering craft in Python – designing, testing, and shipping maintainable code (not just one-off scripts or Jupyter notebooks).\n\nGain business context by partnering with leadership across Medpace and translating needs into scalable technical solutions.\n\nWe are looking for a Python Intern to add depth to our growing team by building backend and data applications in Python. This role partners closely with leadership, product management, operations, finance, and other technical teams to identify opportunities and deliver production-ready solutions.",
+    "source": "MANUAL_ADMIN",
+    "title": "Python Developer Internship - Summer 2027",
+    "salary": {
+      "unit": "HOUR",
+      "min": 25,
+      "max": 38,
+      "currency": "USD"
+    },
+    "skills": [
+      "Scripting",
+      "Python",
+      "Go",
+      "Azure",
+      "SQL",
+      "APIs",
+      "Git",
+      "CI/CD"
+    ],
+    "qualifications": [
+      "Bachelor's Degree in Computer Science, Engineering, Business Analytics, or related degree.",
+      "Proficiency in Python with a solid programming foundation (data structures, debugging, and writing maintainable code).",
+      "Experience working with SQL and relational data concepts; familiarity with data quality and validation is a plus.",
+      "Familiarity with enterprise development practices such as Git, testing, and CI/CD (or a strong willingness to learn).",
+      "Strong analytical and problem-solving skills with clear written and verbal communication.",
+      "Preferred: experience developing AI-enabled Python applications (e.g., connecting to LLM APIs, building agentic workflows, working with MCP servers, and familiarity with common libraries such as LangChain or Transformers; basic ML experience welcomed).",
+      "Preferred: experience with cloud technologies, especially Microsoft Azure (e.g., deploying services, working with cloud storage/managed data services, and Infrastructure as Code (IaC) such as Bicep/ARM or Terraform).",
+      "Ability to work office-based in Cincinnati, OH during summer 2027."
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Design, build, and maintain Python services to deliver solutions (e.g., APIs, internal web apps, and automation tools).",
+      "Develop data ingestion and transformation workflows that are reliable, observable, and repeatable (batch and/or event-driven).",
+      "Work with SQL and enterprise data sources to model, validate, and serve data for downstream users and systems.",
+      "Collaborate with cross-functional teams to translate business needs into technical requirements, estimates, and deliverables.",
+      "Write clean, tested, documented code; participate in code reviews; and follow software engineering best practices.",
+      "Build AI-enabled solutions by integrating with LLMs and related components (e.g., tool/function calling, agents, MCP servers) and applying basic ML concepts when needed",
+      "Use modern tools (including large language models where appropriate i.e. GitHub Copilot, Claude Code, Microsoft Copilot) to accelerate delivery while maintaining quality and security."
+    ],
+    "fingerprint": "medpace-inc--python-developer-internship-summer-2027-cincinnati-ohio",
+    "atsProvider": "Direct Career Portal",
+    "company": "Medpace, Inc.",
+    "id": "manual-1791995718565",
+    "state": "OHIO",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "INTERN",
+    "companyLogo": "https://cms.jibecdn.com/prod/medpace/assets/HEADER-NAV_LOGO-en-us-1688925029112.svg",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.medpace.com/jobs/13059?icims=1",
+    "location": "Cincinnati, OHIO",
+    "category": "Backend",
+    "companyWebsite": "https://www.medpace.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Dallas",
+    "postalCode": "75201",
+    "source": "MANUAL_ADMIN",
+    "title": "Navigation Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 86000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "MATLAB",
+      "Python"
+    ],
+    "qualifications": [
+      "Bachelor’s degree in aerospace or mechanical engineering (Master's preferred)",
+      "Strong verbal, written and interpersonal communications skills",
+      "Background in or experience working with inertial navigation systems, GPS/GNSS technology, modern estimation (particularly Kalman filters), and/or modern controls",
+      "Experience working with or troubleshooting hardware and electronics (especially robotics, UAV’s, gimbal systems and/or other end applications common to VectorNav customers)",
+      "Familiarity with Matlab, C/C++, Python or other software languages"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Create and improve tools to better enable customers (eg. software, reference designs, application notes)",
+      "Collaborate with product development teams to incorporate customer feedback to improve VectorNav hardware and software products"
+    ],
+    "fingerprint": "vectornav-technologies-navigation-engineer-dallas-texas-united-states",
+    "atsProvider": "Workable",
+    "company": "Vectornav Technologies",
+    "id": "manual-1791994735345",
+    "state": "TX",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=vectornavtechnologies.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/mHDY6r3VB99g53SsSYqYPP/navigation-engineer-in-dallas-at-vectornav-technologies",
+    "location": "Dallas, Texas, United States",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.vectornavtechnologies.com",
+    "status": "ACTIVE",
+    "description": "VectorNav's GPS and inertial navigation technology enables customers around the world to push the envelope in their respective fields, ranging from UAVs to walking robots to self-driving cars. Work directly with customers throughout their design, development, and deployment process via email, phone & on-site visits to ensure VectorNav's products solve their navigation needs. Create and improve tools to better enable customers (eg. software, reference designs, application notes)\n\nAttend trade shows and customer visits with sales team to interface with potential customers and determine the fitness of VectorNav's systems in their application\n\nCollaborate with product development teams to incorporate customer feedback to improve VectorNav hardware and software products\n\nInterface with sales and production teams to ensure a quality customer experience throughout the product life-cycle",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Santa Clara",
+    "postalCode": "95054",
+    "description": "As a full stack Associate Software Development Engineer Intern , you'll partner with senior level engineers to help design, build, and maintain software across the application stack from user-facing interfaces to APIs, data stores, and cloud infrastructure. You'll write well-tested, maintainable code, take part in code reviews, and use AI coding assistants to accelerate delivery while critically evaluating AI-generated output for correctness and security. You’ll also collaborate with product managers, designers, and peer engineers is essential to create resilient, scalable solutions.",
+    "source": "MANUAL_ADMIN",
+    "title": "AI Engineering - Assoc Software Engineer Internships - Summer 2027 (Bachelors)",
+    "salary": {
+      "unit": "HOUR",
+      "min": 42,
+      "max": 64,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "Java",
+      "Go",
+      "React",
+      "Vue",
+      "Angular",
+      "Node.js",
+      "AWS"
+    ],
+    "qualifications": [
+      "Currently pursuing a Bachelor’s degree in Computer Science, or related field; with a graduation date no earlier than May 2028",
+      "• Must be available to work full-time hours, for a 12-week period, either May – August or June – September in 2027",
+      "Experience in leveraging or critically thinking about how to integrate AI into work processes, decision-making, or problem-solving. This may include using AI-powered tools, automating workflows, analyzing AI-driven insights, or exploring AI's potential impact on the function or industry.",
+      "Full-stack development skills: Exposure through coursework, personal projects, internships, or hackathons to front-end frameworks (React/Angular/Vue), back-end languages (Node.js, Python, Java, Go), databases, REST/GraphQL APIs, and cloud platforms (AWS/Azure/GCP), plus comfort adopting emerging AI/ML tools.",
+      "Foundational systems thinking: Exposure to software architecture concepts, API design, databases, or distributed systems through coursework or projects",
+      "Software engineering fundamentals: Familiar with writing clean, secure, well-tested code, along with understanding of how to treat code review as a quality practice.",
+      "AI fluency : Exposure to AI coding assistants (Copilot, Cursor, Codeium, etc) and LLM APIs (OpenAI, Anthropic, open-weight models) to build features, and understanding the need for sound judgment when reviewing AI-generated code for correctness and security."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Full Software Development Lifecycle",
+      "• Build features end-to-end, with guidance from your team, from design through deployment—across front-end (React/Angular/Vue) and back-end (REST/GraphQL, microservices) solutions",
+      "System Design & Architecture",
+      "• Contribute to system design discussions: learn how the team evaluates architectural trade-offs and help define data models, API contracts, and cloud-native and persistence approaches for your project",
+      "Code Quality Testing and Review",
+      "• Write comprehensive tests, follow coding standards, and review code—including AI-generated code—for security, performance, and maintainability.",
+      "Develop, maintain, and execute automated test suites to validate software functionality, catch defects early,",
+      "CI/CD, DevOps & Operational Readiness",
+      "• Use and help maintain CI/CD pipelines and infrastructure- as-code, learn to monitor systems in production, and support incident response, including for AI-integrated components",
+      "Cross Functional Collaboration & Technical Communication",
+      "• Partner with product managers, designers, and platform teams to scope and deliver features, document your work clearly, and explain trade-offs to technical and non-technical audiences."
+    ],
+    "fingerprint": "servicenow-ai-engineering-assoc-software-engineer-internships-summer-2027-bachelors--santa-clara-ca",
+    "atsProvider": "SmartRecruiters",
+    "company": "ServiceNow",
+    "id": "manual-1791995851037",
+    "state": "CA",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "INTERN",
+    "companyLogo": "https://ui-avatars.com/api/?name=ServiceNow&background=0F172A&color=fff&size=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.smartrecruiters.com/ServiceNow/744000155345889",
+    "location": "Santa Clara, CA",
+    "category": "Frontend",
+    "companyWebsite": "https://servicenow.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "McLean",
+    "postalCode": "22101",
+    "description": "At MITRE, your passion fuels work that impacts our nation and improves lives. This is where your skills strengthen national security, cybersecurity, health, transportation, and citizen services. We’re a nonprofit engineering, applied research, and advanced technology organization working in the public interest. With objectivity and integrity at our core, we lead federally funded research and development centers for U.S. government agencies – collaborating with industry and academia to deliver integrated, high-impact solutions that advance our nation’s health, security, and prosperity. Our people tackle the toughest technical challenges, supported by competitive benefits, meaningful career development, and a culture of innovation, collaboration, and technical excellence. Choose MITRE for a career with purpose — and help shape the future.\n\nDepartment Summary:\n\nThe Cloud and Infrastructure Engineering Center is seeking an Associate Cloud Developer with a desire to work on innovative advanced approaches and technologies to solve our sponsors’ most critical technological problems. In this role you will provide hands-on support to critical customer problems in cloud computing, DevOps and/or software development. In addition, you will have an opportunity to work in several specialty fields with information technology to include Infrastructure Applications, IaaS, PaaS, Cloud Computing (including OS & Application virtualization, platform migration, server consolidation, utility computing, and grid computing.\n\nRoles & Responsibilities:\n\n• Developing and deploying full stack web applications (on prem and cloud)\n\n• Using Infrastructure as Code to manage commercial cloud environments (AWS, Azure, Google Cloud)\n\n• Modifying and improving existing systems, applications, and code\n\n• Working as part of a team of engineers to solve difficult technical problems (on prem and in the cloud)\n\nBasic Qualifications:\n\n• Bachelor's degree in Computer Science, Software Engineering, or related discipline; or equivalent combination of related education and work experience.\n\n• A passion for technology and a desire to learn.\n\n• Applicable internship(s) in the fields of Cloud Engineering, DevOps, and/or Software Development.\n\n• Experience with modern software languages (Python, Go, Javascript, Java, Typescript, etc).\n\n• Exposure to working on commercial cloud platforms (AWS, Azure, Google Cloud).\n\n• Experience using Version Control Systems, specifically Git.\n\n• This position has an on-site requirement of 3 days a week minimum.\n\nPreferred Qualifications:\n\n• Preference given to qualified candidates with active clearance/suitability.\n\n• Exposure to Full Stack Web Development on Linux systems.\n\n• Experience in or exposure to DevOps concepts and CI/CD.\n\n• Experience with or exposure to containerization, Kubernetes, and/or virtualization\n\n• Excellent but not required, exposure to Cyber Security, AI/ML, Data Engineering (on prem or cloud)\n\nThis requisition requires the candidate to have a minimum of the following clearance(s):\n\nNone\n\nThis requisition requires the hired candidate to have or obtain, within one year from the date of hire, the following clearance(s):\n\nNone\n\nSalary compensation range and midpoint:\n\n$79,200 - $99,000 - $118,800 Annual\n\nWork Location Type:\n\nOnsite\n\nCommitment to Non-Discrimination\n\nAll qualified applicants will receive consideration for employment without regard to disability, status as a protected veteran or any other status protected by applicable federal, state, local or international law.\n\nMITRE intends to maintain a website that is fully accessible to all individuals. If you are unable to search or apply for jobs and would like to request a reasonable accommodation for any part of MITRE’s employment process, please email recruitinghelp&#64;mitre.org for general support and collegerecruiting&#64;mitre.org for intern positions. This service is for individuals requiring reasonable accommodation requests. Please note that vendor solicitations will not receive a reply.\n\nBenefits information may be found here .\n\nCopyright © 1997-2026, The MITRE Corporation. All rights reserved. MITRE is a registered trademark of The MITRE Corporation. Material on this site may be copied and distributed with permission only.",
+    "source": "MANUAL_ADMIN",
+    "title": "Associate Cloud Developer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 79200,
+      "max": 99000,
+      "currency": "USD"
+    },
+    "skills": [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "Go",
+      "AWS",
+      "Azure",
+      "Kubernetes"
+    ],
+    "qualifications": [
+      "At MITRE, your passion fuels work that impacts our nation and improves lives. This is where your skills strengthen national security, cybersecurity, health, transportation, and citizen services. We’re a nonprofit engineering, applied research, and advanced technology organization working in the public interest. With objectivity and integrity at our core, we lead federally funded research and development centers for U.S. government agencies – collaborating with industry and academia to deliver integrated, high-impact solutions that advance our nation’s health, security, and prosperity. Our people tackle the toughest technical challenges, supported by competitive benefits, meaningful career development, and a culture of innovation, collaboration, and technical excellence. Choose MITRE for a career with purpose — and help shape the future.",
+      "Department Summary:",
+      "The Cloud and Infrastructure Engineering Center is seeking an Associate Cloud Developer with a desire to work on innovative advanced approaches and technologies to solve our sponsors’ most critical technological problems. In this role you will provide hands-on support to critical customer problems in cloud computing, DevOps and/or software development. In addition, you will have an opportunity to work in several specialty fields with information technology to include Infrastructure Applications, IaaS, PaaS, Cloud Computing (including OS & Application virtualization, platform migration, server consolidation, utility computing, and grid computing.",
+      "Roles & Responsibilities:",
+      "Developing and deploying full stack web applications (on prem and cloud)",
+      "Using Infrastructure as Code to manage commercial cloud environments (AWS, Azure, Google Cloud)",
+      "Modifying and improving existing systems, applications, and code",
+      "Working as part of a team of engineers to solve difficult technical problems (on prem and in the cloud)"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "At MITRE, your passion fuels work that impacts our nation and improves lives. This is where your skills strengthen national security, cybersecurity, health, transportation, and citizen services. We’re a nonprofit engineering, applied research, and advanced technology organization working in the public interest. With objectivity and integrity at our core, we lead federally funded research and development centers for U.S. government agencies – collaborating with industry and academia to deliver integrated, high-impact solutions that advance our nation’s health, security, and prosperity. Our people tackle the toughest technical challenges, supported by competitive benefits, meaningful career development, and a culture of innovation, collaboration, and technical excellence. Choose MITRE for a career with purpose — and help shape the future.",
+      "Department Summary:",
+      "The Cloud and Infrastructure Engineering Center is seeking an Associate Cloud Developer with a desire to work on innovative advanced approaches and technologies to solve our sponsors’ most critical technological problems. In this role you will provide hands-on support to critical customer problems in cloud computing, DevOps and/or software development. In addition, you will have an opportunity to work in several specialty fields with information technology to include Infrastructure Applications, IaaS, PaaS, Cloud Computing (including OS & Application virtualization, platform migration, server consolidation, utility computing, and grid computing.",
+      "Roles & Responsibilities:",
+      "Developing and deploying full stack web applications (on prem and cloud)",
+      "Using Infrastructure as Code to manage commercial cloud environments (AWS, Azure, Google Cloud)",
+      "Modifying and improving existing systems, applications, and code",
+      "Working as part of a team of engineers to solve difficult technical problems (on prem and in the cloud)"
+    ],
+    "fingerprint": "the-mitre-corporation-associate-cloud-developer-mclean-virginia",
+    "atsProvider": "Direct Career Portal",
+    "company": "The Mitre Corporation",
+    "id": "manual-1791997129082",
+    "state": "VIRGINIA",
+    "datePosted": "2026-10-14",
+    "validThrough": "2026-11-13",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://assets.phenompeople.com/CareerConnectResources/pp/MITRUS/images/job_logo_config-1621504564894.png",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.mitre.org/us/en/job/MITRUSR117424EXTERNALENUS/Associate-Cloud-Developer?utm_source=JB-10062",
+    "location": "McLean, VIRGINIA",
+    "category": "Backend",
+    "companyWebsite": "https://www.mitre.org",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Mountain View",
+    "postalCode": "94043",
+    "description": "share Share Forward Deployed Engineering Intern, BS/MS, Summer 2027\n\nlink Copy link\n\nemail Email a friend\n\ncorporate_fare Google place Sunnyvale, CA, USA ; New York, NY, USA bar_chart Intern & Apprentice\n\ninfo_outline\n\nX Please complete your application before November 20\n\nApplications will be reviewed on a rolling basis and it’s in an applicant's best interest to apply early. Timing on when you can hear back will vary and can take upwards of 90+ days. If you haven’t heard from us in three months about your application, we likely proceeded with other candidates for the role.\n\nParticipation in the internship program requires that you are located in the United States for the duration of the internship program.\n\nThis internship is intended for students in their penultimate academic year, who are pursuing a Bachelor's or Master's degree in Engineering, Computer Science, a related technical field.\n\nGoogle is a global company and, in order to facilitate efficient collaboration and communication globally, English proficiency is a requirement for this internship program.\n\nIn the “Resume Section:” attach an updated CV or resume.\n\nIn the “Education Section:” attach a current or recent unofficial or official transcript in English.\n\nUnder “Degree Status,” select “Now attending” to upload a transcript.\n\nNote: By applying to this position you will have an opportunity to share your preferred working location from the following: Sunnyvale, CA, USA; New York, NY, USA .",
+    "source": "MANUAL_ADMIN",
+    "title": "Forward deployed engineering intern, bs/ms, summer 2027",
+    "salary": {
+      "unit": "YEAR",
+      "min": 98000,
+      "max": 131000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "React",
+      "GCP",
+      "APIs",
+      "Security"
+    ],
+    "qualifications": [
+      "Currently pursuing a Bachelor's or Master's degree in Engineering, Computer Science, or a related technical field.",
+      "Experience with software development using Python or a similar coding languages.",
+      "Experience taking production-grade AI-driven solutions from conception to launch and architecting AI systems on cloud platforms (e.g., Google Cloud Platform (GCP)).",
+      "Experience building pipelines for structured and unstructured data using both vector databases and RAG-like architectures to power enterprise AI solutions.",
+      "Currently attending a degree program in the US and available to work full time for 12 weeks outside of university term time.",
+      "In their penultimate academic year or returning to a degree program after completion of the internship.",
+      "Experience implementing multi-agent systems using frameworks (e.g., LangGraph, CrewAI, ADK) and complex patterns (e.g., ReAct, self-reflection, hierarchical delegation).",
+      "Experience leading technical discovery sessions.",
+      "Knowledge of Large Language Model (LLM) native metrics (e.g., tokens/sec, cost-per-request) and techniques for optimizing state management and granular tracing.",
+      "It’s an exciting time to join our Google Cloud Consulting team, leading the AI and cloud revolution for businesses worldwide. In this role, you’ll work hand-in-hand with our customers as an embedded builder, bridging the gap between frontier AI products and production-grade reality. We are looking for early-career, high-agency engineers with a founder’s mindset. Moving beyond high-level architecture, you will code, debug, and jointly ship bespoke agentic solutions directly within customer environments while helping solve integration, data readiness, and state-management challenges. Joining a collaborative culture with direct access to Google's engineering minds, you will act as an innovator-builder, providing white-glove deployment of complex AI systems and serving as a critical feedback loop to shape Google Cloud’s future product roadmap.",
+      "Google is and always will be an engineering company. We hire people with a broad set of technical skills who are ready to address some of technology's greatest challenges and make an impact on millions, if not billions, of users. At Google, engineers not only revolutionize search, they routinely work on massive scalability and storage solutions, large-scale applications and entirely new platforms for developers around the world. From Google Ads to Chrome, Android to YouTube, Social to Local, Google engineers are changing the world one technological achievement after another.",
+      "Individual pay is determined by factors including job-related skills, experience, and relevant education or training.",
+      "US: $98000 - $131000 (USD) + 0% bonus target",
+      "Learn more about benefits at Google ."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Serve as a developer for complex AI applications, transitioning from rapid prototypes to production-grade agentic workflows (e.g., multi-agent systems, MCP servers) that drive measurable ROI.",
+      "Architect and code the connective tissue between Google’s AI products and customer's live infrastructure, including APIs, legacy data silos, and security perimeters as part of an expert team.",
+      "Build high-performance evaluation pipelines and observability frameworks to ensure agentic systems meet rigorous requirements for accuracy, safety, and latency.",
+      "Identify repeatable field patterns and friction points in Google’s AI stack, converting them into reusable modules or formal product feature requests for the Engineering teams.",
+      "Co-build with customer engineering teams to instill Google-grade development best practices, ensuring long-term project success and high end-user adoption.",
+      "Information collected and processed as part of your Google Careers profile, and any job applications you choose to submit is subject to Google's Applicant and Candidate Privacy Policy .",
+      "Google is proud to be an equal opportunity and affirmative action employer. We are committed to building a workforce that is representative of the users we serve, creating a culture of belonging, and providing an equal employment opportunity regardless of race, creed, color, religion, gender, sexual orientation, gender identity/expression, national origin, disability, age, genetic information, veteran status, marital status, pregnancy or related condition (including breastfeeding), expecting or parents-to-be, criminal histories consistent with legal requirements, or any other basis protected by law. See also Google's EEO Policy , Know your rights: workplace discrimination is illegal , Belonging at Google , and How we hire .",
+      "If you have a need that requires accommodation, please let us know by completing our Accommodations for Applicants form .",
+      "Google is a global company and, in order to facilitate efficient collaboration and communication globally, English proficiency is a requirement for all roles unless stated otherwise in the job posting.",
+      "To all recruitment agencies: Google does not accept agency resumes. Please do not forward resumes to our jobs alias, Google employees, or any other organization location. Google is not responsible for any fees related to unsolicited resumes.",
+      "Equity is granted exclusively and discretionarily by Alphabet Inc. on the basis of an agreement concluded between you and Alphabet Inc. Alphabet Inc. is your sole contractual partner with respect to equity grants. GSU grants are not guaranteed, are discretionary, are subject to approval by the Alphabet Inc. board of directors or its delegate, the terms of the relevant Alphabet Inc. stock plan, and your grant agreement. They have no impact on statutory payments. Current or past grants do not confer an acquired right."
+    ],
+    "fingerprint": "google-forward-deployed-engineering-intern-bs-ms-summer-2027-mountain-view-ca-hybrid",
+    "atsProvider": "Google Careers",
+    "company": "Google",
+    "id": "manual-1791902082432",
+    "state": "CA",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.google.com/about/careers/applications/jobs/results/75665705386549958",
+    "location": "Mountain View, CA / Hybrid",
+    "category": "Frontend",
+    "companyWebsite": "https://careers.google.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Annapolis",
+    "postalCode": "21401",
+    "description": "Momentum Engineering, Inc. fosters an employee-centric culture. Our strength lies in our people. With a high percentage of employees holding advanced degrees in engineering, computer science, and related disciplines, we bring deep technical expertise to every mission. Our team includes professionals with security clearances and full-scope polygraphs, ensuring trusted, secure support for the most sensitive national security initiatives. Additionally, our workforce is equipped with industry-leading certifications, demonstrating a commitment to continuous learning and excellence. Most importantly, our exceptional employee retention rate reflects a culture of professional growth, mission focus, and dedication—ensuring long-term stability and expertise for our customers’ critical needs.",
+    "source": "MANUAL_ADMIN",
+    "title": "Me00693 Software engineer 0",
+    "salary": {
+      "unit": "YEAR",
+      "min": 85000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Scripting",
+      "JavaScript",
+      "Python",
+      "Go",
+      "React",
+      "Vue",
+      "Angular",
+      "AWS"
+    ],
+    "qualifications": [
+      "A Bachelor's degree in Computer Science or related discipline from an accredited college or university is required",
+      "Four (4) years of SWE experience on projects with similar software processes may be substituted for a bachelor's degree",
+      "Languages: Python, JavaScript, HTML, CSS",
+      "GUI/Dashboard: Basic understanding of UI/UX principles, experience with at least one JavaScript framework (React, Angular, or Vue.js-willingness to learn is key). Experience with Tkinter or similar Python GUI libraries is a plus",
+      "AWS: Foundational understanding of AWS core services (EC2, S3, Lambda)",
+      "Automation/Al: Basic understanding of scripting for automation (Python preferred)",
+      "Awareness of Al/ML concepts. Tools: Git (version control)",
+      "Skills: Strong problem-solving skills, ability to learn quickly, and excellent communication skills. Willingness to learn automation and Al/ML principles",
+      "No desired qualifications listed at this time",
+      "Exempt hourly position. 11 paid holidays, minimum of 3 weeks PTO, company sponsored group medical plan, company paid dental, vision, life insurance, and STD/LTD plans. Salary is dependent upon the candidate’s experience and qualifications.",
+      "css-enzntz{padding-top:24px;} .css-16e3h2y{font-weight:normal;margin:0;padding:0;color:var(--color-on-surface, #000000);font-family:\"ripplingFontMedium\";font-size:15px;letter-spacing:0.25px;line-height:22px;display:block;} The pay range for this role is:",
+      "css-1xnp5ym{font-weight:normal;margin:0;padding:0;color:var(--color-on-surface, #000000);font-family:\"ripplingFontLight\";font-size:15px;letter-spacing:0.5px;line-height:22px;display:block;} 85,000 - 120,000 USD per year (NBP)",
+      "css-1ty8dsx{margin-top:56px;margin-bottom:56px;}@media (max-width: 768px){.css-1ty8dsx{margin-top:24px;margin-bottom:22px;}} .css-15q2dv8 button:not([data-disabled=\"true\"]){background-color:#0d27e7!important;}.css-15q2dv8 button:not([data-disabled=\"true\"]) null svg circle{stroke:null!important;} .css-16ryfrz{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;box-sizing:border-box;position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;height:40px;padding:0px 16px;border:none;border-radius:8px;outline:none;outline-offset:-1px;cursor:pointer;-webkit-transition:all 0.1s ease-in-out 0s;transition:all 0.1s ease-in-out 0s;background-color:#7a005d;color:#ffffff;}.css-16ryfrz:focus-visible{outline-color:var(--color-outline-focus, #5aa5e7);outline-width:2px;outline-style:solid;}.css-16ryfrz:disabled{cursor:not-allowed;}.css-16ryfrz:hover{background-color:rgba(135, 26, 109, 1.00);}.css-16ryfrz:active{background-color:rgba(149, 51, 125, 1.00);} .css-mmeyrh{white-space:nowrap;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:nowrap;-webkit-flex-wrap:nowrap;-ms-flex-wrap:nowrap;flex-wrap:nowrap;visibility:unset;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;gap:8px;} .css-1d5eng1{font:normal 600 16px/24px Basel Grotesk;letter-spacing:0px;text-overflow:inherit;color:#ffffff;overflow:inherit;text-transform:none;margin:0;padding:0;} Apply now",
+      "css-1s2iy13{width:260px;position:absolute;top:0;right:0;}@media (max-width: 1024px){.css-1s2iy13{width:auto;position:initial;width:auto;margin-bottom:24px;}} .css-1jugqli{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;}.css-1jugqli:not(:last-child){margin-bottom:24px;}@media (max-width: 768px){.css-1jugqli:not(:last-child){margin-bottom:8px;}} .css-1dlt118{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;color:#716f6c;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;font-size:24px;-webkit-transition:all 0.1s;transition:all 0.1s;box-sizing:border-box;line-height:1;letter-spacing:normal;}.css-1dlt118:before{font-weight:normal;content:\"\\e73b\";font-family:RipplingIconsKit;height:1em;width:1em;}.css-1dlt118:focus:not(:focus-visible){outline:none;}.css-1dlt118:focus-visible{outline-color:var(--color-outline-focus, #5aa5e7);outline-width:2px;outline-style:auto;} .css-1kiaia6{font-weight:normal;margin:0;padding:0;color:#000000;font-family:\"ripplingFontMedium\";font-size:15px;letter-spacing:0.25px;line-height:22px;display:block;margin-left:10px;} Engineering 1"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop and maintain user-friendly GUls and interactive dashboards",
+      "Design, deploy, and manage applications and infrastructure in AWS",
+      "Integrate new features and functionalities into existing tools",
+      "Collaborate with cross-functional teams throughout the software development lifecycle",
+      "Write clean, well-documented, and testable code",
+      "Design, implement, and maintain automated workflows to streamline processes",
+      "Integrate Al/ML models into existing systems to enhance functionality and improve decision-making",
+      "Monitor and optimize automated workflows and Al/ML model performance"
+    ],
+    "fingerprint": "momentum-engineering-inc-openings-me00693-software-engineer-0-annapolis-junction-md",
+    "atsProvider": "Rippling",
+    "company": "Momentum Engineering, Inc. Openings",
+    "id": "manual-1791901537153",
+    "state": "MD",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=dbcd3c46-e2fa-4d75-8da1-ac8d15d3771e.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://ats.rippling.com/momentumcareers/jobs/dbcd3c46-e2fa-4d75-8da1-ac8d15d3771e",
+    "location": "Annapolis Junction, MD",
+    "category": "Frontend",
+    "companyWebsite": "https://dbcd3c46-e2fa-4d75-8da1-ac8d15d3771e.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Dallas",
+    "postalCode": "75201",
+    "description": "We’ll help you succeed in a globally connected powerhouse of diverse teams and take your career wherever you want it to go. Join EY and help to build a better working world.\n\nEY is the only professional services firm with a separate business unit (“FSO”) that is dedicated to the financial services marketplace. Our FSO teams have been at the forefront of every event that has reshaped and redefined the financial services industry. If you have a passion for rallying together to solve the most complex challenges in the financial services industry, come join our dynamic FSO team!\n\nWe help our clients transform. Together we are changing the way they interact with their Customers, Employees and Partners alike. We are modernizing their applications, creating new ones and driving business efficiency across their ever-changing platform and channel infrastructures. Everything we do centers around this simple story.\n\nThe opportunity\n\nAs an FSO Technology Analyst, you’ll be based in our Service Delivery Center, which is made up of high-performing US-based colleagues who work closely with our experienced advisory professionals. We deliver Technology project-based work and managed services to our clients. Here, you’ll work as part of a project team and will be responsible for the design, build/configuration, testing, analysis, delivery and support of Technology solutions. This position is fast-paced and ever-changing, which means you’ll need to be a flexible self-starter and be able to manage changing priorities and learning new and rapidly changing technology solutions.\n\nWe are looking for Fullstack Engineers who will collaborate with clients to transform their business through disruptive innovation enablement and transformational design solutions. The team supports our clients in modernizing systems, processes and products to enhance business and customer-facing platforms and services to support high performance in a rapidly changing and competitive environment. The team leverages Microservices, Cloud, Omni channel integration, API Management and open source technologies to enable end to end automation.\n\nYour Key Responsibilities\n\nThe goal is to support our clients to transform their business problems through engineering solutions. You will assist engagement teams through the analysis of specific business requirements, design, develop, integrate, test, and deploy distributed software applications. You will deliver high qualify systems with focus on reliability and excellent customer experience. You will demonstrate in-depth technical capabilities and professional knowledge.\n\nSkills and attributes for success\n\nPrior fullstack software product development experience with a preferred understanding of DevOps and its supporting services and tools\n\nDeliver engineering solutions through all phases of the project lifecycle, including requirements definition, engineering design, development, integration, and testing; based on a proven agile methodology.\n\nDemonstrate hands-on technical capabilities in multiple programming languages.\n\nEffectively work with client engagement teams with diverse skills and backgrounds fostering an innovative and inclusive work environment.\n\nDemonstrate understanding of current technology environment and industry trends and provide recommendations for engagement and client service issues.\n\nWillingness and ability to travel up to 50% of the time.\n\nTo qualify for the role you must have\n\nBachelor’s degree in Computer Science or other related field\n\nA minimum of 1 year of experience in technology software development\n\nBack-end experience using modern technologies like Java, Python, Node.js, REST, NoSQL, Microservices, Serverless, and Cloud technologies like AWS, or Azure\n\nFront-end development with modern frameworks and practices like React, Angular, or Responsive web design\n\nExperience in designing, building and consuming RESTful APIs\n\nHands-on experience building applications/platforms with cloud native/Microservices architecture. Includes experience with IaaS, PaaS, container deployment.\n\nExperience with modern collaborative development tools (e.g. Git, CI/CD pipelines)\n\nExperience working with testing frameworks and tools for unit and integration testing and knowledge of TDD or BDD software development techniques\n\nComfortable working in an Agile and TDD environment\n\nIdeally, you’ll also have\n\nExperience with the following technologies\n\nAkka/Scala\n\nKafka/RabbitMQ\n\nElasticSearch\n\nHadoop/Spark/Flume\n\nMongo/Cassandra/Any NoSQL DB",
+    "source": "MANUAL_ADMIN",
+    "title": "SDC-Java Developer: Full Stack or Back End",
+    "salary": {
+      "unit": "YEAR",
+      "min": 55400,
+      "max": 113000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "Java",
+      "Go",
+      "React",
+      "Angular",
+      "Node.js",
+      "AWS",
+      "Azure"
+    ],
+    "qualifications": [
+      "We’re interested in intellectually curious people with a passion for finding new and innovative ways to make things better. You’ll also need to be a self-starter and quick learner with a strong background in computer science from both theoretical and practical points of view. If you’re ready to be the future of the group and make your mark in a growing business, this role is for you."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Deliver engineering solutions through all phases of the project lifecycle, including requirements definition, engineering design, development, integration, and testing; based on a proven agile methodology."
+    ],
+    "fingerprint": "ey-sdc-java-developer-full-stack-or-back-end-dallas",
+    "atsProvider": "Direct Career Portal",
+    "company": "Ey",
+    "id": "manual-1791911600210",
+    "state": "TX",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=ey.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.ey.com/ey/job/Dallas-SDC-Java-Developer-Full-Stack-or-Back-End-Analyst-Raleigh%2C-Dallas%2C-San-Antonio-TX-75270/1375772733/?feedId=353401",
+    "location": "Dallas",
+    "category": "Backend",
+    "companyWebsite": "https://www.ey.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Engineer Austin",
+    "postalCode": "78701",
+    "description": "Austin, TX, United States; Chicago, Illinois, United States; Dublin, Ireland; London, United Kingdom; New York, NY, United States\n\nHudson River Trading (HRT) is looking for an Electronic Trading Support Engineer to join our global Trade Operations (TradeOps) team in NYC. This team is responsible for managing HRT’s live trading environment, one of the most robust and efficient electronic trading platforms in the world. This includes configuring, monitoring, and optimizing the firm’s trading as well as handling risk, regulatory, and development tasks. The TradeOps team focuses on both automating common tasks and preparing for the unexpected. Your day could consist of debugging to get a process running in time for the market open, making a difficult on-the-spot decision that balances compliance, risk, and PnL during trading hours, or coordinating the technical rollout of a new trading strategy.\n\nBeing a member of TradeOps at HRT means working on a tight-knit, highly productive team. We're looking for someone who loves technology and wants to work on a broad range of projects using whatever tool(s) best solve the problem at hand. Excellent communication is a must, along with a can-do attitude.\n\nIn a high performance environment, immediate awareness of and reaction to systems and trading issues is essential. That’s where HRT’s Electronic Trading Support Engineers come in. You’ll be responsible for managing new initiatives and ensuring a smooth trading day. You’ll act as the first line of defense when the inevitable happens, and the subject matter expert on recent changes to the production trading platform. The team’s scope covers everything from systems infrastructure, to compliance, risk management, overnight clearing, and performance improvement.",
+    "source": "MANUAL_ADMIN",
+    "title": "Junior Electronic Trading Support Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 100000,
+      "max": 150000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Scripting",
+      "Python"
+    ],
+    "qualifications": [
+      "Bachelor’s degree in a quantitative discipline (CS, Engineering, Physics, Math, etc.)",
+      "Working knowledge of UNIX systems",
+      "Experience with a scripting language (Python, Perl, Bash)",
+      "Excellent communication skills and enjoy interfacing with clients, both internal and external",
+      "Incredibly organized, with a high attention to detail",
+      "Excited to work independently in a very fast-paced, high pressure environment",
+      "Poses an understanding of Market Data/Order Entry systems and an interest in how modern electronic markets work",
+      "Industry experience and/or Series 7 or 57 certification is preferred",
+      "The estimated base salary range for this position is 100,000 to 150,000 USD per year (or local equivalent). The base pay offered may vary depending on multiple individualized factors, including location, job-related knowledge, skills, and experience. This role will also be eligible for discretionary performance-based bonuses and a competitive benefits package.",
+      "Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world's most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading.",
+      "At HRT we welcome a variety of expertise: mathematics and computer science, physics and engineering, media and tech. We’re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization—from trading, to business operations, to recruiting and beyond. We value openness and transparency, and celebrate great ideas from HRT veterans and new hires alike. At HRT we’re friends and colleagues – whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.",
+      "Please be advised: Use of AI tools by an applicant during interviews or assessments is strictly prohibited, unless otherwise instructed or agreed upon. We employ various methods to evaluate the authenticity of candidate responses. If we determine that AI assistance was used by an applicant during an interview or an assessment, we reserve the right to immediately end the interview or assessment, disqualify the applicant’s candidacy and/or rescind any job offers extended.",
+      "You can review our Global Applicant Privacy Notice, which explains how we process applicant information."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Support live trading during US market hours",
+      "Handle order flow from HRT’s trading desks",
+      "Respond to external market alerts and outages",
+      "Interface with exchanges & other external parties to support trading"
+    ],
+    "fingerprint": "hudsonrivertrading-junior-electronic-trading-support-engineer-engineer-austin-tx",
+    "atsProvider": "Direct Career Portal",
+    "company": "Hudsonrivertrading",
+    "id": "manual-1791910402021",
+    "state": "TX",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=hudsonrivertrading.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.hudsonrivertrading.com/hrt-job/junior-electronic-trading-support-engineer/?gh_src=x0nhns7e1us",
+    "location": "Engineer Austin, TX",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.hudsonrivertrading.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "source": "MANUAL_ADMIN",
+    "title": "Business Analyst I",
+    "salary": {
+      "unit": "YEAR",
+      "min": 53900,
+      "max": 89800,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Bachelor’s degree (BA/BS) in Engineering, Computer Science, Business, or a related discipline, or equivalent experience",
+      "US Citizenship is required for this role.",
+      "Basic understanding of software development methodologies, platforms, tools, and languages",
+      "Familiarity with the software development life cycle (SDLC)",
+      "Understanding of business requirements elicitation and documentation, including user stories and functional specifications",
+      "Proficiency in Microsoft Office applications",
+      "Proficiency and previous work experience with Jira",
+      "Ability to understand and document business processes and system workflows",
+      "Moderate facilitation skills with the ability to collaborate across teams",
+      "Basic oral and written communication skills",
+      "Excellent attention to detail and willingness to learn in a structured, team‑oriented environment",
+      "U.S. National Base Pay Range: $53,900 - $89,800. Geographic differentials may apply in some locations to better reflect local market rates.",
+      "Base Pay Range for CO is $53,900 - $89,800. Base Pay Range for IL is $56,500 - $94,200. Base Pay Range for Chicago, IL is $59,300 - $98,700. Base Pay Range for MD is $56,500 - $94,200. Base Pay Range for NY is $59,300 - $98,700. Base Pay Range for New York City is $64,700 - $107,700. Base Pay Range for Rochester, NY is $53,900 - $89,800. Base Pay Range for OH is $51,200 - $85,300. Base Pay Range for NJ is $63,448- $101,352.",
+      "This job is eligible for an annual incentive bonus."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Analyze and document basic business requirements and processes, including current‑state (As‑Is) and future‑state (To‑Be) workflows",
+      "Assist in developing basic system specifications, process flows, and conversion strategies",
+      "Translate business needs into user stories and functional specifications",
+      "Participate in testing application features and functionality to ensure solutions meet documented requirements",
+      "Create and maintain basic technical and functional user documentation",
+      "Follow established business processes, protocols, and quality standards throughout solution development and deployment",
+      "Support stakeholder and customer expectations, escalating risks or issues to project managers as appropriate",
+      "Build trusted‑advisor relationships with stakeholders and customers through effective communication and reliable project execution",
+      "Perform additional duties and ad hoc support as assigned"
+    ],
+    "fingerprint": "relx-business-analyst-i-remote",
+    "atsProvider": "Workday",
+    "company": "RELX",
+    "id": "manual-1791910653876",
+    "datePosted": "2026-10-13",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=relx.com&sz=128",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://relx.wd3.myworkdayjobs.com/relx/job/Remote---USA---Nationwide/Business-Analyst-I_R119507-1",
+    "location": "Remote (US)",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.relx.com/",
+    "status": "ACTIVE",
+    "description": "LexisNexis Risk Solutions is the essential partner in the assessment of risk. Within our Government division, our solutions assist government agencies and law enforcement to drive insights from complex data sets, improving operation efficiency, increasing program integrity, discovering, and recovering revenue, and making timely and informed decisions to enhance investigations. You can learn more about LexisNexis Risk at the link below.\n\nhttps://risk.lexisnexis.com/government\n\nAbout the Team\n\nThe VitalIQ Product team is responsible for delivering scalable, high‑quality IT solutions that support business objectives and customer outcomes. The team partners closely with stakeholders across the organization to translate business needs into effective technology solutions, emphasizing collaboration, transparency, and continuous improvement.\n\nAbout the Role\n\nThis entry‑level position partners with the VitalIQ Product team to support an assigned VitalIQ State, contributing to the delivery of IT solutions and services aligned with organizational cost, quality, and strategic goals. Working under the guidance of a Group Product Manager, this role focuses on business requirements gathering, analysis, documentation, validation, and testing of application features and functionality. The role also involves regular interaction with customers and stakeholders, requiring strong communication and relationship‑building skills.\n\nThis role can be remote in the US with minimal travel as needed. Hours may vary on occasion to support the client (CST most common)",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "We are now looking for a Deep Learning Software Engineer, TensorRT Performance! NVIDIA is seeking an experienced Deep Learning Engineer passionate about analyzing and improving the performance of NVIDIA’s inference ecosystem! NVIDIA is rapidly growing our research and development for Deep Learning Inference and is seeking excellent Software Engineers at all levels of expertise to join our team. Companies around the world are using NVIDIA GPUs to power a revolution in deep learning, enabling breakthroughs in areas like Generative AI, Recommenders and Vision that have put DL into every software solution. Join the team that builds the software to enable the performance optimization, deployment and serving of these DL inference solutions. We specialize in developing GPU-accelerated deep learning inference software like TensorRT, DL benchmarking software and performant solutions to deploy and serve these models.\n\nCollaborate with the deep learning community to integrate TensorRT into OSS frameworks like TensorRT-EdgeLLM and PyTorch. Identify performance opportunities and optimize SoTA models across the spectrum of NVIDIA accelerators, from datacenter GPUs to edge SoCs. Implement graph compiler algorithms, frontend operators and code generators across NVIDIA’s inference ecosystem. Work and collaborate with a diverse set of teams involving workflow improvements, performance modeling, performance analysis, kernel development and inference software development.\n\nEstablish groundbreaking performance benchmarking methodologies and analysis workflows and identify performance issues and opportunities for NVIDIA’s inference ecosystem (e.g. TensorRT/TensorRT-EdgeLLM/Torch-TensorRT)\n\nContribute features and code to NVIDIA/OSS inference frameworks including but not limited to TensorRT/TensorRT-EdgeLLM/Torch-TensorRT.\n\nDevelop new model pipelines for NVIDIA’s inference ecosystem with optimized performance including but not limited to areas like quantization, scheduling, memory management, and distributed inference to set the gold standard for Gen AI performance.\n\nWork with cross-collaborative teams inside and outside of NVIDIA across generative AI, automotive, robotics, image understanding, and speech understanding to set directions and develop innovative inference solutions.\n\nScale performance of deep learning models across different architectures and types of NVIDIA accelerators.\n\nBachelors, Masters, PhD, or equivalent experience in relevant fields (Computer Science, Computer Engineering, EECS, AI).\n\n2 years of relevant software development experience.\n\nStrong C++, Python programming and software engineering skills\n\nExperience with DL frameworks (e.g. PyTorch, JAX, TensorFlow, ONNX) and inference libraries (e.g. TensorRT, TensorRT-LLM, vLLM, SGLang, FlashInfer).\n\nExperience with performance analysis and performance optimization\n\nStrong foundation and architectural knowledge of GPUs.\n\nDeep understanding of modern deep learning models and workloads (e.g. Transformers, Recommenders, ASR, TTS, Visual Understanding).\n\nProficiency in one of the deep learning programming domain specific languages (e.g. CUDA/TileIR/CuTeDSL/cutlass/Triton).\n\nPrior contributions to major LLM inference frameworks (e.g. vLLM) or prior experience with graph compilers in deep learning inference (e.g. TorchDynamo/TorchInductor).\n\nPrior experience optimizing performance for low-latency, resource-constrained systems or embedded AI pipelines (e.g. Jetson systems or other edge AI accelerators).\n\nGPU deep learning has provided the foundation for machines to learn, perceive, reason and solve problems posed using human language. The GPU started out as the engine for simulating human imagination, conjuring up the amazing virtual worlds of video games and Hollywood films. Now, NVIDIA's GPU runs deep learning algorithms, simulating human intelligence, and acts as the brain of computers, robots and self-driving cars that can perceive and understand the world. Just as human imagination and intelligence are linked, computer graphics and artificial intelligence come together in our architecture. Two modes of the human brain, two modes of the GPU. This may explain why NVIDIA GPUs are used broadly for deep learning, and NVIDIA is increasingly known as “the AI computing company.” Come, join our DL Architecture team, where you can help build a real-time, cost-effective computing platform driving our success in this exciting and quickly growing field.\n\nYour base salary will be determined based on your location, experience, and the pay of employees in similar positions. The base salary range is 124,000 USD - 195,500 USD for Level 2, and 152,000 USD - 241,500 USD for Level 3.\n\nYou will also be eligible for equity and benefits .\n\nApplications for this job will be accepted at least until October 16, 2026.\n\nThis posting is for an existing vacancy.\n\nNVIDIA uses AI tools in its recruiting processes.\n\nNVIDIA is committed to fostering an inclusive work environment and proud to be an equal opportunity employer. As we highly value diversity in our current and future employees, we do not discriminate (including in our hiring and promotion practices) on the basis of race, religion, color, national origin, gender, gender expression, sexual orientation, age, marital status, veteran status, disability status or any other characteristic protected by law.",
+    "source": "MANUAL_ADMIN",
+    "title": "Deep Learning Software Engineer, TensorRT Performance - New College Grad 2027",
+    "salary": {
+      "unit": "YEAR",
+      "min": 124000,
+      "max": 195500,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Computer Engineering",
+      "Python",
+      "PyTorch",
+      "TensorFlow"
+    ],
+    "qualifications": [
+      "Bachelors, Masters, PhD, or equivalent experience in relevant fields (Computer Science, Computer Engineering, EECS, AI).",
+      "2 years of relevant software development experience.",
+      "Experience with DL frameworks (e.g. PyTorch, JAX, TensorFlow, ONNX) and inference libraries (e.g. TensorRT, TensorRT-LLM, vLLM, SGLang, FlashInfer).",
+      "Experience with performance analysis and performance optimization",
+      "Strong foundation and architectural knowledge of GPUs.",
+      "Deep understanding of modern deep learning models and workloads (e.g. Transformers, Recommenders, ASR, TTS, Visual Understanding).",
+      "Proficiency in one of the deep learning programming domain specific languages (e.g. CUDA/TileIR/CuTeDSL/cutlass/Triton).",
+      "Prior contributions to major LLM inference frameworks (e.g. vLLM) or prior experience with graph compilers in deep learning inference (e.g. TorchDynamo/TorchInductor)."
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Contribute features and code to NVIDIA/OSS inference frameworks including but not limited to TensorRT/TensorRT-EdgeLLM/Torch-TensorRT.",
+      "Work with cross-collaborative teams inside and outside of NVIDIA across generative AI, automotive, robotics, image understanding, and speech understanding to set directions and develop innovative inference solutions."
+    ],
+    "fingerprint": "nvidia-deep-learning-software-engineer-tensorrt-performance-new-college-grad-2027-remote",
+    "atsProvider": "Workday",
+    "company": "NVIDIA",
+    "id": "manual-1791901942776",
+    "datePosted": "2026-10-13",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=nvidia.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Deep-Learning-Software-Engineer--TensorRT-Performance---New-College-Grad-2027_JR2027083",
+    "location": "Remote (US)",
+    "category": "Full Stack",
+    "companyWebsite": "https://nvidia.com/careers",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Diego",
+    "postalCode": "92101",
+    "description": "Dexcom Corporation (NASDAQ DXCM) is a pioneer and global leader in continuous glucose monitoring (CGM). Dexcom began as a small company with a big dream: To forever change how diabetes is managed. To unlock information and insights that drive better health outcomes. Here we are 25 years later, having pioneered an industry. And we're just getting started. We are broadening our vision beyond diabetes to empower people to take control of health. That means personalized, actionable insights aimed at solving important health challenges. To continue what we've started: Improving human health.\n\nWe are driven by thousands of ambitious, passionate people worldwide who are willing to fight like warriors to earn the trust of our customers by listening, serving with integrity, thinking big, and being dependable. We've already changed millions of lives and we're ready to change millions more. Our future ambition is to become a leading consumer health technology company while continuing to develop solutions for serious health conditions. We'll get there by constantly reinventing unique biosensing-technology experiences. Though we've come a long way from our small company days, our dreams are bigger than ever. The opportunity to improve health on a global scale stands before us.\n\nThe Dexcom R&D Electronics Team is a group of highly motivated and talented engineers with a wide range of experience and talents. This team designs high volume medical wearables, so our focuses are on high volume, low power, battery operated, Bluetooth Low Energy (BLE) communication, pico-Amp sensing technologies that meet the high bar of medical device standards. Our team supports existing commercial Dexcom products, iteratively develops improvements to currently available products, as well research and develop new technologies and sensors to broaden our reach within the Diabetes market space.\n\nYou will need to demonstrate experience in electronics testing, troubleshooting and rework.\n\nYou will need to demonstrate electronics rework skills with soldering iron.\n\nYou will need to demonstrate experience with oscilloscopes, digital multimeters, spectrum analyzers and current analyzers.\n\nYou are responsible for defining and reporting out on plans and analysis results to R&D electronics team members.\n\nYou will work with the engineering team to troubleshoot, provide analysis and report findings.\n\nYou will occasionally be required to update and/or generate documentation such as procedures and reports.\n\nYou will be required to work on-site.\n\nWhat makes you successful would be having prior experience with troubleshooting electronic devices.\n\nIdeally you have experience with current draw analysis, RF testing, temperature chamber and profile programming, electronics debug and electronics reworks.\n\nYou must be an excellent communicator both verbally and in written form.\n\nIdeally you have medical device development experience.\n\nYou must have a Bachelor of Science degree.\n\nA front row seat to life changing CGM technology. Learn about our brave #dexcomwarriors community .\n\nA full and comprehensive benefits program.\n\nGrowth opportunities on a global scale.\n\nAccess to career development through in-house learning programs and/or qualified tuition reimbursement.\n\nAn exciting and innovative, industry-leading organization committed to our employees, customers, and the communities we serve.",
+    "source": "MANUAL_ADMIN",
+    "title": "Hardware Engineer 1",
+    "salary": {
+      "unit": "YEAR",
+      "min": 71600,
+      "max": 119300,
+      "currency": "USD"
+    },
+    "skills": [
+      "Oscilloscopes",
+      "RF"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "dexcom-hardware-engineer-1-san-diego-ca",
+    "atsProvider": "Workday",
+    "company": "Dexcom",
+    "id": "manual-1791901339635",
+    "state": "CA",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=dexcom.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://dexcom.wd1.myworkdayjobs.com/Dexcom/job/San-Diego-California/Hardware-Engineer-1_JR119889-1",
+    "location": "San Diego, CA",
+    "category": "Others",
+    "companyWebsite": "https://dexcom.com",
+    "status": "ACTIVE",
+    "qualifications": [
+      "Typically requires a bachelor's degree in a technical discipline, and a minimum of 0-2 years of related experience.",
+      "Please note: The information contained herein is not intended to be an all-inclusive list of the duties and responsibilities of the job, nor are they intended to be an all-inclusive list of the skills and abilities required to do the job. Management may, at its discretion, assign or reassign duties and responsibilities to this job at any time. The duties and responsibilities in this job description may be subject to change at any time due to reasonable accommodation or other reasons. Reasonable accommodations may be made to enable individuals with disabilities to perform essential functions.",
+      "If you are an individual with a disability and would like to request a reasonable accommodation as part of the employment selection process, please contact Dexcom Talent Acquisition at talentacquisition&#64;dexcom.com.",
+      "Meritain, an Aetna Company, creates and publishes the Machine-Readable Files on behalf of Dexcom. ",
+      "To all Staffing and Recruiting Agencies: Our Careers Site is only for individuals seeking a job at Dexcom. Only authorized staffing and recruiting agencies may use this site or to submit profiles, applications or resumes on specific requisitions. Dexcom does not accept unsolicited resumes or applications from agencies. Please do not forward resumes to the Talent Acquisition team, Dexcom employees or any other company location. Dexcom is not responsible for any fees related to unsolicited resumes/applications.",
+      "AI in Hiring Notice: We may use AI supported tools to help make our hiring process more efficient, consistent, and accessible for candidates around the world. All hiring decisions are made by people.",
+      "$71,600.00 - $119,300.00"
+    ],
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Baltimore",
+    "postalCode": "21201",
+    "description": "Baltimore Orioles - Entry Level\n\nStatistics Communications · Computer Information Systems\n\n$90,000 / year\n\nJob Title: Data Scientist, Baseball Analytics\n\nDepartment: Baseball Analytics\n\nFLSA Status: Full-time, Exempt\n\nLocation: Baltimore, MD (Oriole Park at Camden Yards)\n\nData Scientists in Baseball Analytics build models and products that help the Baltimore Orioles acquire, develop, and deploy talent more effectively. This role exists to turn rigorous research into decisions that improve outcomes on the field, partnering with other departments and leadership in a collaborative, high-trust environment.\n\nThe Data Scientist will build high-quality predictive models and data pipelines, conduct and incorporate advantage-seeking research, and ensure information and tools are trusted and used. Success means delivering work that is accurate, well-tested, clearly communicated, and tied to organizational decision-making, with curiosity, humility, integrity, and a competitive drive to keep getting better.\n\nPrimary Responsibilities\n\nClean, organize, and validate data from source databases.\n\nBuild, improve, and maintain quantitative models using R or Python across a range of approaches, selecting the method appropriate to the task.\n\nWrite clean, efficient, well-documented code following industry best practices; document methods, assumptions, and results; design and run appropriate tests to ensure accuracy and reliability.\n\nPartner with the development team to automate data pipelines and create usable tools for end users.\n\nPresent findings clearly to technical and non-technical stakeholders; communicate proactively with leadership and teammates.\n\nWork with end users to gather feedback, understand modeling needs, and inform product development; raise constructive ideas for improvements to models and processes.\n\nEvaluate, recommend, and integrate new data sources.\n\nEffectively use modern AI tools and agents (e.g., coding assistants and agentic workflows) to improve productivity, while verifying outputs and applying sound analytical judgment.",
+    "source": "MANUAL_ADMIN",
+    "title": "Data Scientist, Baseball Analytics",
+    "salary": {
+      "unit": "YEAR",
+      "min": 95000,
+      "max": 130000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Statistics",
+      "Python",
+      "SQL"
+    ],
+    "qualifications": [
+      "Completed Bachelor's Degree in Data Science, Statistics, Analytics, Mathematics, Computer Science, or equivalent.",
+      "Prior professional experience (1+ years) in data science or closely related role.",
+      "Proficiency with R or Python.",
+      "Experience with statistical analyses, data mining techniques, and working with large datasets.",
+      "Experience building or maintaining data pipelines or partnering with developers to automate workflows.",
+      "Deep passion for baseball and baseball analytics.",
+      "Strong communication and presentation skills.",
+      "Excellent interpersonal skills; collaborates well with teammates and cross-functional partners.",
+      "Experience with database languages (e.g. SQL).",
+      "Experience with machine learning, Bayesian methods, and probabilistic programming (e.g. Stan, PyMC).",
+      "The statements herein are intended to describe the general nature and level of work being performed by the employee in this position. The duties listed do not represent an exhaustive list of all responsibilities, duties, and skills required of a person in this position."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Build, improve, and maintain quantitative models using R or Python across a range of approaches, selecting the method appropriate to the task.",
+      "Write clean, efficient, well-documented code following industry best practices; document methods, assumptions, and results; design and run appropriate tests to ensure accuracy and reliability.",
+      "Partner with the development team to automate data pipelines and create usable tools for end users.",
+      "Work with end users to gather feedback, understand modeling needs, and inform product development; raise constructive ideas for improvements to models and processes.",
+      "Evaluate, recommend, and integrate new data sources."
+    ],
+    "fingerprint": "teamworkonline-data-scientist-baseball-analytics-baltimore-md",
+    "atsProvider": "Direct Career Portal",
+    "company": "Teamworkonline",
+    "id": "manual-1791910495765",
+    "state": "MD",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=teamworkonline.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.teamworkonline.com/baseball-jobs/orioles-jobs/baltimore-orioles-jobs/data-scientist-baseball-analytics-2194356",
+    "location": "Baltimore, MD",
+    "category": "Data / AI",
+    "companyWebsite": "https://www.teamworkonline.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "description": "As an Associate Reliability Engineer, you will ensure the resilience and availability of Kohl’s systems and applications. You will drive incident response efforts, perform root cause analysis and implement preventative measures to enhance system reliability. Through automation and process improvements, you will help establish consistent practices that elevate our operational excellence.\n\nFollow software lifecycle driving reliability, observability and efficiency across product teams within your domain\n\nIdentify repeated toil and find opportunities for automation\n\nRemain part of an on-call rotation to respond to production incidents and conduct blameless retros and root-cause analyses (RCAs) to drive a culture of continuous improvements\n\nProactively identify failures before they cause outages by using chaos engineering techniques such as edge cases, failure modes and design review\n\nAdditional tasks may be assigned\n\nWhat Skills You Have\n\nBachelor's Degree or equivalent in MIS, Computer Science or related field\n\nProgramming skills in one or more languages (Java, Python, Go or Node.js)\n\nWorking experience on IBM Mainframe (TSO/ISPF, JCL, Batch job scheduling, transaction processing (CICS) and Security (RACF)\n\nBasic knowledge of systems architecture, operating system internals and network fundamentals\n\nBasic knowledge of application design patterns, event-driven architecture, database schemas and testing strategies\n\nBasic knowledge of cloud platforms (e.g., GCP, AWS, or Azure)\n\nWorking experience with Elixir\n\nBasic knowledge of continuous integration, continuous deployment and test-driven development\n\nBasic understanding of containerization and container orchestration (e.g., Docker, Kubernetes, Rancher)\n\nBasic understanding of configuration management (e.g., Chef, Ansible, Puppet)\n\nFamiliarity with monitoring techniques and tools (e.g., CloudWatch, Grafana, Prometheus, OpenTelemetry, Tracing)",
+    "source": "MANUAL_ADMIN",
+    "title": "What You’ll Do",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "Java",
+      "Go",
+      "Node.js",
+      "AWS",
+      "Azure",
+      "GCP",
+      "Docker"
+    ],
+    "qualifications": [
+      "Follow software lifecycle driving reliability, observability and efficiency across product teams within your domain",
+      "Bachelor's Degree or equivalent in MIS, Computer Science or related field",
+      "Programming skills in one or more languages (Java, Python, Go or Node.js)",
+      "Working experience on IBM Mainframe (TSO/ISPF, JCL, Batch job scheduling, transaction processing (CICS) and Security (RACF)",
+      "Basic knowledge of systems architecture, operating system internals and network fundamentals",
+      "Basic knowledge of application design patterns, event-driven architecture, database schemas and testing strategies",
+      "Basic knowledge of cloud platforms (e.g., GCP, AWS, or Azure)",
+      "Working experience with Elixir"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "kohls-what-you-ll-do-remote",
+    "atsProvider": "Direct Career Portal",
+    "company": "Kohls",
+    "id": "manual-1791909603841",
+    "datePosted": "2026-10-13",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=kohls.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.kohls.com/job/KLHKUSR500170/Associate-Reliability-Engineer-Remote",
+    "location": "Remote (US)",
+    "category": "Backend",
+    "companyWebsite": "https://www.kohls.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "We combine deep expertise in immigration, tax, business travel, remote work, payroll, and compensation with a single, integrated platform and team—to make global work better.\n\nWhether someone is moving to a new country, working remotely, or traveling for business, we help ensure they have the right permits or visas, are paid and compensated according to local regulations, and remain compliant with cross-border tax requirements.\n\nAs a team member at Vialto, you’ll be part of a global network with real impact. We support 10,000+ clients in over 150 countries, and that reach gives you the room to grow, learn, and make a real difference.\n\nWe value collaboration, belonging, and innovation, and offer flexible career opportunities for people who want to shape the future of global work.\n\nOur culture is open, supportive, and ambitious. We believe in transparency, trust, and teamwork, and we’re building a workplace where everyone can thrive and feel proud of the work they do.\n\nJoin us to help people work anywhere in the world—and build a career without borders.To learn more about Vialto, visit our website at www.vialto.com.\n\nAs a Client Facing Tech Specialist you will play a pivotal role in ensuring seamless integration of technology solutions for Vialto clients. In the role you will define integration and reporting requirements, work with systems and data to transform, integrate and report on mobility information to provide technology solutions to streamline processes. Your efforts in this area will ensure Vialto delivers comprehensive reporting and integration capabilities to enhance client experience and operational efficiency.",
+    "source": "MANUAL_ADMIN",
+    "title": "Client Technology Services - Associate ",
+    "salary": {
+      "unit": "YEAR",
+      "min": 65000,
+      "max": 90000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Git",
+      "Software Engineering",
+      "Problem Solving"
+    ],
+    "qualifications": [
+      "Minimum Degree Required: Bachelor’s Degree",
+      "Preferred Fields of Study: STEM, Business, Information Management, Management Information Systems.",
+      "Additional Information",
+      "Start Date: Mid-January",
+      "This is a regular full-time position.",
+      "This is a hybrid role. 3 days a week in the office.",
+      "Location: New York or Campbell office",
+      "Compensation: $65,000 - $90,000. Individual salaries are based on education, geographic location, and alignment to the market data.",
+      "Please note, AI is used as part of the application process."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Work closely with clients to understand their technical integration requirements and reporting needs.",
+      "Design and implement tailored technical solutions to integrate client systems with company platforms.",
+      "Develop and maintain data pipelines and ETL (Extract, Transform, Load) processes to ensure accurate data flow.",
+      "Create and customize reports and dashboards to provide actionable insights to clients.",
+      "Conduct testing and troubleshooting to ensure the reliability and efficiency of integration.",
+      "Collaborate with cross-functional teams, including developers and project managers, to deliver integrated solutions on time."
+    ],
+    "fingerprint": "vialto-client-technology-services-associate--remote",
+    "atsProvider": "Direct Career Portal",
+    "company": "Vialto",
+    "id": "manual-1791911183563",
+    "datePosted": "2026-10-13",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=vialto.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://vialto.eightfold.ai/careers/job/563602813586392",
+    "location": "Remote (US)",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.vialto.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Seattle",
+    "postalCode": "98101",
+    "description": "An internship with American Family Insurance is a great opportunity to build your skillset and explore your career interests. Our summer student internship is a 10 to 14 week program that starts in mid to late May and ends in August.\n\nDuring your internship, you'll work on impactful projects that make a difference at our company, with our customers, and in our communities. You'll also gain exposure to different areas of our business and have numerous opportunities for networking and coaching.\n\nInterns may be eligible for a one-time hiring bonus to assist with housing costs depending upon proximity to an AmFam office location.\n\nCompensation Minimum: $25.00\n\nWe have (2) openings, one each in Madison, WI and Boston, MA.\n\nAs a Software Engineering/Digital Platform intern, you will be responsible for planning, designing, and implementation of technology solutions that can transform the business in a cloud environment. This position works closely with internal staff in the development and governance of technology architecture standards, guidelines, and patterns in support of solution delivery.",
+    "source": "MANUAL_ADMIN",
+    "title": "Summer 2027 Intern - Software Engineering (Hybrid)",
+    "salary": {
+      "unit": "HOUR",
+      "min": 25,
+      "max": 38,
+      "currency": "USD"
+    },
+    "skills": [
+      "JavaScript",
+      "Python",
+      "Java",
+      "React",
+      "Vue",
+      "Angular",
+      "Node.js",
+      "AWS"
+    ],
+    "qualifications": [
+      "Must be in student status at an accredited 4-year college or university during the internship, graduating August 2027 or later; however, for this role, we strongly prefer candidates graduating in August 2028 or later.",
+      "Must be pursuing a Bachelors, Masters, or PhD.",
+      "Major/program must align with internship role--for this role, Computer Science, Engineering, or related.",
+      "Demonstrated strong inclination to providing customer-driven solutions, support or service.",
+      "Basic knowledge and understanding of system/software designs and system deployments.",
+      "Basic knowledge and understanding of Software Engineering and Computer Science.",
+      "Basic knowledge and understanding of multiple IT subject areas (e.g. development, testing, configuration, deployment, monitoring etc.)",
+      "Basic knowledge and understanding of infrastructure technologies and application development methodologies.",
+      "Basic knowledge of at least one cloud computing platforms such as AWS, GCP or Azure and a good understanding of client/server concepts.",
+      "Basic knowledge of at least one thick client approach or technologies such as react.js, angular.js or vue.js.",
+      "Basic knowledge and understanding of coding principles of at least one programming language such as Java, Javascript, node.js or Python.",
+      "To ensure a strong start, all employees participate in our New Employee Orientation during their first week. This experience is held in person at our Madison, WI Headquarters or one of our AmFam core locations to help you connect with our mission, meet key team members and build relationships that support your growth. At times, sessions may be delivered virtually based on scheduling and availability.",
+      "Offer to selected candidate will be made contingent on the results of applicable background checks",
+      "Offer to selected candidate is contingent on signing a non-disclosure agreement for proprietary information, trade secrets, and inventions"
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Assists in the development, enhancement and maintenance of tools, systems and software solutions.",
+      "Participates in the integration and testing of systems/solutions.",
+      "Assists in the troubleshooting of issues with tools, processes, applications or infrastructure.",
+      "Assists with technology evaluations and re-engineering activities to support strategy definition and continuous improvement activities.",
+      "Builds strong relationships with peers across functions through collaborative engineering operations and initiatives. Implement automated solutions to enable development needs.",
+      "Participates in the development of system/solution measures to ensure solutions are fully integrated.",
+      "Responds to the changing system/solution needs of the company and our clients with agility and flexibility."
+    ],
+    "fingerprint": "amfam-summer-2027-intern-software-engineering-hybrid--seattle-wa",
+    "atsProvider": "Workday",
+    "company": "Amfam",
+    "id": "manual-1791902194903",
+    "state": "WA",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amfam.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://amfam.wd1.myworkdayjobs.com/AmFamGroupInternCareers/job/WI-Madison/Summer-2027-Intern---Software-Engineering--Hybrid-_R39666-1",
+    "location": "Seattle, WA",
+    "category": "Frontend",
+    "companyWebsite": "https://amfam.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Chicago",
+    "postalCode": "60604",
+    "description": "Technology\n\nAt Wolverine Trading, we’re looking for a C++ Software Engineer who is eager to launch their career in high-performance trading technology. This role is on-site in our Chicago headquarters, where close collaboration with traders and engineers is central to our culture. You’ll join a team of experienced engineers, traders, and hardware specialists building cutting-edge systems that power our trading business. This is a unique opportunity to learn at the intersection of software, hardware, and financial markets, while working on applications where speed, efficiency, and reliability make all the difference. From day one, you’ll benefit from direct mentorship, clear growth paths, and hands-on exposure to the trading floor giving you the chance to see your work in action and quickly develop both technical and industry expertise.\n\nContribute to the design, development, and testing of C++ applications that drive our trading platforms\n\nCollaborate with traders and senior engineers to understand requirements and translate them into efficient technical solutions.\n\nAssist in monitoring, profiling, and troubleshooting applications to improve reliability and stability.\n\nGain exposure to the full lifecycle of trading system development, from idea to production support.\n\nBachelor’s or Master’s Degree in Computer Science, Computer Engineering, or a related field.\n\nStrong knowledge of C++ and object-oriented design; familiarity with modern C++ (C++17/20) is a plus.\n\nSolid understanding of data structures, algorithms, and problem-solving fundamentals.\n\nInterest in multi-threaded programming, performance tuning, and real-time systems.\n\nCuriosity about financial markets and a desire to learn how technology drives trading.\n\nStrong communication skills and a collaborative mindset.\n\nA passion for tackling complex technical challenges and continuously improving.\n\nWe are currently only considering candidates who are presently authorized to work in the US for this position and who do not require visa sponsorship now or in the future.\n\nOur flat organizational structure promotes teamwork across the Firm and offers easy access to senior staff. While we work exceptionally well as a team in the office, our bonds are further strengthened through company events, activities and giving back. Volleyball, soccer, hockey, 5K runs, picnic, parties, and trivia nights provide friendly competition and build better relationships. By getting out of our usual environment and doing out-of-the-ordinary things together, we foster creativity and broaden our imaginations to accomplish new challenges.",
+    "source": "MANUAL_ADMIN",
+    "title": "C++ Software Engineer (Early Career)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 80000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Computer Engineering"
+    ],
+    "qualifications": [
+      "C++ Software Engineer (Early Career)",
+      "Department: Technology",
+      "Employment Type: Full Time",
+      "Location: Chicago, IL",
+      "Description",
+      "At Wolverine Trading, we’re looking for a C++ Software Engineer who is eager to launch their career in high-performance trading technology. This role is on-site in our Chicago headquarters, where close collaboration with traders and engineers is central to our culture. You’ll join a team of experienced engineers, traders, and hardware specialists building cutting-edge systems that power our trading business. This is a unique opportunity to learn at the intersection of software, hardware, and financial markets, while working on applications where speed, efficiency, and reliability make all the difference. From day one, you’ll benefit from direct mentorship, clear growth paths, and hands-on exposure to the trading floor giving you the chance to see your work in action and quickly develop both technical and industry expertise.",
+      "What You’ll Do",
+      "Contribute to the design, development, and testing of C++ applications that drive our trading platforms"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "C++ Software Engineer (Early Career)",
+      "Department: Technology",
+      "Employment Type: Full Time",
+      "Location: Chicago, IL",
+      "Description",
+      "At Wolverine Trading, we’re looking for a C++ Software Engineer who is eager to launch their career in high-performance trading technology. This role is on-site in our Chicago headquarters, where close collaboration with traders and engineers is central to our culture. You’ll join a team of experienced engineers, traders, and hardware specialists building cutting-edge systems that power our trading business. This is a unique opportunity to learn at the intersection of software, hardware, and financial markets, while working on applications where speed, efficiency, and reliability make all the difference. From day one, you’ll benefit from direct mentorship, clear growth paths, and hands-on exposure to the trading floor giving you the chance to see your work in action and quickly develop both technical and industry expertise.",
+      "What You’ll Do",
+      "Contribute to the design, development, and testing of C++ applications that drive our trading platforms"
+    ],
+    "fingerprint": "wolverine-c-software-engineer-early-career--chicago-illinois",
+    "atsProvider": "Direct Career Portal",
+    "company": "Wolverine",
+    "id": "manual-1791901652993",
+    "state": "ILLINOIS",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://app.pinpointhq.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCTUovTGdRPSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--cd0d77bbea1a070b36449d33a6662e6078b38c78/logo.png",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.wolve.com/en/postings/4b0e86a1-db36-4490-9a98-17782ffcc648?ats=pinpointhq",
+    "location": "Chicago, ILLINOIS",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.wolve.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "description": "At Piedmont Healthcare, you’ll love a shared purpose, be motivated to be your best, and be recognized for your contributions. Piedmont Healthcare leaders are in your corner and invested in your success. Our wellness programs and comprehensive total benefits and rewards will meet your needs for today and help you plan for the future. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include responsible for developing dashboards and data solutions in conjunction with key piedmont healthcare initiatives. assists with the development and promotion of business intelligence functions within piedmont healthcare. maintains strict confidentiality with all patient, employee and company information. stays informed on new technologies and identifies opportunities to improve business intelligence processes. proactively seeks opportunities to increase usage of tableau among current end-users.. Candidates should have strong fundamentals in bachelor’s degree from a recognized college or university in business, finance, accounting, information technology, or closely-related field required work experience.",
+    "source": "MANUAL_ADMIN",
+    "title": "BI Developer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 86000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "SQL"
+    ],
+    "qualifications": [
+      "Bachelor’s Degree from a recognized college or university in Business, Finance, Accounting, Information Technology, or closely-related field Required",
+      "Work Experience",
+      "year of analysis work including Data Visualization and or Data Modeling, preferably in a multi-entity healthcare provider environment. Required",
+      "Possesses advanced computer skills with a very strong knowledge of spreadsheet programs, databases, programming languages, ETL, and decision support systems Required",
+      "Tableau and SQL Server experience. Preferred",
+      "Basic knowledge of statistical algorithms and packages. Preferred",
+      "Licenses and Certifications",
+      "Tableau certification Preferred",
+      "Business Unit : Company Name",
+      "Piedmont Healthcare Corporate"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Responsible for developing dashboards and data solutions in conjunction with key Piedmont Healthcare initiatives. Assists with the development and promotion of business intelligence functions within Piedmont Healthcare. Maintains strict confidentiality with all patient, employee and company information. Stays informed on new technologies and identifies opportunities to improve Business Intelligence processes. Proactively seeks opportunities to increase usage of Tableau among current end-users."
+    ],
+    "fingerprint": "piedmont-bi-developer-remote",
+    "atsProvider": "Direct Career Portal",
+    "company": "piedmont",
+    "id": "manual-1791910960724",
+    "datePosted": "2026-10-13",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=careerspiedmont.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers-piedmont.icims.com/jobs/21388/job",
+    "location": "Remote (US)",
+    "category": "Full Stack",
+    "companyWebsite": "https://www.careerspiedmont.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Sunnyvale; Ann Arbor",
+    "postalCode": "94086",
+    "description": "Sunnyvale; Ann Arbor\n\nEmployment Type\n\nLocation Type\n\nDepartment\n\n026-2027 New Grad\n\nCompensation\n\nEstimated Base Salary $123K – $158K • Offers Equity\n\nApplication\n\nApplied Intuition, Inc. is powering the future of physical AI. Founded in 2017 and now valued at $15 billion, the Silicon Valley company is creating the digital infrastructure needed to bring intelligence to every moving machine on the planet. Applied Intuition services the automotive, defense, trucking, construction, mining and agriculture industries in three core areas: tools and infrastructure, operating systems, and autonomy. Eighteen of the top 20 global automakers, as well as the United States military and its allies, trust the company’s solutions to deliver physical intelligence. Applied Intuition is headquartered in Sunnyvale, California, with offices in Washington, D.C.; San Diego; Ft. Walton Beach, Florida; Ann Arbor, Michigan; London; Stuttgart; Munich; Stockholm; Bangalore; Seoul; and Tokyo. Learn more at applied.co.\n\nWe are an in-office company, and our expectation is that full-time employees primarily work from their Applied Intuition office 5 days a week. However, we also recognize the importance of flexibility and trust our employees to manage their schedules responsibly. This may include occasional remote work, starting the day with morning meetings from home before heading to the office, or leaving earlier when needed to accommodate family commitments. This in-office expectation does not apply to contractor positions\n\nAbout the role\n\nWe are looking for bright engineers interested in designing elegant solutions to difficult problems in the autonomy space. Our software engineers work across our suite of products, tackling a variety of full-stack, infrastructure, robotics, and graphics challenges. At Applied Intuition, we encourage engineers to take ownership over technical and product decisions, interact closely with users to collect feedback, and contribute to a thoughtful, dynamic team culture.\n\nWork across our entire stack to develop new products, features, and tools for our customers' autonomy development workflows\n\nHave an unparalleled opportunity to work with domain experts across a variety of fields: infrastructure, robotics, and graphics engineers, as well as startup veterans\n\nCarve out your own area of expertise and influence product decisions\n\nCollaborate with other members in the autonomy ecosystem and learn about different approaches to solving core issues in autonomy\n\nBS/MS degree (completed or in progress) in Computer Science, Computer Engineering, Electrical Engineering, or a related field, graduating December 2026 or by Summer 2027\n\nProven ability as a self-starter and can quickly become comfortable with new technical tools\n\nDesigned efficient and effective solutions to a wide range of engineering challenges\n\nExperience taking initiative in a fast-paced environment\n\n+ year of experience in any field, or equivalent combination of education and experience\n\nWorking knowledge of frontend, API layer, database ORM, containerization, or cluster orchestration frameworks (such as React, GraphQL, SQLAlchemy, Docker, or Kubernetes)\n\nExperience working with simulation tools, modeling physical problems, or using robotics middleware (such as ROS)\n\nDon’t meet every single requirement? If you’re excited about this role but your past experience doesn’t align perfectly with every qualification in the job description, we encourage you to apply anyway. You may be just the right candidate for this or other roles.\n\nApplied Intuition is an equal opportunity employer and federal contractor or subcontractor. Consequently, the parties agree that, as applicable, they will abide by the requirements of 41 CFR 60-1.4(a), 41 CFR 60-300.5(a) and 41 CFR 60-741.5(a) and that these laws are incorporated herein by reference. These regulations prohibit discrimination against qualified individuals based on their status as protected veterans or individuals with disabilities, and prohibit discrimination against all individuals based on their race, color, religion, sex, sexual orientation, gender identity or national origin. These regulations require that covered prime contractors and subcontractors take affirmative action to employ and advance in employment individuals without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, protected veteran status or disability. The parties also agree that, as applicable, they will abide by the requirements of Executive Order 13496 (29 CFR Part 471, Appendix A to Subpart A), relating to the notice of employee rights under federal labor laws.\n\nFOR US-BASED ROLES: Applied Intuition is committed to providing an accessible and inclusive application and interview experience to applicants who are disabled veterans and other applicants with disabilities or medical conditions. Reasonable accommodations are available, requesting an accommodation will not affect your candidacy in any way, and you are not required to disclose the nature of your disability or medical condition in order to make a request. If you require an accommodation please contact careers@applied.co. We will work with you!",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer - New Grad (2027)",
+    "salary": {
+      "unit": "YEAR",
+      "min": 123000,
+      "max": 158000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "Electrical Engineering",
+      "Computer Engineering",
+      "React",
+      "Docker",
+      "Kubernetes",
+      "GraphQL"
+    ],
+    "qualifications": [
+      "BS/MS degree (completed or in progress) in Computer Science, Computer Engineering, Electrical Engineering, or a related field, graduating December 2026 or by Summer 2027",
+      "Experience taking initiative in a fast-paced environment",
+      "+ year of experience in any field, or equivalent combination of education and experience",
+      "Working knowledge of frontend, API layer, database ORM, containerization, or cluster orchestration frameworks (such as React, GraphQL, SQLAlchemy, Docker, or Kubernetes)",
+      "Experience working with simulation tools, modeling physical problems, or using robotics middleware (such as ROS)"
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Collaborate with other members in the autonomy ecosystem and learn about different approaches to solving core issues in autonomy"
+    ],
+    "fingerprint": "applied-software-engineer-new-grad-2027--sunnyvale-ann-arbor-ca",
+    "atsProvider": "Ashby",
+    "company": "Applied",
+    "id": "manual-1791910298045",
+    "state": "CA",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=applied.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.ashbyhq.com/applied/a837cbd6-9fe4-4d74-a2dc-84f602c40694/",
+    "location": "Sunnyvale; Ann Arbor, CA",
+    "category": "Data / AI",
+    "companyWebsite": "https://www.applied.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Philadelphia",
+    "postalCode": "19102",
+    "description": "Zifo is growing! We are looking to hire an Associate Analyst to join our Scientific Informatics team in the Philadelphia, PA area. This person will work as part of a cross functional global team to design, develop, implement and support customization / configurations of informatics platforms / products for various pharmaceutical and biotech clients The informatics platform / products include but are not limited to Electronic Lab Notebook (ELN), Laboratory Information Management System (LIMS), Chromatography Data System (CDS), Scientific Data Management System (SDMS) used within research, clinical and manufacturing domain. The Associate will collaborate with the customer IT stakeholders, business SMEs (scientists & lab analysts), and software vendors to discuss / document business requirements and implementation approach. The Associate will partner with internal and external stakeholders to develop and execute the implementation plan while ensuring proper documentation for GxP compliance is developed and delivered at the appropriate time. Responsible for requirement gathering, elaboration, elicitation and documentation.",
+    "source": "MANUAL_ADMIN",
+    "title": "Associate Analyst- Scientific Informatics",
+    "salary": {
+      "unit": "HOUR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "SQL"
+    ],
+    "qualifications": [
+      "Responsible for requirement gathering, elaboration, elicitation and documentation",
+      "Draft / review technical documents for implementation of the identified solution / customization.",
+      "Perform / review configuration / technical activities for solution implementation.",
+      "Evaluate technical caveats / dependencies for implementation of solutions / customization.",
+      "Act as the liaison between customer and vendor organization to facilitate proof of concept, gap analysis and risk mitigation.",
+      "Manage, motivate and mentor cross-functional and enterprise project teams across the globe"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Zifo is growing! We are looking to hire an Associate Analyst to join our Scientific Informatics team in the Philadelphia, PA area. This person will work as part of a cross functional global team to design, develop, implement and support customization / configurations of informatics platforms / products for various pharmaceutical and biotech clients The informatics platform / products include but are not limited to Electronic Lab Notebook (ELN), Laboratory Information Management System (LIMS), Chromatography Data System (CDS), Scientific Data Management System (SDMS) used within research, clinical and manufacturing domain. The Associate will collaborate with the customer IT stakeholders, business SMEs (scientists & lab analysts), and software vendors to discuss / document business requirements and implementation approach. The Associate will partner with internal and external stakeholders to develop and execute the implementation plan while ensuring proper documentation for GxP compliance is developed and delivered at the appropriate time. Responsible for requirement gathering, elaboration, elicitation and documentation."
+    ],
+    "fingerprint": "zifo-associate-analyst-scientific-informatics-philadelphia-pa",
+    "atsProvider": "Workable",
+    "company": "Zifo",
+    "id": "manual-1791908705275",
+    "state": "PA",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/618206/logo",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/iVpBpE7SaqnQoGCyX22F3R/associate-analyst--scientific-informatics-in-philadelphia-at-zifo",
+    "location": "Philadelphia, PA",
+    "category": "Full Stack",
+    "companyWebsite": "https://zifo.com/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Remote",
+    "postalCode": "94105",
+    "description": "About Us:\n\nDatacor is the leading provider of software solutions, including ERP, CRM, Asset Tracking, Simulation and Formulation, to the process manufacturing space. We are on a mission to better equip the industry with software solutions and move it forward by building thoughtful, intuitive products that solve our customers’ most difficult problems.\n\nWe are passionate about serving our customers and helping them use data as a competitive advantage. Our customers make products that extend and sustain lives by sanitizing, fertilizing, beautifying, cleaning, and recycling the world we live in. We at Datacor help our customers make those products you use every day more safely, cost effectively and more efficiently through our technology platforms and applications.\n\nThe Role:\n\nThe Datacor Engineering Software Group (DESG) is seeking a curious, motivated early-career Software Engineer to join our Flow Simulation team and help build the future of our software. You will work on Fathom, Arrow, Impulse, and xStream, our industry-leading fluid flow simulation applications, which engineers around the world use to design and analyze piping systems, from steady-state operation to transient events like a pump trip.\n\nThis is a generalist role for someone with a solid computer science foundation who wants to grow into a well-rounded engineer. There are no skill silos here: you will work across the whole application, from user interface and application logic to data models, file formats, integrations, and the tooling that builds and tests it all. You will join a team of software engineers and mechanical and chemical engineers in a mature codebase that is being actively modernized. A structured onboarding plan and an experienced teammate will guide your first weeks, and you will take on more ownership as you grow.\n\nResponsibilities:\n\n• Design, build, and maintain features across all layers of our Windows desktop applications, working from requirements with guidance from senior engineers.\n\n• Diagnose and fix defects anywhere in the codebase, including customer-reported issues escalated from our Support team.\n\n• Contribute to internal tooling, build automation, CI/CD pipelines, and test infrastructure.\n\n• Take part in our ongoing modernization, including new architecture and user interface frameworks.\n\n• Write clean, maintainable, well-tested code, and take part in code reviews, both giving and receiving feedback.\n\n• Share team responsibilities such as build pipeline and bug-triage rotations.\n\n• Collaborate with engineers, QA, Product Management, and domain experts to deliver solutions that meet user needs.\n\n• Stay on top of industry trends, and use modern tools, including AI coding assistants, responsibly to continuously improve your skillset.\n\nRequired Qualifications:\n\n• Bachelor's degree in Computer Science, Software Engineering, Computer Engineering, or a related field (or equivalent experience).\n\n• 0–2 years of professional software development experience; internships, co-ops, and substantial academic or personal projects count.\n\n• Proficiency in at least one object-oriented language, preferably C# (VB.NET, Java, or C++ also welcome).\n\n• Solid grounding in computer science fundamentals: object-oriented design, data structures, and algorithms.\n\n• Working knowledge of version control, including branching, commits, and merging.\n\n• Demonstrated ability to write clean, readable, and maintainable code.\n\n• Strong problem-solving and debugging skills, and the judgment to ask for help when stuck.\n\n• Excellent communication and collaboration skills.\n\nPreferred Qualifications:\n\n• Experience with the .NET ecosystem and Visual Studio.\n\n• Exposure to user interface development, whether desktop (WPF, WinForms) or web.\n\n• Experience writing unit tests or working with automated testing.\n\n• Familiarity with scripting languages such as Python or PowerShell.\n\n• Experience with Git, including pull requests and code reviews.\n\n• Familiarity with CI/CD pipelines, Agile practices, or tools such as Jira and Bitbucket.\n\n• Familiarity with data serialization (JSON, XML) or multi-threading concepts.\n\n• Experience using AI coding assistants thoughtfully, including verifying the code they produce.\n\n• Interest in engineering, scientific, or simulation software.\n\nHybrid in Colorado Springs, CO preferred; exceptional remote candidates will be considered.\n\nEOE Statement:\n\nDatacor is an Equal Opportunity Employer and does not discriminate on the basis or race, color, religion, sex, national origin, age, disability, veteran status, or any other protected characteristic.\n\nUse of AI During Interviews:\n\nAt Datacor, we value thoughtful problem-solving and authentic perspectives. To ensure a fair and consistent evaluation process, we ask that candidates do not use generative AI tools or outside assistance during live interviews unless explicitly stated otherwise. We're interested in hearing your experience, your approach, and how you think through challenges.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Scripting",
+      "Computer Engineering",
+      "Python",
+      "Java",
+      "C#",
+      "Git"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, Computer Engineering, or a related field (or equivalent experience).",
+      "0–2 years of professional software development experience; internships, co-ops, and substantial academic or personal projects count.",
+      "Proficiency in at least one object-oriented language, preferably C# (VB.NET, Java, or C++ also welcome).",
+      "Solid grounding in computer science fundamentals: object-oriented design, data structures, and algorithms.",
+      "Working knowledge of version control, including branching, commits, and merging.",
+      "Demonstrated ability to write clean, readable, and maintainable code.",
+      "Experience with the .NET ecosystem and Visual Studio.",
+      "Exposure to user interface development, whether desktop (WPF, WinForms) or web."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "datacor-software-engineer-remote-us",
+    "atsProvider": "Greenhouse",
+    "company": "Datacor",
+    "id": "manual-1791908990786",
+    "state": "US",
+    "datePosted": "2026-10-13",
+    "validThrough": "2026-11-12",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=datacor.com",
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://job-boards.greenhouse.io/datacor/jobs/5257433007",
+    "location": "Remote, US",
+    "category": "Backend",
+    "companyWebsite": "https://datacor.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.309Z",
+    "isRemote": true
+  },
+  {
+    "country": "UNITED STATES",
+    "maxYearsExperience": 1,
+    "city": "New York",
+    "postalCode": "10001",
+    "description": "Location: New York, NY\n\nWork Model: In-office\n\nIndustry: AI security / infrastructure (MCP)\n\nCompensation: $80K-$120K base, with meaningful variable upside (flexible for the right person)\n\nAbout the Company Our partner is an early-stage, well-funded startup building security infrastructure for the AI era, helping enterprises adopt MCP and AI tooling without leaking sensitive data. Backed by top-tier investors with strong early pipeline, they are assembling a founding go-to-market team and investing heavily in the people who join it. Leadership is committed to mentoring early hires and jumpstarting their careers.\n\nThe Opportunity This is a founding sales seat for high-achievers who want to break into go-to-market at a fast-moving startup. You will help establish the tone and culture of the sales org, own a territory, and build the playbook from the ground up. Top performers are expected to grow into leading closing roles within two to three years.\n\nThis is not a traditional SDR job. It is built for spiky, high-agency people with a track record of excellence who want to invest their energy somewhere they can grow fast.",
+    "source": "MANUAL_ADMIN",
+    "title": "Founding Go-to-Market Representative (SDR) - Runlayer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 80000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Statistics",
+      "Go",
+      "Security"
+    ],
+    "qualifications": [
+      "Location: New York, NY",
+      "Work Model: In-office",
+      "Industry: AI security / infrastructure (MCP)",
+      "Compensation: $80K-$120K base, with meaningful variable upside (flexible for the right person)",
+      "About the Company Our partner is an early-stage, well-funded startup building security infrastructure for the AI era, helping enterprises adopt MCP and AI tooling without leaking sensitive data. Backed by top-tier investors with strong early pipeline, they are assembling a founding go-to-market team and investing heavily in the people who join it. Leadership is committed to mentoring early hires and jumpstarting their careers.",
+      "The Opportunity This is a founding sales seat for high-achievers who want to break into go-to-market at a fast-moving startup. You will help establish the tone and culture of the sales org, own a territory, and build the playbook from the ground up. Top performers are expected to grow into leading closing roles within two to three years.",
+      "This is not a traditional SDR job. It is built for spiky, high-agency people with a track record of excellence who want to invest their energy somewhere they can grow fast.",
+      "Responsibilities"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Location: New York, NY",
+      "Work Model: In-office",
+      "Industry: AI security / infrastructure (MCP)",
+      "Compensation: $80K-$120K base, with meaningful variable upside (flexible for the right person)",
+      "About the Company Our partner is an early-stage, well-funded startup building security infrastructure for the AI era, helping enterprises adopt MCP and AI tooling without leaking sensitive data. Backed by top-tier investors with strong early pipeline, they are assembling a founding go-to-market team and investing heavily in the people who join it. Leadership is committed to mentoring early hires and jumpstarting their careers.",
+      "The Opportunity This is a founding sales seat for high-achievers who want to break into go-to-market at a fast-moving startup. You will help establish the tone and culture of the sales org, own a territory, and build the playbook from the ground up. Top performers are expected to grow into leading closing roles within two to three years.",
+      "This is not a traditional SDR job. It is built for spiky, high-agency people with a track record of excellence who want to invest their energy somewhere they can grow fast.",
+      "Responsibilities"
+    ],
+    "fingerprint": "talentpluto-founding-go-to-market-representative-sdr-runlayer-new-york-newyork",
+    "atsProvider": "Workable",
+    "company": "talentpluto",
+    "id": "manual-1791812739867",
+    "state": "NEWYORK",
+    "datePosted": "2026-10-12",
+    "validThrough": "2026-11-11",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/694394/logo",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.workable.com/en/view/iYzCXGVWToeLnzR3eabdSS/founding-go-to-market-representative-(sdr)---runlayer-in-new-york-at-talentpluto",
+    "location": "New York, NEWYORK",
+    "category": "Backend",
+    "companyWebsite": "https://www.talentpluto.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Mo",
+    "postalCode": "63090",
+    "description": "Are you ready to join an industry-leading global company that believes in empowering its employees? Are you prepared to use your inquisitive nature and strong work ethic to help the IT team make our world a better place?\n\nA career at Parker is rife with rewards and opportunities. But a career at Parker is not for everyone. Finding success at Parker requires dedication and an insatiable desire to win. We seek very smart people who also have the equally impressive characteristic of humility. We solve our customer’s challenges as a team, working together to bring about big changes through automation and simplification.\n\nParker team members understand that solving the world’s greatest engineering challenges requires an inquisitive and intelligent workforce. We invest in employees to ensure they are the best in the industry. Our global success relies on empowered employees operating in an environment that breeds ideas and solutions, and we take every possible action to ensure this happens.\n\nThis role will define, develop, configure, test, train and support business-related IT systems and applications. You will lead projects that will enable business improvements and perform critical analysis by developing solutions using standard programming practices and protocols to fulfill approved requirements.\n\nYou will also collaborate with other Technical Analysts, Senior Technical Developers, and end users as you work together to establish a world class industrial manufacturing environment.\n\nJOB PURPOSE STATEMENT\n\nDevelop and support applications and hardware in an office and manufacturing environment. Configure and troubleshoot all types of hardware used throughout a $600m business. Train and assist users as required. Responsible for supporting and applying current technology standards to satisfy customer requirements or solve business related issues.\n\nDUTIES AND RESPONSIBILITIES\n\nAnalyze and resolve IT issues reported from more than 1500 internal users/customers across 8 locations via a ServiceNow ticketing system.\n\nSupport and adhere to Parker’s Code of Ethics, ISO requirements, policies, and procedures.\n\nAt times write SQL queries to assist in the correction of issues or report building when needed by the business.\n\nWorking experience with Zebra label printers. Using ZPL or willingness to learn is key.\n\nExperience with BarTender or Loftware labeling technologies would be a plus.\n\nProject management experience or a PMP certification would be a plus.\n\nInterpret user complaints and needs and quickly work to permanently resolve.\n\nCommunicate openly and honestly with respect and a professional tone working to resolve up to 50 service tickets each month depending on complexity.\n\nLearn custom and packaged applications, modify or adapt configurations and devise the most feasible and economical methods to deploy and support IT systems at all division locations.\n\nAnalyze procedures, determine errors in logic, and make recommendations how to proceed and then perform the fixes and ensure the enhancements or issues are truly implemented/resolved.\n\nDocument established procedures for future reference. Keep the IT Wiki up to date with current desk instructions.\n\nTrain and assist users as needed. IT is expected to be an expert in all things.\n\nSet up new laptops and troubleshoot pcs, printers, and scan gun issues throughout the organization.\n\nManage incoming tickets (ServiceNow). Keep active and assigned tickets to a minimum. Work with the customer to resolve issues to their satisfaction.\n\nBe a self-starter and take initiative to contact individuals concerning reported issues and assigned projects.\n\nThink in logical terms and break down large issues into manageable pieces. Then systematically resolve each identified piece.\n\nBe willing to be uncomfortable in not knowing a solution but able to research and find needed answers. Then go and resolve the issue.\n\nReview existing and new programs and revise or refine for most effective operation.\n\nQualification Requirements: To perform this job successfully, an individual must be able to perform essential functions satisfactorily. The list above is extensive, not all are required in order to be successful in the role but is provided to show the knowledge, skill, and/or ability that is required. Reasonable accommodation may be made to enable individuals with disabilities to perform the essential functions.\n\nEducation and/or Experience: Bachelors degree (4 year) from college or university and a minimum of one year of related experience or a combination of experience and education. Two-year degree will be considered with significant experience and PMP and A+ or Network+ certifications.\n\nLanguage Skills: Ability to communicate efficiently, read, analyze, and interpret general business topics, periodicals and technical procedures. Need to be able to understand computer program logic and general documentation. Ability to effectively present information and respond to questions from all levels of the organization. Maintain good working relationships with department associates, supervisors and managers.\n\nCertificates, Licenses, Registrations: Any industry relevant certificates such as Comptia A+, PMP, SQL, etc. is an added benefit.\n\nReasoning Ability: Ability to solve practical and analytical problems and deal with a variety of situations where only limited standardization exists. Ability to interpret instructions furnished in written, oral, diagram, or schedule form.\n\nOther Skills and Abilities: Ability to operate various pieces of office equipment. Requires the internal working knowledge of all types of IT hardware. Being a quick study and having the ability to move forward with only partial information. But then be willing to pivot if necessary when additional information becomes available.\n\nParker is an Equal Opportunity and Affirmative Action Employer. Parker is committed to ensuring equal employment opportunities for all job applicants and employees. Employment decisions are based upon job related reasons regardless of race, ethnicity, color, religion, sex, sexual orientation, age, national origin, disability, gender identity, genetic information, veteran status, or any other status protected by law. However, U.S. Citizenship, Permanent Residency or other appropriate status is required for certain positions, in accord with U.S. import & export regulations.\n\n(“Minority / Female / Disability / Veteran / VEVRAA Federal Contractor”)\n\nIf you would like more information about Equal Employment Opportunity as an applicant under the law, please go to Employees & Job Applicants | U.S. Equal Employment Opportunity Commission",
+    "source": "MANUAL_ADMIN",
+    "salary": {
+      "unit": "HOUR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Go",
+      "SQL",
+      "ServiceNow"
+    ],
+    "qualifications": [
+      "Working experience with Zebra label printers. Using ZPL or willingness to learn is key.",
+      "Experience with BarTender or Loftware labeling technologies would be a plus.",
+      "Project management experience or a PMP certification would be a plus.",
+      "Learn custom and packaged applications, modify or adapt configurations and devise the most feasible and economical methods to deploy and support IT systems at all division locations.",
+      "Think in logical terms and break down large issues into manageable pieces. Then systematically resolve each identified piece.",
+      "Reasoning Ability: Ability to solve practical and analytical problems and deal with a variety of situations where only limited standardization exists. Ability to interpret instructions furnished in written, oral, diagram, or schedule form."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Analyze and resolve IT issues reported from more than 1500 internal users/customers across 8 locations via a ServiceNow ticketing system.",
+      "Support and adhere to Parker’s Code of Ethics, ISO requirements, policies, and procedures.",
+      "Analyze procedures, determine errors in logic, and make recommendations how to proceed and then perform the fixes and ensure the enhancements or issues are truly implemented/resolved.",
+      "Manage incoming tickets (ServiceNow). Keep active and assigned tickets to a minimum. Work with the customer to resolve issues to their satisfaction.",
+      "Review existing and new programs and revise or refine for most effective operation."
+    ],
+    "atsProvider": "Direct Career Portal",
+    "id": "manual-1791727185970",
+    "state": "WASHINGTON ",
+    "datePosted": "2026-10-11",
+    "validThrough": "2026-11-10",
+    "employmentType": "FULL_TIME",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://parkercareers.ttcportals.com/jobs/17921372-digital-and-it-associate",
+    "location": "WASHINGTON MO",
+    "category": "Backend",
+    "status": "ACTIVE",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=parker.com&sz=128",
+    "fingerprint": "parker-com-digital-it-associate-washington-mo",
+    "company": "parker.com",
+    "title": "Digital & IT Associate",
+    "companyWebsite": "https://www.parker.com/",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Diego",
+    "postalCode": "92101",
+    "description": "San Diego, California, United States of America\n\nAdd to Job Cart\n\nFind out how well you match with this job\n\nUpload your resume\n\nCompany and benefits\n\nQualcomm Technologies, Inc.\n\nEngineering Group, Engineering Group > ASICS Engineering\n\nAs a leading technology innovator, Qualcomm pushes the boundaries of what's possible to enable next-generation experiences and drives communication and data processing transformation to help create a smarter, connected future for all. As a Qualcomm ASIC Engineer, you will define, model, design (digital and/or analog), optimize, verify, validate, implement, and document IP (block/SoC) development for a variety of high performance, high quality, low power world class products. Qualcomm Engineers collaborate with cross-functional groups to determine product execution path.",
+    "source": "MANUAL_ADMIN",
+    "title": "DFT Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 101400,
+      "max": 152200,
+      "currency": "USD"
+    },
+    "skills": [
+      "Circuit Design",
+      "Scripting",
+      "Computer Engineering",
+      "Security"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Science, Engineering, or related field.",
+      "Master's degree in Electrical/Electronic Engineering, Computer Engineering, or Computer Science.",
+      "6+ months of experience with architecture and design tools.",
+      "6+ months of experience with scripting tools and programming languages.",
+      "6+ months of experience with design verification methods."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Applies ASIC knowledge to assist and support the defining, modeling, designing (digital and/or analog), optimizing, verifying, validating, implementing, and documenting of IP (block/SoC) development for a variety of high performance, high quality, low power products.",
+      "Assists in the creation of architectures, circuit specifications, logic designs, and/or system simulations based on system-level requirements.",
+      "Collaborates with team members to assist in the development of an implementation strategy that meets system requirements and customer needs.",
+      "Supports the evaluation of process flow from high-level design to synthesis, place and route, and timing and power use, and verification or similarly for custom circuit design/layout flow.",
+      "Utilizes tools/applications (e.g., RTL to GDS Flow, Virtuoso) to execute and enable architecture and design of a specific part of a block/SoC or IC Package.",
+      "Writes technical documentation for EDA/IP/ASIC projects.",
+      "Works under supervision.",
+      "Decision-making affects direct area of work and/or work group.",
+      "Requires verbal and written communication skills to convey basic, routine factual information.",
+      "Tasks require multiple steps which can be performed in various orders; some planning, problem-solving, and prioritization must occur to complete the tasks effectively.",
+      "Qualcomm is an equal opportunity employer. If you are an individual with a disability and need an accommodation during the application/hiring process, rest assured that Qualcomm is committed to providing an accessible process. You may e-mail disability-accomodations@qualcomm.com or call Qualcomm's toll-free number found here. Upon request, Qualcomm will provide reasonable accommodations to support individuals with disabilities to be able participate in the hiring process. Qualcomm is also committed to making our workplace accessible for individuals with disabilities. (Keep in mind that this email address is used to provide reasonable accommodations for individuals with disabilities. We will not respond here to requests for updates on applications or resume inquiries).",
+      "To all Staffing and Recruiting Agencies: Our Careers Site is only for individuals seeking a job at Qualcomm. Staffing and recruiting agencies and individuals being represented by an agency are not authorized to use this site or to submit profiles, applications or resumes, and any such submissions will be considered unsolicited. Qualcomm does not accept unsolicited resumes or applications from agencies. Please do not forward resumes to our jobs alias, Qualcomm employees or any other company location. Qualcomm is not responsible for any fees related to unsolicited resumes/applications."
+    ],
+    "fingerprint": "qualcomm-dft-engineer-san-diego-ca",
+    "atsProvider": "Direct Career Portal",
+    "company": "Qualcomm",
+    "id": "manual-1791726759212",
+    "state": "CA",
+    "datePosted": "2026-10-11",
+    "validThrough": "2026-11-10",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=qualcomm.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.qualcomm.com/careers/job/446721493810",
+    "location": "San Diego, CA",
+    "category": "Frontend",
+    "companyWebsite": "https://www.qualcomm.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "USA",
+    "maxYearsExperience": 1,
+    "city": "Herndon",
+    "postalCode": "20170",
+    "description": "Position Description & Qualifications\n\nSerco North America is seeking an Entry-Level ServiceNow Developer to support the development, configuration, and enhancement of ServiceNow applications across mission-critical systems. This role is well-suited for a recent college graduate with a strong technical foundation and a desire to grow within enterprise platforms and IT Service Management (ITSM).\n\nThis position offers structured on-the-job training and mentorship, providing the opportunity to build hands-on experience with the ServiceNow platform while supporting the delivery of reliable, high-quality IT services.\n\nIn this role, you will:\n\n• Assist in the development and configuration of applications on the ServiceNow platform using App Engine Studio\n\n• Support implementation and customization of ITSM modules, including Incident, Change, and Request Management\n\n• Develop and maintain ServiceNow components such as:\n• Forms and fields\n\n• Business rules\n\n• Client scripts\n\n• UI policies\n\n• Workflows and Flow Designer solutions\n\n• Participate in requirements analysis, solution design, testing, and documentation\n\n• Collaborate with senior developers, system administrators, and functional stakeholders\n\n• Troubleshoot issues and support platform enhancements and continuous improvements\n\n• Follow ServiceNow development best practices, security standards, and Serco development methodologies\n\n• Maintain documentation for developed solutions and configurations\n\nTo be successful in this role, you will have:\n\n• U.S. Citizenship\n\n• Bachelor’s degree in Compu ter Science, Information Technology, Information Systems, Software Engineering, or a related discipline\n\n• Strong understanding of programming fundamentals and software development concepts\n\n• Proficiency or coursework experience with JavaScript\n\n• Basic knowledge of HTML, CSS, and web-based application concepts\n\n• Familiarity with relational databases and data modeling concepts\n\n• Foundational understanding of IT Service Management (ITSM) or IT operations principles\n\n• Ability to learn new tools and technologies quickly\n\n• Strong analytical, problem-solving, and communication skills\n\n• Ability to work effectively both independently and as part of a team\n\nPreferred Qualifications\n\n• Academic, internship, or project experience with enterprise systems or SaaS platforms\n\n• Exposure to low-code or no-code development platforms\n\n• Familiarity with Agile or Scrum methodologies\n\n• Experience consuming or building REST APIs\n\nCertification Requirements\n\nThe selected candidate must obtain the following ServiceNow certifications within six (6) months of hire:\n\n• ServiceNow Certified System Administrator (CSA)\n\n• ServiceNow Certified Application Developer (CAD)\n\nTraining and certification support will be provided.\n\nIf you are interested in supporting and working with passionate Serco team- then submit your application now for immediate consideration. It only takes a few minutes and could change your career!\n\nCompany Overview\n\nSerco Inc. (Serco) is the Americas division of Serco Group, plc. In North America, Serco’s 9,000+ employees strive to make an impact every day across 100+ sites in the areas of Defense, Citizen Services, and Transportation. We help our clients deliver vital services more efficiently while increasing the satisfaction of their end customers. Serco serves every branch of the U.S. military, numerous U.S. Federal civilian agencies, the Intelligence Community, the Canadian government, state, provincial and local governments, and commercial clients. While your place may look a little different depending on your role, we know you will find yours here. Wherever you work and whatever you do, we invite you to discover your place in our world. Serco is a place you can count on and where you can make an impact because every contribution matters.\n\nTo review Serco benefits please visit: https://careers.serco-na.com/us/en/what-we-offer . If you require an accommodation with the application process please email: careers@serco-na.com or call the HR Service Desk at 800-628-6458, option 1. Please note, due to EEOC/OFCCP compliance, Serco is unable to accept resumes by email.\n\nCandidates may be asked to present proof of identity during the selection process. If requested, this will require presentation of a government-issued I.D. (with photo) with name and address that match the information entered on the application. Serco will not take possession of or retain/store the information provided as proof of identity. For more information on how Serco uses your information, please see our Applicant Privacy Policy and Notice.\n\nSerco does not accept unsolicited resumes through or from search firms or staffing agencies without being a contracted approved vendor. All unsolicited resumes will be considered the property of Serco and will not be obligated to pay a placement or contract fee. If you are interested in becoming an approved vendor at Serco, please email Agencies@serco-na.com .\n\nSerco is an equal opportunity employer. We evaluate qualified applicants without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, veteran status, and other legally protected characteristics.\n\nPay Transparency\n\nOur Total Rewards package includes competitive pay, performance-based incentives, and benefits that promote well-being and work-life balance—so you can thrive both professionally and personally. Eligible employees also gain access to a wide range of benefits from comprehensive health coverage and health savings accounts to retirement plans, life and disability insurance, and time-off programs that support work-life balance. Program availability may vary based on factors such as contract type, location, hire date, and applicable collective bargaining agreements.\n\nSalary range: The range for this position can be found at the top of this posting. This range is provided as a general guideline and represents a good faith estimate across all experience levels. Actual base salary will be determined by a variety of factors, including but not limited to, the scope of the role, relevant experience, job-related knowledge, education and training, key skills, and geographic market considerations. For roles available in multiple states, the range may vary to reflect differences in local labor markets. In addition to base salary, eligible positions may include other forms of compensation such as annual bonuses or long-term incentive opportunities.\n\nBenefits – Comprehensible benefits for full-time employees (part-time employees receive a limited package tailored to their role):\n\n• Medical, dental, and vision insurance\n\n• Robust vacation and sick leave benefits, and flexible work arrangements where permitted by role or contract\n\n• 401(k) plan that includes employer matching funds\n\n• Tuition reimbursement program\n\n• Life insurance and disability coverage\n\n• Optional coverages that can be purchased, including pet insurance, home and auto insurance, additional life and accident insurance, critical illness insurance, group legal, ID theft protection\n\n• Birth, adoption, parental leave benefits\n\n• Employee Assistance Plan\n\nTo review all Serco benefits please visit: https://careers.serco-na.com/us/en/about-us .\n\nSerco complies with all applicable state and local leave laws, including providing time off under the Colorado Healthy Families and Workplaces Act for eligible Colorado residents, in alignment with our policies and benefit plans. The application window for this position is for no more than 60 days. We encourage candidates to apply promptly after the posting date, as the position may close earlier if filled or if the application volume exceeds expectations. Please submit applications exclusively through Serco’s external (or internal) career site. If an applicant has any concerns with job posting compliance, please send an email to: careers@serco-na.com .",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 98000,
+      "max": 132000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Scripting",
+      "JavaScript",
+      "REST APIs",
+      "APIs",
+      "ServiceNow",
+      "Security"
+    ],
+    "qualifications": [
+      "Position Description & Qualifications",
+      "Serco North America is seeking an Entry-Level ServiceNow Developer to support the development, configuration, and enhancement of ServiceNow applications across mission-critical systems. This role is well-suited for a recent college graduate with a strong technical foundation and a desire to grow within enterprise platforms and IT Service Management (ITSM).",
+      "This position offers structured on-the-job training and mentorship, providing the opportunity to build hands-on experience with the ServiceNow platform while supporting the delivery of reliable, high-quality IT services.",
+      "In this role, you will:",
+      "Assist in the development and configuration of applications on the ServiceNow platform using   App Engine Studio",
+      "Support implementation and customization of ITSM modules, including Incident, Change, and Request Management",
+      "Develop and maintain ServiceNow components such as:",
+      "Forms and fields"
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Position Description & Qualifications",
+      "Serco North America is seeking an Entry-Level ServiceNow Developer to support the development, configuration, and enhancement of ServiceNow applications across mission-critical systems. This role is well-suited for a recent college graduate with a strong technical foundation and a desire to grow within enterprise platforms and IT Service Management (ITSM).",
+      "This position offers structured on-the-job training and mentorship, providing the opportunity to build hands-on experience with the ServiceNow platform while supporting the delivery of reliable, high-quality IT services.",
+      "In this role, you will:",
+      "Assist in the development and configuration of applications on the ServiceNow platform using   App Engine Studio",
+      "Support implementation and customization of ITSM modules, including Incident, Change, and Request Management",
+      "Develop and maintain ServiceNow components such as:",
+      "Forms and fields"
+    ],
+    "fingerprint": "serco-usa-software-engineer-herndon-virginia",
+    "atsProvider": "Direct Career Portal",
+    "company": "Serco USA",
+    "id": "manual-1791726353876",
+    "state": "VIRGINIA",
+    "datePosted": "2026-10-11",
+    "validThrough": "2026-11-10",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=serco-na.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.serco-na.com/us/en/job/SUPSUAUS32902EXTERNALENUS/Software-Engineer",
+    "location": "Herndon, VIRGINIA",
+    "category": "Backend",
+    "companyWebsite": "https://www.serco-na.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "UNITED STATES",
+    "maxYearsExperience": 1,
+    "city": "Palo Alto",
+    "postalCode": "N/A",
+    "description": "Vigil Labs builds AI to solve markets, starting with agents that supercharge discretionary traders. To commercialize our technology, we operate an eight-figure hedge fund.\n\nVigil Labs is backed by Ribbit Capital, Nova, Lux Capital, SV Angel, Jack Altman, Kevin Hartz, Professor Chris Manning, the CEO of Kalshi, Cyan Banister, Stanley Tang, Karim Atiyeh, and Don Wilson, raised $29M in total seed funding with a recent round led by Ribbit to further our research and ambition to build a market-native intelligence layer where agents drive PnL.\n\nWe are based in Palo Alto, with a team spanning Citadel, Millennium, xAI, and SIG. The team includes top-ranked prediction market and crypto traders, alongside AI/ML researchers from CMU, Cornell, Stanford, and Princeton, including IMO medalists.\n\nWe are building at the frontier of markets and artificial intelligence. The work spans research, systems, and product: pioneering what new technology makes possible, building the infrastructure that makes it reliable, and putting it to work in both crypto and equities.\n\nWe want people who care deeply about that mission and want to build something consequential together. If you primarily want a predictable 9–5 software engineering job, this probably isn't the right seat. Things move quickly here. We build quickly, respond to problems with urgency, and expect people to take substantial responsibility for what they ship. Please read this document carefully before applying.\n\nYou will work directly with traders, researchers, and other engineers to build Vigil's technology. That includes the systems that ingest and process information, the infrastructure that supports research and execution, and the products and agents that help us understand and act on markets.\n\nThe work crosses layers. One project might involve designing a novel data pipeline for alpha generation or debugging a distributed system. Another might involve building an evaluation framework, testing a research idea, or developing a product alongside a trader. We need engineers with enough depth to solve difficult technical problems and enough range to follow a problem beyond the part of the stack they already know.\n\nYou will own substantial pieces of this work from understanding the problem through design, implementation, deployment, and operation. You will help decide what we build, how we build it, and how we know it works.\n\nAgents are an important part of both our product and how we operate. We want to turn more of our research and internal workflows into systems that can run autonomously. Doing that well requires strong software engineering auilding systems and products from 0 → 1.\n\nThe full file is 15.6KB at companies/vigil-labs/roles/founding-engin four PDF extraction artifacts (eight-figure, market-native, 9–5,curly quotes) and dropped the page labels. Paste the whole file into the raw description field:\n\nVigil Labs builds AI to solve markets, starting with agents that traders. To commercialize our technology, we operate an eight-figurehedge fund.\n\nVigil Labs is backed by Ribbit Capital, Nova, Lux Capital, SV Angtz, Professor Chris Manning, the CEO of Kalshi, Cyan Banister,Stanley Tang, Karim Atiyeh, and Don Wilson, raised $29M in total seed funding with a recent round led by Ribbit to further our research and ambition to build a market-native intelligence layer where agents drive PnL.\n\nWe are based in Palo Alto, with a team spanning Citadel, Millenni includes top-ranked prediction market and crypto traders, alongsideAI/ML researchers from CMU, Cornell, Stanford, and Princeton, including IMO medalists.\n\nYou will work directly with traders, researchers, and other enginnology. That includes the systems that ingest and processinformation, the infrastructure that supports research and execution, and the products and agents that help us understand and act on markets.\n\nAgents are an important part of both our product and how we operate. We want to turn more of our research and internal workflows into systems that can run autonomously. Doing that well requires strong software engineering and prior experience with building systems and products from 0 → 1.\n\nThere is significant room to shape the role around your strengths. The expectation is that you become someone we can trust with an important area and give substantial autonomy to move it forward.",
+    "source": "MANUAL_ADMIN",
+    "title": "Founding Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 180000,
+      "max": 250000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "Product Engineering",
+      "Go"
+    ],
+    "qualifications": [
+      "Vigil Labs builds AI to solve markets, starting with agents that supercharge discretionary traders. To commercialize our technology, we operate an eight-figure hedge fund.",
+      "Vigil Labs is backed by Ribbit Capital, Nova, Lux Capital, SV Angel, Jack Altman, Kevin Hartz, Professor Chris Manning, the CEO of Kalshi, Cyan Banister, Stanley Tang, Karim Atiyeh, and Don Wilson, raised $29M in total seed funding with a recent round led by Ribbit to further our research and ambition to build a market-native intelligence layer where agents drive PnL.",
+      "We are based in Palo Alto, with a team spanning Citadel, Millennium, xAI, and SIG. The team includes top-ranked prediction market and crypto traders, alongside AI/ML researchers from CMU, Cornell, Stanford, and Princeton, including IMO medalists.",
+      "We are building at the frontier of markets and artificial intelligence. The work spans research, systems, and product: pioneering what new technology makes possible, building the infrastructure that makes it reliable, and putting it to work in both crypto and equities.",
+      "We want people who care deeply about that mission and want to build something consequential together. If you primarily want a predictable 9–5 software engineering job, this probably isn't the right seat. Things move quickly here. We build quickly, respond to problems with urgency, and expect people to take substantial responsibility for what they ship. Please read this document carefully before applying.",
+      "You will work directly with traders, researchers, and other engineers to build Vigil's technology. That includes the systems that ingest and process information, the infrastructure that supports research and execution, and the products and agents that help us understand and act on markets.",
+      "The work crosses layers. One project might involve designing a novel data pipeline for alpha generation or debugging a distributed system. Another might involve building an evaluation framework, testing a research idea, or developing a product alongside a trader. We need engineers with enough depth to solve difficult technical problems and enough range to follow a problem beyond the part of the stack they already know.",
+      "You will own substantial pieces of this work from understanding the problem through design, implementation, deployment, and operation. You will help decide what we build, how we build it, and how we know it works."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Vigil Labs builds AI to solve markets, starting with agents that supercharge discretionary traders. To commercialize our technology, we operate an eight-figure hedge fund.",
+      "Vigil Labs is backed by Ribbit Capital, Nova, Lux Capital, SV Angel, Jack Altman, Kevin Hartz, Professor Chris Manning, the CEO of Kalshi, Cyan Banister, Stanley Tang, Karim Atiyeh, and Don Wilson, raised $29M in total seed funding with a recent round led by Ribbit to further our research and ambition to build a market-native intelligence layer where agents drive PnL.",
+      "We are based in Palo Alto, with a team spanning Citadel, Millennium, xAI, and SIG. The team includes top-ranked prediction market and crypto traders, alongside AI/ML researchers from CMU, Cornell, Stanford, and Princeton, including IMO medalists.",
+      "We are building at the frontier of markets and artificial intelligence. The work spans research, systems, and product: pioneering what new technology makes possible, building the infrastructure that makes it reliable, and putting it to work in both crypto and equities.",
+      "We want people who care deeply about that mission and want to build something consequential together. If you primarily want a predictable 9–5 software engineering job, this probably isn't the right seat. Things move quickly here. We build quickly, respond to problems with urgency, and expect people to take substantial responsibility for what they ship. Please read this document carefully before applying.",
+      "You will work directly with traders, researchers, and other engineers to build Vigil's technology. That includes the systems that ingest and process information, the infrastructure that supports research and execution, and the products and agents that help us understand and act on markets.",
+      "The work crosses layers. One project might involve designing a novel data pipeline for alpha generation or debugging a distributed system. Another might involve building an evaluation framework, testing a research idea, or developing a product alongside a trader. We need engineers with enough depth to solve difficult technical problems and enough range to follow a problem beyond the part of the stack they already know.",
+      "You will own substantial pieces of this work from understanding the problem through design, implementation, deployment, and operation. You will help decide what we build, how we build it, and how we know it works."
+    ],
+    "fingerprint": "vigil-labs-founding-software-engineer-palo-alto-ca-usa-na",
+    "atsProvider": "Direct Career Portal",
+    "company": "Vigil Labs",
+    "id": "manual-1791624595031",
+    "state": "CA",
+    "datePosted": "2026-10-10",
+    "validThrough": "2026-11-09",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://storage.googleapis.com/simplify-imgs/companies/f49a634d-1a6e-4a4a-ad33-583369dd93ad/logo.png",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://simplify.jobs/p/bdc069d8-947d-4e4c-8a1c-78356f9b366f/Founding-Software-Engineer",
+    "location": "Palo Alto, Ca, Usa, NA",
+    "category": "Backend",
+    "companyWebsite": "https://www.simplify.jobs",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "San Francisco",
+    "postalCode": "94105",
+    "description": "Forage is building the modern payments stack that powers inclusive commerce. Our technology enables grocers, delivery platforms, and point-of-sale systems to seamlessly accept EBT payments both online and in-store. Beyond infrastructure, we’re helping SNAP EBT shoppers stretch their grocery budgets every week, making healthy food more affordable and accessible to the 42 million Americans on food assistance.​\n\nBacked by leading fintech investors, Forage is a fast-growing startup with a clear vision and real-world impact, feeding tens of thousands of families daily. Our team is made up of kind, driven individuals who take ownership, move quickly, and collaborate closely. We value humility, curiosity, and a shared commitment to making a difference.​\n\nWe’re not just building payments infrastructure — we’re helping feed tens of thousands of families each day, and transforming grocery access for millions more. Watch our story and see why we do what we do .",
+    "source": "MANUAL_ADMIN",
+    "title": "New Grad, Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 125000,
+      "max": 145000,
+      "currency": "USD"
+    },
+    "skills": [
+      "TypeScript",
+      "Python",
+      "Django"
+    ],
+    "qualifications": [
+      "Forage is building the modern payments stack that powers inclusive commerce. Our technology enables grocers, delivery platforms, and point-of-sale systems to seamlessly accept EBT payments both online and in-store. Beyond infrastructure, we’re helping SNAP EBT shoppers stretch their grocery budgets every week, making healthy food more affordable and accessible to the 42 million Americans on food assistance.​",
+      "Backed by leading fintech investors, Forage is a fast-growing startup with a clear vision and real-world impact, feeding tens of thousands of families daily. Our team is made up of kind, driven individuals who take ownership, move quickly, and collaborate closely. We value humility, curiosity, and a shared commitment to making a difference.​",
+      "We’re not just building payments infrastructure — we’re helping feed tens of thousands of families each day, and transforming grocery access for millions more.  Watch our story and see why we do what we do .",
+      "What we are looking for:",
+      "We're looking for recent college graduates excited to join small, focused teams, ship impactful features, and empower others through code. You'll have the opportunity to learn and grow while building user-friendly features with high technical standards. Your day-to-day will include giving and receiving thoughtful feedback in code reviews, contributing to technical designs, and ensuring the systems your team operates are reliable, scalable, and user-friendly. You'll be involved in the entire development lifecycle, from implementation to launch.",
+      "If you join the backend team, you'll primarily work with Python and frameworks like Django. On the frontend team, you'll work with TypeScript and contribute to our Android or iOS SDKs. You'll collaborate on cross-functional projects with engineers, product managers, and operations teams to ship impactful features. Along the way, you'll develop skills in project management and technical leadership, gaining the confidence to take ownership of projects from start to finish, while also empowering more Americans to access food.",
+      "Qualifications:",
+      "A Bachelor’s, Master’s, or PhD degree in computer science, software engineering or a directly related field."
+    ],
+    "experienceLevel": "New Grad",
+    "responsibilities": [
+      "Forage is building the modern payments stack that powers inclusive commerce. Our technology enables grocers, delivery platforms, and point-of-sale systems to seamlessly accept EBT payments both online and in-store. Beyond infrastructure, we’re helping SNAP EBT shoppers stretch their grocery budgets every week, making healthy food more affordable and accessible to the 42 million Americans on food assistance.​",
+      "Backed by leading fintech investors, Forage is a fast-growing startup with a clear vision and real-world impact, feeding tens of thousands of families daily. Our team is made up of kind, driven individuals who take ownership, move quickly, and collaborate closely. We value humility, curiosity, and a shared commitment to making a difference.​",
+      "We’re not just building payments infrastructure — we’re helping feed tens of thousands of families each day, and transforming grocery access for millions more.  Watch our story and see why we do what we do .",
+      "What we are looking for:",
+      "We're looking for recent college graduates excited to join small, focused teams, ship impactful features, and empower others through code. You'll have the opportunity to learn and grow while building user-friendly features with high technical standards. Your day-to-day will include giving and receiving thoughtful feedback in code reviews, contributing to technical designs, and ensuring the systems your team operates are reliable, scalable, and user-friendly. You'll be involved in the entire development lifecycle, from implementation to launch.",
+      "If you join the backend team, you'll primarily work with Python and frameworks like Django. On the frontend team, you'll work with TypeScript and contribute to our Android or iOS SDKs. You'll collaborate on cross-functional projects with engineers, product managers, and operations teams to ship impactful features. Along the way, you'll develop skills in project management and technical leadership, gaining the confidence to take ownership of projects from start to finish, while also empowering more Americans to access food.",
+      "Qualifications:",
+      "A Bachelor’s, Master’s, or PhD degree in computer science, software engineering or a directly related field."
+    ],
+    "fingerprint": "forage-new-grad-software-engineer-san-francisco-california",
+    "atsProvider": "Direct Career Portal",
+    "company": "Forage",
+    "id": "manual-1791654575252",
+    "state": "CALIFORNIA",
+    "datePosted": "2026-10-10",
+    "validThrough": "2026-11-09",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://bookface-images.s3.amazonaws.com/small_logos/23991b3eac1d06368b01c2f9ce5b893ba315f039.png",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.ycombinator.com/companies/forage-2/jobs/eB100Rk-new-grad-software-engineer",
+    "location": "San Francisco, CALIFORNIA",
+    "category": "Backend",
+    "companyWebsite": "https://www.ycombinator.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "source": "MANUAL_ADMIN",
+    "title": "Junior Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 0,
+      "max": 0,
+      "currency": "USD"
+    },
+    "skills": [
+      "Python",
+      "React",
+      "Angular",
+      "Docker",
+      "Kubernetes",
+      "MongoDB",
+      "Git",
+      "CI/CD"
+    ],
+    "qualifications": [
+      "Bachelor’s degree in computer science, or relevant STEM field",
+      "U.S Citizenship with the ability to obtain and maintain a TS/SCI security clearance",
+      "2 years of Experience with web front end development using React or Angular",
+      "2years of Experience with server-side languages, such as NodeJS, Python",
+      "2 years of Experience with version control software (ex Git)",
+      "Ability to communicate technical details of work",
+      "Ability to work in a dynamic environment and take ownership for segments of a project",
+      "Experience with Docker (containerized deployment) is a plus"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Design and implement new capabilities",
+      "Integrate capabilities with external services and tools"
+    ],
+    "atsProvider": "Workday",
+    "company": "Radiance Technologies",
+    "id": "manual-1791620521565",
+    "datePosted": "2026-10-10",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-11-09",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=radiancetech.com&sz=128",
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://radiancetech.wd12.myworkdayjobs.com/en-US/Radiance_External/job/Dayton-Office/Junior-Software-Engineer_HR102477-1",
+    "category": "Frontend",
+    "companyWebsite": "https://www.radiancetech.com/",
+    "status": "ACTIVE",
+    "city": "Dayton",
+    "postalCode": "45401",
+    "isRemote": false,
+    "fingerprint": "radiance-technologies-junior-software-engineer-dayton-oh",
+    "location": "Dayton, OH",
+    "state": "OH",
+    "description": "Summary\n\nRadiance Technologies is offering a full-time Junior Software Engineer position at its Beavercreek office in Dayton, Ohio, USA, for candidates pursuing entry-level software engineering opportunities. The onsite role supports the National Air and Space Intelligence Center (NASIC) and the U.S. Air Force’s digital transformation through developing new software capabilities, troubleshooting existing code, and integrating external services and tools. Applicants must hold a bachelor’s degree in computer science or a relevant STEM field, have a minimum 3.0 GPA, and possess 0–2 years of experience with React or Angular, Node.js or Python, and Git. U.S. citizenship and eligibility to obtain and maintain a TS/SCI security clearance are required. Experience with Docker, Kubernetes, MongoDB, and CI/CD pipelines is advantageous. This opening suits graduates exploring junior software developer careers in Ohio. Compensation at Radiance Technologies is based on qualifications, role responsibilities, location, and industry-standard salary ranges.\n\n\nDayton Office\n\nRadiance Technologies is an employee-owned company with benefits that are unmatched by most companies in the Dayton OH area. Employee ownership, generous 401K, full health/dental/life/vision insurance benefits, paid time off, educational reimbursement, competitive salaries, interesting assignments and a pleasant work environment combine to make Radiance Technologies a great place to work and succeed.\n\nThe Junior Software Engineer will support the National Air and Space Intelligence Center (NASIC) by performing software activities focused on assisting the Air Force move forward with digital transformation. Successful candidates will have strong problem solving and critical thinking skills.\n\nThis is an onsite position at our Beavercreek office*\n\nJob Responsibilities\n\nDesign and implement new capabilities\n\nResolve issues found in existing code\n\nIntegrate capabilities with external services and tools\n\nRequired Qualifications\n\nBachelor’s degree in computer science, or relevant STEM field\n\n.0 GPA or higher. (GPA must be on resume to be considered).\n\nU.S Citizenship with the ability to obtain and maintain a TS/SCI security clearance\n\nRequired Experience\n\n-2 years of Experience with web front end development using React or Angular\n\n-2years of Experience with server-side languages, such as NodeJS, Python\n\n-2 years of Experience with version control software (ex Git)\n\nRequired Skills\n\nAbility to communicate technical details of work\n\nAbility to work in a dynamic environment and take ownership for segments of a project\n\nDesired Experience\n\nSecret Security Clearance or higher is a plus but not required\n\nExperience with Docker (containerized deployment) is a plus\n\nExperience utilizing NoSQL databases, such as MongoDB is a plus\n\nExperience with Kubernetes is a plus\n\nExperience with CI/CD pipelines utilizing Gitlab CI or Jenkins is a plus\n\nExperience with HELM is a plus\n\nExperience with bug/issue tracking software such as JIRA is a plus\n\nExperience with RESTful web services is a plus\n\nRadiance Technologies is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, or protected veteran status.",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Lone Tree",
+    "postalCode": "94105",
+    "description": "Do you enjoy developing new products and services? Join us! Our Software Engineers work in an agile, collective environment. As a Software Engineer I, you will assist in the development and maintenance of software systems for aerospace applications. You will collaborate with cross-functional teams to ensure software quality and performance throughout the development lifecycle.\n\nAs SNC's corporate team, we provide the company and its business areas with strategic direction and business support spanning executive management, finance and accounting, operations, human resources, legal, IT, information security, facilities, marketing, and communications.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer I",
+    "salary": {
+      "unit": "YEAR",
+      "min": 82039,
+      "max": 112804,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Scripting",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "SQL"
+    ],
+    "qualifications": [
+      "Bachelor's degree in Computer Science, Software Engineering, or related field.",
+      "0-2+ years of experience in software development.",
+      "Basic proficiency in programming languages such as C++, Java, or Python.",
+      "Proficiency in Python or a similar scripting/application language used for AI and automation development.",
+      "Comfortable working directly with non-engineering business stakeholders, not just an engineering team.",
+      "Conceptual understanding of engineering principles and practices.",
+      "Familiarity working in multi-disciplinary teams.",
+      "Internship or cooperative education experience in software development.",
+      "Interest in learning aerospace and defense business processes",
+      "Understanding of Python, JavaScript/TypeScript, SQL, and scripting for API integration",
+      "Exposure to large language model tools, chatbots, or workflow/process automation platforms.",
+      "Experience gathering requirements directly from end users, not just from a spec.",
+      "Experience with software tools for requirements tracking, code reviews, static analysis, library and artifact repository, and automated build.",
+      "Knowledge of software development methodologies such as Agile/Scrum, Waterfall, and Spiral."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Own the design, development, and testing of AI tools and automations that solve real business problems.",
+      "Sit with business users to understand their workflow and pain points before building.",
+      "Turn business requirements into working prototypes and iterate based on direct user feedback.",
+      "Debug and troubleshoot software issues.",
+      "Write and maintain code documentation.",
+      "Collaborate with team members and business stakeholders to ensure code quality, usability, and adoption.",
+      "Participate in code reviews and provide constructive feedback.",
+      "Support the integration of AI tools with existing business systems and workflows."
+    ],
+    "fingerprint": "snc-software-engineer-i-lone-tree-co",
+    "atsProvider": "Workday",
+    "company": "Snc",
+    "id": "manual-1791654737756",
+    "state": "CO",
+    "datePosted": "2026-10-10",
+    "validThrough": "2026-11-09",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=sncorp.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://snc.wd1.myworkdayjobs.com/SNC_External_Career_Site/job/Lone-Tree-CO/Software-Engineer-I_R0030529",
+    "location": "Lone Tree, CO",
+    "category": "Backend",
+    "companyWebsite": "https://www.sncorp.com/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Usa",
+    "postalCode": "94105",
+    "description": "Amazon Leo is Amazon's low Earth orbit satellite network. Our mission is to deliver fast, reliable internet connectivity to customers beyond the reach of existing networks. From individual households to schools, hospitals, businesses, and government agencies, Amazon Leo will serve people and organizations operating in locations without reliable connectivity.\n\nWe are looking for a systems development engineer who combines superb technical capabilities with a demonstrated ability to get the right things done quickly and effectively. You will work with a team of top-notch software and electrical engineers and will collaborate with multiple spacecraft design, test, and operations teams. You should be comfortable with a high degree of ambiguity and relish the idea of solving problems that haven't been solved at scale before. Along the way, we guarantee that you will learn a lot, have fun, and make a positive impact on tens of millions of people.\n\nExport Control Requirement: Due to applicable export control laws and regulations, candidates must be a U.S. citizen or national, U.S. permanent resident (i.e., current Green Card holder), or lawfully admitted into the U.S. as a refugee or granted asylum.\n\nDevelop software for automated hardware test execution in collaboration with design and operations teams.\n\nDevelop automation software for lab equipment like spectrum analyzers, signal generators, electronic loads, power supplies, network analyzers, high-speed oscilloscopes, and control of test chambers.\n\nSupport development and deployment of test systems for development, debugging and production testing.\n\nProvide operational support for software used in development and production testing.\n\nA day in the life\n\nYou will develop and deliver test software for avionics subsystems for both development and production testing. You manage and develop continuous delivery pipelines that streamline software development and ensure software reliability. You will participate in software design, where engineers across disciplines work together to design systems that build confidence in the performance of satellite avionics. You provide operational support for test software and work across teams to unblock production and testing issues.\n\nAbout the team\n\nOur team designs and delivers the test and provisioning systems that enable qualifying and acceptance testing the bus avionics and hardware subsystems for Leo satellites.",
+    "source": "MANUAL_ADMIN",
+    "title": "Systems Development Engineer, Leo Avionics Test Software",
+    "salary": {
+      "unit": "YEAR",
+      "min": 99100,
+      "max": 160000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Oscilloscopes",
+      "Python",
+      "Java",
+      "C#",
+      "Rust",
+      "Ruby"
+    ],
+    "qualifications": [
+      "1+ years of non-internship professional software development experience",
+      "Experience in automating, deploying, and supporting large-scale infrastructure",
+      "Experience programming with at least one modern language such as Python, Ruby, Golang, Java, C++, C#, Rust",
+      "Experience with Linux/Unix",
+      "Experience with CI/CD pipelines build processes",
+      "Experience with distributed systems at scale",
+      "1+ years of designing or architecting (design patterns, reliability and scaling) of new and existing systems experience",
+      "Our inclusive culture empowers Amazonians to deliver the best results for our customers. If you have a disability and need a workplace accommodation or adjustment during the application and hiring process, including support for the interview or onboarding process, please visit https://amazon.jobs/content/en/how-we-hire/accommodations for more information. If the country/region you’re applying in isn’t listed, please contact your Recruiting Partner.",
+      "The base salary range for this position is listed below. Your Amazon package will include sign-on payments and restricted stock units (RSUs). Final compensation will be determined based on factors including experience, qualifications, and location. Amazon also offers comprehensive benefits including health insurance (medical, dental, vision, prescription, Basic Life & AD&D insurance and option for Supplemental life plans, EAP, Mental Health Support, Medical Advice Line, Flexible Spending Accounts, Adoption and Surrogacy Reimbursement coverage), 401(k) matching, paid time off, and parental leave. Learn more about our benefits at https://amazon.jobs/en/benefits.",
+      "USA, WA, Redmond - 99,100.00 - 160,000.00 USD annually"
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop software for automated hardware test execution in collaboration with design and operations teams.",
+      "Develop automation software for lab equipment like spectrum analyzers, signal generators, electronic loads, power supplies, network analyzers, high-speed oscilloscopes, and control of test chambers.",
+      "Support development and deployment of test systems for development, debugging and production testing."
+    ],
+    "fingerprint": "amazon-systems-development-engineer-leo-avionics-test-software-usa-wa",
+    "atsProvider": "Amazon Jobs",
+    "company": "Amazon",
+    "id": "manual-1791561346682",
+    "state": "WA",
+    "datePosted": "2026-10-09",
+    "validThrough": "2026-11-08",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.amazon.jobs/en/jobs/10574134/systems-development-engineer-leo-avionics-test-software?cmpid=SPLICX0248M",
+    "location": "Usa, WA",
+    "category": "Backend",
+    "companyWebsite": "https://www.amazon.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Diego",
+    "postalCode": "92101",
+    "description": "Qualcomm Camera System Team is seeking a passionate camera systems engineer with focus in Image Quality Evaluation to join the team in San Diego. The camera team creates embedded imaging solutions for Snapdragon chipsets that power modern mobile devices. Our solutions leverage dedicated hardware, multi-core processors, DSP, and GPU to deliver exceptional pictures, videos, and computer vision capabilities.\n\nImage Quality (IQ) Evaluation System development for Mobile photo camera, Automotive camera, and IoT Product Camera. The IQ areas include tone/exposure, color and white balance, texture/details, noise, depth and Bokeh, resolution, visual artifacts in photo and video. The IQ Evaluation System development consists of the following activities:\n\nDefine and generate the dataset and IQ aspects/metrics for given camera imaging features (e.g. HDR, Noise Reduction, Depth/Bokeh)\n\nDevelop the SW tools for the lab test automation, metric analysis, and report generation\n\nPerform the IQ evaluation for the internal camera solutions, including the fundamental Imaging Blocks (e.g. Denoising and Sharpening, Tone Mapping, 3A), and the various advanced Imaging Features (e.g. HDR, Depth and Bokeh, Super Resolution). The solutions to be tested can be traditional imaging algorithms or modern machine-learning based features.\n\nGenerate the IQ Evaluation report and communicate with the solution/feature development teams with the IQ evaluation results to improve IQ features",
+    "source": "MANUAL_ADMIN",
+    "title": "Camera Systems Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 109400,
+      "max": 164200,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "MATLAB",
+      "Electrical Engineering",
+      "Computer Engineering",
+      "Python",
+      "Security"
+    ],
+    "qualifications": [
+      "Good understanding of various camera imaging algorithms (e.g. Denoising and sharpening, 3A, color management, depth and bokeh, multi-frame/multi-exposure processing)",
+      "Good understanding of Image Quality (IQ) aspects, IQ evaluation methodologies and metrics",
+      "Knowledge/experience in designing and setting-up the camera IQ lab test, and real-life test scenarios",
+      "Knowledge/experience in developing objective IQ metrics",
+      "Knowledge/experience in machine learning algorithm for computer vision or computational photography",
+      "Knowledge in camera sensor and modules",
+      "Strong programming skill in MATLAB, Python, and C/C++",
+      "Strong communication skill in generating IQ reports and communicating with the development team",
+      "Bachelor's degree in Computer Engineering, Computer Science, Electrical Engineering, or related field.",
+      "To all Staffing and Recruiting Agencies: Our Careers Site is only for individuals seeking a job at Qualcomm. Staffing and recruiting agencies and individuals being represented by an agency are not authorized to use this site or to submit profiles, applications or resumes, and any such submissions will be considered unsolicited. Qualcomm does not accept unsolicited resumes or applications from agencies. Please do not forward resumes to our jobs alias, Qualcomm employees or any other company location. Qualcomm is not responsible for any fees related to unsolicited resumes/applications.",
+      "Qualcomm expects its employees to abide by all applicable policies and procedures, including but not limited to security and other requirements regarding protection of Company confidential information and other confidential and/or proprietary information, to the extent those requirements are permissible under applicable law."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop the SW tools for the lab test automation, metric analysis, and report generation"
+    ],
+    "fingerprint": "qualcomm-camera-systems-engineer-san-diego-ca",
+    "atsProvider": "Direct Career Portal",
+    "company": "Qualcomm",
+    "id": "manual-1791561626536",
     "state": "CA",
     "datePosted": "2026-10-09",
     "validThrough": "2026-11-08",
     "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=braincorp.com",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=qualcomm.com",
     "isRemote": false,
     "viewsCount": 0,
     "atsVerified": true,
-    "applyUrl": "https://www.braincorp.com/open-positions?gh_jid=8879726002",
+    "applyUrl": "https://careers.qualcomm.com/careers/job/446721365985?hl=en-US",
     "location": "San Diego, CA",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.braincorp.com",
+    "category": "Others",
+    "companyWebsite": "https://www.qualcomm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Electrical Engineering, Computer Engineering, Computer Science, or equivalent practical background.",
-      "Hands-on experience programming microcontrollers in C/C++ (ARM Cortex, STM32, PIC, or ESP32) through coursework or projects.",
-      "Working knowledge of core hardware communication interfaces (UART, SPI, I2C, GPIO).",
-      "Familiarity with lab diagnostic equipment (oscilloscopes, digital multimeters, protocol analyzers).",
-      "Basic understanding of real-time operating systems (FreeRTOS, Zephyr) and bare-metal embedded architectures.",
-      "Strong analytical debugging mindset and proactive cross-functional collaboration skills."
-    ],
-    "responsibilities": [
-      "Develop, debug, and maintain low-level C and C++ firmware for microcontrollers and embedded processors at Braincorp.",
-      "Participate in hardware board bring-up, schematic review, and signal verification using oscilloscopes, logic analyzers, and multimeters.",
-      "Implement device communication drivers across standard hardware protocols including I2C, SPI, UART, and CAN bus.",
-      "Author automated hardware-in-the-loop (HIL) test suites to validate firmware safety, timing constraints, and fault recovery.",
-      "Collaborate with hardware design and systems engineers to optimize memory footprint, power management, and clock configurations.",
-      "Document register maps, communication interfaces, and diagnostic procedures for production manufacturing testing."
-    ],
-    "description": "Braincorp is seeking an engineer to support development, testing, and deployment of embedded software and hardware controllers. In this role, you will work directly on production-grade embedded platforms, board bring-up, and real-time firmware execution."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -92,7 +3099,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://forge-nano.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Bachelor’s degree in Computer Science, Computer Engineering, Industrial Automation, Electrical Engineering, Software Engineering, or a related technical discipline, or equivalent practical experience.",
       "0-2 years of relevant software engineering experience, including internships, co-op assignments, academic projects, research projects, or other applicable experience.",
@@ -119,7 +3125,138 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "Forge Nano is seeking a motivated and detail-oriented Software Engineer I to support the development, testing, documentation, and deployment of software used in Forge Nano’s semiconductor Atomic Layer Deposition (ALD) production equipment. Reporting to Senior Engineer, this role contributes to software feature development, equipment integration, laboratory testing, and continuous improvement of industrial software systems.\n\nThe ideal candidate is an early-career software engineer with a strong interest in industrial automation, controls, semiconductor equipment, and software development. This individual will work closely with software developers, equipment engineers, and cross-functional teams to implement software enhancements, support equipment operations, develop technical documentation, and ensure reliable software performance across Forge Nano’s product platforms.\n\nThe following responsibilities represent the primary duties of this role and are not intended to be an exhaustive list.",
     "company": "Forge Nano",
-    "title": "Software Engineer I"
+    "title": "Software Engineer I",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 1,
+    "city": "Seattle",
+    "postalCode": "98101",
+    "description": "Whether it’s building a connected vehicle platform to improve fleet uptime, creating automated processes that prevent medical devices from failing, or helping insurance companies use 5G-enabled drones for faster, safer site inspections, Cognizant’s Industry+ practice is at the center of the digital transformations helping the world’s most innovative companies navigate and thrive in a connected world.\n\nOur practice solves IoT and Engineering problems – the set of enabling technologies and infrastructure that creates connected, context aware and adaptive systems to drive better insights, increased efficiency, and new business models. We help organizations manage the complexity of assimilation of IoT tech with existing systems, processes, and products – and hone their strategic vision.\n\n· Products+ Software for smart, connected next-gen products from cars to medical and consumer devices\n\n· Operations+ Building the factories of the future and with seamless, optimized remote operations\n\n· Mobility+ Solutions for connected, shared and autonomous mobility, transportation and logistics across land, air, and sea\n\n· GIS and Sustainability solutions for utilities, public and private buildings, plants, and other physical spaces",
+    "source": "MANUAL_ADMIN",
+    "title": "Iot engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 65000,
+      "max": 70000,
+      "currency": "USD"
+    },
+    "skills": [
+      "C",
+      "C++",
+      "Python",
+      "Java",
+      "C#",
+      "AWS",
+      "Azure",
+      "SQL"
+    ],
+    "qualifications": [
+      "· Bachelor’s degree in Engineering, Computer Science, or equivalent",
+      "· Strong analytical, troubleshooting, and problem-solving skills",
+      "· Self-motivated with the passion and appetite to learn innovative technologies",
+      "· Exposure to Vibe Coding and usage of AI tools like CoPilot, Claude, Codex etc.,",
+      "· Basic programming experience using C/C++/C#/Java /Python",
+      "· Familiarity with Object-Oriented Programming",
+      "· Exposure to IoT / cloud platforms (Azure, Google, AWS , etc.)",
+      "· Exposure to relational databases such as SQL and MySQL",
+      "· Ability to work on IoT specific applications in Level 3 production support solving medium to complex technical issues.",
+      "· Ability to work on IoT products using new emerging technologies to test IoT solutions for functionality, scale, and performance",
+      "· Ability to partner with business stakeholders to understand their IoT needs, develop use cases and diagrams, generate processes, and develop overall solution requirements including application definition, integration, security, and system configurations",
+      "· Ability to work in the onsite-offshore model",
+      "· Familiarity with data structures and operating system concepts",
+      "· Good understanding of design patterns and mathematical concepts"
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "cognizant-iot-engineer-seattle-wa-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "Cognizant",
+    "id": "manual-1791537407265",
+    "state": "WA",
+    "datePosted": "2026-10-09",
+    "validThrough": "2026-11-08",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=cognizant.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://careers.cognizant.com/global-en/jobs/000702755815/iot-engineer/",
+    "location": "Seattle, WA / Hybrid",
+    "category": "Backend",
+    "companyWebsite": "https://www.cognizant.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "San Diego",
+    "postalCode": "92101",
+    "description": "Job ID: 2617752\n\nLocation: San Diego, CA, United States\n\nDate Posted: Oct 8, 2026\n\nCategory: Software\n\nSubcategory: SW Support\n\nSchedule: Full-Time\n\nShift: Day Job\n\nTravel: Yes - 10% of the time\n\nMinimum Clearance Required: Secret\n\nClearance Level Must Be Able to Obtain: None\n\nPotential for Remote Work: On-Site\n\nBenefits: Click here\n\nApply Now >\n\nDescription\n\nSAIC is seeking a skilled and motivated Mid-Level Integration Engineer to join our team. In this role, you will play a critical role in verifying, testing, troubleshooting, and debugging software used to control and monitor Unmanned Surface Vessels (USVs). Your work will involve both front-end and back-end service activities, in addition to supporting both development and operational environments.\n\nThe position will require up to 10% of travel for onsite installation or field support activities.\n\nThis is an ON-SITE role in San Diego, CA. Must be local to the area.\n\nCollaborate with internal and external teams to debug, troubleshoot, and verify the software product's functional capabilities.\n\nDevelop and maintain automated test suites using Python and Selenium to ensure software integrity.\n\nDesign and develop simulation programs using Python to validate software performance and functionality.\n\nDeploy and manage service containers using Docker on RHEL (Red Hat Enterprise Linux) systems.\n\nAutomate processes and tooling using Bash scripting.\n\nCreate and maintain robust software documentation for installation, operations, and troubleshooting activities.\n\nParticipate in hands-on integration and testing, both remotely and on-site, to diagnose incidents and perform root cause analysis.",
+    "source": "MANUAL_ADMIN",
+    "title": "Mid-Level Integration Test Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 80001,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Scripting",
+      "Python",
+      "Docker",
+      "Linux"
+    ],
+    "qualifications": [
+      "Bachelors Degree and two (2) years or more of relevant experience; years of experience in lieu of degree to be reviewed.",
+      "A minimum of 1 year of experience testing software or in related technical roles.",
+      "Proficiency with the Agile development process.",
+      "Strong experience using Python for scripting and automation.",
+      "Working knowledge of Bash scripting.",
+      "Familiarity with Docker for container orchestration.",
+      "Experience in using automation tools such as Selenium for software testing.",
+      "Hands-on experience with Red Hat Linux (RHEL) systems and environments.",
+      "Must be a U.S. Citizen.",
+      "Must have an Active Secret Clearance to start.",
+      "Experience with messaging systems or concepts, such as publish/subscribe or DDS (Data Distribution Service).",
+      "Practical knowledge or experience with unmanned vehicles, including Unmanned Surface Vessels (USVs), UCSMDE, UMAA, or related robotics systems.",
+      "A strong track record in debugging and troubleshooting software issues.",
+      "Proven experience in providing field support, particularly in customer-facing environments."
+    ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Collaborate with internal and external teams to debug, troubleshoot, and verify the software product's functional capabilities.",
+      "Develop and maintain automated test suites using Python and Selenium to ensure software integrity.",
+      "Design and develop simulation programs using Python to validate software performance and functionality.",
+      "Deploy and manage service containers using Docker on RHEL (Red Hat Enterprise Linux) systems.",
+      "Create and maintain robust software documentation for installation, operations, and troubleshooting activities.",
+      "Participate in hands-on integration and testing, both remotely and on-site, to diagnose incidents and perform root cause analysis."
+    ],
+    "fingerprint": "saic-mid-level-integration-test-engineer-san-diego-ca",
+    "atsProvider": "Direct Career Portal",
+    "company": "Saic",
+    "id": "manual-1791561997695",
+    "state": "CA",
+    "datePosted": "2026-10-09",
+    "validThrough": "2026-11-08",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=saic.com",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://jobs.saic.com/jobs/18328090-mid-level-integration-test-engineer",
+    "location": "San Diego, CA",
+    "category": "QA / Test",
+    "companyWebsite": "https://www.saic.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -181,7 +3318,140 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Austin, TX",
     "category": "Others",
     "companyWebsite": "https://www.microchip.com/careers",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "description": "Our founders previously built and exited Packback, an AI company that served more than 3 million users. We operate with the speed of a small startup and the rigor of a top firm.\n\nWe're four engineers right now, and we're building how we work on purpose, not backfilling a culture after the fact. We care about doing right by clients and by each other. We take the work seriously: real client money, real compliance risk, real production systems. We do team-wide retros every two months to make sure we're all on the same page and continually improving.\n\nWe pair early and often, across the team, because it's how we actually get better. If you notice something interesting mid-task, we want you to flag it and pull someone in, not disappear down a rabbit hole solo. When something breaks, we run blameless postmortems; the point is fixing the system, not finding someone to blame.\n\nWe don't expect you to walk in with all the answers. Nobody here has them either. We expect you to be scrappy: willing to try something, see what happens, and figure it out with the team rather than wait until you're sure.\n\nYou won't be joining something fully formed. You'd be joining our founding engineering team, with real say in how this team works, not just what it ships.\n\nWhy This Role\n\nMost wealth management firms want AI in their business and have access to the frontier models. What’s missing is the engineering capability to deploy it effectively and compliantly. That’s the gap Impruve fills.\n\nYou’d join a small, senior team doing real client work from day one. You won’t be watching from the sidelines or building internal tools nobody uses — you’ll own workstreams inside live engagements, with experienced engineers around you who pair early and often. The learning curve is steep and the reps are real.\n\nSome of our best candidates came to software from somewhere else — finance, operations, consulting, the military. If you built a career doing real work with real clients and then taught yourself to code, that combination is exactly what we’re looking for. Business judgment and client instincts are hard to teach; engineering skills, we can help you sharpen.\n\nWhat You’ll Do\n\nOwn Workstreams on Client Engagements: You’ll take a piece of a live engagement — a data pipeline, an AI workflow, a frontend feature — and own it from spec to production. A senior engineer owns the overall engagement, so you have real support while you build the judgment that comes from shipping things that matter.\n\nPair Across the Team: Pairing is how we work, not a fallback for when you’re stuck. You’ll pair with teammates across the stack regularly — that’s how you get better fast and how we catch problems early.\n\nWork Across the Stack: Data pipelines, backend services, frontend, RAG and agent workflows. You don’t need to know all of it coming in, but you’ll touch most of it within your first few months.\n\nShip AI That Works in Production: The systems you build will face real users and real compliance reviewers, not just demos. You’ll learn what it takes to make AI reliable in environments where mistakes have real consequences.\n\nWork AI-Natively: Agentic coding tools are how we build — Claude Code, spec-driven development, custom agent skills. You’ll use them daily and bring what you learn back to the team.\n\nHelp Shape How We Work: We’re still building our norms. You’ll have real input into how we review code, run retros, and onboard new engineers.\n\nWhat You’ll Bring to the Team\n\n–3 Years of Professional Engineering Experience: You’ve shipped production code that real users depended on. Internships count if you owned real work. Career changers: if you spent years in another field and then made the switch to engineering, we consider that a strength, not a gap.\n\nBusiness Sense: You understand how businesses work because you’ve worked in one — not just on the engineering side. You can talk to a client about their problem, not just the technical solution.\n\nGenuine Curiosity: You pick things up because you want to, not because someone assigned them. You’ve taught yourself something meaningful recently and you can talk about how.\n\nComfort with Ambiguity: You’d rather try something and learn from what breaks than wait until you have the full picture. Client work is messy — you’re okay with that.\n\nCollaboration Over Solo Heroics: You’d rather pair through a hard problem than sit on it alone. You ask for help early, not as a last resort.\n\nClear Communication: You explain technical work clearly to engineers and non-engineers alike. Our clients are wealth management professionals, not developers.\n\nCare About the Details: Testing, monitoring, documentation. The unglamorous work that keeps production systems running.\n\nAI as a Tool, Not a Crutch: You use AI to work more efficiently; you don’t use it to replace original thinking, creativity, and human collaboration.\n\nStack: Python, Node.js, Express, TypeScript, Next.js, MongoDB, Redis, AWS ECS, Docker, LangChain/LangGraph. We care more about curiosity and sound judgment than a checklist match.\n\nCompensation\n\n$100,000 to $150,000 all-cash compensation.\n\nOur Workplace\n\nWe work on a hybrid in-person / remote schedule from our Chicago office, but we're open to fully remote for candidates outside Chicago. Close collaboration is part of how we build, and we make remote work well.\n\nBecause we pair frequently and work closely as a team, we hire in the US Central Time Zone. For exceptional candidates, we're open to ±1 hour (Eastern or Mountain).\n\nDifferent Perspectives Make Us Better\n\nResearch consistently shows that women and people from underrepresented groups are less likely to apply to a role unless they check every box, while others apply anyway. If that's you: apply anyway. We care more about curiosity, scrappiness, and kindness than a perfect resume match, and we build a better team when the people on it don't all think alike.\n\nHiring Process\n\nIntro call (45 minutes).\n\nTeam interview with the founders, including a working session on a realistic engineering problem.\n\nDecision and offer.\n\nRequires US work authorization; we can't sponsor visas.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Engineer",
+    "salary": {
+      "unit": "YEAR",
+      "min": 100000,
+      "max": 150000,
+      "currency": "USD"
+    },
+    "skills": [
+      "TypeScript",
+      "Python",
+      "Next.js",
+      "Node.js",
+      "Express",
+      "AWS",
+      "Docker",
+      "MongoDB"
+    ],
+    "qualifications": [
+      "Most wealth management firms want AI in their business and have access to the frontier models. What’s missing is the engineering capability to deploy it effectively and compliantly. That’s the gap Impruve fills.",
+      "Pair Across the Team: Pairing is how we work, not a fallback for when you’re stuck. You’ll pair with teammates across the stack regularly — that’s how you get better fast and how we catch problems early.",
+      "Ship AI That Works in Production: The systems you build will face real users and real compliance reviewers, not just demos. You’ll learn what it takes to make AI reliable in environments where mistakes have real consequences.",
+      "Help Shape How We Work: We’re still building our norms. You’ll have real input into how we review code, run retros, and onboard new engineers.",
+      "Genuine Curiosity: You pick things up because you want to, not because someone assigned them. You’ve taught yourself something meaningful recently and you can talk about how.",
+      "Care About the Details: Testing, monitoring, documentation. The unglamorous work that keeps production systems running.",
+      "Stack: Python, Node.js, Express, TypeScript, Next.js, MongoDB, Redis, AWS ECS, Docker, LangChain/LangGraph. We care more about curiosity and sound judgment than a checklist match."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop modular code features",
+      "Participate in peer code reviews"
+    ],
+    "fingerprint": "impruve-software-engineer-remote",
+    "atsProvider": "Direct Career Portal",
+    "company": "Impruve",
+    "id": "manual-1791562177414",
+    "datePosted": "2026-10-09",
+    "applicantLocationRequirements": "US",
+    "validThrough": "2026-12-08",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=impruve.com",
+    "isRemote": true,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://www.impruve.com/careers/software-engineer",
+    "location": "Remote (US)",
+    "category": "Frontend",
+    "companyWebsite": "https://www.impruve.com",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
+  },
+  {
+    "country": "US",
+    "maxYearsExperience": 0,
+    "city": "Irving",
+    "postalCode": "75038",
+    "description": "The Junior Software Developer is responsible for developing, testing, implementing, and supporting software solutions that align with business requirements, architecture standards, and technology strategy. The role requires a strong foundation in Angular, Spring Boot, Java, Python, AWS cloud technologies, and AI-assisted development practices. The developer will work closely with business and technology teams to deliver scalable, secure, and maintainable applications while continuously building domain knowledge and technical expertise.",
+    "source": "MANUAL_ADMIN",
+    "title": "Software Developer ( Early Career )-15",
+    "salary": {
+      "unit": "YEAR",
+      "min": 55000,
+      "max": 120000,
+      "currency": "USD"
+    },
+    "skills": [
+      "Scripting",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "Angular",
+      "Spring Boot",
+      "AWS"
+    ],
+    "qualifications": [
+      "Experience with Docker and containerized applications.",
+      "Exposure to Kubernetes and cloud-native development.",
+      "Experience with CI/CD tools such as GitHub Actions, Jenkins, Azure DevOps, or AWS CodePipeline.",
+      "Knowledge of relational and NoSQL databases.",
+      "Exposure to event-driven architectures and messaging platforms.",
+      "Understanding of application security best practices and secure coding standards.",
+      "Experience building AI-enabled applications or integrating Generative AI capabilities into business solutions.",
+      "Core Competencies",
+      "Strong analytical and problem-solving skills.",
+      "Ability to learn business processes and translate requirements into technical solutions.",
+      "Effective verbal and written communication skills.",
+      "Strong collaboration and teamwork skills.",
+      "Continuous learning mindset and adaptability.",
+      "Customer-focused approach to solution delivery."
+    ],
+    "experienceLevel": "Internship",
+    "responsibilities": [
+      "Develop, test, and maintain software applications using Angular, Spring Boot, Java, and Python.",
+      "Collaborate with business stakeholders, product owners, architects, and senior developers to understand business processes, functional requirements, and technical designs.",
+      "Translate business requirements into detailed technical solutions and high-quality code.",
+      "Write secure, maintainable, and well-documented code that adheres to established standards for security, logging, error handling, performance, and reliability.",
+      "Develop and consume RESTful APIs and microservices.",
+      "Deploy and support applications on AWS cloud platforms.",
+      "Leverage AI-assisted development tools such as GitHub Copilot, Amazon Q, ChatGPT, or similar technologies to improve development productivity, testing, troubleshooting, and code quality.",
+      "Participate in code reviews and implement feedback to improve software quality and maintainability.",
+      "Support system integration, testing, and deployment activities.",
+      "Assist in troubleshooting production issues, performing root-cause analysis, and implementing corrective actions.",
+      "Contribute to the creation and maintenance of technical documentation, design artifacts, and operational procedures.",
+      "Ensure solutions are scalable, supportable, reusable, and aligned with enterprise architecture principles."
+    ],
+    "fingerprint": "bmo-software-developer-early-career-15-irving-tx",
+    "atsProvider": "Workday",
+    "company": "BMO",
+    "id": "manual-1791562781214",
+    "state": "TX",
+    "datePosted": "2026-10-09",
+    "validThrough": "2026-11-08",
+    "employmentType": "INTERN",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=bmo.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://bmo.wd3.myworkdayjobs.com/en-US/External/job/Irving-TX-USA/Software-Developer---Early-Career---15_R260021450",
+    "location": "Irving, TX",
+    "category": "Backend",
+    "companyWebsite": "https://www.bmo.com/",
+    "status": "ACTIVE",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "id": "manual-1791534273193",
@@ -204,7 +3474,6 @@ export const INITIAL_JOBS: JobPosting[] = [
       "unit": "YEAR"
     },
     "salaryDisclosed": true,
-    "description": "🎯 The FreshCommits Career Take:\nAn ideal position for entry-level technologists looking to strengthen foundational distributed system design, cloud primitives, and containerized deployments.\n\n💡 Candidate Preparation Checklist:\n• Review modern C++ (C++17) concepts: smart pointers, RAII, move semantics, and STL containers\n• Prepare an example of modular software or plugin architecture you have built or studied\n• Be ready to explain GitLab CI/CD pipeline stages, automated unit testing, and merge request workflows\n• Practice debugging multi-threaded or hardware-interfacing code in Linux environments\n• Review Git fundamentals: branching, rebasing, and clean commit hygiene\n\n🏢 Role Overview:\nThe Software Engineer will support the design, development, testing, and integration of a software plugin capability within an established GitLab-based development environment. The position will contribute to C++ or other object-oriented software development, plugin implementation, automated testing, and integration with project hardware.\n\nThe Software Engineer will work under the technical direction of senior software personnel and assist with software builds, debugging, code reviews, documentation, and CI/CD activities. The role will support continued maturation of automated build, test, and deployment processes, including future integration with cloud-based CI/CD infrastructure.",
     "responsibilities": [
       "Support the design, development, testing, and integration of software plugin capabilities.",
       "Develop and maintain software using C++ or other object-oriented programming languages.",
@@ -251,7 +3520,10 @@ export const INITIAL_JOBS: JobPosting[] = [
     "datePosted": "2026-10-09",
     "validThrough": "2026-11-08",
     "viewsCount": 12,
-    "category": "Backend"
+    "category": "Backend",
+    "description": "🎯 The FreshCommits Career Take:\nAn ideal position for entry-level technologists looking to strengthen foundational distributed system design, cloud primitives, and containerized deployments.\n\n💡 Candidate Preparation Checklist:\n• Review modern C++ (C++17) concepts: smart pointers, RAII, move semantics, and STL containers\n• Prepare an example of modular software or plugin architecture you have built or studied\n• Be ready to explain GitLab CI/CD pipeline stages, automated unit testing, and merge request workflows\n• Practice debugging multi-threaded or hardware-interfacing code in Linux environments\n• Review Git fundamentals: branching, rebasing, and clean commit hygiene\n\n🏢 Role Overview:\nThe Software Engineer will support the design, development, testing, and integration of a software plugin capability within an established GitLab-based development environment. The position will contribute to C++ or other object-oriented software development, plugin implementation, automated testing, and integration with project hardware.\n\nThe Software Engineer will work under the technical direction of senior software personnel and assist with software builds, debugging, code reviews, documentation, and CI/CD activities. The role will support continued maturation of automated build, test, and deployment processes, including future integration with cloud-based CI/CD infrastructure.",
+    "healthStatus": "HEALTHY",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -319,7 +3591,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "category": "QA / Test",
     "companyWebsite": "https://www.microchip.com/careers",
     "status": "ACTIVE",
-    "isRemote": false
+    "isRemote": false,
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -356,7 +3629,6 @@ export const INITIAL_JOBS: JobPosting[] = [
       "max": 115000
     },
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Job Title: Entry Level C# Software Engineer Job Category: Engineering Time Type: Full time Minimum Clearance Required to Start: Secret Employee Type: Regular Percentage of Travel Required: Up to 10% Type of Travel: Local * * * The Opportunity: CACI is looking for a C# Software Engineer to design, develop, and maintain software tools that keep aircraft safe and operational. Your work will directly impact the Navy’s F/A-18 fleet readiness by enhancing maintenance detection software and anomaly detection algorithms. This role requires travel to NAVAIR Oceana for software deployment and troubleshooting. Candidate must reside in the greater Virginia Beach area. Responsibilities: • Design and develop full stack applications for aircraft maintenance detecting and reporting. • Develop responsive and user-friendly front-end interfaces while contributing to back-end integration and API development to ensure seamless end-to-end functionality. • Collaborate effectively within a cross-functional Agile team, participating in stand-ups, sprint planning, and retrospectives to ensure timely delivery of high-quality solutions. • Build robust backend services with C# to manage large datasets. • Perform thorough software testing and debugging to ensure functionality, reliability, and performance, identifying and resolving issues throughout the development lifecycle. • Write clean, efficient, and scalable code following best practices and coding standards to ensure maintainability and long-term performance of applications Qualifications: Required: • Bachelor's degree in Computer Science, Software Engineering, Aerospace Engineering, or a related field. • C#, .NET, and Python experience. • 0 – 3 years of job experience. • Reside within greater Virginia Beach area. • Strong problem-solving skills and ability to work both independently and as part of a collaborative team. • Excellent communication skills and a strong attention to detail. • Candidate must be a US Citizen, and able to obtain a DoD Secret Clearance. Desired: • Active DoD Secret Clearance. • Experience with Oracle databases, Linux, and SQL • CompTIA Security + Certification. - What You Can Expect: A culture of integrity. At CACI, we place character and innovation at the center of everything we do. As a valued team member, you’ll be part of a high-performing group dedicated to our customer’s missions and driven by a higher purpose – to ensure the safety of our nation. An environment of trust. CACI values the unique contributions that every employee brings to our company and our customers - every day. You’ll have the autonomy to take the time you need through a unique flexible time off benefit and have access to robust learning resources to make your ambitions a reality. A focus on continuous growth. Together, we will advance our nation's most critical missions, build on our lengthy track record of business success, and find opportunities to break new ground — in your career and in our legacy. Pay Range: There are a host of factors that can influence final salary including, but not limited to, geographic location, Federal Government contract labor categories and contract wage rates, relevant prior work experience, specific skills and competencies, education, and certifications. Our employees value the flexibility at CACI that allows them to balance quality work and their personal lives. We offer competitive compensation, benefits and learning and development opportunities. Our broad and competitive mix of benefits options is designed to support and protect employees and their families. At CACI, you will receive comprehensive benefits such as; healthcare, wellness, financial, retirement, family support, continuing education, and time off benefits. The proposed salary range for this position is: $58,000-$115,900 CACI is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, pregnancy, sexual orientation, age, national origin, disability, status as a protected veteran, or any other protected characteristic. Click on Search Jobs to find and apply to CACI openings.",
     "company": "02 CACI, INC.-FEDERAL",
     "title": "Entry Level C# Software Engineer",
@@ -375,69 +3647,83 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Write automated unit, regression, and integration tests to guarantee zero defects in production deployments.",
       "Deploy software components within Linux environments utilizing Docker containerization and modern Git workflows.",
       "Troubleshoot system-level issues, analyze execution logs, and optimize computational performance."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
-    "title": "Hardware Digital Engineer",
-    "company": "Emerson (NI - National Instruments)",
-    "applyUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/26011531",
-    "companyWebsite": "https://www.emerson.com",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=emerson.com",
-    "location": "Austin, TX / Hybrid",
-    "city": "Austin",
-    "state": "TX",
-    "postalCode": "78759",
     "country": "US",
-    "category": "Others",
-    "experienceLevel": "Entry Level",
-    "employmentType": "FULL_TIME",
     "maxYearsExperience": 1,
-    "isRemote": false,
-    "description": "Emerson / NI is seeking an entry-level Digital Hardware Engineer in Austin, TX to work on FPGA design, digital logic, and automated test & measurement systems.",
-    "validThrough": "2026-12-08",
-    "fingerprint": "emerson-hardware-digital-engineer-austin-tx",
-    "viewsCount": 1,
-    "atsProvider": "Oracle Cloud HCM",
-    "atsVerified": true,
+    "city": "Phoenix",
+    "postalCode": "85001",
+    "description": "Joining Amex Tech means discovering and shaping your contribution to something big. Here, you can work alongside talented tech teams and build a unique career with the Powerful Backing of American Express. With a range of opportunities to work with the latest technologies, and a commitment to back the broader engineering community through open source, our mission is to power your success. Because Amex Tech is powered by our technology, our culture, and our colleagues.\n\nThe Technology organization enables and accelerates the company’s growth strategies, delivering global capabilities and services in support of Amex’s customers and colleagues, while maintaining 24/7 servicing and availability to ensure an uninterrupted, high-quality customer experience. Technology provides the foundation for everything we do in the company while driving differentiation through building and leveraging innovative technology and data insights.\n\nAt American Express, our mission is to deliver the world’s best customer experience every day. At the heart of this mission is our Information Security organization, enabling exceptional experiences built on a foundation of trust, service, and security. We leverage advanced technologies and data-driven insights to stay ahead of an evolving threat landscape. We foster a culture of passion, curiosity, and courage—empowering you to innovate, grow, and help shape the future of a Fortune 100 company.\n\nAs an Application Security Cybersecurity Engineer, you will be part of a team focused on strengthening application security and helping engineering teams build and operate secure technology at scale. This role combines cybersecurity engineering (including AI/ML), application security, software development, automation, and secure software development lifecycle (SDLC) practices.\n\nYou will work closely with software engineers, architects, product teams, and cybersecurity partners to identify and reduce security risk throughout the application lifecycle. You will contribute to the development and operation of security capabilities, help integrate security testing and controls into engineering workflows, analyze vulnerabilities and emerging threats, and provide technical guidance that enables teams to remediate security issues effectively.\n\nThis is a hands-on engineering role suited for someone who enjoys solving security problems through a combination of software engineering, automation, security testing, research, and collaboration. You will have opportunities to work across modern application architectures, APIs, cloud and container environments, CI/CD pipelines, and application security technologies while continuing to grow your cybersecurity and engineering expertise.\n\nYou will also contribute to the continuous improvement of application security processes, tooling, documentation, and engineering practices that help protect American Express applications, systems, and data.",
     "source": "MANUAL_ADMIN",
-    "status": "ACTIVE",
-    "datePosted": "2026-10-08",
+    "title": "Cyber Security Engineer-Application Security Tooling (SCA/SAST/ DAST/ MAST/ API Security)",
     "salary": {
-      "currency": "USD",
       "unit": "YEAR",
-      "min": 95000,
-      "max": 128000
+      "min": 103750,
+      "max": 174750,
+      "currency": "USD"
     },
     "skills": [
-      "FPGA",
-      "VHDL",
-      "Verilog",
-      "SystemVerilog",
-      "Digital Logic",
-      "Hardware Design",
-      "LabVIEW",
+      "C",
+      "Scripting",
       "Python",
-      "C"
-    ],
-    "responsibilities": [
-      "Collaborate with multi-disciplinary hardware engineering teams to develop test and measurement products.",
-      "Develop register maps and generate documentation to ensure clear design intent to the broader project team.",
-      "Own the full FPGA design, including logic implementation, data movement and analysis, testbenches, compilation, and timing analysis.",
-      "Own all aspects of digital board level design, including schematic entry, layout guidelines, signal integrity simulations, and prototype validation.",
-      "Develop and execute plans for prototype hardware bring-up and board level validation.",
-      "Be the voice of digital design in project meetings by estimating level of effort for design tasks, providing input on status of work, and proactively raising technical concerns."
+      "Java",
+      "Go",
+      "React",
+      "Express",
+      "Django"
     ],
     "qualifications": [
-      "Minimum Bachelor degree in Electrical, Computer, or Software Engineering, or a related discipline.",
-      "Proficiency designing with digital logic and synchronous elements, including flip-flops, timing diagrams, and state machines.",
-      "Fundamental knowledge of analog and digital circuit design (schematic, layout, V&V).",
-      "Programmable logic design with VHDL, Verilog, or SystemVerilog.",
-      "Understanding of computer architectures and hardware interfaces.",
-      "Familiarity with common benchtop instruments such as oscilloscopes, DMMs, function generators, and power supplies."
+      "Bachelor's Degree in Computer Science, Information Systems, Cybersecurity, and/or comparable experience; advanced degree preferred",
+      "Knowledge of regulatory compliance and security standards",
+      "Knowledge of Application Development & Security",
+      "Knowledge of Data Engineering",
+      "Knowledge of Cloud Security Management",
+      "Knowledge of Data Privacy & Protection (DPP, GDPR)",
+      "Knowledge of Data Security Management",
+      "Knowledge of scripting languages such as Python, Bash, or PowerShell for automating security tasks",
+      "Knowledge of distributed (multi-tiered) systems, algorithms, NoSQL and relational databases",
+      "Knowledge of the core tools used in the planning, analyzing, crafting, building, testing, configuring, and maintaining of assigned application(s)",
+      "knowledge of event driven architecture and messaging: Kafka, web hooks, asynchronous API design preferred.",
+      "Experience in application design, software development, and automated testing",
+      "Experience in object-oriented design and coding with variety of languages",
+      "Experience in distributed (multi-tiered) systems, algorithms, and relational databases"
     ],
+    "experienceLevel": "Entry Level",
+    "responsibilities": [
+      "Designs, develops, tests, and debugs software applications and systems",
+      "Completes software builds through consistent development practices, including the use of tools, common components, and documentation with guidance from peers and leaders",
+      "Completes code reviews/Secure code reviews and automated testing to maintain high-quality code standards with guidance from peers and leaders",
+      "Supports and monitors software across test, integration, and production environments",
+      "Adheres to security and regulatory best practices to ensure software compliance",
+      "Collaborates and co-creates effectively with teams in product and the business to align technology initiatives with business objectives",
+      "Completes the development and maintenance of security policies, procedures, and best practices to ensure compliance with industry standards and regulatory requirements",
+      "Collaborates with software development teams to integrate security into the software development lifecycle, including conducting code reviews and providing support on secure coding practices",
+      "Implements encryption technologies to protect sensitive data in transit and at rest, ensuring the confidentiality and integrity of the organization's data, with guidance from peers and leaders",
+      "Conducts research on emerging security threats and technologies to stay updated and maintain situation awareness on emerging and disruptive technologies",
+      "Conducts testing and evaluation of new cybersecurity technologies, following SDLC practices for deployment and testing, while managing changes in release management to maintain system integrity and security",
+      "Drafts detailed technical documentation and reports on security assessments, findings, and remediation efforts to provide insights and recommendations for improving the organization's security posture, under guidance from peers and leaders"
+    ],
+    "fingerprint": "american-express-cyber-security-engineer-application-security-tooling-sca-sast-dast-mast-api-security--phoenix-az-hybrid",
+    "atsProvider": "Direct Career Portal",
+    "company": "american express",
+    "id": "manual-1791561862343",
+    "state": "AZ",
+    "datePosted": "2026-10-08",
+    "validThrough": "2026-11-08",
+    "employmentType": "FULL_TIME",
+    "companyLogo": "https://www.google.com/s2/favicons?domain=americanexpress.com&sz=128",
+    "isRemote": false,
+    "viewsCount": 0,
+    "atsVerified": true,
+    "applyUrl": "https://egug.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/26014356",
+    "location": "Phoenix, AZ / Hybrid",
+    "category": "Others",
+    "companyWebsite": "https://www.americanexpress.com/",
+    "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "id": "manual-1791465945382",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -474,7 +3760,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://amat.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Who We Are Applied Materials is the global leader in materials science and engineering solutions that are at the foundation of virtually every new semiconductor chip and advanced display in the world. The equipment that we create and service is essential to advancing AI and accelerating the commercialization of next-generation semiconductor chips. Join us and push the boundaries of materials science and engineering in a company at the foundation of the electronics industry. The work we do together advances the world’s technology. What We Offer Salary: $104,000.00 - $143,000.00 Location: Santa Clara,CA You’ll benefit from a supportive work culture that encourages you to learn, develop, and grow your career as you take on challenges and drive innovative solutions for our customers. We empower our team to push the boundaries of what is possible—while learning every day in a supportive leading global company. Visit our Careers website to learn more. At Applied Materials, we care about the health and wellbeing of our employees. We’re committed to providing programs and support that encourage personal and professional growth and care for you at work, at home, or wherever you may go. Learn more about our benefits. As a Software Engineer at Applied Materials, you’ll dive deep into ground-breaking technologies—like machine learning and AI—to craft novel software solutions that solve our customers’ high-value problems. Our Software Engineers are responsible for designing, prototyping, developing, and debugging software solutions for semiconductor equipment components and devices to ensure quality and functionality. You'll develop software documentation and test procedures, troubleshoot software problems, and communicate with internal customers to understand project requirements. As part of our team, you'll contribute your expertise in intricate systems, deciphering code, and anticipating software behaviors to ensure Applied remains the leader in the semiconductor and display sectors. Role Responsibilities: Design, prototype and develop software solutions for semiconductor equipment components and devices with limited complexity Develop software documentation and test procedures Troubleshoot software problems of limited difficulty Communicate with internal customers for an understanding of project requirements Minimum Qualifications: Bachelor’s degree in a related field, such as computer science, information management, software/system engineering, cyber security or mathematics Familiarity with the basic theories and concepts of software engineering Proficiency in C/C++, .Net, C# Preferred Qualifications: 1-2 years of related experience Additional Information Time Type: Full time Employee Type: New College Grad Travel: Not Specified Relocation Eligible: Yes The salary offered to a selected candidate will be based on multiple factors including location, hire grade, job-related knowledge, skills, experience, and with consideration of internal equity of our current team members. In addition to a comprehensive benefits package, candidates may be eligible for other forms of compensation such as participation in a bonus and a stock award program, as applicable. For all sales roles, the posted salary range is the Target Total Cash (TTC) range for the role, which is the sum of base salary and target bonus amount at 100% goal achievement. Applied Materials is an Equal Opportunity Employer. Qualified applicants will receive consideration for employment without regard to race, color, national origin, citizenship, ancestry, religion, creed, sex, sexual orientation, gender identity, age, disability, veteran or military status, or any other basis prohibited by law. In addition, Applied endeavors to make our careers site accessible to all users. If you would like to contact us regarding accessibility of our website or need assistance completing the application process, please contact us via e-mail at Accommodations_Program@amat.com, or by calling our HR Direct Help Line at 877-612-7547, option 1, and following the prompts to speak to an HR Advisor. This contact is for accommodation requests only and cannot be used to inquire about the status of applications. Cookies are small text files stored on your device that help the website function correctly. Our website uses only cookies that are strictly necessary to operate and to provide services explicitly requested by the user. These cookies cannot be switched off in our systems and do not track browsing behavior or collect data for analytics, advertising, or marketing purposes.",
     "company": "0001 Applied Materials, Inc",
     "title": "New College Grad Software Development Engineer (Bachelors - Santa Clara, CA)",
@@ -493,7 +3778,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -552,9 +3838,9 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nvidia.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "We are now recruiting top Research Scientists to work on autonomous vehicles, robotics, and physical AI! Intelligent machines that can perceive, reason, and safely interact with people and the physical world are rapidly becoming a reality. Self-driving cars, autonomous delivery and construction vehicles, mobile manipulators, and other robotic systems are moving closer to widespread deployment. However, fundamental research challenges remain before these systems can operate safely, reliably, and autonomously in complex, unfamiliar environments. For example, how can we: Develop new training paradigms that use perception and interaction to train autonomous vehicle and robot policies in closed loop? Equip autonomous systems with online and offline assurances that meet the requirements of safety-critical applications? Enable vehicles and robots to navigate across new environments, tasks, and embodiments? Build systems that reason under uncertainty and interact safely and naturally with people and other agents? These are some of the exciting questions being explored by NVIDIA’s Autonomous Systems and Physical AI Research (ASPIRE) group. Our diverse, interdisciplinary team conducts foundational research spanning foundation model design, embodied reasoning, safety, closed-loop training and evaluation, and agentic workflows for Physical AI development. We also investigate related areas including decision-making under uncertainty, deep learning, reinforcement learning, simulation, and the verification and validation of safety-critical AI systems. Our focus is on fundamental research, and lab members are encouraged to publish their work and open-source their code. NVIDIA is known for its collaborative culture, and our researchers work closely with experts across the company in autonomous vehicles, robotics, perception, simulation, and machine learning. This creates opportunities to influence real-world products while retaining the freedom and bandwidth to conduct groundbreaking, publishable research. What you'll be doing: Designing and implementing cutting-edge techniques for autonomous vehicles, robotics, and physical AI. Conducting original research and publishing your results. Collaborating with research colleagues, internal product teams, and external researchers. Transferring technology you’ve developed to relevant product groups. What we need to see: Completing or recently completed a PhD in 2026 in Robotics, Computer Science, Computer Engineering or a related field. Relevant research experience in autonomous vehicles, robotics, embodied AI, or autonomous systems. Strong knowledge of the theory and practice of vehicle or robot autonomy—or expertise in a related area, with a strong interest in applying your work to autonomous systems. A track record of research excellence, demonstrated through publications at leading conferences and journals—such as RSS, ICRA, CoRL, IJRR, NeurIPS, ICML, CVPR, TAC, etc.—and through other research artifacts such as open-source software. Exceptional Python programming skills; experience with C++ and parallel programming, such as CUDA, is a plus. Experience with machine learning frameworks such as PyTorch. Strong communication and interpersonal skills are required, along with the ability to thrive in a dynamic, research-focused team. Are you intellectually curious, collaborative, and motivated to solve complex problems at the intersection of AI and the physical world? If so, you may be a great fit for NVIDIA. Your base salary will be determined based on your location, experience, and the pay of employees in similar positions. The base salary range is 168,000 USD - 264,500 USD. You will also be eligible for equity and benefits. Applications for this job will be accepted at least until October 11, 2026. This posting is for an existing vacancy. NVIDIA uses AI tools in its recruiting processes. NVIDIA is committed to fostering an inclusive work environment and proud to be an equal opportunity employer. As we highly value diversity in our current and future employees, we do not discriminate (including in our hiring and promotion practices) on the basis of race, religion, color, national origin, gender, gender expression, sexual orientation, age, marital status, veteran status, disability status or any other characteristic protected by law. NVIDIA pioneered accelerated computing. Today, our AI infrastructure powers global intelligence, transforming every industry. Learn more about NVIDIA.",
-    "company": "2100 NVIDIA USA"
+    "company": "2100 NVIDIA USA",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -621,7 +3907,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "category": "Others",
     "companyWebsite": "https://rtx.com/careers",
     "status": "ACTIVE",
-    "isRemote": false
+    "isRemote": false,
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -659,7 +3946,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.sigmadefense.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Bachelor's degree from an accredited college or university in Electrical Engineering, Computer Engineering, Computer Science, or related field of study.",
       "Support of programs related to electronic warfare systems.",
@@ -681,7 +3967,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Write automated unit, regression, and integration tests to guarantee zero defects in production deployments.",
       "Deploy software components within Linux environments utilizing Docker containerization and modern Git workflows.",
       "Troubleshoot system-level issues, analyze execution logs, and optimize computational performance."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -734,8 +4021,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://borderbuddy.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nJoining BorderBuddy as a Junior Entry Writer - U.S. (100% Remote) gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation Range: Verified employer range of ~USD 82k–112k/year with career progression reviews.\n• Location: Based in Blaine, WA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nMajor duties and responsibilities include:"
+    "description": "🎯 The FreshCommits Career Take:\nJoining BorderBuddy as a Junior Entry Writer - U.S. (100% Remote) gives early-career developers practical experience with modern development workflows, automated testing, and agile team cadences.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation Range: Verified employer range of ~USD 82k–112k/year with career progression reviews.\n• Location: Based in Blaine, WA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nMajor duties and responsibilities include:",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -773,7 +4060,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://careers.microsoft.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Design, implement, test, and maintain cloud‑scale services and platform components used in security‑critical and highly regulated environments. Participate in design discussions, architecture reviews, and code reviews to ensure solutions are scalable, secure, and resilient. Collaborate closely with partner teams such as security, operations, program management, and compliance to deliver end‑to‑end solutions. Investigate and resolve live‑site issues, contributing to strong operational excellence and service reliability. Use telemetry, data, and customer feedback to improve system performance, reliability, and security posture. Participate in 24x7 on-call rotations to support service health, respond to incidents, and help restore service quickly and safely. Apply secure‑by‑design principles throughout the development lifecycle, including threat modeling and defense‑in‑depth practices. Demonstrate a growth mindset by learning new technologies, seeking feedback, and gradually taking on broader technical ownership. Embody our culture and values. Bachelor's Degree in Computer Science, or related technical discipline with proven experience coding in languages including, but not limited to, C, C++, C#, Java, JavaScript, or Python These requirements include, but are not limited to the following specialized security screenings: The successful candidate must have an active U.S. Government Top Secret Security Clearance. Failure to maintain or obtain the appropriate clearance and/or customer screening requirements may result in employment action up to and including termination. Clearance Verification: This position requires successful verification of the stated security clearance to meet federal government customer requirements. You will be asked to provide clearance verification information prior to an offer of employment. Citizenship & Citizenship Verification: This position requires verification of U.S. citizenship due to citizenship-based legal restrictions. Specifically, this position supports United States federal, state, and/or local United States government agency customer and is subject to certain citizenship-based restrictions where required or permitted by applicable law. To meet this legal requirement, citizenship will be verified via a valid passport, or other approved documents, or verified US government Clearance. Bachelor's Degree in Computer Science, or related technical field AND 1+ year(s) technical engineering experience with coding in languages including, but not limited to, C, C++, C#, Java, JavaScript, Rust, or Python. OR Master's Degree in Computer Science or related technical field with proven experience coding in languages including, but not limited to, C, C++, C#, Java, JavaScript, Rust, or Python. OR equivalent experience. Experience with CI/CD systems and Infrastructure as Code using tools such as Azure DevOps, Bicep, Terraform, or ARM. Experience building or operating cloud-based services on Azure. Knowledge of software engineering fundamentals including design, testing, debugging, code reviews, and secure development practices. Ability to collaborate effectively across engineering teams and communicate technical concepts clearly. Experience with distributed systems, cloud infrastructure, or large-scale service operations. Experience with observability platforms, telemetry, monitoring, and operational excellence practices. Experience supporting regulated, sovereign, government, or compliance-sensitive environments. Familiarity with deployment automation, release management, and service reliability engineering practices.",
     "title": "Software Engineer - CTJ - Poly",
     "qualifications": [
@@ -791,7 +4077,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.",
       "Write comprehensive unit and integration test suites with mock services to achieve high test coverage.",
       "Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -851,69 +4138,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "company": "astera labs.com",
     "companyWebsite": "https://www.asteralabs.com/",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. astera labs.com pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Azure, SQL, Data Analysis, Security.\n• Interview Focus: Technical leads evaluate live SQL schema queries, data pipeline reliability, and clear analytical problem-solving.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation Range: Verified employer range of ~USD 100k–110k/year with career progression reviews.\n• Location: Based in San Jose, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nData Analyst, New College Graduate (NCG)\n\nLocation: San Jose, California\n\nEmployment type: Full-time"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "New York",
-    "postalCode": "10001",
-    "source": "MANUAL_ADMIN",
-    "title": "Junior Full Stack Developer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 90000,
-      "max": 100000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Python",
-      "SQL",
-      "Machine Learning",
-      "PyTorch",
-      "Pandas",
-      "Data Pipelines",
-      "GCP",
-      "Git"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "workforcenow-junior-full-stack-developer-new-york-ny",
-    "atsProvider": "Direct Career Portal",
-    "company": "Workforcenow",
-    "id": "manual-1791385773845",
-    "state": "NY",
-    "datePosted": "2026-10-07",
-    "validThrough": "2026-11-06",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=workforcenow.adp.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=77d040d9-afa5-44d0-b712-2aa98296db42&ccId=19000101_000001&lang=en_US&selectedMenuKey=CurrentOpenings&jobId=959684",
-    "location": "New York, NY",
-    "category": "Data / AI",
-    "companyWebsite": "https://www.workforcenow.adp.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Web Development, or equivalent practical project/bootcamp experience.",
-      "0–2 years of experience with modern JavaScript/TypeScript, React, or Next.js.",
-      "Strong understanding of client-side architecture, HTTP lifecycle, state management, and asynchronous operations.",
-      "Demonstrated eye for interface aesthetics, layout responsiveness, and accessibility guidelines (WCAG).",
-      "Familiarity with Git version control, package managers (npm, pnpm), and automated testing libraries.",
-      "Enthusiastic collaborator eager to contribute clean, maintainable code within an agile engineering team."
-    ],
-    "responsibilities": [
-      "Build responsive, accessible, and smooth user interfaces for Workforcenow utilizing modern React, TypeScript, and Tailwind CSS.",
-      "Collaborate closely with product managers and UI/UX designers to translate wireframes into production components.",
-      "Integrate client-side applications with backend RESTful APIs, WebSockets, and state management libraries.",
-      "Write automated end-to-end and component tests using modern testing frameworks to safeguard release velocity.",
-      "Profile application performance, eliminating re-renders, reducing bundle sizes, and optimizing asset delivery.",
-      "Participate in agile sprint ceremonies, code reviews, and continuous improvements to the design system."
-    ],
-    "description": "Workforcenow is seeking an enthusiastic developer to build delightful, high-performance web applications and user-facing features."
+    "description": "🎯 The FreshCommits Career Take:\nA focused opportunity for junior engineers looking to deepen database architecture, query optimization, and enterprise data workflows. astera labs.com pairs this role with structured code reviews across active production systems.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Azure, SQL, Data Analysis, Security.\n• Interview Focus: Technical leads evaluate live SQL schema queries, data pipeline reliability, and clear analytical problem-solving.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation Range: Verified employer range of ~USD 100k–110k/year with career progression reviews.\n• Location: Based in San Jose, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nData Analyst, New College Graduate (NCG)\n\nLocation: San Jose, California\n\nEmployment type: Full-time",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -970,120 +4196,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Santa Clara, California",
     "companyWebsite": "https://purestorage.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nA structured runway for new graduates seeking broad engineering exposure, code review hygiene, and cross-functional agile development from day one at Purestorage.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Purestorage values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 122k–183k/year with career progression reviews.\n• Location: Based in Santa Clara, California (On-Site Team Collaboration).\n\n🏢 Role Overview:\nEverpure (NYSE: P) has evolved from storage pioneer to data platform, closing fiscal 2026 with $3.7 billion in revenue, its first billion-dollar quarter, and accelerating growth into FY27. Our strategic agenda spans the companies defining the next era of technology - hyperscalers, AI labs, the AI hardware supply chain, data platform providers, and the broader AI ecosystem.\n\nThis type of work—work that changes the world—is what the tech industry was founded on. So, if you're ready to seize the endless opportunities and leave your mark, come join us."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Nashville",
-    "postalCode": "37011",
-    "source": "MANUAL_ADMIN",
-    "title": "Associate Software Engineer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 73000,
-      "max": 174000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "capgemini-associate-software-engineer-nashville-tn",
-    "atsProvider": "Direct Career Portal",
-    "company": "Capgemini",
-    "id": "manual-1791395424222",
-    "state": "TN",
-    "datePosted": "2026-10-07",
-    "validThrough": "2026-11-06",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=capgemini.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://www.capgemini.com/jobs/521005-en_US_SAPBTP/Associate-Software-Engineer",
-    "location": "Nashville, TN",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.capgemini.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Capgemini.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Capgemini is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "ADA",
-    "postalCode": "49355",
-    "source": "MANUAL_ADMIN",
-    "title": "Enterprise Integration Software Engineer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "amway-enterprise-integration-software-engineer-ada-mi",
-    "atsProvider": "Direct Career Portal",
-    "company": "Amway",
-    "id": "manual-1791385121319",
-    "state": "MI",
-    "datePosted": "2026-10-07",
-    "validThrough": "2026-11-06",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amway.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.amway.com/job/Enterprise-Integration-Software-Engineer/43417-en_US",
-    "location": "ADA, MI",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.amway.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Amway.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Amway is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "description": "🎯 The FreshCommits Career Take:\nA structured runway for new graduates seeking broad engineering exposure, code review hygiene, and cross-functional agile development from day one at Purestorage.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Git, Software Engineering, Problem Solving), Git workflow, and code documentation.\n• Interview Focus: Purestorage values candidates who demonstrate strong engineering curiosity, receptiveness to code review critique, and proactive questions.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 122k–183k/year with career progression reviews.\n• Location: Based in Santa Clara, California (On-Site Team Collaboration).\n\n🏢 Role Overview:\nEverpure (NYSE: P) has evolved from storage pioneer to data platform, closing fiscal 2026 with $3.7 billion in revenue, its first billion-dollar quarter, and accelerating growth into FY27. Our strategic agenda spans the companies defining the next era of technology - hyperscalers, AI labs, the AI hardware supply chain, data platform providers, and the broader AI ecosystem.\n\nThis type of work—work that changes the world—is what the tech industry was founded on. So, if you're ready to seize the endless opportunities and leave your mark, come join us.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1142,8 +4256,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://machindustries.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Machindustries's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Python, Rust, Linux, CI/CD), Git workflow, and code documentation.\n• Interview Focus: Expect project walk-throughs, practical Git version control scenarios, and discussions of past coursework or personal builds.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 130k–135k/year with career progression reviews.\n• Location: Based in Huntington Beach, California, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAbout Mach Industries\n\nFounded in 2023, Mach Industries is a rapidly growing defense technology company focused on developing next-generation autonomous defense platforms. At the core of our mission is the commitment to delivering scalable, decentralized defense systems that enhance the strategic capabilities of the United States and its allies. With a workforce of approximately 350 employees, we operate with startup agility and ambition.\n\nOur vision is to redefine the future of warfare through cutting-edge manufacturing, innovation at speed, and unwavering focus on national security. We are dedicated to solving the next generation of warfare with lethal systems that deter kinetic conflict and protect global security."
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Machindustries's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Python, Rust, Linux, CI/CD), Git workflow, and code documentation.\n• Interview Focus: Expect project walk-throughs, practical Git version control scenarios, and discussions of past coursework or personal builds.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 130k–135k/year with career progression reviews.\n• Location: Based in Huntington Beach, California, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAbout Mach Industries\n\nFounded in 2023, Mach Industries is a rapidly growing defense technology company focused on developing next-generation autonomous defense platforms. At the core of our mission is the commitment to delivering scalable, decentralized defense systems that enhance the strategic capabilities of the United States and its allies. With a workforce of approximately 350 employees, we operate with startup agility and ambition.\n\nOur vision is to redefine the future of warfare through cutting-edge manufacturing, innovation at speed, and unwavering focus on national security. We are dedicated to solving the next generation of warfare with lethal systems that deter kinetic conflict and protect global security.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1193,7 +4307,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.deloitte.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Bachelor’s degree",
       "Experience with Python and SQL",
@@ -1208,63 +4321,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "Our Deloitte AI & Engineering team to transform technology platforms, drive innovation, and help make a significant impact on our clients’ success. You’ll work alongside talented professionals reimagining and reengineering operations and processes that are critical to businesses. Your contributions can help clients improve financial performance, accelerate new digital ventures, and fuel growth through innovation.\n\nConducting exploratory data analysis across structured, unstructured, text, image, and healthcare-related datasets and developing machine learning and deep learning models using Python and established data science frameworks\n\nSupporting end-to-end machine learning pipelines, including data ingestion, preprocessing, feature engineering, model training, validation, deployment, monitoring, and performance reporting\n\nAssisting with natural language processing, large language model, retrieval-augmented generation, vector database, and agentic AI use cases for the NextGen TSS platform and helping industrialize research models into production-ready solutions\n\nBuilding reusable data preparation, model training, scoring, and validation components and deploying models using Databricks Model Serving or comparable cloud-based technologies with experiment tracking and model lifecycle management tools such as MLflow\n\nContributing to MLOps workflows, including continuous integration and continuous deployment, automated testing, governance, release management, documentation, platform integration, and model and pipeline troubleshooting and optimization\n\nAbility to work independently and collaborate as part of a team\n\nEffective written and verbal communication skills\n\nMeticulous attention to detail and quality of work product\n\nAbility to build and sustain professional relationships\n\nAbility to lead projects or workstreams\n\nAbility to manage and prioritize multiple tasks in a fast-paced and dynamic environment\n\nStrong interpersonal skills and professional demeanor\n\nAbility to meet deadlines\n\nAbility to provide clear guidance to others\n\nDeloitte’s Government & Public Services (GPS) practice – our people, ideas, technology and outcomes – is designed for impact. Serving federal, state, & local government clients as well as public higher education institutions, our team of professionals brings fresh perspective to help clients anticipate disruption, reimagine the possible, and fulfill their mission promise.\n\nOur AI & Data offering provides a full spectrum of solutions for designing, developing, and operating cutting-edge Data and AI platforms, products, insights, and services. Our offerings help clients innovate, enhance and operate their data, AI, and analytics capabilities, ensuring they can mature and scale effectively.",
     "company": "Deloitte US",
-    "title": "US E - GPS Consulting Services - Data Scientist - AI and Data Science Engineer I- AI&E / AI&D - Core - MySource #733242 L25 - DAB"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "New York",
-    "postalCode": "11735",
-    "source": "MANUAL_ADMIN",
-    "title": "Junior Full Stack Engineer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 75000,
-      "max": 80000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "careers-daddario-junior-full-stack-engineer-new-york-farmingdale",
-    "atsProvider": "Direct Career Portal",
-    "company": "Careers-daddario",
-    "id": "manual-1791360166810",
-    "state": "Farmingdale",
-    "datePosted": "2026-10-07",
-    "validThrough": "2026-11-06",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=careers-daddario.icims.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://careers-daddario.icims.com/jobs/2680/job",
-    "location": "New York, Farmingdale",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.careers-daddario.icims.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Web Development, or equivalent practical project/bootcamp experience.",
-      "0–2 years of experience with modern JavaScript/TypeScript, React, or Next.js.",
-      "Strong understanding of client-side architecture, HTTP lifecycle, state management, and asynchronous operations.",
-      "Demonstrated eye for interface aesthetics, layout responsiveness, and accessibility guidelines (WCAG).",
-      "Familiarity with Git version control, package managers (npm, pnpm), and automated testing libraries.",
-      "Enthusiastic collaborator eager to contribute clean, maintainable code within an agile engineering team."
-    ],
-    "responsibilities": [
-      "Build responsive, accessible, and smooth user interfaces for Careers-daddario utilizing modern React, TypeScript, and Tailwind CSS.",
-      "Collaborate closely with product managers and UI/UX designers to translate wireframes into production components.",
-      "Integrate client-side applications with backend RESTful APIs, WebSockets, and state management libraries.",
-      "Write automated end-to-end and component tests using modern testing frameworks to safeguard release velocity.",
-      "Profile application performance, eliminating re-renders, reducing bundle sizes, and optimizing asset delivery.",
-      "Participate in agile sprint ceremonies, code reviews, and continuous improvements to the design system."
-    ],
-    "description": "Careers-daddario is seeking an enthusiastic developer to build delightful, high-performance web applications and user-facing features."
+    "title": "US E - GPS Consulting Services - Data Scientist - AI and Data Science Engineer I- AI&E / AI&D - Core - MySource #733242 L25 - DAB",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1302,7 +4360,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://niantic-spatial.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Currently pursuing a BS or MS in Computer Science, Robotics, Electrical Engineering, Systems Engineering, Computer Vision, or a related field.",
       "TypeScript, Python, C++ or Go experience for Infrastructure and Backend tracks.",
@@ -1326,61 +4383,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Build and optimize pipelines that ingest, validate, and route large volumes of visual and sensor data from diverse hardware sources."
     ],
     "description": "At Niantic Spatial, we're building the future of physical AI. Powered by a proprietary database of over 30 billion posed images, our groundbreaking mapping technology unlocks a new dimension of interaction and spatial intelligence that helps both humans and machines better understand, represent, navigate, and engage with the real environment.\n\nOur reconstruction technology captures environments with geometric accuracy and extreme detail from any standard camera, and our Visual Positioning System delivers precise positioning almost anywhere in the world. We serve customers across robotics, the public sector, and energy and industrial markets - building for the 80% of economic activity that takes place beyond our screens.\n\nWe're hiring software engineering interns for Summer 2027; each intern will be embedded in a specialized track. You won't be shadowing or running demos - you'll own a real problem on a small team, write code that ships to production, and work on systems and datasets that don't exist anywhere else: petabyte-scale 3D reconstructions, foundation models trained on physical space, and positioning infrastructure deployed globally.\n\nWe'll match you based on fit; switching tracks after matching is uncommon but possible if there's strong mutual interest.\n\nYou'll build the systems that make large-scale physical AI possible. Not just run experiments, but design the distributed training pipelines, data ingestion infrastructure, and GPU optimization layers that let us train foundation models on billions of images and 3D data points.\n\nImplement, train, and evaluate model architectures in PyTorch, iterating on data loaders, loss functions, and training loops to improve model quality and convergence on real production datasets.\n\nDesign and scale distributed training pipelines for our Large Geospatial Model, handling petabyte-scale spatial data across multi-GPU and multi-node environments.\n\nBuild high-throughput ingestion and preprocessing pipelines that transform raw imagery and 3D point clouds into training-ready datasets.\n\nInstrument training runs with metrics, dashboards, and alerting so engineering teams can debug and iterate faster.\n\nBest for: Students obsessed with the intersection of ML and systems - PyTorch, distributed computing (Ray, Spark), CUDA, and high-performance architecture.\n\nYou'll build the product APIs and services that sit behind our spatial computing products, helping customers manage projects, organize spatial data, upload content, and turn it into useful experiences. You'll work across backend and product engineering to take features from design to production, with a focus on clear interfaces, reliable workflows, and software that other teams can build on.\n\nBuild and ship features for managing organizations, projects, spatial data, and content.\n\nDesign the interfaces that connect our products, web and mobile applications, and developer tools, making them consistent, well-documented, and easy to use.\n\nConnect the steps behind core product workflows, from uploading and processing data to making results available to users and applications.\n\nCollaborate with engineers across frontend, backend, and infrastructure to launch features and learn from real customer use.\n\nBest for: Students who enjoy building products from the backend up and interested in how APIs and data power user experiences. Motivated by shipping software that real customers and developers use.\n\nYou'll build and harden the high-throughput services that power our Visual Positioning System and reconstruction platform - processing vast volumes of visual data and delivering centimeter-level positioning to users and robots globally.\n\nDesign and ship microservices in Go or C++ that sit in the critical path of our positioning and reconstruction APIs.\n\nBuild and optimize pipelines that ingest, validate, and route large volumes of visual and sensor data from diverse hardware sources.\n\nProfile service bottlenecks, improve latency, and improve system observability through structured logging, metrics, and distributed tracing.\n\nContribute to internal and external API design, writing clean, well-tested, production-grade interfaces that other teams and customers depend on.\n\nBest for: Pragmatic engineers who care about correctness, performance, and clean systems design and want to see their code serving real traffic within weeks.",
-    "company": "Niantic Spatial"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "source": "MANUAL_ADMIN",
-    "title": "Full Stack Developer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "soloclash-full-stack-developer-remote",
-    "atsProvider": "Direct Career Portal",
-    "company": "Soloclash",
-    "id": "manual-1791388831883",
-    "datePosted": "2026-10-07",
-    "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-06",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=soloclash.com",
-    "isRemote": true,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://soloclash.com/en/careers/full-stack-developer",
-    "location": "Remote (US)",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.soloclash.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Web Development, or equivalent practical project/bootcamp experience.",
-      "0–2 years of experience with modern JavaScript/TypeScript, React, or Next.js.",
-      "Strong understanding of client-side architecture, HTTP lifecycle, state management, and asynchronous operations.",
-      "Demonstrated eye for interface aesthetics, layout responsiveness, and accessibility guidelines (WCAG).",
-      "Familiarity with Git version control, package managers (npm, pnpm), and automated testing libraries.",
-      "Enthusiastic collaborator eager to contribute clean, maintainable code within an agile engineering team."
-    ],
-    "responsibilities": [
-      "Build responsive, accessible, and smooth user interfaces for Soloclash utilizing modern React, TypeScript, and Tailwind CSS.",
-      "Collaborate closely with product managers and UI/UX designers to translate wireframes into production components.",
-      "Integrate client-side applications with backend RESTful APIs, WebSockets, and state management libraries.",
-      "Write automated end-to-end and component tests using modern testing frameworks to safeguard release velocity.",
-      "Profile application performance, eliminating re-renders, reducing bundle sizes, and optimizing asset delivery.",
-      "Participate in agile sprint ceremonies, code reviews, and continuous improvements to the design system."
-    ],
-    "description": "Soloclash is seeking an enthusiastic developer to build delightful, high-performance web applications and user-facing features."
+    "company": "Niantic Spatial",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1442,8 +4446,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://perpay.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Perpay's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (JavaScript, Python, React, Vue), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 82k–112k/year with career progression reviews.\n• Location: Based in Los Angeles, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nPerpay is a certified B Corp and Philadelphia’s most impactful growth-stage startup. We are driven by a mission to significantly improve the financial stability of everyday Americans. For the past decade, we have established strong product-market fit and a profitable, efficient operating model across a suite of products, positioning Perpay as the premier financial partner for consumers with subprime credit.\n\nWith over 500,000 customers who have utilized more than $1 billion in spending power, we are at a pivotal moment. We are scaling our operations, building new offerings, and deepening our impact. We are looking for teammates eager to join us on this journey.\n\nOur venture partners include First Round Capital and L Catterton."
+    "description": "🎯 The FreshCommits Career Take:\nDesigned for new graduates transitioning theoretical computer science foundations into commercial production deployments. Perpay's engineering cohort pairs candidates with dedicated staff mentors to build strong technical habits.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (JavaScript, Python, React, Vue), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation Range: Verified employer range of ~USD 82k–112k/year with career progression reviews.\n• Location: Based in Los Angeles, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nPerpay is a certified B Corp and Philadelphia’s most impactful growth-stage startup. We are driven by a mission to significantly improve the financial stability of everyday Americans. For the past decade, we have established strong product-market fit and a profitable, efficient operating model across a suite of products, positioning Perpay as the premier financial partner for consumers with subprime credit.\n\nWith over 500,000 customers who have utilized more than $1 billion in spending power, we are at a pivotal moment. We are scaling our operations, building new offerings, and deepening our impact. We are looking for teammates eager to join us on this journey.\n\nOur venture partners include First Round Capital and L Catterton.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1481,7 +4485,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://whoop.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Demonstrated curiosity for building high-quality software and eagerness to learn in a collaborative engineering environment.",
       "Familiarity with Swift and modern iOS frameworks such as SwiftUI, UIKit, and XCTest.",
@@ -1502,7 +4505,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Document features and technical decisions while learning shared engineering practices."
     ],
     "description": "At WHOOP, we're on a mission to unlock and inspire performance for life. WHOOP empowers members to perform at a higher level through a deeper understanding of their bodies and daily lives. Our wearable technology monitors vital physiological metrics to offer personalized insights that enhance fitness, health, sleep, and recovery.\n\nAs an iOS Engineer I on the Core team, you will build the foundations that power the WHOOP iOS App and develop features that empower members to optimize performance and longevity. You will play a critical role in building and scaling the foundational systems that power the WHOOP member experience for fitness, sleep, strain, recovery, and integrations. You will partner closely with other engineers, product management, design, data science, and performance science to shape and build the polished member-facing experiences for these features.",
-    "title": "iOS Engineer"
+    "title": "iOS Engineer",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1553,7 +4557,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "validThrough": "2026-11-06",
     "fingerprint": "boeing-software-engineer-entry-level-san-francisco-ca",
     "title": "Software Engineer - Entry Level",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "To be eligible for this demanding position, the ideal candidate should demonstrate the following experience and qualifications:",
       "No demonstrated experience is required",
@@ -1567,7 +4570,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Experience with Software-Defined Radio (SDR) programming"
     ],
     "description": "Developing, maintaining, and enhancing complex and diverse software systems (e.g., processing-intensive analytics, novel algorithm development, manipulation of extremely large data sets, real-time systems, and business management information systems) based upon documented requirements\n\nContributing to cutting edge development programs and designing new solutions\n\nInnovating RF signal processing applications\n\nDeveloping analytics, visualization and discovery tools\n\nIntegrating new and legacy software across a variety of hardware form factors\n\nReviewing and testing software components for adherence to the design requirements and documents test results. Resolves software problem reports.\n\nProviding specific input to the software components of system design to include hardware/software trade-offs, software reuse, use of Commercial Off-the-shelf (COTS)/Government Off-the-shelf (GOTS) in place of new development, and requirements analysis and synthesis from system level to individual software components\n\nAs a fully owned subsidiary of The Boeing Company, BI&A offers an optimal mix of a small company environment with exceptional opportunities supported by a large corporation.\n\nEvery day, Boeing Intelligence & Analytics supports global missions by building and delivering intelligence, analytics, and cyber solutions that enable users to advance national security. From hardware and software engineering solutions to analytics that keep this nation safe, we create value that meets users’ needs. With vibrant partnerships and innovative approaches, we serve the Intelligence Community through innovation and vision. We have provided our customers with the tools needed to counter evolve global and cyber threats, and to improve wartime decision-making.\n\nOur talented employees bring software development, systems engineering, and advanced analytics expertise.\n\nWe offer numerous prime contract opportunities with customers headquartered in Maryland, Virginia, and the District of Columbia, as well as subcontract opportunities that align with our areas of focus and additional opportunities nationwide through our parent company.\n\nWe have current open positions on awarded programs across diverse customer sets and are anticipating upcoming contract awards with a 5-year life cycle and an additional 5 option years.\n\nOur diverse portfolio allows our employees to move to other projects and teams as they gain further proficiency in their current skill set and learn new skill sets along the way.\n\nWe offer hands-on access to cutting-edge technologies and a culture of technical excellence.",
-    "company": "Boeing Intelligence & Analytics, Inc. (BIA)"
+    "company": "Boeing Intelligence & Analytics, Inc. (BIA)",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1604,7 +4608,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.hpe.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Graduate Systems/Software Engineer I&lt;p style=\"text-align:inherit\"&gt; &lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;This role has been designed as 'Hybrid' with a requirement that you will work on average 2 days per week from an HPE office.&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Who We Are:&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;p style=\"text-align:left\"&gt;Hewlett Packard Enterprise is the global edge-to-cloud company advancing the way people live and work. We help companies connect, protect, analyze, and act on their data and applications wherever they live, from edge to cloud, so they can turn insights into outcomes at the speed required to thrive in today’s complex world. Our culture thrives on finding new and better ways to accelerate what’s next. We know varied backgrounds are valued and succeed here. We have the flexibility to manage our work and personal needs. We make bold moves, together, and are a force for good. If you are looking to stretch and grow your career our culture will embrace you. Open up opportunities with HPE.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Job Description:&lt;/b&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt; &lt;/p&gt;&lt;p&gt;&lt;i&gt;&lt;b&gt;Job Family Definition:&lt;/b&gt;&lt;/i&gt;&lt;/p&gt;&lt;p&gt;Designs, develops, troubleshoots and debugs software programs for software enhancements and new products. Develops software including operating systems, compilers, routers, networks, utilities, databases and Internet-related tools. Determines hardware compatibility and/or influences hardware design.&lt;/p&gt;&lt;p&gt;&lt;i&gt;&lt;b&gt;Management Level Definition:&lt;/b&gt;&lt;/i&gt;&lt;/p&gt;&lt;p&gt;Contributions include applying intermediate level of subject matter expertise to solve common technical problems. Acts as an informed team member providing analysis of information and recommendations for appropriate action. Works independently within an established framework and with moderate supervision.&lt;/p&gt;&lt;p&gt;&lt;i&gt;&lt;b&gt;Responsibilities:&lt;/b&gt;&lt;/i&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Designs limited enhancements, updates, and programming changes for portions and subsystems of systems software, including operating systems, compliers, networking, utilities, databases, and Internet-related tools.&lt;/li&gt;&lt;li&gt;Analyzes design and determines coding, programming, and integration activities required based on specific objectives and established project guidelines.&lt;/li&gt;&lt;li&gt;Executes and writes portions of testing plans, protocols, and documentation for assigned portion of application; identifies and debugs issues with code and suggests changes or improvements.&lt;/li&gt;&lt;li&gt;Participates as a member of project team of other software systems engineers and internal and outsourced development partners to develop reliable, cost effective and high-quality solutions for assigned systems portion or subsystem.&lt;/li&gt;&lt;li&gt;Collaborates and communicates with internal and outsourced development partners regarding software systems design status, project progress, and issue resolution.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;i&gt;&lt;b&gt;Education and Experience Required:&lt;/b&gt;&lt;/i&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Bachelor's or Master's degree in Computer Science, Information Systems, or equivalent.&lt;/li&gt;&lt;li&gt;Typically 0-2 years experience.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;i&gt;&lt;b&gt;Knowledge and Skills:&lt;/b&gt;&lt;/i&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Using software systems design tools and languages.&lt;/li&gt;&lt;li&gt;Ability to apply analytical and problem-solving skills.&lt;/li&gt;&lt;li&gt;Designing software systems running on multiple platform types.&lt;/li&gt;&lt;li&gt;Software systems testing methodology, including execution of test plans, debugging, and testing scripts and tools.&lt;/li&gt;&lt;li&gt;Strong written and verbal communication skills; mastery in English and local language. Ability to effectively communicate design proposals and negotiate options.&lt;/li&gt;&lt;/ul&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Accessibility&lt;/b&gt;&lt;/p&gt;&lt;br /&gt;&lt;p&gt;HPE is committed to creating an inclusive and accessible workplace and encourages applications from all qualified individuals, including those with disabilities. If you believe you require accommodation during any stage of the application or interview process, please submit your request by completing our secure form linked &lt;a target=\"_blank\" href=\"https://people.hpe.com/s/externalcase/candidate-support\"&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;br /&gt;&lt;p&gt;&lt;span style=\"color:#181818\"&gt;Note: This option is reserved for applicants needing assistance/reasonable accommodation related to a disability.&lt;/span&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;What We Can Offer You:&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Health & Wellbeing&lt;/b&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;We strive to provide our team members and their loved ones with a comprehensive suite of benefits that supports their physical, financial and emotional wellbeing.&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Personal & Professional Development&lt;/b&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;We also invest in your career because the better you are, the better we all are. We have specific programs catered to helping you reach any career goals you have — whether you want to become a knowledge expert in your field or apply your skills to another division.&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Unconditional Inclusion&lt;/b&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;We are unconditionally inclusive in the way we work and celebrate individual uniqueness. We know varied backgrounds are valued and succeed here. We have the flexibility to manage our work and personal needs. We make bold moves, together, and are a force for good.&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Let's Stay Connected:&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;p style=\"text-align:left\"&gt;&lt;span&gt;Follow &lt;a href=\"http://instagram.com/hpecareers\" target=\"_blank\"&gt;&#64;HPECareers&lt;/a&gt; on Instagram to see the latest on people, culture and tech at HPE. &lt;/span&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;#unitedstates&lt;h3&gt;&lt;/h3&gt;&lt;h3&gt;&lt;/h3&gt;#grads&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Job:&lt;/b&gt;&lt;/p&gt;Engineering&lt;p style=\"text-align:left\"&gt;&lt;b&gt;Job Level:&lt;/b&gt;&lt;/p&gt;TCP_01&lt;p style=\"text-align:inherit\"&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span class=\"WLH0\"&gt; &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\"The expected salary/wage range for this position is provided below. Actual offer may vary from this range based upon geographic location, work experience, education/training, and/or skill level.&lt;br&gt; – United States of America: Annual Salary USD 73,900 - 170,800 in Minnesota&lt;br&gt;The listed salary range reflects base salary. Variable incentives may also be offered.\"&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:left\"&gt;&lt;span&gt;Information about employee benefits offered in the US can be found at &lt;/span&gt;&lt;a href=\"https://myhperewards.com/main/new-hire-enrollment.html\" target=\"_blank\"&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span class=\"WLH0\"&gt;https://myhperewards.com/main/new-hire-enrollment.html&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt;&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;p style=\"text-align:left\"&gt;&lt;span&gt;HPE is an Equal Employment Opportunity/ &lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span class=\"WPL0\"&gt;Veterans/Disabled/LGBT&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; employer. We do not discriminate on the basis of race, gender, or any other protected category, and all decisions we make are made on the basis of qualifications, merit, and business need. Our goal is to be one global team that is representative of our customers, in an inclusive environment where we can continue to innovate and grow together. Please click here: &lt;/span&gt;&lt;a href=\"https://hr.ext.hpe.com/Equal-employment-opportunity-policy.pdf\" target=\"_blank\"&gt;Equal Employment Opportunity&lt;/a&gt;&lt;span&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;p style=\"text-align:left\"&gt;&lt;b&gt;&lt;span&gt;Hewlett Packard Enterprise is EEO Protected Veteran/ Individual with Disabilities.&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt; &lt;/p&gt;&lt;p style=\"text-align:left\"&gt;&lt;span&gt;HPE will comply with all applicable laws related to employer use of arrest and conviction records, including laws requiring employers to consider for employment qualified applicants with criminal histories.&lt;/span&gt;&lt;/p&gt;&lt;p style=\"text-align:inherit\"&gt; &lt;/p&gt;&lt;p&gt;&lt;b&gt;Recruitment Fraud Alert&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;We have become aware of an increase in fraudulent recruitment activities in which individuals impersonate our company or authorized recruitment agencies to offer fake employment opportunities. These scams may occur through false websites, emails, social media, or chat-based applications and often aim to obtain personal information or money. Please note that Hewlett Packard Enterprise (HPE), its direct and indirect subsidiaries and affiliated companies, and its authorized recruitment agencies/vendors will never charge a candidate a registration fee, hiring fee, or any other fee in connection with its recruitment and hiring process. We also never request personal information such as back account details, Social Security numbers, or national IDs via social media or chat applications.&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;All legitimate job opportunities will come through official company channels, and candidates are responsible for verifying the credentials of any third party claiming to represent the company. Any reliance on fraudulent communication is at the individual’s own risk, and HPE disclaims legal liability for any resulting damages. If you suspect recruitment fraud, do not share personal information or make any payments and report the incident to your local authorities immediately.&lt;/p&gt;",
     "company": "HPE",
     "title": "Graduate Systems/Software Engineer I",
@@ -1623,7 +4626,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1644,7 +4648,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "company": "RTX",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "skills": [
       "FPGA",
       "Verilog",
@@ -1688,7 +4691,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "min": 57200,
       "max": 108800
     },
-    "companyWebsite": "https://rtx.com/careers"
+    "companyWebsite": "https://rtx.com/careers",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1727,7 +4731,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://whoop.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Professional experience in backend software development (internship, co-op, or academic project experience acceptable).",
       "Experience building or interacting with RESTful APIs and relational databases (e.g., Postgres or similar SQL-based systems).",
@@ -1748,117 +4751,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Break down feature requirements into actionable tasks, identify risks early, and iterate quickly to deliver value to members.",
       "Contribute to technical documentation and knowledge sharing to support team velocity and long-term maintainability."
     ],
-    "description": "At WHOOP, we're on a mission to unlock and inspire performance for life. WHOOP empowers members to perform at a higher level through a deeper understanding of their bodies and daily lives. Our wearable technology monitors vital physiological metrics to provide personalized insights that improve fitness, health, and recovery.\n\nAs a Software Engineer I, you will contribute to the design, development, and maintenance of the services that power WHOOP’s core product experiences. You will work closely with experienced engineers, product managers, designers, and data scientists to build scalable, reliable systems that deliver meaningful insights to our members. This is a growth-oriented role ideal for engineers who are excited to learn, ship high-quality code, and make an impact in a fast-paced, mission-driven environment."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Seattle",
-    "postalCode": "98101",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Engineer (Early-Career)",
-    "salary": {
-      "unit": "YEAR",
-      "min": 153000,
-      "max": 300000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "joinbytedance-software-engineer-early-career--seattle-wa",
-    "atsProvider": "Direct Career Portal",
-    "company": "Joinbytedance",
-    "id": "manual-1791294331354",
-    "state": "WA",
-    "datePosted": "2026-10-06",
-    "validThrough": "2026-11-05",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=joinbytedance.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://joinbytedance.com/search/7672389696568510773",
-    "location": "Seattle, WA",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.joinbytedance.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Computer Engineering, or equivalent practical background.",
-      "0–2 years of backend software development experience in Java, C#, Python, Go, or TypeScript.",
-      "Solid comprehension of object-oriented design patterns, data structures, and relational databases (SQL).",
-      "Familiarity with cloud computing primitives (AWS, Azure, or GCP) and containerization concepts (Docker).",
-      "Proficiency with Git version control, collaborative code reviews, and automated CI/CD tools.",
-      "Strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset."
-    ],
-    "responsibilities": [
-      "Write clean, performant backend code in Java, Python, Go, or C# to power Joinbytedance's core cloud infrastructure.",
-      "Design and consume RESTful APIs, gRPC services, and event-driven architectures utilizing Kafka or message queues.",
-      "Participate in architectural reviews, CI/CD pipeline automation, and automated container deployment via Kubernetes.",
-      "Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.",
-      "Write comprehensive unit and integration test suites with mock services to achieve high test coverage.",
-      "Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds."
-    ],
-    "description": "Join Joinbytedance's engineering organization to build reliable, high-availability cloud services and distributed backend systems that serve millions of daily requests with low latency."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "source": "MANUAL_ADMIN",
-    "title": "Remote Junior Backend Developer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 85000,
-      "max": 110000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "codehunter-remote-junior-backend-developer-remote",
-    "atsProvider": "Workable",
-    "company": "Codehunter",
-    "id": "manual-1791289446936",
-    "datePosted": "2026-10-06",
-    "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-05",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=codehunter.com",
-    "isRemote": true,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.workable.com/en/view/aAztmVU77ZuZzrrqCPbvkc/remote-junior-backend-developer-in-united-states-at-codehunter",
-    "location": "Remote (US)",
-    "category": "Backend",
-    "companyWebsite": "https://www.codehunter.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Computer Engineering, or equivalent practical background.",
-      "0–2 years of backend software development experience in Java, C#, Python, Go, or TypeScript.",
-      "Solid comprehension of object-oriented design patterns, data structures, and relational databases (SQL).",
-      "Familiarity with cloud computing primitives (AWS, Azure, or GCP) and containerization concepts (Docker).",
-      "Proficiency with Git version control, collaborative code reviews, and automated CI/CD tools.",
-      "Strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset."
-    ],
-    "responsibilities": [
-      "Write clean, performant backend code in Java, Python, Go, or C# to power Codehunter's core cloud infrastructure.",
-      "Design and consume RESTful APIs, gRPC services, and event-driven architectures utilizing Kafka or message queues.",
-      "Participate in architectural reviews, CI/CD pipeline automation, and automated container deployment via Kubernetes.",
-      "Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.",
-      "Write comprehensive unit and integration test suites with mock services to achieve high test coverage.",
-      "Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds."
-    ],
-    "description": "Join Codehunter's engineering organization to build reliable, high-availability cloud services and distributed backend systems that serve millions of daily requests with low latency."
+    "description": "At WHOOP, we're on a mission to unlock and inspire performance for life. WHOOP empowers members to perform at a higher level through a deeper understanding of their bodies and daily lives. Our wearable technology monitors vital physiological metrics to provide personalized insights that improve fitness, health, and recovery.\n\nAs a Software Engineer I, you will contribute to the design, development, and maintenance of the services that power WHOOP’s core product experiences. You will work closely with experienced engineers, product managers, designers, and data scientists to build scalable, reliable systems that deliver meaningful insights to our members. This is a growth-oriented role ideal for engineers who are excited to learn, ship high-quality code, and make an impact in a fast-paced, mission-driven environment.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1893,7 +4787,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "fingerprint": "highmarkhealth-associate-software-engineer-remote",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Company : enGen Job Description : JOB SUMMARY ***CANDIDATE MUST BE US Citizen (due to contractual/access requirements)*** This job is an integral member of an agile software engineer team responsible for building scalable software applications across all digital channels to serve our customers. Responsible for taking an enterprise-wide, architectural view of the solutions and the technical execution of products using the technical stack that best meets the needs of the platform. The incumbent, and team, will be involved in every aspect as a part of the software application build process from idea generation, business analysis, technical design and software development using the latest technologies and design patterns. ESSENTIAL RESPONSIBILITIES Responsible for designing and creating engineering specifications for software applications and programs. Responsible for writing code that adheres to coding standards. Perform code reviews. Responsible for idea generation, exploring and suggesting appropriate technical solutions to achieve the required product features, as well as monitoring technical process against project plan while safeguarding functionality, scalability and performance. Part of an agile work team and responsible for participating in all scrum ceremonies, assisting in sprint planning and completing required sprints in the development through final execution of software applications/programs. Communicate any issues/blockers to the Scrum Master in a timely manner. Help in story creation (i.e. DoD, Acceptance Criteria, estimation). Creates Tasks for their stories in applicable software (ex: RTC or Jira), and updates status and assignment accordingly Monitor work against production schedule and provide progress updates and report any issues or technical difficulties to senior developers/principals on a regular basis. Other duties as assigned or requested. EDUCATION Required Bachelor's Degree in Computer Science, Computer Engineering or closely related field Preferred Master's Degree in Computer Science, Computer Engineering or a related field EXPERIENCE Required 1 year proficiency in design and analysis of algorithms, data structures, and design patterns in the building and deploying of scalable; highly available systems To include: 1 years experience in at least one modern programming languages (Java, Python, JavaScript, ACE, IIB/ITX, Informatica preferred), and experience with at least two of the following: React, Angular v4+, NodeJS, NoSQL databases, HTML5, CSS, Google Cloud Platform or Amazon Web Services. 1 years of understanding of web services technologies such as REST, HTTPS, JSON Preferred 3 years with one or more general purpose programming languages including but not limited to: Java, Python (Django/Flask), C/C++, C#, Objective C, JavaScript, or Go To Include: 3 years in defining system architectures and exploring technical feasibility trade-offs for optimizing short term execution while planning for long term technical capabilities 3 years of working with a variety of technology systems, designing solutions or developing applications in healthcare 3 years of translating design mockups, prototypes and user stories into working applications 3 years of ability to produce code that is fault-tolerant, efficient, and maintainable 1 years experience in at least one modern programming languages (Java, Python, JavaScript), and experience with at least two of the following: React, Angular v4+, NodeJS, NoSQL databases, HTML5, CSS, Web Services. 1 year of understanding of web services technologies such as REST, HTTPS, JSON Understanding of IBM Mainframe technology, COBOL, JCL, DB2 Have experience with Generative AI and understanding of ethical utilization of AI tools. Have experience with Visual Studio Code IDE Interest and ability to learn other programming languages as needed Demonstrated ability to achieve stretch goals in a highly innovative and fast paced environment Have experience working with agile methodology of scrum Strong sense of ownership, urgency, and drive Demonstrated passion for user experience and improving usability LICENSES or CERTIFICATIONS Required None Preferred None SKILLS Demonstrated ability to achieve stretch goals in a highly innovative and fast paced environment Have experience working with agile methodology of scrum Interest and ability to learn other programming languages as needed Knowledge of professional software engineering practices & best practices for the full software development life cycle, including coding standards, unit testing, code reviews, source control management, build processes, testing, and operations Strong track record in designing and implementing large scale consumer facing applications Strong sense of ownership, urgency, and drive Demonstrated passion for user experience and improving usability Experience and willingness to mentor junior engineers and help develop their skills and leadership Language (Other than English) None Travel Requirement 0% - 25% PHYSICAL, MENTAL DEMANDS and WORKING CONDITIONS Position Type Office-based Teaches / trains others regularly Rarely Travel regularly from the office to various work sites or from site-to-site Occasionally Works primarily out-of-the office selling products/services (sales employees) Never Physical work site required Yes Lifting: up to 10 pounds Constantly Lifting: 10 to 25 pounds Rarely Lifting: 25 to 50 pounds Never Disclaimer: The job description has been designed to indicate the general nature and essential duties and responsibilities of work performed by employees within this job title. It may not contain a comprehensive inventory of all duties, responsibilities, and qualifications required of employees to do this job. Compliance Requirement: This job adheres to the ethical and legal standards and behavioral expectations as set forth in the code of business conduct and company policies. As a component of job responsibilities, employees may have access to covered information, cardholder data, or other confidential customer information that must be protected at all times. In connection with this, all employees must comply with both the Health Insurance Portability Accountability Act of 1996 (HIPAA) as described in the Notice of Privacy Practices and Privacy Policies and Procedures as well as all data security guidelines established within the Company’s Handbook of Privacy Policies and Practices and Information Security Policy. Furthermore, it is every employee’s responsibility to comply with the company’s Code of Business Conduct. This includes but is not limited to adherence to applicable federal and state laws, rules, and regulations as well as company policies and training requirements. Pay Range Minimum: $68,400.00 Pay Range Maximum: $105,900.00 Base pay is determined by a variety of factors including a candidate’s qualifications, experience, and expected contributions, as well as internal peer equity, market, and business considerations. The displayed salary range does not reflect any geographic differential Highmark may apply for certain locations based upon comparative markets. Highmark Health and its affiliates prohibit discrimination against qualified individuals based on their status as protected veterans or individuals with disabilities and prohibit discrimination against all individuals based on any category protected by applicable federal, state, or local law. California Consumer Privacy Act Employees, Contractors, and Applicants Notice Highmark Health is a national, blended health organization that includes one of America’s largest Blue Cross Blue Shield insurers and a growing regional hospital and physician network. Based in Pittsburgh, Pa., Highmark Health’s 35,000 employees serve millions of customers nationwide through the nonprofit organization’s affiliated businesses, which include Highmark Inc., Allegheny Health Network, HM Insurance Group, United Concordia Dental, HM Health Solutions and HM Home & Community Services. Highmark Health’s businesses proudly serve a broad spectrum of health-related needs including health insurance, health care delivery, population health management, dental solutions, reinsurance solutions, and innovative, technology solutions.",
     "company": "HM Health Solutions Inc.",
     "title": "Associate Software Engineer",
@@ -1912,7 +4805,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -1950,7 +4844,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.amax.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Install, configure, and maintain Linux-based operating systems and related system software.",
       "Perform system bring-up, validation, and performance testing for new hardware platforms.",
@@ -1972,63 +4865,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Support customer deployments, system integrations, and proof-of-concept testing as needed."
     ],
     "description": "We are seeking a highly motivated System Engineer to join our Engineering team. This role will focus on the design, deployment, validation, and troubleshooting of high-performance computing systems and server platforms. The ideal candidate has strong experience working with Linux environments, GPU-based computing systems, and enterprise server hardware, along with a passion for solving complex technical challenges.\n\nKey Responsibilities\n\nDesign, configure, and deploy server and HPC systems, including GPU- and AI-based computing platforms.\n\nInstall, configure, and maintain Linux-based operating systems and related system software.\n\nPerform system bring-up, validation, and performance testing for new hardware platforms.\n\nTroubleshoot hardware, firmware, and operating system issues across server and cluster environments.\n\nCollaborate with engineering teams to define system specifications and evaluate the interface between hardware and software to ensure operational and performance requirements are met.\n\nAnalyze technical data to recommend and plan system layouts; provide technical support for sales activities, including configuration development.\n\nReview and approve quotations and assist in the timely resolution of technical issues.\n\nWork closely with engineering, manufacturing, and support teams to resolve system integration challenges.\n\nDevelop and maintain system documentation, installation procedures, and troubleshooting guides.\n\nSupport customer deployments, system integrations, and proof-of-concept testing as needed.\n\nMonitor system performance and recommend improvements to enhance stability, efficiency, and scalability.\n\nAssist in evaluating new technologies, components, and system architectures to improve AMAX solutions.\n\nReview customer system orders to verify and confirm configurations and system requirements.\n\nBachelor’s degree in Computer Engineering, Electrical Engineering, Computer Science, or a related field (or equivalent experience).\n\nFresh grad or 1 year of experience working with server hardware, HPC systems, or data center infrastructure.\n\nStrong experience with Linux operating systems (Ubuntu, CentOS, RHEL, etc.).\n\nExperience working with GPU platforms (NVIDIA preferred) and accelerator-based computing systems.\n\nFamiliarity with server components such as CPUs, memory, storage, networking, and PCIe devices.\n\nExperience troubleshooting hardware and system-level issues.\n\nStrong problem-solving skills and the ability to work in a fast-paced engineering environment.\n\nPreferred Qualifications\n\nKnowledge of cluster environments, networking, and distributed computing is a plus.\n\nScripting experience (Bash, Python, or similar) is a plus.\n\nExperience with AI/ML infrastructure or GPU clusters.\n\nFamiliarity with container technologies such as Docker or Kubernetes.\n\nExperience with system validation, burn-in testing, or failure analysis.\n\nExposure to high-speed networking technologies (InfiniBand, RDMA).\n\nMedical, Dental, Vision Insurance\n\nFlexible spending account\n\nHealth savings account\n\nCommuter benefits\n\nLife and Accidental Insurance\n\nShort- and Long-term Disability Insurance\n\nThe annual salary range for this position is between $80,000 and $95,000. This may be subject to change based on the candidate's education, experience and skill set.\n\nWe also have a perfect location for all types of commuters: AMAX is located right between I-680 and I-880. Warm Springs/South Fremont BART station and bus stops are within a 10-minute walking distance. 5 grocery stores, 6+ coffee/tea places, and numerous restaurants within 1 mile. Feel free to try the delicious fusions or grab your daily groceries after work!\n\nAbout AMAX Established in 1979, AMAX is a globally recognized leader in GPU-accelerated IT infrastructure, specializing in transforming standard IT systems into advanced, high-performance computing solutions. Catering to industries such as AI, cloud computing, autonomous vehicles, and high-performance computing, AMAX has set benchmarks in innovation, including pioneering liquid-cooled HPC systems for the semiconductor industry. With a global footprint spanning North America, Europe, and Asia, AMAX offers end-to-end services from design and manufacturing to deployment. Committed to addressing the growing demands of AI, AMAX delivers advanced solutions that help organizations achieve their technology goal and drive progress on a global scale. To learn more about AMAX’s advanced AI solutions, visit amax.com.\n\nJoin Us Become part of a diverse and inclusive team that values your technical expertise and innovative thinking. Together, we’ll push the boundaries of what’s possible in the hardware industry.\n\nAMAX is proud to be an equal-opportunity employer. We welcome all applicants and provide equal employment opportunities regardless of age, race, gender, or other legally protected characteristics.",
-    "company": "AMAX"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Plano",
-    "postalCode": "75024",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Engineer (Early-Career)",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "jpmc-software-engineer-early-career--plano-tx",
-    "atsProvider": "Direct Career Portal",
-    "company": "Jpmc",
-    "id": "manual-1791273498926",
-    "state": "TX",
-    "datePosted": "2026-10-06",
-    "validThrough": "2026-11-05",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=jpmorganchase.com&sz=128",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210795475",
-    "location": "Plano, TX",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.jpmorganchase.com/",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Computer Engineering, or equivalent practical background.",
-      "0–2 years of backend software development experience in Java, C#, Python, Go, or TypeScript.",
-      "Solid comprehension of object-oriented design patterns, data structures, and relational databases (SQL).",
-      "Familiarity with cloud computing primitives (AWS, Azure, or GCP) and containerization concepts (Docker).",
-      "Proficiency with Git version control, collaborative code reviews, and automated CI/CD tools.",
-      "Strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset."
-    ],
-    "responsibilities": [
-      "Write clean, performant backend code in Java, Python, Go, or C# to power Jpmc's core cloud infrastructure.",
-      "Design and consume RESTful APIs, gRPC services, and event-driven architectures utilizing Kafka or message queues.",
-      "Participate in architectural reviews, CI/CD pipeline automation, and automated container deployment via Kubernetes.",
-      "Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.",
-      "Write comprehensive unit and integration test suites with mock services to achieve high test coverage.",
-      "Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds."
-    ],
-    "description": "Join Jpmc's engineering organization to build reliable, high-availability cloud services and distributed backend systems that serve millions of daily requests with low latency."
+    "company": "AMAX",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -2065,7 +4903,6 @@ export const INITIAL_JOBS: JobPosting[] = [
       "max": 56
     },
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "By submitting your resume, you acknowledge that your Ignite Internships: Software Engineering application will be processed in accordance with NVIDIA’s Applicant Privacy Policy and you agree to our Terms of Service. We’ll review resumes on an ongoing basis, and a recruiter may reach out if your experience fits one of our many internship opportunities. The NVIDIA Ignite Application will be open from 10/5/2026 - 10/18/2026 The NVIDIA Ignite program gives you everything you need to start building your career—a whole lot earlier than you might expect. This inclusive, 12-week summer pre-internship program was created to give current first and second year undergrad students, from a variety of backgrounds, a chance to work hands-on with real technical experts on real projects. It’s a fully immersive experience covering the products, culture, and ecosystem that makes NVIDIA a truly unique place to ignite your career. The 12-week Ignite Internship is located on-site at Santa Clara, CA. NVIDIA will cover one-time round trip expense for students traveling over 50 miles to Santa Clara and provide a supplemental housing stipend to assist with living expenses over the summer. Potential Internships in this field include: AI Machine Learning Automotive Offensive Security Embedded Software GPU SW Engineer Linux/Android/Jetson Embedded Systems Software Software AI Applications Systems Software AV Platform Software Project Manager Intern System Software Robotics Tegra System Software Vulkan Driver Performance What we need to see: Must be a first-year (class of 2030) or second year (class of 2029) undergraduate pursuing a bachelor’s degree at a four-year university in the United States in either of the following: CE, CS, EE, Mathematics, or a related field Anticipated graduation date (month and year) must be clearly indicated on your resume to be considered Demonstrate passion through involvement in relevant clubs, leadership roles, extracurricular projects, and more Enrolled in courses in computing and engineering, specifically geared towards SW basics Basic knowledge of one or more of the following programming languages C, C++, Python, Perl, MATLAB Creativity and problem-solving mentality; willingness to develop new skills; ability to adapt to new experiences The desire to learn new concepts and tools in a growing and evolving workspace Ways to stand out from the crowd: Students seeking their first relevant industry or corporate internship experience Demonstrated initiative to learn about technology, computers, artificial intelligence, machine learning, computer vision, robotics, parallel computing, etc. Understanding of VLSI design, computer architecture Basic knowledge of Linux, PyTorch, or other frameworks Why NVIDIA? We’re all about redefining the future. You can see it in our AI and visual computing technologies, from the data center and self-driving cars to gaming and robots. NVIDIA is widely considered to be one of the technology world’s most desirable employers. We have some of the most dedicated and passionate people on the planet working for us. Apply now to begin your life’s work! Our internship hourly rates are a standard pay based on the position, your location, year in school, degree, and experience. The hourly rate for our interns is 20 USD - 56 USD. You will also be eligible for Intern benefits. Applications are accepted on an ongoing basis. This posting is for an existing vacancy. NVIDIA uses AI tools in its recruiting processes. NVIDIA is committed to fostering an inclusive work environment and proud to be an equal opportunity employer. As we highly value diversity in our current and future employees, we do not discriminate (including in our hiring and promotion practices) on the basis of race, religion, color, national origin, gender, gender expression, sexual orientation, age, marital status, veteran status, disability status or any other characteristic protected by law. NVIDIA pioneered accelerated computing. Today, our AI infrastructure powers global intelligence, transforming every industry. Learn more about NVIDIA.",
     "company": "2100 NVIDIA USA",
     "title": "NVIDIA 2027 Ignite Internships: Software Engineering",
@@ -2084,7 +4921,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -2142,10 +4980,10 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.autodesk.com/in",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Job Requisition ID # 26WD101433 Position Overview As a Research Intern at Autodesk, you’ll explore how multimodal AI can help us better understand human experience in real and simulated built environments. Working with a multidisciplinary research team across AI, spatial computing, AEC, and human perception, you’ll develop and evaluate methods that connect representations of the built environment with perceptual, affective, and experiential responses. Your work may include multimodal foundation models, AI agents, world models, and physiological signals such as EEG. You’ll build research prototypes, develop evaluation methods and benchmarks, and explore how this research could inform future Autodesk design workflows. Responsibilities Research multimodal AI approaches for understanding built environments and human experience Develop methods using foundation models, AI agents, and/or world models Work with multimodal datasets, including visual, spatial, behavioral, and physiological data Design experiments and benchmarks to evaluate AI predictions against human responses Build and evaluate research prototypes for real and simulated environments Document and communicate findings through papers, presentations, and demonstrations Minimum Qualifications Currently pursuing a PhD in Computer Science, Machine Learning, Computational Neuroscience, Cognitive Science, HCI, Robotics, Computational Design, or a related field - with a completion date in 2028 or later Research experience in AI/ML, computer vision, human perception, or a related computational field Strong programming skills, ideally with Python and modern ML frameworks Experience designing computational experiments and working with complex datasets Strong collaboration and communication skills Preferred Qualifications Experience in one or more of the following: multimodal AI or vision-language models; world models, AI agents, or spatial intelligence; 3D, simulation, or virtual environments; human perception or human-centered AI; physiological or behavioral signals such as EEG or eye tracking; human-subject research; AEC or computational design; or Autodesk tools such as Forma. About the Research Intern Program (US) The 2027 Research Internship Program is a 16-week paid program running from May 24th to Sept 10, 2027. You’ll contribute to meaningful projects, learn from industry leaders, and take part in tech talks and development opportunities. Internships align with Autodesk’s Flexible Workplace approach, supporting office, remote, and hybrid work based on business and team needs. Learn More About Autodesk Welcome to Autodesk! Amazing things are created every day with our software – from the greenest buildings and cleanest cars to the smartest factories and biggest hit movies. We help innovators turn their ideas into reality, transforming not only how things are made, but what can be made. We take great pride in our culture here at Autodesk – it’s at the core of everything we do. Our culture guides the way we work and treat each other, informs how we connect with customers and partners, and defines how we show up in the world. When you’re an Autodesker, you can do meaningful work that helps build a better world designed and made for all. Ready to shape the world and your future? Join us! Salary Transparency Salary is one part of Autodesk’s competitive compensation package. Offers are based on the candidate’s experience, educational level, and geographic location, and can exceed this range. For U.S.-based roles, we expect a starting annualized intern base salary to be between: $47,840 and $95,680 (undergraduate students) $72,800 and $118,500 (Masters/MBA students) $118,560 and $162,240 (PhD students) Equal Employment Opportunity At Autodesk, we're building a diverse workplace and an inclusive culture to give more people the chance to imagine, design, and make a better world. Autodesk is proud to be an equal opportunity employer and considers all qualified applicants for employment without regard to race, color, religion, age, sex, sexual orientation, gender, gender identity, national origin, disability, veteran status or any other legally protected characteristic. We also consider for employment all qualified applicants regardless of criminal histories, consistent with applicable law. Belonging We take pride in cultivating a culture of belonging where everyone can thrive. Learn more here: https://www.autodesk.com/company/global-belonging In-Person Onboarding and Identity Verification This role may require in-person onboarding and/or in-person ID verification. Welcome to Autodesk! Amazing things are created every day with our software – from the greenest buildings and cleanest cars to the smartest factories and biggest hit movies. We help innovators turn their ideas into reality, transforming not only how things are made, but what can be made. We take great pride in our culture here at Autodesk – it’s at the core of everything we do. Our culture guides the way we work and treat each other, informs how we connect with customers and partners, and defines how we show up in the world. When you’re an Autodesker, you can do meaningful work that helps build a better world designed and made for all. Ready to shape the world and your future? Join us!",
     "company": "Autodesk Inc.",
-    "title": "PhD Researcher, Multimodal AI for Human Experience"
+    "title": "PhD Researcher, Multimodal AI for Human Experience",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -2182,7 +5020,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://caci.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Job Title: Software Development Intern - Summer 2027 Job Category: Intern/Co-op Time Type: Part time Minimum Clearance Required to Start: None Employee Type: Part-Time On-Call Percentage of Travel Required: None Type of Travel: None * * * The Opportunity: CACI is seeking a software developer intern for Summer 2027 on-site in our Oklahoma City office. You will have the opportunity to: • Produce detailed specifications and write software code utilizing .NET/C#, JAVA, and JavaScript. • Participate in learning and coding Workday integrations. • Develop front end as well as back-end console applications. • Participate in migrating complex batch jobs to Boomi. • Conduct impact analysis for software changes. • Work closely with business analysts, designers, and subject matter experts to understand functional requirements. • Conduct unit tests and document findings. • Support formal testing in controlled environment before code is promoted to production. • Employ best practices for design, development, unit testing and test plan development and develop software user manuals. Responsibilities: • Work with a team of developers in an Agile Scrum environment. • Present ideas for system improvements. • Develop LOE estimates for software developments or enhancements. • Provide input into training manuals for users. • Develop and maintain knowledge of back-office systems, including technical changes in the application(s). Qualifications: Required: Must be an Undergraduate or Graduate student, pursing a degree in Computer Science or related field. Coursework or experience in C++ programming Ability to build and maintain effective working relationships with fellow programmers, system engineers, test engineer, and other team members. Ability to obtain and maintain a Secret security clearance. Must be legally authorized to work in the United States without the need for employer sponsorship, now or at any time in the future. Desired: Knowledge in multiple object-oriented programming languages. Understanding of the software development life cycle. Desire to learn Workday integrations - What You Can Expect: A culture of integrity. At CACI, we place character and innovation at the center of everything we do. As a valued team member, you’ll be part of a high-performing group dedicated to our customer’s missions and driven by a higher purpose – to ensure the safety of our nation. An environment of trust. CACI values the unique contributions that every employee brings to our company and our customers - every day. You’ll have the autonomy to take the time you need through a unique flexible time off benefit and have access to robust learning resources to make your ambitions a reality. A focus on continuous growth. Together, we will advance our nation's most critical missions, build on our lengthy track record of business success, and find opportunities to break new ground — in your career and in our legacy. Pay Range: There are a host of factors that can influence final salary including, but not limited to, geographic location, Federal Government contract labor categories and contract wage rates, relevant prior work experience, specific skills and competencies, education, and certifications. Our employees value the flexibility at CACI that allows them to balance quality work and their personal lives. We offer competitive compensation, benefits and learning and development opportunities. Our broad and competitive mix of benefits options is designed to support and protect employees and their families. At CACI, you will receive comprehensive benefits such as; healthcare, wellness, financial, retirement, family support, continuing education, and time off benefits. The proposed salary range for this position is: $39,400 - $71,800 CACI is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, pregnancy, sexual orientation, age, national origin, disability, status as a protected veteran, or any other protected characteristic. Click on Search Jobs to find and apply to CACI openings.",
     "company": "02 CACI, INC.-FEDERAL",
     "title": "Software Development Intern - Summer 2027",
@@ -2201,7 +5038,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Write automated unit, regression, and integration tests to guarantee zero defects in production deployments.",
       "Deploy software components within Linux environments utilizing Docker containerization and modern Git workflows.",
       "Troubleshoot system-level issues, analyze execution logs, and optimize computational performance."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -2238,7 +5076,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://motorolasolutions.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Company Overview At Motorola Solutions, we believe that everything starts with our people. We’re a global close-knit community, united by the relentless pursuit to help keep people safer everywhere. We build and connect technologies to help protect people, property and places. Our solutions foster the collaboration that’s critical for safer communities, safer schools, safer hospitals, safer businesses, and ultimately, safer nations. Connect with a career that matters, and help us build a safer future. Department Overview Devices Android Application Development Team is responsible for architecting, designing Android applications for use by Public Safety customers. Job Description Responsibilities will range from requirements gathering, architecture, design, development, testing, deploying, maintaining, and enhancing Android mobile applications. Desired skills but not required: Kotlin software experience Familiarity with wide range of Android Framework components such as Bluetooth, Sensors, Widgets, Services, etc. Familiarity with Android security features and mechanisms Familiarity with RESTful APIs to connect applications to back-end services Knowledge of Git, Object oriented development, Agile software development methodologies Demonstrated experience in mobile application software development on Android (Android Studio, and Android frameworks) Basic Requirements Currently pursuing a Bachelor's or Master's degree in Computer Science or a technical discipline is required. Must have a graduation date on or after December 2027. Must be a US Citizen, permanent resident or be an MS student with work authorization (F1 Visa on CPT accepted only for masters-level students). Travel Requirements None Relocation Provided None Position Type Intern EEO Statement Motorola Solutions is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion or belief, sex, sexual orientation, gender identity, national origin, disability, veteran status or any other legally-protected characteristic. We are proud of our people-first and community-focused culture, empowering every Motorolan to be their most authentic self and to do their best work to deliver on the promise of a safer world. If you’d like to join our team but feel that you don’t quite meet all of the preferred skills, we’d still love to hear why you think you’d be a great addition to our team. We’re committed to providing an inclusive and accessible recruiting experience for candidates with disabilities, or other physical or mental health conditions. To request an accommodation, please complete this Reasonable Accommodations Form so we can assist you. MOTOROLA SOLUTIONS OVERVIEW At Motorola Solutions, we believe that everything starts with our people. We’re a global close-knit community, united by the relentless pursuit to help keep people safer everywhere. We build and connect technologies to help protect people, property and places. Our solutions foster the collaboration that’s critical for safer communities, safer schools, safer hospitals, safer businesses, and ultimately, safer nations. Connect with a career that matters, and help us build a safer future. Learn more at www.motorolasolutions.com. If you are a current Motorola Solutions employee, please click this link to apply through your Workday account.",
     "company": "100000 Motorola Solutions, Inc.",
     "title": "Android Applications Developer Intern - Summer 2027",
@@ -2257,63 +5094,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Write automated end-to-end and component tests using modern testing frameworks to safeguard release velocity.",
       "Profile application performance, eliminating re-renders, reducing bundle sizes, and optimizing asset delivery.",
       "Participate in agile sprint ceremonies, code reviews, and continuous improvements to the design system."
-    ]
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "University Grad Software Engineer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 129000,
-      "max": 174000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
     ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "pinterestcareers-university-grad-software-engineer-united-states-hybrid",
-    "atsProvider": "Direct Career Portal",
-    "company": "Pinterestcareers",
-    "id": "manual-1791187925437",
-    "state": "CA",
-    "datePosted": "2026-10-05",
-    "validThrough": "2026-11-04",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=pinterestcareers.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://www.pinterestcareers.com/jobs/7838591/university-grad-software-engineer-2027-usa/",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.pinterestcareers.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Pinterestcareers.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Pinterestcareers is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -2350,7 +5132,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://nvidia.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "By submitting your resume, you acknowledge that your Ignite Internships: Software Engineering application will be processed in accordance with NVIDIA’s Applicant Privacy Policy and you agree to our Terms of Service. We’ll review resumes on an ongoing basis, and a recruiter may reach out if your experience fits one of our many internship opportunities. The NVIDIA Ignite Application will be open from 10/5/2026 - 10/18/2026 The NVIDIA Ignite program gives you everything you need to start building your career—a whole lot earlier than you might expect. This inclusive, 12-week summer pre-internship program was created to give current first and second year undergrad students, from a variety of backgrounds, a chance to work hands-on with real technical experts on real projects. It’s a fully immersive experience covering the products, culture, and ecosystem that makes NVIDIA a truly unique place to ignite your career. The 12-week Ignite Internship is located on-site at Santa Clara, CA. NVIDIA will cover one-time round trip expense for students traveling over 50 miles to Santa Clara and provide a supplemental housing stipend to assist with living expenses over the summer. Potential Internships in this field include: AI Developer Technology ASIC Physical Design and Timing GPU Verification and Design Hardware ASIC Hardware CPU Infrastructure Hardware Infrastructure Content/Performance Power Architect What we need to see: Must be a first-year (class of 2030) or second year (class of 2029) undergraduate pursuing a bachelor’s degree at a four-year university in the United States in either of the following: EE, CE, CS, Mathematics, or a related field Anticipated graduation date (month and year) must be clearly indicated on your resume to be considered Demonstrate passion through involvement in relevant clubs, leadership roles, extracurricular projects, and more Enrolled in courses in computing and engineering, specifically geared towards Hardware basics Basic knowledge of one or more of the following programming languages C, C++, Python, Perl, MATLAB Creativity and problem-solving mentality; willingness to develop new skills; ability to adapt to new experiences The desire to learn new concepts and tools in a growing and evolving workspace Ways to stand out from the crowd: Students seeking their first relevant industry or corporate internship experience Demonstrated initiative to learn about technology, computers, artificial intelligence, machine learning, computer vision, robotics, parallel computing, etc. Basic knowledge of one of the following CAD Skills: Catia, SiemensNX, Solidworks Creo Understanding of VLSI Design, Computer Architecture, Computer Arithmetic, CMOS Transistors, and Circuits Basic knowledge of Verilog, SystemVerilog, or VHDL Background in modern GPU API’s (CUDA, OpenCL) Why NVIDIA? We’re all about redefining the future. You can see it in our AI and visual computing technologies, from the data center and self-driving cars to gaming and robots. NVIDIA is widely considered to be one of the technology world’s most desirable employers. We have some of the most dedicated and passionate people on the planet working for us. Apply now to begin your life’s work! Our internship hourly rates are a standard pay based on the position, your location, year in school, degree, and experience. The hourly rate for our interns is 20 USD - 56 USD. You will also be eligible for Intern benefits. Applications are accepted on an ongoing basis. This posting is for an existing vacancy. NVIDIA uses AI tools in its recruiting processes. NVIDIA is committed to fostering an inclusive work environment and proud to be an equal opportunity employer. As we highly value diversity in our current and future employees, we do not discriminate (including in our hiring and promotion practices) on the basis of race, religion, color, national origin, gender, gender expression, sexual orientation, age, marital status, veteran status, disability status or any other characteristic protected by law. NVIDIA pioneered accelerated computing. Today, our AI infrastructure powers global intelligence, transforming every industry. Learn more about NVIDIA.",
     "company": "2100 NVIDIA USA",
     "title": "NVIDIA 2027 Ignite Internships: Hardware Engineering",
@@ -2369,63 +5150,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Author automated hardware-in-the-loop (HIL) test suites to validate firmware safety, timing constraints, and fault recovery.",
       "Collaborate with hardware design and systems engineers to optimize memory footprint, power management, and clock configurations.",
       "Document register maps, communication interfaces, and diagnostic procedures for production manufacturing testing."
-    ]
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 0,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Engineering Intern Tools and Prototypes",
-    "salary": {
-      "unit": "HOUR",
-      "min": 28,
-      "max": 30,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
     ],
-    "experienceLevel": "Internship",
-    "fingerprint": "quantumsignalai-software-engineering-intern-tools-and-prototypes-united-states-hybrid",
-    "atsProvider": "JazzHR",
-    "company": "Quantumsignalai",
-    "id": "manual-1791215275076",
-    "state": "CA",
-    "datePosted": "2026-10-05",
-    "validThrough": "2026-11-04",
-    "employmentType": "INTERN",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=quantumsignalai.com&sz=128",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://quantumsignalai.applytojob.com/apply/MWrhQD8Hn9/Software-Engineering-Intern-Tools-And-Prototypes",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://quantumsignalai.com/",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Quantumsignalai.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Quantumsignalai is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -2462,7 +5188,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://micron.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Our vision is to transform how the world uses information to enrich life for all. Micron Technology is a world leader in innovating memory and storage solutions that accelerate the transformation of information into intelligence, inspiring the world to learn, communicate and advance faster than ever. For more than 45 years, Micron Technology has driven innovation through industry-leading memory and semiconductor solutions. The Design Engineering organization develops advanced silicon-to-systems technologies by bringing together global, diverse teams that foster collaboration, technical excellence, and continuous innovation. As a Design Engineer, you will contribute to the design, simulation, optimization, and validation of memory products across the full product lifecycle. This role partners closely with global design, verification, product engineering, test, process integration, assembly, and marketing teams to deliver high-quality, manufacturable solutions that optimize performance, reliability, cost, and time-to-market. Responsibilities Design, simulate, and optimize digital and analog memory circuits, including memory arrays, control logic, address decoding, datapaths, and internal test circuitry. Perform circuit analysis and debug using industry-standard tools such as SPICE and Verilog, evaluating power, performance, area, and reliability tradeoffs. Analyze layout parasitics, support design rule optimization, and translate device specifications into robust die-level circuit functionality across operating conditions. Support test chip planning, silicon validation, characterization, and lab correlation activities to ensure successful product development. Collaborate with multi-functional teams and leverage Artificial Intelligence and AI-Assisted technologies to identify design improvements, accelerate development, and drive innovation. Minimum Qualifications Bachelor’s or Master's degree or higher in Electrical Engineering. Foundational knowledge of memory architectures, memory applications, and CMOS device behavior. Experience with circuit simulation setup, analysis, and debug using tools such as SPICE, Verilog, or equivalent. Demonstrated ability to evaluate circuit performance and fix design-related issues. Strong written and verbal communication skills, with the ability to effectively communicate technical concepts in a collaborative team environment. Preferred Qualifications Experience with memory circuit design, layout optimization, and performance tuning. Knowledge of CMOS process reliability considerations and design limitations. Exposure to silicon validation, characterization, test chip development, or product bring-up activities. Experience working within global, multi-functional engineering teams. Demonstrated ability to leverage AI, Generative AI, or AI-Enabled tools to improve engineering productivity, analysis, or design workflows. As a world leader in the semiconductor industry, Micron is dedicated to your personal wellbeing and professional growth. Micron benefits are designed to help you stay well, provide peace of mind and help you prepare for the future. We offer a choice of medical, dental and vision plans in all locations enabling team members to select the plans that best meet their family healthcare needs and budget. Micron also provides benefit programs that help protect your income if you are unable to work due to illness or injury, and paid family leave. Additionally, Micron benefits include a robust paid time-off program and paid holidays. For additional information regarding the Benefit programs available, please see the Benefits Guide posted on micron.com/careers/benefits. Micron is proud to be an equal opportunity workplace and is an affirmative action employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, age, national origin, citizenship status, disability, protected veteran status, gender identity or any other factor protected by applicable federal, state, or local laws. To learn about your right to work click here. To learn more about Micron, please visit micron.com/careers For US Sites Only: To request assistance with the application process and/or for reasonable accommodations, please contact Micron’s People Organization at hrsupport_na@micron.com or 1-800-336-8918 (select option #3) Micron Prohibits the use of child labor and complies with all applicable laws, rules, regulations, and other international and industry labor standards. Micron does not charge candidates any recruitment fees or unlawfully collect any other payment from candidates as consideration for their employment with Micron. AI alert: Candidates are encouraged to use AI tools to enhance their resume and/or application materials. However, all information provided must be accurate and reflect the candidate's true skills and experiences. Misuse of AI to fabricate or misrepresent qualifications will result in immediate disqualification. Fraud alert: Micron advises job seekers to be cautious of unsolicited job offers and to verify the authenticity of any communication claiming to be from Micron by checking the official Micron careers website in the About Micron Technology, Inc.",
     "company": "1000 Micron Technology, Inc.",
     "title": "New College Grad - Semiconductor Design Engineer, DRAM Products Group",
@@ -2481,7 +5206,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Author automated hardware-in-the-loop (HIL) test suites to validate firmware safety, timing constraints, and fault recovery.",
       "Collaborate with hardware design and systems engineers to optimize memory footprint, power management, and clock configurations.",
       "Document register maps, communication interfaces, and diagnostic procedures for production manufacturing testing."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -2541,8 +5267,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://primient.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nA supportive program where aspiring engineers work on real product deliverables alongside seasoned mentors, gaining foundational industry credentials.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Python, SQL, Machine Learning, PyTorch), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPrimient is actively seeking an AI Analyst Intern Summer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features."
+    "description": "🎯 The FreshCommits Career Take:\nA supportive program where aspiring engineers work on real product deliverables alongside seasoned mentors, gaining foundational industry credentials.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (Python, SQL, Machine Learning, PyTorch), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in United States / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nPrimient is actively seeking an AI Analyst Intern Summer to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -2580,7 +5306,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://pangramlabs.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Currently pursuing an M.S. or Ph.D. in Computer Science/Artificial Intelligence. Exceptional undergraduates entering their senior year are welcome to apply.",
       "Prior research experience that has resulted in a published paper in a top AI venue.",
@@ -2597,7 +5322,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Implement robust inference endpoints with Python, PyTorch, and modern serving frameworks (vLLM, HuggingFace, FastAPI).",
       "Collaborate with research scientists and infrastructure engineers to profile GPU memory consumption and distributed training runs.",
       "Document experimental hypotheses, quantitative results, and ablation studies in team technical reports."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.310Z"
   },
   {
     "country": "US",
@@ -2652,8 +5378,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://affirm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nAn engaging opening for junior engineers eager to build responsive user interfaces and modern component architectures. Affirm provides structured pair programming and active design-system collaboration.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, Kotlin, React, Vue and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation Range: Verified employer range of ~USD 165k–225k/year with career progression reviews.\n• Location: Based in Remote US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAt Affirm, we exist for the moments that matter—giving people a clear, predictable way to pay over time, with no hidden fees, no surprises, and no tradeoffs on what matters most.\n\nThe Marketplace and App Experience domain is the main pillar of our core consumer strategy, driving the user journey across all of our frontend surfaces: Mobile and Web. The teams span across multiple products and areas to engage and provide value to our customers, starting with the Home hub in the app or website, which expands into the various product offers and journeys a user can embark on with Affirm. This role will be at the forefront of our front-end facing cross-team projects, working closely with other teams and engineers across our mobile and web technologies, while also evolving and collaborating with every product experience team at Affirm."
+    "description": "🎯 The FreshCommits Career Take:\nAn engaging opening for junior engineers eager to build responsive user interfaces and modern component architectures. Affirm provides structured pair programming and active design-system collaboration.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Python, Kotlin, React, Vue and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Portfolio Signal: Highlight a GitHub repository or project demonstrating clean version control and structured documentation.\n• Compensation Range: Verified employer range of ~USD 165k–225k/year with career progression reviews.\n• Location: Based in Remote US (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAt Affirm, we exist for the moments that matter—giving people a clear, predictable way to pay over time, with no hidden fees, no surprises, and no tradeoffs on what matters most.\n\nThe Marketplace and App Experience domain is the main pillar of our core consumer strategy, driving the user journey across all of our frontend surfaces: Mobile and Web. The teams span across multiple products and areas to engage and provide value to our customers, starting with the Home hub in the app or website, which expands into the various product offers and journeys a user can embark on with Affirm. This role will be at the forefront of our front-end facing cross-team projects, working closely with other teams and engineers across our mobile and web technologies, while also evolving and collaborating with every product experience team at Affirm.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -2714,119 +5440,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://palona.ai/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 0,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Engineer Intern Summer",
-    "salary": {
-      "unit": "HOUR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Internship",
-    "fingerprint": "ea-software-engineer-intern-summer-united-states-hybrid",
-    "atsProvider": "Direct Career Portal",
-    "company": "Ea",
-    "id": "manual-1791135754357",
-    "state": "CA",
-    "datePosted": "2026-10-04",
-    "validThrough": "2026-11-03",
-    "employmentType": "INTERN",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=ea.com&sz=128",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.ea.com/en_US/careers/JobDetail/Software-Engineer-Intern-Summer-2027/216239",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.ea.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Ea.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Ea is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Seattle, WA / Hybrid",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Development Engineer Amazon Dedicated Cloud Early Career",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "amazon-software-development-engineer-amazon-dedicated-cloud-early-career-seattle-wa-hybrid-hybrid",
-    "atsProvider": "Amazon Jobs",
-    "company": "Amazon",
-    "id": "manual-1791134255977",
-    "state": "CA",
-    "datePosted": "2026-10-04",
-    "validThrough": "2026-11-03",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://amazon.jobs/en/jobs/10529546/software-development-engineer-amazon-dedicated-cloud-early-career-2026-amazon-dedicated-cloud-",
-    "location": "Seattle, WA / Hybrid / Hybrid",
-    "category": "DevOps / Cloud",
-    "companyWebsite": "https://amazon.jobs",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Computer Engineering, or equivalent practical background.",
-      "0–2 years of backend software development experience in Java, C#, Python, Go, or TypeScript.",
-      "Solid comprehension of object-oriented design patterns, data structures, and relational databases (SQL).",
-      "Familiarity with cloud computing primitives (AWS, Azure, or GCP) and containerization concepts (Docker).",
-      "Proficiency with Git version control, collaborative code reviews, and automated CI/CD tools.",
-      "Strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset."
-    ],
-    "responsibilities": [
-      "Write clean, performant backend code in Java, Python, Go, or C# to power Amazon's core cloud infrastructure.",
-      "Design and consume RESTful APIs, gRPC services, and event-driven architectures utilizing Kafka or message queues.",
-      "Participate in architectural reviews, CI/CD pipeline automation, and automated container deployment via Kubernetes.",
-      "Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.",
-      "Write comprehensive unit and integration test suites with mock services to achieve high test coverage.",
-      "Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds."
-    ],
-    "description": "Join Amazon's engineering organization to build reliable, high-availability cloud services and distributed backend systems that serve millions of daily requests with low latency."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -2864,7 +5478,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://x.ai/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "&lt;li&gt;Must be enrolled in a bachelor’s degree or graduate program&lt;/li&gt;",
       "&lt;li&gt;3+ months of software programming or development experience&lt;/li&gt;",
@@ -2884,63 +5497,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Implement robust inference endpoints with Python, PyTorch, and modern serving frameworks (vLLM, HuggingFace, FastAPI).",
       "Collaborate with research scientists and infrastructure engineers to profile GPU memory consumption and distributed training runs.",
       "Document experimental hypotheses, quantitative results, and ablation studies in team technical reports."
-    ]
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Engineer, Forward Deploy -- New Graduate '27",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
     ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "parasail-software-engineer-forward-deploy-new-graduate-27-united-states-hybrid",
-    "atsProvider": "Ashby",
-    "company": "Parasail",
-    "id": "manual-1791133968306",
-    "state": "CA",
-    "datePosted": "2026-10-04",
-    "validThrough": "2026-11-03",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=parasail.com",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.ashbyhq.com/parasail/da595923-4e35-4ba1-875d-383276069cf7",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://parasail.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Parasail.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Parasail is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -2979,7 +5537,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://harvey.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Strong proficiency in one or more languages (Python, TypeScript/JavaScript, Java, Go, or similar) and solid general computer science knowledge.",
       "You aren't satisfied when something merely works. You proactively seek out feedback, act on it, and keep pushing after the assignment is technically complete. Past internship experience at an early-stage startup is a plus.",
@@ -2995,7 +5552,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Able to work from our New York or San Francisco office starting in January 2027 and beyond, based on your graduation schedule. Relocation support is available.",
       "Previous internship experience is required."
     ],
-    "description": "At Harvey, we’re transforming how legal and professional services operate. By combining frontier agentic AI, an enterprise-grade platform, and deep domain expertise, we’re reshaping how critical knowledge work gets done for decades to come.\n\nThis is a rare chance to help build a generational company at a true inflection point. We have strong product-market fit and world-class investor support. We’re scaling fast and defining a new category in real time. The work is ambitious, the bar is high, and the opportunity for growth — personal, professional, and financial — is unmatched.\n\nOur team moves fast, takes ownership, and is deeply committed to the mission — operating with intensity, staying close to our customers, and pushing each other for excellence. We live by three values: Decisiveness, Simplicity, and Job's Not Finished. We act quickly on clear judgment over perfect information, we believe simplicity is what scales, and we're never satisfied with where we are. If you want to do the best work of your career alongside people who share that drive, we'd love to build with you.\n\nAt Harvey, the future of professional services is being written today — and we’re just getting started.\n\nThe Software Engineer, New Grad joins Harvey's Engineering team, working alongside experienced engineers to build the AI-powered systems that serve the world's leading law firms and enterprises. The team's mission is to deliver secure, intuitive, and high-performance application-layer experiences that turn frontier AI capabilities into real customer value. This role offers an accelerated path to ownership, contributing production code to features spanning retrieval, document intelligence, and workflow automation from day one. It is an opportunity to develop rapidly at the intersection of AI and professional services, with direct exposure to how engineers shape a category-defining product.\n\nWe're currently hiring new grads to start in 2027 across multiple teams and roles, including Frontend, Backend, Full-Stack, Infrastructure, and Applied AI roles. Your interests & experience will be factored into our team matching process, where you’ll have the opportunity to learn about teams across Harvey including Agents, Applied AI, Assistant, Enterprise, Infrastructure, Mobile, Vault and many others.\n\nStrong proficiency in one or more languages (Python, TypeScript/JavaScript, Java, Go, or similar) and solid general computer science knowledge.\n\nYou have a bias toward action. You've built something start to finish in coursework, a personal project, or a past internship, and you know the difference between a decision you should make yourself and one worth getting feedback on. You'd rather move and correct course than stall.\n\nYou can explain a complex technical idea in plain language, whether or not the person you're explaining it to is an engineer. You look for the simplest solution that works, and you know when added complexity is worth it.\n\nYou aren't satisfied when something merely works. You proactively seek out feedback, act on it, and keep pushing after the assignment is technically complete. Past internship experience at an early-stage startup is a plus.\n\nComfortable using AI-assisted development tools such as Claude Code, Codex, Cursor, and curious about building LLMs into your own coding workflow."
+    "description": "At Harvey, we’re transforming how legal and professional services operate. By combining frontier agentic AI, an enterprise-grade platform, and deep domain expertise, we’re reshaping how critical knowledge work gets done for decades to come.\n\nThis is a rare chance to help build a generational company at a true inflection point. We have strong product-market fit and world-class investor support. We’re scaling fast and defining a new category in real time. The work is ambitious, the bar is high, and the opportunity for growth — personal, professional, and financial — is unmatched.\n\nOur team moves fast, takes ownership, and is deeply committed to the mission — operating with intensity, staying close to our customers, and pushing each other for excellence. We live by three values: Decisiveness, Simplicity, and Job's Not Finished. We act quickly on clear judgment over perfect information, we believe simplicity is what scales, and we're never satisfied with where we are. If you want to do the best work of your career alongside people who share that drive, we'd love to build with you.\n\nAt Harvey, the future of professional services is being written today — and we’re just getting started.\n\nThe Software Engineer, New Grad joins Harvey's Engineering team, working alongside experienced engineers to build the AI-powered systems that serve the world's leading law firms and enterprises. The team's mission is to deliver secure, intuitive, and high-performance application-layer experiences that turn frontier AI capabilities into real customer value. This role offers an accelerated path to ownership, contributing production code to features spanning retrieval, document intelligence, and workflow automation from day one. It is an opportunity to develop rapidly at the intersection of AI and professional services, with direct exposure to how engineers shape a category-defining product.\n\nWe're currently hiring new grads to start in 2027 across multiple teams and roles, including Frontend, Backend, Full-Stack, Infrastructure, and Applied AI roles. Your interests & experience will be factored into our team matching process, where you’ll have the opportunity to learn about teams across Harvey including Agents, Applied AI, Assistant, Enterprise, Infrastructure, Mobile, Vault and many others.\n\nStrong proficiency in one or more languages (Python, TypeScript/JavaScript, Java, Go, or similar) and solid general computer science knowledge.\n\nYou have a bias toward action. You've built something start to finish in coursework, a personal project, or a past internship, and you know the difference between a decision you should make yourself and one worth getting feedback on. You'd rather move and correct course than stall.\n\nYou can explain a complex technical idea in plain language, whether or not the person you're explaining it to is an engineer. You look for the simplest solution that works, and you know when added complexity is worth it.\n\nYou aren't satisfied when something merely works. You proactively seek out feedback, act on it, and keep pushing after the assignment is technically complete. Past internship experience at an early-stage startup is a plus.\n\nComfortable using AI-assisted development tools such as Claude Code, Codex, Cursor, and curious about building LLMs into your own coding workflow.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3051,8 +5609,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://arcboatcompany.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Arcboatcompany.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (TypeScript, Python, Go, AWS), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Torrance, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWhat we’re building\n\nThe marine industry supports recreation, global commerce, and national defense. And yet it runs on technology that hasn't meaningfully changed in fifty years. Until now.\n\nArc is on a mission to electrify the marine industry. We're rethinking powertrains, software, and vessel designs from first principles. And we're already executing. We started with consumers to develop and harden our core technology. We’re now scaling production of our flagship model with new models and sectors on the horizon. Now we’re extending our platform to commercial applications, starting with tugs, ferries, and defense, with years worth of signed contracts and a pipeline that spans every vessel type on the water."
+    "description": "🎯 The FreshCommits Career Take:\nAn immersive opportunity for entry-level talent to experience authentic production sprints, version control workflows, and senior code reviews at Arcboatcompany.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on core computer science foundations (TypeScript, Python, Go, AWS), Git workflow, and code documentation.\n• Interview Focus: Mentors evaluate foundational problem-solving, intellectual curiosity, willingness to learn, and collaborative team communication.\n• Portfolio Signal: Highlight an academic capstone, hackathon build, or open-source contribution with clear Git commit history.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Torrance, CA (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWhat we’re building\n\nThe marine industry supports recreation, global commerce, and national defense. And yet it runs on technology that hasn't meaningfully changed in fifty years. Until now.\n\nArc is on a mission to electrify the marine industry. We're rethinking powertrains, software, and vessel designs from first principles. And we're already executing. We started with consumers to develop and harden our core technology. We’re now scaling production of our flagship model with new models and sectors on the horizon. Now we’re extending our platform to commercial applications, starting with tugs, ferries, and defense, with years worth of signed contracts and a pipeline that spans every vessel type on the water.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3092,7 +5650,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://opploans.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "&lt;li&gt;Collaborate with business and technical professionals across the organization in an Agile framework to ensure technical systems are well-designed.&lt;/li&gt;",
       "&lt;li&gt;Experience interpreting and refining our technical issues into relevant implementable requirements, to be delivered as a large-scale project from concept to production.&lt;/li&gt;",
@@ -3112,7 +5669,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3149,7 +5707,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://quantic.edu/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "QA every ad, landing page, and email before it ships: copy, links, UTMs, pixels, and rendering on mobile.",
       "This role is a starting point. Someone who performs here can grow into a lifecycle marketing, paid media, admissions operations, or analytics role.",
@@ -3166,68 +5723,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "We are hiring a Marketing Manager to join the two teams that take a prospective student from first ad click to registered student at our next-generation graduate school. This is an entry-level role. You will work across direct response marketing and admissions operations: pulling and building reports, QA-ing ads, emails, and landing pages, maintaining CRM and scheduling tools, and taking on the ad hoc projects that keep both teams moving.\n\nMarketing owns demand: paid campaigns across LinkedIn, Meta, and Google, the landing pages they drive to, and the lifecycle messaging that turns a lead into an applicant. Admissions team owns the applicant: the interview team, candidate communications, interview scheduling, and every stage from application through interview, consult, and registration. This role sits between the two.\n\nWe are not hiring for experience. We are hiring for raw intelligence, work ethic, and AI fluency. You should already use Claude, ChatGPT, or similar tools every day and want to use them all day: to draft, to analyze, to QA, to learn a new tool in an afternoon, and to automate the work that does not need a human. Everything else about marketing and admissions can be taught, and we will teach it.\n\nCore Responsibilities\n\nMarketing Support\n\nPull weekly and monthly performance reports across LinkedIn Ads, Meta, and Google Ads: spend, leads, cost per application, and conversion by segment.\n\nQA every ad, landing page, and email before it ships: copy, links, UTMs, pixels, and rendering on mobile.\n\nBuild and update campaign assets in the ad platforms: audiences, ad copy variants, naming conventions, and UTM taxonomy.\n\nResearch newsletter placements, audiences, and new tools, and bring back a written recommendation.\n\nKeep campaign documentation current: what is live, what it targets, and what it says.\n\nAdmissions Support\n\nLearn the admissions process end to end: application, invite to interview, interview, consult, and registration, and the Airtable fields and views behind each stage.\n\nMaintain Calendly configuration and interviewer availability so capacity matches demand across the US and RoW.\n\nMonitor interview schedule and conduct rates, flag no-show patterns, and help test the reminder and confirmation copy that lifts them.\n\nSupport Customer.io flows: build and QA new sends, check personalization logic and links, and keep flow documentation current.\n\nReview Help Scout inquiry themes and feed common questions back into CRM messaging and FAQs.\n\nReporting and Analysis\n\nOwn recurring funnel reporting: stage-by-stage counts, conversion rates, and week-over-week change, delivered on a fixed schedule.\n\nBuild one-off analyses on request, for example interview conduct rates by cohort or registration rates by applicant segment.\n\nKeep the numbers honest: reconcile sources, note data gaps, and say when a result is inconclusive.\n\nAd Hoc Projects\n\nTake on project and task work from marketing and admissions leadership, scope it, and ship it with a clear write-up.\n\nRecent examples: audit a week of Help Scout replies for typos, map a Zoom-to-Airtable interview notes pipeline, test headline variants on a landing page.\n\nDocument what you build so someone else can run it.\n\nHow We Work with AI\n\nReach for an LLM by default: draft, edit, summarize, analyze, write a formula or script, and pressure-test your own logic before it reaches a person.\n\nQA consistently. AI output is only as good as the check behind it. We run 200+ active ads with zero typos because every one is audited. You will hold that standard.\n\nDo the due diligence on new tools. Evaluate an AI feature or tool, test it on real work, and write up whether we should adopt it.\n\nAutomate the repeatable: reports, QA checks, data syncs, and reply drafts. If you do a task three times, ask whether an agent should do it the fourth.\n\nShow your work. Keep prompts, scripts, and workflows documented and reusable so the team compounds what you build.\n\nIn interviews we will ask how you actually use these tools day to day, and we will give you a real task to complete with them.\n\nWhat You Will Learn\n\nDirect response marketing: how paid campaigns are built, targeted, measured, and optimized across LinkedIn, Meta, and Google, and what actually moves cost per application.\n\nAdmissions operations: how a graduate school moves an applicant from application to interview to registration, and where the funnel leaks.\n\nLifecycle messaging: how Customer.io, Airtable, and Calendly fit together, and how a single field change triggers a downstream flow.\n\nFunnel analytics: reading stage conversion, segment performance, and test results, and reporting them so leadership can act.\n\nApplied AI: building agents, QA pipelines, and automations on real work with real stakes.\n\nThis role is a starting point. Someone who performs here can grow into a lifecycle marketing, paid media, admissions operations, or analytics role.\n\nBachelor's degree or equivalent, with 0 to 2 years of work experience. New graduates are encouraged to apply.\n\nDaily, hands-on use of Claude, ChatGPT, or similar tools, and a clear point of view on where they help and where they fail.\n\nStrong writing and editing. You can draft a clean email and you catch the error everyone else missed.\n\nComfortable with spreadsheets and data: formulas, pivot tables, and basic charts. Exposure to SQL, Python, or Looker Studio is a plus, not a requirement.\n\nFast learner of new tools and systems. You can pick up Airtable, Customer.io, or an ad platform from documentation and a short walkthrough.\n\nOrganized and reliable on recurring work. Reports go out on schedule, every time.\n\nCurious about marketing, education, or both.\n\nPrior exposure to paid media, CRM tools, or admissions is a plus, not a requirement.\n\nCompetitive salary + options\n\nMedical/Dental/Vision\n\nGenerous paid time off",
     "company": "Quantic School of Business and Technology",
-    "title": "Marketing Manager"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Irvine",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Engineer II, Machine Learning",
-    "salary": {
-      "unit": "YEAR",
-      "min": 100000,
-      "max": 110000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Python",
-      "SQL",
-      "Machine Learning",
-      "PyTorch",
-      "Pandas",
-      "Data Pipelines",
-      "GCP",
-      "Git"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "syntiant-engineer-ii-machine-learning-irvine-hybrid",
-    "atsProvider": "Workable",
-    "company": "Syntiant",
-    "id": "manual-1791043902403",
-    "state": "CA",
-    "datePosted": "2026-10-03",
-    "validThrough": "2026-11-02",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=syntiant.com&sz=128",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.workable.com/en/view/4mrv1W9sJmPVQcyvsdogZw/engineer-ii%2C-machine-learning-in-irvine-at-syntiant",
-    "location": "Irvine / Hybrid",
-    "category": "Data / AI",
-    "companyWebsite": "https://www.syntiant.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's, Master's, or PhD in Computer Science, Data Science, Electrical Engineering, or related quantitative field.",
-      "Strong programming proficiency in Python and familiarity with PyTorch, TensorFlow, or JAX.",
-      "Deep foundational understanding of machine learning principles, transformer architectures, and linear algebra.",
-      "Experience with modern data analysis tools (NumPy, Pandas) and version control (Git).",
-      "Demonstrated research curiosity evidenced by academic coursework, open-source projects, or publication contributions.",
-      "Excellent analytical thinking and clear communication when presenting empirical results."
-    ],
-    "responsibilities": [
-      "Develop and evaluate deep learning architectures and LLM prompt/fine-tuning workflows for Syntiant's core platform.",
-      "Construct automated evaluation benchmarks to quantify model accuracy, hallucination rates, latency, and throughput.",
-      "Preprocess, clean, and curate large-scale unstructured datasets for training, retrieval, and fine-tuning experiments.",
-      "Implement robust inference endpoints with Python, PyTorch, and modern serving frameworks (vLLM, HuggingFace, FastAPI).",
-      "Collaborate with research scientists and infrastructure engineers to profile GPU memory consumption and distributed training runs.",
-      "Document experimental hypotheses, quantitative results, and ablation studies in team technical reports."
-    ],
-    "description": "Syntiant is hiring for this early-career role to research, build, and deploy generative AI architectures, language model evaluations, and state-of-the-art inference pipelines."
+    "title": "Marketing Manager",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3265,7 +5762,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.exotec.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Coordinate and implement software configurations and improvements to deployed systems",
       "Inform operational teams on project progress and risks",
@@ -3282,7 +5778,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Support on-site interactions with clients, including de-escalating challenging or time‑sensitive situations"
     ],
     "description": "Exotec designs elegant, plug-and-play, and reliable end-to-end warehouse robotics solutions. As a leading original equipment manufacturer (OEM) and integrator, we support some of the world’s most iconic brands in their transition to automation. We’re proud to design technology that doesn’t just redefine intralogistics, it also makes warehouses safer, faster, more efficient, and less physically demanding for the people working inside them.\n\nWhy This Role Matters\n\nAs a Field Commissioning Engineer, you’ll be the boots on the ground bringing Exotec’s robotics and automation systems to life at our client warehouse locations. It's a high-travel position (our engineers are on-site generally 3 weeks out of each month), but an ideal role for individuals who love solving real engineering challenges in real-world environments.\n\nWorking hands-on with robotics, hardware, software, programming tools, and third‑party industrial equipment, you'll gain broad technical experience quickly. Unlike other \"engineering\" roles in the industry, this is a true engineering position where you help design and refine test plans—not just execute them. The work is varied, collaborative, and directly tied to the success of each system launch.\n\nWhat You'll Do\n\nManage the integration of Exotec products and third‑party systems on customer warehouse, distribution, and fulfillment sites\n\nActively participate in the commissioning process to ensure system functionality and reliability\n\nPlan, coordinate, and execute system validation tests—including defining and refining test plans\n\nMeasure, improve, and maintain the reliability of the full solution throughout deployment phases\n\nCoordinate and implement software configurations and improvements to deployed systems\n\nTroubleshoot across software, mechanical, electrical, and networking layers\n\nCommunicate directly with customers to assess and fulfill their needs and requirements\n\nProvide clear updates and documentation through Exotec’s internal tools, including coordination with the Atlanta‑based team\n\nSupport on-site interactions with clients, including de-escalating challenging or time‑sensitive situations\n\nInform operational teams on project progress and risks\n\nWe strongly encourage applications from candidates of all genders to help us build a truly inclusive environment. If you don’t meet every requirement listed below, don’t worry—your skills and experiences may still make you a great fit\n\nAt least 1 year of commissioning robotic systems and/or equipment, ideally in industrial automation, material handling, warehousing, or logistics\n\nDemonstrated experience with frequent travel (e.g., field service, commissioning, consulting, construction, or similar roles)\n\nBS degree in mechatronics, robotics, mechanical, or electrical engineering (or related field)\n\nBroad working knowledge across software, mechanical, and electrical engineering, with the ability to perform both hands-on troubleshooting and software configuration\n\nClear, professional communication skills, including the ability to manage on‑site client interactions and de‑escalate as needed\n\nAbility to work within internal systems and tools for documentation, notes, coordination, collaborate with off-site team members, etc.\n\nComfort and openness with regular travel (up to 100% of working hours)\n\nUse and manipulation of standard hand tools\n\nOccasional lifting up to 50 lbs\n\nWorking from heights of up to 50 ft\n\nUse and operation of lifts with a manufacturer‑rated capacity of 250 lbs, including tools and equipment (approximately 30 lbs)\n\nStooping, kneeling, crouching or crawling to access and repair equipment at ground level\n\nWorking on overhead equipment, including extended reaching and manual dexterity\n\nWorking knowledge of AutoCAD (reading and minor edits)\n\nFamiliarity with Python, Node‑RED, or Linux\n\nExperience with Git/GitHub\n\nPrior work on complex automation or robotics systems\n\nExperience contributing to the creation of test plans or validation procedures\n\nCompetitive compensation package, inclusive of salary and annual bonus\n\nComprehensive medical, dental and vision coverage\n\nGenerous vacation and time off policy\n\n401(k) with company match up to 5%\n\nContinuous opportunities for training and development within a growing, international company\n\nRegular company-hosted teambuilding, training and social events\n\nTo apply, please submit your résumé. Only shortlisted candidates will be contacted for the next steps in the hiring process. We look forward to receiving your application!\n\nPlease note that Exotec does not accept unsolicited résumés from recruiting agencies or recruiting firms. Candidate profiles submitted directly to hiring managers, employees, or any other company representative without prior approval from the Talent Acquisition team will not be considered. All agency-supported searches must be authorized by Talent Acquisition, and candidates must be submitted through our designated external submission process.",
-    "title": "Field Commissioning Engineer - Warehouse Robotics & Automation"
+    "title": "Field Commissioning Engineer - Warehouse Robotics & Automation",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3320,7 +5817,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://parivedasolutions.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "As a Pariveda Consultant, you will work in small teams, collaborating with other Pariveda employees while partnering with clients to solve real business challenges.",
       "Passionate technologists with software development or relevant internship experience",
@@ -3334,173 +5830,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Work with smart, humble, and supportive people."
     ],
     "description": "Pariveda is a North American-based, employee-owned professional services firm. We provide strategy and technology services across industries. As a mission-driven organization and Certified B Corp, we enable our clients to imagine and do more, whether it’s making next quarter’s goals or navigating the future. From ideas to impact, we help clients get better at what they do to improve people and profits. Learn more about our mission and culture as well as our recruitment process and interview prep.\n\nLooking to join a collaborative team where you will be challenged and encouraged to grow your career in a supportive, purpose-driven environment?\n\nExplore a career with Pariveda, an employee-owned professional services firm that provides strategy and technology services—from idea to impact. We have been named by Glassdoor as a Best Place to Work seven times since 2017 and are currently looking for motivated individuals who are passionate about using technology to solve problems and help others succeed.\n\nTo learn more about our culture and what you can expect at Pariveda, review our Findamentals – the behaviors that show who we are.\n\nAs a Pariveda Consultant, you will work in small teams, collaborating with other Pariveda employees while partnering with clients to solve real business challenges.\n\nGrow your career with the support of a dedicated mentor and a clearly defined career path. You will be reviewed every 6 months and eligible for promotion every 12 months.\n\nTry new things to develop yourself as a leader. Learn to estimate, gather requirements, develop, test, manage projects, architect and deliver. We do it all!\n\nExplore a range of technologies including Cloud platforms like AWS, Azure, and Google Cloud, Data Engineering using Databricks and PySpark, and DevOps practices including CI/CD, Docker, and Terraform. Build AI and Generative AI solutions using RAG, LLMs on Azure OpenAI and AWS Bedrock, prompt engineering, and agent frameworks like LangChain, while developing in Python, Java, SQL, JavaScript, and .NET with exposure to modern web technologies like React and Angular\n\nUtilize AI strategically to enhance client solutions, incorporating AI tools to streamline development, uncover insights, and accelerate delivery while clearly communicating the value, limitations, and ethical use of AI to clients and stakeholders.\n\nSharpen your professional communication skills. Create and present findings, solutions, and demos to audiences including senior executives and stakeholders.\n\nWork within a hybrid model.\n\nActively engage in our culture of continuous learning, community service, social gatherings, and personal and professional development.\n\nWork with smart, humble, and supportive people.\n\nPassionate technologists with software development or relevant internship experience\n\nLifelong learners with a passion for technology\n\nSkilled problem solvers with a proven ability to create innovative solutions\n\nFlexible and adaptable professionals who thrive as clients, teams and technologies change with each new challenge\n\nFuture technology leaders energized by fast-paced personal and professional growth\n\nStrong communicators who can explain and present concepts to both technical and non-technical audiences\n\nCurrently pursuing a bachelor's or master's degree in Management Information Systems (MIS), Computer Science, Computer Engineering or comparable field with an anticipated graduation date between December 2026 and August 2027\n\nLegally authorized to work for any company in the United States without current or future sponsorship",
-    "title": "Entry-Level Software Engineer"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Boston",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Engineer (Early-Career)",
-    "salary": {
-      "unit": "YEAR",
-      "min": 59000,
-      "max": 114000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "bostonscientific-software-engineer-early-career--boston-ma-hybrid",
-    "atsProvider": "Direct Career Portal",
-    "company": "Bostonscientific",
-    "id": "manual-1790949852272",
-    "state": "MA",
-    "datePosted": "2026-10-02",
-    "validThrough": "2026-11-01",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=bostonscientific.eightfold.ai&sz=128",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://bostonscientific.eightfold.ai/careers/job/563602813660387?domain=bostonscientific.com",
-    "location": "Boston, MA / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.bostonscientific.eightfold.ai",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Bostonscientific.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Bostonscientific is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Hybrid Associate Consultant",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "vision-point-systems-hybrid-associate-consultant-remote-us",
-    "atsProvider": "Workable",
-    "company": "Vision Point Systems",
-    "id": "manual-1790960645174",
-    "state": "CA",
-    "datePosted": "2026-10-02",
-    "validThrough": "2026-11-01",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?domain=visionpointsystems.com&sz=128",
-    "isRemote": true,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.workable.com/en/view/qjQV1r7FatYWcheAoNdbg5/hybrid-associate-consultant---appian-in-tysons-at-vision-point-systems%2C-inc.-",
-    "location": "Remote - US",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.visionpointsystems.com/",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Vision Point Systems.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Vision Point Systems is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "source": "MANUAL_ADMIN",
-    "title": "Software Application Developer",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "acuityinternational-software-application-developer-remote",
-    "atsProvider": "Workday",
-    "company": "Acuityinternational",
-    "id": "manual-1790949378601",
-    "datePosted": "2026-10-02",
-    "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-01",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=acuityinternational.com",
-    "isRemote": true,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://acuityinternational.wd5.myworkdayjobs.com/External/job/Remote-WA/Software-Application-Developer_JR9606",
-    "location": "Remote (US)",
-    "category": "Full Stack",
-    "companyWebsite": "https://acuityinternational.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Web Development, or equivalent practical project/bootcamp experience.",
-      "0–2 years of experience with modern JavaScript/TypeScript, React, or Next.js.",
-      "Strong understanding of client-side architecture, HTTP lifecycle, state management, and asynchronous operations.",
-      "Demonstrated eye for interface aesthetics, layout responsiveness, and accessibility guidelines (WCAG).",
-      "Familiarity with Git version control, package managers (npm, pnpm), and automated testing libraries.",
-      "Enthusiastic collaborator eager to contribute clean, maintainable code within an agile engineering team."
-    ],
-    "responsibilities": [
-      "Build responsive, accessible, and smooth user interfaces for Acuityinternational utilizing modern React, TypeScript, and Tailwind CSS.",
-      "Collaborate closely with product managers and UI/UX designers to translate wireframes into production components.",
-      "Integrate client-side applications with backend RESTful APIs, WebSockets, and state management libraries.",
-      "Write automated end-to-end and component tests using modern testing frameworks to safeguard release velocity.",
-      "Profile application performance, eliminating re-renders, reducing bundle sizes, and optimizing asset delivery.",
-      "Participate in agile sprint ceremonies, code reviews, and continuous improvements to the design system."
-    ],
-    "description": "Acuityinternational is seeking an enthusiastic developer to build delightful, high-performance web applications and user-facing features."
+    "title": "Entry-Level Software Engineer",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3536,7 +5867,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://teladoc.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "Join the team leading the next evolution of virtual care. At Teladoc Health, you are empowered to bring your true self to work while helping millions of people live their healthiest lives. Here you will be part of a high-performance culture where colleagues embrace challenges, drive transformative solutions, and create opportunities for growth. Together, we’re transforming how better health happens. The Junior Software Engineering Program provides hands‑on learning, mentorship, and structured guidance to help junior engineers strengthen their skills and contribute meaningfully on real projects. This is a great opportunity to launch your software engineering career by applying core computer science principles to real production systems. You’ll work alongside experienced engineers, gain hands‑on development experience, and steadily grow your technical independence as you build confidence and expertise. The role is designed for early‑career engineers who want structured mentorship, real ownership, and clear growth into the next stage of their engineering career path. Essential Duties and Responsibilities Design, build, and improve well‑defined software features within existing systems Apply engineering fundamentals to break down problems and evaluate solution options, with guidance Write clean, maintainable, well‑tested code following established best practices Create and run unit and basic functional tests to ensure reliable, high‑quality software Participate in code reviews, design discussions, and technical problem‑solving sessions Troubleshoot bugs and technical issues with increasing independence Use modern development tools, version control, and testing frameworks in daily work Document technical decisions and learnings to support maintainability and knowledge sharing Collaborate with engineers, product partners, and stakeholders to turn requirements into working solutions Continuously learn and develop your software engineering skills The time spent on each responsibility reflects an estimate and is subject to change dependent on business needs. Qualifications Expected for Position Bachelor’s degree in Computer Science, Software Engineering, or related field or equivalent hands‑on experience (internships, apprenticeships, bootcamps, open‑source, or personal projects) Solid understanding of core computer science concepts (data structures, algorithms, software fundamentals) Experience with at least one programming language and version control (e.g., Git) Familiarity with modern development practices such as testing, build tools, and team workflows Strong problem‑solving skills, curiosity, and desire to grow as an engineer Exposure to Agile or iterative development environments is a plus Experience working in shared codebases through coursework or projects is a plus For US-based roles, applicants must be currently authorized to work in the United States without the need for visa sponsorship now or in the future. We are only considering candidates located in these states: AL, AK, AZ, AR, DE, FL, GA, ID, IN, IA, KS, KY, LA, MD, MA, MI, MS, MO, MT, NE, NH, NJ, NM, NY, NC, ND, OH, OK, OR, RI, SC, SD, TN, TX, UT, VT, VA, WV, WI, WY The above qualifications, knowledge, experience, and/or background are expected but not required for this role. We follow a Flexible Vacation Policy, intended for rest, relaxation, and personal time. All time off must be approved by your manager prior to use. You will also receive 80 hours of Paid Sick, Safe, and Caregiver Leave annually. This applies to full-time positions only. If you are applying for a part-time role, your recruiter can provide additional details. As part of our hiring process, we verify identity and credentials, conduct interviews (live or video), and screen for fraud or misrepresentation. Applicants who falsify information will be disqualified. Teladoc Health will not sponsor or transfer employment work visas for this position. Applicants must be currently authorized to work in the United States without the need for visa sponsorship now or in the future. Why join Teladoc Health? Teladoc Health is transforming how better health happens. Learn how when you join us in pursuit of our impactful mission. Chart your career path with meaningful opportunities that empower you to grow, lead, and make a difference. Join a multi-faceted community that celebrates each colleague’s unique perspective and is focused on continually improving, each and every day. Contribute to an innovative culture where fresh ideas are valued as we increase access to care in new ways. Enjoy an inclusive benefits program centered around you and your family, with tailored programs that address your unique needs. Explore candidate resources with tips and tricks from Teladoc Health recruiters and learn more about our company culture by exploring #TeamTeladocHealth on LinkedIn. As an Equal Opportunity Employer, we never have and never will discriminate against any job candidate or employee due to age, race, religion, color, ethnicity, national origin, gender, gender identity/expression, sexual orientation, membership in an employee organization, medical condition, family history, genetic information, veteran status, marital status, parental status, or pregnancy). In our innovative and inclusive workplace, we prohibit discrimination and harassment of any kind. Teladoc Health respects your privacy and is committed to maintaining the confidentiality and security of your personal information. In furtherance of your employment relationship with Teladoc Health, we collect personal information responsibly and in accordance with applicable data privacy laws, including but not limited to, the California Consumer Privacy Act (CCPA). Personal information is defined as: Any information or set of information relating to you, including (a) all information that identifies you or could reasonably be used to identify you, and (b) all information that any applicable law treats as personal information. Teladoc Health’s Notice of Privacy Practices for U.S. Employees’ Personal information is available at this link. Our mission is to empower all people everywhere to live their healthiest lives.",
     "title": "Junior Software Engineering Program - Associate Engineer",
     "qualifications": [
@@ -3554,7 +5884,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3597,7 +5928,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.accenture.com/en",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "&lt;div&gt;&nbsp;&lt;/div&gt;",
       "&lt;p&gt;&lt;strong&gt;What&nbsp;You’ll&nbsp;Do:&nbsp;&lt;/strong&gt;&nbsp;&lt;/p&gt;",
@@ -3617,7 +5947,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3671,7 +6002,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://toomeytechnologies.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3725,64 +6056,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sutherland.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Sutherland emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Git, Software Engineering, Problem Solving.\n• Interview Focus: Expect scenario roleplays diagnosing elusive platform errors, API integration failures, and client escalation triage.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Louisville, KY, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWe’re looking for a skilled Tier-1 Support Agent to join our team and deliver exceptional technical and student service support. In this role, you’ll serve as the first point of contact for users seeking assistance with hardware, software, basic troubleshooting, and academic service inquiries. You’ll use your problem-solving abilities, customer-first mindset, and knowledge of ticketing systems to resolve issues efficiently and professionally."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Seattle, WA / Hybrid",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Engineer (Early-Career)",
-    "salary": {
-      "unit": "YEAR",
-      "min": 43000,
-      "max": 94000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "atsProvider": "Direct Career Portal",
-    "id": "manual-1790863632103",
-    "state": "CA",
-    "datePosted": "2026-10-01",
-    "validThrough": "2026-10-31",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobsearch/job/343556",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.eeho.fa.us2.oraclecloud.com",
-    "status": "ACTIVE",
-    "fingerprint": "oracle-software-engineer-early-career--united-states-hybrid",
-    "company": "Oracle",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=eeho.fa.us2.oraclecloud.com",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Oracle.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Oracle is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Sutherland emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Git, Software Engineering, Problem Solving.\n• Interview Focus: Expect scenario roleplays diagnosing elusive platform errors, API integration failures, and client escalation triage.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Louisville, KY, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWe’re looking for a skilled Tier-1 Support Agent to join our team and deliver exceptional technical and student service support. In this role, you’ll serve as the first point of contact for users seeking assistance with hardware, software, basic troubleshooting, and academic service inquiries. You’ll use your problem-solving abilities, customer-first mindset, and knowledge of ticketing systems to resolve issues efficiently and professionally.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3817,7 +6092,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=rhondosinc.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Lead PowerConnect App implementation, configuration, and customization within Dynatrace to extend observability into SAP environments.",
       "Mentor junior consultants and contribute to internal observability standards and best practices.",
@@ -3840,7 +6114,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "Rhondos Inc. is looking for a Dynatrace Platform Engineer to join our Professional Services Team. In this client- and stakeholder-facing role, you will configure and optimize the Dynatrace Unified Observability Platform across cloud, hybrid, and on-premises environments including leading PowerConnect App implementation, configuration, and customization for SAP observability to help engineering and operations teams reduce mean time to resolution (MTTR), improve application performance, and build a mature observability practice. You'll work independently on well-defined engagements while collaborating with senior architects on more complex initiatives.\n\nKey Responsibilities\n\nLead PowerConnect App implementation, configuration, and customization within Dynatrace to extend observability into SAP environments.\n\nCustomize and maintain PowerConnect's dashboard library, log processing, and metric extraction rules to reflect each customer's SAP landscape and business processes.\n\nOnboard applications, infrastructure, and cloud workloads (AWS, Azure, or GCP; Kubernetes and Docker) for full-stack monitoring.\n\nDesign, build, and maintain custom dashboards, alerting profiles, workflows, and analytics using Dynatrace Query Language (DQL) and Grail.\n\nMonitor application performance and availability; lead troubleshooting and root-cause analysis, leveraging Davis AI causal insights.\n\nConfigure Synthetic Monitoring, Real User Monitoring (RUM), APM, and Log Monitoring to close observability gaps.\n\nConduct health assessments and architecture reviews, and deliver clear, actionable best-practice recommendations.\n\nIntegrate Dynatrace with ITSM and collaboration tools such as ServiceNow, Jira and Slack.\n\nSupport OpenTelemetry and distributed-tracing initiatives across microservices architectures.\n\nPartner with Product Development and Product Support teams and drive continuous improvement in system functionality and reliability.\n\nLead customer and internal enablement workshops, training sessions, and operations review meetings.\n\nMaintain clear technical documentation, implementation guides, and runbooks.\n\nMentor junior consultants and contribute to internal observability standards and best practices.\n\nRequired Qualifications\n\nBachelor's degree in Computer Science, Information Technology, Engineering, or a related field, or equivalent practical experience.\n\n1-3 years of experience in Application Performance Management (APM), observability, or related IT infrastructure roles.\n\n1+ years of hands-on experience implementing and administering Dynatrace (or comparable APM/observability tooling).\n\nPractical experience with at least one major cloud platform (AWS, Azure, or GCP) and containerization technologies (Docker, Kubernetes).\n\nWorking knowledge of one or more programming/scripting languages (Java, .NET, Python, or JavaScript).\n\nSolid understanding of distributed systems, microservices, and modern web application architectures.\n\nAbility to translate technical findings into business impact for non-technical stakeholders.\n\nPreferred Qualifications\n\nDynatrace Certified Associate or Dynatrace Certified Professional certification.\n\nPrior consulting, client-facing, or project management experience.\n\nFamiliarity with OpenTelemetry, Grail/DQL, and Davis AI-driven anomaly detection.\n\nExperience with SAP environments (S4HANA, ECC, BW, PI/PO, HANA) and PowerConnect or similar SAP-to-observability integration tools.\n\nExperience with CI/CD tooling (Jenkins, GitHub Actions, GitLab CI/CD) and infrastructure-as-code (Terraform, Ansible).\n\nExposure to relational database technologies (Oracle, SQL Server, DB2).\n\nITIL Foundation certification.\n\nCompetitive base salary of 90000-120000 USD/year plus performance-based incentives.\n\nComprehensive health, dental, and vision benefits.\n\nFlexible remote work arrangements.\n\nPaid Dynatrace certification training and professional development budget.\n\nPaid time off and company holidays.",
     "company": "RHONDOS Inc",
-    "title": "Dynatrace Platform Engineer"
+    "title": "Dynatrace Platform Engineer",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3876,7 +6151,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "title": "Flexcompute Ambassador Program",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc..com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Current master’s or PhD student in electrical engineering, photonics, optics, applied physics, semiconductor engineering, computational science, or a related technical field",
       "Hands-on experience with Tidy3D or another EM simulation tool (Lumerical, HFSS, COMSOL, CST, MEEP, FEKO, or similar)",
@@ -3897,7 +6171,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Build awareness of Tidy3D within relevant academic communities, labs, and student organizations"
     ],
     "description": "Flexcompute is a cutting-edge technology company that specializes in ultra-fast simulation technology. Our products are utilized by companies in designing and optimizing technology products, with applications ranging from designing airplanes and cars to wind turbines and quantum computing chips. Our customer base includes both household names and startups in emerging industries. Our company was founded by world-renowned leaders in simulation technology from Stanford University and MIT. Backed by top VC firms, we are poised to disrupt the billion-dollar engineering simulation industry with our fast-growing trajectory.\n\nRole Overview\n\nServe as a Flexcompute Ambassador within your academic community, supporting adoption and usage of Tidy3D while acting as a bridge between users and the Flexcompute team. The program offers two flexible tracks: choose the level of involvement that fits your schedule.\n\nTwo Ways to Participate\n\nTrack 1: Campus Ambassador (perks-based, no minimum commitment). For students who want to evangelize Tidy3D within their network and receive Flexcompute swag, simulation credits, and community access without a fixed time commitment.\n\nTrack 2: Technical Support Contributor (paid hourly, up to $35 USD/hr based on experience). For graduate students who can dedicate flexible hours each week answering peer technical questions, producing tutorials, and partnering with the Flexcompute team. Hours are self-scheduled around academic obligations. Typically 5-10 hrs/week, no minimum, no maximum.\n\nAmbassadors can move between tracks each semester as availability changes.\n\nWhat Makes This Role Unique\n\nYou will work directly with one of the fastest electromagnetic solvers in the world while gaining exposure to cutting-edge photonics and simulation workflows. This role offers the opportunity to shape how a new generation of engineers interacts with AI-native physics tools and to play a visible role within a growing technical community.\n\nOpen to students in the US, Europe, Japan, South Korea, and India. Track 2 compensation is paid in local currency, adjusted for employment-law requirements.",
-    "company": "Flexcompute Inc."
+    "company": "Flexcompute Inc.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -3952,8 +6227,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.penguinrandomhouse.com/",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Polish interactive Figma component variants, responsive design tokens, and user flow accessibility.\n• Interview Focus: Walk through your end-to-end design thinking, user friction trade-offs, and interactive prototype feedback.\n• Portfolio Signal: Have 2–3 case studies ready showing problem framing, iterative wireframes, and interactive Figma prototypes.\n• Compensation Range: Verified employer range of ~USD 60k–60k/year with career progression reviews.\n• Location: Based in New York, New York (NY), United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nPenguin Publishing Group seeks a Junior Designer to join our dynamic Advertising and Promotions Marketing team. This position requires strong organizational and time management skills and the ability to work on a variety of projects in an intense and fast-paced environment. The Junior Designer will manage simultaneous digital, print, and motion graphic projects to support marketing efforts across physical material, web, social, and email platforms. This individual will be an active team member who creates and executes customized campaigns across our list."
+    "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Polish interactive Figma component variants, responsive design tokens, and user flow accessibility.\n• Interview Focus: Walk through your end-to-end design thinking, user friction trade-offs, and interactive prototype feedback.\n• Portfolio Signal: Have 2–3 case studies ready showing problem framing, iterative wireframes, and interactive Figma prototypes.\n• Compensation Range: Verified employer range of ~USD 60k–60k/year with career progression reviews.\n• Location: Based in New York, New York (NY), United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nPenguin Publishing Group seeks a Junior Designer to join our dynamic Advertising and Promotions Marketing team. This position requires strong organizational and time management skills and the ability to work on a variety of projects in an intense and fast-paced environment. The Junior Designer will manage simultaneous digital, print, and motion graphic projects to support marketing efforts across physical material, web, social, and email platforms. This individual will be an active team member who creates and executes customized campaigns across our list.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4013,125 +6288,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?domain=texassportsacademymain.com&sz=128",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Texas Sports Academy Main emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Texas Sports Academy Main evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Austin, TX / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nTexas Sports Academy Main is actively seeking a Junior AI Software Engineer (austin) to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Technical Implementation Consultant - Analyst",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "peloton-technical-implementation-consultant-analyst-united-states-hybrid",
-    "atsProvider": "Direct Career Portal",
-    "company": "Peloton",
-    "id": "manual-1790868968478",
-    "state": "CA",
-    "datePosted": "2026-10-01",
-    "validThrough": "2026-10-31",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://edjd.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/188",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.edjd.fa.us2.oraclecloud.com",
-    "status": "ACTIVE",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=edjd.fa.us2.oraclecloud.com",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Peloton.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Peloton is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Seattle, WA / Hybrid",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Data Center Technician",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Python",
-      "SQL",
-      "Machine Learning",
-      "PyTorch",
-      "Pandas",
-      "Data Pipelines",
-      "GCP",
-      "Git"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "amazon-data-center-technician-seattle-wa-hybrid-hybrid",
-    "atsProvider": "Amazon Jobs",
-    "company": "Amazon",
-    "id": "manual-1790863537991",
-    "state": "CA",
-    "datePosted": "2026-10-01",
-    "validThrough": "2026-10-31",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://www.amazon.jobs/en/jobs/10436515/data-center-technician?cmpid=SPLICX0248M",
-    "location": "Seattle, WA / Hybrid / Hybrid",
-    "category": "Data / AI",
-    "companyWebsite": "https://amazon.jobs",
-    "status": "ACTIVE",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Computer Engineering, or equivalent practical background.",
-      "0–2 years of backend software development experience in Java, C#, Python, Go, or TypeScript.",
-      "Solid comprehension of object-oriented design patterns, data structures, and relational databases (SQL).",
-      "Familiarity with cloud computing primitives (AWS, Azure, or GCP) and containerization concepts (Docker).",
-      "Proficiency with Git version control, collaborative code reviews, and automated CI/CD tools.",
-      "Strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset."
-    ],
-    "responsibilities": [
-      "Write clean, performant backend code in Java, Python, Go, or C# to power Amazon's core cloud infrastructure.",
-      "Design and consume RESTful APIs, gRPC services, and event-driven architectures utilizing Kafka or message queues.",
-      "Participate in architectural reviews, CI/CD pipeline automation, and automated container deployment via Kubernetes.",
-      "Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.",
-      "Write comprehensive unit and integration test suites with mock services to achieve high test coverage.",
-      "Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds."
-    ],
-    "description": "Join Amazon's engineering organization to build reliable, high-availability cloud services and distributed backend systems that serve millions of daily requests with low latency."
+    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Texas Sports Academy Main emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Texas Sports Academy Main evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Austin, TX / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nTexas Sports Academy Main is actively seeking a Junior AI Software Engineer (austin) to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4169,7 +6327,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=oneoncology.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "description": "OneOncology is positioning community oncologists to drive the future of medical care through a patient-centric, physician-driven, and technology-powered model to help improve the lives of everyone living with cancer and other diseases. Our team is bringing together leaders to the market place to help drive OneOncology’s mission and vision. Why join us? This is an exciting time to join OneOncology. Our values-driven culture reflects our startup enthusiasm supported by industry leaders in oncology, urology, technology, and finance. We are looking for talented and highly-motivated individuals who demonstrate a natural desire to improve and build new processes that support the meaningful work of independent physicians and the patients they serve. Job Description: OneOncology's Field Operations team delivers onsite technology support to our practices, serving as the hands-and-eyes of the IT organization at the point of patient care. Field Support Technicians work in close partnership with the centralized Service Desk, End User Computing, and IT Operations teams to keep clinicians and staff productive. The Field Support Technician I is a foundational field role focused on basic onsite troubleshooting, hardware setup, and learning core IT processes. This role is typically present in larger practices reporting to a Field Manager. The ideal candidate brings curiosity, reliability, and a strong customer service orientation to every interaction with clinicians and staff. This is a full-time onsite role in Forth Worth, TX, supporting various clinic locations. Responsibilities: Perform basic imaging and setup of devices under standard OneOncology processes. Assist with simple hardware, software, and network issues. Resolve low-complexity tickets with guidance from senior field technicians. Maintain accurate ticket notes and documentation in ServiceNow. Shadow senior technicians to learn field workflows and practice-specific systems. Support asset receiving, tagging, and stockroom organization. Assist with hardware onboarding and offboarding for practice users. Travel to other practice sites as needed. Additional responsibilities as assigned to help drive our mission of improving the lives of everyone living with cancer. Required or Preferred Qualifications (specify within): Basic hardware and software troubleshooting skills. Strong customer service and communication skills. Ability to follow procedures, checklists, and documented standards. Curiosity and willingness to learn new tools, systems, and processes. Time management and reliability. Experience with the following is a plus: ServiceNow, Microsoft 365, and Windows endpoints. Essential Competencies: High school diploma or GED required; college degree in a relevant field is preferred. 1 to 2 years of recent technical support or related experience. Basic IT knowledge (coursework, bootcamp, or self-study). Healthcare related experience a plus. A+ or similar entry-level certification preferred. Attendance is an essential job function. OneOncology was founded by community physicians, for community physicians, with the mission of improving the lives of everyone living with cancer and other diseases. Our goal is to enable community medical practices to remain independent and to improve patient access to care in their communities, all at a lower cost than in the hospital setting. OneOncology supports our platform of community medical practices through group purchasing, operational optimization, practice growth, and clinical innovation. Our partner practices comprise approximately 2,300+ providers who care for approximately 1.5 million patients across 20 states.",
     "company": "OOCORP OneOncology LLC",
     "qualifications": [
@@ -4187,7 +6344,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
+    ],
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4225,7 +6383,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=mindex.com",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "*Applicants must be authorized to work for ANY employer in the U.S. We are unable to sponsor (now or in the future) or take over sponsorship of an employment Visa at this time.",
       "Grow your technical knowledge with mentorship and guidance from more senior engineers.",
@@ -4242,7 +6399,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Develop an awareness of overall service architecture and contribute to basic functions in ways that avoid duplication across codebases and prevent interface-breaking changes."
     ],
     "description": "We are looking for a student available to participate in a two-block co-op program from January 2027 to August 2027.\n\nWe are looking for On-site at least 3 days per week; 5 days (Monday–Friday) preferred.\n\n*Applicants must be authorized to work for ANY employer in the U.S. We are unable to sponsor (now or in the future) or take over sponsorship of an employment Visa at this time.\n\nMindex is looking for a motivated Co-op Software Engineer to join our team and gain hands-on experience building, testing, and delivering software solutions in a collaborative Agile environment. This is a great opportunity for a student or early-career candidate who is excited to grow technical skills, learn from experienced engineers, and contribute to meaningful projects that have real business impact.\n\nIn this role, you’ll work alongside Scrum team members and stakeholders, build a stronger understanding of software development best practices, and gain exposure to modern tools and technologies — including the responsible use of AI to improve efficiency, quality, and innovation.\n\nThe salary for this job is $22/hour.\n\nWhat You'll Accomplish\n\nBring an AI-first mindset by using AI-assisted tools and technologies to improve productivity, accelerate problem-solving, enhance quality, automate routine tasks, and support innovation.\n\nCollaborate with Scrum team members and stakeholders to share deliverable status, provide feedback, and contribute to plans, designs, specifications, source code, test scripts, and documentation.\n\nBuild a foundational understanding of debugging concepts and the tools used to troubleshoot software issues.\n\nGrow your technical knowledge with mentorship and guidance from more senior engineers.\n\nDevelop an awareness of overall service architecture and contribute to basic functions in ways that avoid duplication across codebases and prevent interface-breaking changes.\n\nUnderstand and apply the importance of security in software design, development, and delivery.\n\nSkills & Competencies\n\nAt least three years of education and/or prior Co-op experience.\n\nFamiliarity with Java, Angular, Oracle, OpenShift, Python, and/or ASP.NET.\n\nFamiliarity with test automation.\n\nKnowledge of object-oriented programming and RESTful web services.\n\nKnowledge of relational databases.\n\nFamiliarity with Agile/Scrum methodologies.\n\nSelf-starter mindset with the ability to contribute working software and test automation scripts.\n\nSound judgment in the ethical, secure, and compliant use of AI technologies while protecting confidential, customer, and company information.\n\nCuriosity about emerging AI capabilities, tools, and best practices, with the ability to identify opportunities to apply them effectively.\n\nIntrigue in using AI to streamline workflows, reduce manual effort, improve efficiency, and increase business value.\n\nAbility to use AI to support technical problem-solving and decision-making while maintaining ownership and accountability for final work products.\n\nCandidates must be based in the Rochester, NY area and available to work on-site at least three days per week, with a preference for five days per week, Monday through Friday, throughout the Co-op experience. Regular in-office participation provides valuable opportunities for mentorship, professional development, and collaboration.\n\nWhat You'll Gain\n\nHands-on experience working on meaningful software projects in a professional environment.\n\nExposure to Agile/Scrum practices and cross-functional teamwork.\n\nMentorship from experienced engineers who will support your technical and professional growth.\n\nExperience with modern development tools, testing practices, and AI-assisted technologies in a responsible and impactful way.\n\nAn opportunity to build real-world skills that will help prepare you for future software engineering roles.\n\nWhy Join Mindex For more than 30 years, Mindex has helped organizations solve complex business challenges through custom software, cloud, data and AI solutions. We combine deep technical expertise with a collaborative culture that empowers our employees to innovate, grow, and make a meaningful impact for our clients.\n\nIn our Product division, our teams have built platforms such as SchoolTool, Advanced Analytics, and Integrations Platform from the ground up, while also supporting solutions like MTSS Edge and ClearTrack that help schools and organizations make smarter, data-driven decisions.\n\nMindex Perks\n\nTickets to local sporting events\n\nTeambuilding events\n\nHoliday and celebration parties\n\nProfessional Development\n\nApplicants must be authorized to work for ANY employer in the U.S. We are unable to sponsor, or take over, sponsorship of an employment Visa at this time.\n\nPhysical Conditions/Requirements\n\nProlonged periods sitting at a desk and working on a computer\n\nNo heavy lifting is expected. Exertion of up to 10 lbs.",
-    "title": "Software Engineer Co-Op - On-site"
+    "title": "Software Engineer Co-Op - On-site",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4292,64 +6450,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://resultant.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Resultant emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Go.\n• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Fort Wayne, IN, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWe’re looking for someone who is genuinely comfortable working with computers and understands how desktop and laptop hardware works. This is a hands-on, onsite role where you’ll be working with PCs, laptops and related equipment, including setting up devices, installing hardware and troubleshooting basic issues."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Los Angeles",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Associate Deal Management Analyst",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "redhat-associate-deal-management-analyst-united-states-hybrid",
-    "atsProvider": "Workday",
-    "company": "Redhat",
-    "id": "manual-1790774274350",
-    "state": "CA",
-    "datePosted": "2026-09-30",
-    "validThrough": "2026-10-30",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://redhat.wd5.myworkdayjobs.com/en-US/jobs/job/Associate-Deal-Management-Analyst_R-059377",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://redhat.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=redhat.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Redhat.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Redhat is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Resultant emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Go.\n• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Fort Wayne, IN, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWe’re looking for someone who is genuinely comfortable working with computers and understands how desktop and laptop hardware works. This is a hands-on, onsite role where you’ll be working with PCs, laptops and related equipment, including setting up devices, installing hardware and troubleshooting basic issues.",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4406,63 +6508,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=illumiallc.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Atlanta",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "atsProvider": "Workable",
-    "company": "Walaris",
-    "id": "manual-1790760506208",
-    "state": "GA",
-    "datePosted": "2026-09-30",
-    "validThrough": "2026-10-30",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.workable.com/en/view/7MUR6U9XUh6vVLBJrmRU92/hybrid-software-engineer-in-atlanta-at-walaris?utm_medium=social_share",
-    "location": "Atlanta, GA / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.walaris.com",
-    "status": "ACTIVE",
-    "fingerprint": "walaris-software-engineer-atlanta-ga-hybrid",
-    "title": "Software Engineer",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=walaris.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Walaris.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Walaris is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "FR",
@@ -4517,63 +6563,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "fingerprint": "sap-it-business-systeme-internship-ai-automation-developer-f-m-levallois-perret-france",
     "title": "Internship: AI Automation Developer F/M",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Los Angeles",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "IT Applications Analyst Labware",
-    "salary": {
-      "unit": "YEAR",
-      "min": 62000,
-      "max": 128000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "regeneron-it-applications-analyst-labware-los-angeles-ca-hybrid",
-    "atsProvider": "Direct Career Portal",
-    "company": "Regeneron",
-    "id": "manual-1790773943527",
-    "state": "CA",
-    "datePosted": "2026-09-30",
-    "validThrough": "2026-10-30",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://careers.regeneron.com/en/jobs/r45599/it-applications-analyst-labware/",
-    "location": "Los Angeles, CA / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.regeneron.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=regeneron.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Regeneron.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Regeneron is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4610,7 +6600,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=ubdsgroup.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Work within agile delivery teams and contribute to continuous improvement.",
       "Around 6–24 months of experience within Cloud, DevOps, Infrastructure or a similar technical role.",
@@ -4633,124 +6622,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "We are looking for an Early Careers Cloud Engineer to join our growing technology team, supporting the delivery and operation of modern cloud environments and solutions across Microsoft Azure and AWS.\n\nThis is an excellent opportunity for someone at the early stages of their cloud engineering career who has gained some practical cloud or DevOps experience and wants to develop broader skills across multi-cloud infrastructure, automation and DevOps engineering.\n\nWhat You'll Be Doing\n\nSupport the deployment, configuration and operation of cloud resources across Azure and AWS.\n\nSupport the development and maintenance of CI/CD pipelines, including Azure DevOps.\n\nHelp automate application and infrastructure deployments.\n\nWork with Git, source control, branching and release management processes.\n\nAssist with troubleshooting deployment, environment and cloud infrastructure issues.\n\nWork alongside experienced Cloud and DevOps Engineers to deliver client solutions.\n\nSupport Infrastructure as Code and automation activities.\n\nContribute to cloud monitoring, security and operational improvements.\n\nMaintain technical documentation and deployment procedures.\n\nWork within agile delivery teams and contribute to continuous improvement.\n\nDevelop your technical capability across Azure, AWS, DevOps, automation and cloud engineering.\n\nWhat We're Looking For\n\nAround 6–24 months of experience within Cloud, DevOps, Infrastructure or a similar technical role.\n\nPractical experience or exposure to Microsoft Azure and/or AWS.\n\nSome hands-on experience with Azure DevOps or similar CI/CD tooling.\n\nUnderstanding of CI/CD pipelines and automated deployments.\n\nUnderstanding of Git and source control.\n\nGood understanding of core cloud and infrastructure concepts.\n\nAn interest in automation and Infrastructure as Code.\n\nGood problem-solving and troubleshooting skills.\n\nStrong communication skills and willingness to learn.\n\nAbility to work collaboratively within technical and multidisciplinary teams.\n\nA genuine interest in developing a career across cloud and DevOps engineering.\n\nDesirable Experience\n\nWe don't expect candidates at this level to have experience across all of the following, but exposure to any of these areas would be beneficial:\n\nAzure and/or AWS infrastructure, including compute, networking, storage and identity.\n\nInfrastructure as Code using Terraform, Bicep, CloudFormation or similar.\n\nAzure DevOps, GitHub Actions or other CI/CD tooling.\n\nPowerShell, Bash, Python or other scripting languages.\n\nDocker or containerisation.\n\nCloud monitoring, security and observability tooling.\n\nAzure or AWS certifications.\n\nExperience within Government, Defence or other secure environments.\n\nSecurity Clearance\n\nThis role supports work within secure Government and Defence environments. Candidates must be eligible and willing to obtain Security Check (SC) clearance and will be required to maintain the appropriate level of security clearance for the duration of their employment.\n\nThe Opportunity\n\nThis role is designed for someone who has started building practical Cloud or DevOps experience and is ready to take the next step in their career.\n\nYou will work alongside experienced technology professionals, gain exposure to real-world Azure and AWS environments and have the opportunity to develop your skills across cloud infrastructure, DevOps and automation.\n\nWe don't expect you to know everything from day one or to already have experience across both Azure and AWS. We're looking for strong technical foundations, curiosity and the motivation to develop into a well-rounded multi-cloud engineer.\n\nWhy people choose to grow their careers at UBDS Group\n\nProfessionals choose to grow their careers at UBDS Group for its reputation as a dynamic and forward-thinking organisation that is deeply committed to both innovation and employee development. At UBDS Group, employees are given unique opportunities to work on cutting-edge projects across a diverse range of industries, exposing them to new challenges and learning opportunities that are pivotal for professional growth. The Group’s culture emphasises continuous improvement, offering ample training programs, mentorship, and the chance to gain certifications that enhance their skills and marketability.\n\nUBDS Group fosters a collaborative environment where creativity and innovation are encouraged, allowing employees to contribute ideas and solutions that have a tangible impact on the company and its clients. This combination of professional development, a culture of innovation, and the opportunity to make meaningful contributions makes UBDS Group an attractive place for those looking to advance their careers and be at the forefront of technological and operational excellence.\n\nEmployee Benefits\n\nTraining – All team members are offered a number of options in terms of personal development, whether it is technical led, business acumen or methodologies. We want you to grow with us and to help us achieve more\n\nPrivate medical cover for you and your spouse/partner, offered via Vitality\n\nDiscretionary bonus based on a blend of personal and company performance\n\nHoliday – You will receive 25 Days holiday, plus 1 day for Birthday and 1 day for your work anniversary in addition to UK bank holidays\n\nElectric Vehicle leasing with salary sacrifice\n\nContributed Pension Scheme\n\nDeath in service cover\n\nHybrid Working – UBDS Group offers a flexible working environment to help enable you to operate at your maximum regardless of your location. With offices in London & Manchester we offer a culture that is focussed on outcomes and giving you a work life balance but at that same time creating and driving a culture of inclusivity and togetherness\n\nAbout UBDS Group\n\nAt UBDS Group our mission is to support entrepreneurs who are setting new standards with technology solutions across cloud services, cybersecurity, data and AI, ensuring that every investment advances our commitment to innovation, making a difference, and creating impactful solutions for organisations and society.\n\nWith a portfolio including UBDS Digital and Rayo, UBDS Group Companies proudly offer comprehensive, end-to-end digital solutions tailored for both the public and private sectors. By harnessing the strengths of leading technology partners, we deliver innovative strategies, services and solutions that address complex challenges and drive significant value. Our services cover digital consulting, cloud platforms, data and ai, cybersecurity, managed services and delivery management.\n\nEqual Opportunities\n\nWe are an equal opportunities employer and do not discriminate on the grounds of gender, sexual orientation, marital or civil partner status, pregnancy or maternity, gender reassignment, race, colour, nationality, ethnic or national origin, religion or belief, disability or age.",
     "company": "UBDS Group",
-    "title": "Cloud Engineer - Early Careers"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "Boston",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Technology Rotational Program Associate Engineer",
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "man-group-technology-rotational-program-associate-engineer-boston-ma-hybrid",
-    "atsProvider": "Workable",
-    "company": "Man Group",
-    "id": "manual-1790699583544",
-    "state": "MA",
-    "datePosted": "2026-09-29",
-    "validThrough": "2026-10-29",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.workable.com/en/view/3XCskiScfC6D7ipBbR282u/technology-rotational-program---associate-engineer-in-boston-at-man-group",
-    "location": "Boston, MA / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.mangroup.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=mangroup.com",
-    "salary": {
-      "min": 0,
-      "max": 0,
-      "currency": "USD",
-      "unit": "YEAR"
-    },
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Man Group.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Man Group is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Software Developer – Entry Level",
-    "salary": {
-      "unit": "YEAR",
-      "min": 52000,
-      "max": 92000,
-      "currency": "USD"
-    },
-    "skills": [
-      "React",
-      "TypeScript",
-      "JavaScript",
-      "Next.js",
-      "HTML/CSS",
-      "Tailwind CSS",
-      "REST APIs",
-      "Git"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "cgi-software-developer-entry-level-united-states-hybrid",
-    "atsProvider": "Direct Career Portal",
-    "company": "Cgi",
-    "id": "manual-1790700232110",
-    "state": "CA",
-    "datePosted": "2026-09-29",
-    "validThrough": "2026-10-29",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://cgi.njoyn.com/corp/xweb/xweb.asp?clid=21001&page=jobdetails&jobid=J0926-2371&BRID=1336707&SBDID=943&lang=1",
-    "location": "United States / Hybrid",
-    "category": "Frontend",
-    "companyWebsite": "https://www.cgi.njoyn.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=cgi.njoyn.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Web Development, or equivalent practical project/bootcamp experience.",
-      "0–2 years of experience with modern JavaScript/TypeScript, React, or Next.js.",
-      "Strong understanding of client-side architecture, HTTP lifecycle, state management, and asynchronous operations.",
-      "Demonstrated eye for interface aesthetics, layout responsiveness, and accessibility guidelines (WCAG).",
-      "Familiarity with Git version control, package managers (npm, pnpm), and automated testing libraries.",
-      "Enthusiastic collaborator eager to contribute clean, maintainable code within an agile engineering team."
-    ],
-    "responsibilities": [
-      "Build responsive, accessible, and smooth user interfaces for Cgi utilizing modern React, TypeScript, and Tailwind CSS.",
-      "Collaborate closely with product managers and UI/UX designers to translate wireframes into production components.",
-      "Integrate client-side applications with backend RESTful APIs, WebSockets, and state management libraries.",
-      "Write automated end-to-end and component tests using modern testing frameworks to safeguard release velocity.",
-      "Profile application performance, eliminating re-renders, reducing bundle sizes, and optimizing asset delivery.",
-      "Participate in agile sprint ceremonies, code reviews, and continuous improvements to the design system."
-    ],
-    "description": "Cgi is seeking an enthusiastic developer to build delightful, high-performance web applications and user-facing features."
+    "title": "Cloud Engineer - Early Careers",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4803,7 +6676,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Evolutioniq emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Python, SQL, ServiceNow scripting for system integrations.\n• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation Range: Verified employer range of ~8k–5k/year with career progression reviews.\n• Location: Based in New York, NY (On-Site Team Collaboration).\n\n🏢 Role Overview:\nAbout Us: EvolutionIQ’s mission is to deliver state of the art technology that helps insurance claims teams make claims handling more accurate, fair, and efficient, so that more people impacted by injury or illness can continue their lives with dignity and stability. We are currently experiencing massive growth and to accomplish our goals, we are hiring world-class talent who want to help build and scale internally, and transform the insurance space. Our team is our #1 priority, and we have been named one of Inc.’s Best Workplaces 3 years in a row and Built In’s Best Places to work in 2025 and 2026!",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=evolutioniq.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -4840,7 +6713,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=hyperlight.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "This role is ideal for someone who enjoys understanding complex engineering processes, solving open-ended problems, and applying engineering, data analysis, automation, and programming to real-world R&D challenges.",
       "Hands-on experience in a fast-paced photonics R&D and semiconductor manufacturing environment for advanced technology",
@@ -4865,124 +6737,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "HyperLight is at the forefront of the commercialization of thin-film lithium niobate (TFLN) integrated photonics — a material and process technology that is enabling high-performance, scalable optical components across AI/datacom infrastructure, hyperscale computing, quantum computing, sensing, and more. Founded in 2018 and backed by leading venture capital, we've built a team and a platform focused on real-world mass deployment of TFLN photonics technology.\n\nAt the core of our work is the TFLN Chiplet™ platform — a modular, integrated architecture designed for scalability, manufacturability, and seamless integration into complex systems. It offers a rare combination of extraordinary performance and industrial readiness, enabling system developers across applications to deploy the technology quickly and at scale. We partner with our customers and suppliers from conceptualization, design, and prototyping through mass production to ensure smooth and rapid deployment of TFLN photonic technology.\n\nAs HyperLight continues to grow, we are looking for an R&D Operations & Automation Engineer Intern to join our team. This role provides a unique opportunity to work at the intersection of R&D operations, engineering automation, data, and advanced photonic technology.\n\nYou will work closely with R&D and cross-functional engineering teams to improve how development activities are planned, executed, tracked, and analyzed. You will help identify opportunities to improve R&D workflows, develop automation solutions and engineering tools, and use data to improve engineering efficiency and accelerate development cycles.\n\nThis role is ideal for someone who enjoys understanding complex engineering processes, solving open-ended problems, and applying engineering, data analysis, automation, and programming to real-world R&D challenges.\n\nJoin us to make a real-world impact in a fast-paced, collaborative, and high-growth environment!\n\nWhat You’ll Gain\n\nHands-on experience in a fast-paced photonics R&D and semiconductor manufacturing environment for advanced technology\n\nPractical experience improving and automating R&D workflows, from planning and execution through testing and analysis\n\nOpportunities to apply programming, data analysis, and automation to solve real engineering challenges\n\nCross-functional exposure across design, fabrication, characterization, testing, and operations, with mentorship from experienced engineers and direct impact on next-generation photonic technologies",
     "company": "HyperLight",
-    "title": "R&D Operations & Automation Engineer Intern"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 0,
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Infiniterns (2027 Technology Internship)",
-    "salary": {
-      "unit": "HOUR",
-      "min": 28,
-      "max": 45,
-      "currency": "USD"
-    },
-    "skills": [
-      "AWS",
-      "Data Analysis",
-      "Security"
-    ],
-    "experienceLevel": "New Grad",
-    "fingerprint": "tech-employer-infiniterns-2027-technology-internship--s-office-is-located-in-ashburn-va",
-    "atsProvider": "Direct Career Portal",
-    "id": "manual-1790705441333",
-    "state": "VA",
-    "datePosted": "2026-09-29",
-    "validThrough": "2026-10-29",
-    "employmentType": "INTERN",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://infinitive.com/careers/job/?board_code=WR3DpVJrKJ",
-    "category": "Data / AI",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "city": "Ashburn",
-    "company": "Infinitive",
-    "location": "Ashburn, VA",
-    "companyWebsite": "https://infinitive.com",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=infinitive.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Infinitive.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Infinitive is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Entry-Level Software Developer 2027 - Lowell ",
-    "salary": {
-      "unit": "YEAR",
-      "min": 90000,
-      "max": 120000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Python",
-      "SQL",
-      "Machine Learning",
-      "PyTorch",
-      "Pandas",
-      "Data Pipelines",
-      "GCP",
-      "Git"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "ibm-entry-level-software-developer-2027-lowell--united-states-hybrid",
-    "atsProvider": "Direct Career Portal",
-    "company": "Ibm",
-    "id": "manual-1790700403133",
-    "state": "CA",
-    "datePosted": "2026-09-29",
-    "validThrough": "2026-10-29",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=133928",
-    "location": "United States / Hybrid",
-    "category": "Data / AI",
-    "companyWebsite": "https://www.ibm.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=ibm.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Computer Science, Web Development, or equivalent practical project/bootcamp experience.",
-      "0–2 years of experience with modern JavaScript/TypeScript, React, or Next.js.",
-      "Strong understanding of client-side architecture, HTTP lifecycle, state management, and asynchronous operations.",
-      "Demonstrated eye for interface aesthetics, layout responsiveness, and accessibility guidelines (WCAG).",
-      "Familiarity with Git version control, package managers (npm, pnpm), and automated testing libraries.",
-      "Enthusiastic collaborator eager to contribute clean, maintainable code within an agile engineering team."
-    ],
-    "responsibilities": [
-      "Build responsive, accessible, and smooth user interfaces for Ibm utilizing modern React, TypeScript, and Tailwind CSS.",
-      "Collaborate closely with product managers and UI/UX designers to translate wireframes into production components.",
-      "Integrate client-side applications with backend RESTful APIs, WebSockets, and state management libraries.",
-      "Write automated end-to-end and component tests using modern testing frameworks to safeguard release velocity.",
-      "Profile application performance, eliminating re-renders, reducing bundle sizes, and optimizing asset delivery.",
-      "Participate in agile sprint ceremonies, code reviews, and continuous improvements to the design system."
-    ],
-    "description": "Ibm is seeking an enthusiastic developer to build delightful, high-performance web applications and user-facing features."
+    "title": "R&D Operations & Automation Engineer Intern",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -5019,7 +6775,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=pimco.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Pursuing an undergraduate degree",
       "Are business proficient in English",
@@ -5037,7 +6792,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "PIMCO is a global leader in active fixed income. With our launch in 1971 in Newport Beach, California, PIMCO introduced investors to a total return approach to fixed income investing. In the 50+ years since, we have worked relentlessly to help millions of investors pursue their objectives – regardless of shifting marketing conditions. As active investors, our goal is not just to find opportunities, but to create them. To this end, we remain firmly committed to the pursuit of our mission: delivering superior investment returns, solutions, and service to our clients.\n\nSince 1971, our people have shaped our organization through a high-performance inclusive culture, in which we celebrate diverse thinking. We invest in our people and strive to imprint our CORE values of Collaboration, Openness, Responsibility and Excellence. We believe each of us is here to help others succeed and this has led to PIMCO being recognized as an innovator, industry thought leader and trusted advisor to our clients.\n\n027 Summer Internship – US Trade Floor Operations Analyst (Cash Desk, Middle Office, Investment Operations)\n\nInternship positions are located at PIMCO’s Newport Beach, CA Headquarters\n\nPursuing an undergraduate degree\n\nMust be able to begin full time employment at a PIMCO office between January 2028 – August 2028\n\nMust be enrolled at a university during the Fall 2027 semester (August 2027 – December 2027)\n\nHave a minimum 3.2 cumulative collegiate grade point average on a 4.0 scale (or the equivalent) at an accredited 4-year college or university\n\nAre business proficient in English\n\nDemonstrate advanced Microsoft Excel skills and/or Python, SQL, VBA\n\nShow a strong interest in the financial markets, macroeconomics, investment finance, and the investment trade lifecycle\n\nPossess outstanding analytical skills with the ability to function efficiently and problem-solve in a fast paced and time-critical environment\n\nCommunicate clearly and collaborate effectively across complex financial, operational, and technical environments.\n\nDemonstrate acute attention to detail and can manage multiple competing priorities with appropriate independence and judgment\n\nDemonstrate accountability, resilience, adaptability, intellectual curiosity, and a continuous improvement mindset\n\nShow the following traits: assertiveness, ethical, collaborative, organized, flexible, high energy, self-starter, accountable, humble\n\nCan operate effectively when priorities or the path forward are not fully defined\n\nHave completed finance, fixed income, data analytics, and/or capital markets coursework (recommended)\n\nDemonstrate curiosity and experience in using new emerging technologies and AI tools in your work or school projects to solve problems and drive better outcomes\n\nApproach AI-generated output thoughtfully by evaluating reliability, appropriateness, and potential risks before use.\n\nGain exposure to the end-to-end investment trade lifecycle through structured experiences across Cash Desk, Middle Office, and Investment Operations.\n\nCollaborate with Portfolio Management, Account Management, Trade Support, Legal & Compliance, Operations, Technology, State Street IMS, broker-dealers, custodian banks, clients, and third-party platforms, as relevant to each team.\n\nContribute to technology-enabled process enhancements, data analysis, reporting, operational controls, and workflow improvement initiatives.\n\nBuild a foundation for potential future opportunities across Trade Floor Operations, Trade Management, Investment Operations, and the broader investment platform\n\nAs a Trade Floor Operations Analyst intern within the US Trade Floor Operations group, you’ll have the opportunity to develop your career by learning about and working within the following three teams:\n\nThe Cash Desk is a key operational unit responsible for managing cash, reporting client cash flows, and providing internal cash forecasts across client accounts, mutual funds, and hedge funds. The team works closely with Portfolio Management to support projected overdraft coverage and the investment of excess cash into liquid securities. The Cash Desk regularly interacts with portfolio managers, account managers, internal operations groups, clients, State Street IMS, and custodian banks.\n\nMiddle Office\n\nThe Middle Office manages and governs a key control environment supporting the day-to-day trade lifecycle of PIMCO's Portfolio Management team. Team members collaborate with Portfolio Management, Trade Support, Legal & Compliance, Operations, Technology, and State Street IMS. The team also engages with broker-dealers, custodian banks, and third-party trading platforms.\n\nInvestment Operations\n\nInvestment Operations includes Investment Operations and Corporate Actions. Investment Operations focuses on new securities, emerging-market capabilities, FX execution methods, claim and break resolution, and custodial oversight. Corporate Actions oversees mandatory and voluntary events, restructurings, proxies, bank loan amendments, defaulted securities processing, and class actions. Both teams interact broadly across PIMCO and with State Street Bank, broker-dealers, and client custodian banks.\n\nWhile our eligibility requirements are not flexible, we encourage you to apply even if you do not possess 100% of the desired skills outlined above.\n\nThe PIMCO Internship is a 10-week program that runs from early June to mid-August, with the expectation that you will be available for the full duration of the program\n\nDuring Week 1, you’ll participate in PIMCO Fundamentals Training, providing you with the skills, knowledge, and relationships that will prepare you for success\n\nAlongside your colleagues, participate in PIMCO's Global Month of Volunteering, developed to heighten the impact of our employees' worldwide volunteer efforts\n\nJoin us for a variety of cross-divisional education, networking & social events!\n\nYour supervisor, peer mentor, senior leaders and team offer guidance and mentorship throughout the summer\n\nYou will gain hands-on experience with AI-powered tools from day one, with training and resources that help build future ready skills and make an impact from the start\n\nYou’ll receive feedback at mid- and end-of-summer as part of a formal review process to keep you on the path to meeting your summer goals\n\nWant to learn more? Hear about The PIMCO Internship Experience from past interns\n\nAs a PIMCO intern, you’ll receive competitive compensation, along with a transition bonus to help with relocation to one of our office locations\n\nAfter we receive your application, we will conduct an initial review of your resume\n\nIf you are selected to move forward, you will take a cognitive assessment and have the opportunity to showcase your interests, skills, and personality by completing a one-way video interview\n\nOnce you complete the assessment and one-way video interview, you will have a final round of live interviews via video conference. These interviews typically include both behavioral and technical questions\n\nPIMCO is an equal opportunity employer committed to creating an inclusive, cognitively diverse environment.\n\nFor more information on PIMCO and Career Opportunities, please visit www.pimco.com/careers/students\n\nPIMCO follows a total compensation approach when rewarding employees which includes a base salary and a discretionary bonus. Base salary is the fixed component of compensation that is determined by core job responsibilities, relevant experience, internal level, and market factors. The discretionary bonus is used to award performance and therefore is determined by company, business, team, and individual performance.\n\nHourly Rate: $ 34.62 Equal Employment Opportunity and Affirmative Action Statement\n\nPIMCO recruits and hires qualified candidates without regard to race, national origin, ancestry, religion (including religious dress and grooming practices), sex (including pregnancy, childbirth, breastfeeding, or related medical conditions), sexual orientation, gender (including gender identity and expression), age, military or veteran status, disability (physical or mental), any factor prohibited by law, and as such affirms in policy and practice to support and promote the concept of equal employment opportunity and affirmative action, in accordance with all applicable federal, state, provincial and municipal laws. The company also prohibits discrimination on other basis such as medical condition, or marital status under applicable laws.\n\nApplicants with Disabilities\n\nPIMCO is an Equal Employment Opportunity/Affirmative Action employer. We provide reasonable accommodation for qualified individuals with disabilities, including veterans, in job application procedures. If you have any difficulty using our online system due to a disability and you would like to request an accommodation, you may contact us at 949-720-7744 and leave a message. This is a dedicated line designed exclusively to assist job seekers with disabilities to apply online. Only messages left for this purpose will be considered. A response to your request may take up to two business days.",
     "company": "PIMCO",
-    "title": "2027 Summer Intern - Trade Floor Operations Analyst"
+    "title": "2027 Summer Intern - Trade Floor Operations Analyst",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "Greece",
@@ -5080,7 +6836,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=satorianalytics.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Solve Problems: Troubleshoot and debug data processes with guidance from senior engineers.",
       "SQL Knowledge: Some experience with SQL and a basic understanding of databases.",
@@ -5092,7 +6847,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Build Data Solutions: Help design and develop ETL pipelines using tools like Azure Data Factory and Databricks."
     ],
     "description": "Are you passionate about AI? 🤖\n\nAt Satori Analytics, we aim to change the world one algorithm at a time by bringing clarity to global brands through Data & AI. From cloud-based ecosystems for fintech to predictive models for airlines, our cutting-edge solutions cover the entire data lifecycle—from ingestion to AI applications.\n\nAs a fast-growing scale-up, our team of 100+ tech specialists—including Data Engineers, Data Scientists, and more—delivers innovative analytics solutions across industries like FMCG, retail, manufacturing and FSI. Join us as we lead the data revolution in South-Eastern Europe and beyond!\n\nCollaborate and Learn: Work with Solution Architects, Developers, and Business Analysts to support high-quality project delivery.\n\nBuild Data Solutions: Help design and develop ETL pipelines using tools like Azure Data Factory and Databricks.\n\nGet Hands-On: Assist with data migrations, cloud transitions, and automation of routine tasks.\n\nSolve Problems: Troubleshoot and debug data processes with guidance from senior engineers.\n\nGrow Your Skills: Embrace a dynamic, fast-paced environment with plenty of opportunities to learn and develop.\n\nSQL Knowledge: Some experience with SQL and a basic understanding of databases.\n\nInterest in Cloud Tech: Familiarity with Azure or other cloud platforms is a plus, but not required.\n\nTeam Player: Willingness to collaborate and contribute to a supportive team environment.\n\nCuriosity: Eager to learn new tools and approaches to solving data problems.\n\nExposure to BI tools (e.g., Power BI or Tableau) or scripting (e.g., Python, PowerShell).",
-    "title": "Junior Data Engineer"
+    "title": "Junior Data Engineer",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "GB",
@@ -5148,7 +6904,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA strong pathway for junior engineers looking to master end-to-end software configurations and enterprise integrations. NielsenIQ provides dedicated senior guidance while giving candidates direct ownership of technical resolution workflows.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Oxford, OXF, United Kingdom.\n\n🏢 Role Overview:\nThe Customer Success Junior Consultant will be working very closely with less complex but strategically important clients (Silver/Gold NSM clients) in Grocery industry to have a rigorous understanding of their business, objectives, priorities, and investment decisions they are making or considering. This will enable you to highlight unmet client needs and identify sales opportunities to pass to our account development associates.  ",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "PT",
@@ -5202,65 +6958,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Natixis in Portugal emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Portugal, , Portugal.\n\n🏢 Role Overview:\nNatixis in Portugal is currently seeking a Junior SQL Developer (French Speaker) to join its BPCE SI (BPCE Solutions Informatiques) team, within the IT (Information Technologies) department. ",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 0,
-    "city": "New York",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Product Designer – Private Bank Digital, Early Career",
-    "salary": {
-      "unit": "HOUR",
-      "min": 85000,
-      "max": 105000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Security",
-      "Figma",
-      "Design Systems",
-      "UI/UX",
-      "Prototyping"
-    ],
-    "experienceLevel": "New Grad",
-    "fingerprint": "jpmorganchase-product-designer-private-bank-digital-early-career-new-york-ny",
-    "atsProvider": "Direct Career Portal",
-    "company": "JPMorganChase",
-    "id": "manual-1790702768470",
-    "state": "NY",
-    "datePosted": "2026-09-28",
-    "validThrough": "2026-10-29",
-    "employmentType": "INTERN",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210794454",
-    "location": "New York, NY",
-    "category": "Frontend",
-    "companyWebsite": "https://www.jpmorganchase.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=jpmorganchase.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across JPMorganChase.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "JPMorganChase is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "FR",
@@ -5314,7 +7012,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn ideal position for entry-level technologists looking to strengthen foundational distributed system design, cloud primitives, and containerized deployments.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Flask, Docker and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nSia recrute un(e) Software Engineer pour accompagner le développement des activités de la Business Unit Data Science.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "Greece",
@@ -5357,7 +7055,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=peoplecert.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Bachelor’s degree in Analytics, Computer Science, Information Systems, Statistics, or a related field.",
       "1+ years of hands-on experience in data analytics, reporting, or a related role.",
@@ -5377,60 +7074,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Contribute to the ongoing improvement of reporting tools, frameworks, and best practices."
     ],
     "description": "Are you interested in working with a leading education technology player, the global leader in the assessment and certification of professional skills industry with presence in more than 200 countries worldwide? If so, this is the chance to apply now! 📥\n\nPeopleCert is looking for a Junior Data Analyst will be a dedicated resource for supporting all reporting and analytics needs of LanguageCert government contracts. The role involves working with data from multiple sources, ensuring accurate reporting, and providing actionable insights to stakeholders in a timely and efficient manner.\n\nCollect, clean, and prepare data from internal and external sources for reporting and analysis.\n\nWrite and optimize SQL queries to extract, manipulate, and analyze data effectively.\n\nDevelop, maintain, and enhance reports, dashboards, and visualizations using Excel and Power BI.\n\nPrepare recurring and ad-hoc reports for government stakeholders, ensuring accuracy, clarity, and timely delivery.\n\nCollaborate with internal teams to understand reporting needs and translate them into actionable deliverables.\n\nConduct data quality checks to ensure consistency and accuracy across all reports.\n\nIdentify trends, anomalies, and actionable insights from data, and provide relevant recommendations.\n\nAssist in automating manual reporting tasks to enhance efficiency and reduce errors.\n\nContribute to the ongoing improvement of reporting tools, frameworks, and best practices.",
-    "company": "PEOPLECERT"
-  },
-  {
-    "country": "DE",
-    "maxYearsExperience": 1,
-    "city": "Düsseldorf",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Working Student OMP (Offer Methods and Processes) and Master Data (all genders)",
-    "salary": {
-      "unit": "YEAR",
-      "min": 0,
-      "max": 0,
-      "currency": "EUR"
-    },
-    "skills": [
-      "Data Analysis"
-    ],
-    "qualifications": [
-      "You are an enrolled Student in Business Administration, Business Analytics/Intelligence, Data Science, Economics, Computer Science/IT, Mathematics/Statistics, Management, Logistics or similar",
-      "You are interested in processes of wholesale operations",
-      "You are a team player with high level of motivation and ability to work independently",
-      "You are interested in product knowledge and master data",
-      "You are fluent in written and spoken English",
-      "You have good skills of MS Office with focus on PPT and data analysis, advanced Excell knowledge (nice to have, but not a must)"
-    ],
-    "experienceLevel": "New Grad",
-    "responsibilities": [
-      "Evaluate, review, and maintain master data attributes for common sourcing projects",
-      "Work with cross-functional teams (Sourcing, Global Own Brand Management, QA, Packaging, …) to gather and harmonize data requirements, ensuring timely delivery of master data changes",
-      "Investigate inconsistencies, missing data, or data quality issues and coordinate corrections with relevant stakeholders",
-      "Contribute to Own Brand Food/Non-Food/Wine Handbooks process optimization initiatives by identifying recurring data issues and proposing improvements",
-      "Serve as the primary contact for data-related questions and master data KPI result"
-    ],
-    "fingerprint": "metro-makro-working-student-omp-offer-methods-and-processes-and-master-data-all-genders--d-sseldorf-nrw-germany",
-    "atsProvider": "SmartRecruiters",
-    "company": "METRO/MAKRO",
-    "id": "manual-1790600075573",
-    "state": "NRW",
-    "datePosted": "2026-09-28",
-    "validThrough": "2026-10-12",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://ui-avatars.com/api/?name=METRO%2FMAKRO&background=0F172A&color=fff&size=128",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.smartrecruiters.com/METROMAKRO/744000152162970-working-student-omp-offer-methods-and-processes-and-master-data-all-genders-",
-    "location": "Düsseldorf, NRW, Germany",
-    "category": "Data / AI",
-    "companyWebsite": "https://metromakro.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in Data Analysis and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Düsseldorf, NRW, Germany.\n\n🏢 Role Overview:\nStart date: 01.09.2026",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "company": "PEOPLECERT",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -5469,7 +7114,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=thegaramgroup.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "A “Customer First” philosophy and mindset. If you don’t like serving people and cheerfully solving their problems, this is probably not the job for you.",
       "The ability to be punctual. Someone who believes that early is on time and on time is late.",
@@ -5484,7 +7128,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Manage tickets using our ticketing system (Autotask)",
       "Manage endpoints using AEM (Autotask Endpoint Management)"
     ],
-    "description": "Helpdesk Support Engineer\n\nWe are looking to expand our team of superstars.\n\nAt The Garam Group, we believe happy employees lead to happy clients. This is why our driving principles are to provide a fun and dynamic work environment where customer service is job number one and why we only hire the most talented people in the industry.\n\nWhile we have a wide array of backgrounds and work experience, everyone at The Garam Group shares one common trait - a passion for creating that \"WOW!\" experience for our clients. If you possess a fierce commitment to customer support and have a work ethic to match, we believe we have an environment in which you will thrive.\n\nIntegrity – Doing the right thing even when no one is watching.\n\nDedication – Taking ownership and seeing things through to completion.\n\nPositive Attitude – Approaching every situation with an optimistic attitude.\n\nTeam Oriented – Always working together for the betterment of each individual and the organization.\n\nFun – Taking ourselves less seriously and laughing often.\n\nAs a Helpdesk Engineer you will be a member of a team that fields incoming support requests, manages ticket queues and works with clients over the phone to provide outstanding technical support.\n\nManage tickets using our ticketing system (Autotask)\n\nManage endpoints using AEM (Autotask Endpoint Management)\n\nRemote support\n\nBackup monitoring\n\nWorkstation & laptop builds\n\nNew phone configurations\n\nPhone deployment assistance\n\nAntivirus system management\n\nBehind the scenes work for clients\n\nOn-site support for large office moves / configurations\n\nOn call rotation\n\nA “Customer First” philosophy and mindset. If you don’t like serving people and cheerfully solving their problems, this is probably not the job for you.\n\nThe ability to be punctual. Someone who believes that early is on time and on time is late.\n\nThe unusual ability to be obsessively detail oriented.\n\nThe ability to cheerfully take ownership of any problem.\n\nThe ability to design and execute a plan.\n\nThe desire to have a professional and polished image.\n\nThe ability to write and speak clearly and to be able to explain complex topics simply.\n\nThe discipline to maintain strong documentation.\n\nNOT be a job hopper. We are looking to invest in you and have a long term successful relationship for BOTH of us.\n\nHave a good reliable vehicle.\n\nCompensation is dependent upon experience and is higher than market standards.\n\nCertifications are nice but experience reigns supreme.\n\nYou won’t have to leave us to get ahead. Our high performers stick with us and grow with us.\n\nWe have fun and believe in providing a great work environment for our people.\n\nIf you don’t have much practical experience, if you aren’t fun to be around, if you can’t stand up to pressure, if you are not looking for a long-term thing, then you probably should not accept an interview.\n\nThree years of experience working in technical support is preferred, however, if you have the ability, integrity and capacity to join our team we are willing to hire and train you for success.\n\nEmployer provides the following benefits\n\nHealth Insurance\n\nDental Insurance\n\nLong-term disability insurance\n\nRetirement account"
+    "description": "Helpdesk Support Engineer\n\nWe are looking to expand our team of superstars.\n\nAt The Garam Group, we believe happy employees lead to happy clients. This is why our driving principles are to provide a fun and dynamic work environment where customer service is job number one and why we only hire the most talented people in the industry.\n\nWhile we have a wide array of backgrounds and work experience, everyone at The Garam Group shares one common trait - a passion for creating that \"WOW!\" experience for our clients. If you possess a fierce commitment to customer support and have a work ethic to match, we believe we have an environment in which you will thrive.\n\nIntegrity – Doing the right thing even when no one is watching.\n\nDedication – Taking ownership and seeing things through to completion.\n\nPositive Attitude – Approaching every situation with an optimistic attitude.\n\nTeam Oriented – Always working together for the betterment of each individual and the organization.\n\nFun – Taking ourselves less seriously and laughing often.\n\nAs a Helpdesk Engineer you will be a member of a team that fields incoming support requests, manages ticket queues and works with clients over the phone to provide outstanding technical support.\n\nManage tickets using our ticketing system (Autotask)\n\nManage endpoints using AEM (Autotask Endpoint Management)\n\nRemote support\n\nBackup monitoring\n\nWorkstation & laptop builds\n\nNew phone configurations\n\nPhone deployment assistance\n\nAntivirus system management\n\nBehind the scenes work for clients\n\nOn-site support for large office moves / configurations\n\nOn call rotation\n\nA “Customer First” philosophy and mindset. If you don’t like serving people and cheerfully solving their problems, this is probably not the job for you.\n\nThe ability to be punctual. Someone who believes that early is on time and on time is late.\n\nThe unusual ability to be obsessively detail oriented.\n\nThe ability to cheerfully take ownership of any problem.\n\nThe ability to design and execute a plan.\n\nThe desire to have a professional and polished image.\n\nThe ability to write and speak clearly and to be able to explain complex topics simply.\n\nThe discipline to maintain strong documentation.\n\nNOT be a job hopper. We are looking to invest in you and have a long term successful relationship for BOTH of us.\n\nHave a good reliable vehicle.\n\nCompensation is dependent upon experience and is higher than market standards.\n\nCertifications are nice but experience reigns supreme.\n\nYou won’t have to leave us to get ahead. Our high performers stick with us and grow with us.\n\nWe have fun and believe in providing a great work environment for our people.\n\nIf you don’t have much practical experience, if you aren’t fun to be around, if you can’t stand up to pressure, if you are not looking for a long-term thing, then you probably should not accept an interview.\n\nThree years of experience working in technical support is preferred, however, if you have the ability, integrity and capacity to join our team we are willing to hire and train you for success.\n\nEmployer provides the following benefits\n\nHealth Insurance\n\nDental Insurance\n\nLong-term disability insurance\n\nRetirement account",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -5522,7 +7167,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     },
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=vistagroup.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Degree in Information Technology, Computer Science or equivalent (preferred)",
       "Experience in software application support, deployment, and consultancy",
@@ -5539,7 +7183,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Develop and maintain an extensive understanding of the cinema industry’s business operations to effectively configure and support Vista software for clients, becoming an expert in Vista’s suite of software modules"
     ],
     "description": "Part of a talented team of Solution Specialist's, your principal objectives are to execute on our on-premises implementations, projects, consultation, and other dedicated client professional services agreements, as well as the client facing team for our rapidly increasing platform projects around the world. They are responsible for ensuring the delivery of great outcomes for our clients. In summary, they help to generate exceptional client experiences while migrating our clients to our platform offerings.\n\nAbout the role\n\nDevelop and maintain an extensive understanding of the cinema industry’s business operations to effectively configure and support Vista software for clients, becoming an expert in Vista’s suite of software modules\n\nPerform project discovery, analyze client requirements, create system designs, and implement solutions within the Vista suite of software, testing the configuration to satisfy client requirements\n\nInstall and configure the Vista on-premise and platform software, as part of both smaller consultation projects and full-scale, long-term deployments, remotely and onsite,\n\nEffectively train Vista clients both remotely and in person\n\nConsult with clients on best practices, helping them realize the full potential of the Vista software\n\nTake ownership of project tasks, delivering through to completion • Build strong relationships with clients and team members\n\nExpected to perform cross-regional and cross-departmental tasks and initiatives as assigned either on an adhoc, temporary basis, or as part of a more formal rotation program\n\nWhile we intend to perform the vast majority of work during standard business hours, team members may be asked to assist with some work items that cannot be performed while clients are operating, including but not limited to system upgrades, maintenance items, or assist with other urgent or business critical, configuration and / or support items\n\nTravel domestically and internationally",
-    "title": "Solution Specialist"
+    "title": "Solution Specialist",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "NL",
@@ -5594,7 +7239,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA strong pathway for junior engineers looking to master end-to-end software configurations and enterprise integrations. Lely provides dedicated senior guidance while giving candidates direct ownership of technical resolution workflows.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Maassluis, ZH, Netherlands.\n\n🏢 Role Overview:\nWerk jij graag met techniek, vind je het leuk om dingen uit te zoeken en wil je jezelf ontwikkelen tot specialist in de nieuwste robottechnologie? Dan is dit een mooie kans om je technische carrière bij Lely te starten.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "DE",
@@ -5649,61 +7294,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at Ströer SE & Co. KGaA (Ströer Gruppe).\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Leipzig, SN, Germany.\n\n🏢 Role Overview:\nDu koordinierst als Projektverantwortliche:r eigenständig Bauunternehmer:innen und Energieversorger:innen bei der Planung, Durchführung und Abwicklung von Bau- und Instandhaltungsmaßnahmen an Werbeanlagen und Stadtmöbeln\nDu betreust unsere Bewirtschaftungsdienstleister:innen und koordinierst und überwachst dabei in enger Abstimmung Wartungsarbeiten sowie die Mängelbeseitigung und gewährleistest einen reibungslosen Betrieb\nDu sicherst dabei die Einhaltung technischer Vorgaben, Termine und Qualitätsstandards\nDu führst regelmäßige Kontrollabfahrten in Deinem Gebiet durch und dokumentierst und steuerst anfallende Aufgaben an sowie um unsere Werbeanlagen\nDu prüfst die Abrechnung beauftragter Leistungen\nDu holst notwendige behördliche Dokumente für die Durchführung von Baumaßnahmen ein und unterstützt ferner den Bereich Public Affairs im kontinuierlichen Austausch mit unseren Vertragspartnern",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "source": "MANUAL_ADMIN",
-    "title": "Remote IT Support Test Technician (entry Level) in United States at J Mack Technologies",
-    "salary": {
-      "unit": "YEAR",
-      "min": 92000,
-      "max": 125000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "j-mack-remote-it-support-test-technician-entry-level-in-united-states-at-j-mack-technologies-remote",
-    "atsProvider": "Workable",
-    "company": "J Mack",
-    "id": "manual-1790535765513",
-    "datePosted": "2026-09-27",
-    "applicantLocationRequirements": "US",
-    "validThrough": "2026-10-27",
-    "employmentType": "FULL_TIME",
-    "isRemote": true,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.workable.com/en/view/eATSsuoXwMcxmw154BRK9M/remote-it-support-test-technician-(entry-level)-in-united-states-at-j-mack-technologies",
-    "location": "Remote (US)",
-    "category": "QA / Test",
-    "companyWebsite": "https://www.j-mack.com/",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=en.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across J Mack.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "J Mack is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -5759,7 +7350,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exciting opening for early-career technologists focused on clean code, software design patterns, and high-velocity team collaboration at Spring Venture Group.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Kansas City, MO, United States.\n\n🏢 Role Overview:\nPosition Overview",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -5808,7 +7399,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=en.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z",
     "qualifications": [
       "At least 1 year of combined relevant experience in application security, vulnerability research, security-focused software engineering, or a closely related area. This experience may come from employment, internships, advanced coursework, independent research, open-source contributions, CTFs, or substantial personal or academic projects.",
       "Demonstrable vulnerability-discovery capability. You can talk through a vulnerability or security weakness you personally found or validated, including how you identified it, established its impact, and reached your conclusion. Evidence may come from professional work, coursework, projects, CTFs, CVEs, bug bounties, responsible disclosure, open source, or comparable research.",
@@ -5822,7 +7412,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "These are not day-one requirements, but areas where the role can grow."
     ],
     "description": "Location: Remote, United States\n\nAbout Trail of Bits\n\nFounded in 2012 by 3 expert hackers with no investment capital, Trail of Bits is the premier place for security experts to boldly advance security and address technology's newest and most challenging risks. It has helped secure some of the world's most targeted organizations and devices. Our combination of novel research with practical solutions reduces the security risks that our clients face from emerging technologies. Our work helps drive the security industry and the public understanding of the technology underlying our world.\n\nCybersecurity preparedness is a moving target. Companies like ours are the tip of the spear in the fight against attackers. Our research-based and custom-engineering approach ensures that our client's capabilities are at the forefront of what's available. For companies and technologies that live and die by their security, a proactive, tailored approach is required to keep one step ahead of attackers.\n\nDemocratizing security information is essential. As part of our business, we provide ongoing informational support through blogs, whitepapers, newsletters, meetups, and open-source tools. The more the community understands security, the more they'll understand why a company like ours is so unique and valuable.\n\nThe Role\n\nTrail of Bits seeks a Security Engineer I for our Application Security practice. You will contribute to security assessments of client software, partner with more experienced engineers, identify vulnerabilities across the application and system levels, and own clearly scoped pieces of client engagements. You will drive your own vulnerability analysis, develop tools alongside the team, and help clients understand and fix the issues you find.\n\nThis role bridges vulnerability research and applied security. Your work will be hands-on: analyzing complex code, building custom tooling, conducting threat modeling, and owning your findings through client delivery. It is distinct from roles centered on security operations, SOC work, GRC, compliance, policy, audit, or general security administration. Candidates from broader or adjacent security backgrounds should be prepared to talk through relevant hands-on, code-level security work they have personally completed.\n\nSecurity Engineer I is an early-career role, but it is not a training role for someone new to software or security. Relevant experience may come from professional work, internships, advanced coursework, independent research, open-source contributions, CTFs, or substantial personal or academic projects. Regardless of where you gained the experience, you should be able to talk through code-level security work you performed, how you approached the problem, and the conclusions you reached. You will receive direction and review from a project lead while independently completing well-scoped technical work.\n\nWhat You'll Achieve\n\nSecurity Assessment Ownership: Lead the review of a specific component, module, or system within a larger client engagement. Trace root causes and own your analysis from discovery through client delivery.\n\nVulnerability Discovery and Analysis: Find and validate vulnerabilities in application code and systems, explain exploitation paths, assess impact, and develop proof-of-concept code when appropriate.\n\nCustom Security Tooling: Design and build security-testing tools and automation for vulnerability detection and deeper analysis.\n\nArchitecture and Threat Modeling: Review software architectures, identify attack surfaces, data flows, trust and privilege boundaries, and recommend concrete mitigations.\n\nClient Communication: Translate technical findings into clear, actionable recommendations for engineering teams and explain the evidence behind your conclusions.\n\nResearch and Innovation: Contribute to security research, open-source tools, internal knowledge sharing, and technical documentation.\n\nWhat You'll Bring",
-    "title": "Security Engineer I, Application Security"
+    "title": "Security Engineer I, Application Security",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
@@ -5859,7 +7450,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=pattersoncompanies.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "High School Diploma or Equivalent",
       "1 year customer service experience",
@@ -5877,7 +7467,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     ],
     "description": "The Support Specialist - Tier I properly responds to inbound and outbound customer calls to provide technical support, answer how-to questions, and consult on workflow inquiries for software, services, peripheral devices, and equipment via a combination of verbal guidance and remote connection to the customer's computer(s). The specialist documents the type of inquiry, clarifying details, steps taken, resources utilized, status of resolution, and next steps in CRM system(s), enters tickets as needed, and takes appropriate follow-up actions as needed. During the interactions, the specialist provides a positive experience with customer engagement. They utilize available resources and work through proper escalation channels, following company procedures and policies. This full-time, permanent position is remote for candidates who reside in ID, IL, MN, MI, KS, KY, SD, UT & WI only.\n\nRespond to Inbound and Outbound Calls providing technical support, answer how-to questions, and consult on workflow inquiries for software, services, peripheral devices, and equipment\n\nUtilize all equipment and resources provided to perform the job at the highest proficiency\n\nMeet or exceed department performance metrics\n\nMaintain technical proficiency through continued education with relevant software, services, peripheral devices, and equipment\n\nCommunicate and escalate issues with customers, peers, and leadership effectively, in a timely manner, with positive engagement\n\nFollow established department processes and procedures\n\nLearn new required skillsets aligned with evolving business needs while following the appropriate growth trajectory of the role\n\nFollow schedule in workforce system(s) utilizing proper time management procedures\n\nComply with Company and department policies and standards; performs other duties as assigned",
     "company": "Patterson Technology Center",
-    "title": "Support Specialist - Tier 1 (Remote)"
+    "title": "Support Specialist - Tier 1 (Remote)",
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -5913,7 +7504,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=elevenlabs.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
     "qualifications": [
       "Strong hands-on background in IT Engineering, Technical Operations, or a DevOps-adjacent role, with an automation-first mindset and experience managing enterprise scale IT systems",
       "Strong knowledge of identity and access management technologies (SAML, SCIM, OIDC) with tools such as Okta and Google Workspace",
@@ -5935,119 +7525,8 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
       "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
       "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ]
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Junior Systems & Network Administrator Internship (tallahassee, Fl) in Tallahassee at Diverse Computing",
-    "salary": {
-      "unit": "HOUR",
-      "min": 16,
-      "max": 30,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
     ],
-    "experienceLevel": "Internship",
-    "fingerprint": "en-junior-systems-network-administrator-internship-tallahassee-fl-in-tallahassee-at-diverse-computing-united-states-hybrid",
-    "atsProvider": "Workable",
-    "company": "En",
-    "id": "manual-1790535434402",
-    "state": "CA",
-    "datePosted": "2026-09-27",
-    "validThrough": "2026-10-27",
-    "employmentType": "INTERN",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://jobs.workable.com/en/view/1i7kFTuReLmXtgTzAYshzj/junior-systems-%26-network-administrator---internship-(tallahassee%2C-fl)-in-tallahassee-at-diverse-computing",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://en.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=en.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across En.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "En is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
-  },
-  {
-    "country": "US",
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "salary": {
-      "unit": "YEAR",
-      "min": 92000,
-      "max": 125000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Git",
-      "Software Engineering",
-      "Problem Solving"
-    ],
-    "experienceLevel": "Entry Level",
-    "atsProvider": "Direct Career Portal",
-    "company": "Paramount",
-    "id": "manual-1790520400484",
-    "state": "CA",
-    "datePosted": "2026-09-27",
-    "validThrough": "2026-10-27",
-    "employmentType": "FULL_TIME",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://careers.paramount.com/job/Los-Angeles-Business-Analyst-CA-90038/1405002800/",
-    "location": "United States / Hybrid",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.paramount.com",
-    "status": "ACTIVE",
-    "maxYearsExperience": 2,
-    "fingerprint": "paramount-business-analyst-united-states-hybrid",
-    "title": "Business Analyst",
-    "healthStatus": "HEALTHY",
-    "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=paramount.com",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.046Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Paramount.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Paramount is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.311Z"
   },
   {
     "country": "US",
@@ -6100,7 +7579,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level problem-solvers who enjoy diagnosing complex technical issues across live applications, bridging engineering fixes with real-world user requirements.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Go, Security and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 92k–125k/year with career progression reviews.\n• Location: Based in Remote, USA, United States.\n\n🏢 Role Overview:\nThe Tier 2 Technical Support Analyst serves as a key technical leader responsible for resolving complex, high-priority escalations and maintaining business-critical IT operations nationwide. Operating with high autonomy, this role drives technical decision-making across advanced infrastructure, network systems, telephony, and specialized clinical hardware.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
@@ -6152,7 +7631,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level developers ready to move beyond tutorial projects and take ownership of user-facing features within a collaborative engineering culture.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in New York, NY, United States.\n\n🏢 Role Overview:\nPA's Growth Strategy team helps organizations identify opportunities for sustainable growth through customer insight, market analysis, and strategic thinking. As an Analyst in our Early Career Program, you will work alongside experienced practitioners to solve complex business challenges and help clients make confident strategic decisions.  ",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "IT",
@@ -6202,7 +7681,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 595–700/hr with career progression reviews.\n• Location: Based in Milano, Via Tortona 33, Italy.\n\n🏢 Role Overview:\nSupport the team in analyzing in-market data, studying results, and summarizing insights in emails, reports, and slides\nManage basic client requests\nDeliver insights on FMCG/retail phenomena.\nBe point of contact and interface with several company departments, in order to be a collector among them and the clients",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "NG",
@@ -6255,7 +7734,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA well-rounded opportunity for junior engineers to touch both client-side interfaces and backend logic, shipping real features directly into production at The Place.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Lagos, LA, Nigeria.\n\n🏢 Role Overview:\nSite reconnaissance for proposed new site\nDesign and drawing conceptualization for new outlet, including equipment electrical ceiling layout.\nCarry assignments to completion with considerable independence in accordance with project objectives, professional standards, and policies and procedures\nInspect and supervises the inspection of construction projects while in progress and upon completion for adherence to plans and specification; advises contractors on the interpretation of plans and specifications; approves minor designs changes in the course of the construction; reviews contractors’ requests for payment.\nConducts research and special studies pertaining to buildings and facilities development and maintenance; prepares reports and recommendations for the review of a superior.\nPrepares materials, writes construction specifications, and prepares detailed requisitions for equipment and materials.\nWall elevations and detailed construction drawings\nAssist in visual presentations (interiors and exteriors) for club and eatery\nKnowledge on site supervision and project management",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "FR",
@@ -6311,68 +7790,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "state": "IDF",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at MAZARS emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on ServiceNow, Data Analysis and version control (Git).\n• Interview Focus: Engineering leads evaluate clean analytical problem-solving, architectural curiosity, domain awareness, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 48k–65k/year with career progression reviews.\n• Location: Based in Levallois-Perret, IDF, France.\n\n🏢 Role Overview:\nThe Independence Support Analyst supports the Network’s independence and compliance processes by providing technical assistance, troubleshooting issues, and performing basic data analytics under supervision. This role is ideal for early‑career professionals seeking experience in compliance operations, technology support, and global collaboration.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
-  },
-  {
-    "country": "US",
-    "maxYearsExperience": 1,
-    "city": "San Francisco",
-    "postalCode": "94105",
-    "source": "MANUAL_ADMIN",
-    "title": "Data Center Facilities Technician I Electrical",
-    "salary": {
-      "unit": "YEAR",
-      "min": 110000,
-      "max": 155000,
-      "currency": "USD"
-    },
-    "skills": [
-      "Python",
-      "SQL",
-      "Machine Learning",
-      "PyTorch",
-      "Pandas",
-      "Data Pipelines",
-      "GCP",
-      "Git"
-    ],
-    "experienceLevel": "Entry Level",
-    "fingerprint": "google-data-center-facilities-technician-i-electrical-mountain-view-ca-hybrid",
-    "atsProvider": "Google Careers",
-    "company": "Google",
-    "id": "manual-1790451245540",
-    "state": "CA",
-    "datePosted": "2026-09-26",
-    "validThrough": "2026-11-10",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
-    "isRemote": false,
-    "viewsCount": 0,
-    "atsVerified": true,
-    "applyUrl": "https://www.google.com/about/careers/applications/jobs/results/140739504360039110-data-center-facilities-technician-i-electrical?target_level=EARLY",
-    "location": "Mountain View, CA / Hybrid",
-    "category": "Data / AI",
-    "companyWebsite": "https://careers.google.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z",
-    "qualifications": [
-      "Bachelor's degree in Information Technology, Information Systems, Computer Science, or equivalent practical credentials.",
-      "0–2 years of hands-on experience in IT support, systems administration, or technical operations.",
-      "Familiarity with modern enterprise platforms: Active Directory, Okta/SSO, Microsoft 365, or Google Workspace.",
-      "Working knowledge of computer networking fundamentals (TCP/IP, DNS, DHCP, VPN) and operating systems (Windows, macOS, Linux).",
-      "Basic scripting proficiency (Python, Bash, or PowerShell) for workflow automation is a strong plus.",
-      "Strong diagnostic problem-solving abilities paired with patient, customer-centric communication skills."
-    ],
-    "responsibilities": [
-      "Support, configure, and maintain enterprise software tools, network infrastructure, and workstations across Google.",
-      "Diagnose and resolve technical inquiries, software integration challenges, and system permissions escalations.",
-      "Partner with cross-functional technical teams to automate repetitive administrative tasks using scripting (Python, PowerShell, Bash).",
-      "Maintain comprehensive system documentation, standard operating procedures, and user onboarding playbooks.",
-      "Monitor service desk ticket resolution SLAs, track recurring root causes, and recommend systemic optimizations.",
-      "Participate in disaster recovery drills, routine data backup verification, and security compliance audits."
-    ],
-    "description": "Google is looking for a motivated technologist to join their team, supporting critical enterprise systems, technology workflows, and infrastructure operational excellence."
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "GB",
@@ -6420,7 +7838,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA structured runway for new graduates seeking broad engineering exposure, code review hygiene, and cross-functional agile development from day one at EDF UK.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Bridgwater, , United Kingdom.\n\n🏢 Role Overview:\nLooking for a career where you can learn, grow, and make an impact? At EDF, Success is Personal. From day one, you'll be supported by experts, build skills for the future, and play a part in powering Britain's transition to a more electrified, low-carbon future.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "IE",
@@ -6474,7 +7892,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for entry-level problem-solvers who enjoy diagnosing complex technical issues across live applications, bridging engineering fixes with real-world user requirements.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Dublin, County Dublin, Ireland.\n\n🏢 Role Overview:\nWe are looking for a Service Engineer to join our dedicated onsite engineering team at Dublin Airport. This is an exciting opportunity to work with market-leading security screening technologies that help keep people safe across the world's transportation hubs.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "VN",
@@ -6524,14 +7942,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for freshers seeking a high-support team culture where curiosity, clean problem-solving, and continuous learning are actively nurtured.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Thành phố Hồ Chí Minh, Hồ Chí Minh, Vietnam.\n\n🏢 Role Overview:\n• Support or perform EHS sampling as instructed by Technical Supervisor/Manager including Field, Monitoring and Marine services.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 0,
     "city": "",
-    "description": "Engineering Intern - Airbag ECU at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
+    "description": "Engineering Intern - Airbag ECU at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
     "source": "SMARTRECRUITERS",
     "title": "Engineering Intern - Airbag ECU",
     "salary": {
@@ -6576,7 +7994,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
@@ -6627,7 +8045,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for emerging developers ready for practical software development learning, offering direct exposure to modern engineering practices.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 60132.23–105231.39/hr with career progression reviews.\n• Location: Based in Pomona, CA, United States.\n\n🏢 Role Overview:\nJoin AECOM at the Cal Poly Pomona, STEM Career Fair 2026.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "NL",
@@ -6681,7 +8099,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Eurofins emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 3k–3k/year with career progression reviews.\n• Location: Based in Maastricht, LI, Netherlands.\n\n🏢 Role Overview:\nDo you enjoy helping colleagues get the most out of their IT environment and do you want to play a key role in supporting critical laboratory operations? At Eurofins, you’ll have the opportunity to make a direct impact by ensuring reliable, secure, and efficient IT services across multiple locations.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "TR",
@@ -6735,7 +8153,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at JYSK emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Maltepe, İstanbul, Turkey.\n\n🏢 Role Overview:\nWHAT YOUR NEXT JOB WILL BE ABOUT",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "FR",
@@ -6791,14 +8209,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nDesigned for early-career developers seeking immersion in live server architectures, automated CI/CD pipelines, and rigorous code reviews.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Java, Spring Boot, Docker, Kubernetes and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~EUR 45k–58k/year with career progression reviews.\n• Location: Based in Paris, IDF, France.\n\n🏢 Role Overview:\nRejoins un programme stratégique de transformation à grande échelle dans le domaine du Cash Management au sein d’un environnement bancaire international en pleine modernisation.",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "IT",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "",
-    "description": "Junior Digital Verification Engineer at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
+    "description": "Junior Digital Verification Engineer at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
     "source": "SMARTRECRUITERS",
     "title": "Junior Digital Verification Engineer",
     "salary": {
@@ -6843,14 +8261,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Seattle",
-    "description": "Duolingo is looking for a Fresher / Early-Career Mobile Software Engineer to build engaging learning experiences for over 80 million monthly active language learners worldwide.",
+    "description": "Duolingo is looking for a Fresher / Early-Career Mobile Software Engineer to build engaging learning experiences for over 80 million monthly active language learners worldwide. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop interactive lesson exercises and gamified animations in swift and swiftui. collaborate with ui/ux designers and audio engineers to deliver delight in every screen interaction.. Candidates should have strong fundamentals in 0 to 1 year of ios development experience; fresh graduates with personal apps on the app store or github are encouraged! working knowledge of swift, swiftui, or uikit..",
     "source": "AUTOMATED_SYNC",
     "title": "Fresher Mobile Software Engineer (iOS / Swift)",
     "salary": {
@@ -6899,7 +8317,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://duolingo.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "GB",
@@ -6955,14 +8373,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nAn exceptional launchpad for entry-level developers eager to build commercial fluency in JavaScript and backend data stores, contributing directly to high-volume business systems and data integrity.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on JavaScript, Python, Java, SQL and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~GBP 30k–38k/year with career progression reviews.\n• Location: Based in Belfast, Northern Ireland, United Kingdom.\n\n🏢 Role Overview:\nJunior ServiceNow Consultant",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "IN",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Pune",
-    "description": "Junior R&D Engineer (GEN AI/ML) at Ubisoft. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
+    "description": "Junior R&D Engineer (GEN AI/ML) at Ubisoft. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
     "source": "SMARTRECRUITERS",
     "title": "Junior R&D Engineer (GEN AI/ML)",
     "salary": {
@@ -7007,14 +8425,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/Ubisoft2",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Remote",
-    "description": "GitLab is hiring an Entry-Level / Associate Quality Assurance Engineer to build end-to-end testing frameworks, regression pipelines, and performance benchmark suites for our DevOps platform.",
+    "description": "GitLab is hiring an Entry-Level / Associate Quality Assurance Engineer to build end-to-end testing frameworks, regression pipelines, and performance benchmark suites for our DevOps platform. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include create and maintain automated test scripts using playwright and cypress. integrate test suites into gitlab ci/cd pipelines to prevent code regressions.. Candidates should have strong fundamentals in 0-2 years of software engineering or software testing experience. basic scripting proficiency in javascript, typescript, or ruby..",
     "source": "AUTOMATED_SYNC",
     "title": "Associate QA & Test Automation Engineer",
     "salary": {
@@ -7062,14 +8480,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gitlab.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Austin",
-    "description": "Cloudflare is seeking a Junior Cloud Infrastructure Engineer to join our global edge network engineering team. In this role, you will help monitor, automate, and expand our edge server clusters running across 300+ cities.",
+    "description": "Cloudflare is seeking a Junior Cloud Infrastructure Engineer to join our global edge network engineering team. In this role, you will help monitor, automate, and expand our edge server clusters running across 300+ cities. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include write deployment scripts and system automation using go and python. assist in troubleshooting linux kernel network queues and bgp routing edge anomalies.. Candidates should have strong fundamentals in 0-1 year experience in software or systems engineering; recent grads welcome. fundamental understanding of linux systems, tcp/ip networking, and dns..",
     "source": "AUTOMATED_SYNC",
     "title": "Junior Cloud Infrastructure Engineer",
     "salary": {
@@ -7118,14 +8536,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://cloudflare.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Figma is hiring University Graduate Software Engineers for our San Francisco office. You will work across the stack—from WebAssembly rendering engines and multiplayer WebSocket sync to collaborative web canvas interfaces.",
+    "description": "Figma is hiring University Graduate Software Engineers for our San Francisco office. You will work across the stack—from WebAssembly rendering engines and multiplayer WebSocket sync to collaborative web canvas interfaces. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include implement collaborative editor features used by millions of designers and product managers. optimize webgl and webassembly canvas rendering performance.. Candidates should have strong fundamentals in anticipated graduation between december 2024 and summer 2026 in computer science or related degree. sound knowledge of algorithms, systems programming, and modern web protocols..",
     "source": "AUTOMATED_SYNC",
     "title": "Software Engineer - University Graduate 2025/2026",
     "salary": {
@@ -7173,14 +8591,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": true,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Resend is building the modern email platform for developers. As a Product Engineer, you will own features end-to-end, from sleek Next.js interfaces and React Email templates to real-time analytics pipelines and developer APIs.",
+    "description": "Resend is building the modern email platform for developers. As a Product Engineer, you will own features end-to-end, from sleek Next.js interfaces and React Email templates to real-time analytics pipelines and developer APIs. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include ship polished, responsive user interfaces using next.js, tailwind css, and react email. implement performant backend routes and background queues for email delivery and webhook tracking.. Candidates should have strong fundamentals in experience building full-stack web applications with react, next.js, and typescript. strong visual sensibility and attention to detail in ui/ux implementation..",
     "source": "EMPLOYER_POST",
     "title": "Product Engineer",
     "salary": {
@@ -7228,14 +8646,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://resend.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": true,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Join the team redefining software project management. Linear is built on local-first architecture, sub-50ms interaction latencies, and keyboard shortcuts. You will work on our synchronized TypeScript and SQLite client engine.",
+    "description": "Join the team redefining software project management. Linear is built on local-first architecture, sub-50ms interaction latencies, and keyboard shortcuts. You will work on our synchronized TypeScript and SQLite client engine. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build realtime, offline-capable features using react, typescript, and local sqlite caching. optimize rendering pipelines and layout calculations for instant keyboard navigation.. Candidates should have strong fundamentals in proficiency in typescript, react, and browser performance profiling. curiosity for local-first architecture, sync protocols, and state management..",
     "source": "EMPLOYER_POST",
     "title": "Fullstack Engineer - Product & Platform",
     "salary": {
@@ -7283,14 +8701,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://linear.app",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "VN",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Ho Chi Minh",
-    "description": "[EJV] Junior Telematics Software Engineer — Embedded Android at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
+    "description": "[EJV] Junior Telematics Software Engineer — Embedded Android at Bosch Group. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include contribute to software engineering features, bug fixes, and system improvements. write clean, maintainable code with unit tests and peer code reviews.. Candidates should have strong fundamentals in 0–2 years of software engineering or coursework experience; entry level and fresh graduates welcome. core foundation in computer science, algorithms, and data structures..",
     "source": "SMARTRECRUITERS",
     "smartRecruitersId": "sr-744000150340229",
     "title": "[EJV] Junior Telematics Software Engineer — Embedded Android",
@@ -7335,14 +8753,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/BoschGroup",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": true,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Help developers around the world build applications on Supabase, the open-source Firebase alternative. You will build open-source starter kits, write guides, create interactive demos, and assist the developer community on GitHub and Discord.",
+    "description": "Help developers around the world build applications on Supabase, the open-source Firebase alternative. You will build open-source starter kits, write guides, create interactive demos, and assist the developer community on GitHub and Discord. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include create high-quality sample applications and templates using next.js, react, and supabase database. contribute to open-source client libraries and documentation for typescript, python, or go.. Candidates should have strong fundamentals in passion for open-source software, developer education, and clean code. familiarity with typescript, modern frontend frameworks (next.js, react), and sql basics..",
     "source": "EMPLOYER_POST",
     "title": "Developer Relations Engineer",
     "salary": {
@@ -7390,14 +8808,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://supabase.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "New York",
-    "description": "Protect billions of dollars in corporate financial transactions. At Ramp, you will automate cloud security posture, build automated secret rotation tools, and harden AWS and Kubernetes production clusters.",
+    "description": "Protect billions of dollars in corporate financial transactions. At Ramp, you will automate cloud security posture, build automated secret rotation tools, and harden AWS and Kubernetes production clusters. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include write infrastructure-as-code and automated security scans using terraform and python. monitor and respond to aws cloudtrail and container runtime anomalies.. Candidates should have strong fundamentals in knowledge of cloud fundamentals (aws, gcp, or azure) and networking principles. proficiency in python, go, or bash scripting for security automation..",
     "source": "EMPLOYER_POST",
     "title": "Security Engineer, Cloud Infrastructure",
     "salary": {
@@ -7445,14 +8863,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://ramp.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": true,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Build the foundational APIs, SDKs, and webhook infrastructure that power Notion’s developer ecosystem. Tens of thousands of developers use Notion’s APIs to automate workflows, build AI integrations, and synchronize enterprise data.",
+    "description": "Build the foundational APIs, SDKs, and webhook infrastructure that power Notion’s developer ecosystem. Tens of thousands of developers use Notion’s APIs to automate workflows, build AI integrations, and synchronize enterprise data. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include design, implement, and maintain public api endpoints and developer tooling in typescript and node.js. optimize api query performance, rate limiting, and caching layers with redis and postgresql.. Candidates should have strong fundamentals in solid programming skills in typescript, javascript, or python. understanding of database fundamentals, transactional consistency, and data modeling in sql..",
     "source": "EMPLOYER_POST",
     "title": "Software Engineer, Developer Platform",
     "salary": {
@@ -7500,14 +8918,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.notion.so",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": true,
     "maxYearsExperience": 1,
     "city": "New York",
-    "description": "Join DAIR (Datadog AI Research) to build the next generation of intelligent observability models. You will train models to automatically detect software regressions, diagnose distributed tracing anomalies, and generate incident remediation scripts.",
+    "description": "Join DAIR (Datadog AI Research) to build the next generation of intelligent observability models. You will train models to automatically detect software regressions, diagnose distributed tracing anomalies, and generate incident remediation scripts. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include train, fine-tune, and evaluate deep learning and transformer models on telemetry time-series and log data. develop distributed training pipelines in pytorch running on gpu clusters.. Candidates should have strong fundamentals in proficiency in python and deep learning frameworks (pytorch, hugging face transformers). understanding of machine learning fundamentals: optimization, loss functions, tokenization, and attention..",
     "source": "EMPLOYER_POST",
     "title": "AI Research Engineer - Datadog AI Research",
     "salary": {
@@ -7555,14 +8973,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.datadoghq.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Affirm is reinventing credit without hidden fees. As an Analytics Engineer, you will build verified data models, dbt transformation workflows, and underwriting metrics in Snowflake that guide lending decisions.",
+    "description": "Affirm is reinventing credit without hidden fees. As an Analytics Engineer, you will build verified data models, dbt transformation workflows, and underwriting metrics in Snowflake that guide lending decisions. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include design and deploy robust sql data models and transformations using dbt and snowflake. build automated data quality tests to ensure 100% reconciliation accuracy for merchant settlements.. Candidates should have strong fundamentals in advanced sql modeling skills and experience with modern data warehouses (snowflake, bigquery). familiarity with dbt, airflow, and python scripting for data automation..",
     "source": "EMPLOYER_POST",
     "title": "Analytics Engineer II - Financial Products",
     "salary": {
@@ -7610,14 +9028,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.affirm.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Help automate work for millions of businesses. You will build and scale backend subscription services, payment integrations, and usage metering systems across Zapier’s 100% distributed engineering organization.",
+    "description": "Help automate work for millions of businesses. You will build and scale backend subscription services, payment integrations, and usage metering systems across Zapier’s 100% distributed engineering organization. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop backend apis and asynchronous event processing workers in python and django. integrate third-party payment gateways and subscription management systems.. Candidates should have strong fundamentals in experience with python, django, or modern backend web frameworks. solid understanding of relational databases and sql queries..",
     "source": "EMPLOYER_POST",
     "title": "Backend Engineer, Commerce & Billing",
     "salary": {
@@ -7665,69 +9083,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://zapier.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
-  },
-  {
-    "country": "US",
-    "featured": true,
-    "maxYearsExperience": 1,
-    "city": "Austin",
-    "description": "Join Cloudflare to build web applications, internal tools, and high-performance services that support our global edge network and audit infrastructure. You will work across modern React frontends, TypeScript APIs, and serverless Workers.",
-    "source": "EMPLOYER_POST",
-    "title": "Full Stack Engineer - Internal Audit & Systems",
-    "salary": {
-      "unit": "YEAR",
-      "min": 110000,
-      "max": 145000,
-      "currency": "USD"
-    },
-    "skills": [
-      "TypeScript",
-      "React",
-      "Node.js",
-      "Cloudflare Workers",
-      "PostgreSQL",
-      "Git"
-    ],
-    "sourceUrl": "https://job-boards.greenhouse.io/cloudflare/jobs/8014902",
-    "qualifications": [
-      "Bachelor’s degree in Computer Science, Software Engineering, or equivalent practical experience.",
-      "0–2 years of experience building modern web applications with JavaScript or TypeScript.",
-      "Understanding of relational databases, RESTful architectural design, and modern Git workflows.",
-      "Eagerness to learn distributed systems and edge computing."
-    ],
-    "experienceLevel": "Entry Level",
-    "responsibilities": [
-      "Build responsive UI applications using React, TypeScript, and modern CSS frameworks.",
-      "Develop robust REST and GraphQL API services running on Cloudflare Workers and Node.js.",
-      "Collaborate with product managers and security teams to build mission-critical internal audit workflows.",
-      "Participate in code reviews, automated unit testing, and continuous deployment pipelines."
-    ],
-    "fingerprint": "cloudflare-full-stack-engineer-internal-audit-austin",
-    "company": "Cloudflare",
-    "id": "job-cfl-001",
-    "state": "TX",
-    "datePosted": "2026-09-15",
-    "applicantLocationRequirements": "US",
-    "validThrough": "2026-12-31",
-    "employmentType": "FULL_TIME",
-    "companyLogo": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=128&auto=format&fit=crop&q=80",
-    "isRemote": true,
-    "viewsCount": 1240,
-    "applyUrl": "https://job-boards.greenhouse.io/cloudflare/jobs/8014902",
-    "location": "Austin, TX, USA",
-    "category": "Full Stack",
-    "companyWebsite": "https://www.cloudflare.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "NL",
     "featured": false,
     "maxYearsExperience": 0,
     "city": "Helmond",
-    "description": "NYCU Internship Program - Field Application Engineer Intern at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
+    "description": "NYCU Internship Program - Field Application Engineer Intern at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
     "source": "SMARTRECRUITERS",
     "title": "NYCU Internship Program - Field Application Engineer Intern",
     "salary": {
@@ -7772,14 +9135,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Help businesses build visually stunning, production-ready web experiences. As a Solutions Engineer at Webflow, you will write custom JavaScript integrations, architect headless CMS pipelines, and troubleshoot frontend performance.",
+    "description": "Help businesses build visually stunning, production-ready web experiences. As a Solutions Engineer at Webflow, you will write custom JavaScript integrations, architect headless CMS pipelines, and troubleshoot frontend performance. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop custom client-side scripts, animations, and webhook integrations for enterprise webflow sites. advise technical leads on security, sso, cdn caching, and custom domain routing.. Candidates should have strong fundamentals in strong knowledge of html5, modern css (flexbox, grid), and vanilla javascript. experience interacting with rest apis, authentication protocols, and webhooks..",
     "source": "EMPLOYER_POST",
     "title": "Solutions Engineer - Web Platform",
     "salary": {
@@ -7827,14 +9190,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://webflow.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Gusto serves over 300,000 small businesses with payroll, benefits, and HR. As an Enterprise Application AI Engineer, you will build generative AI assistants that streamline payroll compliance and employee onboarding.",
+    "description": "Gusto serves over 300,000 small businesses with payroll, benefits, and HR. As an Enterprise Application AI Engineer, you will build generative AI assistants that streamline payroll compliance and employee onboarding. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build ai-powered workflows using python, typescript, and modern llm orchestration frameworks. develop guardrails and testing pipelines to ensure high precision on financial calculations.. Candidates should have strong fundamentals in programming experience in python or ruby and modern javascript/typescript. understanding of llm tool-calling, embeddings, and prompt architecture..",
     "source": "EMPLOYER_POST",
     "title": "Enterprise Application AI Engineer",
     "salary": {
@@ -7882,14 +9245,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://gusto.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Menlo Park",
-    "description": "Democratize finance for all. As an Android Engineer at Robinhood, you will build consumer-facing mobile features with Jetpack Compose, Kotlin coroutines, and real-time market data streams.",
+    "description": "Democratize finance for all. As an Android Engineer at Robinhood, you will build consumer-facing mobile features with Jetpack Compose, Kotlin coroutines, and real-time market data streams. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build smooth, responsive user interfaces in kotlin using jetpack compose and modern android architecture. integrate websocket streams for realtime ticker quotes and trade execution confirmations.. Candidates should have strong fundamentals in experience developing android applications in kotlin or java. familiarity with android jetpack, compose, viewmodel, and coroutines..",
     "source": "EMPLOYER_POST",
     "title": "Android Engineer, Mobile Products",
     "salary": {
@@ -7937,14 +9300,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://robinhood.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": true,
     "maxYearsExperience": 1,
     "city": "New York",
-    "description": "Work on Palantir Foundry and Gotham, building high-throughput backend services that integrate complex enterprise datasets for government, healthcare, and humanitarian organizations worldwide.",
+    "description": "Work on Palantir Foundry and Gotham, building high-throughput backend services that integrate complex enterprise datasets for government, healthcare, and humanitarian organizations worldwide. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include design, implement, and test robust backend microservices in java, typescript, or go. build scalable data ingestion and transformation pipelines handling millions of records.. Candidates should have strong fundamentals in strong programming skills in java, c++, typescript, or go. deep understanding of data structures, algorithms, object-oriented design, and complexity..",
     "source": "EMPLOYER_POST",
     "title": "Backend Software Engineer - Application Development",
     "salary": {
@@ -7992,14 +9355,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.palantir.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "San Francisco",
-    "description": "Empower developers to fix crashes, slow database queries, and frontend bugs with Sentry. As a Solutions Engineer, you will write custom SDK integrations, build debugging workflows, and guide software teams in implementing error monitoring.",
+    "description": "Empower developers to fix crashes, slow database queries, and frontend bugs with Sentry. As a Solutions Engineer, you will write custom SDK integrations, build debugging workflows, and guide software teams in implementing error monitoring. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include write sample applications and plugins demonstrating sentry sdk integration across react, node, and python. guide developers through profiling, distributed tracing, and session replay instrumentation.. Candidates should have strong fundamentals in hands-on experience with javascript/typescript, python, or another modern programming language. understanding of web architecture, http, browser developer tools, and backend server logs..",
     "source": "EMPLOYER_POST",
     "title": "Solutions Engineer - Developer Tooling",
     "salary": {
@@ -8047,14 +9410,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://sentry.io",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "US",
     "featured": true,
     "maxYearsExperience": 2,
     "city": "San Francisco",
-    "description": "Join Figma’s Forward Deployed Engineering team to bridge product engineering with our largest strategic customers. You will build custom integrations, Figma plugins, and design systems tooling that unlock collaborative design at scale.",
+    "description": "Join Figma’s Forward Deployed Engineering team to bridge product engineering with our largest strategic customers. You will build custom integrations, Figma plugins, and design systems tooling that unlock collaborative design at scale. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include develop high-performance figma plugins and rest/websocket integrations using typescript and webassembly. work directly with design and engineering teams to solve complex design token synchronization challenges.. Candidates should have strong fundamentals in proficiency in modern typescript, javascript (es6+), and css layout systems. strong communication skills and enthusiasm for customer-facing technical problem solving..",
     "source": "EMPLOYER_POST",
     "title": "Forward Deployed Engineer",
     "salary": {
@@ -8102,14 +9465,14 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://www.figma.com",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   },
   {
     "country": "AT",
     "featured": false,
     "maxYearsExperience": 1,
     "city": "Vienna",
-    "description": "Junior QA Engineer at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries.",
+    "description": "Junior QA Engineer at Delta Electronics. Authentic listing sourced directly from employer career portal on SmartRecruiters ATS. Direct application available with zero recruiter intermediaries. In this role, you will work alongside senior engineering mentors to deliver resilient, production-ready software solutions. Key priorities include build and maintain software engineering features in collaborative team sprints. write clean unit tests, review peer code, and document technical solutions.. Candidates should have strong fundamentals in 0 to 2 years of software engineering experience; entry-level and freshers welcome. knowledge of computer science fundamentals, data structures, and algorithms..",
     "source": "SMARTRECRUITERS",
     "title": "Junior QA Engineer",
     "salary": {
@@ -8154,6 +9517,6 @@ export const INITIAL_JOBS: JobPosting[] = [
     "companyWebsite": "https://jobs.smartrecruiters.com/DeltaElectronics",
     "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-09T06:14:32.047Z"
+    "lastHealthCheckedAt": "2026-10-15T05:58:44.312Z"
   }
 ];
