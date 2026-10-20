@@ -513,8 +513,15 @@ export default function App() {
     }
   };
 
-  // Dedicated Job Selection Handlers with zero-cost pushState URL routing
+  // Dedicated Job Selection Handlers with zero-cost pushState URL routing & double-click protection
+  const lastJobSelectTimeRef = useRef<number>(0);
   const handleSelectJob = (job: JobPosting, openInNewTab = true) => {
+    const now = Date.now();
+    if (now - lastJobSelectTimeRef.current < 450) {
+      return; // prevent duplicate clicks or rapid double-events
+    }
+    lastJobSelectTimeRef.current = now;
+
     try {
       sessionStorage.setItem(`job_${job.id}`, JSON.stringify(job));
       sessionStorage.setItem('freshcommit_last_job', JSON.stringify(job));

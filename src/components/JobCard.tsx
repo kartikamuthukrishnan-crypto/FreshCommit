@@ -141,7 +141,6 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
 
         {/* Job Title */}
         <h3
-          onClick={() => onSelect(job)}
           className="text-base sm:text-lg font-medium text-[#202124] group-hover:text-[#1a73e8] transition-colors cursor-pointer mb-2 line-clamp-2"
         >
           {job.title}
@@ -206,7 +205,6 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
                 sessionStorage.setItem(`job_${job.id}`, JSON.stringify(job));
                 sessionStorage.setItem('freshcommit_last_job', JSON.stringify(job));
               } catch (_) {}
-              onSelect(job);
             }}
             className="text-xs font-medium px-4 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer no-underline"
           >
