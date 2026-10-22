@@ -78,7 +78,7 @@ import {
 } from '../utils/jobExtractor';
 import { KNOWN_CITY_ZIP_MAP, lookupCityZip } from '../utils/cityZipMap';
 import { cleanLocationString, cleanCityString } from '../utils/textHumanizer';
-import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, MicroNichePreset } from '../utils/seoJdGenerator';
+import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, generateGoogleJobsFirstParagraph, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap, Key, Send, Radio } from 'lucide-react';
 import {
   getGoogleIndexingConfig,
@@ -87,6 +87,25 @@ import {
   pingGoogleSitemap,
   GoogleIndexingConfig
 } from '../utils/googleIndexingService';
+
+const getMetroRegionForCity = (city?: string, state?: string): string => {
+  const c = (city || '').toLowerCase().trim();
+  const s = (state || '').toUpperCase().trim();
+  if (c.includes('francisco') || c.includes('san jose') || c.includes('oakland') || c.includes('mountain view') || c.includes('sunnyvale') || c.includes('palo alto')) return 'San Francisco Bay Area';
+  if (c.includes('seattle') || c.includes('bellevue') || c.includes('redmond')) return 'Greater Seattle Area';
+  if (c.includes('new york') || c.includes('brooklyn') || c.includes('manhattan') || c.includes('queens')) return 'Greater New York City Area';
+  if (c.includes('austin')) return 'Greater Austin Area';
+  if (c.includes('dallas') || c.includes('plano') || c.includes('fort worth') || c.includes('irving')) return 'Dallas-Fort Worth Metroplex';
+  if (c.includes('boston') || c.includes('cambridge')) return 'Greater Boston Area';
+  if (c.includes('chicago')) return 'Greater Chicago Area';
+  if (c.includes('raleigh') || c.includes('durham') || c.includes('chapel hill')) return 'Research Triangle Park Region';
+  if (c.includes('denver') || c.includes('boulder')) return 'Denver-Boulder Metro Area';
+  if (c.includes('atlanta')) return 'Metro Atlanta Area';
+  if (c.includes('los angeles') || c.includes('santa monica') || c.includes('culver')) return 'Greater Los Angeles Area';
+  if (c.includes('bengaluru') || c.includes('bangalore')) return 'Greater Bengaluru Tech Corridor';
+  if (c.includes('hyderabad')) return 'HITEC City Hyderabad Hub';
+  return '';
+};
 
 interface AdminPanelProps {
   jobs: JobPosting[];
@@ -570,8 +589,31 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     const sanitizedDesc = cleanHtml(data.description || '')
       .replace(/\bGlobalhr\b/g, finalCompany)
-      .replace(/\brec_rtx_ext_gateway\b/gi, finalCompany);
-    setDescription(sanitizedDesc);
+      .replace(/\brec_rtx_ext_gateway\b/gi, finalCompany)
+      .trim();
+
+    // Auto-generate Google for Jobs mathematically optimized lead paragraph
+    const metroHub = getMetroRegionForCity(extractedCity, extractedState);
+    const googleLeadParagraph = generateGoogleJobsFirstParagraph({
+      companyName: finalCompany,
+      jobTitle: cleanHtml(data.title),
+      departmentOrTeam: data.category ? `${data.category.toLowerCase()} engineering` : 'software engineering',
+      city: extractedCity,
+      stateOrProvince: extractedState,
+      metroOrRegion: metroHub,
+      workModel: isPureRemote ? 'remote' : (rawLocation.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
+      seniorityLabel: data.experienceLevel === 'Internship' ? 'internship candidates and students' : 'entry-level developers and junior engineers',
+      experienceBracket: data.maxYearsExperience ? `0–${data.maxYearsExperience} year${data.maxYearsExperience > 1 ? 's' : ''} of experience` : '0–1 year of experience',
+      coreSkills: data.skills.slice(0, 3),
+      primaryFocusArea: `scalable ${data.category?.toLowerCase() || 'software'} systems and modern cloud architectures`
+    });
+
+    // Prepend lead paragraph so Googlebot indexes standard title, company, geo-hierarchy, and skills in the first 50 words
+    const finalFullDesc = sanitizedDesc.startsWith('<p>')
+      ? sanitizedDesc
+      : `${googleLeadParagraph}\n\n${sanitizedDesc}`;
+
+    setDescription(finalFullDesc);
     setResponsibilitiesText(data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '')).join('\n'));
     setQualificationsText(data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '')).join('\n'));
     setSkillsText(data.skills.map((s) => cleanHtml(s)).join(', '));
@@ -581,15 +623,37 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     const maxDisplay = data.salary && data.salary.max > 0 ? data.salary.max : data.suggestedBenchmark?.max || 115000;
     const sourceLabel = data.detectedAtsProvider || 'career requisition';
 
-    if (data.salaryDisclosed && data.salary.min > 0) {
-      setExtractSuccessMsg(
-        `✨ Successfully imported from ${sourceLabel}! Title, Location (${extractedCity || 'US'}, ZIP: ${finalZip || '94105'}), and Verified Employer Compensation ($${minDisplay.toLocaleString()} – $${maxDisplay.toLocaleString()}) are filled precisely.`
-      );
-    } else {
-      setExtractSuccessMsg(
-        `✨ Successfully imported from ${sourceLabel}! Title, Location (${extractedCity || 'US'}, ZIP: ${finalZip || '94105'}), and 2026 Role Benchmark ($${minDisplay.toLocaleString()} – $${maxDisplay.toLocaleString()}) are auto-filled precisely.`
-      );
+    setExtractSuccessMsg(
+      `✨ Successfully imported from ${sourceLabel}! Google for Jobs optimized lead paragraph (<p>...</p>), Title, Location (${extractedCity || 'US'}, ZIP: ${finalZip || '94105'}), and Compensation ($${minDisplay.toLocaleString()} – $${maxDisplay.toLocaleString()}) are auto-filled precisely.`
+    );
+  };
+
+  const handleInsertGoogleFirstParagraph = () => {
+    const rawSkills = skillsText.split(',').map((s) => s.trim()).filter(Boolean);
+    const locParts = (location || '').split(',').map((s) => s.trim());
+    const extractedCity = city || locParts[0] || (isRemote ? 'US' : '');
+    const extractedState = state || locParts[1] || '';
+    const metroHub = getMetroRegionForCity(extractedCity, extractedState);
+
+    const leadParagraph = generateGoogleJobsFirstParagraph({
+      companyName: company || 'The Company',
+      jobTitle: title || 'Software Engineer',
+      departmentOrTeam: category ? `${category.toLowerCase()} engineering` : 'software engineering',
+      city: extractedCity,
+      stateOrProvince: extractedState,
+      metroOrRegion: metroHub,
+      workModel: isRemote ? 'remote' : (location.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
+      seniorityLabel: experienceLevel === 'Internship' ? 'internship candidates and students' : 'entry-level developers and junior engineers',
+      experienceBracket: maxYearsExperience ? `0–${maxYearsExperience} year${maxYearsExperience > 1 ? 's' : ''} of experience` : '0–1 year of experience',
+      coreSkills: rawSkills.slice(0, 3),
+      primaryFocusArea: `scalable ${category?.toLowerCase() || 'software'} systems and modern cloud architectures`
+    });
+
+    let current = description.trim();
+    if (current.startsWith('<p>') && current.includes('</p>')) {
+      current = current.replace(/^<p>[\s\S]*?<\/p>\s*/, '');
     }
+    setDescription(`${leadParagraph}\n\n${current}`.trim());
   };
 
   const handleAutoExtract = async (e: React.FormEvent) => {
@@ -1477,7 +1541,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       Fast Job Ingestion Hub
                     </h3>
                     <p className="text-[11px] text-slate-500">
-                      Auto-fill Job Title, Location, ZIP Code, Salary &amp; JD with 100% precision
+                      Auto-fill Title, Location, ZIP, Salary &amp; auto-generate Google-for-Jobs lead paragraph (<code className="text-[10px] bg-slate-200/80 px-1 py-0.2 rounded font-mono">&lt;p&gt;...&lt;/p&gt;</code>)
                     </p>
                   </div>
                 </div>
@@ -2327,9 +2391,20 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
               {/* Unparaphrased Description */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Job Description (Original &amp; Editorial Content) <span className="text-rose-500">*</span>
-                </label>
+                <div className="flex items-center justify-between mb-1.5 flex-wrap gap-2">
+                  <label className="block text-xs font-bold text-slate-700">
+                    Job Description (Original &amp; Editorial Content) <span className="text-rose-500">*</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleInsertGoogleFirstParagraph}
+                    className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
+                    title="Generate or update Google for Jobs mathematically optimized lead paragraph (<p>...</p>) with entity recognition, geo-hierarchy, and high-intent keywords"
+                  >
+                    <Zap className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>⚡ Insert / Refresh Google Lead Paragraph</span>
+                  </button>
+                </div>
                 <textarea
                   rows={6}
                   required
