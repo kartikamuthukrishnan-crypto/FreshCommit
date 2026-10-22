@@ -173,7 +173,7 @@ export function generateGoogleJobsFirstParagraph(input: GoogleJobsFirstParagraph
   const team = (input.departmentOrTeam || 'engineering').trim();
   const workModel = (input.workModel || 'full-time on-site').toLowerCase().trim();
   const seniority = (input.seniorityLabel || 'entry-level developers and junior engineers').trim();
-  const experience = (input.experienceBracket || '0–1 year of experience').trim();
+  const experience = (input.experienceBracket || '0–3 years of experience').trim();
 
   // Sentence 1: Micro-to-Macro Location construction
   let locationHtml = '';
@@ -198,7 +198,7 @@ export function generateGoogleJobsFirstParagraph(input: GoogleJobsFirstParagraph
     locationHtml = `<strong>United States</strong>`;
   }
 
-  const s1 = `${company} is hiring a/an <strong>${title}</strong> to join our ${team} team based in ${locationHtml}.`;
+  const s1 = `${company} is hiring <strong>${title}</strong> to join its ${team} team based in ${locationHtml}.`;
 
   // Sentence 2 & 3: Work arrangement, seniority, core skills, metro hub
   const skills = Array.isArray(input.coreSkills) && input.coreSkills.length > 0 ? input.coreSkills : ['React', 'TypeScript'];
@@ -209,7 +209,8 @@ export function generateGoogleJobsFirstParagraph(input: GoogleJobsFirstParagraph
 
   let s2s3 = '';
   if (metro) {
-    s2s3 = `This <strong>${workModel}</strong> position is open to <strong>${seniority}</strong> with <strong>${experience}</strong> looking to build production systems focusing on <strong>${skill1}</strong>, <strong>${skill2}</strong>, and ${focus}, serving clients and teams across the greater <strong>${metro}</strong>.`;
+    const cleanMetro = metro.replace(/^the\s+/i, '');
+    s2s3 = `This <strong>${workModel}</strong> position is open to <strong>${seniority}</strong> with <strong>${experience}</strong> looking to build production systems focusing on <strong>${skill1}</strong>, <strong>${skill2}</strong>, and ${focus}, serving clients and teams across the <strong>${cleanMetro}</strong>.`;
   } else {
     s2s3 = `This <strong>${workModel}</strong> position is open to <strong>${seniority}</strong> with <strong>${experience}</strong> looking to build production systems focusing on <strong>${skill1}</strong>, <strong>${skill2}</strong>, and ${focus}.`;
   }
@@ -296,7 +297,7 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
     stateOrProvince: parsedState,
     workModel: isRemote ? 'remote' : 'hybrid',
     seniorityLabel: 'entry-level developers and junior engineers',
-    experienceBracket: '0–2 years of experience',
+    experienceBracket: '0–3 years of experience',
     coreSkills: skills,
     primaryFocusArea: 'modern cloud architectures and production systems'
   });

@@ -214,7 +214,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [postalCode, setPostalCode] = useState('94105');
   const [category, setCategory] = useState<JobCategory>('Full Stack');
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevel>('Entry Level');
-  const [maxYearsExperience, setMaxYearsExperience] = useState(2);
+  const [maxYearsExperience, setMaxYearsExperience] = useState(3);
   const [employmentType, setEmploymentType] = useState<EmploymentType>('FULL_TIME');
   const [salaryCurrency, setSalaryCurrency] = useState('USD');
   const [salaryUnit, setSalaryUnit] = useState<'YEAR' | 'MONTH' | 'HOUR'>('YEAR');
@@ -604,7 +604,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       metroOrRegion: metroHub,
       workModel: isPureRemote ? 'remote' : (rawLocation.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
       seniorityLabel: data.experienceLevel === 'Internship' ? 'internship candidates and students' : 'entry-level developers and junior engineers',
-      experienceBracket: data.maxYearsExperience ? `0–${data.maxYearsExperience} year${data.maxYearsExperience > 1 ? 's' : ''} of experience` : '0–1 year of experience',
+      experienceBracket: data.experienceLevel === 'Internship'
+        ? 'internship candidates and students'
+        : (data.maxYearsExperience && data.maxYearsExperience > 3
+            ? `0–${data.maxYearsExperience} years of experience`
+            : '0–3 years of experience'),
       coreSkills: data.skills.slice(0, 3),
       primaryFocusArea: `scalable ${data.category?.toLowerCase() || 'software'} systems and modern cloud architectures`
     });
@@ -653,7 +657,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       metroOrRegion: metroHub,
       workModel: isRemote ? 'remote' : (location.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
       seniorityLabel: experienceLevel === 'Internship' ? 'internship candidates and students' : 'entry-level developers and junior engineers',
-      experienceBracket: maxYearsExperience ? `0–${maxYearsExperience} year${maxYearsExperience > 1 ? 's' : ''} of experience` : '0–1 year of experience',
+      experienceBracket: experienceLevel === 'Internship'
+        ? 'internship candidates and students'
+        : (maxYearsExperience && maxYearsExperience > 3
+            ? `0–${maxYearsExperience} years of experience`
+            : '0–3 years of experience'),
       coreSkills: rawSkills.slice(0, 3),
       primaryFocusArea: `scalable ${category?.toLowerCase() || 'software'} systems and modern cloud architectures`
     });
@@ -2063,12 +2071,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Years of Experience</label>
                     <select
-                      value={maxYearsExperience <= 2 ? 2 : maxYearsExperience}
+                      value={maxYearsExperience || 3}
                       onChange={(e) => setMaxYearsExperience(Number(e.target.value))}
                       className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white"
                     >
+                      <option value={1}>0–1 Year</option>
                       <option value={2}>0–2 Years</option>
-                      <option value={3}>3 Years</option>
+                      <option value={3}>0–3 Years</option>
                       <option value={4}>4 Years</option>
                       <option value={5}>5 Years</option>
                     </select>

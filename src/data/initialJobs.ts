@@ -3,8 +3,8 @@ import { JobPosting } from '../types';
 export const INITIAL_JOBS: JobPosting[] = [
   {
     "country": "US",
-    "maxYearsExperience": 1,
-    "description": "<p>Collier Aerospace is hiring a/an <strong>Software engineer (entry level)</strong> to join our backend engineering team based in <strong>Denver, CO</strong>. This <strong>full-time on-site</strong> position is open to <strong>entry-level developers and junior engineers</strong> with <strong>0–1 year of experience</strong> looking to build production systems focusing on <strong>C</strong>, <strong>Python</strong>, and scalable backend systems and modern cloud architectures, serving clients and teams across the greater <strong>Denver-Boulder Metro Area</strong>.</p>",
+    "maxYearsExperience": 3,
+    "description": "<p>Collier Aerospace is hiring <strong>Software engineer (entry level)</strong> to join its backend engineering team based in <strong>Denver, CO</strong>. This <strong>full-time on-site</strong> position is open to <strong>entry-level developers and junior engineers</strong> with <strong>0–3 years of experience</strong> looking to build production systems focusing on <strong>C</strong>, <strong>Python</strong>, and scalable backend systems and modern cloud architectures, serving clients and teams across the <strong>Denver-Boulder Metro Area</strong>.</p>",
     "source": "MANUAL_ADMIN",
     "title": "Software engineer (entry level)",
     "salary": {
