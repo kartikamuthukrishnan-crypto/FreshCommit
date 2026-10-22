@@ -148,6 +148,76 @@ export const MICRO_NICHE_PRESETS: MicroNichePreset[] = [
   }
 ];
 
+export interface GoogleJobsFirstParagraphInput {
+  companyName: string;
+  jobTitle: string;
+  departmentOrTeam?: string;
+  neighborhoodOrDistrict?: string;
+  city?: string;
+  stateOrProvince?: string;
+  metroOrRegion?: string;
+  workModel?: 'full-time on-site' | 'hybrid' | 'remote' | string;
+  seniorityLabel?: string;
+  experienceBracket?: string;
+  coreSkills?: string[];
+  primaryFocusArea?: string;
+}
+
+/**
+ * Generates the mathematically optimized first paragraph of a job description in strict HTML (<p>...</p>)
+ * formatted for "Google for Jobs" algorithmic ranking, entity recognition, and multi-tier geo-proximity matching.
+ */
+export function generateGoogleJobsFirstParagraph(input: GoogleJobsFirstParagraphInput): string {
+  const company = (input.companyName || 'The Company').trim();
+  const title = (input.jobTitle || 'Software Engineer').trim();
+  const team = (input.departmentOrTeam || 'engineering').trim();
+  const workModel = (input.workModel || 'full-time on-site').toLowerCase().trim();
+  const seniority = (input.seniorityLabel || 'entry-level developers and junior engineers').trim();
+  const experience = (input.experienceBracket || '0–1 year of experience').trim();
+
+  // Sentence 1: Micro-to-Macro Location construction
+  let locationHtml = '';
+  const city = (input.city || '').trim();
+  const state = (input.stateOrProvince || '').trim();
+  const neighborhood = (input.neighborhoodOrDistrict || '').trim();
+  const isRemote = workModel.includes('remote');
+
+  if (isRemote) {
+    if (city && state) {
+      locationHtml = `<strong>Remote (${city}, ${state} Hub)</strong>`;
+    } else {
+      locationHtml = `<strong>Remote (US-Based)</strong>`;
+    }
+  } else if (neighborhood && city && state) {
+    locationHtml = `<strong>${neighborhood}, ${city}, ${state}</strong>`;
+  } else if (city && state) {
+    locationHtml = `<strong>${city}, ${state}</strong>`;
+  } else if (city) {
+    locationHtml = `<strong>${city}</strong>`;
+  } else {
+    locationHtml = `<strong>United States</strong>`;
+  }
+
+  const s1 = `${company} is hiring a/an <strong>${title}</strong> to join our ${team} team based in ${locationHtml}.`;
+
+  // Sentence 2 & 3: Work arrangement, seniority, core skills, metro hub
+  const skills = Array.isArray(input.coreSkills) && input.coreSkills.length > 0 ? input.coreSkills : ['React', 'TypeScript'];
+  const skill1 = skills[0] || 'TypeScript';
+  const skill2 = skills[1] || 'Node.js';
+  const focus = input.primaryFocusArea || 'scalable web applications and modern cloud architectures';
+  const metro = (input.metroOrRegion || '').trim();
+
+  let s2s3 = '';
+  if (metro) {
+    s2s3 = `This <strong>${workModel}</strong> position is open to <strong>${seniority}</strong> with <strong>${experience}</strong> looking to build production systems focusing on <strong>${skill1}</strong>, <strong>${skill2}</strong>, and ${focus}, serving clients and teams across the greater <strong>${metro}</strong>.`;
+  } else {
+    s2s3 = `This <strong>${workModel}</strong> position is open to <strong>${seniority}</strong> with <strong>${experience}</strong> looking to build production systems focusing on <strong>${skill1}</strong>, <strong>${skill2}</strong>, and ${focus}.`;
+  }
+
+  return `<p>${s1} ${s2s3}</p>`;
+}
+
+
 export interface SeoJdGenerationOptions {
   title: string;
   company: string;
@@ -213,8 +283,28 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
       .trim();
   }
 
+  // Extract location components for geo-targeting
+  const locParts = (location || '').split(',').map((s) => s.trim());
+  const parsedCity = locParts[0] || (isRemote ? 'US' : '');
+  const parsedState = locParts[1] || '';
+
+  const googleFirstParagraph = generateGoogleJobsFirstParagraph({
+    companyName: company,
+    jobTitle: title,
+    departmentOrTeam: 'software engineering',
+    city: parsedCity,
+    stateOrProvince: parsedState,
+    workModel: isRemote ? 'remote' : 'hybrid',
+    seniorityLabel: 'entry-level developers and junior engineers',
+    experienceBracket: '0–2 years of experience',
+    coreSkills: skills,
+    primaryFocusArea: 'modern cloud architectures and production systems'
+  });
+
   // Composed AdSense-grade editorial overview
   const descriptionParagraphs = [
+    googleFirstParagraph,
+    ``,
     `🎯 FreshCommits Editorial Review & Candidate Insights:`,
     `${company} is actively accepting applications for this ${title} role (${badge}). In our curated assessment, this position offers high engineering growth potential for early-career developers seeking direct production impact and technical mentorship.`,
     ``,

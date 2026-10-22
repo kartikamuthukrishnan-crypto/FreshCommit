@@ -1,0 +1,80 @@
+### TASK OBJECTIVE
+Generate the mandatory first paragraph of a job description formatted strictly in HTML (<p>...</p>). 
+This paragraph must be mathematically optimized for "Google for Jobs" algorithmic ranking, semantic keyword relevancy, and multi-tier geo-proximity search matching across US/North American locations.
+
+---
+
+### INSTRUCTION RULES FOR THE MODEL
+
+1. OUTPUT FORMAT & HTML CONSTRAINTS:
+   - Output ONLY the first paragraph enclosed inside `<p>...</p>` tags.
+   - Do NOT include headings, bullet points, introductory chatter, or meta-comments.
+   - Wrap high-intent search terms inside `<strong>...</strong>` tags.
+
+2. MANDATORY KEYWORD & GEOGRAPHIC FORMULA:
+   Sentence 1 (Company + Standard Title + Micro-to-Macro Location):
+   - Pattern: "[Company Name] is hiring a/an <strong>[Standard Job Title]</strong> to join our [Department/Team] team based in <strong>[Neighborhood/District/Campus], [City], [State/Province Abbreviation or Name]</strong>."
+   - Rule: Never use non-standard job titles (e.g., use "Software Engineer" or "Frontend Developer", not "Rockstar Developer" or "Code Wizard").
+
+   Sentence 2 (Work Arrangement + Seniority Level + Experience Bracket):
+   - Pattern: "This <strong>[Work Model: full-time on-site / hybrid / remote]</strong> position is open to <strong>[Seniority/Role Label, e.g., entry-level candidates / junior engineers / senior professionals]</strong> with <strong>[Experience Bracket, e.g., 0–1 year / 3+ years]</strong> of hands-on experience..."
+   - Rule: Use standard US career terms (e.g., "entry-level", "junior", "mid-level", "senior", "recent college graduates").
+
+   Sentence 3 (Tech Stack / Core Competencies + Metro Area / Regional Hub):
+   - Pattern: "...focusing on <strong>[Core Skill 1]</strong>, <strong>[Core Skill 2]</strong>, and [Primary Focus Area / Tech Stack], serving clients and teams across the greater <strong>[Metro Area / Regional Business Hub, e.g., Greater Boston Area / Silicon Valley / Dallas-Fort Worth Metroplex]</strong>."
+
+3. GEOGRAPHIC FALLBACK RULES:
+   - If {{neighborhood}} is absent, default to: "[City], [State/Province]" (e.g., "Austin, TX").
+   - If {{metro_or_region}} is absent, omit the secondary regional clause and close cleanly at the tech stack.
+   - For Remote roles, format location as: "<strong>Remote ([City], [State] Hub)</strong>" or specify regional boundaries (e.g., "<strong>Remote (US-Based)</strong>").
+
+---
+
+### DYNAMIC VARIABLES MAPPING
+Ensure your backend payload supplies the following fields:
+- {{company_name}}
+- {{job_title}}
+- {{neighborhood_or_district}} (e.g., SoHo, Brickell, South Lake Union, Downtown)
+- {{city}} (e.g., New York, Miami, Seattle, Austin)
+- {{state_or_province}} (e.g., NY, FL, WA, TX, ON, BC)
+- {{metro_or_region}} (e.g., Bay Area, Greater Boston, Chicagoland, DFW Metroplex)
+- {{work_model}} (e.g., full-time on-site, hybrid, remote)
+- {{seniority_label}} (e.g., entry-level candidates, junior software engineers, recent graduates)
+- {{experience_bracket}} (e.g., 0–1 year of experience, 3–5 years of experience)
+- {{core_skills}} (e.g., React, TypeScript, distributed cloud systems)
+
+---
+
+### REFERENCE FEW-SHOT EXAMPLES
+
+#### Example 1: US Metro / Neighborhood (Hybrid Entry-Level)
+Input:
+- Company: Apex Cloud Systems
+- Title: Entry Level Software Engineer
+- Neighborhood: South Lake Union
+- City: Seattle
+- State: WA
+- Metro: Greater Seattle Area
+- Work Model: hybrid
+- Seniority: entry-level developers / recent college graduates
+- Experience: 0–1 year of experience
+- Core Skills: Python, AWS, microservices architectures
+
+Expected Output:
+<p>Apex Cloud Systems is hiring an <strong>Entry Level Software Engineer</strong> to join our platform infrastructure team based in <strong>South Lake Union, Seattle, WA</strong>. This <strong>hybrid</strong> position is open to <strong>entry-level developers</strong> and recent college graduates with <strong>0–1 year of experience</strong> looking to build production systems using <strong>Python</strong>, <strong>AWS</strong>, and scalable microservices architectures across the <strong>Greater Seattle Area</strong>.</p>
+
+#### Example 2: US Metro / Suburb (Full-Time On-Site Mid-Level)
+Input:
+- Company: Crestline Health
+- Title: Data Analyst
+- Neighborhood: Plano
+- City: Dallas
+- State: TX
+- Metro: Dallas-Fort Worth Metroplex
+- Work Model: full-time on-site
+- Seniority: mid-level data professionals
+- Experience: 2–4 years of experience
+- Core Skills: SQL, Power BI, healthcare analytics
+
+Expected Output:
+<p>Crestline Health is hiring a <strong>Data Analyst</strong> to join our operational analytics team based in <strong>Plano, Dallas, TX</strong>. This <strong>full-time on-site</strong> position is open to <strong>mid-level data professionals</strong> with <strong>2–4 years of experience</strong> in <strong>SQL</strong>, <strong>Power BI</strong>, and statistical modeling supporting clinical workflows across the <strong>Dallas-Fort Worth Metroplex</strong>.</p>
