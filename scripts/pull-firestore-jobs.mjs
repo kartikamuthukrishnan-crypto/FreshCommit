@@ -225,6 +225,17 @@ async function pullFirestoreJobs() {
 
     jobObj.isRemote = Boolean(jobObj.isRemote || (jobObj.location && jobObj.location.toLowerCase().includes('remote')));
 
+    if (Array.isArray(jobObj.responsibilities)) {
+      jobObj.responsibilities = jobObj.responsibilities
+        .map((r) => String(r || '').replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+        .filter((r) => r.length > 5 && !/[{}<>]/.test(r) && !r.includes('.css-') && !r.includes('@media') && !r.includes('!important') && !r.toLowerCase().startsWith('apply now'));
+    }
+    if (Array.isArray(jobObj.qualifications)) {
+      jobObj.qualifications = jobObj.qualifications
+        .map((q) => String(q || '').replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
+        .filter((q) => q.length > 5 && !/[{}<>]/.test(q) && !q.includes('.css-') && !q.includes('@media') && !q.includes('!important'));
+    }
+
     if (jobObj.title && jobObj.company && jobObj.applyUrl) {
       cloudJobs.push(jobObj);
     }

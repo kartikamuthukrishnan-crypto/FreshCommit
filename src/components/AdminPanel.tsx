@@ -74,6 +74,7 @@ import {
   extractJobDataFromRawText,
   detectAtsProviderFromUrl,
   cleanHtml,
+  isCssOrNoiseLine,
   ExtractedJobData
 } from '../utils/jobExtractor';
 import { KNOWN_CITY_ZIP_MAP, lookupCityZip } from '../utils/cityZipMap';
@@ -614,8 +615,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       : `${googleLeadParagraph}\n\n${sanitizedDesc}`;
 
     setDescription(finalFullDesc);
-    setResponsibilitiesText(data.responsibilities.map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '')).join('\n'));
-    setQualificationsText(data.qualifications.map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '')).join('\n'));
+    const cleanedResps = data.responsibilities
+      .map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '').trim())
+      .filter((r) => r.length > 5 && !isCssOrNoiseLine(r));
+    setResponsibilitiesText(cleanedResps.join('\n'));
+
+    const cleanedQuals = data.qualifications
+      .map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '').trim())
+      .filter((q) => q.length > 5 && !isCssOrNoiseLine(q));
+    setQualificationsText(cleanedQuals.join('\n'));
+
     setSkillsText(data.skills.map((s) => cleanHtml(s)).join(', '));
     if (data.applyUrl) setApplyUrl(data.applyUrl);
 
@@ -1912,7 +1921,26 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     required
                     placeholder="e.g. Boston, MA or San Francisco, CA or Remote (US)"
                     value={location}
-                    onChange={(e) => setLocation(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setLocation(val);
+                      if (val && !val.toLowerCase().includes('remote')) {
+                        const cleanVal = val.replace(/\s*\/\s*(?:Hybrid|On-site|Remote)/i, '').trim();
+                        const parts = cleanVal.split(',');
+                        const parsedCity = cleanCityString(parts[0]?.trim() || '');
+                        const parsedState = parts[1]?.trim().replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase() || '';
+                        if (parsedCity && parsedCity.length >= 2) {
+                          setCity(parsedCity);
+                          const matched = lookupCityZip(parsedCity);
+                          if (matched) {
+                            setState(parsedState || matched.state);
+                            setPostalCode(matched.zip);
+                          } else if (parsedState) {
+                            setState(parsedState);
+                          }
+                        }
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                   />
                 </div>
@@ -1929,9 +1957,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         setCity(val);
                         const matched = lookupCityZip(val);
                         if (matched) {
-                          if (!state || state === 'US') setState(matched.state);
-                          if (!postalCode || postalCode === '94105') setPostalCode(matched.zip);
-                          if (!location || location.includes('Remote')) setLocation(`${matched.city}, ${matched.state}`);
+                          setState(matched.state);
+                          setPostalCode(matched.zip);
+                          if (!location || location.includes('Remote') || location.includes('San Francisco')) {
+                            setLocation(`${matched.city}, ${matched.state}`);
+                          }
                         }
                       }}
                       className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"

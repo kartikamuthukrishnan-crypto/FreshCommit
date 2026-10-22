@@ -89,12 +89,19 @@ export const KNOWN_CITY_ZIP_MAP: Record<string, CityZipEntry> = {
   'denver': { city: 'Denver', state: 'CO', zip: '80202', defaultLocation: 'Denver, CO / Hybrid' },
   'boulder': { city: 'Boulder', state: 'CO', zip: '80301', defaultLocation: 'Boulder, CO / Hybrid' },
   'colorado springs': { city: 'Colorado Springs', state: 'CO', zip: '80903', defaultLocation: 'Colorado Springs, CO / Hybrid' },
+  'thornton': { city: 'Thornton', state: 'CO', zip: '80229', defaultLocation: 'Thornton, CO' },
+  'westminster': { city: 'Westminster', state: 'CO', zip: '80031', defaultLocation: 'Westminster, CO' },
+  'aurora': { city: 'Aurora', state: 'CO', zip: '80012', defaultLocation: 'Aurora, CO' },
+  'longmont': { city: 'Longmont', state: 'CO', zip: '80501', defaultLocation: 'Longmont, CO' },
+  'broomfield': { city: 'Broomfield', state: 'CO', zip: '80020', defaultLocation: 'Broomfield, CO' },
+  'fort collins': { city: 'Fort Collins', state: 'CO', zip: '80521', defaultLocation: 'Fort Collins, CO' },
+  'centennial': { city: 'Centennial', state: 'CO', zip: '80112', defaultLocation: 'Centennial, CO' },
 
   // --- Georgia (Atlanta Metro) ---
   'atlanta': { city: 'Atlanta', state: 'GA', zip: '30303', defaultLocation: 'Atlanta, GA / Hybrid' },
   'alpharetta': { city: 'Alpharetta', state: 'GA', zip: '30009', defaultLocation: 'Alpharetta, GA / Hybrid' },
 
-  // --- Washington D.C. Metro & Northern Virginia ---
+  // --- Washington D.C. Metro, Virginia & Maryland ---
   'washington': { city: 'Washington', state: 'DC', zip: '20001', defaultLocation: 'Washington, DC / Hybrid' },
   'dc': { city: 'Washington', state: 'DC', zip: '20001', defaultLocation: 'Washington, DC / Hybrid' },
   'washington dc': { city: 'Washington', state: 'DC', zip: '20001', defaultLocation: 'Washington, DC / Hybrid' },
@@ -103,14 +110,23 @@ export const KNOWN_CITY_ZIP_MAP: Record<string, CityZipEntry> = {
   'reston': { city: 'Reston', state: 'VA', zip: '20190', defaultLocation: 'Reston, VA / Hybrid' },
   'alexandria': { city: 'Alexandria', state: 'VA', zip: '22314', defaultLocation: 'Alexandria, VA / Hybrid' },
   'ashburn': { city: 'Ashburn', state: 'VA', zip: '20147', defaultLocation: 'Ashburn, VA / Hybrid' },
+  'herndon': { city: 'Herndon', state: 'VA', zip: '20170', defaultLocation: 'Herndon, VA / Hybrid' },
+  'tysons': { city: 'Tysons', state: 'VA', zip: '22102', defaultLocation: 'Tysons, VA / Hybrid' },
+  'richmond': { city: 'Richmond', state: 'VA', zip: '23219', defaultLocation: 'Richmond, VA / Hybrid' },
+  'newport news': { city: 'Newport News', state: 'VA', zip: '23606', defaultLocation: 'Newport News, VA' },
+  'norfolk': { city: 'Norfolk', state: 'VA', zip: '23510', defaultLocation: 'Norfolk, VA' },
+  'virginia beach': { city: 'Virginia Beach', state: 'VA', zip: '23451', defaultLocation: 'Virginia Beach, VA' },
+  'hampton': { city: 'Hampton', state: 'VA', zip: '23666', defaultLocation: 'Hampton, VA' },
   'bethesda': { city: 'Bethesda', state: 'MD', zip: '20814', defaultLocation: 'Bethesda, MD / Hybrid' },
   'baltimore': { city: 'Baltimore', state: 'MD', zip: '21201', defaultLocation: 'Baltimore, MD / Hybrid' },
 
   // --- North Carolina (Research Triangle & Charlotte) ---
   'raleigh': { city: 'Raleigh', state: 'NC', zip: '27601', defaultLocation: 'Raleigh, NC / Hybrid' },
   'durham': { city: 'Durham', state: 'NC', zip: '27701', defaultLocation: 'Durham, NC / Hybrid' },
+  'cary': { city: 'Cary', state: 'NC', zip: '27511', defaultLocation: 'Cary, NC / Hybrid' },
   'chapel hill': { city: 'Chapel Hill', state: 'NC', zip: '27514', defaultLocation: 'Chapel Hill, NC / Hybrid' },
   'charlotte': { city: 'Charlotte', state: 'NC', zip: '28202', defaultLocation: 'Charlotte, NC / Hybrid' },
+  'greensboro': { city: 'Greensboro', state: 'NC', zip: '27401', defaultLocation: 'Greensboro, NC / Hybrid' },
 
   // --- Pacific Northwest (Oregon) & Utah ---
   'portland': { city: 'Portland', state: 'OR', zip: '97201', defaultLocation: 'Portland, OR / Hybrid' },

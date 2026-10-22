@@ -12,7 +12,7 @@ import {
   generateRound1InterviewDrill,
   generateCompliantJobSummary
 } from '../utils/textHumanizer';
-import { cleanHtml, getRoleMarketBenchmark } from '../utils/jobExtractor';
+import { cleanHtml, getRoleMarketBenchmark, isCssOrNoiseLine } from '../utils/jobExtractor';
 import { resolveCompanyLogo } from '../utils/logoHelper';
 import { CAREER_ARTICLES } from '../data/careerArticles';
 import { getContextualArticlesForJob } from '../utils/relatedJobsMatcher';
@@ -220,6 +220,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
       .filter((line) => {
         if (!line || line.length < 8) return false;
+        if (isCssOrNoiseLine(line)) return false;
         const low = line.toLowerCase();
         if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
         if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
@@ -239,6 +240,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
       .filter((line) => {
         if (!line || line.length < 8) return false;
+        if (isCssOrNoiseLine(line)) return false;
         const low = line.toLowerCase();
         if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
         if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;

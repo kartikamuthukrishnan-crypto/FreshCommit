@@ -337,9 +337,73 @@ const KNOWN_COMPANIES: Record<string, { name: string; website: string; logo?: st
  * Robustly strips HTML tags, handles double-encoded or entitized HTML,
  * preserves readable paragraph/bullet structure, and decodes HTML entities.
  */
+/**
+ * Completely purges CSS blocks, style tags, scripts, SVG definitions, Emotion/styled-components CSS,
+ * and ATS UI clutter from text or HTML.
+ */
+export function stripCssAndNoise(content: string): string {
+  if (!content) return '';
+  let str = String(content);
+
+  // 1. Remove style, script, svg, noscript, and iframe tags along with their entire internal contents
+  str = str
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/&lt;style[^&]*&gt;[\s\S]*?&lt;\/style&gt;/gi, ' ')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/&lt;script[^&]*&gt;[\s\S]*?&lt;\/script&gt;/gi, ' ')
+    .replace(/<svg[^>]*>[\s\S]*?<\/svg>/gi, ' ')
+    .replace(/<noscript[^>]*>[\s\S]*?<\/noscript>/gi, ' ')
+    .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, ' ');
+
+  // 2. Remove CSS media queries and nested rules (e.g. @media (max-width: 768px) { ... })
+  str = str.replace(/@media[^{]*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/gi, ' ');
+  str = str.replace(/@keyframes[^{]*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/gi, ' ');
+  str = str.replace(/@import[^;]+;/gi, ' ');
+
+  // 3. Remove CSS selector rule blocks: e.g. .css-1ty8dsx{...}, .css-jf355g button:not(...){...}
+  str = str.replace(/(?:\.[a-zA-Z0-9_-]+|#[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+:[a-zA-Z0-9_()":-]+)[^{]*\{[^}]*\}/g, ' ');
+
+  // 4. Catch property blocks like {margin-top: 56px; ...} or {display: flex; ...}
+  str = str.replace(/\{[^{}]*(?:margin|padding|display|background|color|font-family|font-size|border|outline|box-sizing|position|justify-content|align-items|flex-|transition|letter-spacing|text-overflow|overflow|stroke)[^}]*\}/gi, ' ');
+
+  // 5. Remove remaining CSS selectors and webkit/Rippling/Emotion artifacts
+  str = str
+    .replace(/\.css-[a-zA-Z0-9]+/g, ' ')
+    .replace(/null\s+svg\s+circle\{[^}]*\}/gi, ' ')
+    .replace(/-webkit-[a-zA-Z-]+:[^;]+;/gi, ' ')
+    .replace(/RipplingIconsKit/gi, ' ')
+    .replace(/Basel Grotesk/gi, ' ')
+    .replace(/ripplingFont[A-Za-z0-9]+/gi, ' ')
+    .replace(/\b(?:Apply now|Share on:|Share this job|Back to all jobs)\b/gi, ' ');
+
+  return str;
+}
+
+/**
+ * Determines whether a line contains CSS directives, styling markup, or UI artifacts.
+ */
+export function isCssOrNoiseLine(line: string): boolean {
+  if (!line || line.trim().length < 6) return true;
+  const trimmed = line.trim();
+  // Any CSS braces or HTML tags
+  if (/[{}<>]/.test(trimmed)) return true;
+  // CSS class names or selectors
+  if (/\.(?:css|emotion|styled|makeStyles|sc-)[\w-]/i.test(trimmed)) return true;
+  // CSS properties
+  if (/^(?:font-(?:family|size|weight)|color|display|margin|padding|background|box-sizing|border|line-height|text-align|align-items|justify-content|position|cursor|overflow|flex|opacity|stroke|fill):/i.test(trimmed)) return true;
+  if (/@media|@keyframes|@import|!important|url\(|rgba?\(|hsla?\(/i.test(trimmed)) return true;
+  if (/^null\s+svg/i.test(trimmed)) return true;
+  if (/^(?:apply now|share on:|share this job|apply for this job|return to job list|back to jobs|read more)\b/i.test(trimmed.toLowerCase())) return true;
+  return false;
+}
+
+/**
+ * Robustly strips HTML tags, handles double-encoded or entitized HTML,
+ * preserves readable paragraph/bullet structure, decodes HTML entities, and eliminates CSS.
+ */
 export function cleanHtml(html: string): string {
   if (!html) return '';
-  let text = String(html);
+  let text = stripCssAndNoise(String(html));
 
   // 1. Decode double-encoded or entitized HTML (e.g. from Greenhouse, Lever, or copy-pasted markup)
   if (text.includes('&lt;') || text.includes('&gt;')) {
@@ -374,30 +438,75 @@ export function cleanHtml(html: string): string {
     .replace(/&mdash;/g, '—')
     .replace(/&bull;/g, '•');
 
-  // 4. Normalize multiple spaces and blank lines
+  // 4. Secondary CSS sanitize pass to catch decoded or stripped CSS remnants
+  text = stripCssAndNoise(text);
+
+  // 5. Normalize multiple spaces and blank lines
   return text
     .split('\n')
     .map((line) => line.replace(/[ \t]+/g, ' ').trim())
+    .filter((line) => {
+      // Filter out any lines that are obviously CSS leftovers
+      if (line.includes('{') || line.includes('}') || line.includes('.css-') || line.includes('@media') || line.includes('!important')) {
+        return false;
+      }
+      return true;
+    })
     .join('\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 
 /**
- * Extracts clean bullet points from HTML or multiline text
+ * Extracts clean bullet points from HTML or multiline text, strictly filtering out CSS,
+ * button labels, and ATS UI noise.
  */
 export function extractBulletPoints(html: string): string[] {
   if (!html) return [];
-  const matches = html.match(/<li[^>]*>(.*?)<\/li>/gi);
+  const cleaned = stripCssAndNoise(html);
+
+  const isJunkBullet = (line: string): boolean => {
+    if (!line || line.length < 8) return true;
+    const low = line.toLowerCase();
+    if (
+      low.includes('{') ||
+      low.includes('}') ||
+      low.includes('.css-') ||
+      low.includes('@media') ||
+      low.includes('!important') ||
+      low.includes('margin:') ||
+      low.includes('margin-top:') ||
+      low.includes('display:') ||
+      low.includes('background-color:') ||
+      low.includes('box-sizing:') ||
+      low.includes('padding:') ||
+      low.includes('font-family:') ||
+      low.includes('line-height:') ||
+      low.includes('stroke:') ||
+      low.includes('null svg') ||
+      low.includes('apply now') ||
+      low.includes('share on:') ||
+      low.includes('share this job') ||
+      low.includes('#li-') ||
+      low.startsWith('+') ||
+      low === 'software development' ||
+      low === 'engineering services'
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const matches = cleaned.match(/<li[^>]*>(.*?)<\/li>/gi);
   if (matches && matches.length > 0) {
     return matches
       .map((li) => cleanHtml(li).replace(/^[-*•\s]+/, '').trim())
-      .filter((line) => line.length > 10 && !line.toLowerCase().includes('#li-') && !line.startsWith('+'));
+      .filter((line) => !isJunkBullet(line));
   }
-  return html
+  return cleaned
     .split(/\n+/)
-    .map((line) => line.replace(/^[-*•\s]+/, '').trim())
-    .filter((line) => line.length > 10 && !line.toLowerCase().includes('#li-') && !line.startsWith('+'));
+    .map((line) => cleanHtml(line).replace(/^[-*•\s]+/, '').trim())
+    .filter((line) => !isJunkBullet(line));
 }
 
 /**
@@ -405,13 +514,14 @@ export function extractBulletPoints(html: string): string[] {
  */
 export function detectSkills(text: string): string[] {
   const commonSkills = [
+    'C#', '.NET', 'WPF', 'Windows Presentation Foundation', 'PostgreSQL', 'SQLite',
     'FPGA', 'Verilog', 'SystemVerilog', 'VHDL', 'Digital Logic', 'Hardware Design', 'Circuit Design',
     'Embedded Systems', 'Firmware', 'C', 'C++', 'Microcontrollers', 'RTOS', 'PCB Design', 'LabVIEW', 'MATLAB',
     'Semiconductors', 'Automated Test Equipment', 'ATE', 'Oscilloscopes', 'Test Engineering', 'Product Engineering',
     'Hardware Debugging', 'Scripting', 'Statistics', 'Electrical Engineering', 'Computer Engineering', 'RF',
-    'JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin',
+    'JavaScript', 'TypeScript', 'Python', 'Java', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin',
     'React', 'Next.js', 'Vue', 'Angular', 'Node.js', 'Express', 'Django', 'Flask', 'Spring Boot', 'FastAPI',
-    'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Linux', 'SQL', 'PostgreSQL', 'MySQL', 'MongoDB',
+    'AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Linux', 'SQL', 'MySQL', 'MongoDB',
     'Redis', 'GraphQL', 'REST APIs', 'APIs', 'Git', 'CI/CD', 'ServiceNow', 'Terraform', 'Kafka', 'Jest', 'Playwright',
     'PyTorch', 'TensorFlow', 'Data Analysis', 'Security', 'Developer Experience', 'Trust & Safety'
   ];
@@ -425,8 +535,20 @@ export function detectSkills(text: string): string[] {
       continue;
     }
     if (skill === 'C#') {
-      if (/(?:^|\W)c#(?:\W|$)/i.test(text)) {
+      if (/(?:^|\W)(?:c#|csharp)(?:\W|$)/i.test(text)) {
         found.push('C#');
+      }
+      continue;
+    }
+    if (skill === '.NET') {
+      if (/(?:^|\W)(?:\.net|dotnet)(?:\W|$)/i.test(text)) {
+        found.push('.NET');
+      }
+      continue;
+    }
+    if (skill === 'WPF' || skill === 'Windows Presentation Foundation') {
+      if (/(?:^|\W)(?:wpf|windows presentation foundation)(?:\W|$)/i.test(text)) {
+        if (!found.includes('WPF')) found.push('WPF');
       }
       continue;
     }
@@ -646,12 +768,19 @@ export function detectCompanyFromUrl(urlObj: URL): { company: string; companyWeb
     });
 
     if (validPart) {
-      const known = KNOWN_COMPANIES[`${validPart.toLowerCase()}.com`];
-      const name = known ? known.name : validPart.charAt(0).toUpperCase() + validPart.slice(1);
+      const cleanSlug = validPart.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const known = KNOWN_COMPANIES[`${cleanSlug}.com`] || KNOWN_COMPANIES[`${validPart.toLowerCase()}.com`];
+      const name = known
+        ? known.name
+        : validPart
+            .replace(/[-_]+/g, ' ')
+            .split(' ')
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+            .join(' ');
       return {
         company: name,
-        companyWebsite: `https://${validPart.toLowerCase()}.com`,
-        companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${validPart.toLowerCase()}.com`
+        companyWebsite: known?.website || `https://${cleanSlug}.com`,
+        companyLogo: known?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${cleanSlug}.com`
       };
     }
   }
@@ -1638,7 +1767,7 @@ export function parseJobSections(
     };
   }
 
-  let text = rawContent;
+  let text = stripCssAndNoise(rawContent);
 
   // Decode entities & preserve headings
   text = text
@@ -1664,10 +1793,34 @@ export function parseJobSections(
     .replace(/&mdash;/g, '—')
     .replace(/&bull;/g, '•');
 
+  const isJunkLine = (l: string): boolean => {
+    if (!l) return true;
+    const lower = l.toLowerCase();
+    return (
+      lower.includes('{') ||
+      lower.includes('}') ||
+      lower.includes('.css-') ||
+      lower.includes('@media') ||
+      lower.includes('!important') ||
+      lower.includes('margin-top:') ||
+      lower.includes('display:') ||
+      lower.includes('padding:') ||
+      lower.includes('font-family:') ||
+      lower.includes('line-height:') ||
+      lower.includes('stroke:') ||
+      lower.includes('null svg') ||
+      lower.includes('apply now') ||
+      lower.includes('share on:') ||
+      lower.includes('share this job') ||
+      lower === 'software development' ||
+      lower === 'engineering services'
+    );
+  };
+
   const lines = text
     .split('\n')
     .map((l) => l.replace(/[\s\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]+/g, ' ').trim())
-    .filter(Boolean);
+    .filter((l) => Boolean(l) && !isJunkLine(l));
 
   let currentSection: 'overview' | 'responsibilities' | 'qualifications' | 'other' = 'overview';
   const overviewParas: string[] = [];
@@ -1676,9 +1829,10 @@ export function parseJobSections(
   const titleLow = (title || '').toLowerCase();
 
   for (const line of lines) {
+    if (isJunkLine(line)) continue;
     const isExplicitBullet = line.startsWith('•') || line.startsWith('-') || line.startsWith('*');
     const headerMatch = line.match(/^===HEADER:\s*(.+?)===$/i);
-    const isHeaderLine = Boolean(headerMatch) || (!isExplicitBullet && line.length < 80 && (line.endsWith(':') || /^(?:Qualifications|Responsibilities|Requirements|What You Will Do|What You Bring|What We Offer)/i.test(line)));
+    const isHeaderLine = Boolean(headerMatch) || (!isExplicitBullet && line.length < 80 && (line.endsWith(':') || /^(?:Qualifications|Responsibilities|Requirements|What You Will Do|What You Bring|What We Offer|Roles and Responsibilities|Why )/i.test(line)));
     const candidate = headerMatch ? headerMatch[1].trim() : line;
     const low = candidate.toLowerCase();
 
@@ -1689,13 +1843,17 @@ export function parseJobSections(
         low.includes('position overview') ||
         low.includes('role overview') ||
         low.includes('about the role') ||
-        low.includes('the position')
+        low.includes('the position') ||
+        low.startsWith('why ') ||
+        low.includes('about the company') ||
+        low.includes('our why')
       ) {
         currentSection = 'overview';
         continue;
       }
       if (
         low.includes('responsibilit') ||
+        low.includes('roles and responsibilities') ||
         low.includes('what you will do') ||
         low.includes("what you'll do") ||
         low.includes('what you do') ||
@@ -1718,7 +1876,9 @@ export function parseJobSections(
         low.includes("what you'll bring") ||
         low.includes('skills & experience') ||
         low.includes('skills and experience') ||
-        low.includes('eligibility')
+        low.includes('eligibility') ||
+        low.includes('capabilities') ||
+        low.includes('hard skills')
       ) {
         currentSection = 'qualifications';
         continue;
@@ -1738,7 +1898,6 @@ export function parseJobSections(
         low.includes('equal opportunity') ||
         low.includes('privacy policy') ||
         low.includes('learn more & apply') ||
-        low.includes('about the company') ||
         low.includes('about us') ||
         low.includes('diversity')
       ) {
@@ -1750,11 +1909,11 @@ export function parseJobSections(
     if (headerMatch) continue;
 
     // Detect standalone section headers that might not have colons
-    if (/^(?:position responsibilities|key responsibilities|core responsibilities|responsibilities|what you will do|what you'll do)$/i.test(candidate)) {
+    if (/^(?:position responsibilities|key responsibilities|core responsibilities|responsibilities|roles and responsibilities|what you will do|what you'll do)$/i.test(candidate)) {
       currentSection = 'responsibilities';
       continue;
     }
-    if (/^(?:position qualifications|basic qualifications|minimum qualifications|preferred qualifications|qualifications|requirements|what we look for)$/i.test(candidate)) {
+    if (/^(?:position qualifications|basic qualifications|minimum qualifications|preferred qualifications|qualifications|requirements|what we look for|capabilities)$/i.test(candidate)) {
       currentSection = 'qualifications';
       continue;
     }
@@ -1794,7 +1953,7 @@ export function parseJobSections(
     }
 
     const cleanBullet = candidate.replace(/^[•\-\*–—\d\.\)]\s*/, '').replace(/&(?:amp;)?#xa;/gi, ' ').trim();
-    if (!cleanBullet || cleanBullet.length < 10) continue;
+    if (!cleanBullet || cleanBullet.length < 8 || isJunkLine(cleanBullet)) continue;
 
     if (currentSection === 'overview') {
       if (!overviewParas.includes(cleanBullet)) {
@@ -2881,6 +3040,130 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
     }
   }
 
+  // 4c. RIPPLING ATS DIRECT MATCHER & PARSER
+  // e.g. https://ats.rippling.com/collieraerospace/jobs/a3ae57de-5925-4f55-a106-812b5069cd19
+  const ripplingMatch = fullUrl.match(/(?:ats\.rippling\.com|rippling-ats\.com)\/([^/]+)\/jobs\/([a-zA-Z0-9-]+)/i);
+  if (ripplingMatch || fullUrl.includes('rippling.com') || fullUrl.includes('rippling-ats.com')) {
+    try {
+      const pageHtml = await fetchResourceWithProxy(fullUrl, false);
+      if (pageHtml) {
+        let jobPost: any = null;
+        let jobBoard: any = null;
+
+        const nextDataMatch = pageHtml.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i);
+        if (nextDataMatch) {
+          try {
+            const nextData = JSON.parse(nextDataMatch[1]);
+            const apiData = nextData.props?.pageProps?.apiData;
+            jobPost = apiData?.jobPost || nextData.props?.pageProps?.jobPost;
+            jobBoard = apiData?.jobBoard || jobPost?.board;
+          } catch {}
+        }
+
+        if (jobPost && (jobPost.name || jobPost.title)) {
+          const rawTitle = jobPost.name || jobPost.title || 'Software Engineer';
+          const title = cleanHtml(stripSeniorityFromTitle(rawTitle));
+          const companyRaw = jobPost.companyName || jobBoard?.companyName || jobBoard?.title || (ripplingMatch ? ripplingMatch[1] : 'Company');
+          const company = cleanHtml(companyRaw)
+            .replace(/[-_]+/g, ' ')
+            .split(' ')
+            .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(' ');
+          const compSlug = company.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const companyLogo = jobBoard?.logo?.url || `https://www.google.com/s2/favicons?sz=128&domain=${compSlug}.com`;
+          const companyWebsite = `https://${compSlug}.com`;
+
+          const workLocs: string[] = Array.isArray(jobPost.workLocations) ? jobPost.workLocations : [];
+          const primaryLoc = workLocs[0] || (jobPost.location ? (typeof jobPost.location === 'string' ? jobPost.location : jobPost.location.name) : 'United States');
+          const isRemoteHint = primaryLoc.toLowerCase().includes('remote') || primaryLoc.toLowerCase().includes('telecommute');
+          const locDetails = resolveLocationDetails(primaryLoc, isRemoteHint);
+
+          let rawDescHtml = '';
+          if (typeof jobPost.description === 'object' && jobPost.description !== null) {
+            const roleHtml = jobPost.description.role || '';
+            const compHtml = jobPost.description.company || '';
+            rawDescHtml = `${roleHtml}\n\n${compHtml}`;
+          } else if (typeof jobPost.description === 'string') {
+            rawDescHtml = jobPost.description;
+          }
+
+          const cleanedDescHtml = stripCssAndNoise(rawDescHtml);
+          const parsed = parseJobSections(cleanedDescHtml, title, company);
+          const responsibilities = parsed.responsibilities.length > 0 ? parsed.responsibilities : extractBulletPoints(cleanedDescHtml).slice(0, 8);
+          const qualifications = parsed.qualifications.length > 0 ? parsed.qualifications : extractBulletPoints(cleanedDescHtml).slice(0, 8);
+          const fullCorpus = `${title} ${cleanedDescHtml} ${parsed.overview}`;
+          const skills = detectSkills(fullCorpus);
+          const category = inferCategory(title, skills);
+          const isIntern = title.toLowerCase().includes('intern');
+          const expLevel = inferExperienceLevel(title, fullCorpus);
+          const empType: EmploymentType = isIntern ? 'INTERN' : (jobPost.employmentType?.label?.includes('PART') ? 'PART_TIME' : 'FULL_TIME');
+
+          const benchmark = getRoleMarketBenchmark(title, category, locDetails.country || 'US', locDetails.location, expLevel);
+          let salary: SalaryRange = benchmark;
+          let salaryDisclosed = false;
+
+          const payDetails = Array.isArray(jobPost.payRangeDetails) && jobPost.payRangeDetails.length > 0 ? jobPost.payRangeDetails[0] : null;
+          if (payDetails && (payDetails.min || payDetails.max)) {
+            salary = {
+              min: Math.round(Number(payDetails.min || payDetails.max * 0.85)),
+              max: Math.round(Number(payDetails.max)),
+              currency: payDetails.currency || 'USD',
+              unit: payDetails.interval === 'HOURLY' ? 'HOUR' : 'YEAR'
+            };
+            salaryDisclosed = true;
+          } else {
+            const fromText = extractSalaryFromText(cleanedDescHtml);
+            if (fromText) {
+              salary = fromText;
+              salaryDisclosed = true;
+            }
+          }
+
+          const cleanOverview = parsed.overview || `${company} is actively accepting applications for the ${title} position located in ${locDetails.location}.`;
+          const curatedDescription = composeFreshCommitsCuratedDescription({
+            title,
+            company,
+            cleanOverview,
+            skills,
+            salary,
+            responsibilities,
+            qualifications,
+            location: locDetails.location
+          });
+
+          return {
+            title,
+            company,
+            companyLogo,
+            companyWebsite,
+            location: locDetails.location,
+            isRemote: locDetails.isRemote,
+            city: locDetails.city,
+            state: locDetails.state,
+            country: locDetails.country,
+            postalCode: locDetails.postalCode,
+            applicantLocationRequirements: locDetails.applicantLocationRequirements,
+            experienceLevel: expLevel,
+            maxYearsExperience: isIntern ? 0 : 1,
+            category,
+            employmentType: empType,
+            salary,
+            salaryDisclosed,
+            suggestedBenchmark: benchmark,
+            description: curatedDescription,
+            responsibilities,
+            qualifications,
+            skills,
+            applyUrl: fullUrl,
+            detectedAtsProvider: 'Rippling'
+          };
+        }
+      }
+    } catch (err) {
+      console.warn('Rippling direct extraction failed, proceeding to fallback:', err);
+    }
+  }
+
   // 5. ATTEMPT LIGHTWEIGHT CORS PROXY FETCH (3-second timeout)
   // If the target page allows proxy fetching (like Ashby or certain company career sites), parse HTML & JSON-LD
   try {
@@ -3117,32 +3400,67 @@ export async function extractAndEnrichJobFromUrl(rawUrl: string): Promise<Extrac
  * with 100% zero operational cost ($0.00).
  */
 export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: string = ''): ExtractedJobData {
-  const rawTrimmed = (rawText || '').trim();
-  if (!rawTrimmed) {
+  const rawCleaned = stripCssAndNoise(rawText || '').trim();
+  if (!rawCleaned) {
     throw new Error('Please paste job description text into the canvas.');
   }
 
   // If input contains HTML tags or entitized HTML, sanitize into clean human-readable text
-  const isHtml = /<[^>]+>|&(?:lt|gt|amp|quot|#39|nbsp);/i.test(rawTrimmed);
-  const text = isHtml ? cleanHtml(rawTrimmed) : rawTrimmed;
+  const isHtml = /<[^>]+>|&(?:lt|gt|amp|quot|#39|nbsp);/i.test(rawCleaned);
+  const text = isHtml ? cleanHtml(rawCleaned) : rawCleaned;
 
-  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+  const lines = text
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => {
+      if (!l) return false;
+      if (l.includes('{') || l.includes('}') || l.includes('.css-') || l.includes('@media')) return false;
+      return true;
+    });
 
   // 1. EXTRACT TITLE
+  const ROLE_KEYWORDS = [
+    'engineer', 'developer', 'analyst', 'specialist', 'designer', 'architect',
+    'intern', 'internship', 'manager', 'associate', 'scientist', 'technician',
+    'lead', 'programmer', 'administrator', 'consultant', 'full stack', 'frontend',
+    'backend', 'software', 'devops', 'sre', 'qa', 'test', 'data', 'cloud', 'system', 'security'
+  ];
+
   let title = '';
-  // Check if first line or early line looks like a job title
-  for (let i = 0; i < Math.min(lines.length, 6); i++) {
+  // Check the first 12 lines for a line containing high-intent role keywords
+  for (let i = 0; i < Math.min(lines.length, 12); i++) {
     const line = lines[i];
+    const low = line.toLowerCase();
     if (
-      line.length > 4 &&
-      line.length < 100 &&
-      !line.match(/^(Apply Now|Job Information|Search Jobs|Sign In|Skip to|Menu|Home|Careers|Job ID|Req ID)/i) &&
-      !line.match(/^[0-9\/\-:\s,]+$/)
+      line.length > 5 &&
+      line.length < 90 &&
+      !line.match(/^(Apply Now|Job Information|Search Jobs|Sign In|Skip to|Menu|Home|Careers|Job ID|Req ID|Share on|About|Why|Who|Locations?|Workplace)/i) &&
+      !line.match(/^[0-9\/\-:\s,]+$/) &&
+      !line.includes('>') &&
+      ROLE_KEYWORDS.some((kw) => low.includes(kw))
     ) {
       title = line.replace(/^(?:Job Title|Position|Role|Opening)[:\s–-]+/i, '').trim();
       break;
     }
   }
+
+  // Fallback to first non-noise line if role keywords weren't matched
+  if (!title) {
+    for (let i = 0; i < Math.min(lines.length, 6); i++) {
+      const line = lines[i];
+      if (
+        line.length > 4 &&
+        line.length < 80 &&
+        !line.match(/^(Apply Now|Job Information|Search Jobs|Sign In|Skip to|Menu|Home|Careers|Job ID|Req ID|Share on|Back to)/i) &&
+        !line.match(/^[0-9\/\-:\s,]+$/) &&
+        !line.includes('>')
+      ) {
+        title = line.replace(/^(?:Job Title|Position|Role|Opening)[:\s–-]+/i, '').trim();
+        break;
+      }
+    }
+  }
+
   if (!title) {
     title = lines[0] || 'Software Engineer (Early Career)';
   }
@@ -3151,11 +3469,11 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
 
   // 2. EXTRACT COMPANY
   let company = '';
-  // Check "About Us", "About [Company]", "About the Team"
-  const aboutMatch = text.match(/(?:About Us|About the Company|Company Overview|About)\s*\n+([A-Za-z0-9&,.\s\-]{2,50}?)(?:,|\.|is\b|offers\b|one of\b|operates\b|was founded\b)/i);
+  // Check "About Us", "About [Company]", "About the Team", "Why [Company]"
+  const aboutMatch = text.match(/(?:About Us|About the Company|Company Overview|Why|About)\s*\n+([A-Za-z0-9&,.\s\-]{2,50}?)(?:,|\.|is\b|offers\b|one of\b|operates\b|was founded\b|\?)/i);
   if (aboutMatch && aboutMatch[1]) {
-    const candidate = aboutMatch[1].trim().replace(/\n.*$/, '');
-    if (candidate.length > 2 && candidate.length < 40 && !candidate.match(/^(The|Our|We|This|At)\b/i)) {
+    const candidate = aboutMatch[1].trim().replace(/\n.*$/, '').replace(/\?$/, '');
+    if (candidate.length > 2 && candidate.length < 40 && !candidate.match(/^(The|Our|We|This|At|Why|Collier Aerospace\?)\b/i)) {
       company = candidate;
     }
   }
@@ -3181,12 +3499,8 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     }
   }
 
-  if (!company) {
-    company = 'Tech Employer';
-  }
-
   // Fallback to detecting company from apply URL domain if text didn't explicitly have it
-  if ((company === 'Tech Employer' || !company) && fallbackApplyUrl) {
+  if ((!company || company === 'Tech Employer') && fallbackApplyUrl) {
     try {
       const u = fallbackApplyUrl.trim().startsWith('http') ? fallbackApplyUrl.trim() : `https://${fallbackApplyUrl.trim()}`;
       const urlObj = new URL(u);
@@ -3199,18 +3513,23 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     }
   }
 
-  // 3. EXTRACT LOCATION
+  if (!company) {
+    company = 'Tech Employer';
+  }
+
+  // 3. EXTRACT LOCATION & POSTAL CODE
   let location = '';
   let city = '';
   let state = '';
   let country = 'US';
   let isRemote = false;
+  let postalCode = '';
 
-  const locMatch = text.match(/(?:Locations?|Job Location|Primary Location)\s*[:\n]\s*([^\n]+)/i);
+  const locMatch = text.match(/(?:Locations?|Job Location|Primary Location|Office Location)\s*[:\n]\s*([^\n]+)/i);
   if (locMatch && locMatch[1]) {
     location = cleanLocationString(locMatch[1].trim());
   } else {
-    // Check for US City, ST pattern (e.g. New York, NY or Ashburn, VA)
+    // Check for US City, ST pattern (e.g. "Newport News, VA" or "Denver, CO")
     const cityStateMatch = text.match(/\b([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?),\s*([A-Z]{2})\b/);
     if (cityStateMatch) {
       city = cleanCityString(cityStateMatch[1]);
@@ -3254,6 +3573,22 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     isRemote = true;
   }
 
+  // Extract or lookup authentic 5-digit US postal code
+  const zipMatch = text.match(/\b([0-9]{5})(?:-[0-9]{4})?\b/);
+  if (zipMatch) {
+    postalCode = zipMatch[1];
+  }
+  if (!postalCode && city) {
+    const mapped = lookupCityZip(city);
+    if (mapped) {
+      postalCode = mapped.zip;
+      if (!state) state = mapped.state;
+    }
+  }
+  if (!postalCode) {
+    postalCode = '94105';
+  }
+
   // 4. EXTRACT SALARY / COMPENSATION
   const salaryMatch = text.match(/(?:Base Pay\/Salary|Salary|Pay Range|Compensation|Hourly Rate|Base Salary)[^\n]*\n*([^\n$]*\$([0-9]{2,3}(?:,[0-9]{3})*)\s*[-–]\s*\$([0-9]{2,3}(?:,[0-9]{3})*))/i);
   let salary: SalaryRange = { min: 0, max: 0, currency: 'USD', unit: 'YEAR' };
@@ -3295,7 +3630,6 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
 
   // 6. EXTRACT SKILLS & CATEGORY
   const detectedSkills = detectSkills(text);
-  // Add design-specific skills if applicable
   if (title.toLowerCase().includes('design') || textLower.includes('figma') || textLower.includes('ui/ux')) {
     if (!detectedSkills.includes('Figma')) detectedSkills.push('Figma');
     if (!detectedSkills.includes('Design Systems')) detectedSkills.push('Design Systems');
@@ -3331,6 +3665,7 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
   else if (textLower.includes('lever.co')) detectedAtsProvider = 'Lever';
   else if (textLower.includes('smartrecruiters')) detectedAtsProvider = 'SmartRecruiters';
   else if (textLower.includes('ashby')) detectedAtsProvider = 'Ashby';
+  else if (textLower.includes('rippling')) detectedAtsProvider = 'Rippling';
   else if (textLower.includes('taleo')) detectedAtsProvider = 'Taleo';
 
   if (fallbackApplyUrl) {
@@ -3340,6 +3675,7 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     else if (fLower.includes('smartrecruiters.com')) detectedAtsProvider = 'SmartRecruiters';
     else if (fLower.includes('workable.com')) detectedAtsProvider = 'Workable';
     else if (fLower.includes('ashbyhq.com')) detectedAtsProvider = 'Ashby';
+    else if (fLower.includes('rippling.com') || fLower.includes('rippling-ats.com')) detectedAtsProvider = 'Rippling';
     else if (fLower.includes('myworkdayjobs.com') || fLower.includes('workday.com')) detectedAtsProvider = 'Workday';
   }
 
@@ -3375,6 +3711,7 @@ export function extractJobDataFromRawText(rawText: string, fallbackApplyUrl: str
     city,
     state,
     country,
+    postalCode,
     applicantLocationRequirements: isRemote ? country : undefined,
     experienceLevel,
     maxYearsExperience,
