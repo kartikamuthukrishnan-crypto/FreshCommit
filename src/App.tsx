@@ -19,6 +19,7 @@ import { LegalModal } from './components/LegalModals';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { FreshCommitsLogo } from './components/FreshCommitsLogo';
 import { HomeEditorialContent } from './components/HomeEditorialContent';
+import { FeaturedEditorialSection } from './components/FeaturedEditorialSection';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
 import { trackPageView, disableAnalyticsForAdmin } from './utils/analytics';
@@ -578,6 +579,20 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       console.warn('Failed updating tab URL', e);
+    }
+  };
+
+  const handleOpenArticle = (articleId: string) => {
+    setActiveTab('insights');
+    if (selectedJob) {
+      setSelectedJob(null);
+    }
+    try {
+      window.history.pushState({ tab: 'insights', article: articleId }, '', `/career-insights?article=${articleId}`);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) {
+      console.warn('Failed opening article', e);
     }
   };
 
@@ -1516,6 +1531,12 @@ export default function App() {
                 </div>
               </div>
             </section>
+
+            {/* Publisher Spotlight: 3 Premier Original Editorial Guides */}
+            <FeaturedEditorialSection
+              onOpenArticle={handleOpenArticle}
+              onViewAllGuides={() => handleTabChange('insights')}
+            />
 
             {/* Job Listings Grid & In-Feed Ads */}
             <div id="job-feed-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-mt-20">

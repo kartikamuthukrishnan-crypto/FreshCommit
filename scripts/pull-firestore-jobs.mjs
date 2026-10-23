@@ -173,7 +173,12 @@ async function pullFirestoreJobs() {
     }
   );
 
+  const initialJobsPath = path.join(rootDir, 'src', 'data', 'initialJobs.ts');
   if (!res.ok) {
+    if (fs.existsSync(initialJobsPath)) {
+      console.warn(`Firestore query returned ${res.status} ${res.statusText}. Retaining existing src/data/initialJobs.ts and proceeding with build...`);
+      return;
+    }
     throw new Error(`Failed to query Firestore: ${res.status} ${res.statusText}`);
   }
 
@@ -251,7 +256,6 @@ async function pullFirestoreJobs() {
   });
 
   // 1. Write to src/data/initialJobs.ts
-  const initialJobsPath = path.join(rootDir, 'src', 'data', 'initialJobs.ts');
   const fileContent = `import { JobPosting } from '../types';\n\nexport const INITIAL_JOBS: JobPosting[] = ${JSON.stringify(
     cloudJobs,
     null,

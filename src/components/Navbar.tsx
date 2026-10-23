@@ -86,13 +86,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 setActiveTab('insights');
               }}
-              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'insights'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
-                  : 'text-[#5f6368] hover:text-[#202124]'
+                  : 'text-[#202124] hover:text-[#1a73e8]'
               }`}
             >
-              <span>Insights</span>
+              <BookOpen className="w-3.5 h-3.5 text-violet-600" />
+              <span className="font-semibold">Guides &amp; Insights</span>
+              <span className="hidden xl:inline-flex text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-800 border border-violet-200">
+                Editorial
+              </span>
             </a>
 
             <a
@@ -349,14 +353,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             setActiveTab('insights');
             setIsMobileMenuOpen(false);
           }}
-          className={`flex items-center gap-1 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
+          className={`flex items-center gap-1.5 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
             activeTab === 'insights'
-              ? 'bg-[#1a73e8] text-white shadow-2xs font-semibold'
-              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+              ? 'bg-violet-700 text-white shadow-2xs font-semibold'
+              : 'bg-violet-50 text-violet-800 border border-violet-200 hover:bg-violet-100'
           }`}
         >
           <BookOpen className="w-3 h-3 text-violet-600" />
-          <span>Insights</span>
+          <span className="font-semibold">Guides &amp; Editorial</span>
         </button>
       </div>
 
