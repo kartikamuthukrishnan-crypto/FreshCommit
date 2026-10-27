@@ -413,13 +413,6 @@ export const ContactUsView: React.FC = () => {
               <Mail className="w-3.5 h-3.5" />
               <span>contact@freshcommits.com</span>
             </a>
-            <a
-              href="mailto:editorial@freshcommits.com"
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-white hover:bg-slate-50 text-slate-800 rounded-xl text-xs font-semibold transition-all border border-slate-200 shadow-xs"
-              title="Email FreshCommits Editorial Team"
-            >
-              <span>editorial@freshcommits.com</span>
-            </a>
           </div>
         </div>
       </div>
@@ -427,31 +420,22 @@ export const ContactUsView: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Contact Routing Info Card */}
         <div className="space-y-6 md:col-span-1">
-          {/* Card 1: Direct Business Emails (Elevated to Position #1) */}
+          {/* Card 1: Direct Official Contact Desk */}
           <div className="bg-white rounded-2xl border-2 border-emerald-500/20 p-6 shadow-sm space-y-3 text-xs text-slate-600">
             <h2 className="font-bold text-slate-900 flex items-center gap-1.5">
               <Mail className="w-4 h-4 text-emerald-600" />
-              Direct Business Inboxes
+              Direct Official Email
             </h2>
-            <div className="space-y-2 text-slate-600">
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="font-semibold text-slate-900 text-[11px]">General &amp; Candidate Support:</div>
-                <a href="mailto:contact@freshcommits.com" className="text-emerald-700 font-bold hover:underline font-mono text-xs block mt-0.5">
-                  contact@freshcommits.com
-                </a>
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-2">
+              <div className="text-[11px] text-slate-500 font-medium">
+                Unified Inquiries, Editorial, Privacy &amp; Support:
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="font-semibold text-slate-900 text-[11px]">Editorial &amp; Research:</div>
-                <a href="mailto:editorial@freshcommits.com" className="text-emerald-700 font-bold hover:underline font-mono text-xs block mt-0.5">
-                  editorial@freshcommits.com
-                </a>
-              </div>
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="font-semibold text-slate-900 text-[11px]">Privacy Officer &amp; Takedowns:</div>
-                <a href="mailto:privacy@freshcommits.com" className="text-emerald-700 font-bold hover:underline font-mono text-xs block mt-0.5">
-                  privacy@freshcommits.com
-                </a>
-              </div>
+              <a href="mailto:contact@freshcommits.com" className="text-emerald-700 font-bold hover:underline font-mono text-sm block">
+                contact@freshcommits.com
+              </a>
+              <p className="text-[11px] text-slate-500 leading-relaxed pt-1">
+                Monitored daily by our site operations team. All candidate questions, employer takedowns, and editorial notes are addressed within 24 business hours.
+              </p>
             </div>
           </div>
 

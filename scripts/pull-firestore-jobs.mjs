@@ -334,7 +334,8 @@ async function pullFirestoreJobs() {
     path.join(rootDir, 'src', 'data', 'articles', 'applicationAndOutreach.ts'),
     path.join(rootDir, 'src', 'data', 'articles', 'specializedAndWorkplace.ts'),
     path.join(rootDir, 'src', 'data', 'articles', 'expandedFlagshipArticles.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'technicalMasteryArticles.ts')
+    path.join(rootDir, 'src', 'data', 'articles', 'technicalMasteryArticles.ts'),
+    path.join(rootDir, 'src', 'data', 'articles', 'usSearchDominanceArticles.ts')
   ];
   const allArticleIds = [];
   for (const f of articleFiles) {

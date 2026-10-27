@@ -78,7 +78,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h3 className="font-bold text-slate-900 text-sm">3. GDPR &amp; CCPA/CPRA Compliance</h3>
               <p>
-                We do not sell personal information. European Union (GDPR) and California (CCPA) residents maintain the right to access, rectify, or erase any technical log entries or saved device preferences. Direct all data inquiries to <span className="font-mono text-emerald-800 font-semibold">privacy@freshcommits.com</span>.
+                We do not sell personal information. European Union (GDPR) and California (CCPA) residents maintain the right to access, rectify, or erase any technical log entries or saved device preferences. Direct all data inquiries to <span className="font-mono text-emerald-800 font-semibold">contact@freshcommits.com</span>.
               </p>
             </>
           )}
@@ -134,7 +134,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h3 className="font-bold text-slate-900 text-sm">3. Employer Listing Updates &amp; Takedowns</h3>
               <p>
-                Employers wishing to modify or remove active job postings can submit a priority request to <span className="font-mono text-emerald-800 font-semibold">support@freshcommits.com</span> for review within 24 business hours.
+                Employers wishing to modify or remove active job postings can submit a priority request to <span className="font-mono text-emerald-800 font-semibold">contact@freshcommits.com</span> for review within 24 business hours.
               </p>
             </>
           )}

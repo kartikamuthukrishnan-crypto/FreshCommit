@@ -157,7 +157,7 @@ export const LegalPageView: React.FC<LegalPageViewProps> = ({ initialSection = '
             <section className="space-y-2">
               <h3 className="text-base font-bold text-slate-900">7. Employer Modification &amp; Takedown Requests</h3>
               <p>
-                Employers wishing to update or remove active job listings may submit requests to <span className="font-mono text-emerald-700">support@freshcommits.com</span>. All verified requests are processed within 24 business hours.
+                Employers wishing to update or remove active job listings may submit requests to <span className="font-mono text-emerald-700 font-semibold">contact@freshcommits.com</span>. All verified requests are processed within 24 business hours.
               </p>
             </section>
           </article>
@@ -232,7 +232,7 @@ export const LegalPageView: React.FC<LegalPageViewProps> = ({ initialSection = '
             <section className="space-y-2">
               <h3 className="text-base font-bold text-slate-900">5. Contact Our Privacy Officer</h3>
               <p>
-                For privacy or data handling inquiries, please reach our designated Data Compliance Officer at <span className="font-mono text-emerald-700">privacy@freshcommits.com</span>.
+                For privacy or data handling inquiries, please reach our designated Data Compliance Officer at <span className="font-mono text-emerald-700 font-semibold">contact@freshcommits.com</span>.
               </p>
             </section>
           </article>
@@ -268,7 +268,7 @@ export const LegalPageView: React.FC<LegalPageViewProps> = ({ initialSection = '
             <section className="space-y-2">
               <h3 className="text-base font-bold text-slate-900">3. Anti-Scam &amp; Recruitment Fraud Warning</h3>
               <p>
-                FreshCommits strictly indexes direct links to corporate career platforms. Legitimate employers will never ask candidates to pay for interviews, purchase equipment upfront via personal check, or communicate via unverified messaging apps. If you encounter a suspicious posting, report it immediately to <span className="font-mono text-emerald-700">safety@freshcommits.com</span>.
+                FreshCommits strictly indexes direct links to corporate career platforms. Legitimate employers will never ask candidates to pay for interviews, purchase equipment upfront via personal check, or communicate via unverified messaging apps. If you encounter a suspicious posting, report it immediately to <span className="font-mono text-emerald-700 font-semibold">contact@freshcommits.com</span>.
               </p>
             </section>
           </article>

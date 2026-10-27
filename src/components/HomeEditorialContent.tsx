@@ -313,7 +313,7 @@ export const HomeEditorialContent: React.FC<{
             </div>
           </div>
           <p className="text-xs text-slate-400 leading-relaxed">
-            FreshCommits does not accept payment to promote fraudulent or undisclosed sponsor positions. All compensation figures are computed from verified Department of Labor filings, state pay transparency legislation disclosures (CA SB 1162, NY Local Law 32, WA EPEA), and direct employer postings. For editorial inquiries, corrections, or candidate support, reach our editorial team at <span className="font-mono text-emerald-300">editorial@freshcommits.com</span>.
+            FreshCommits does not accept payment to promote fraudulent or undisclosed sponsor positions. All compensation figures are computed from verified Department of Labor filings, state pay transparency legislation disclosures (CA SB 1162, NY Local Law 32, WA EPEA), and direct employer postings. For editorial inquiries, corrections, or candidate support, reach our team at <a href="mailto:contact@freshcommits.com" className="font-mono text-emerald-300 hover:underline">contact@freshcommits.com</a>.
           </p>
         </section>
 
