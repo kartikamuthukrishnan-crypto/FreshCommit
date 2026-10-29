@@ -1758,9 +1758,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               {/* Title & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Job Title <span className="text-rose-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold text-slate-700">
+                      Job Title <span className="text-rose-500">*</span>
+                    </label>
+                    <span className="text-[10px] text-indigo-600 font-semibold flex items-center gap-1">
+                      <Sparkles className="w-2.5 h-2.5" /> GSC CTR Boosters
+                    </span>
+                  </div>
                   <input
                     type="text"
                     required
@@ -1769,6 +1774,70 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-xs"
                   />
+                  {/* High-CTR Title Modifier Chips based on GSC winning queries */}
+                  <div className="flex items-center gap-1.5 flex-wrap mt-1.5">
+                    <span className="text-[10px] text-slate-400 font-medium">Add Hook:</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!title.toLowerCase().includes('ncg')) {
+                          setTitle(title ? `${title.trim()} (NCG)` : 'Software Engineer (NCG)');
+                        }
+                      }}
+                      className="px-2 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded text-[10px] font-bold cursor-pointer transition-colors"
+                      title="New College Grad - #1 performing tag in your Google Search Console data (Astera Labs 281 impressions)"
+                    >
+                      + (NCG)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!/^Associate\b/i.test(title)) {
+                          setTitle(title ? `Associate ${title.replace(/^(Junior|Associate)\s+/i, '').trim()}` : 'Associate Software Engineer');
+                        }
+                      }}
+                      className="px-2 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded text-[10px] font-bold cursor-pointer transition-colors"
+                      title="Associate - Generated 40% CTR in your Google Search Console data"
+                    >
+                      + Associate
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!title.toLowerCase().includes('early career')) {
+                          setTitle(title ? `${title.trim()} (Early Career)` : 'Software Engineer (Early Career)');
+                        }
+                      }}
+                      className="px-2 py-0.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded text-[10px] font-bold cursor-pointer transition-colors"
+                      title="Early Career - High-intent search query for 0-2 YoE"
+                    >
+                      + (Early Career)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!title.toLowerCase().includes('0-2 yoe')) {
+                          setTitle(title ? `${title.trim()} (0-2 YoE)` : 'Software Engineer (0-2 YoE)');
+                        }
+                      }}
+                      className="px-2 py-0.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded text-[10px] font-bold cursor-pointer transition-colors"
+                      title="0-2 YoE - High-ranking keyword filter"
+                    >
+                      + (0-2 YoE)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        let clean = title.replace(/\s*\((?:NCG|New Grad|Early Career|0-2 YoE|Entry Level)\)/gi, '').trim();
+                        clean = clean.replace(/^(?:Associate|Junior)\s+/i, '').trim();
+                        setTitle(clean);
+                      }}
+                      className="px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded text-[10px] font-medium cursor-pointer transition-colors"
+                      title="Reset / remove extra badges"
+                    >
+                      Reset
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">Category</label>
@@ -1918,6 +1987,39 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     />
                     <span className="text-xs font-semibold text-slate-700">100% Remote / Telecommute</span>
                   </label>
+                </div>
+
+                {/* GSC High-CTR US Tech Hub Quick-Fill */}
+                <div className="flex items-center gap-1.5 flex-wrap pb-1">
+                  <span className="text-[10px] text-slate-500 font-semibold flex items-center gap-1">
+                    <Sparkles className="w-2.5 h-2.5 text-indigo-500" />
+                    Top Search Hubs:
+                  </span>
+                  {[
+                    { label: 'San Jose, CA', city: 'San Jose', state: 'CA', zip: '95113', loc: 'San Jose, CA' },
+                    { label: 'Redmond, WA', city: 'Redmond', state: 'WA', zip: '98052', loc: 'Redmond, WA / Hybrid' },
+                    { label: 'Palo Alto, CA', city: 'Palo Alto', state: 'CA', zip: '94301', loc: 'Palo Alto, CA' },
+                    { label: 'San Diego, CA', city: 'San Diego', state: 'CA', zip: '92101', loc: 'San Diego, CA' },
+                    { label: 'Austin, TX', city: 'Austin', state: 'TX', zip: '78701', loc: 'Austin, TX' },
+                    { label: 'Seattle, WA', city: 'Seattle', state: 'WA', zip: '98101', loc: 'Seattle, WA / Hybrid' }
+                  ].map((hub) => (
+                    <button
+                      key={hub.label}
+                      type="button"
+                      onClick={() => {
+                        setIsRemote(false);
+                        setCity(hub.city);
+                        setState(hub.state);
+                        setPostalCode(hub.zip);
+                        setCountry('US');
+                        setLocation(hub.loc);
+                      }}
+                      className="px-2 py-0.5 bg-white hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200 rounded text-[10px] font-medium transition-colors cursor-pointer shadow-xs"
+                      title={`Quick-fills ${hub.loc} with verified ZIP ${hub.zip}`}
+                    >
+                      {hub.label}
+                    </button>
+                  ))}
                 </div>
 
                 <div>
@@ -2639,6 +2741,59 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <span>100% Google JobPosting Schema Compliant</span>
                 </div>
               )}
+
+              {/* Live Google Search Result Preview Card */}
+              <div className="mb-4 p-3.5 bg-slate-900 rounded-xl border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-400">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Google for Jobs SERP Preview</span>
+                  </div>
+                  <span
+                    className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
+                      salaryMin > 0
+                        ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                        : 'bg-amber-950 text-amber-300 border border-amber-800'
+                    }`}
+                  >
+                    {salaryMin > 0 ? '✓ High-CTR Green Badge' : '⚠️ Missing Salary Badge'}
+                  </span>
+                </div>
+
+                <div className="bg-white rounded-lg p-3 border border-slate-200 shadow-sm space-y-1">
+                  <div className="text-[11px] text-slate-500 flex items-center gap-1 flex-wrap">
+                    <span className="font-semibold text-slate-700">{company || 'Hiring Employer'}</span>
+                    <span>•</span>
+                    <span>{location || 'United States'}</span>
+                    <span>•</span>
+                    <span className="text-slate-400">via FreshCommits</span>
+                  </div>
+
+                  <div className="text-sm font-bold text-blue-700 hover:underline">
+                    {title || 'Job Title (Early Career / NCG)'}
+                  </div>
+
+                  {salaryMin > 0 ? (
+                    <div className="pt-0.5">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
+                        ${salaryMin.toLocaleString()} – ${salaryMax.toLocaleString()} a year
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="text-[11px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 mt-1">
+                      Tip: Disclose salary range to show Google&apos;s green salary badge (+40% CTR)
+                    </div>
+                  )}
+
+                  <div className="pt-1.5 flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-100 mt-1">
+                    <span className="text-indigo-600 font-semibold flex items-center gap-1">
+                      <ExternalLink className="w-3 h-3" />
+                      Direct Apply Verified
+                    </span>
+                    <span className="text-emerald-700 font-medium">0–2 YoE Verified</span>
+                  </div>
+                </div>
+              </div>
 
               {/* JSON-LD Code Box */}
               <div>
