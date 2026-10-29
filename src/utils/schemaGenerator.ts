@@ -25,9 +25,10 @@ const COUNTRY_NAME_MAP: Record<string, string> = {
  * to Google Search Central guidelines (https://developers.google.com/search/docs/appearance/structured-data/job-posting)
  */
 export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
-  const hasLongTail = /(?:entry[\s-]level|0[\s-]2|junior|new\s*grad|intern|graduate|fresher)/i.test(job.title);
-  const expTag = hasLongTail ? '' : (job.experienceLevel === 'Internship' ? ' (Internship)' : (job.experienceLevel === 'New Grad' ? ' (2026 New Grad)' : ' (0–2 YoE / Entry Level)'));
-  const schemaTitle = `${job.title}${expTag}`;
+  // Google for Jobs Algorithm Compliance:
+  // Title MUST be the authentic, concise job title without promotional keywords or editorial tags.
+  // This guarantees exact cosine-similarity clustering with the primary ATS listing.
+  const schemaTitle = (job.title || 'Software Engineer').trim();
 
   const schema: Record<string, any> = {
     '@context': 'https://schema.org',
@@ -120,10 +121,42 @@ export function generateJobPostingHtmlSnippet(job: JobPosting): string {
 }
 
 /**
- * Formats a job description into compliant HTML as required by Google Search
+ * Formats the authentic employer job description into compliant HTML as required by Google Search.
+ * Strictly adheres to Google for Jobs guidelines:
+ * - Verbatim employer text, responsibilities, and qualifications
+ * - No promotional editorial commentary or non-job marketing text
+ * - Clean HTML tags (<p>, <ul>, <li>, <strong>)
  */
 function formatHtmlDescription(job: JobPosting): string {
-  const cleanDesc = escapeHtml(job.description || '')
+  let raw = job.description || '';
+
+  // 1. If stored description contains editorial take, extract authentic employer text
+  if (raw.includes('🏢 Role Overview:')) {
+    raw = raw.split('🏢 Role Overview:')[1]?.trim() || raw;
+  } else if (raw.includes('🎯 The FreshCommits Career Take:')) {
+    if (raw.includes('💡 Candidate Preparation Checklist:')) {
+      const parts = raw.split('💡 Candidate Preparation Checklist:');
+      const afterChecklist = parts[1] || '';
+      // If there is another section or original text after checklist
+      const lines = afterChecklist.split('\n').filter(Boolean);
+      const nonBulletIdx = lines.findIndex(l => !l.trim().startsWith('•') && !l.trim().startsWith('-') && !l.trim().startsWith('*'));
+      if (nonBulletIdx !== -1) {
+        raw = lines.slice(nonBulletIdx).join('\n');
+      } else {
+        raw = `Official early-career software engineering requisition for ${job.title} at ${job.company}.`;
+      }
+    }
+  }
+
+  // 2. Strip leading scraping artifacts
+  raw = raw
+    .replace(/^Description\s*\n+/i, '')
+    .replace(/^Position Summary\s*\n+/i, '')
+    .replace(/^About (?:The Role|Us|The Job|The Company)\s*[:\n]+/i, '')
+    .trim();
+
+  // 3. Format description paragraphs
+  const cleanDesc = escapeHtml(raw)
     .split(/\n\s*\n/)
     .map(p => p.trim())
     .filter(Boolean)
@@ -132,22 +165,22 @@ function formatHtmlDescription(job: JobPosting): string {
 
   let html = cleanDesc || `<p>Apply directly for ${escapeHtml(job.title)} at ${escapeHtml(job.company)}.</p>`;
 
-  const descLower = (job.description || '').toLowerCase();
+  const descLower = raw.toLowerCase();
 
+  // 4. Append authentic responsibilities (filtered for quality)
   if (job.responsibilities && job.responsibilities.length > 0) {
     const validResp = job.responsibilities
       .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
       .filter((r) => {
-        if (!r || r.length < 8) return false;
+        if (!r || r.length < 10) return false;
         const low = r.toLowerCase();
-        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are|description|position summary)[:\s]*$/i.test(low)) return false;
         if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
         if (/^about us[:\s]/i.test(low)) return false;
         if (/^who we are[:\s]/i.test(low)) return false;
         if (/^we are looking for\b/i.test(low)) return false;
-        if (/^this is an ideal role\b/i.test(low)) return false;
-        if (/^our team is\b/i.test(low)) return false;
-        if (descLower.includes(low.slice(0, 45))) return false;
+        // Avoid duplicating if the exact sentence is already in the main description
+        if (descLower.includes(low.slice(0, 50))) return false;
         return true;
       });
 
@@ -160,18 +193,21 @@ function formatHtmlDescription(job: JobPosting): string {
     }
   }
 
+  // 5. Append authentic qualifications (filtered for quality)
   if (job.qualifications && job.qualifications.length > 0) {
     const validQual = job.qualifications
       .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
       .filter((q) => {
-        if (!q || q.length < 8) return false;
+        if (!q || q.length < 10) return false;
         const low = q.toLowerCase();
-        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
+        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us|description|position summary)[:\s]*$/i.test(low)) return false;
+        if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
+        if (descLower.includes(low.slice(0, 50))) return false;
         return true;
       });
 
     if (validQual.length > 0) {
-      html += `<p><strong>Qualifications (Entry-Level / Fresh Grad):</strong></p><ul>`;
+      html += `<p><strong>Qualifications &amp; Requirements:</strong></p><ul>`;
       for (const item of validQual) {
         html += `<li>${escapeHtml(item)}</li>`;
       }
@@ -179,40 +215,12 @@ function formatHtmlDescription(job: JobPosting): string {
     }
   }
 
+  // 6. Append tech stack if provided
   if (job.skills && job.skills.length > 0) {
-    html += `<p><strong>Required Tech Stack:</strong> ${job.skills.map(escapeHtml).join(', ')}</p>`;
+    html += `<p><strong>Core Tech Stack:</strong> ${job.skills.map(escapeHtml).join(', ')}</p>`;
   }
-
-  html += generateUniqueJobEditorialNote(job);
 
   return html;
-}
-
-function generateUniqueJobEditorialNote(job: JobPosting): string {
-  const comp = escapeHtml(job.company || 'Employer');
-  const role = escapeHtml(job.title || 'Software Engineer');
-  const loc = escapeHtml(job.location || 'Remote / US');
-  const level = job.experienceLevel === 'Internship' ? 'internship' : (job.experienceLevel === 'New Grad' ? 'new graduate' : 'early-career');
-
-  // Deterministic seed based on job id to rotate natural phrasing
-  let hash = 0;
-  const seed = (job.id || job.title || '') + comp;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash << 5) - hash + seed.charCodeAt(i);
-    hash |= 0;
-  }
-  const variant = Math.abs(hash) % 4;
-
-  switch (variant) {
-    case 0:
-      return `<p><em>Direct ${comp} Requisition: Official application for ${role} in ${loc}. Verified for ${level} developers with 0–2 years of experience.</em></p>`;
-    case 1:
-      return `<p><em>Authentic Employer Listing: Apply directly on ${comp}&rsquo;s career portal. Open to ${level} candidates with foundational CS skills.</em></p>`;
-    case 2:
-      return `<p><em>Verified ${level.charAt(0).toUpperCase() + level.slice(1)} Position: Direct requisition with ${comp} in ${loc}. No third-party agency intermediaries.</em></p>`;
-    default:
-      return `<p><em>Direct Career Opportunity: ${comp} is accepting applications for this ${role} opening. Reviewed for candidates with 0–2 YoE.</em></p>`;
-  }
 }
 
 function escapeHtml(str: string): string {

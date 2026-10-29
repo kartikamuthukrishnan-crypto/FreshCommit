@@ -817,15 +817,19 @@ export function generateCompliantJobSummary(job: {
   raw = raw.replace(/^posted\s+(?:yesterday|today|\d+\s+days?\s+ago)\b\s*/gi, '');
   raw = raw.replace(/^job\s+requisition\s+id\s*(?::|[0-9a-z_-]+)?\s*/gi, '');
   raw = raw.replace(/^job\s+description\s*[:\s]*/gi, '');
+  raw = raw.replace(/^description\b\s*[:\s]*/gi, '');
   raw = raw.replace(/^position\s+summary\s*[:\s]*/gi, '');
   raw = raw.replace(/^about\s+(?:the\s+role|the\s+position|the\s+job|us|our\s+team|the\s+company)\s*[:\s]*/gi, '');
   raw = raw.trim();
 
-  // 3. Cut off before duplicate embedded responsibilities or legal sections if embedded in raw
-  const cutOffRegex = /(?:\n\s*(?:position\s+responsibilities|key\s+responsibilities|core\s+responsibilities|responsibilities|what\s+you(?:'ll| will)\s+do|position\s+qualifications|basic\s+qualifications|qualifications|requirements|what\s+we\s+look\s+for|what\s+you(?:'ll| will)\s+bring|equal\s+opportunity|benefits)\b[\s:]*)/i;
-  const cutIdx = raw.search(cutOffRegex);
-  if (cutIdx > 40) {
-    raw = raw.substring(0, cutIdx).trim();
+  // 3. Only truncate before embedded responsibilities if separate structured responsibilities already exist
+  const hasValidSeparateResponsibilities = (job.responsibilities || []).filter(r => r && r.length > 15 && !/^(?:description|position summary|what you'll do)[:\s]*$/i.test(r.trim())).length >= 2;
+  if (hasValidSeparateResponsibilities) {
+    const cutOffRegex = /(?:\n\s*(?:position\s+responsibilities|key\s+responsibilities|core\s+responsibilities|responsibilities|what\s+you(?:'ll| will)\s+do|position\s+qualifications|basic\s+qualifications|qualifications|requirements|what\s+we\s+look\s+for|what\s+you(?:'ll| will)\s+bring)\b[\s:]*)/i;
+    const cutIdx = raw.search(cutOffRegex);
+    if (cutIdx > 60) {
+      raw = raw.substring(0, cutIdx).trim();
+    }
   }
 
   // 4. Clean markup & common scraping artifacts
