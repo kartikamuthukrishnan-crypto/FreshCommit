@@ -83,7 +83,7 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
     const isoPublished = '2026-09-01T08:00:00Z';
     const isoModified = '2026-10-06T12:00:00Z';
 
-    const articleJsonLd = {
+    const techArticleObj = {
       '@context': 'https://schema.org',
       '@type': 'TechArticle',
       'headline': article.title,
@@ -134,7 +134,26 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
       }
     };
 
-    schemaScript.textContent = JSON.stringify(articleJsonLd, null, 2);
+    const faqSections = (article.sections || []).filter(s => s.heading && s.heading.startsWith('Q:'));
+    const schemaPayload = faqSections.length > 0 ? {
+      '@context': 'https://schema.org',
+      '@graph': [
+        techArticleObj,
+        {
+          '@type': 'FAQPage',
+          'mainEntity': faqSections.map(s => ({
+            '@type': 'Question',
+            'name': s.heading.replace(/^Q:\s*/i, '').trim(),
+            'acceptedAnswer': {
+              '@type': 'Answer',
+              'text': s.content.join(' ')
+            }
+          }))
+        }
+      ]
+    } : techArticleObj;
+
+    schemaScript.textContent = JSON.stringify(schemaPayload, null, 2);
 
     return () => {
       document.title = originalTitle;
@@ -318,9 +337,20 @@ export const CareerArticleReader: React.FC<CareerArticleReaderProps> = ({
       <div className="space-y-10 text-slate-800 leading-relaxed">
         {article.sections.map((section, idx) => (
           <section key={idx} className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight pt-2 border-t border-slate-100">
-              {section.heading}
-            </h2>
+            {section.heading.startsWith('Q:') ? (
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 bg-slate-50/90 p-3.5 rounded-xl border border-slate-200/90 flex items-start gap-2.5">
+                <span className="text-emerald-700 font-extrabold flex-shrink-0 text-sm sm:text-base">Q:</span>
+                <span className="leading-snug">{section.heading.replace(/^Q:\s*/i, '')}</span>
+              </h3>
+            ) : section.heading.startsWith('Step ') ? (
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight pt-1">
+                {section.heading}
+              </h3>
+            ) : (
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight pt-2 border-t border-slate-100">
+                {section.heading}
+              </h2>
+            )}
 
             {section.content.map((paragraph, pIdx) => (
               <p key={pIdx} className="text-xs sm:text-sm leading-relaxed text-slate-700">
