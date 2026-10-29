@@ -757,10 +757,39 @@ export function generateRound1InterviewDrill(job: {
  * satisfying Google Search Quality Rater Guidelines (E-E-A-T) and AdSense Helpful Content standards.
  *
  * Architecture (4-Sentence Formula):
- * 1. Role & Location Anchor: Employer, exact title, workplace model.
- * 2. Core Technical Scope: Concrete tech stack and primary engineering systems.
- * 3. Mentorship & Production Code: Mentorship by senior engineers & code reviews.
- * 4. High-Value Career Impact: Practical impact on live systems and engineering growth.
+/**
+ * Strips synthetic mad-libs red-box filler (e.g. "<p>Company is hiring <strong>Role</strong>...")
+ * and automated scraping artifacts so the authentic employer content is preserved cleanly.
+ */
+export function stripSyntheticSpamBoilerplate(text: string): string {
+  if (!text) return '';
+  let cleaned = text;
+
+  // 1. Strip HTML paragraph blocks that contain synthetic boilerplate
+  cleaned = cleaned.replace(
+    /<p>\s*[^<]*?\b(?:is hiring|welcoming|actively seeking)\b[\s\S]*?(?:serving\s+(?:clients\s+and\s+)?teams|Greater\s+[^<]+Area|modern\s+cloud\s+architectures)\.?\s*<\/p>/gi,
+    ''
+  );
+
+  // 2. Strip any standalone opening synthetic paragraph in raw text
+  cleaned = cleaned.replace(
+    /^[A-Za-z0-9&.\-\s]+?\s+is\s+hiring\s+.*?to\s+join\s+its\s+.*?team\s+based\s+in\s+.*?serving\s+(?:clients\s+and\s+)?teams[^\n.]*\.\s*/gi,
+    ''
+  );
+
+  // 3. Strip duplicate phrasing bug (e.g. "with internship candidates and students with internship candidates")
+  cleaned = cleaned.replace(/with\s+(?:internship candidates and students|entry-level developers)\s+looking to build/gi, 'looking to build');
+
+  return cleaned.trim();
+}
+
+/**
+ * Editorial Job Summary & Authentic Content Preserver:
+ * Adheres strictly to the gold standard set by manual-1791385515589 (Microsoft Software Engineer).
+ * 1. Prioritizes verbatim authentic team & engineering context directly.
+ * 2. Purges synthetic keyword-stuffed mad-libs blocks (<p>Company is hiring <strong>...</strong>).
+ * 3. Never truncates rich, authentic descriptions.
+ * 4. Only generates an editorial fallback when original text is missing or extremely thin (< 35 words).
  */
 export function generateCompliantJobSummary(job: {
   id?: string;
@@ -780,7 +809,10 @@ export function generateCompliantJobSummary(job: {
     raw = raw.split('🏢 Role Overview:')[1]?.trim() || raw;
   }
 
-  // 1. Strip leading scraped metadata: location tag, posted date, requisition IDs, headers
+  // 1. Strip synthetic red-box boilerplate
+  raw = stripSyntheticSpamBoilerplate(raw);
+
+  // 2. Strip leading scraped metadata artifacts
   raw = raw.replace(/^[A-Za-z\s,.-]+,\s*[A-Z]{2}\b\s*/i, '');
   raw = raw.replace(/^posted\s+(?:yesterday|today|\d+\s+days?\s+ago)\b\s*/gi, '');
   raw = raw.replace(/^job\s+requisition\s+id\s*(?::|[0-9a-z_-]+)?\s*/gi, '');
@@ -789,24 +821,24 @@ export function generateCompliantJobSummary(job: {
   raw = raw.replace(/^about\s+(?:the\s+role|the\s+position|the\s+job|us|our\s+team|the\s+company)\s*[:\s]*/gi, '');
   raw = raw.trim();
 
-  // 2. Cut off before embedded responsibilities, qualifications, or legal sections
+  // 3. Cut off before duplicate embedded responsibilities or legal sections if embedded in raw
   const cutOffRegex = /(?:\n\s*(?:position\s+responsibilities|key\s+responsibilities|core\s+responsibilities|responsibilities|what\s+you(?:'ll| will)\s+do|position\s+qualifications|basic\s+qualifications|qualifications|requirements|what\s+we\s+look\s+for|what\s+you(?:'ll| will)\s+bring|equal\s+opportunity|benefits)\b[\s:]*)/i;
   const cutIdx = raw.search(cutOffRegex);
   if (cutIdx > 40) {
     raw = raw.substring(0, cutIdx).trim();
   }
 
-  // 3. Clean markup & common scraping artifacts
+  // 4. Clean markup & common scraping artifacts
   let cleaned = raw
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/actively seeking an? early-career Open Positions/gi, `actively welcoming a ${job.title}`)
-    .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `actively welcoming a ${job.title}`)
-    .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'actively seeking a $1')
-    .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'actively seeking a $1')
+    .replace(/actively seeking an? early-career Open Positions/gi, `welcoming a ${job.title}`)
+    .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `welcoming a ${job.title}`)
+    .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'seeking a $1')
+    .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Entry Level)/gi, 'seeking a $1')
     .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
     .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, '')
     .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.')
@@ -816,31 +848,14 @@ export function generateCompliantJobSummary(job: {
   const rawWordCount = cleaned ? cleaned.split(/\s+/).filter(Boolean).length : 0;
   const hasJobDescText = !cleaned.toLowerCase().includes('apply directly for') && !cleaned.toLowerCase().includes('apply on company site');
 
-  // Case A: Authentic employer overview is already substantive (55–105 words)
-  if (hasJobDescText && rawWordCount >= 55 && rawWordCount <= 105) {
+  // Case A: Authentic employer overview is present (> 35 words).
+  // Strictly preserve the full authentic employer description (like manual-1791385515589)!
+  if (hasJobDescText && rawWordCount >= 35) {
     if (!/[.!?]$/.test(cleaned)) cleaned += '.';
     return cleaned;
   }
 
-  // Case B: Authentic employer overview is lengthy (> 105 words): extract first 2-3 coherent sentences
-  if (hasJobDescText && rawWordCount > 105) {
-    const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [];
-    let excerpt = '';
-    for (const sentence of sentences) {
-      const candidate = excerpt ? `${excerpt} ${sentence.trim()}` : sentence.trim();
-      const count = candidate.split(/\s+/).filter(Boolean).length;
-      if (count <= 100) {
-        excerpt = candidate;
-      } else {
-        break;
-      }
-    }
-    if (excerpt && excerpt.split(/\s+/).filter(Boolean).length >= 50) {
-      return excerpt;
-    }
-  }
-
-  // Case C: Thin (< 50 words), missing, or boilerplate overview: synthesize the 4-sentence Google E-E-A-T summary
+  // Case B: Only if thin (< 35 words) or missing: generate high-quality, natural humanized editorial context (no spam tags)
   const title = stripSeniorityFromTitle(job.title) || job.title;
   const company = job.company || 'The employer';
   const cleanLoc = cleanLocationString(job.location || (job.isRemote ? 'Remote (US & Global)' : 'Primary Engineering Hub'));
@@ -855,10 +870,8 @@ export function generateCompliantJobSummary(job: {
     ? job.skills.slice(0, 3).join(', ')
     : 'modern engineering tools and version control';
 
-  // Sentence 1: Role & Location Anchor
   const s1 = `${company} is welcoming an early-career ${title} to join their technical team in ${cleanLoc} (${workModel}).`;
 
-  // Sentence 2: Core Technical Scope & Systems
   let s2 = `In this role, you will work hands-on with ${skillsList} to engineer modular features, optimize production workflows, and resolve practical technical challenges.`;
   if (archetype === 'frontend') {
     s2 = `In this role, you will work hands-on with ${skillsList} to build responsive user interfaces, manage client-side state lifecycles, and deliver accessible web experiences.`;
@@ -876,10 +889,7 @@ export function generateCompliantJobSummary(job: {
     s2 = `In this role, you will work hands-on with ${skillsList} to diagnose elusive software bugs, streamline client system integrations, and document reproducible technical solutions.`;
   }
 
-  // Sentence 3: Mentorship & Engineering Standards
   const s3 = `You will collaborate closely with experienced senior engineers and cross-functional teammates, receiving structured technical mentorship while taking ownership of production-grade code.`;
-
-  // Sentence 4: High-Value Career Impact
   const s4 = `This position provides an accelerated launchpad for emerging technologists to refine their software craftsmanship, participate in peer code reviews, and deliver tangible commercial impact.`;
 
   return `${s1} ${s2} ${s3} ${s4}`;

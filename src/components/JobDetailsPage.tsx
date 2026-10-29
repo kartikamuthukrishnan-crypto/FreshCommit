@@ -10,7 +10,8 @@ import {
   cleanLocationString,
   humanizeChecklistItems,
   generateRound1InterviewDrill,
-  generateCompliantJobSummary
+  generateCompliantJobSummary,
+  stripSyntheticSpamBoilerplate
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark, isCssOrNoiseLine } from '../utils/jobExtractor';
 import { resolveCompanyLogo } from '../utils/logoHelper';
@@ -720,7 +721,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                   About the Role
                 </h2>
                 <div className="text-xs sm:text-sm text-[#3c4043] leading-relaxed whitespace-pre-line font-normal">
-                  {edgeData.roleOverview || job.description}
+                  {stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''))}
                 </div>
               </div>
 

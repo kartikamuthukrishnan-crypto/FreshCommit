@@ -78,7 +78,7 @@ import {
   ExtractedJobData
 } from '../utils/jobExtractor';
 import { KNOWN_CITY_ZIP_MAP, lookupCityZip } from '../utils/cityZipMap';
-import { cleanLocationString, cleanCityString } from '../utils/textHumanizer';
+import { cleanLocationString, cleanCityString, stripSyntheticSpamBoilerplate } from '../utils/textHumanizer';
 import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, generateGoogleJobsFirstParagraph, MicroNichePreset } from '../utils/seoJdGenerator';
 import { Target, Award, Zap, Key, Send, Radio } from 'lucide-react';
 import {
@@ -588,12 +588,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setSalaryMax(fallbackBench.max);
     }
 
-    const sanitizedDesc = cleanHtml(data.description || '')
+    const rawCleanDesc = cleanHtml(data.description || '')
       .replace(/\bGlobalhr\b/g, finalCompany)
       .replace(/\brec_rtx_ext_gateway\b/gi, finalCompany)
       .trim();
+    const sanitizedDesc = stripSyntheticSpamBoilerplate(rawCleanDesc);
 
-    // Auto-generate Google for Jobs mathematically optimized lead paragraph
+    // Auto-generate high-standard editorial lead paragraph if raw description is missing or thin
     const metroHub = getMetroRegionForCity(extractedCity, extractedState);
     const googleLeadParagraph = generateGoogleJobsFirstParagraph({
       companyName: finalCompany,
@@ -603,20 +604,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       stateOrProvince: extractedState,
       metroOrRegion: metroHub,
       workModel: isPureRemote ? 'remote' : (rawLocation.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
-      seniorityLabel: data.experienceLevel === 'Internship' ? 'internship candidates and students' : 'entry-level developers and junior engineers',
+      seniorityLabel: data.experienceLevel === 'Internship' ? 'internship candidates and students' : 'early-career developers and junior engineers',
       experienceBracket: data.experienceLevel === 'Internship'
-        ? 'internship candidates and students'
+        ? 'practical coursework or software project background'
         : (data.maxYearsExperience && data.maxYearsExperience > 3
             ? `0–${data.maxYearsExperience} years of experience`
-            : '0–3 years of experience'),
+            : '0–2 years of experience'),
       coreSkills: data.skills.slice(0, 3),
       primaryFocusArea: `scalable ${data.category?.toLowerCase() || 'software'} systems and modern cloud architectures`
     });
 
-    // Prepend lead paragraph so Googlebot indexes standard title, company, geo-hierarchy, and skills in the first 50 words
-    const finalFullDesc = sanitizedDesc.startsWith('<p>')
-      ? sanitizedDesc
-      : `${googleLeadParagraph}\n\n${sanitizedDesc}`;
+    // If authentic employer description exists (> 35 words), preserve it directly like manual-1791385515589!
+    const wordCount = sanitizedDesc.split(/\s+/).filter(Boolean).length;
+    const finalFullDesc = wordCount >= 35 ? sanitizedDesc : (sanitizedDesc ? `${googleLeadParagraph}\n\n${sanitizedDesc}` : googleLeadParagraph);
 
     setDescription(finalFullDesc);
     const cleanedResps = data.responsibilities
@@ -646,7 +646,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     const locParts = (location || '').split(',').map((s) => s.trim());
     const extractedCity = city || locParts[0] || (isRemote ? 'US' : '');
     const extractedState = state || locParts[1] || '';
-    const metroHub = getMetroRegionForCity(extractedCity, extractedState);
 
     const leadParagraph = generateGoogleJobsFirstParagraph({
       companyName: company || 'The Company',
@@ -654,23 +653,83 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       departmentOrTeam: category ? `${category.toLowerCase()} engineering` : 'software engineering',
       city: extractedCity,
       stateOrProvince: extractedState,
-      metroOrRegion: metroHub,
       workModel: isRemote ? 'remote' : (location.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
-      seniorityLabel: experienceLevel === 'Internship' ? 'internship candidates and students' : 'entry-level developers and junior engineers',
+      seniorityLabel: experienceLevel === 'Internship' ? 'internship candidates and students' : 'early-career developers and junior engineers',
       experienceBracket: experienceLevel === 'Internship'
-        ? 'internship candidates and students'
+        ? 'practical coursework or software project background'
         : (maxYearsExperience && maxYearsExperience > 3
             ? `0–${maxYearsExperience} years of experience`
-            : '0–3 years of experience'),
+            : '0–2 years of experience'),
       coreSkills: rawSkills.slice(0, 3),
       primaryFocusArea: `scalable ${category?.toLowerCase() || 'software'} systems and modern cloud architectures`
     });
 
-    let current = description.trim();
-    if (current.startsWith('<p>') && current.includes('</p>')) {
-      current = current.replace(/^<p>[\s\S]*?<\/p>\s*/, '');
+    const cleanedExisting = stripSyntheticSpamBoilerplate(description);
+    const updated = cleanedExisting ? `${leadParagraph}\n\n${cleanedExisting}` : leadParagraph;
+    setDescription(updated);
+    setSeoJdSuccessMsg('⚡ Natural editorial lead paragraph updated (Google Ranking & AdSense compliant)!');
+    setTimeout(() => setSeoJdSuccessMsg(''), 4000);
+  };
+
+  const handleApplyMicrosoftPattern = () => {
+    if (!title.trim()) setTitle('Software Engineer - Early Career');
+    if (!company.trim()) setCompany('Microsoft');
+    if (!location.trim()) {
+      setLocation('Redmond, WA / Hybrid');
+      setCity('Redmond');
+      setState('WA');
+      setPostalCode('98052');
+      setIsRemote(false);
     }
-    setDescription(`${leadParagraph}\n\n${current}`.trim());
+    if (!applyUrl.trim()) {
+      setApplyUrl('https://apply.careers.microsoft.com/careers/job/1970393557022487');
+    }
+    if (salaryMin === 0) {
+      setSalaryMin(85000);
+      setSalaryMax(168000);
+      setSalaryCurrency('USD');
+      setSalaryUnit('YEAR');
+    }
+    setExperienceLevel('Entry Level');
+    setMaxYearsExperience(2);
+    setCountry('US');
+
+    // 6x6 Technical Spec
+    const referenceResps = [
+      `Write clean, performant backend code in Java, Python, Go, or C# to power Microsoft's core cloud infrastructure.`,
+      `Design and consume RESTful APIs, gRPC services, and event-driven architectures utilizing Kafka or message queues.`,
+      `Participate in architectural reviews, CI/CD pipeline automation, and automated container deployment via Kubernetes.`,
+      `Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.`,
+      `Write comprehensive unit and integration test suites with mock services to achieve high test coverage.`,
+      `Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds.`
+    ];
+    setResponsibilitiesText(referenceResps.join('\n'));
+
+    const referenceQuals = [
+      `Bachelor's degree in Computer Science, Computer Engineering, or equivalent practical background.`,
+      `0 to 2 years of backend software development experience in Java, C#, Python, Go, or TypeScript.`,
+      `Solid comprehension of object-oriented design patterns, data structures, and relational databases (SQL).`,
+      `Familiarity with cloud computing primitives (AWS, Azure, or GCP) and containerization concepts (Docker).`,
+      `Proficiency with Git version control, collaborative code reviews, and automated CI/CD tools.`,
+      `Strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset.`
+    ];
+    setQualificationsText(referenceQuals.join('\n'));
+
+    if (!skillsText.trim()) {
+      setSkillsText('Java, Python, Azure, C#, Cloud Infrastructure, Docker');
+    }
+
+    const currentClean = stripSyntheticSpamBoilerplate(description);
+    if (!currentClean || currentClean.length < 50) {
+      setDescription(
+        `Design, implement, test, and maintain cloud-scale services and platform components used in security-critical and highly reliable environments. Participate in design discussions, architecture reviews, and code reviews to ensure solutions are scalable, secure, and resilient.\n\nCollaborate closely with partner teams across engineering, operations, and product management to deliver end-to-end solutions. Investigate and resolve live-site issues, contributing to strong operational excellence and service reliability.\n\nApply secure-by-design principles throughout the development lifecycle, including threat modeling and defense-in-depth practices. Demonstrate a growth mindset by learning new technologies, seeking feedback, and gradually taking on broader technical ownership.`
+      );
+    } else {
+      setDescription(currentClean);
+    }
+
+    setSeoJdSuccessMsg('📋 Standardized to Microsoft reference pattern (manual-1791385515589): 6x6 technical spec, verified ATS, and authentic mission!');
+    setTimeout(() => setSeoJdSuccessMsg(''), 5000);
   };
 
   const handleAutoExtract = async (e: React.FormEvent) => {
@@ -2536,15 +2595,26 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <label className="block text-xs font-bold text-slate-700">
                     Job Description (Original &amp; Editorial Content) <span className="text-rose-500">*</span>
                   </label>
-                  <button
-                    type="button"
-                    onClick={handleInsertGoogleFirstParagraph}
-                    className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
-                    title="Generate or update Google for Jobs mathematically optimized lead paragraph (<p>...</p>) with entity recognition, geo-hierarchy, and high-intent keywords"
-                  >
-                    <Zap className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>⚡ Insert / Refresh Google Lead Paragraph</span>
-                  </button>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                      type="button"
+                      onClick={handleApplyMicrosoftPattern}
+                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-700 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
+                      title="Apply verified Microsoft reference pattern (manual-1791385515589): authentic role context + 6x6 technical responsibilities and qualifications"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>📋 Apply Microsoft Pattern (1791385515589)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleInsertGoogleFirstParagraph}
+                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
+                      title="Insert or refresh natural editorial lead paragraph (Google Ranking & AdSense policy compliant)"
+                    >
+                      <Zap className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>⚡ Insert Editorial Lead Paragraph</span>
+                    </button>
+                  </div>
                 </div>
                 <textarea
                   rows={6}

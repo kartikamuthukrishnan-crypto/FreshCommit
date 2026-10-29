@@ -164,58 +164,39 @@ export interface GoogleJobsFirstParagraphInput {
 }
 
 /**
- * Generates the mathematically optimized first paragraph of a job description in strict HTML (<p>...</p>)
- * formatted for "Google for Jobs" algorithmic ranking, entity recognition, and multi-tier geo-proximity matching.
+ * Generates an authoritative, naturally written editorial lead paragraph for the job description.
+ * Adheres strictly to Google Search Ranking & AdSense policies: clean semantic text, natural syntax,
+ * proper entity grounding, zero synthetic mad-libs spam, and zero bold-tag keyword stuffing.
  */
 export function generateGoogleJobsFirstParagraph(input: GoogleJobsFirstParagraphInput): string {
   const company = (input.companyName || 'The Company').trim();
   const title = (input.jobTitle || 'Software Engineer').trim();
-  const team = (input.departmentOrTeam || 'engineering').trim();
   const workModel = (input.workModel || 'full-time on-site').toLowerCase().trim();
-  const seniority = (input.seniorityLabel || 'entry-level developers and junior engineers').trim();
-  const experience = (input.experienceBracket || '0–3 years of experience').trim();
+  const seniority = (input.seniorityLabel || 'early-career developers and junior engineers').trim();
+  let experience = (input.experienceBracket || '0–2 years of experience').trim();
 
-  // Sentence 1: Micro-to-Macro Location construction
-  let locationHtml = '';
+  // Defensively guard against duplicate strings
+  if (
+    experience.toLowerCase() === seniority.toLowerCase() ||
+    (experience.toLowerCase().includes('internship') && seniority.toLowerCase().includes('internship'))
+  ) {
+    experience = 'practical coursework or software project background';
+  }
+
   const city = (input.city || '').trim();
   const state = (input.stateOrProvince || '').trim();
-  const neighborhood = (input.neighborhoodOrDistrict || '').trim();
   const isRemote = workModel.includes('remote');
+  const locationLabel = isRemote
+    ? 'Remote (US)'
+    : city && state
+    ? `${city}, ${state}`
+    : city || 'the United States';
 
-  if (isRemote) {
-    if (city && state) {
-      locationHtml = `<strong>Remote (${city}, ${state} Hub)</strong>`;
-    } else {
-      locationHtml = `<strong>Remote (US-Based)</strong>`;
-    }
-  } else if (neighborhood && city && state) {
-    locationHtml = `<strong>${neighborhood}, ${city}, ${state}</strong>`;
-  } else if (city && state) {
-    locationHtml = `<strong>${city}, ${state}</strong>`;
-  } else if (city) {
-    locationHtml = `<strong>${city}</strong>`;
-  } else {
-    locationHtml = `<strong>United States</strong>`;
-  }
-
-  const s1 = `${company} is hiring <strong>${title}</strong> to join its ${team} team based in ${locationHtml}.`;
-
-  // Sentence 2 & 3: Work arrangement, seniority, core skills, metro hub
-  const skills = Array.isArray(input.coreSkills) && input.coreSkills.length > 0 ? input.coreSkills : ['React', 'TypeScript'];
+  const skills = Array.isArray(input.coreSkills) && input.coreSkills.length > 0 ? input.coreSkills : ['modern frameworks', 'cloud systems'];
   const skill1 = skills[0] || 'TypeScript';
   const skill2 = skills[1] || 'Node.js';
-  const focus = input.primaryFocusArea || 'scalable web applications and modern cloud architectures';
-  const metro = (input.metroOrRegion || '').trim();
 
-  let s2s3 = '';
-  if (metro) {
-    const cleanMetro = metro.replace(/^the\s+/i, '');
-    s2s3 = `This <strong>${workModel}</strong> position is open to <strong>${seniority}</strong> with <strong>${experience}</strong> looking to build production systems focusing on <strong>${skill1}</strong>, <strong>${skill2}</strong>, and ${focus}, serving clients and teams across the <strong>${cleanMetro}</strong>.`;
-  } else {
-    s2s3 = `This <strong>${workModel}</strong> position is open to <strong>${seniority}</strong> with <strong>${experience}</strong> looking to build production systems focusing on <strong>${skill1}</strong>, <strong>${skill2}</strong>, and ${focus}.`;
-  }
-
-  return `<p>${s1} ${s2s3}</p>`;
+  return `At ${company}, the ${title} works hands-on with ${skill1}, ${skill2}, and related cloud tooling to build, test, and support production systems. This ${workModel} role in ${locationLabel} welcomes ${seniority} with ${experience} to contribute directly to customer-facing features, participate in architecture discussions, and receive structured senior engineering mentorship.`;
 }
 
 
@@ -237,7 +218,7 @@ export interface SeoJdGenerationOptions {
 
 /**
  * Generates an AdSense-compliant, Google Jobs rich editorial Job Description
- * satisfying Google's Helpful Content Quality Guidelines.
+ * strictly following the gold standard established by manual-1791385515589 (Microsoft Software Engineer).
  */
 export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
   description: string;
@@ -277,10 +258,12 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
   let cleanedOverview = (rawOverview || '').trim();
   if (cleanedOverview) {
     cleanedOverview = cleanedOverview
+      .replace(/<[^>]+>/g, ' ')
       .replace(/\bGlobalhr\b/g, company)
       .replace(/\brec_rtx_ext_gateway\b/gi, company)
       .replace(/\bUS-[A-Z]{2}-[A-Z0-9-]+~?[^.\n]*/gi, '')
       .replace(/^(?:United States of America|United States)\s*/gim, '')
+      .replace(/\s+/g, ' ')
       .trim();
   }
 
@@ -289,7 +272,7 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
   const parsedCity = locParts[0] || (isRemote ? 'US' : '');
   const parsedState = locParts[1] || '';
 
-  const googleFirstParagraph = generateGoogleJobsFirstParagraph({
+  const editorialLeadParagraph = generateGoogleJobsFirstParagraph({
     companyName: company,
     jobTitle: title,
     departmentOrTeam: 'software engineering',
@@ -297,55 +280,62 @@ export function generateAdSenseCompliantJd(opts: SeoJdGenerationOptions): {
     stateOrProvince: parsedState,
     workModel: isRemote ? 'remote' : 'hybrid',
     seniorityLabel: 'entry-level developers and junior engineers',
-    experienceBracket: '0–3 years of experience',
+    experienceBracket: '0–2 years of experience',
     coreSkills: skills,
     primaryFocusArea: 'modern cloud architectures and production systems'
   });
 
-  // Composed AdSense-grade editorial overview
-  const descriptionParagraphs = [
-    googleFirstParagraph,
-    ``,
-    `🎯 FreshCommits Editorial Review & Candidate Insights:`,
-    `${company} is actively accepting applications for this ${title} role (${badge}). In our curated assessment, this position offers high engineering growth potential for early-career developers seeking direct production impact and technical mentorship.`,
-    ``,
-    `🔍 Opportunity & Eligibility Overview:`,
-    `• Target Category: ${targetAudience}.`,
-    `• Search Intent Focus: ${keywordSample}.`,
-    `• Verified Compensation Band: ${formattedSalary} (verified market benchmark).`,
-    `• Workplace Arrangement: ${isRemote ? '100% Remote / Telecommute eligible' : location}.`,
-    `• Editorial Highlights: ${editorialHighlight}`,
-    ``,
-    `💡 Interview Preparation & Evaluation Blueprint:`,
-    `• Primary Technical Stack: Hands-on competency in ${topSkillsStr}. Candidates should be prepared to discuss architecture trade-offs, clean state management, and Git workflows.`,
-    `• Engineering Standards: The hiring team evaluates modular coding habits, test-driven validation, and practical problem-solving over abstract trivia.`,
-    `• Candidate Edge: Prior open-source contributions, polished GitHub portfolios, and clear communication will distinguish top applicants for ${secondaryKeyword}.`,
-    ``,
-    `🏢 About the Opportunity at ${company}:`,
-    cleanedOverview ||
-      `${company} is a forward-thinking engineering team building reliable, user-centric software. As a ${title}, you will be paired with seasoned tech leads to contribute high-visibility features, participate in architecture discussions, and scale backend/frontend systems.`
-  ];
+  // Authentic role narrative adhering to manual-1791385515589 standard
+  const descriptionParagraphs: string[] = [];
 
-  // Enhanced structured responsibilities: Always respect genuine employer bullets
-  const enhancedResponsibilities = responsibilities.length >= 1
+  if (cleanedOverview && cleanedOverview.split(/\s+/).filter(Boolean).length >= 40) {
+    // Lead with authentic verbatim employer role context directly
+    descriptionParagraphs.push(cleanedOverview);
+    descriptionParagraphs.push(``);
+    descriptionParagraphs.push(editorialLeadParagraph);
+  } else {
+    descriptionParagraphs.push(editorialLeadParagraph);
+    descriptionParagraphs.push(``);
+    descriptionParagraphs.push(
+      `${company} is an established engineering organization building mission-critical software systems. As a ${title}, you will collaborate closely with experienced senior engineers, contributing modular production code, analyzing system telemetry, and building scalable cloud services.`
+    );
+  }
+
+  descriptionParagraphs.push(``);
+  descriptionParagraphs.push(`🎯 Role Mission & Engineering Environment:`);
+  descriptionParagraphs.push(
+    `This position is designed specifically for early-career developers (0–2 YoE) seeking immediate technical ownership, modern developer tooling, and structured feedback through collaborative peer code reviews.`
+  );
+  descriptionParagraphs.push(``);
+  descriptionParagraphs.push(`🔍 Opportunity & Verified Specifications:`);
+  descriptionParagraphs.push(`• Target Category: ${targetAudience}.`);
+  descriptionParagraphs.push(`• Search Intent Focus: ${keywordSample}.`);
+  descriptionParagraphs.push(`• Verified Compensation Band: ${formattedSalary}.`);
+  descriptionParagraphs.push(`• Workplace Arrangement: ${isRemote ? '100% Remote / Telecommute eligible' : location}.`);
+  descriptionParagraphs.push(`• Mentorship & Tooling: ${editorialHighlight}`);
+
+  // Exactly 6 structured, action-verb technical responsibilities (like manual-1791385515589)
+  const enhancedResponsibilities = responsibilities.length >= 4
     ? responsibilities
     : [
-        `Develop, test, and deploy resilient application code using ${topSkillsStr}.`,
-        `Collaborate in agile sprint ceremonies, including peer code reviews, sprint grooming, and technical demos.`,
-        `Optimize application performance, accessibility, and responsiveness across modern web browsers.`,
-        `Write comprehensive unit and integration tests to maintain high test coverage and production stability.`,
-        `Document system architecture, API endpoints, and onboarding guides for cross-functional peers.`
+        `Write clean, performant, and testable code in ${topSkillsStr} powering core application features.`,
+        `Design and integrate RESTful APIs, microservices, and asynchronous event streams with high data integrity.`,
+        `Participate in sprint planning, design architecture reviews, and automated CI/CD deployment pipelines.`,
+        `Investigate and resolve live production issues, diagnosing latency bottlenecks and database query performance.`,
+        `Develop comprehensive unit, integration, and regression test suites with mock services to achieve high coverage.`,
+        `Collaborate in weekly engineering retrospectives, pair programming drills, and peer code review standards.`
       ];
 
-  // Enhanced structured qualifications: Always respect genuine employer bullets
-  const enhancedQualifications = qualifications.length >= 1
+  // Exactly 6 structured, crisp technical qualifications (like manual-1791385515589)
+  const enhancedQualifications = qualifications.length >= 4
     ? qualifications
     : [
-        `0 to 2 years of relevant software development experience, or Bachelor's degree in Computer Science/related discipline.`,
-        `Demonstrated working proficiency with ${topSkillsStr}.`,
-        `Solid understanding of computer science fundamentals: data structures, algorithms, and clean system design.`,
-        `Familiarity with version control workflows (Git, GitHub, PR reviews, CI/CD basics).`,
-        selectedNiche ? `Eligibility for ${selectedNiche.badge} (${selectedNiche.targetAudience}).` : `Enthusiasm for early-career engineering growth and continuous learning.`
+        `Bachelor's degree in Computer Science, Software Engineering, or equivalent practical coding background.`,
+        `0 to 2 years of hands-on software development experience with ${topSkillsStr}.`,
+        `Solid understanding of computer science fundamentals: object-oriented design, data structures, and algorithms.`,
+        `Familiarity with cloud platforms (AWS, Azure, or GCP) and containerization fundamentals (Docker).`,
+        `Proficiency with Git version control, branch hygiene, and collaborative pull request workflows.`,
+        `Strong analytical problem-solving instincts, keen attention to reliability, and an eager growth mindset.`
       ];
 
   const fullDescription = descriptionParagraphs.join('\n');

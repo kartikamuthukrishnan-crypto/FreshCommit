@@ -9,7 +9,8 @@ import {
   generateCandidatePreparationChecklist,
   cleanLocationString,
   humanizeChecklistItems,
-  generateCompliantJobSummary
+  generateCompliantJobSummary,
+  stripSyntheticSpamBoilerplate
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark, isCssOrNoiseLine } from '../utils/jobExtractor';
 import { AdSlot } from './AdSlot';
@@ -564,7 +565,7 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
               {edgeData.hasEdge ? 'Official Employer Role Overview' : 'About The Role'}
             </h4>
             <p className="whitespace-pre-line text-slate-700">
-              {cleanHtml(edgeData.hasEdge ? edgeData.roleOverview : job.description)}
+              {stripSyntheticSpamBoilerplate(cleanHtml(edgeData.hasEdge ? edgeData.roleOverview : job.description))}
             </p>
           </div>
 

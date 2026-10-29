@@ -24,7 +24,7 @@ import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
 import { trackPageView, disableAnalyticsForAdmin } from './utils/analytics';
 import { isJobExpired } from './utils/jobAggregator';
-import { getFocusKeywordForJob } from './utils/textHumanizer';
+import { getFocusKeywordForJob, stripSyntheticSpamBoilerplate } from './utils/textHumanizer';
 import {
   subscribeToLiveJobs,
   batchSaveJobsToCloud,
@@ -133,7 +133,8 @@ export default function App() {
                                  item.id === 'manual-1791997615288';
               if (!isThinStub) {
                 seen.add(item.id);
-                deduped.push(item);
+                const cleanedDesc = stripSyntheticSpamBoilerplate(item.description || '');
+                deduped.push(cleanedDesc !== item.description ? { ...item, description: cleanedDesc } : item);
               }
             }
           }
@@ -145,7 +146,10 @@ export default function App() {
     } catch (e) {
       console.warn('Could not read saved jobs from localStorage', e);
     }
-    return INITIAL_JOBS;
+    return INITIAL_JOBS.map((j) => {
+      const cleaned = stripSyntheticSpamBoilerplate(j.description || '');
+      return cleaned !== j.description ? { ...j, description: cleaned } : j;
+    });
   });
 
   // 2. Persistent State for AdSense Config
