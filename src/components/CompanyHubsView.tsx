@@ -228,18 +228,10 @@ export const CompanyHubsView: React.FC<CompanyHubsViewProps> = ({
           Comprehensive, verified field intelligence on entry-level software engineering pipelines (0–2 YoE) across <strong>FAANG, Enterprise Consulting, Tech Unicorns, and Remote-First Scale-Ups</strong>. Explore realistic first-year total compensation, interview round teardowns, and live verified requisitions.
         </p>
 
-        {/* Search & Compliance Trust Badge */}
-        <div className="pt-2 flex items-center justify-center gap-4 text-xs text-slate-500 flex-wrap">
-          <span className="flex items-center gap-1.5 font-medium text-slate-700">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            AdSense Quality Assured
-          </span>
-          <span className="flex items-center gap-1.5 font-medium text-slate-700">
-            <TrendingUp className="w-4 h-4 text-blue-600" />
-            350,000+ Monthly US Search Demand
-          </span>
-          <span className="flex items-center gap-1.5 font-medium text-slate-700">
-            <Briefcase className="w-4 h-4 text-indigo-600" />
+        {/* Verified Requisitions Counter */}
+        <div className="pt-2 flex items-center justify-center gap-3 text-xs text-slate-600 flex-wrap">
+          <span className="inline-flex items-center gap-1.5 font-semibold text-slate-700 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
+            <Briefcase className="w-3.5 h-3.5 text-indigo-600" />
             {totalVerifiedCompanyJobs} Live Verified Requisitions
           </span>
         </div>
@@ -426,8 +418,8 @@ export const CompanyHubsView: React.FC<CompanyHubsViewProps> = ({
                       <span className="truncate"><strong>Role:</strong> {hub.salaryTier.role}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <TrendingUp className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-                      <span><strong>Search Demand:</strong> {hub.monthlySearchVolume} (KD {hub.organicKD})</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                      <span><strong>Hiring Track:</strong> Early Career (0–2 YoE)</span>
                     </div>
                   </div>
                 </div>
@@ -535,8 +527,8 @@ export const CompanyHubsView: React.FC<CompanyHubsViewProps> = ({
                     Level: {currentCompany.salaryTier.level}
                   </span>
                   <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
-                    <TrendingUp className="w-3.5 h-3.5 text-blue-600" />
-                    US Monthly Search: {currentCompany.monthlySearchVolume}
+                    <Briefcase className="w-3.5 h-3.5 text-blue-600" />
+                    Verified 0–2 YoE Requisitions
                   </span>
                 </div>
               </div>
