@@ -42,9 +42,15 @@ import { EXPANDED_FLAGSHIP_ARTICLES } from './articles/expandedFlagshipArticles'
 import { TECHNICAL_MASTERY_ARTICLES } from './articles/technicalMasteryArticles';
 import { US_SEARCH_DOMINANCE_ARTICLES } from './articles/usSearchDominanceArticles';
 import { FAANG_ZERO_EXPERIENCE_EMPLOYERS_ARTICLE } from './articles/faangZeroExperienceEmployersArticle';
+import { ENTERPRISE_CONSULTING_EARLY_CAREER_ARTICLE } from './articles/enterpriseConsultingEarlyCareerArticle';
+import { UNICORNS_FINTECH_EARLY_CAREER_ARTICLE } from './articles/unicornsFintechEarlyCareerArticle';
+import { REMOTE_SCALE_UP_EARLY_CAREER_ARTICLE } from './articles/remoteScaleUpEarlyCareerArticle';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
   FAANG_ZERO_EXPERIENCE_EMPLOYERS_ARTICLE,
+  ENTERPRISE_CONSULTING_EARLY_CAREER_ARTICLE,
+  UNICORNS_FINTECH_EARLY_CAREER_ARTICLE,
+  REMOTE_SCALE_UP_EARLY_CAREER_ARTICLE,
   ...US_SEARCH_DOMINANCE_ARTICLES,
   ...EXPANDED_FLAGSHIP_ARTICLES,
   ...TECHNICAL_MASTERY_ARTICLES,

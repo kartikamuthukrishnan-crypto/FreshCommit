@@ -136,18 +136,22 @@ export const HomeEditorialContent: React.FC<{
                 onClick={() => onNavigateTab('companies')}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold transition-all shadow-sm cursor-pointer"
               >
-                <span>Explore All 4 Hubs</span>
+                <span>Explore All 16+ Hubs</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 pt-2">
             {[
               { name: 'Google', level: 'L3 SWE', comp: '$198k–$225k', color: '#1a73e8' },
-              { name: 'Amazon', level: 'SDE 1 (L4)', comp: '$180k–$205k', color: '#ff9900' },
-              { name: 'Microsoft', level: 'Level 59/60', comp: '$175k–$198k', color: '#00a4ef' },
-              { name: 'Stripe', level: 'L1/L2 SWE', comp: '$215k–$255k', color: '#635bff' }
+              { name: 'Amazon', level: 'SDE 1', comp: '$180k–$205k', color: '#ff9900' },
+              { name: 'Accenture', level: 'Tech Assoc', comp: '$95k–$106k', color: '#a100ff' },
+              { name: 'Uber', level: 'SWE I (L3)', comp: '$195k–$220k', color: '#000000' },
+              { name: 'Stripe', level: 'L1/L2 SWE', comp: '$215k–$255k', color: '#635bff' },
+              { name: 'Shopify', level: 'Developer I', comp: '$165k–$190k', color: '#96bf48' },
+              { name: 'Deloitte', level: 'Tech Analyst', comp: '$100k–$118k', color: '#86bc25' },
+              { name: 'Atlassian', level: 'Assoc SWE', comp: '$165k–$195k', color: '#0052cc' }
             ].map((company) => (
               <div
                 key={company.name}
@@ -155,14 +159,14 @@ export const HomeEditorialContent: React.FC<{
                   try { window.history.pushState(null, '', `/companies/${company.name.toLowerCase()}`); } catch {}
                   onNavigateTab('companies');
                 }}
-                className="p-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 transition-all cursor-pointer group"
+                className="p-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 transition-all cursor-pointer group"
               >
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: company.color }} />
-                  <span className="font-bold text-sm text-white group-hover:text-blue-300 transition-colors">{company.name}</span>
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: company.color }} />
+                  <span className="font-bold text-xs text-white group-hover:text-blue-300 transition-colors truncate">{company.name}</span>
                 </div>
-                <div className="text-[11px] text-slate-400">{company.level}</div>
-                <div className="text-xs font-black text-emerald-400 mt-1">{company.comp}</div>
+                <div className="text-[10px] text-slate-400 truncate">{company.level}</div>
+                <div className="text-[11px] font-black text-emerald-400 mt-1">{company.comp}</div>
               </div>
             ))}
           </div>
