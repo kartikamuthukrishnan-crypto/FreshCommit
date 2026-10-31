@@ -11,6 +11,7 @@ const AdSensePolicyView = lazy(() => import('./components/OriginalGuides').then(
 const CareerInsightsView = lazy(() => import('./components/OriginalGuides').then((m) => ({ default: m.CareerInsightsView })));
 const InteractiveToolsView = lazy(() => import('./components/InteractiveTools').then((m) => ({ default: m.InteractiveToolsView })));
 const ProjectBlueprintsView = lazy(() => import('./components/ProjectBlueprintsView').then((m) => ({ default: m.ProjectBlueprintsView })));
+const CompanyHubsView = lazy(() => import('./components/CompanyHubsView').then((m) => ({ default: m.CompanyHubsView })));
 const AboutUsView = lazy(() => import('./components/TrustPages').then((m) => ({ default: m.AboutUsView })));
 const ContactUsView = lazy(() => import('./components/TrustPages').then((m) => ({ default: m.ContactUsView })));
 const LegalPageView = lazy(() => import('./components/LegalPageView').then((m) => ({ default: m.LegalPageView })));
@@ -280,6 +281,7 @@ export default function App() {
       if (path === '/about' || path === '/about-us' || path === '/about.html' || path.endsWith('/about')) return 'about';
       if (path === '/terms' || path === '/terms-of-service' || path === '/tos' || path.endsWith('/terms')) return 'terms';
       if (path === '/contact' || path === '/contact-us' || path.endsWith('/contact')) return 'contact';
+      if (path === '/companies' || path.startsWith('/companies') || path.startsWith('/company')) return 'companies';
       if (path === '/salary-guide' || path === '/salary' || path.endsWith('/salary-guide')) return 'salary-guide';
       if (
         path === '/insights' ||
@@ -306,6 +308,8 @@ export default function App() {
       // 2. Check query params (?view=...)
       const urlParams = new URLSearchParams(window.location.search);
       const view = urlParams.get('view');
+      const companyParam = urlParams.get('company');
+      if (view === 'companies' || view === 'company' || Boolean(companyParam)) return 'companies';
       if (view === 'salary-guide' || view === 'salary') return 'salary-guide';
       if (view === 'insights' || view === 'career-insights' || view === 'guides' || view === 'blog' || view === 'articles') return 'insights';
       if (view === 'tools' || view === 'career-tools' || view === 'calculator') return 'tools';
@@ -322,6 +326,7 @@ export default function App() {
       const rawHash = window.location.hash.replace('#', '');
       const hash = rawHash.toLowerCase();
       if (view === 'admin' || urlParams.get('admin') === 'true' || hash === 'admin') return 'admin';
+      if (hash === 'companies' || hash === 'company' || hash.startsWith('companies/') || hash.startsWith('company/')) return 'companies';
       if (hash === 'tools' || hash === 'calculator' || hash === 'career-tools' || hash === 'tc-calculator') return 'tools';
       if (hash === 'blueprints' || hash === 'project-blueprints') return 'blueprints';
       if (hash === 'insights' || hash === 'career-insights' || hash === 'guides' || hash === 'blog' || hash === 'articles') return 'insights';
@@ -347,6 +352,8 @@ export default function App() {
   // Helper to resolve title by active tab
   const getTabTitle = (tab: AppTab) => {
     switch (tab) {
+      case 'companies':
+        return 'FAANG & Tech Unicorn Early Career Hubs (2026) – FreshCommits';
       case 'salary-guide':
         return '2026 Tech Salary Guide & Compensation Benchmarks – FreshCommits';
       case 'insights':
@@ -564,6 +571,7 @@ export default function App() {
     try {
       const routeMap: Record<AppTab, string> = {
         jobs: '/',
+        companies: '/companies',
         'salary-guide': '/salary-guide',
         insights: '/career-insights',
         tools: '/career-tools',
@@ -1827,6 +1835,15 @@ export default function App() {
             </div>
           }
         >
+          {/* VIEW: FAANG & TECH UNICORN COMPANY HUBS */}
+          {activeTab === 'companies' && (
+            <CompanyHubsView
+              jobs={jobs}
+              onSelectJob={(job) => handleSelectJob(job, false)}
+              onNavigateToArticle={(articleId) => handleOpenArticle(articleId)}
+            />
+          )}
+
           {/* VIEW 2: ORIGINAL SALARY BENCHMARKS & GUIDES */}
           {activeTab === 'salary-guide' && <SalaryGuideView />}
 
@@ -1957,6 +1974,16 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-6 flex-wrap text-xs">
+            <a
+              href="/companies"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabChange('companies');
+              }}
+              className="text-[#1a73e8] font-bold hover:underline transition-colors"
+            >
+              FAANG Company Hubs
+            </a>
             <a
               href="/?view=tools"
               onClick={(e) => {

@@ -41,8 +41,10 @@ import { SPECIALIZED_AND_WORKPLACE_ARTICLES } from './articles/specializedAndWor
 import { EXPANDED_FLAGSHIP_ARTICLES } from './articles/expandedFlagshipArticles';
 import { TECHNICAL_MASTERY_ARTICLES } from './articles/technicalMasteryArticles';
 import { US_SEARCH_DOMINANCE_ARTICLES } from './articles/usSearchDominanceArticles';
+import { FAANG_ZERO_EXPERIENCE_EMPLOYERS_ARTICLE } from './articles/faangZeroExperienceEmployersArticle';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
+  FAANG_ZERO_EXPERIENCE_EMPLOYERS_ARTICLE,
   ...US_SEARCH_DOMINANCE_ARTICLES,
   ...EXPANDED_FLAGSHIP_ARTICLES,
   ...TECHNICAL_MASTERY_ARTICLES,

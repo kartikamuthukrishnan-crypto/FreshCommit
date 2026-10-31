@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const HomeEditorialContent: React.FC<{
-  onNavigateTab: (tab: 'jobs' | 'salary-guide' | 'insights' | 'tools' | 'about' | 'contact' | 'adsense-policy') => void;
+  onNavigateTab: (tab: 'jobs' | 'companies' | 'salary-guide' | 'insights' | 'tools' | 'about' | 'contact' | 'adsense-policy') => void;
 }> = ({ onNavigateTab }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -112,6 +112,59 @@ export const HomeEditorialContent: React.FC<{
                 </span>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Section: FAANG & Tech Unicorn Early Career Hubs Showcase */}
+        <section className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white space-y-6 shadow-md border border-slate-800">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-bold mb-2">
+                <Building2 className="w-3.5 h-3.5 text-blue-400" />
+                <span>FAANG &amp; Tech Unicorn Employer Hubs</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white">
+                Entry-Level Pipelines at Google, Amazon, Microsoft &amp; Stripe
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mt-1 leading-relaxed">
+                Explore verified 2026 starting compensation benchmarks, interview stage teardowns, behavioral evaluation rubrics, and direct ATS requisitions for candidates with 0–2 years of experience.
+              </p>
+            </div>
+
+            <div className="flex-shrink-0 flex items-center gap-3">
+              <button
+                onClick={() => onNavigateTab('companies')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold transition-all shadow-sm cursor-pointer"
+              >
+                <span>Explore All 4 Hubs</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            {[
+              { name: 'Google', level: 'L3 SWE', comp: '$198k–$225k', color: '#1a73e8' },
+              { name: 'Amazon', level: 'SDE 1 (L4)', comp: '$180k–$205k', color: '#ff9900' },
+              { name: 'Microsoft', level: 'Level 59/60', comp: '$175k–$198k', color: '#00a4ef' },
+              { name: 'Stripe', level: 'L1/L2 SWE', comp: '$215k–$255k', color: '#635bff' }
+            ].map((company) => (
+              <div
+                key={company.name}
+                onClick={() => {
+                  try { window.history.pushState(null, '', `/companies/${company.name.toLowerCase()}`); } catch {}
+                  onNavigateTab('companies');
+                }}
+                className="p-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 transition-all cursor-pointer group"
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: company.color }} />
+                  <span className="font-bold text-sm text-white group-hover:text-blue-300 transition-colors">{company.name}</span>
+                </div>
+                <div className="text-[11px] text-slate-400">{company.level}</div>
+                <div className="text-xs font-black text-emerald-400 mt-1">{company.comp}</div>
+              </div>
+            ))}
           </div>
         </section>
 

@@ -49,7 +49,8 @@ async function syncJobs() {
       skills: job.skills || [],
       applyUrl: job.applyUrl || '',
       datePosted: job.datePosted || '2026-09-28',
-      validThrough: job.validThrough || '2026-11-28'
+      validThrough: job.validThrough || '2026-11-28',
+      status: job.status || 'ACTIVE'
     };
   }
 

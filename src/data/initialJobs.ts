@@ -6594,9 +6594,9 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Others",
     "companyWebsite": "https://www.seagatecareers.com",
-    "status": "ACTIVE",
     "healthStatus": "HEALTHY",
-    "lastHealthCheckedAt": "2026-10-21T17:44:16.173Z"
+    "lastHealthCheckedAt": "2026-10-21T17:44:16.173Z",
+    "status": "EXPIRED"
   },
   {
     "country": "US",
@@ -13024,12 +13024,12 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Thành phố Hồ Chí Minh, Hồ Chí Minh, Vietnam",
     "category": "Full Stack",
     "companyWebsite": "https://sgs.com",
-    "status": "ACTIVE",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nTailored for freshers seeking a high-support team culture where curiosity, clean problem-solving, and continuous learning are actively nurtured.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Brush up on Git, Software Engineering, Problem Solving and version control (Git).\n• Interview Focus: Engineering leads evaluate clean algorithmic problem-solving, architectural curiosity, and collaborative communication.\n• Target Benchmark: Estimated verified market compensation of ~USD 95k–125k/year with career progression reviews.\n• Location: Based in Thành phố Hồ Chí Minh, Hồ Chí Minh, Vietnam.\n\n🏢 Role Overview:\n• Support or perform EHS sampling as instructed by Technical Supervisor/Manager including Field, Monitoring and Marine services.",
     "qualifications": [],
     "responsibilities": [],
-    "lastHealthCheckedAt": "2026-10-21T17:44:16.176Z"
+    "lastHealthCheckedAt": "2026-10-21T17:44:16.176Z",
+    "status": "EXPIRED"
   },
   {
     "country": "US",
