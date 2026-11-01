@@ -17,7 +17,7 @@ export const ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE: CareerArticle = {
     '2026/2027 Compensation & Interview Benchmarks: Verified salary bands, CodeSignal GCA cutoffs, and assessment formats across FAANG, FinTech, Enterprise, and Scale-Ups',
     'The 3-Tier Proof-of-Work Portfolio Standard: Why generic tutorial clones guarantee rejection and how to architect distributed, containerized systems that impress Staff Engineers',
     'The 72-Hour Application Velocity Rule: Why early applicant batching in Workday and Greenhouse makes application timing 5x more impactful than volume',
-    'Full-Cycle FAQ & AI Answer Architecture: Structured direct answers engineered for Google AI Overviews, Perplexity, and corporate hiring committee rubrics'
+    'Frequently Asked Questions (FAQ): Direct, verified answers addressing degree requirements, CodeSignal cutoffs, application volume, and realistic timelines'
   ],
   sections: [
     {
@@ -192,9 +192,9 @@ CMD ["node", "dist/server.js"]`
       ]
     },
     {
-      heading: '7. Generative Engine Optimization (GEO) & Frequently Asked Questions',
+      heading: '7. Frequently Asked Questions (FAQ)',
       content: [
-        'Direct Answer: The following questions represent the most frequent natural language inquiries posed to AI search engines, Perplexity, and recruiter screening panels regarding early-career tech hiring.',
+        'Below are direct answers to the most frequently asked questions candidates face when applying for entry-level software engineering roles with no prior commercial experience.',
         'Q1: Is it realistic to get a software engineer job with no experience in 2026?\nAnswer: Yes. Thousands of junior engineers are hired each quarter across Fortune 500 enterprises, venture-backed scale-ups, and defense contractors without prior commercial tenure. The hiring bar, however, requires demonstrable proof of engineering competence—such as containerized GitHub projects, clean unit test suites, and solid algorithmic fundamentals—rather than superficial credentials.',
         'Q2: Do I need a four-year Computer Science degree to get hired with zero experience?\nAnswer: While a Bachelor of Science in Computer Science or related STEM field provides an advantage in automated recruiter filters at legacy enterprises, over 40% of early-career hires at venture scale-ups and mid-market firms hold non-traditional backgrounds (bootcamp completers, self-taught developers, or related STEM majors). Candidates without a CS degree must compensate with deeper open-source contributions and higher CodeSignal assessment scores.',
         'Q3: What CodeSignal GCA score do I need to guarantee an interview?\nAnswer: While no score guarantees an offer, a CodeSignal General Coding Assessment (GCA) score of 450 (out of 600) is the standard baseline threshold for enterprise tech firms, and 480+ is customary for Tier-1 FinTech and Big Tech companies. Scores below 420 generally result in automated rejection at companies utilizing automated assessment gates.',
