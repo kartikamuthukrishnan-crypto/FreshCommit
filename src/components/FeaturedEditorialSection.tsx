@@ -11,11 +11,11 @@ export const FeaturedEditorialSection: React.FC<FeaturedEditorialSectionProps> =
   onOpenArticle,
   onViewAllGuides,
 }) => {
-  // Select 3 premier flagship guides representing Technical Assessments, Compensation, and AI Engineering
+  // Select 3 premier flagship guides representing 0-Experience Pathways, Technical Assessments, and Compensation
   const featuredIds = [
+    'entry-level-software-engineer-jobs-no-experience-2026',
     'how-to-pass-codesignal-gca-tech-online-assessments-2026',
     'entry-level-swe-salary-negotiation-scripts-2026',
-    'ai-assisted-coding-interviews-junior-swe-2026',
   ];
 
   const featuredArticles = featuredIds

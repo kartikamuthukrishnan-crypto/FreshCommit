@@ -45,8 +45,10 @@ import { FAANG_ZERO_EXPERIENCE_EMPLOYERS_ARTICLE } from './articles/faangZeroExp
 import { ENTERPRISE_CONSULTING_EARLY_CAREER_ARTICLE } from './articles/enterpriseConsultingEarlyCareerArticle';
 import { UNICORNS_FINTECH_EARLY_CAREER_ARTICLE } from './articles/unicornsFintechEarlyCareerArticle';
 import { REMOTE_SCALE_UP_EARLY_CAREER_ARTICLE } from './articles/remoteScaleUpEarlyCareerArticle';
+import { ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE } from './articles/entryLevelSweJobsNoExperienceArticle';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
+  ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE,
   FAANG_ZERO_EXPERIENCE_EMPLOYERS_ARTICLE,
   ENTERPRISE_CONSULTING_EARLY_CAREER_ARTICLE,
   UNICORNS_FINTECH_EARLY_CAREER_ARTICLE,
