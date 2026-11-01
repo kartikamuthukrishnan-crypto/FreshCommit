@@ -1,7 +1,7 @@
 export type ExperienceLevel = 'Entry Level' | 'New Grad' | 'Fresher' | 'Internship';
 export type EmploymentType = 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN';
 export type JobCategory = 'Frontend' | 'Backend' | 'Full Stack' | 'Mobile' | 'DevOps / Cloud' | 'Data / AI' | 'QA / Test' | 'Others' | 'Other';
-export type JobSource = 'MANUAL_ADMIN' | 'AUTOMATED_SYNC' | 'EMPLOYER_POST' | 'SMARTRECRUITERS';
+export type JobSource = 'MANUAL_ADMIN' | 'AUTOMATED_SYNC' | 'EMPLOYER_POST' | 'SMARTRECRUITERS' | 'JOBPULSE_FEED';
 
 export interface SalaryRange {
   min: number;

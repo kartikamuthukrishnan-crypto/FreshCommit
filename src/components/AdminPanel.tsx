@@ -5,6 +5,7 @@ import {
   generateFingerprint,
   executeAutomatedSync,
   syncSmartRecruitersJobs,
+  syncJobPulseFeeds,
   isJobExpired,
   getDaysUntilExpiration,
   checkDuplicateJob,
@@ -312,6 +313,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [srKeyword, setSrKeyword] = useState('junior software engineer');
   const [srRemoteOnly, setSrRemoteOnly] = useState(false);
   const [srLoading, setSrLoading] = useState(false);
+
+  // JobPulse & 2026/2027 College Trackers Feeder State
+  const [jpLoading, setJpLoading] = useState(false);
+  const [jpIncludeInternships, setJpIncludeInternships] = useState(true);
 
   // Focus Keyword & AdSense JD Generator State
   const [selectedMicroNiche, setSelectedMicroNiche] = useState<MicroNichePreset | null>(null);
@@ -923,6 +928,41 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       alert('SmartRecruiters live fetch encountered an issue.');
     } finally {
       setSrLoading(false);
+    }
+  };
+
+  const handleTriggerJobPulseSync = async () => {
+    setJpLoading(true);
+    try {
+      const { newJobs, log, refreshedJobIds } = await syncJobPulseFeeds(jobs, {
+        includeInternships: jpIncludeInternships
+      });
+      if (newJobs.length > 0) {
+        batchSaveJobsToCloud(newJobs).catch((e) => console.warn('Cloud sync error for JobPulse jobs:', e));
+      }
+      setJobs((prev) => {
+        let updated = [...prev];
+        if (refreshedJobIds && refreshedJobIds.length > 0) {
+          const validDate = new Date();
+          validDate.setDate(validDate.getDate() + 45);
+          const extended = validDate.toISOString().split('T')[0];
+          updated = updated.map((j) =>
+            refreshedJobIds.includes(j.id) ? { ...j, atsVerified: true, validThrough: extended } : j
+          );
+        }
+        return [...newJobs, ...updated];
+      });
+      setSyncLogs((prev) => [log, ...prev]);
+      if (newJobs.length > 0) {
+        alert(`🚀 JobPulse Feed Synchronized!\n\nAdded ${newJobs.length} new 2026/2027 entry-level & new grad roles (with verified direct ATS apply links and salary bands) to your inventory!`);
+      } else {
+        alert('JobPulse sync complete: All roles are already up-to-date and deduplicated.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('JobPulse sync failed. Please check network connection.');
+    } finally {
+      setJpLoading(false);
     }
   };
 
@@ -3041,6 +3081,53 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     ))}
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* JOBPULSE & 2026/2027 COLLEGE SWE TRACKERS LIVE PIPELINE */}
+          <div className="bg-white rounded-2xl border border-sky-200/90 p-6 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-36 h-36 bg-sky-50 rounded-bl-full pointer-events-none -z-0 opacity-70" />
+            <div className="relative z-10 max-w-3xl">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-sky-800 bg-sky-100/80 px-2.5 py-0.5 rounded-full border border-sky-300">
+                  <Sparkles className="w-3 h-3 text-sky-600" /> JobPulse &amp; 2026/2027 College Trackers Feed
+                </span>
+                <span className="text-[11px] text-slate-500 font-mono">speedyapply &amp; SimplifyJobs Feeds</span>
+                <span className="text-[11px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                  Direct ATS (Workday, Greenhouse, Lever, Ashby, Amazon)
+                </span>
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">JobPulse Daily Aggregator Sync</h2>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Connects directly to the live GitHub repository feeds utilized by <strong>JobPulse</strong> (including <code>speedyapply/2026-SWE-College-Jobs</code> New Grad USA &amp; Summer Internships). Automatically extracts verified tech company requisitions (such as NVIDIA, Roblox, Amazon, Twitch, TikTok, Cloudflare), normalizes job titles for Google for Jobs, validates real compensation figures ($110k–$205k/yr), and imports them into FreshCommits with 100% automated deduplication.
+              </p>
+
+              {/* Controls */}
+              <div className="mt-5 p-4 bg-sky-50/60 rounded-xl border border-sky-200/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <label className="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={jpIncludeInternships}
+                      onChange={(e) => setJpIncludeInternships(e.target.checked)}
+                      className="rounded text-sky-600 focus:ring-sky-500 w-3.5 h-3.5"
+                    />
+                    <span>Include Summer 2026/2027 Software Engineering Internships</span>
+                  </label>
+                  <span className="text-[11px] text-slate-500 block">
+                    Automatically tags STEM OPT / E-Verify eligibility &amp; preserves authentic Workday / Greenhouse apply endpoints.
+                  </span>
+                </div>
+
+                <button
+                  onClick={handleTriggerJobPulseSync}
+                  disabled={jpLoading}
+                  className="w-full sm:w-auto px-5 py-2.5 bg-sky-700 hover:bg-sky-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition-all disabled:opacity-50 cursor-pointer shrink-0"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${jpLoading ? 'animate-spin' : ''}`} />
+                  <span>{jpLoading ? 'Synchronizing JobPulse Feeds...' : 'Sync JobPulse Daily Jobs'}</span>
+                </button>
               </div>
             </div>
           </div>
