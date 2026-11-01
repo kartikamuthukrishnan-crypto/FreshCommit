@@ -21,6 +21,25 @@ const COUNTRY_NAME_MAP: Record<string, string> = {
 };
 
 /**
+ * Normalizes job title to conform strictly to Google for Jobs guidelines:
+ * - Strips promotional parentheticals like (Early Career), (New Grad), (Entry Level), [0-1 YoE], (Remote), (Urgent)
+ * - Strips trailing location/remote noise like " – Remote" or " - Hybrid"
+ * - Converts "(Junior) Software Engineer" to "Junior Software Engineer"
+ * - Keeps the clean, canonical industry job title for 100% deduplication clustering
+ */
+export function normalizeJobTitleForGoogle(rawTitle: string): string {
+  if (!rawTitle) return 'Software Engineer';
+  let clean = rawTitle
+    .replace(/\s*[\(\[](?:early career|new grad(?:uate)?|entry[\s-]level|0-1 years?|0-2 years?|urgent(?:ly hiring)?|hiring now|remote|hybrid|on-site|onsite|austin|san francisco|nyc|new york)[\)\]]/gi, '')
+    .replace(/\s*[\u2013\u2014-]\s*(?:Remote|Hybrid|On-site|Onsite|Austin|NYC)$/gi, '')
+    .replace(/^\((?:junior|jr\.?)\)\s*/i, 'Junior ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
+  return clean || rawTitle.trim();
+}
+
+/**
  * Generates official Google JobPosting JSON-LD structured data conforming
  * to Google Search Central guidelines (https://developers.google.com/search/docs/appearance/structured-data/job-posting)
  */
@@ -28,7 +47,7 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
   // Google for Jobs Algorithm Compliance:
   // Title MUST be the authentic, concise job title without promotional keywords or editorial tags.
   // This guarantees exact cosine-similarity clustering with the primary ATS listing.
-  const schemaTitle = (job.title || 'Software Engineer').trim();
+  const schemaTitle = normalizeJobTitleForGoogle(job.title || 'Software Engineer');
 
   const schema: Record<string, any> = {
     '@context': 'https://schema.org',

@@ -1,4 +1,4 @@
-import { JobPosting } from '../types';
+import { JobPosting } from "../types";
 
 export const INITIAL_JOBS: JobPosting[] = [
   {
@@ -8,7 +8,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "96813",
     "description": "Servco is hiring a Data Engineer I to build and support defined data pipelines for Hawaii Mobility. Working with internal systems and external APIs, the role helps transform, model, test, and document data so reporting, operations, and AI teams can rely on it.\n\nReporting to the Manager, Data Engineering, within the Data Visualization, Analytics & Automation function led by its Director under the VP, Data & AI, this is an individual contributor role with coaching and code review. The engineer develops familiarity with Servco systems and takes on work with increasing independence.\n\nBuild, test, document, and maintain defined ingestion and transformation pipelines with guidance and review. Assist with models, mappings, integration checks, lineage, and data quality for reporting and AI-ready data.\n\nSupport deployment, monitoring, and troubleshooting of pipelines; escalate complex incidents and help with critical operations as needed.\n\nPartner with Analytics Engineers and senior Data Engineers to make governed data available and understandable for reporting and AI use cases, following approved solution designs.\n\nHelp investigate data quality exceptions, record root causes and fixes, and keep source mappings and operating notes current under senior guidance.\n\nAssist with metadata, definitions, access requests, and lineage so downstream users can find and trust approved data.\n\nLearn Servco business systems, Databricks, Azure, Python, SQL, Git workflows, testing, and documentation through coached delivery.\n\nFollow governance and secure data handling standards while steadily expanding ownership and seeking feedback.\n\nListen to operators and learn how customer, sales, service, and finance data supports day-to-day decisions; use feedback to improve the assigned data work.",
     "source": "MANUAL_ADMIN",
-    "title": "Data Engineer I (Early Career)",
+    "title": "Data Engineer I",
     "salary": {
       "unit": "YEAR",
       "min": 72900,
@@ -254,7 +254,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "60601",
     "description": "Software Developers collaborate with Business and Quality Analysts, Designers, Project Managers and more to design software solutions that will create significant change for our clients. They listen thoughtfully to understand the context of a business problem and write clean and iterative code to deliver a powerful end result. By balancing strong opinions with a willingness to find the right answer, Software Developers bring integrity to technology, ensuring all voices are heard.\n\nOur entry-level consultants jumpstart their careers with the First Year Graduate Experience: our year-long program that starts with Thoughtworks University , an immersive three-week training, plus monthly sessions dedicated to specific topics. And it's important to call out that we consider tech talent from all walks of life. Whether you're a Computer Science major with less than one year of professional experience, a coding boot camp graduate or a career changer who is working toward becoming a software developer, you have the opportunity to grow in our community of passionate technologists.",
     "source": "MANUAL_ADMIN",
-    "title": "Associate (graduate) developer ",
+    "title": "Associate (graduate) developer",
     "salary": {
       "unit": "YEAR",
       "min": 115000,
@@ -364,7 +364,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 1,
     "description": "At PNNL, our core capabilities are divided among major departments that we refer to as Directorates within the Lab, focused on a specific area of scientific research or other function, with its own leadership team and dedicated budget.\n\nOur Science & Technology directorates include National Security, Integrated Discovery Sciences, and Energy and Environment. In addition, we have an Environmental Molecular Sciences Laboratory, a Department of Energy, Office of Science user facility housed on the PNNL campus.\n\nThe Integrated Discovery Sciences Directorate (IDSD) leads fundamental research across biology, chemistry, earth and environmental sciences, materials science, advanced computing, artificial intelligence , quantum information science, mathematics, autonomy, and DOE national user facilities. Our vision is to accelerate scientific discovery by observing, understanding, simulating, predicting, and controlling dynamic biotic-abiotic processes and interactions within complex biological, chemical, material, and Earth systems. We intentionally connect disciplines to advance fundamental discovery science, develop transformative scientific capabilities, and address the nation's most important challenges in energy, environmental resilience, biotechnology, advanced manufacturing, health, and national security.",
     "source": "MANUAL_ADMIN",
-    "title": "Software Engineer 1 (Early Career)",
+    "title": "Software Engineer 1",
     "salary": {
       "unit": "YEAR",
       "min": 88000,
@@ -2503,7 +2503,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 1,
     "description": "<p>Collier Aerospace is hiring a/an <strong>Software engineer (entry level)</strong> to join our backend engineering team based in <strong>Denver, CO</strong>. This <strong>full-time on-site</strong> position is open to <strong>entry-level developers and junior engineers</strong> with <strong>0–1 year of experience</strong> looking to build production systems focusing on <strong>C</strong>, <strong>Python</strong>, and scalable backend systems and modern cloud architectures, serving clients and teams across the greater <strong>Denver-Boulder Metro Area</strong>.</p>",
     "source": "MANUAL_ADMIN",
-    "title": "Software engineer (entry level)",
+    "title": "Software engineer",
     "salary": {
       "unit": "HOUR",
       "min": 38,
@@ -3050,7 +3050,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "63005-1357",
     "description": "This is a great opportunity to join a well-established and market-leading brand serving a high growth end market while gaining valuable experience working closely with Executive leadership. As an organization, we are in high growth mode through acquisition with a laser focus on positive culture building!\n\nWho we are!\n\nnimble solutions is a leading provider of revenue cycle management solutions for ambulatory surgery centers (ASCs), surgical clinics, surgical hospitals, and anesthesia groups. Our tech-enabled solutions allow surgical organizations to streamline their revenue cycle processes, reduce administrative burden, and improve financial outcomes. Join more than 1,100 surgical organizations who trust nimble solutions and its advisors to bring deep insights and actionable intelligence to maximize their revenue cycle.\n\nWe provide services in nearly every US state and our team of experts works around the globe managing over $10 billion in net revenue as we continue to build and innovate a world class organization with people like you.\n\nTogether, we embrace challenges, fuel innovation, and strive to exceed expectations. Healthcare means a lot more to us, we care about creating an environment where our coworkers, clients, and communities’ social, financial, and physical health is at the forefront of everything we do.\n\nThe primary objective of the Junior Reporting Analyst is to fulfill the data needs and requirements of business users. This involves navigating through various systems, extracting relevant data, and leveraging tools like Microsoft Excel to produce impactful reports and analyses. The Junior Reporting Analyst ensures a thorough understanding of users’ needs through effective communication, rigorous testing, comprehensive documentation, and delivery of tailored solutions. The Reporting analyst may leverage Client Practice Management Systems, Microsoft Excel, Power Query, and Power BI to effectively execute data extraction, analysis, and visualization tasks.\n\nExtracting data, developing reports, and performing analytics for both internal and external stakeholders, enhancing decision-making and strategic insights\n\nDocumenting requirements and functionalities, acting as a primary contact for data-related queries and escalations\n\nDesigning and implementing data visualizations that align with corporate standards and objectives, directly engaging with team members and stakeholders to address corporate needs in analytics and data integration\n\nParticipating actively in the team environment, sharing expertise in data integration and analytics to bolster both individual and team capability, with a focus on continuous learning and technical skill advancement\n\nCollaborating with business stakeholders to capture and document requirements for technological enhancements and additions, contributing non-technical insights during the design and maintenance phases of BI reporting and data integration projects\n\nTaking on project assignments as needed, contributing to the organization's broader goals and initiatives in data management and analytics",
     "source": "MANUAL_ADMIN",
-    "title": "Jr. Reporting Analyst ",
+    "title": "Jr. Reporting Analyst",
     "salary": {
       "unit": "HOUR",
       "min": 25,
@@ -5022,7 +5022,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "94301",
     "description": "They drive our success, fuel our innovation, and push us to break barriers—transforming lives through cutting-edge laser and light-based technology.\n\nPassion powers everything we do. You see, Sciton was founded by scientists with a vision: to improve peoples’ lives. And that mission continues today.\n\nOur strength comes from our people—the diverse, talented minds who bring innovation, teamwork, and determination to everything we do.",
     "source": "MANUAL_ADMIN",
-    "title": "Associate Software V&V Engineer ",
+    "title": "Associate Software V&V Engineer",
     "salary": {
       "unit": "YEAR",
       "min": 112000,
@@ -5557,7 +5557,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 1,
     "description": "Our client is seeking talented Junior Software Engineers to participate in an innovative artificial intelligence initiative focused on improving the quality, accuracy, and technical capabilities of advanced AI models.",
     "source": "MANUAL_ADMIN",
-    "title": "Junior Software Engineer – AI Code Evaluation (Remote)",
+    "title": "Junior Software Engineer – AI Code Evaluation",
     "salary": {
       "unit": "YEAR",
       "min": 120000,
@@ -6231,7 +6231,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "QA / Test",
     "companyWebsite": "https://medtronic.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "healthStatus": "HEALTHY",
     "lastHealthCheckedAt": "2026-10-21T17:44:16.173Z"
   },
@@ -6302,7 +6302,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "94577",
     "description": "About SirenOpt\n\nSirenOpt helps manufacturers make better, safer, and more reliable micro- and nano-materials. These materials are the building blocks of critical sectors of the global economy such as batteries, computer chips, aircraft components, and power systems. But, surging material demand and growing complexity are pushing production to unprecedented scales and speeds, leaving manufacturers effectively flying blind. Small, undetected variations during production lead to wastage, lower performance, higher costs, and safety risks.\n\nSirenOpt is changing this by developing a manufacturing intelligence platform that non-destructively probes materials during production, revealing critical internal information without damaging them. Using a novel combination of cold atmospheric plasma, physics-informed machine learning, and predictive analytics, SirenOpt generates unique, real-time material fingerprints that capture material signals not accessible through conventional measurement techniques. These insights give manufacturers unprecedented visibility into how materials behave as they are made.\n\nWe turn hidden data into actionable intelligence to help manufacturers reduce variability and thus increase yield and performance. The technology can be deployed as a standalone tool or integrated directly into factory production lines. SirenOpt is currently deploying early versions of its platform with some of the largest industrial manufacturers in the world across North America, Europe, and Asia.\n\nAbout the job\n\nJob Title: Software Engineer (Early Career) – C++ & Systems\n\nLocation: On-Site (San Leandro, CA)\n\nJob Type: Full-Time\n\nRole Overview\n\nSirenOpt is seeking a Software Engineer to help build and maintain the real-time data pipeline behind our sensing platform: acquiring data from multiple sensors, processing and storing it on Linux-based systems, and delivering it to the applications our customers rely on.\n\nYou will work primarily in modern C++ and Python, with mentorship from senior engineers, and you will be hands-on with real hardware in our lab to test and validate what you build. This is a role for someone who wants to grow into a well-rounded systems engineer by shipping production software end to end, from a first design discussion to a feature running at a customer site.\n\nWhat You'll Do\n\n• Develop and maintain software components in modern C++ (C++17/20) for Linux-based systems, with guidance from senior engineers\n\n• Implement features, fix bugs, and write unit and integration tests across the data pipeline, from sensor acquisition through processing and storage to the services that deliver results to applications\n\n• Write and maintain Python scripts for automation, testing, and data analysis\n\n• Read, and where needed modify, existing code written in other languages across our codebase\n\n• Use AI coding tools (e.g., Claude Code, GitHub Copilot) to accelerate development, and verify their output through testing, profiling, and code review\n\n• Run the system on real hardware in the lab to test and validate your changes, including setting up sensors and collecting data\n\n• Participate in code reviews, both receiving and giving feedback, and follow team conventions for code quality\n\n• Help diagnose and debug issues across software and hardware boundaries, working with firmware and hardware engineers\n\n• Measure and improve performance of existing code under the direction of senior engineers\n\n• Document your work so that others on the team can build on it\n\nWhat We're Looking For\n\n• Bachelor's or Master's degree in Computer Science, Computer Engineering, Electrical Engineering, or a related technical field (recent graduates welcome)\n\n• 0–2 years of professional software development experience; internships, co-ops, research, and substantial personal or open-source projects count\n\n• Solid foundation in C++, including memory management, references and pointers, the standard library, and basic object-oriented and generic programming\n\n• Strong ability to read, understand, and write Python, including working within existing Python codebases used for automation, testing, and data analysis\n\n• Ability to pick up new programming languages quickly; our codebase spans several languages and you will need to read, and occasionally modify, code outside of C++ and Python\n\n• Understanding of core computer science fundamentals: data structures, algorithms, operating systems, and concurrency basics\n\n• Comfortable with the everyday toolchain: Linux command line, build tools (CMake or similar), a debugger, and Git-based workflows (branches, pull requests, code review)\n\n• Hands-on experience using AI coding tools (e.g., Claude Code, GitHub Copilot, Cursor) as part of a real development workflow, and the judgment to review and test what they produce\n\n• Comfortable working hands-on with lab and test equipment: setting up sensors, running the system on real hardware, and collecting data for testing and validation (we will train you on our specific equipment)\n\n• Clear written and verbal communication, and the ability to work well with teammates across disciplines\n\nNice to have:\n\n• Experience with Qt, gRPC, or Protocol Buffers\n\n• Familiarity with CI/CD pipelines and automated testing\n\n• Experience with profiling and debugging tools such as perf, Valgrind, GDB, or sanitizers\n\n• Familiarity with hardware communication interfaces such as Ethernet, USB, or Serial\n\n• Contributions to open-source projects\n\nWhat You'll Learn\n\nYou will work on a real-time sensing platform that is already running at some of the largest manufacturers in the world, on a small team where your code reaches customers quickly.\n\n• How a high-throughput, multi-sensor data pipeline is built end to end, from acquisition through processing and storage, and kept reliable in production\n\n• Modern C++ and Linux systems engineering, with regular code review and mentorship from senior engineers\n\n• How software, firmware, and hardware teams work together to ship a physical product\n\n• How to use AI coding tools effectively and responsibly in a professional engineering workflow\n\n• A clear path to grow into a mid-level engineer with ownership of your own components\n\nBase Pay Range\n\n$120,000 — $160,000 USD\n\nBenefits\n\n• Equity and Salary compensation depends on experience\n\n• Health, Dental, Vision plans provided\n\n• 401k matching provided\n\n• Time off: 20 days of PTO per year, plus approximately 15 paid US holidays per year",
     "source": "MANUAL_ADMIN",
-    "title": "Software Engineer (Early Career) – C++ & Systems",
+    "title": "Software Engineer – C++ & Systems",
     "salary": {
       "unit": "YEAR",
       "min": 120000,
@@ -6721,7 +6721,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 1,
     "description": "We have many opportunities available on our other career site pages. Click here to link to our careers page!\n\nSignet Jewelers is the world's largest retailer of diamond jewelry, operating more than 2,800 stores worldwide under the iconic brands: Kay Jewelers, Zales, Jared, H.Samuel, Ernest Jones, Peoples, Banter by Piercing Pagoda, Rocksbox, JamesAllen.com and Diamonds Direct. We are a people-first company and t his core value is at the heart of everything we do, from empowering our valued team members, to collaborating with our customers, to fostering the communities in which we live and serve. People – and the love their actions inspire – are what drive us. We’re not only proud of the love we inspire outside our walls, we’re especially proud of the diversity, inclusion and equity we’re inspiring inside. There are dynamic career paths awaiting you – rewarding opportunities to impact the lives of others and inspire love. Join us!\n\nWe are seeking a Software Engineer to join our Enterprise Services Integration team. This role is well suited for someone early in their career who is interested in AWS cloud development and enterprise integration.\n\nThe engineer will contribute to the development, testing, troubleshooting, and support of AWS-based integrations while working closely with senior engineers and architects. Responsibilities will include hands-on coding, validating integrations, resolving defects, and supporting AWS integration solutions. More complex integration work will be performed with guidance and oversight from experienced engineers.",
     "source": "MANUAL_ADMIN",
-    "title": "Software Engineer I (Remote)",
+    "title": "Software Engineer I",
     "salary": {
       "unit": "YEAR",
       "min": 57000,
@@ -8059,7 +8059,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "maxYearsExperience": 1,
     "description": "We combine deep expertise in immigration, tax, business travel, remote work, payroll, and compensation with a single, integrated platform and team—to make global work better.\n\nWhether someone is moving to a new country, working remotely, or traveling for business, we help ensure they have the right permits or visas, are paid and compensated according to local regulations, and remain compliant with cross-border tax requirements.\n\nAs a team member at Vialto, you’ll be part of a global network with real impact. We support 10,000+ clients in over 150 countries, and that reach gives you the room to grow, learn, and make a real difference.\n\nWe value collaboration, belonging, and innovation, and offer flexible career opportunities for people who want to shape the future of global work.\n\nOur culture is open, supportive, and ambitious. We believe in transparency, trust, and teamwork, and we’re building a workplace where everyone can thrive and feel proud of the work they do.\n\nJoin us to help people work anywhere in the world—and build a career without borders.To learn more about Vialto, visit our website at www.vialto.com.\n\nAs a Client Facing Tech Specialist you will play a pivotal role in ensuring seamless integration of technology solutions for Vialto clients. In the role you will define integration and reporting requirements, work with systems and data to transform, integrate and report on mobility information to provide technology solutions to streamline processes. Your efforts in this area will ensure Vialto delivers comprehensive reporting and integration capabilities to enhance client experience and operational efficiency.",
     "source": "MANUAL_ADMIN",
-    "title": "Client Technology Services - Associate ",
+    "title": "Client Technology Services - Associate",
     "salary": {
       "unit": "YEAR",
       "min": 65000,
@@ -8118,7 +8118,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "98101",
     "description": "An internship with American Family Insurance is a great opportunity to build your skillset and explore your career interests. Our summer student internship is a 10 to 14 week program that starts in mid to late May and ends in August.\n\nDuring your internship, you'll work on impactful projects that make a difference at our company, with our customers, and in our communities. You'll also gain exposure to different areas of our business and have numerous opportunities for networking and coaching.\n\nInterns may be eligible for a one-time hiring bonus to assist with housing costs depending upon proximity to an AmFam office location.\n\nCompensation Minimum: $25.00\n\nWe have (2) openings, one each in Madison, WI and Boston, MA.\n\nAs a Software Engineering/Digital Platform intern, you will be responsible for planning, designing, and implementation of technology solutions that can transform the business in a cloud environment. This position works closely with internal staff in the development and governance of technology architecture standards, guidelines, and patterns in support of solution delivery.",
     "source": "MANUAL_ADMIN",
-    "title": "Summer 2027 Intern - Software Engineering (Hybrid)",
+    "title": "Summer 2027 Intern - Software Engineering",
     "salary": {
       "unit": "HOUR",
       "min": 25,
@@ -8188,7 +8188,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "60604",
     "description": "Technology\n\nAt Wolverine Trading, we’re looking for a C++ Software Engineer who is eager to launch their career in high-performance trading technology. This role is on-site in our Chicago headquarters, where close collaboration with traders and engineers is central to our culture. You’ll join a team of experienced engineers, traders, and hardware specialists building cutting-edge systems that power our trading business. This is a unique opportunity to learn at the intersection of software, hardware, and financial markets, while working on applications where speed, efficiency, and reliability make all the difference. From day one, you’ll benefit from direct mentorship, clear growth paths, and hands-on exposure to the trading floor giving you the chance to see your work in action and quickly develop both technical and industry expertise.\n\nContribute to the design, development, and testing of C++ applications that drive our trading platforms\n\nCollaborate with traders and senior engineers to understand requirements and translate them into efficient technical solutions.\n\nAssist in monitoring, profiling, and troubleshooting applications to improve reliability and stability.\n\nGain exposure to the full lifecycle of trading system development, from idea to production support.\n\nBachelor’s or Master’s Degree in Computer Science, Computer Engineering, or a related field.\n\nStrong knowledge of C++ and object-oriented design; familiarity with modern C++ (C++17/20) is a plus.\n\nSolid understanding of data structures, algorithms, and problem-solving fundamentals.\n\nInterest in multi-threaded programming, performance tuning, and real-time systems.\n\nCuriosity about financial markets and a desire to learn how technology drives trading.\n\nStrong communication skills and a collaborative mindset.\n\nA passion for tackling complex technical challenges and continuously improving.\n\nWe are currently only considering candidates who are presently authorized to work in the US for this position and who do not require visa sponsorship now or in the future.\n\nOur flat organizational structure promotes teamwork across the Firm and offers easy access to senior staff. While we work exceptionally well as a team in the office, our bonds are further strengthened through company events, activities and giving back. Volleyball, soccer, hockey, 5K runs, picnic, parties, and trivia nights provide friendly competition and build better relationships. By getting out of our usual environment and doing out-of-the-ordinary things together, we foster creativity and broaden our imaginations to accomplish new challenges.",
     "source": "MANUAL_ADMIN",
-    "title": "C++ Software Engineer (Early Career)",
+    "title": "C++ Software Engineer",
     "salary": {
       "unit": "YEAR",
       "min": 80000,
@@ -9852,7 +9852,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "75070",
     "description": "United States of America\n\nUS-TX-MCKINNEY-513PW ~ 2501 W University Dr ~ PW BLDG\n\nJoin the Software Engineering team at Raytheon, where we develop cutting-edge software applications focused on solving our customers' toughest defense challenges. In this role, you will be part of an elite software engineering team to design, code, integrate, and test critical real-time embedded software with applications to advanced next generation sensor, guidance, and fire control systems. Operating at the leading edge of technology, you will contribute across all phases of the software development lifecycle to deliver innovative solutions that help keep our nation and allies safe.",
     "source": "MANUAL_ADMIN",
-    "title": "Embedded Software Engineer I (Onsite)",
+    "title": "Embedded Software Engineer I",
     "salary": {
       "unit": "YEAR",
       "min": 57200,
@@ -10687,7 +10687,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "fingerprint": "rtx-software-engineer-i-onsite--tucson-az",
     "description": "United States of America\n\nUS-AZ-TUCSON-805 ~ 1151 E Hermans Rd ~ BLDG 805\n\nRaytheon brings the strength of more than 100 years of experience and renowned engineering expertise to meet the needs of today’s mission and stay ahead of tomorrow’s threat. We deliver solutions that help our nation and allies defend freedoms and deter aggression, creating a safer, more secure world. Join us and help shape the future of aerospace and defense.\n\nJoin the Software Engineering Directorate’s Effectors Center team at Raytheon, where you will develop precision software applications that power the next generation of defense capabilities. In this role, you will design, code, integrate, and test critical real-time embedded software and firmware on missiles, launchers, radars, and naval fire control systems. Working as part of a fast-paced agile team at the leading edge of technology, you will gain hands-on exposure across the full software development lifecycle—advancing real-time systems design, digital signal processing, machine learning, and DevOps methodologies while helping defend our nation and allies.\n\nThis position is an onsite role located in Tucson, AZ.",
     "location": "Tucson, AZ",
-    "title": "Software Engineer I (Onsite)",
+    "title": "Software Engineer I",
     "salary": {
       "unit": "YEAR",
       "currency": "USD",
@@ -11920,7 +11920,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Full Stack",
     "companyWebsite": "https://www.rhondosinc.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=rhondosinc.com",
     "healthStatus": "HEALTHY",
     "responsibilities": [
@@ -11977,7 +11977,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Full Stack",
     "companyWebsite": "https://remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc..com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "fingerprint": "flexcompute-flexcompute-ambassador-program-remote",
     "title": "Flexcompute Ambassador Program",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=remote-flexcompute-ambassador-program-in-watertown-at-flexcompute-inc..com",
@@ -12011,7 +12011,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "city": "New York",
     "postalCode": "94105",
     "source": "MANUAL_ADMIN",
-    "title": "Junior Designer Marketing (Hybrid)",
+    "title": "Junior Designer Marketing",
     "salary": {
       "unit": "YEAR",
       "min": 60000,
@@ -12056,7 +12056,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, New York (NY), United States",
     "category": "Frontend",
     "companyWebsite": "https://www.penguinrandomhouse.com/",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nA high-impact opportunity for early-career developers looking to write clean, accessible frontend code and optimize client-side web performance within an active sprint cadence.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Polish interactive Figma component variants, responsive design tokens, and user flow accessibility.\n• Interview Focus: Walk through your end-to-end design thinking, user friction trade-offs, and interactive prototype feedback.\n• Portfolio Signal: Have 2–3 case studies ready showing problem framing, iterative wireframes, and interactive Figma prototypes.\n• Compensation Range: Verified employer range of ~USD 60k–60k/year with career progression reviews.\n• Location: Based in New York, New York (NY), United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nPenguin Publishing Group seeks a Junior Designer to join our dynamic Advertising and Promotions Marketing team. This position requires strong organizational and time management skills and the ability to work on a variety of projects in an intense and fast-paced environment. The Junior Designer will manage simultaneous digital, print, and motion graphic projects to support marketing efforts across physical material, web, social, and email platforms. This individual will be an active team member who creates and executes customized campaigns across our list.",
     "lastHealthCheckedAt": "2026-10-21T17:44:16.175Z"
@@ -12067,7 +12067,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "city": "Austin",
     "postalCode": "94105",
     "source": "MANUAL_ADMIN",
-    "title": "Junior AI Software Engineer (austin)",
+    "title": "Junior AI Software Engineer",
     "salary": {
       "unit": "YEAR",
       "min": 0,
@@ -12108,7 +12108,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Austin, TX / Hybrid",
     "category": "Data / AI",
     "companyWebsite": "https://www.texassportsacademymain.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "companyLogo": "https://www.google.com/s2/favicons?domain=texassportsacademymain.com&sz=128",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists focused on data reliability, reporting pipelines, and schema modeling. This opening at Texas Sports Academy Main emphasizes hands-on data manipulation alongside senior database architects.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Review SQL joins, aggregation pipelines, schema normalization, and Python, SQL, Machine Learning, PyTorch.\n• Interview Focus: Texas Sports Academy Main evaluates systematic data troubleshooting, ETL schema hygiene, and clear cross-functional data storytelling.\n• Portfolio Signal: Prepare a repository or notebook highlighting SQL data transformations, schema diagrams, and data insight reports.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Austin, TX / Hybrid (Hybrid Work Model).\n\n🏢 Role Overview:\nTexas Sports Academy Main is actively seeking a Junior AI Software Engineer (austin) to join their team. Candidates will collaborate closely with experienced mentors, contributing directly to live product workflows and customer-facing features.",
@@ -12155,7 +12155,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "United States / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://oneoncology.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=oneoncology.com",
     "healthStatus": "HEALTHY",
     "description": "OneOncology is positioning community oncologists to drive the future of medical care through a patient-centric, physician-driven, and technology-powered model to help improve the lives of everyone living with cancer and other diseases. Our team is bringing together leaders to the market place to help drive OneOncology’s mission and vision. Why join us? This is an exciting time to join OneOncology. Our values-driven culture reflects our startup enthusiasm supported by industry leaders in oncology, urology, technology, and finance. We are looking for talented and highly-motivated individuals who demonstrate a natural desire to improve and build new processes that support the meaningful work of independent physicians and the patients they serve. Job Description: OneOncology's Field Operations team delivers onsite technology support to our practices, serving as the hands-and-eyes of the IT organization at the point of patient care. Field Support Technicians work in close partnership with the centralized Service Desk, End User Computing, and IT Operations teams to keep clinicians and staff productive. The Field Support Technician I is a foundational field role focused on basic onsite troubleshooting, hardware setup, and learning core IT processes. This role is typically present in larger practices reporting to a Field Manager. The ideal candidate brings curiosity, reliability, and a strong customer service orientation to every interaction with clinicians and staff. This is a full-time onsite role in Forth Worth, TX, supporting various clinic locations. Responsibilities: Perform basic imaging and setup of devices under standard OneOncology processes. Assist with simple hardware, software, and network issues. Resolve low-complexity tickets with guidance from senior field technicians. Maintain accurate ticket notes and documentation in ServiceNow. Shadow senior technicians to learn field workflows and practice-specific systems. Support asset receiving, tagging, and stockroom organization. Assist with hardware onboarding and offboarding for practice users. Travel to other practice sites as needed. Additional responsibilities as assigned to help drive our mission of improving the lives of everyone living with cancer. Required or Preferred Qualifications (specify within): Basic hardware and software troubleshooting skills. Strong customer service and communication skills. Ability to follow procedures, checklists, and documented standards. Curiosity and willingness to learn new tools, systems, and processes. Time management and reliability. Experience with the following is a plus: ServiceNow, Microsoft 365, and Windows endpoints. Essential Competencies: High school diploma or GED required; college degree in a relevant field is preferred. 1 to 2 years of recent technical support or related experience. Basic IT knowledge (coursework, bootcamp, or self-study). Healthcare related experience a plus. A+ or similar entry-level certification preferred. Attendance is an essential job function. OneOncology was founded by community physicians, for community physicians, with the mission of improving the lives of everyone living with cancer and other diseases. Our goal is to enable community medical practices to remain independent and to improve patient access to care in their communities, all at a lower cost than in the hospital setting. OneOncology supports our platform of community medical practices through group purchasing, operational optimization, practice growth, and clinical innovation. Our partner practices comprise approximately 2,300+ providers who care for approximately 1.5 million patients across 20 states.",
@@ -12211,7 +12211,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Rochester / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://www.mindex.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=mindex.com",
     "healthStatus": "HEALTHY",
     "responsibilities": [
@@ -12220,7 +12220,7 @@ export const INITIAL_JOBS: JobPosting[] = [
       "Develop an awareness of overall service architecture and contribute to basic functions in ways that avoid duplication across codebases and prevent interface-breaking changes."
     ],
     "description": "We are looking for a student available to participate in a two-block co-op program from January 2027 to August 2027.\n\nWe are looking for On-site at least 3 days per week; 5 days (Monday–Friday) preferred.\n\n*Applicants must be authorized to work for ANY employer in the U.S. We are unable to sponsor (now or in the future) or take over sponsorship of an employment Visa at this time.\n\nMindex is looking for a motivated Co-op Software Engineer to join our team and gain hands-on experience building, testing, and delivering software solutions in a collaborative Agile environment. This is a great opportunity for a student or early-career candidate who is excited to grow technical skills, learn from experienced engineers, and contribute to meaningful projects that have real business impact.\n\nIn this role, you’ll work alongside Scrum team members and stakeholders, build a stronger understanding of software development best practices, and gain exposure to modern tools and technologies — including the responsible use of AI to improve efficiency, quality, and innovation.\n\nThe salary for this job is $22/hour.\n\nWhat You'll Accomplish\n\nBring an AI-first mindset by using AI-assisted tools and technologies to improve productivity, accelerate problem-solving, enhance quality, automate routine tasks, and support innovation.\n\nCollaborate with Scrum team members and stakeholders to share deliverable status, provide feedback, and contribute to plans, designs, specifications, source code, test scripts, and documentation.\n\nBuild a foundational understanding of debugging concepts and the tools used to troubleshoot software issues.\n\nGrow your technical knowledge with mentorship and guidance from more senior engineers.\n\nDevelop an awareness of overall service architecture and contribute to basic functions in ways that avoid duplication across codebases and prevent interface-breaking changes.\n\nUnderstand and apply the importance of security in software design, development, and delivery.\n\nSkills & Competencies\n\nAt least three years of education and/or prior Co-op experience.\n\nFamiliarity with Java, Angular, Oracle, OpenShift, Python, and/or ASP.NET.\n\nFamiliarity with test automation.\n\nKnowledge of object-oriented programming and RESTful web services.\n\nKnowledge of relational databases.\n\nFamiliarity with Agile/Scrum methodologies.\n\nSelf-starter mindset with the ability to contribute working software and test automation scripts.\n\nSound judgment in the ethical, secure, and compliant use of AI technologies while protecting confidential, customer, and company information.\n\nCuriosity about emerging AI capabilities, tools, and best practices, with the ability to identify opportunities to apply them effectively.\n\nIntrigue in using AI to streamline workflows, reduce manual effort, improve efficiency, and increase business value.\n\nAbility to use AI to support technical problem-solving and decision-making while maintaining ownership and accountability for final work products.\n\nCandidates must be based in the Rochester, NY area and available to work on-site at least three days per week, with a preference for five days per week, Monday through Friday, throughout the Co-op experience. Regular in-office participation provides valuable opportunities for mentorship, professional development, and collaboration.\n\nWhat You'll Gain\n\nHands-on experience working on meaningful software projects in a professional environment.\n\nExposure to Agile/Scrum practices and cross-functional teamwork.\n\nMentorship from experienced engineers who will support your technical and professional growth.\n\nExperience with modern development tools, testing practices, and AI-assisted technologies in a responsible and impactful way.\n\nAn opportunity to build real-world skills that will help prepare you for future software engineering roles.\n\nWhy Join Mindex For more than 30 years, Mindex has helped organizations solve complex business challenges through custom software, cloud, data and AI solutions. We combine deep technical expertise with a collaborative culture that empowers our employees to innovate, grow, and make a meaningful impact for our clients.\n\nIn our Product division, our teams have built platforms such as SchoolTool, Advanced Analytics, and Integrations Platform from the ground up, while also supporting solutions like MTSS Edge and ClearTrack that help schools and organizations make smarter, data-driven decisions.\n\nMindex Perks\n\nTickets to local sporting events\n\nTeambuilding events\n\nHoliday and celebration parties\n\nProfessional Development\n\nApplicants must be authorized to work for ANY employer in the U.S. We are unable to sponsor, or take over, sponsorship of an employment Visa at this time.\n\nPhysical Conditions/Requirements\n\nProlonged periods sitting at a desk and working on a computer\n\nNo heavy lifting is expected. Exertion of up to 10 lbs.",
-    "title": "Software Engineer Co-Op - On-site",
+    "title": "Software Engineer Co-Op",
     "qualifications": [
       "Applicants must be authorized to work for ANY employer in the U.S. We are unable to sponsor (now or in the future) or take over sponsorship of an employment Visa at this time.",
       "Grow your technical knowledge with mentorship and guidance from more senior engineers.",
@@ -12279,7 +12279,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Fort Wayne, IN, United States",
     "category": "Backend",
     "companyWebsite": "https://resultant.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "healthStatus": "HEALTHY",
     "description": "🎯 The FreshCommits Career Take:\nWell-suited for early-career technologists who thrive at the intersection of technical troubleshooting and client systems. This opening at Resultant emphasizes hands-on system integration and commercial velocity over isolated ticket queues.\n\n💡 Candidate Preparation Checklist:\n• Core Stack: Practice HTTP API troubleshooting (Postman/curl), log inspection, and Go.\n• Interview Focus: Hiring teams assess structured root-cause troubleshooting, clear written communication, and customer empathy during technical incidents.\n• Practical Signal: Be prepared to walk through a concrete example where you diagnosed an elusive software bug and guided users to a resolution.\n• Compensation: Competitive / Based on Experience (Employer did not disclose a public base salary in the requisition).\n• Location: Based in Fort Wayne, IN, United States (On-Site Team Collaboration).\n\n🏢 Role Overview:\nWe’re looking for someone who is genuinely comfortable working with computers and understands how desktop and laptop hardware works. This is a hands-on, onsite role where you’ll be working with PCs, laptops and related equipment, including setting up devices, installing hardware and troubleshooting basic issues.",
     "lastHealthCheckedAt": "2026-10-21T17:44:16.175Z"
@@ -12328,7 +12328,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Scottsdale, Arizona, United States",
     "category": "Backend",
     "companyWebsite": "https://illumiallc.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=illumiallc.com",
     "qualifications": [
@@ -12390,7 +12390,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Levallois-Perret, , France",
     "category": "Backend",
     "companyWebsite": "https://sapitbusinesssysteme.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "fingerprint": "sap-it-business-systeme-internship-ai-automation-developer-f-m-levallois-perret-france",
     "title": "Internship: AI Automation Developer F/M",
     "healthStatus": "HEALTHY",
@@ -12428,7 +12428,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Manchester / Hybrid",
     "category": "DevOps / Cloud",
     "companyWebsite": "https://www.ubdsgroup.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=ubdsgroup.com",
     "qualifications": [
@@ -12489,7 +12489,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, NY",
     "category": "Data / AI",
     "companyWebsite": "https://evolutioniq.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "responsibilities": [
       "Act as the primary point of contact for client users, managing incoming inquiries via email, chat, and ticketing systems.",
       "Diagnose and resolve technical issues related to the EvolutionIQ platform; replicate bugs and work with Solutions Engineering to escalate complex problems.",
@@ -12541,7 +12541,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Boston, MA / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://www.hyperlight.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "healthStatus": "HEALTHY",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=hyperlight.com",
     "qualifications": [
@@ -12997,7 +12997,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "city": "Thành phố Hồ Chí Minh",
     "postalCode": "94105",
     "source": "MANUAL_ADMIN",
-    "title": "Environmental Engineer (Open for freshers) ",
+    "title": "Environmental Engineer (Open for freshers)",
     "salary": {
       "unit": "YEAR",
       "min": 95000,
@@ -13089,7 +13089,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "city": "Maastricht",
     "postalCode": "94105",
     "source": "MANUAL_ADMIN",
-    "title": "(Junior) IT Field Service Engineer",
+    "title": "Junior IT Field Service Engineer",
     "salary": {
       "unit": "YEAR",
       "min": 2800,
