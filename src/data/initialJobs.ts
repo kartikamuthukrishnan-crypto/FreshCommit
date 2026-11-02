@@ -2310,7 +2310,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792773738702",
     "state": "NY",
     "datePosted": "2026-10-23",
-    "validThrough": "2026-11-22",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=stripe.com",
     "isRemote": false,
@@ -2320,7 +2320,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, NY",
     "category": "Backend",
     "companyWebsite": "https://stripe.com/jobs",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "UNITED STATES",
@@ -3858,7 +3859,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792603492719",
     "state": "CA",
     "datePosted": "2026-10-21",
-    "validThrough": "2026-11-20",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
     "isRemote": false,
@@ -3868,8 +3869,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Los Angeles, CA",
     "category": "DevOps / Cloud",
     "companyWebsite": "https://amazon.jobs",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK",
     "qualifications": [
       "Bachelor's degree in Computer Science, Data Science, Mathematics, Statistics, or equivalent practical experience.",
       "2 years of hands-on experience with Python, SQL, and data analysis frameworks (e.g., Pandas, NumPy).",
@@ -4695,7 +4696,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792508776692",
     "state": "WA",
     "datePosted": "2026-10-20",
-    "validThrough": "2026-11-19",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
     "isRemote": false,
@@ -4705,8 +4706,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://amazon.jobs",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK",
     "qualifications": [
       "Bachelor's degree in Computer Science, Software Engineering, or equivalent practical/bootcamp experience.",
       "2 years of software engineering experience or relevant university project/open-source contributions.",

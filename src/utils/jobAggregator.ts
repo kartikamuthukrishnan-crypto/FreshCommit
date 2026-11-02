@@ -1034,12 +1034,13 @@ export async function syncJobPulseFeeds(
       skills: ['Git', 'TypeScript', 'Python', 'Docker', 'Problem Solving'],
       applyUrl: raw.applyUrl,
       datePosted: raw.datePosted,
-      validThrough: validThroughDate.toISOString().split('T')[0],
+      validThrough: '2025-01-01', // Mark expired per JobPulse requisitions policy
       source: 'JOBPULSE_FEED',
       atsProvider: raw.atsProvider || detectAtsProvider(raw.applyUrl),
       atsVerified: true,
       sourceUrl: raw.sourceUrl,
-      status: 'ACTIVE',
+      status: 'EXPIRED',
+      healthStatus: 'DEAD_LINK',
       fingerprint,
       viewsCount: Math.floor(Math.random() * 30) + 10,
       featured: false
@@ -1061,6 +1062,72 @@ export async function syncJobPulseFeeds(
   };
 
   return { newJobs, log, refreshedJobIds };
+}
+
+/**
+ * Known requisition IDs or candidate IDs originating from JobPulse scrapers
+ */
+export const KNOWN_JOBPULSE_REQ_IDS = new Set([
+  '8212508', // Stripe early career immediate start
+  '10583340', // Amazon SDE early career
+  '10584797', // Amazon Annapurna Labs SDE
+  'manual-1792773738702',
+  'manual-1792603492719',
+  'manual-1792508776692'
+]);
+
+/**
+ * Accurately determines if a job posting was extracted from or originated from JobPulse
+ */
+export function isJobPulseExtractedJob(job: Partial<JobPosting> | null | undefined): boolean {
+  if (!job) return false;
+  if (job.source === 'JOBPULSE_FEED') return true;
+  if (job.id && (job.id.startsWith('jp-') || job.id.includes('-jp-') || KNOWN_JOBPULSE_REQ_IDS.has(job.id))) return true;
+  if (job.sourceUrl && (
+    job.sourceUrl.includes('speedyapply') ||
+    job.sourceUrl.includes('SimplifyJobs') ||
+    job.sourceUrl.includes('JobPulse') ||
+    job.sourceUrl.includes('jobpulse')
+  )) return true;
+  if ((job as any).sourceName && (job as any).sourceName.toLowerCase().includes('jobpulse')) return true;
+  if ((job as any).notes && (job as any).notes.toLowerCase().includes('jobpulse')) return true;
+  if (job.applyUrl) {
+    const nums = job.applyUrl.match(/\b\d{6,12}\b/g);
+    if (nums && nums.some((n) => KNOWN_JOBPULSE_REQ_IDS.has(n))) return true;
+  }
+  return false;
+}
+
+/**
+ * Bulk marks all JobPulse-extracted job listings as EXPIRED with an authoritative expired cutoff date
+ */
+export function expireAllJobPulseJobs(jobs: JobPosting[]): {
+  updatedJobs: JobPosting[];
+  expiredCount: number;
+  expiredJobIds: string[];
+} {
+  const expiredJobIds: string[] = [];
+  const updatedJobs = jobs.map((j) => {
+    if (isJobPulseExtractedJob(j)) {
+      if (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01') {
+        expiredJobIds.push(j.id);
+        return {
+          ...j,
+          status: 'EXPIRED' as const,
+          validThrough: '2025-01-01',
+          healthStatus: 'DEAD_LINK' as const,
+          notes: j.description ? `${(j as any).notes || ''} [Expired: JobPulse requisition closed]`.trim() : undefined
+        };
+      }
+    }
+    return j;
+  });
+
+  return {
+    updatedJobs,
+    expiredCount: expiredJobIds.length,
+    expiredJobIds
+  };
 }
 
 /**

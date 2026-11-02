@@ -6,6 +6,8 @@ import {
   executeAutomatedSync,
   syncSmartRecruitersJobs,
   syncJobPulseFeeds,
+  isJobPulseExtractedJob,
+  expireAllJobPulseJobs,
   isJobExpired,
   getDaysUntilExpiration,
   checkDuplicateJob,
@@ -305,7 +307,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [copiedSchema, setCopiedSchema] = useState(false);
   // Manage Listings State
   const [manageSearchQuery, setManageSearchQuery] = useState('');
-  const [manageStatusFilter, setManageStatusFilter] = useState<'all' | 'active' | 'drafts' | 'expired' | 'dead_or_flagged' | 'stem_opt'>('all');
+  const [manageStatusFilter, setManageStatusFilter] = useState<'all' | 'active' | 'drafts' | 'expired' | 'dead_or_flagged' | 'stem_opt' | 'jobpulse'>('all');
   const [manageCurrentPage, setManageCurrentPage] = useState(1);
   const [managePageSize, setManagePageSize] = useState(10);
   const [selectedJobIds, setSelectedJobIds] = useState<Set<string>>(new Set());
@@ -939,30 +941,21 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
+  const [jpExpiring, setJpExpiring] = useState(false);
+
   const handleTriggerJobPulseSync = async () => {
     setJpLoading(true);
     try {
-      const { newJobs, log, refreshedJobIds } = await syncJobPulseFeeds(jobs, {
+      const { newJobs, log } = await syncJobPulseFeeds(jobs, {
         includeInternships: jpIncludeInternships
       });
       if (newJobs.length > 0) {
         batchSaveJobsToCloud(newJobs).catch((e) => console.warn('Cloud sync error for JobPulse jobs:', e));
       }
-      setJobs((prev) => {
-        let updated = [...prev];
-        if (refreshedJobIds && refreshedJobIds.length > 0) {
-          const validDate = new Date();
-          validDate.setDate(validDate.getDate() + 45);
-          const extended = validDate.toISOString().split('T')[0];
-          updated = updated.map((j) =>
-            refreshedJobIds.includes(j.id) ? { ...j, atsVerified: true, validThrough: extended } : j
-          );
-        }
-        return [...newJobs, ...updated];
-      });
+      setJobs((prev) => [...newJobs, ...prev]);
       setSyncLogs((prev) => [log, ...prev]);
       if (newJobs.length > 0) {
-        alert(`🚀 JobPulse Feed Synchronized!\n\nAdded ${newJobs.length} new 2026/2027 entry-level & new grad roles (with verified direct ATS apply links and salary bands) to your inventory!`);
+        alert(`🚀 JobPulse Feed Synchronized!\n\nIngested ${newJobs.length} roles from JobPulse (marked as EXPIRED / archived per site policy).`);
       } else {
         alert('JobPulse sync complete: All roles are already up-to-date and deduplicated.');
       }
@@ -971,6 +964,29 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       alert('JobPulse sync failed. Please check network connection.');
     } finally {
       setJpLoading(false);
+    }
+  };
+
+  const handleExpireAllJobPulseJobs = async () => {
+    if (!confirm('Are you sure you want to expire all job listings extracted from JobPulse? Their status will be set to EXPIRED in Firestore and across all visitor views.')) {
+      return;
+    }
+    setJpExpiring(true);
+    try {
+      const { updatedJobs, expiredCount, expiredJobIds } = expireAllJobPulseJobs(jobs);
+      if (expiredCount === 0) {
+        alert('All JobPulse listings are already marked as EXPIRED in inventory.');
+        return;
+      }
+      const modifiedJobs = updatedJobs.filter((j) => expiredJobIds.includes(j.id));
+      await batchSaveJobsToCloud(modifiedJobs);
+      setJobs(updatedJobs);
+      alert(`✅ Successfully expired ${expiredCount} job(s) extracted from JobPulse!\n\nAll JobPulse listings have been updated to EXPIRED in Firestore and removed from active candidate searches.`);
+    } catch (err) {
+      console.error('Error expiring JobPulse jobs in cloud:', err);
+      alert('Encountered an issue updating jobs in Firestore.');
+    } finally {
+      setJpExpiring(false);
     }
   };
 
@@ -1299,6 +1315,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const deadOrFlaggedJobs = jobs.filter(
     (j) => j.healthStatus === 'DEAD_LINK' || (j.closedReportCount || 0) >= 1 || healthAuditResults.get(j.id)?.isAlive === false
   );
+  const jobPulseJobs = jobs.filter(isJobPulseExtractedJob);
+  const jobPulseActiveCount = jobPulseJobs.filter((j) => !isJobExpired(j) && j.status === 'ACTIVE').length;
+  const jobPulseExpiredCount = jobPulseJobs.length - jobPulseActiveCount;
 
   const getJobSortTimestamp = (j: JobPosting): number => {
     if (j.id && j.id.startsWith('manual-')) {
@@ -1318,6 +1337,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       if (manageStatusFilter === 'drafts' && job.status !== 'DRAFT') return false;
       if (manageStatusFilter === 'expired' && (job.status === 'DRAFT' || !isJobExpired(job))) return false;
       if (manageStatusFilter === 'stem_opt' && !job.stemOptEVerified) return false;
+      if (manageStatusFilter === 'jobpulse' && !isJobPulseExtractedJob(job)) return false;
       if (manageStatusFilter === 'dead_or_flagged') {
         const isDead = job.healthStatus === 'DEAD_LINK' || (job.closedReportCount || 0) >= 1 || healthAuditResults.get(job.id)?.isAlive === false;
         if (!isDead) return false;
@@ -3225,14 +3245,58 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </span>
                 </div>
 
-                <button
-                  onClick={handleTriggerJobPulseSync}
-                  disabled={jpLoading}
-                  className="w-full sm:w-auto px-5 py-2.5 bg-sky-700 hover:bg-sky-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition-all disabled:opacity-50 cursor-pointer shrink-0"
-                >
-                  <RefreshCw className={`w-3.5 h-3.5 ${jpLoading ? 'animate-spin' : ''}`} />
-                  <span>{jpLoading ? 'Synchronizing JobPulse Feeds...' : 'Sync JobPulse Daily Jobs'}</span>
-                </button>
+                <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap">
+                  <button
+                    onClick={handleTriggerJobPulseSync}
+                    disabled={jpLoading}
+                    className="w-full sm:w-auto px-4 py-2 bg-sky-700 hover:bg-sky-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition-all disabled:opacity-50 cursor-pointer shrink-0"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${jpLoading ? 'animate-spin' : ''}`} />
+                    <span>{jpLoading ? 'Synchronizing Feeds...' : 'Sync JobPulse Daily Jobs'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleExpireAllJobPulseJobs}
+                    disabled={jpExpiring || jobPulseActiveCount === 0}
+                    className={`w-full sm:w-auto px-4 py-2 font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 ${
+                      jobPulseActiveCount > 0
+                        ? 'bg-rose-600 hover:bg-rose-700 text-white'
+                        : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
+                    }`}
+                    title="Expire all listings extracted from JobPulse in Firestore and feed"
+                  >
+                    <Clock className={`w-3.5 h-3.5 ${jpExpiring ? 'animate-spin' : ''}`} />
+                    <span>{jpExpiring ? 'Expiring Listings...' : 'Expire All JobPulse Jobs'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* JobPulse Inventory & Expiration Status Bar */}
+              <div className="mt-3.5 p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 flex items-center justify-between gap-3 flex-wrap text-xs">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-bold text-slate-700">JobPulse Inventory:</span>
+                  <span className="font-semibold px-2 py-0.5 rounded-full bg-slate-200 text-slate-800 text-[11px]">
+                    {jobPulseJobs.length} Total
+                  </span>
+                  {jobPulseActiveCount > 0 ? (
+                    <span className="font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 text-[11px] flex items-center gap-1">
+                      ⚠️ {jobPulseActiveCount} Active
+                    </span>
+                  ) : (
+                    <span className="font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[11px] flex items-center gap-1">
+                      ✓ 0 Active (All Expired)
+                    </span>
+                  )}
+                  <span className="font-medium px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-[11px]">
+                    {jobPulseExpiredCount} Expired
+                  </span>
+                </div>
+
+                <div className="text-[11px] text-slate-500">
+                  {jobPulseActiveCount > 0
+                    ? `${jobPulseActiveCount} JobPulse role(s) pending expiration.`
+                    : 'All extracted JobPulse requisitions are expired.'}
+                </div>
               </div>
             </div>
           </div>
@@ -3474,6 +3538,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 { id: 'active', label: `Active (${liveActiveJobs.length})` },
                 { id: 'stem_opt', label: `🎓 STEM OPT (${jobs.filter((j) => j.stemOptEVerified).length})` },
                 { id: 'expired', label: `Expired (${expiredJobs.length})` },
+                { id: 'jobpulse', label: `⚡ JobPulse (${jobPulseJobs.length})` },
                 { id: 'dead_or_flagged', label: `Flagged/Dead (${deadOrFlaggedJobs.length})` },
               ].map((filter) => {
                 const isActive = manageStatusFilter === filter.id;
@@ -3723,6 +3788,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             {job.stemOptEVerified && (
                               <span className="text-[9px] bg-teal-100 text-teal-800 font-bold px-1.5 py-0.5 rounded border border-teal-300 whitespace-nowrap" title="USCIS E-Verify Enrolled Employer">
                                 🎓 STEM OPT
+                              </span>
+                            )}
+                            {isJobPulseExtractedJob(job) && (
+                              <span className="text-[9px] bg-sky-100 text-sky-800 font-bold px-1.5 py-0.5 rounded border border-sky-300 whitespace-nowrap" title="Extracted from JobPulse / Tracker">
+                                ⚡ JobPulse
                               </span>
                             )}
                           </div>

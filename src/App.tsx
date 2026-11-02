@@ -25,7 +25,7 @@ import { FeaturedEditorialSection } from './components/FeaturedEditorialSection'
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
 import { trackPageView, disableAnalyticsForAdmin } from './utils/analytics';
-import { isJobExpired } from './utils/jobAggregator';
+import { isJobExpired, isJobPulseExtractedJob } from './utils/jobAggregator';
 import { getFocusKeywordForJob, stripSyntheticSpamBoilerplate } from './utils/textHumanizer';
 import {
   subscribeToLiveJobs,
@@ -136,7 +136,16 @@ export default function App() {
               if (!isThinStub) {
                 seen.add(item.id);
                 const cleanedDesc = stripSyntheticSpamBoilerplate(item.description || '');
-                deduped.push(cleanedDesc !== item.description ? { ...item, description: cleanedDesc } : item);
+                let finalItem = cleanedDesc !== item.description ? { ...item, description: cleanedDesc } : item;
+                if (isJobPulseExtractedJob(finalItem)) {
+                  finalItem = {
+                    ...finalItem,
+                    status: 'EXPIRED',
+                    validThrough: '2025-01-01',
+                    healthStatus: 'DEAD_LINK'
+                  };
+                }
+                deduped.push(finalItem);
               }
             }
           }
@@ -150,7 +159,16 @@ export default function App() {
     }
     return INITIAL_JOBS.map((j) => {
       const cleaned = stripSyntheticSpamBoilerplate(j.description || '');
-      return cleaned !== j.description ? { ...j, description: cleaned } : j;
+      let finalJob = cleaned !== j.description ? { ...j, description: cleaned } : j;
+      if (isJobPulseExtractedJob(finalJob)) {
+        finalJob = {
+          ...finalJob,
+          status: 'EXPIRED',
+          validThrough: '2025-01-01',
+          healthStatus: 'DEAD_LINK'
+        };
+      }
+      return finalJob;
     });
   });
 
@@ -190,9 +208,20 @@ export default function App() {
     // Subscribe to live cloud jobs (Firestore is authoritative source of truth)
     const unsubscribeJobs = subscribeToLiveJobs((cloudJobs) => {
       if (cloudJobs && cloudJobs.length > 0) {
-        setJobs(cloudJobs);
+        const sanitizedCloudJobs = cloudJobs.map((j) => {
+          if (isJobPulseExtractedJob(j) && (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01')) {
+            return {
+              ...j,
+              status: 'EXPIRED' as const,
+              validThrough: '2025-01-01',
+              healthStatus: 'DEAD_LINK' as const
+            };
+          }
+          return j;
+        });
+        setJobs(sanitizedCloudJobs);
         try {
-          localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(cloudJobs));
+          localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(sanitizedCloudJobs));
         } catch {
           // ignore
         }
