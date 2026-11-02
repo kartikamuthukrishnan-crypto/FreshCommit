@@ -1034,13 +1034,13 @@ export async function syncJobPulseFeeds(
       skills: ['Git', 'TypeScript', 'Python', 'Docker', 'Problem Solving'],
       applyUrl: raw.applyUrl,
       datePosted: raw.datePosted,
-      validThrough: '2025-01-01', // Mark expired per JobPulse requisitions policy
+      validThrough: validThroughDate.toISOString().split('T')[0],
       source: 'JOBPULSE_FEED',
       atsProvider: raw.atsProvider || detectAtsProvider(raw.applyUrl),
       atsVerified: true,
       sourceUrl: raw.sourceUrl,
-      status: 'EXPIRED',
-      healthStatus: 'DEAD_LINK',
+      status: 'DRAFT',
+      healthStatus: 'HEALTHY',
       fingerprint,
       viewsCount: Math.floor(Math.random() * 30) + 10,
       featured: false

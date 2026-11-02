@@ -955,7 +955,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       setJobs((prev) => [...newJobs, ...prev]);
       setSyncLogs((prev) => [log, ...prev]);
       if (newJobs.length > 0) {
-        alert(`🚀 JobPulse Feed Synchronized!\n\nIngested ${newJobs.length} roles from JobPulse (marked as EXPIRED / archived per site policy).`);
+        alert(`🚀 JobPulse Feed Synchronized!\n\nIngested ${newJobs.length} verified ATS role(s) directly into DRAFTS.\n\nAll roles are held in your review queue (Manage Listings -> 📝 Drafts) until you review and publish them live.`);
       } else {
         alert('JobPulse sync complete: All roles are already up-to-date and deduplicated.');
       }
