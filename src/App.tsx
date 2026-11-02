@@ -1425,8 +1425,14 @@ export default function App() {
               </div>
             </section>
 
+            {/* Publisher Spotlight: 3 Premier Original Editorial Guides */}
+            <FeaturedEditorialSection
+              onOpenArticle={handleOpenArticle}
+              onViewAllGuides={() => handleTabChange('insights')}
+            />
+
             {/* Google-Style Search & Filter Console Section */}
-            <section className="bg-[#F0F8FF] border-b border-[#dadce0] py-8 px-4 sm:px-6 lg:px-8">
+            <section id="job-feed-section" className="bg-[#F0F8FF] border-b border-[#dadce0] py-8 px-4 sm:px-6 lg:px-8 scroll-mt-20">
               <div className="max-w-4xl mx-auto">
                 {/* Search Bar Container */}
                 <div className="bg-white border-2 border-slate-400 hover:border-[#1a73e8] focus-within:border-[#1a73e8] focus-within:ring-4 focus-within:ring-[#1a73e8]/20 shadow-sm rounded-full px-5 py-3.5 flex items-center gap-3 transition-all mb-4">
@@ -1563,14 +1569,8 @@ export default function App() {
               </div>
             </section>
 
-            {/* Publisher Spotlight: 3 Premier Original Editorial Guides */}
-            <FeaturedEditorialSection
-              onOpenArticle={handleOpenArticle}
-              onViewAllGuides={() => handleTabChange('insights')}
-            />
-
             {/* Job Listings Grid & In-Feed Ads */}
-            <div id="job-feed-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-mt-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">

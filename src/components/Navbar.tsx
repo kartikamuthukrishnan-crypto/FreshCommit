@@ -41,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Desktop Navigation Links (Single-Line Professional Layout) */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-3 h-full overflow-hidden">
             <a
-              id="nav-tab-jobs"
+              id="nav-tab-home"
               href="/"
               onClick={(e) => {
                 e.preventDefault();
@@ -53,18 +53,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span>Job Feed</span>
-              <span className="text-[10px] bg-[#f1f3f4] text-[#5f6368] px-1.5 py-0.5 rounded-full font-mono font-medium">
-                {jobCount}
-              </span>
+              <Home className="w-3.5 h-3.5 text-[#1a73e8]" />
+              <span>Home</span>
             </a>
 
             <a
-              id="nav-tab-directory"
+              id="nav-tab-jobs"
               href="/jobs"
               onClick={(e) => {
                 e.preventDefault();
@@ -76,10 +70,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
-              <Briefcase className="w-3.5 h-3.5 text-[#1a73e8]" />
-              <span>Browse Jobs</span>
-              <span className="hidden xl:inline-flex text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                Directory
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>Jobs</span>
+              <span className="text-[10px] bg-[#f1f3f4] text-[#5f6368] px-1.5 py-0.5 rounded-full font-mono font-medium">
+                {jobCount}
               </span>
             </a>
 
@@ -97,7 +94,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <Building2 className="w-3.5 h-3.5 text-blue-600" />
-              <span>Company Hubs</span>
+              <span>Companies</span>
               <span className="hidden xl:inline-flex text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
                 FAANG
               </span>
@@ -129,11 +126,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'insights'
                   ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
-                  : 'text-[#202124] hover:text-[#1a73e8]'
+                  : 'text-[#5f6368] hover:text-[#202124]'
               }`}
             >
               <BookOpen className="w-3.5 h-3.5 text-violet-600" />
-              <span className="font-semibold">Guides &amp; Insights</span>
+              <span className="font-semibold">Insights</span>
               <span className="hidden xl:inline-flex text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-800 border border-violet-200">
                 Editorial
               </span>
@@ -321,11 +318,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
           }`}
         >
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-          </span>
-          <span>Jobs ({jobCount})</span>
+          <Home className="w-3 h-3 text-[#1a73e8]" />
+          <span>Home</span>
         </button>
 
         <button
@@ -336,11 +330,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           className={`flex items-center gap-1.5 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
             activeTab === 'jobs-directory'
               ? 'bg-[#1a73e8] text-white shadow-2xs font-semibold'
-              : 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
+              : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
           }`}
         >
-          <Briefcase className="w-3 h-3 text-emerald-600" />
-          <span>Browse All</span>
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+          </span>
+          <span>Jobs ({jobCount})</span>
         </button>
 
         <button
@@ -385,7 +382,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           <Building2 className="w-3 h-3 text-blue-600" />
-          <span>FAANG Hubs</span>
+          <span>Companies</span>
         </button>
 
         <button
@@ -400,7 +397,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           <BarChart3 className="w-3 h-3 text-teal-600" />
-          <span>Salary Index</span>
+          <span>Salary</span>
         </button>
 
         <button
@@ -415,7 +412,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           <Layers className="w-3 h-3 text-indigo-600" />
-          <span>SWE Blueprints</span>
+          <span>Blueprints</span>
         </button>
 
         <button
@@ -430,7 +427,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           <BookOpen className="w-3 h-3 text-violet-600" />
-          <span className="font-semibold">Guides &amp; Editorial</span>
+          <span className="font-semibold">Insights</span>
         </button>
       </div>
 
@@ -453,8 +450,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <Briefcase className="w-4 h-4 text-indigo-600" />
-              <span>Job Feed</span>
+              <Home className="w-4 h-4 text-[#1a73e8]" />
+              <span>Home</span>
             </span>
             <span className="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-mono">{jobCount}</span>
           </a>
@@ -472,7 +469,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <span className="flex items-center gap-2">
               <Briefcase className="w-4 h-4 text-[#1a73e8]" />
-              <span>Browse All Jobs Directory</span>
+              <span>Jobs</span>
             </span>
             <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full uppercase">100+ Live</span>
           </a>
@@ -490,7 +487,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <span className="flex items-center gap-2">
               <Building2 className="w-4 h-4 text-blue-600" />
-              <span>Company Hubs (FAANG &amp; Tech)</span>
+              <span>Companies</span>
             </span>
             <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full uppercase">FAANG</span>
           </a>
@@ -507,7 +504,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <BarChart3 className="w-4 h-4 text-teal-600" />
-            Salary Index &amp; Guides
+            Salary
           </a>
 
           <a
@@ -522,7 +519,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <BookOpen className="w-4 h-4 text-violet-600" />
-            Career Insights &amp; Articles
+            Insights
           </a>
 
           <a
