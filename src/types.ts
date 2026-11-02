@@ -86,6 +86,7 @@ export interface SchemaValidationResult {
 
 export type AppTab =
   | 'jobs'
+  | 'jobs-directory'
   | 'companies'
   | 'salary-guide'
   | 'insights'

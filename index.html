@@ -2010,6 +2010,16 @@
             else if (hash.indexOf('job-') === 0) jobId = hash;
           }
 
+          // Check if browsing dedicated /jobs directory
+          if (!jobId && (pathname === '/jobs' || pathname === '/jobs/' || pathname === '/all-jobs')) {
+            document.title = 'Verified Entry-Level & New Grad Tech Jobs Directory (0–2 YoE) – FreshCommits';
+            var metaD = document.querySelector('meta[name="description"]');
+            if (metaD) metaD.content = 'Search and browse 100+ verified entry-level, fresher, and new grad software engineering jobs (0–2 YoE) across US & global tech hubs. Direct employer ATS links.';
+            var canLink = document.querySelector('link[rel="canonical"]');
+            if (canLink) canLink.href = 'https://www.freshcommits.com/jobs';
+            return;
+          }
+
           if (!jobId) return;
 
           // Sanitize jobId: strip accidental trailing spaces, URL encoded tokens, or copy-paste text
@@ -15283,6 +15293,10 @@
 
             // Strict singleton assignment: prevent duplicate JobPosting schema injection
             function applySchema() {
+              try {
+                var defaultSchema = document.getElementById('default-website-schema');
+                if (defaultSchema) defaultSchema.remove();
+              } catch (_) {}
               var existing = document.getElementById('google-job-posting-schema');
               if (existing) {
                 // If it already has valid JobPosting content, leave it intact
@@ -15432,7 +15446,7 @@
     </script>
 
     <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
+    <script id="default-website-schema" type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
@@ -15445,7 +15459,7 @@
           "description": "Curated 0-2 YoE entry-level and new grad software engineering job directory with direct company links, salary indices, and interactive technical career tools.",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://freshcommits.com/?q={search_term_string}",
+            "target": "https://freshcommits.com/jobs?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         },
@@ -15492,88 +15506,6 @@
               "knowsAbout": ["ATS Resume Screening Mechanics", "Technical Sourcing", "Salary Negotiation", "Early-Career Career Strategy"]
             }
           ]
-        },
-        {
-          "@type": "WebApplication",
-          "@id": "https://freshcommits.com/career-tools#mock-simulator",
-          "name": "FreshCommits Role Mock Interview Simulator",
-          "applicationCategory": "EducationalApplication",
-          "operatingSystem": "All",
-          "browserRequirements": "Requires JavaScript. Requires HTML5.",
-          "url": "https://freshcommits.com/career-tools",
-          "description": "Interactive 5-round technical mock interview simulator with audio voice drills, hint hints, model answers, and real-time candidate scoring for 0–2 YoE roles.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          }
-        },
-        {
-          "@type": "WebApplication",
-          "@id": "https://freshcommits.com/career-tools#readiness-auditor",
-          "name": "FreshCommits Commercial Readiness Auditor",
-          "applicationCategory": "DeveloperApplication",
-          "operatingSystem": "All",
-          "browserRequirements": "Requires JavaScript. Requires HTML5.",
-          "url": "https://freshcommits.com/career-tools",
-          "description": "60-second interactive portfolio diagnostic tool that checks early-career SWE GitHub repos against 10 production signals evaluated by tech leads.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          }
-        },
-        {
-          "@type": "WebApplication",
-          "@id": "https://freshcommits.com/career-tools#tc-calculator",
-          "name": "FreshCommits Total Compensation & Cliff Calculator",
-          "applicationCategory": "FinanceApplication",
-          "operatingSystem": "All",
-          "browserRequirements": "Requires JavaScript. Requires HTML5.",
-          "url": "https://freshcommits.com/career-tools",
-          "description": "Interactive software engineering total compensation calculator with 4-year equity vesting schedules, cliff models, and state/metro tax estimates.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          }
-        },
-        {
-          "@type": "WebApplication",
-          "@id": "https://freshcommits.com/career-tools#resume-grader",
-          "name": "FreshCommits Google XYZ Resume Bullet Grader",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "All",
-          "browserRequirements": "Requires JavaScript. Requires HTML5.",
-          "url": "https://freshcommits.com/career-tools",
-          "description": "Diagnostic resume bullet grader evaluating engineering project statements against Laszlo Bock's Google formula with instant metric optimizations.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          }
-        },
-        {
-          "@type": "WebApplication",
-          "@id": "https://freshcommits.com/career-tools#ats-matcher",
-          "name": "FreshCommits Instant ATS Tech Keyword Matcher",
-          "applicationCategory": "DeveloperApplication",
-          "operatingSystem": "All",
-          "browserRequirements": "Requires JavaScript. Requires HTML5.",
-          "url": "https://freshcommits.com/career-tools",
-          "description": "Free instant client-side ATS tech keyword matcher comparing developer resumes against job requisitions to calculate match scores and missing keywords.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          }
-        },
-        {
-          "@type": "CollectionPage",
-          "@id": "https://freshcommits.com/project-blueprints#hub",
-          "name": "Production-Ready Commercial Project Blueprints Hub",
-          "url": "https://freshcommits.com/project-blueprints",
-          "description": "Curated architectural specifications and implementation blueprints for early-career developers to build production-grade portfolio projects."
         }
       ]
     }

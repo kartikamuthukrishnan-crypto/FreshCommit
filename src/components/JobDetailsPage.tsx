@@ -320,7 +320,13 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
             </button>
             <span className="hidden md:inline text-[#dadce0]">|</span>
             <div className="hidden md:flex items-center gap-1.5 text-xs text-[#5f6368]">
-              <span>Jobs</span>
+              <a href="/" onClick={(e) => { e.preventDefault(); onBack(); }} className="hover:text-[#1a73e8] transition-colors">
+                Home
+              </a>
+              <ChevronRight className="w-3 h-3 text-[#80868b]" />
+              <a href="/jobs" onClick={(e) => { e.preventDefault(); onBack(); }} className="hover:text-[#1a73e8] transition-colors">
+                Jobs Directory
+              </a>
               <ChevronRight className="w-3 h-3 text-[#80868b]" />
               <span>{job.category || 'Engineering'}</span>
               <ChevronRight className="w-3 h-3 text-[#80868b]" />

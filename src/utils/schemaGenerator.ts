@@ -317,6 +317,19 @@ export function injectJobJsonLd(schema: Record<string, any>): () => void {
   const scriptId = 'google-job-posting-schema';
   let script = document.getElementById(scriptId) as HTMLScriptElement | null;
 
+  // Suppress any competing WebApplication / SoftwareApplication schemas so Googlebot & Rich Results Test evaluate ONLY this JobPosting
+  const competingScripts: { el: HTMLScriptElement; origText: string }[] = [];
+  try {
+    const allLd = document.querySelectorAll('script[type="application/ld+json"]');
+    allLd.forEach((s) => {
+      if (s.id !== scriptId && (s.textContent?.includes('WebApplication') || s.textContent?.includes('SoftwareApplication'))) {
+        competingScripts.push({ el: s as HTMLScriptElement, origText: s.textContent || '' });
+        s.setAttribute('data-disabled-on-job', 'true');
+        s.textContent = '';
+      }
+    });
+  } catch (_) {}
+
   if (!script) {
     script = document.createElement('script');
     script.id = scriptId;
@@ -331,5 +344,10 @@ export function injectJobJsonLd(schema: Record<string, any>): () => void {
     if (existing) {
       existing.remove();
     }
+    // Restore competing scripts when navigating away from job details view
+    competingScripts.forEach(({ el, origText }) => {
+      el.removeAttribute('data-disabled-on-job');
+      el.textContent = origText;
+    });
   };
 }

@@ -5,6 +5,7 @@ import { CAREER_ARTICLES } from './data/careerArticles';
 import { Navbar } from './components/Navbar';
 import { JobCard } from './components/JobCard';
 import { JobDetailsPage } from './components/JobDetailsPage';
+const JobDirectoryView = lazy(() => import('./components/JobDirectoryView').then((m) => ({ default: m.JobDirectoryView })));
 const AdminPanel = lazy(() => import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel })));
 const SalaryGuideView = lazy(() => import('./components/OriginalGuides').then((m) => ({ default: m.SalaryGuideView })));
 const AdSensePolicyView = lazy(() => import('./components/OriginalGuides').then((m) => ({ default: m.AdSensePolicyView })));
@@ -277,6 +278,7 @@ export default function App() {
     try {
       // 1. Check clean path for crawlers, direct URLs and browser history
       const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
+      if (path === '/jobs' || path === '/all-jobs' || path === '/jobs-directory' || path === '/job-directory' || path.endsWith('/jobs')) return 'jobs-directory';
       if (path === '/privacy' || path === '/privacy-policy' || path === '/privacy-policy.html' || path.endsWith('/privacy-policy')) return 'privacy';
       if (path === '/about' || path === '/about-us' || path === '/about.html' || path.endsWith('/about')) return 'about';
       if (path === '/terms' || path === '/terms-of-service' || path === '/tos' || path.endsWith('/terms')) return 'terms';
@@ -309,6 +311,7 @@ export default function App() {
       const urlParams = new URLSearchParams(window.location.search);
       const view = urlParams.get('view');
       const companyParam = urlParams.get('company');
+      if (view === 'jobs-directory' || view === 'directory') return 'jobs-directory';
       if (view === 'companies' || view === 'company' || Boolean(companyParam)) return 'companies';
       if (view === 'salary-guide' || view === 'salary') return 'salary-guide';
       if (view === 'insights' || view === 'career-insights' || view === 'guides' || view === 'blog' || view === 'articles') return 'insights';
@@ -326,6 +329,7 @@ export default function App() {
       const rawHash = window.location.hash.replace('#', '');
       const hash = rawHash.toLowerCase();
       if (view === 'admin' || urlParams.get('admin') === 'true' || hash === 'admin') return 'admin';
+      if (hash === 'jobs-directory' || hash === 'directory' || hash === 'browse-jobs') return 'jobs-directory';
       if (hash === 'companies' || hash === 'company' || hash.startsWith('companies/') || hash.startsWith('company/')) return 'companies';
       if (hash === 'tools' || hash === 'calculator' || hash === 'career-tools' || hash === 'tc-calculator') return 'tools';
       if (hash === 'blueprints' || hash === 'project-blueprints') return 'blueprints';
@@ -352,6 +356,8 @@ export default function App() {
   // Helper to resolve title by active tab
   const getTabTitle = (tab: AppTab) => {
     switch (tab) {
+      case 'jobs-directory':
+        return 'Verified Entry-Level & New Grad Tech Jobs Directory (0–2 YoE) – FreshCommits';
       case 'companies':
         return 'FAANG & Tech Unicorn Early Career Hubs (2026) – FreshCommits';
       case 'salary-guide':
@@ -556,7 +562,8 @@ export default function App() {
   const handleCloseJob = () => {
     setSelectedJob(null);
     try {
-      window.history.pushState({}, '', '/');
+      const returnPath = activeTab === 'jobs-directory' ? '/jobs' : '/';
+      window.history.pushState({}, '', returnPath);
       document.title = getTabTitle(activeTab);
     } catch (e) {
       console.warn('Failed clearing job URL', e);
@@ -571,6 +578,7 @@ export default function App() {
     try {
       const routeMap: Record<AppTab, string> = {
         jobs: '/',
+        'jobs-directory': '/jobs',
         companies: '/companies',
         'salary-guide': '/salary-guide',
         insights: '/career-insights',
@@ -1072,20 +1080,31 @@ export default function App() {
                       Direct software engineering listings for entry level, freshers, and university graduates across US &amp; Global tech hubs &amp; remote.
                     </p>
 
-                    <div className="flex items-center gap-6 flex-wrap">
+                    <div className="flex items-center gap-4 flex-wrap">
+                      <a
+                        href="/jobs"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleTabChange('jobs-directory');
+                        }}
+                        className="bg-[#1a73e8] hover:bg-[#1557b0] text-white px-7 py-3.5 rounded-full font-medium text-sm transition-all shadow-xs hover:shadow-md cursor-pointer inline-flex items-center gap-2"
+                      >
+                        <Briefcase className="w-4 h-4" />
+                        <span>Browse Jobs Directory ({activeJobs.length})</span>
+                      </a>
                       <button
                         onClick={() => {
                           document.getElementById('job-feed-section')?.scrollIntoView({ behavior: 'smooth' });
                         }}
-                        className="bg-[#1a73e8] hover:bg-[#1557b0] text-white px-8 py-3.5 rounded-full font-medium text-sm transition-all shadow-xs hover:shadow-md cursor-pointer"
+                        className="bg-white border border-[#dadce0] hover:bg-[#f8f9fa] text-[#3c4043] px-6 py-3.5 rounded-full font-medium text-sm transition-all cursor-pointer"
                       >
-                        Explore Open Roles
+                        Quick Feed View
                       </button>
                       <button
                         onClick={() => handleTabChange('salary-guide')}
                         className="text-[#1a73e8] hover:text-[#1557b0] font-medium text-sm inline-flex items-center gap-1 group cursor-pointer"
                       >
-                        <span>Learn how salary guides work</span>
+                        <span>Salary guide</span>
                         <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                       </button>
                     </div>
@@ -1831,10 +1850,25 @@ export default function App() {
           fallback={
             <div className="max-w-4xl mx-auto py-24 px-4 text-center space-y-3">
               <div className="w-8 h-8 border-3 border-[#1a73e8] border-t-transparent rounded-full animate-spin mx-auto" />
-              <p className="text-xs font-semibold text-[#5f6368]">Loading view...</p>
+              <p className="text-xs font-semibold text-[#5f6368]">Loading directory...</p>
             </div>
           }
         >
+          {/* VIEW: DEDICATED SEPARATE JOBS LISTING & DIRECTORY PAGE (/jobs) */}
+          {activeTab === 'jobs-directory' && (
+            <JobDirectoryView
+              jobs={jobs}
+              onSelectJob={(job) => handleSelectJob(job, false)}
+              adConfig={adConfig}
+              savedJobIds={savedJobIds}
+              onToggleSaveJob={handleToggleSaveJob}
+              onNavigateTab={handleTabChange}
+              initialCategory={selectedCategory}
+              initialHub={selectedHub}
+              initialSearch={searchQuery}
+            />
+          )}
+
           {/* VIEW: FAANG & TECH UNICORN COMPANY HUBS */}
           {activeTab === 'companies' && (
             <CompanyHubsView

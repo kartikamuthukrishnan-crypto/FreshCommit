@@ -64,6 +64,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
 
             <a
+              id="nav-tab-directory"
+              href="/jobs"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveTab('jobs-directory');
+              }}
+              className={`h-full relative px-2.5 lg:px-3 text-xs lg:text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'jobs-directory'
+                  ? 'text-[#1a73e8] after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#1a73e8] after:rounded-t-full font-semibold'
+                  : 'text-[#5f6368] hover:text-[#202124]'
+              }`}
+            >
+              <Briefcase className="w-3.5 h-3.5 text-[#1a73e8]" />
+              <span>Browse Jobs</span>
+              <span className="hidden xl:inline-flex text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                Directory
+              </span>
+            </a>
+
+            <a
               id="nav-tab-companies"
               href="/companies"
               onClick={(e) => {
@@ -310,6 +330,21 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <button
           onClick={() => {
+            setActiveTab('jobs-directory');
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex items-center gap-1.5 px-3 py-1 rounded-full whitespace-nowrap font-medium text-xs transition-colors shrink-0 cursor-pointer ${
+            activeTab === 'jobs-directory'
+              ? 'bg-[#1a73e8] text-white shadow-2xs font-semibold'
+              : 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
+          }`}
+        >
+          <Briefcase className="w-3 h-3 text-emerald-600" />
+          <span>Browse All</span>
+        </button>
+
+        <button
+          onClick={() => {
             setActiveTab('tools');
             try { window.location.hash = '#ats-matcher'; } catch {}
             setIsMobileMenuOpen(false);
@@ -422,6 +457,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Job Feed</span>
             </span>
             <span className="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-mono">{jobCount}</span>
+          </a>
+
+          <a
+            href="/jobs"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab('jobs-directory');
+              setIsMobileMenuOpen(false);
+            }}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium ${
+              activeTab === 'jobs-directory' ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-600'
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <Briefcase className="w-4 h-4 text-[#1a73e8]" />
+              <span>Browse All Jobs Directory</span>
+            </span>
+            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full uppercase">100+ Live</span>
           </a>
 
           <a
