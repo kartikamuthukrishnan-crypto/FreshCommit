@@ -336,7 +336,7 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
               Verified Entry-Level &amp; New Grad Software Engineer Jobs
             </h1>
             <p className="text-sm sm:text-base text-[#5f6368] leading-relaxed">
-              Every position below is strictly filtered for <strong>0 to 2 years of experience</strong> with direct application links to company Applicant Tracking Systems (Greenhouse, Lever, Ashby, Workday).
+              Every position below is strictly filtered for <strong>0 to 2 years of experience</strong> with direct employer links.
             </p>
           </div>
 
@@ -347,7 +347,7 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
               <span className="text-lg font-bold text-[#202124]">{activeJobs.length}</span>
             </div>
             <div className="bg-[#f8f9fa] rounded-xl p-3 border border-[#e8eaed]">
-              <span className="text-[11px] text-[#5f6368] block">Direct ATS Verified</span>
+              <span className="text-[11px] text-[#5f6368] block">Employer Verified</span>
               <span className="text-lg font-bold text-[#137333]">100%</span>
             </div>
             <div className="bg-[#f8f9fa] rounded-xl p-3 border border-[#e8eaed]">
