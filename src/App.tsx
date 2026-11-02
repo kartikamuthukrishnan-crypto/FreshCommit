@@ -1863,6 +1863,7 @@ export default function App() {
               savedJobIds={savedJobIds}
               onToggleSaveJob={handleToggleSaveJob}
               onNavigateTab={handleTabChange}
+              onOpenArticle={handleOpenArticle}
               initialCategory={selectedCategory}
               initialHub={selectedHub}
               initialSearch={searchQuery}
