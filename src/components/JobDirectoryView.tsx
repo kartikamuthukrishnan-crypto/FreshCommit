@@ -84,6 +84,7 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedExperience, setSelectedExperience] = useState<string>('All');
   const [remoteOnly, setRemoteOnly] = useState(false);
+  const [stemOptOnly, setStemOptOnly] = useState(false);
   const [savedOnly, setSavedOnly] = useState(false);
   const [sortBy, setSortBy] = useState<'latest' | 'salary'>('latest');
   const [currentPage, setCurrentPage] = useState(1);
@@ -253,7 +254,10 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
       // 5. Remote Only Filter
       if (remoteOnly && !job.isRemote) return false;
 
-      // 6. Saved Only Filter
+      // 6. STEM OPT / E-Verify Only Filter
+      if (stemOptOnly && !job.stemOptEVerified) return false;
+
+      // 7. Saved Only Filter
       if (savedOnly && !savedJobIds.includes(job.id)) return false;
 
       return true;
@@ -268,12 +272,12 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
       const dateB = new Date(b.datePosted || 0).getTime();
       return dateB - dateA;
     });
-  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, savedOnly, sortBy, savedJobIds]);
+  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, savedOnly, sortBy, savedJobIds]);
 
   // Reset pagination when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, savedOnly, sortBy]);
+  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, savedOnly, sortBy]);
 
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage) || 1;
   const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
@@ -297,6 +301,7 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
     setSelectedCategory('All');
     setSelectedExperience('All');
     setRemoteOnly(false);
+    setStemOptOnly(false);
     setSavedOnly(false);
     setSortBy('latest');
   };
@@ -442,6 +447,20 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
                 }`}
               >
                 <span>🎓 Internships</span>
+              </button>
+
+              {/* STEM OPT / E-Verify Filter Button */}
+              <button
+                onClick={() => setStemOptOnly(!stemOptOnly)}
+                className={`h-9 px-3.5 rounded-full text-xs font-semibold transition-all cursor-pointer inline-flex items-center gap-1.5 ${
+                  stemOptOnly
+                    ? 'bg-teal-700 text-white shadow-xs font-bold ring-2 ring-teal-300'
+                    : 'bg-white border border-teal-200 text-teal-800 hover:bg-teal-50 hover:border-teal-300'
+                }`}
+                title="Filter positions eligible for F-1 STEM OPT 24-month extension at USCIS E-Verified employers"
+              >
+                <ShieldCheck className={`w-3.5 h-3.5 ${stemOptOnly ? 'text-white' : 'text-teal-600'}`} />
+                <span>🎓 STEM OPT • E-Verify {stemOptOnly ? '✓' : ''}</span>
               </button>
 
               {/* Remote Toggle */}

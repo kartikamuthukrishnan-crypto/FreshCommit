@@ -24,6 +24,7 @@
         "source": { "type": "string" },
         "sourceUrl": { "type": "string" },
         "atsVerified": { "type": "boolean" },
+        "stemOptEVerified": { "type": "boolean" },
         "postedDate": { "type": "string" },
         "validThrough": { "type": "string" },
         "status": { "type": "string" },

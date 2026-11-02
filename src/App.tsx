@@ -792,6 +792,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedExperience, setSelectedExperience] = useState<string>('All');
   const [remoteOnly, setRemoteOnly] = useState(false);
+  const [stemOptOnly, setStemOptOnly] = useState(false);
   const [minSalary, setMinSalary] = useState<number>(0);
   const [savedOnly, setSavedOnly] = useState(false);
 
@@ -825,7 +826,7 @@ export default function App() {
   // Reset to page 1 whenever any search, filter, or category changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, pageSize, savedOnly]);
+  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, minSalary, pageSize, savedOnly]);
 
   // Google Search & AdSense Bot Protection:
   // Apply "noindex, follow" to dynamic search and filter combinations to eliminate "thin / duplicate content" flags,
@@ -846,6 +847,7 @@ export default function App() {
       selectedCategory !== 'All' ||
       selectedExperience !== 'All' ||
       remoteOnly ||
+      stemOptOnly ||
       minSalary > 0 ||
       savedOnly ||
       currentPage > 1;
@@ -862,6 +864,7 @@ export default function App() {
     selectedCategory,
     selectedExperience,
     remoteOnly,
+    stemOptOnly,
     minSalary,
     savedOnly,
     currentPage,
@@ -984,6 +987,11 @@ export default function App() {
         return false;
       }
 
+      // STEM OPT / E-Verify only
+      if (stemOptOnly && !job.stemOptEVerified) {
+        return false;
+      }
+
       // Minimum Salary
       if (minSalary > 0 && (!job.salary || (typeof job.salary.min === 'number' && job.salary.min < minSalary))) {
         return false;
@@ -1008,7 +1016,7 @@ export default function App() {
       if (diff !== 0) return diff;
       return (b.id || '').localeCompare(a.id || '');
     });
-  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, minSalary, savedOnly, savedJobIds, sortBy]);
+  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, minSalary, savedOnly, savedJobIds, sortBy]);
 
   // Derived Pagination Calculations
   const totalPages = Math.max(1, Math.ceil(filteredJobs.length / pageSize));
@@ -1509,6 +1517,18 @@ export default function App() {
                     >
                       <Globe className="w-3 h-3 text-emerald-600" />
                       <span>🌍 Worldwide Remote</span>
+                    </button>
+                    <button
+                      onClick={() => setStemOptOnly(!stemOptOnly)}
+                      className={`h-9 px-3.5 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
+                        stemOptOnly
+                          ? 'bg-teal-700 text-white shadow-xs font-bold ring-2 ring-teal-300'
+                          : 'bg-white border border-teal-200 text-teal-800 hover:bg-teal-50 hover:border-teal-300'
+                      }`}
+                      title="Filter positions eligible for F-1 STEM OPT 24-month extension at USCIS E-Verified employers"
+                    >
+                      <ShieldCheck className={`w-3.5 h-3.5 ${stemOptOnly ? 'text-white' : 'text-teal-600'}`} />
+                      <span>🎓 STEM OPT • E-Verify {stemOptOnly ? '✓' : ''}</span>
                     </button>
                     <button
                       onClick={() => setSavedOnly(!savedOnly)}

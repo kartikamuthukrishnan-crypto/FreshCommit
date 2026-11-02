@@ -57,6 +57,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Honolulu, Hawaii",
     "category": "Backend",
     "companyWebsite": "https://servco.com",
+    "stemOptEVerified": true,
     "status": "ACTIVE"
   },
   {
@@ -124,6 +125,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Bethesda, MD",
     "category": "Backend",
     "companyWebsite": "https://www.leidos.com/",
+    "stemOptEVerified": true,
     "status": "ACTIVE"
   },
   {

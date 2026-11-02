@@ -1,6 +1,6 @@
 import React from 'react';
 import { JobPosting } from '../types';
-import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight, Bookmark, ExternalLink } from 'lucide-react';
+import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight, Bookmark, ExternalLink, ShieldCheck } from 'lucide-react';
 import { SocialShare } from './SocialShare';
 import { resolveCompanyLogo } from '../utils/logoHelper';
 
@@ -91,6 +91,15 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
                     New
                   </span>
                 )}
+                {job.stemOptEVerified && (
+                  <span
+                    className="inline-flex items-center gap-0.5 text-[10px] text-teal-800 font-semibold bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200"
+                    title="Company is enrolled in USCIS E-Verify and role qualifies for F-1 STEM OPT extension"
+                  >
+                    <ShieldCheck className="w-2.5 h-2.5 text-teal-600" />
+                    <span>STEM OPT • E-Verify</span>
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-2 text-xs text-[#5f6368] mt-1">
                 <span className="flex items-center gap-1">
@@ -157,6 +166,12 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
             <DollarSign className="w-3.5 h-3.5" />
             {formatSalary(job.salary)}
           </span>
+          {job.stemOptEVerified && (
+            <span className="inline-flex items-center gap-1 text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200 text-xs font-semibold" title="USCIS E-Verify Enrolled Employer • Eligible for F-1 STEM OPT 24-Month Extension">
+              <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
+              <span>STEM OPT • E-Verify</span>
+            </span>
+          )}
         </div>
 
         {/* Skills Tags */}

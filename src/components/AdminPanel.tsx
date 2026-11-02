@@ -221,6 +221,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [salaryUnit, setSalaryUnit] = useState<'YEAR' | 'MONTH' | 'HOUR'>('YEAR');
   const [salaryMin, setSalaryMin] = useState(0);
   const [salaryMax, setSalaryMax] = useState(0);
+  const [stemOptEVerified, setStemOptEVerified] = useState(false);
   const [description, setDescription] = useState('');
   const [responsibilitiesText, setResponsibilitiesText] = useState('');
   const [qualificationsText, setQualificationsText] = useState('');
@@ -304,7 +305,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [copiedSchema, setCopiedSchema] = useState(false);
   // Manage Listings State
   const [manageSearchQuery, setManageSearchQuery] = useState('');
-  const [manageStatusFilter, setManageStatusFilter] = useState<'all' | 'active' | 'drafts' | 'expired' | 'dead_or_flagged'>('all');
+  const [manageStatusFilter, setManageStatusFilter] = useState<'all' | 'active' | 'drafts' | 'expired' | 'dead_or_flagged' | 'stem_opt'>('all');
   const [manageCurrentPage, setManageCurrentPage] = useState(1);
   const [managePageSize, setManagePageSize] = useState(10);
   const [selectedJobIds, setSelectedJobIds] = useState<Set<string>>(new Set());
@@ -412,6 +413,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     source: 'MANUAL_ADMIN',
     atsProvider: applyUrl ? detectAtsProviderFromUrl(applyUrl) : undefined,
     atsVerified: Boolean(applyUrl && applyUrl.startsWith('http')),
+    stemOptEVerified: Boolean(stemOptEVerified),
     status: 'ACTIVE',
     fingerprint: generateFingerprint(company, title, location),
     viewsCount: 0,
@@ -450,6 +452,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setSalaryUnit(job.salary?.unit || (job.salary?.max && job.salary.max < 500 ? 'HOUR' : 'YEAR'));
     setSalaryMin(job.salary?.min || 0);
     setSalaryMax(job.salary?.max || 0);
+    setStemOptEVerified(Boolean(job.stemOptEVerified));
     setDescription(job.description || '');
     setResponsibilitiesText((job.responsibilities || []).join('\n'));
     setQualificationsText((job.qualifications || []).join('\n'));
@@ -492,6 +495,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setSalaryUnit('YEAR');
     setSalaryMin(0);
     setSalaryMax(0);
+    setStemOptEVerified(false);
     setSelectedMicroNiche(null);
   };
 
@@ -565,6 +569,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setExperienceLevel(data.experienceLevel);
     setMaxYearsExperience(data.maxYearsExperience);
     setEmploymentType(data.employmentType);
+    const isEVerify = /(?:e-verify|everify|stem\s*opt|opt\s*extension|stem\s*extension)/i.test(data.description || '') ||
+      (data.qualifications || []).some((q) => /(?:e-verify|everify|stem\s*opt)/i.test(q));
+    setStemOptEVerified(Boolean(isEVerify));
 
     // Precise Salary Handling:
     // Auto-fills declared employer salary from JD, or pre-populates authentic 2026 early-career benchmark
@@ -698,6 +705,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setExperienceLevel('Entry Level');
     setMaxYearsExperience(2);
     setCountry('US');
+    setStemOptEVerified(true);
 
     // 6x6 Technical Spec
     const referenceResps = [
@@ -1133,6 +1141,35 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
+  const handleBulkToggleStemOpt = async (enable: boolean) => {
+    if (selectedJobIds.size === 0) return;
+    const count = selectedJobIds.size;
+    const actionLabel = enable ? 'enable STEM OPT • E-Verify badge for' : 'remove STEM OPT badge from';
+    if (!confirm(`Are you sure you want to ${actionLabel} ${count} selected listing(s)?`)) return;
+
+    const modifiedList: JobPosting[] = [];
+    const updated = jobs.map((j) => {
+      if (selectedJobIds.has(j.id)) {
+        const item: JobPosting = {
+          ...j,
+          stemOptEVerified: enable
+        };
+        modifiedList.push(item);
+        return item;
+      }
+      return j;
+    });
+
+    setJobs(updated);
+    try {
+      await batchSaveJobsToCloud(modifiedList);
+      setSelectedJobIds(new Set());
+      alert(`Updated STEM OPT status for ${modifiedList.length} role(s)!`);
+    } catch (e: any) {
+      alert('Save note: ' + e.message);
+    }
+  };
+
   const handleBulkDelete = async () => {
     if (selectedJobIds.size === 0) return;
     const count = selectedJobIds.size;
@@ -1280,6 +1317,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       if (manageStatusFilter === 'active' && (job.status === 'DRAFT' || isJobExpired(job))) return false;
       if (manageStatusFilter === 'drafts' && job.status !== 'DRAFT') return false;
       if (manageStatusFilter === 'expired' && (job.status === 'DRAFT' || !isJobExpired(job))) return false;
+      if (manageStatusFilter === 'stem_opt' && !job.stemOptEVerified) return false;
       if (manageStatusFilter === 'dead_or_flagged') {
         const isDead = job.healthStatus === 'DEAD_LINK' || (job.closedReportCount || 0) >= 1 || healthAuditResults.get(job.id)?.isAlive === false;
         if (!isDead) return false;
@@ -2296,6 +2334,73 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       <option value="PART_TIME">Part Time</option>
                     </select>
                   </div>
+                </div>
+              </div>
+
+              {/* STEM OPT / USCIS E-Verify Badge & Configuration */}
+              <div className="p-4 bg-gradient-to-br from-teal-50/90 via-emerald-50/40 to-white border-2 border-teal-200/90 rounded-xl space-y-3 shadow-2xs">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold shadow-xs">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-xs font-bold text-teal-950 uppercase tracking-wider">
+                          STEM OPT • E-Verify Badge &amp; Eligibility
+                        </span>
+                        <span className="text-[10px] bg-teal-100 text-teal-800 font-semibold px-2 py-0.5 rounded-full border border-teal-200">
+                          F-1 International Candidate Focus
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-teal-800 mt-0.5">
+                        Controls the dedicated green STEM OPT • E-Verify badge shown in candidate search filters and job cards.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Live Badge Preview */}
+                  {stemOptEVerified ? (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-teal-800 bg-teal-100/90 px-3 py-1 rounded-full border border-teal-300 shadow-2xs animate-fade-in">
+                      <ShieldCheck className="w-3.5 h-3.5 text-teal-700" />
+                      <span>🎓 STEM OPT • E-Verify Active</span>
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-slate-500 bg-white px-2.5 py-1 rounded-full border border-slate-200">
+                      Standard Work Auth (Badge Off)
+                    </span>
+                  )}
+                </div>
+
+                <div className="pt-2 border-t border-teal-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <label className="flex items-start sm:items-center gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={stemOptEVerified}
+                      onChange={(e) => setStemOptEVerified(e.target.checked)}
+                      className="rounded text-teal-600 focus:ring-teal-500 w-4 h-4 mt-0.5 sm:mt-0 cursor-pointer"
+                    />
+                    <div>
+                      <span className="text-xs font-bold text-slate-900 block">
+                        Company is enrolled in USCIS E-Verify (Eligible for 24-Month STEM Extension)
+                      </span>
+                      <span className="text-[11px] text-slate-600 leading-snug block">
+                        Enables international graduates on F-1 visas to quickly filter and discover this requisition without sponsorship ambiguity.
+                      </span>
+                    </div>
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => setStemOptEVerified(!stemOptEVerified)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                      stemOptEVerified
+                        ? 'bg-teal-700 hover:bg-teal-800 text-white shadow-xs'
+                        : 'bg-white hover:bg-teal-50 text-teal-800 border border-teal-300'
+                    }`}
+                  >
+                    {stemOptEVerified ? '✓ Badge Enabled' : '+ Enable STEM OPT Badge'}
+                  </button>
                 </div>
               </div>
 
@@ -3367,6 +3472,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 { id: 'all', label: `All (${jobs.length})` },
                 { id: 'drafts', label: `📝 Drafts (${draftJobs.length})` },
                 { id: 'active', label: `Active (${liveActiveJobs.length})` },
+                { id: 'stem_opt', label: `🎓 STEM OPT (${jobs.filter((j) => j.stemOptEVerified).length})` },
                 { id: 'expired', label: `Expired (${expiredJobs.length})` },
                 { id: 'dead_or_flagged', label: `Flagged/Dead (${deadOrFlaggedJobs.length})` },
               ].map((filter) => {
@@ -3497,6 +3603,23 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </button>
                 <button
                   type="button"
+                  onClick={() => handleBulkToggleStemOpt(true)}
+                  className="px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1 cursor-pointer"
+                  title="Mark selected roles as STEM OPT / E-Verified"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Bulk STEM OPT (Enable)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleBulkToggleStemOpt(false)}
+                  className="px-2.5 py-1.5 bg-white border border-teal-300 text-teal-800 hover:bg-teal-50 rounded-lg text-xs font-semibold cursor-pointer"
+                  title="Remove STEM OPT badge from selected roles"
+                >
+                  Remove STEM OPT
+                </button>
+                <button
+                  type="button"
                   onClick={handleBulkDelete}
                   className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1 cursor-pointer"
                   title="Permanently delete selected roles"
@@ -3595,7 +3718,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           />
                         </td>
                         <td className="py-3 px-3">
-                          <div className="font-bold text-slate-900">{job.title}</div>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-bold text-slate-900">{job.title}</span>
+                            {job.stemOptEVerified && (
+                              <span className="text-[9px] bg-teal-100 text-teal-800 font-bold px-1.5 py-0.5 rounded border border-teal-300 whitespace-nowrap" title="USCIS E-Verify Enrolled Employer">
+                                🎓 STEM OPT
+                              </span>
+                            )}
+                          </div>
                           <div className="text-slate-500 text-[11px]">{job.company}</div>
                         </td>
                         <td className="py-3 px-3 whitespace-nowrap">

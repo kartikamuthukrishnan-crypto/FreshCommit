@@ -50,6 +50,7 @@ export interface JobPosting {
   fingerprint: string; // company-title-location for strict deduplication
   viewsCount: number;
   featured?: boolean;
+  stemOptEVerified?: boolean; // True when company is enrolled in USCIS E-Verify and role qualifies for F-1 STEM OPT extension
   closedReportCount?: number; // Count of candidates who reported this role closed/expired
   healthStatus?: 'HEALTHY' | 'DEAD_LINK' | 'CANDIDATE_REPORTED' | 'CHECKING';
   lastHealthCheckedAt?: string; // ISO string

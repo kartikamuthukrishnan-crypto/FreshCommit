@@ -441,6 +441,12 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                         Remote Option
                       </span>
                     )}
+                    {job.stemOptEVerified && (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200" title="Employer is enrolled in USCIS E-Verify and eligible for F-1 STEM OPT 24-month extension">
+                        <ShieldCheck className="w-3 h-3 text-teal-600" />
+                        STEM OPT • E-Verified
+                      </span>
+                    )}
                   </div>
 
                   <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#202124] tracking-tight leading-snug">
@@ -470,6 +476,14 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                 <span className="inline-flex items-center text-xs font-medium px-3 py-1 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0]">
                   {job.experienceLevel === 'Internship' ? 'Internship' : 'Entry/Early Career'}
                 </span>
+
+                {/* STEM OPT E-Verify Attribute */}
+                {job.stemOptEVerified && (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
+                    <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
+                    <span>STEM OPT Eligible (E-Verify)</span>
+                  </span>
+                )}
               </div>
 
               {/* ATS Keyword Matcher Prompt Banner */}
