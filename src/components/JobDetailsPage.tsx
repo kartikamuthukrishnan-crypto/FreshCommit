@@ -19,6 +19,7 @@ import { CAREER_ARTICLES } from '../data/careerArticles';
 import { getContextualArticlesForJob } from '../utils/relatedJobsMatcher';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
+import { parseJobDescription } from '../utils/jobDescriptionParser';
 import {
   MapPin,
   DollarSign,
@@ -40,7 +41,16 @@ import {
   ArrowRight,
   Target,
   FileSearch,
-  BookOpen
+  BookOpen,
+  Briefcase,
+  GraduationCap,
+  Gift,
+  Building2,
+  ListChecks,
+  Award,
+  Info,
+  FileText,
+  CheckCheck
 } from 'lucide-react';
 import { MockInterviewModal } from './MockInterviewModal';
 
@@ -261,6 +271,14 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         return true;
       });
   }, [job.qualifications, cleanedResponsibilities]);
+
+  const parsedJd = useMemo(() => {
+    return parseJobDescription(
+      job.description || '',
+      cleanedResponsibilities,
+      cleanedQualifications
+    );
+  }, [job.description, cleanedResponsibilities, cleanedQualifications]);
 
   const daysLeft = getDaysUntilExpiration(job.validThrough);
 
@@ -738,37 +756,65 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
               </div>
             )}
 
-            {/* Full Authentic Job Description */}
-            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 sm:p-8 shadow-xs space-y-6">
-              <div>
-                <div className="flex items-center justify-between flex-wrap gap-2 mb-4 pb-3 border-b border-[#f1f3f4]">
-                  <div>
-                    <h2 className="text-base sm:text-lg font-bold text-[#202124]">
-                      Official Job Requisition from {job.company}
-                    </h2>
-                    <p className="text-xs text-[#5f6368] mt-0.5">
-                      Authentic employer requirements, team context &bull; 0–2 YoE verified
-                    </p>
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#137333] bg-[#e6f4ea] px-3 py-1 rounded-full border border-[#ceead6]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#137333]" />
-                    Employer Verified
-                  </span>
+            {/* Full Authentic Job Description (LinkedIn-Grade Structured Layout) */}
+            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 sm:p-8 shadow-xs space-y-7">
+              {/* Header Bar */}
+              <div className="flex items-center justify-between flex-wrap gap-2 pb-4 border-b border-[#f1f3f4]">
+                <div>
+                  <h2 className="text-base sm:text-lg font-bold text-[#202124] flex items-center gap-2">
+                    <Building2 className="w-5 h-5 text-[#1a73e8]" />
+                    <span>Official Job Requisition from {job.company}</span>
+                  </h2>
+                  <p className="text-xs text-[#5f6368] mt-0.5">
+                    Authentic employer requirements, structured team context &bull; 0–2 YoE verified
+                  </p>
                 </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#137333] bg-[#e6f4ea] px-3 py-1 rounded-full border border-[#ceead6]">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#137333]" />
+                  Employer Verified
+                </span>
+              </div>
 
-                <div className="text-xs sm:text-sm text-[#3c4043] leading-relaxed font-normal space-y-3">
+              {/* ATS Requisition Specifications Grid (when parsed from automated ATS dumps) */}
+              {parsedJd.atsMetadata.length > 0 && (
+                <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-4 space-y-2.5">
+                  <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <FileText className="w-4 h-4 text-slate-500" />
+                    <span>ATS Requisition Specifications</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs pt-1">
+                    {parsedJd.atsMetadata.map((meta, idx) => (
+                      <div key={idx} className="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+                        <span className="text-[11px] font-semibold text-slate-400 block">{meta.label}</span>
+                        <span className="font-medium text-slate-800 text-xs mt-0.5 block truncate" title={meta.value}>
+                          {meta.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* About Role & Company Prose */}
+              <div className="space-y-4">
+                <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
+                  <span>About the Role &amp; Team</span>
+                </h3>
+                <div className="text-xs sm:text-sm text-[#3c4043] leading-relaxed font-normal space-y-3.5">
                   {(() => {
-                    const cleanText = stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''));
-                    const paragraphs = cleanText
-                      .split(/\n\s*\n/)
-                      .map((p) => p.trim())
-                      .filter(Boolean);
-                    if (paragraphs.length <= 1) {
-                      return <p className="leading-relaxed">{cleanText}</p>;
+                    const combinedParagraphs = [
+                      ...parsedJd.aboutCompany,
+                      ...parsedJd.aboutRole
+                    ].filter((p) => p && p.trim().length > 0);
+
+                    if (combinedParagraphs.length === 0) {
+                      const cleanFallback = stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''));
+                      return <p className="leading-relaxed">{cleanFallback}</p>;
                     }
-                    return paragraphs.map((p, idx) => (
+
+                    return combinedParagraphs.map((para, idx) => (
                       <p key={idx} className="leading-relaxed">
-                        {p}
+                        {para}
                       </p>
                     ));
                   })()}
@@ -776,43 +822,93 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
               </div>
 
               {/* Key Responsibilities */}
-              {cleanedResponsibilities.length > 0 && (
-                <div className="pt-4 border-t border-[#f1f3f4]">
-                  <h3 className="text-base sm:text-lg font-bold text-[#202124] mb-3">
-                    Key Responsibilities
+              {parsedJd.responsibilities.length > 0 && (
+                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
+                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-[#1a73e8]" />
+                    <span>What You&apos;ll Do (Key Responsibilities)</span>
                   </h3>
-                  <ul className="space-y-2 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    {cleanedResponsibilities.map((resp: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#1a73e8] mt-2 flex-shrink-0" />
-                        <span>{resp}</span>
+                  <ul className="space-y-2.5 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
+                    {parsedJd.responsibilities.map((resp: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <span className="w-5 h-5 rounded-full bg-blue-50 text-[#1a73e8] border border-blue-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold">
+                          ✓
+                        </span>
+                        <span className="pt-0.5">{resp}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {/* Qualifications */}
-              {cleanedQualifications.length > 0 && (
-                <div className="pt-4 border-t border-[#f1f3f4]">
-                  <h3 className="text-base sm:text-lg font-bold text-[#202124] mb-3">
-                    Qualifications &amp; Experience
+              {/* Qualifications & Requirements */}
+              {parsedJd.qualifications.length > 0 && (
+                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
+                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
+                    <ListChecks className="w-4 h-4 text-[#137333]" />
+                    <span>Basic Qualifications &amp; Prerequisites</span>
                   </h3>
-                  <ul className="space-y-2 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    {cleanedQualifications.map((qual: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#137333] mt-2 flex-shrink-0" />
-                        <span>{qual}</span>
+                  <ul className="space-y-2.5 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
+                    {parsedJd.qualifications.map((qual: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <span className="w-5 h-5 rounded-full bg-emerald-50 text-[#137333] border border-emerald-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold">
+                          ✓
+                        </span>
+                        <span className="pt-0.5">{qual}</span>
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* Preferred Qualifications (if parsed) */}
+              {parsedJd.preferredQualifications.length > 0 && (
+                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
+                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
+                    <Award className="w-4 h-4 text-purple-600" />
+                    <span>Preferred Qualifications &amp; Bonus Points</span>
+                  </h3>
+                  <ul className="space-y-2.5 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
+                    {parsedJd.preferredQualifications.map((pref: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <span className="w-5 h-5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold">
+                          ★
+                        </span>
+                        <span className="pt-0.5">{pref}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Benefits & Compensation Perks */}
+              {parsedJd.benefits.length > 0 && (
+                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
+                      <Gift className="w-4 h-4 text-rose-600" />
+                      <span>Benefits, Healthcare &amp; Perks</span>
+                    </h3>
+                    <span className="text-[11px] text-[#5f6368]">Verified in Employer Listing</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                    {parsedJd.benefits.map((benefit, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-[#202124] font-medium shadow-2xs"
+                      >
+                        <CheckCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                        <span>{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* Skills & Tech Stack */}
               {job.skills && job.skills.length > 0 && (
-                <div className="pt-4 border-t border-[#f1f3f4]">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#5f6368] mb-2.5">
+                <div className="pt-5 border-t border-[#f1f3f4] space-y-2.5">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#5f6368]">
                     Skills &amp; Technologies
                   </h3>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -824,6 +920,21 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                         {skill}
                       </span>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Equal Employment Opportunity / Legal Disclaimers (subdued footer card) */}
+              {parsedJd.eeoStatement && (
+                <div className="pt-5 border-t border-[#f1f3f4]">
+                  <div className="p-4 bg-slate-50/70 rounded-xl border border-slate-200 text-slate-500 space-y-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+                      <Info className="w-3.5 h-3.5" />
+                      <span>Equal Opportunity &amp; Compliance Statement</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed text-slate-500">
+                      {parsedJd.eeoStatement}
+                    </p>
                   </div>
                 </div>
               )}

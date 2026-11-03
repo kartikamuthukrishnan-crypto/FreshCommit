@@ -1,4 +1,5 @@
 import { JobCategory } from '../types';
+import { decodeHtmlEntities } from './jobDescriptionParser';
 
 /**
  * Focus Keywords Engine for FreshCommits:
@@ -832,13 +833,11 @@ export function generateCompliantJobSummary(job: {
     }
   }
 
-  // 4. Clean markup & common scraping artifacts
-  let cleaned = raw
+  // 4. Clean markup & common scraping artifacts, preserving line breaks
+  let cleaned = decodeHtmlEntities(raw)
+    .replace(/<br\s*[\/]?>/gi, '\n')
+    .replace(/<\/(?:p|div|h[1-6]|li)>/gi, '\n\n')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
     .replace(/actively seeking an? early-career Open Positions/gi, `welcoming a ${job.title}`)
     .replace(/actively seeking an? early-career [0-9a-f]{6,}/gi, `welcoming a ${job.title}`)
     .replace(/actively seeking an? early-career ([^.\n]+?)(?:,\s*Early Career)/gi, 'seeking a $1')
@@ -846,7 +845,10 @@ export function generateCompliantJobSummary(job: {
     .replace(/early-career ([^.\n]+?), Early Career/gi, '$1')
     .replace(/This direct opening was discovered on [^.\n]+ official (?:[A-Za-z\s]+) portal\.?/gi, '')
     .replace(/Direct Career Portal portal\.?/gi, 'Direct Career Portal.')
-    .replace(/\s+/g, ' ')
+    .split(/\r?\n/)
+    .map((line) => line.replace(/[ \t]+/g, ' ').trim())
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
     .trim();
 
   const rawWordCount = cleaned ? cleaned.split(/\s+/).filter(Boolean).length : 0;

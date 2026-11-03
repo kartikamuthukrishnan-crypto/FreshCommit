@@ -13,6 +13,7 @@ import {
   stripSyntheticSpamBoilerplate
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark, isCssOrNoiseLine } from '../utils/jobExtractor';
+import { parseJobDescription } from '../utils/jobDescriptionParser';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -33,7 +34,15 @@ import {
   Flag,
   ChevronRight,
   ChevronLeft,
-  ShieldCheck
+  ShieldCheck,
+  Briefcase,
+  ListChecks,
+  Award,
+  Gift,
+  Info,
+  CheckCheck,
+  FileText,
+  Building2
 } from 'lucide-react';
 
 interface JobDetailsModalProps {
@@ -242,6 +251,10 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
       job.experienceLevel
     );
   }, [job.title, job.category, job.country, job.location, job.city, job.state, job.experienceLevel]);
+
+  const parsedJd = useMemo(() => {
+    return parseJobDescription(job.description, job.responsibilities, job.qualifications);
+  }, [job.description, job.responsibilities, job.qualifications]);
 
   return (
     <div
@@ -565,56 +578,160 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
             </div>
           )}
 
-          {/* Overview */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-              {edgeData.hasEdge ? 'Official Employer Role Overview' : 'About The Role'}
+          {/* ATS Requisition Specifications Grid (when parsed from automated ATS dumps) */}
+          {parsedJd.atsMetadata.length > 0 && (
+            <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-3.5 space-y-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
+                <FileText className="w-4 h-4 text-slate-500" />
+                <span>ATS Requisition Specifications</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 text-xs pt-0.5">
+                {parsedJd.atsMetadata.map((meta, idx) => (
+                  <div key={idx} className="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+                    <span className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">{meta.label}</span>
+                    <span className="font-medium text-slate-800 text-xs mt-0.5 block truncate" title={meta.value}>
+                      {meta.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* About Role & Company Prose */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <Building2 className="w-4 h-4 text-indigo-600" />
+              <span>{edgeData.hasEdge ? 'Official Employer Role Overview' : 'About the Role & Team'}</span>
             </h4>
-            <p className="whitespace-pre-line text-slate-700">
-              {stripSyntheticSpamBoilerplate(cleanHtml(edgeData.hasEdge ? edgeData.roleOverview : job.description))}
-            </p>
+            <div className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal space-y-3">
+              {(() => {
+                const combinedParagraphs = [
+                  ...parsedJd.aboutCompany,
+                  ...parsedJd.aboutRole
+                ].filter((p) => p && p.trim().length > 0);
+
+                if (combinedParagraphs.length === 0) {
+                  const cleanFallback = stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''));
+                  return <p className="leading-relaxed whitespace-pre-line">{cleanFallback}</p>;
+                }
+
+                return combinedParagraphs.map((para, idx) => (
+                  <p key={idx} className="leading-relaxed">
+                    {para}
+                  </p>
+                ));
+              })()}
+            </div>
           </div>
 
           {/* Key Responsibilities */}
-          {cleanedResponsibilities.length > 0 && (
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Key Responsibilities</h4>
-              <ul className="space-y-1.5 list-disc list-inside text-slate-700">
-                {cleanedResponsibilities.map((r, i) => (
-                  <li key={i}>{r}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Qualifications */}
-          {cleanedQualifications.length > 0 && (
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-                Qualifications (Entry-Level / Fresher)
+          {parsedJd.responsibilities.length > 0 && (
+            <div className="pt-4 border-t border-slate-100 space-y-2.5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <Briefcase className="w-4 h-4 text-indigo-600" />
+                <span>What You&apos;ll Do (Key Responsibilities)</span>
               </h4>
-              <ul className="space-y-1.5 list-disc list-inside text-slate-700">
-                {cleanedQualifications.map((q, i) => (
-                  <li key={i}>{q}</li>
+              <ul className="space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                {parsedJd.responsibilities.map((resp, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <span className="w-4 h-4 rounded-full bg-blue-50 text-indigo-600 border border-blue-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[10px] font-bold">
+                      ✓
+                    </span>
+                    <span className="pt-0.5">{resp}</span>
+                  </li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Skills */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Tech Stack & Tools</h4>
-            <div className="flex flex-wrap gap-2">
-              {job.skills.map((skill, i) => (
-                <span
-                  key={i}
-                  className="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-md font-mono text-xs font-medium border border-slate-200"
-                >
-                  {skill}
-                </span>
-              ))}
+          {/* Basic Qualifications & Prerequisites */}
+          {parsedJd.qualifications.length > 0 && (
+            <div className="pt-4 border-t border-slate-100 space-y-2.5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <ListChecks className="w-4 h-4 text-emerald-600" />
+                <span>Basic Qualifications &amp; Prerequisites (0–2 YoE)</span>
+              </h4>
+              <ul className="space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                {parsedJd.qualifications.map((qual, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <span className="w-4 h-4 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[10px] font-bold">
+                      ✓
+                    </span>
+                    <span className="pt-0.5">{qual}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          )}
+
+          {/* Preferred Qualifications & Bonus Points (if any) */}
+          {parsedJd.preferredQualifications.length > 0 && (
+            <div className="pt-4 border-t border-slate-100 space-y-2.5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <Award className="w-4 h-4 text-purple-600" />
+                <span>Preferred Qualifications &amp; Bonus Points</span>
+              </h4>
+              <ul className="space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                {parsedJd.preferredQualifications.map((pref, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <span className="w-4 h-4 rounded-full bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[10px] font-bold">
+                      +
+                    </span>
+                    <span className="pt-0.5">{pref}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Benefits, Compensation & Perks Cards */}
+          {parsedJd.benefits.length > 0 && (
+            <div className="pt-4 border-t border-slate-100 space-y-2.5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <Gift className="w-4 h-4 text-emerald-600" />
+                <span>Benefits &amp; Perks Package</span>
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                {parsedJd.benefits.map((benefit, idx) => (
+                  <div key={idx} className="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-200/80 text-emerald-950 font-medium">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Tech Stack & Tools */}
+          {job.skills && job.skills.length > 0 && (
+            <div className="pt-4 border-t border-slate-100">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Tech Stack &amp; Tools</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {job.skills.map((skill, i) => (
+                  <span
+                    key={i}
+                    className="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-lg font-mono text-xs font-medium border border-slate-200"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Equal Opportunity & Legal Compliance Statement */}
+          {parsedJd.eeoStatement && (
+            <div className="pt-4 border-t border-slate-100">
+              <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 text-[11px] text-slate-500 leading-relaxed flex items-start gap-2.5">
+                <Info className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-slate-700 block mb-0.5">Equal Employment Opportunity</strong>
+                  <span>{parsedJd.eeoStatement}</span>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Social Share Engine: One-click LinkedIn, X, Reddit, WhatsApp */}
           <SocialShare job={job} />

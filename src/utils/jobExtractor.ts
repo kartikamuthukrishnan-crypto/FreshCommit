@@ -1,6 +1,7 @@
 import { ExperienceLevel, EmploymentType, JobCategory, SalaryRange } from '../types';
 import { inferCategory, inferExperienceLevel } from './jobAggregator';
 import { KNOWN_CITY_ZIP_MAP, lookupCityZip } from './cityZipMap';
+import { decodeHtmlEntities, extractAtsHeaderMetadata } from './jobDescriptionParser';
 import {
   humanizeCareerTake,
   generateLeadEngineerTake,
@@ -424,19 +425,8 @@ export function cleanHtml(html: string): string {
     .replace(/<li[^>]*>/gi, '\n• ')
     .replace(/<[^>]+>/g, ' ');
 
-  // 3. Decode remaining entities
-  text = text
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;#xa;/gi, ' ')
-    .replace(/&#xa;/gi, ' ')
-    .replace(/&#xa0;/gi, ' ')
-    .replace(/&#43;/g, '+')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&ndash;/g, '–')
-    .replace(/&mdash;/g, '—')
-    .replace(/&bull;/g, '•');
+  // 3. Decode remaining entities comprehensively
+  text = decodeHtmlEntities(text);
 
   // 4. Secondary CSS sanitize pass to catch decoded or stripped CSS remnants
   text = stripCssAndNoise(text);
@@ -1767,7 +1757,9 @@ export function parseJobSections(
     };
   }
 
-  let text = stripCssAndNoise(rawContent);
+  let text = decodeHtmlEntities(stripCssAndNoise(rawContent));
+  const { cleanedText } = extractAtsHeaderMetadata(text);
+  text = cleanedText;
 
   // Decode entities & preserve headings
   text = text

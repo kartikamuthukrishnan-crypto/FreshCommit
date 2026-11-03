@@ -487,113 +487,9 @@ export function detectAtsProvider(applyUrl: string): string {
  * - speedyapply/2026-SWE-College-Jobs (NEW_GRAD_USA.md and README.md)
  * - Directly parses Company, Normalized Title, Location, Salary, and direct ATS URLs (Workday, Greenhouse, Lever, Ashby, Amazon)
  */
-export async function fetchJobPulseCommunityFeeds(options?: {
-  includeInternships?: boolean;
-  limit?: number;
-}): Promise<RawExternalJob[]> {
-  const rawJobs: RawExternalJob[] = [];
-  const feedUrls: string[] = [
-    'https://raw.githubusercontent.com/speedyapply/2026-SWE-College-Jobs/main/NEW_GRAD_USA.md'
-  ];
-  if (options?.includeInternships) {
-    feedUrls.push('https://raw.githubusercontent.com/speedyapply/2026-SWE-College-Jobs/main/README.md');
-  }
-
-  for (const feedUrl of feedUrls) {
-    try {
-      const res = await fetch(feedUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-      if (!res.ok) continue;
-      const text = await res.text();
-      const lines = text.split('\n');
-
-      for (const line of lines) {
-        if (!line.startsWith('|') || line.includes('| Company |') || line.includes('|---|')) continue;
-        const parts = line.split('|').map((p) => p.trim());
-        if (parts.length < 6) continue;
-
-        // 1. Company extraction
-        const rawCompany = parts[1];
-        const companyMatch =
-          rawCompany.match(/<strong>([^<]+)<\/strong>/i) ||
-          rawCompany.match(/\*\*([^*]+)\*\*/i) ||
-          rawCompany.match(/>([^<]+)</i);
-        const company = (companyMatch ? companyMatch[1] : rawCompany.replace(/<[^>]+>/g, '')).trim();
-
-        const websiteMatch = rawCompany.match(/href="([^"]+)"/i);
-        const companyWebsite = websiteMatch ? websiteMatch[1] : undefined;
-
-        // 2. Position Title
-        const rawTitle = parts[2].trim();
-        const cleanTitle = normalizeJobTitleForGoogle(rawTitle);
-
-        // 3. Location
-        const location = cleanLocationString(parts[3].trim());
-
-        // 4. Salary
-        const rawSalary = parts[4]?.trim() || '';
-        let salaryMin: number | undefined;
-        let salaryMax: number | undefined;
-        let currency = 'USD';
-
-        const salKMatch = rawSalary.match(/\$(\d+)(?:k|K)\/yr/i);
-        const salHrMatch = rawSalary.match(/\$(\d+)(?:\.\d+)?\/hr/i);
-
-        if (salKMatch) {
-          const val = parseInt(salKMatch[1], 10) * 1000;
-          salaryMin = Math.round(val * 0.9);
-          salaryMax = val;
-        } else if (salHrMatch) {
-          const val = parseInt(salHrMatch[1], 10);
-          salaryMin = Math.max(20, Math.round(val * 0.9));
-          salaryMax = val;
-        }
-
-        // 5. Apply URL
-        const applyMatch = parts[5].match(/href="([^"]+)"/i);
-        const applyUrl = applyMatch ? applyMatch[1].trim() : '';
-
-        if (!company || !cleanTitle || !applyUrl || !applyUrl.startsWith('http')) continue;
-
-        const isRemote = location.toLowerCase().includes('remote');
-        const isIntern = cleanTitle.toLowerCase().includes('intern') || feedUrl.includes('README.md');
-
-        const domain = companyWebsite
-          ? (() => {
-              try {
-                return new URL(companyWebsite).hostname;
-              } catch {
-                return `${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`;
-              }
-            })()
-          : `${company.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`;
-
-        rawJobs.push({
-          id: 'jp-' + Math.random().toString(36).substring(2, 9),
-          title: cleanTitle,
-          company,
-          companyLogo: `https://www.google.com/s2/favicons?sz=128&domain=${encodeURIComponent(domain)}`,
-          companyWebsite,
-          location: isRemote ? 'Remote - US Nationwide' : location,
-          isRemote,
-          salaryMin: salaryMin || (isIntern ? 45 : 105000),
-          salaryMax: salaryMax || (isIntern ? 65 : 135000),
-          currency,
-          applyUrl,
-          sourceName: 'JobPulse Community Feed',
-          sourceUrl: feedUrl,
-          datePosted: new Date().toISOString().split('T')[0],
-          atsProvider: detectAtsProvider(applyUrl),
-          description: `Official early-career software engineering requisition for ${cleanTitle} at ${company}. Verified direct application on employer ATS portal with zero recruiter intermediaries.`
-        });
-
-        if (options?.limit && rawJobs.length >= options.limit) break;
-      }
-    } catch (err) {
-      console.warn('JobPulse Community Feed fetch error from', feedUrl, err);
-    }
-  }
-
-  return rawJobs;
+export async function fetchJobPulseCommunityFeeds(): Promise<RawExternalJob[]> {
+  // JobPulse connection permanently removed per user instruction
+  return [];
 }
 
 /**
@@ -797,13 +693,7 @@ export async function executeAutomatedSync(
     console.warn('SmartRecruiters automated batch fetch fallback:', err);
   }
 
-  // Also pull live verified early-career jobs from JobPulse & 2026/2027 College Trackers
-  try {
-    const jpJobs = await fetchJobPulseCommunityFeeds({ includeInternships: false, limit: 35 });
-    rawJobs.push(...jpJobs);
-  } catch (err) {
-    console.warn('JobPulse community feed automated batch fetch fallback:', err);
-  }
+  // JobPulse connection has been disconnected per user request.
 
   // If a custom external RSS/JSON feed URL was provided, attempt live fetch
   if (feedUrl && feedUrl.trim().startsWith('http')) {
@@ -938,7 +828,7 @@ export async function executeAutomatedSync(
   const log: SyncLog = {
     id: `log-${Date.now()}`,
     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-    sourceName: feedUrl ? 'Custom Feed + SmartRecruiters & Verified ATS' : 'SmartRecruiters, JobPulse & Verified ATS Feeds',
+    sourceName: feedUrl ? 'Custom Feed + SmartRecruiters & Verified ATS' : 'SmartRecruiters & Verified ATS Feeds',
     rawJobsCount: rawJobs.length,
     passedRelevancyCount,
     duplicatesSkippedCount,
@@ -957,111 +847,22 @@ export async function syncJobPulseFeeds(
   existingJobs: JobPosting[],
   options?: { includeInternships?: boolean; limit?: number }
 ): Promise<{ newJobs: JobPosting[]; log: SyncLog; refreshedJobIds: string[] }> {
-  const rawJobs = await fetchJobPulseCommunityFeeds(options);
-
-  let passedRelevancyCount = 0;
-  let duplicatesSkippedCount = 0;
-  let manualOverridesCount = 0;
-  const refreshedJobIds: string[] = [];
-  const newJobs: JobPosting[] = [];
-
-  for (const raw of rawJobs) {
-    const relevancy = evaluateJobRelevancy(raw);
-    if (!relevancy.isRelevant) continue;
-    passedRelevancyCount++;
-
-    const dupCheck = checkDuplicateJob([...existingJobs, ...newJobs], {
-      company: raw.company,
-      title: raw.title,
-      applyUrl: raw.applyUrl,
-      location: raw.location,
-      isRemote: raw.isRemote
-    });
-
-    if (dupCheck.isDuplicate) {
-      duplicatesSkippedCount++;
-      if (dupCheck.matchingJob && (dupCheck.matchingJob.source === 'EMPLOYER_POST' || dupCheck.matchingJob.source === 'MANUAL_ADMIN')) {
-        manualOverridesCount++;
-        if (!refreshedJobIds.includes(dupCheck.matchingJob.id)) {
-          refreshedJobIds.push(dupCheck.matchingJob.id);
-        }
-      }
-      continue;
-    }
-
-    const fingerprint = generateFingerprint(raw.company, raw.title, raw.location);
-    const validThroughDate = new Date();
-    validThroughDate.setDate(validThroughDate.getDate() + 45);
-
-    const isIntern = raw.title.toLowerCase().includes('intern');
-    const locParts = (raw.location || '').split(',');
-    const city = raw.isRemote ? '' : cleanCityString(locParts[0]?.trim() || '');
-    const state = raw.isRemote ? '' : (locParts[1]?.trim() || '');
-
-    const cleanJob: JobPosting = {
-      id: `jp-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-      title: raw.title,
-      company: raw.company,
-      companyLogo: raw.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(raw.company)}&background=0284C7&color=fff&size=128`,
-      companyWebsite: raw.companyWebsite || '',
-      location: cleanLocationString(raw.location),
-      isRemote: Boolean(raw.isRemote),
-      applicantLocationRequirements: raw.isRemote ? 'US' : '',
-      city,
-      state,
-      country: 'US',
-      experienceLevel: isIntern ? 'Internship' : 'New Grad',
-      maxYearsExperience: isIntern ? 0 : 1,
-      category: inferCategory(raw.title, raw.skills),
-      employmentType: isIntern ? 'INTERN' : 'FULL_TIME',
-      salary: {
-        min: raw.salaryMin || (isIntern ? 45 : 105000),
-        max: raw.salaryMax || (isIntern ? 65 : 135000),
-        currency: 'USD',
-        unit: isIntern ? 'HOUR' : 'YEAR'
-      },
-      description: raw.description,
-      responsibilities: [
-        'Contribute to production software features, microservices, and system reliability.',
-        'Write automated test suites and participate in design and code reviews.',
-        'Partner with engineering mentors to accelerate onboarding into distributed production systems.'
-      ],
-      qualifications: [
-        'Anticipated graduation in 2026 or 2027 in Computer Science or related engineering discipline.',
-        'Strong foundational proficiency in algorithms, data structures, and modern systems architecture.',
-        'Demonstrated curiosity through coursework, open source, or technical project portfolios.'
-      ],
-      skills: ['Git', 'TypeScript', 'Python', 'Docker', 'Problem Solving'],
-      applyUrl: raw.applyUrl,
-      datePosted: raw.datePosted,
-      validThrough: validThroughDate.toISOString().split('T')[0],
-      source: 'JOBPULSE_FEED',
-      atsProvider: raw.atsProvider || detectAtsProvider(raw.applyUrl),
-      atsVerified: true,
-      sourceUrl: raw.sourceUrl,
-      status: 'DRAFT',
-      healthStatus: 'HEALTHY',
-      fingerprint,
-      viewsCount: Math.floor(Math.random() * 30) + 10,
-      featured: false
-    };
-
-    newJobs.push(cleanJob);
-  }
-
-  const log: SyncLog = {
-    id: `log-jp-${Date.now()}`,
-    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-    sourceName: 'JobPulse & 2026/2027 College Trackers Feed',
-    rawJobsCount: rawJobs.length,
-    passedRelevancyCount,
-    duplicatesSkippedCount,
-    savedCount: newJobs.length,
-    manualOverridesCount,
-    details: `Scanned ${rawJobs.length} live tracker postings. ${passedRelevancyCount} passed early-career criteria. ${duplicatesSkippedCount} duplicates discarded. Added ${newJobs.length} verified listings to feed.`
+  // JobPulse connection permanently disabled per user request
+  return {
+    newJobs: [],
+    log: {
+      id: `log-jp-${Date.now()}`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      sourceName: 'JobPulse Feed (Disconnected)',
+      rawJobsCount: 0,
+      passedRelevancyCount: 0,
+      duplicatesSkippedCount: 0,
+      savedCount: 0,
+      manualOverridesCount: 0,
+      details: 'JobPulse connection is permanently disconnected. No automated jobs will be pulled from this source.'
+    },
+    refreshedJobIds: []
   };
-
-  return { newJobs, log, refreshedJobIds };
 }
 
 /**
