@@ -86,8 +86,7 @@ import {
 } from '../utils/jobExtractor';
 import { KNOWN_CITY_ZIP_MAP, lookupCityZip } from '../utils/cityZipMap';
 import { cleanLocationString, cleanCityString, stripSyntheticSpamBoilerplate } from '../utils/textHumanizer';
-import { MICRO_NICHE_PRESETS, generateAdSenseCompliantJd, generateGoogleJobsFirstParagraph, MicroNichePreset } from '../utils/seoJdGenerator';
-import { Target, Award, Zap, Key, Send, Radio } from 'lucide-react';
+import { Award, Zap, Key, Send, Radio } from 'lucide-react';
 import {
   getGoogleIndexingConfig,
   saveGoogleIndexingConfig,
@@ -321,63 +320,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [srRemoteOnly, setSrRemoteOnly] = useState(false);
   const [srLoading, setSrLoading] = useState(false);
 
-  // Focus Keyword & AdSense JD Generator State
-  const [selectedMicroNiche, setSelectedMicroNiche] = useState<MicroNichePreset | null>(null);
   const [seoJdSuccessMsg, setSeoJdSuccessMsg] = useState('');
 
-  const handleApplyMicroNichePreset = (preset: MicroNichePreset) => {
-    if (selectedMicroNiche?.id === preset.id) {
-      // Toggle off / deselect if already chosen
-      setSelectedMicroNiche(null);
-      return;
-    }
-    setSelectedMicroNiche(preset);
-    // Auto populate compatible defaults if fields are empty or default
-    if (!country || country === 'US' || country === 'IN') {
-      setCountry(preset.defaultCountry);
-    }
-    if (preset.isRemote) {
-      setIsRemote(true);
-      setApplicantLocationRequirements(preset.defaultCountry);
-      setLocation(preset.defaultLocation);
-    } else {
-      setIsRemote(false);
-      setLocation(preset.defaultLocation);
-    }
-    setSalaryCurrency(preset.suggestedSalaryRange.currency);
-    setSalaryMin(preset.suggestedSalaryRange.min);
-    setSalaryMax(preset.suggestedSalaryRange.max);
-  };
-
-  const handleGenerateSeoJd = () => {
-    const rawSkills = skillsText.split(',').map((s) => s.trim()).filter(Boolean);
-    const responsibilities = responsibilitiesText.split('\n').map((r) => r.trim()).filter(Boolean);
-    const qualifications = qualificationsText.split('\n').map((q) => q.trim()).filter(Boolean);
-
-    const generated = generateAdSenseCompliantJd({
-      title: title || 'Software Engineer - Early Career',
-      company: company || 'Tech Innovations Inc',
-      location: location || selectedMicroNiche?.defaultLocation || 'San Francisco, CA',
-      isRemote,
-      selectedNiche: selectedMicroNiche,
-      skills: rawSkills,
-      salaryMin,
-      salaryMax,
-      salaryCurrency,
-      responsibilities,
-      qualifications,
-      atsProvider: applyUrl ? detectAtsProviderFromUrl(applyUrl) : undefined,
-      rawOverview: description
-    });
-
-    setDescription(generated.description);
-    setResponsibilitiesText(generated.responsibilities.join('\n'));
-    setQualificationsText(generated.qualifications.join('\n'));
-    setSeoJdSuccessMsg(`✨ High-RPM SEO Job Description Generated (${generated.seoQualityScore}% Quality Score)! Google AdSense & Helpful Content policy compliant.`);
-    setTimeout(() => setSeoJdSuccessMsg(''), 6000);
-  };
-
-  // Draft Job Object for Live Validation
+  // Draft Job Object for Live Validation (LinkedIn Structure default)
+  const parsedDraftStructure = description ? parseJobDescription(description) : null;
   const draftJob: JobPosting = {
     id: 'draft-preview',
     title: title || 'Software Engineer - Entry Level (Sample)',
@@ -404,10 +350,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     description: description || 'Seeking enthusiastic junior software developer with foundational CS knowledge.',
     responsibilities: responsibilitiesText
       ? responsibilitiesText.split('\n').filter((l) => l.trim())
-      : ['Develop modular code features', 'Participate in peer code reviews'],
+      : (parsedDraftStructure && parsedDraftStructure.responsibilities.length > 0
+          ? parsedDraftStructure.responsibilities
+          : ['Develop modular code features', 'Participate in peer code reviews']),
     qualifications: qualificationsText
       ? qualificationsText.split('\n').filter((l) => l.trim())
-      : ['Bachelor degree or equivalent in CS', '0-2 years experience'],
+      : (parsedDraftStructure && parsedDraftStructure.qualifications.length > 0
+          ? parsedDraftStructure.qualifications
+          : ['Bachelor degree or equivalent in CS', '0-2 years experience']),
     skills: skillsText.split(',').map((s) => s.trim()).filter(Boolean),
     applyUrl: applyUrl || 'https://careers.example.com/apply',
     datePosted: datePosted || new Date().toISOString().split('T')[0],
@@ -498,7 +448,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setSalaryMin(0);
     setSalaryMax(0);
     setStemOptEVerified(false);
-    setSelectedMicroNiche(null);
   };
 
   const applyExtractedJobToForm = (data: ExtractedJobData) => {
@@ -577,7 +526,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     // Precise Salary Handling:
     // Auto-fills declared employer salary from JD, or pre-populates authentic 2026 early-career benchmark
-    // so the admin NEVER needs to calculate or type salary numbers manually!
     if (data.salary && data.salary.min > 0) {
       setSalaryCurrency(data.salary.currency || 'USD');
       setSalaryUnit(data.salary.unit || 'YEAR');
@@ -608,37 +556,24 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       .trim();
     const sanitizedDesc = stripSyntheticSpamBoilerplate(rawCleanDesc);
 
-    // Auto-generate high-standard editorial lead paragraph if raw description is missing or thin
-    const metroHub = getMetroRegionForCity(extractedCity, extractedState);
-    const googleLeadParagraph = generateGoogleJobsFirstParagraph({
-      companyName: finalCompany,
-      jobTitle: cleanHtml(data.title),
-      departmentOrTeam: data.category ? `${data.category.toLowerCase()} engineering` : 'software engineering',
-      city: extractedCity,
-      stateOrProvince: extractedState,
-      metroOrRegion: metroHub,
-      workModel: isPureRemote ? 'remote' : (rawLocation.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
-      seniorityLabel: data.experienceLevel === 'Internship' ? 'internship candidates and students' : 'early-career developers and junior engineers',
-      experienceBracket: data.experienceLevel === 'Internship'
-        ? 'practical coursework or software project background'
-        : (data.maxYearsExperience && data.maxYearsExperience > 3
-            ? `0–${data.maxYearsExperience} years of experience`
-            : '0–2 years of experience'),
-      coreSkills: data.skills.slice(0, 3),
-      primaryFocusArea: `scalable ${data.category?.toLowerCase() || 'software'} systems and modern cloud architectures`
-    });
+    // Default to clean LinkedIn structure: isolate paragraphs, bullets & qualifications
+    const parsed = parseJobDescription(sanitizedDesc, data.responsibilities, data.qualifications);
+    const cleanParas = [...parsed.aboutCompany, ...parsed.aboutRole].filter(Boolean);
+    const cleanOverview = cleanParas.length > 0 ? cleanParas.join('\n\n') : (parsed.rawCleaned || sanitizedDesc);
+    setDescription(cleanOverview);
 
-    // If authentic employer description exists (> 35 words), preserve it directly like manual-1791385515589!
-    const wordCount = sanitizedDesc.split(/\s+/).filter(Boolean).length;
-    const finalFullDesc = wordCount >= 35 ? sanitizedDesc : (sanitizedDesc ? `${googleLeadParagraph}\n\n${sanitizedDesc}` : googleLeadParagraph);
-
-    setDescription(finalFullDesc);
-    const cleanedResps = data.responsibilities
+    const finalResps = parsed.responsibilities.length > 0 ? parsed.responsibilities : data.responsibilities;
+    const cleanedResps = finalResps
       .map((r) => cleanHtml(r).replace(/^[-*•\s]+/, '').trim())
       .filter((r) => r.length > 5 && !isCssOrNoiseLine(r));
     setResponsibilitiesText(cleanedResps.join('\n'));
 
-    const cleanedQuals = data.qualifications
+    const combinedQuals = [
+      ...parsed.qualifications,
+      ...(parsed.preferredQualifications.length > 0 ? parsed.preferredQualifications : [])
+    ];
+    const finalQuals = combinedQuals.length > 0 ? combinedQuals : data.qualifications;
+    const cleanedQuals = finalQuals
       .map((q) => cleanHtml(q).replace(/^[-*•\s]+/, '').trim())
       .filter((q) => q.length > 5 && !isCssOrNoiseLine(q));
     setQualificationsText(cleanedQuals.join('\n'));
@@ -651,100 +586,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     const sourceLabel = data.detectedAtsProvider || 'career requisition';
 
     setExtractSuccessMsg(
-      `✨ Successfully imported from ${sourceLabel}! Google for Jobs optimized lead paragraph (<p>...</p>), Title, Location (${extractedCity || 'US'}, ZIP: ${finalZip || '94105'}), and Compensation ($${minDisplay.toLocaleString()} – $${maxDisplay.toLocaleString()}) are auto-filled precisely.`
+      `✨ Successfully imported from ${sourceLabel}! Formatted into clean LinkedIn structure: verified Title, Location (${extractedCity || 'US'}, ZIP: ${finalZip || '94105'}), and Compensation ($${minDisplay.toLocaleString()} – $${maxDisplay.toLocaleString()}).`
     );
-  };
-
-  const handleInsertGoogleFirstParagraph = () => {
-    const rawSkills = skillsText.split(',').map((s) => s.trim()).filter(Boolean);
-    const locParts = (location || '').split(',').map((s) => s.trim());
-    const extractedCity = city || locParts[0] || (isRemote ? 'US' : '');
-    const extractedState = state || locParts[1] || '';
-
-    const leadParagraph = generateGoogleJobsFirstParagraph({
-      companyName: company || 'The Company',
-      jobTitle: title || 'Software Engineer',
-      departmentOrTeam: category ? `${category.toLowerCase()} engineering` : 'software engineering',
-      city: extractedCity,
-      stateOrProvince: extractedState,
-      workModel: isRemote ? 'remote' : (location.toLowerCase().includes('hybrid') ? 'hybrid' : 'full-time on-site'),
-      seniorityLabel: experienceLevel === 'Internship' ? 'internship candidates and students' : 'early-career developers and junior engineers',
-      experienceBracket: experienceLevel === 'Internship'
-        ? 'practical coursework or software project background'
-        : (maxYearsExperience && maxYearsExperience > 3
-            ? `0–${maxYearsExperience} years of experience`
-            : '0–2 years of experience'),
-      coreSkills: rawSkills.slice(0, 3),
-      primaryFocusArea: `scalable ${category?.toLowerCase() || 'software'} systems and modern cloud architectures`
-    });
-
-    const cleanedExisting = stripSyntheticSpamBoilerplate(description);
-    const updated = cleanedExisting ? `${leadParagraph}\n\n${cleanedExisting}` : leadParagraph;
-    setDescription(updated);
-    setSeoJdSuccessMsg('⚡ Natural editorial lead paragraph updated (Google Ranking & AdSense compliant)!');
-    setTimeout(() => setSeoJdSuccessMsg(''), 4000);
-  };
-
-  const handleApplyMicrosoftPattern = () => {
-    if (!title.trim()) setTitle('Software Engineer - Early Career');
-    if (!company.trim()) setCompany('Microsoft');
-    if (!location.trim()) {
-      setLocation('Redmond, WA / Hybrid');
-      setCity('Redmond');
-      setState('WA');
-      setPostalCode('98052');
-      setIsRemote(false);
-    }
-    if (!applyUrl.trim()) {
-      setApplyUrl('https://apply.careers.microsoft.com/careers/job/1970393557022487');
-    }
-    if (salaryMin === 0) {
-      setSalaryMin(85000);
-      setSalaryMax(168000);
-      setSalaryCurrency('USD');
-      setSalaryUnit('YEAR');
-    }
-    setExperienceLevel('Entry Level');
-    setMaxYearsExperience(2);
-    setCountry('US');
-    setStemOptEVerified(true);
-
-    // 6x6 Technical Spec
-    const referenceResps = [
-      `Write clean, performant backend code in Java, Python, Go, or C# to power Microsoft's core cloud infrastructure.`,
-      `Design and consume RESTful APIs, gRPC services, and event-driven architectures utilizing Kafka or message queues.`,
-      `Participate in architectural reviews, CI/CD pipeline automation, and automated container deployment via Kubernetes.`,
-      `Diagnose production latency bottlenecks, optimize database query execution plans, and ensure data consistency.`,
-      `Write comprehensive unit and integration test suites with mock services to achieve high test coverage.`,
-      `Participate in rotational operational health monitoring, analyzing telemetry dashboards and alert thresholds.`
-    ];
-    setResponsibilitiesText(referenceResps.join('\n'));
-
-    const referenceQuals = [
-      `Bachelor's degree in Computer Science, Computer Engineering, or equivalent practical background.`,
-      `0 to 2 years of backend software development experience in Java, C#, Python, Go, or TypeScript.`,
-      `Solid comprehension of object-oriented design patterns, data structures, and relational databases (SQL).`,
-      `Familiarity with cloud computing primitives (AWS, Azure, or GCP) and containerization concepts (Docker).`,
-      `Proficiency with Git version control, collaborative code reviews, and automated CI/CD tools.`,
-      `Strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset.`
-    ];
-    setQualificationsText(referenceQuals.join('\n'));
-
-    if (!skillsText.trim()) {
-      setSkillsText('Java, Python, Azure, C#, Cloud Infrastructure, Docker');
-    }
-
-    const currentClean = stripSyntheticSpamBoilerplate(description);
-    if (!currentClean || currentClean.length < 50) {
-      setDescription(
-        `Design, implement, test, and maintain cloud-scale services and platform components used in security-critical and highly reliable environments. Participate in design discussions, architecture reviews, and code reviews to ensure solutions are scalable, secure, and resilient.\n\nCollaborate closely with partner teams across engineering, operations, and product management to deliver end-to-end solutions. Investigate and resolve live-site issues, contributing to strong operational excellence and service reliability.\n\nApply secure-by-design principles throughout the development lifecycle, including threat modeling and defense-in-depth practices. Demonstrate a growth mindset by learning new technologies, seeking feedback, and gradually taking on broader technical ownership.`
-      );
-    } else {
-      setDescription(currentClean);
-    }
-
-    setSeoJdSuccessMsg('📋 Standardized to Microsoft reference pattern (manual-1791385515589): 6x6 technical spec, verified ATS, and authentic mission!');
-    setTimeout(() => setSeoJdSuccessMsg(''), 5000);
   };
 
   const handleAutoExtract = async (e: React.FormEvent) => {
@@ -2609,269 +2452,48 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
               </div>
 
-              {/* High-RPM Focus Keyword & Google AdSense SEO JD Toolkit */}
-              <div className="p-4 bg-gradient-to-br from-indigo-50/90 via-sky-50/60 to-purple-50/50 border-2 border-indigo-200/90 rounded-2xl shadow-sm space-y-3">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
-                      <Target className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                        High-RPM Focus Keyword &amp; AdSense JD Generator
-                        <span className="text-[10px] normal-case bg-indigo-100 text-indigo-700 font-semibold px-2 py-0.5 rounded-full border border-indigo-200">
-                          Google Helpful Content Compliant
-                        </span>
-                      </h4>
-                      <p className="text-[11px] text-slate-600">
-                        Synthesizes high-paying search intent, editorial commentary, and structured qualifications.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                    <Award className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>AdSense Quality Certified</span>
-                  </div>
-                </div>
-
-                {/* 1-Click Micro-Niche Preset Selector */}
-                <div>
-                  <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
-                    <div>
-                      <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                        Micro-Niche Preset Mode:
-                      </label>
-                      <p className="text-[11px] text-slate-500">
-                        {selectedMicroNiche
-                          ? `Currently Active Preset: "${selectedMicroNiche.name}". Click "No Preset (Standard)" to clear.`
-                          : 'Standard Mode Active: No keywords or niche constraints forced. Perfect for standard manual postings.'}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedMicroNiche(null)}
-                        className={`px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                          !selectedMicroNiche
-                            ? 'bg-emerald-600 text-white shadow-xs'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                        }`}
-                      >
-                        <span>● No Preset (Standard Job)</span>
-                      </button>
-                      <span className="text-slate-300">|</span>
-                      <span className="text-[11px] text-slate-500 font-medium px-2">
-                        {selectedMicroNiche ? 'Preset Active' : 'Select a Preset Below ↓'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                    {/* Explicit Option 1: Standard Job (No Preset) Card */}
-                    <button
-                      type="button"
-                      onClick={() => setSelectedMicroNiche(null)}
-                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
-                        !selectedMicroNiche
-                          ? 'bg-emerald-50 border-emerald-500 shadow-sm ring-2 ring-emerald-200'
-                          : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-1 mb-1">
-                        <span className="font-bold text-xs leading-tight text-emerald-950">
-                          🌱 Standard Job (No Preset)
-                        </span>
-                        <span
-                          className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded ${
-                            !selectedMicroNiche
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-slate-100 text-slate-600 border border-slate-200'
-                          }`}
-                        >
-                          {!selectedMicroNiche ? '✓ ACTIVE' : 'Click to Set'}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-slate-600 line-clamp-2">
-                        Post standard manual job with exact employer title &amp; description. Zero forced keyword tags.
-                      </p>
-                      <div className="mt-1.5 pt-1.5 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500 font-medium">
-                        <span>Natural Schema</span>
-                        <span className="italic">Any Location</span>
-                      </div>
-                    </button>
-
-                    {/* Available Niche Presets */}
-                    {MICRO_NICHE_PRESETS.map((preset) => {
-                      const isSelected = selectedMicroNiche?.id === preset.id;
-                      return (
-                        <button
-                          key={preset.id}
-                          type="button"
-                          onClick={() => handleApplyMicroNichePreset(preset)}
-                          className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
-                            isSelected
-                              ? 'bg-indigo-600 text-white border-indigo-700 shadow-md ring-2 ring-indigo-300'
-                              : 'bg-white hover:bg-indigo-50/50 text-slate-800 border-slate-200 hover:border-indigo-300'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between gap-1 mb-1">
-                            <span className="font-bold text-xs leading-tight line-clamp-1">{preset.name}</span>
-                            <span
-                              className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded ${
-                                isSelected
-                                  ? 'bg-white/20 text-white'
-                                  : preset.rpmTier === 'HIGH_RPM'
-                                  ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                                  : 'bg-blue-100 text-blue-800 border border-blue-200'
-                              }`}
-                            >
-                              {isSelected ? '✓ Selected' : preset.rpmTier === 'HIGH_RPM' ? '💰 High RPM' : '🔥 Viral Vol'}
-                            </span>
-                          </div>
-                          <p className={`text-[10px] line-clamp-2 ${isSelected ? 'text-indigo-100' : 'text-slate-500'}`}>
-                            {preset.targetAudience}
-                          </p>
-                          <div className="mt-1.5 pt-1.5 border-t border-current/15 flex items-center justify-between text-[10px]">
-                            <span className="font-mono opacity-90">
-                              {preset.suggestedSalaryRange.currency === 'INR'
-                                ? `₹${preset.suggestedSalaryRange.min / 100000}L–₹${preset.suggestedSalaryRange.max / 100000}L`
-                                : `$${preset.suggestedSalaryRange.min / 1000}k–$${preset.suggestedSalaryRange.max / 1000}k`}
-                            </span>
-                            <span className="italic opacity-80">{preset.defaultLocation.split('(')[0].trim()}</span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Primary Keywords for Selected Niche or Standard Mode */}
-                {selectedMicroNiche ? (
-                  <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-2.5 animate-fade-in">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[11px] font-bold text-indigo-950 flex items-center gap-1">
-                        <Zap className="w-3.5 h-3.5 text-amber-500" />
-                        Target Search Keywords ({selectedMicroNiche.badge}):
-                      </span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-slate-500 font-mono">
-                          {selectedMicroNiche.primaryKeywords.length} Search Queries
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setSelectedMicroNiche(null)}
-                          className="text-[10px] text-rose-600 hover:text-rose-800 font-semibold cursor-pointer underline"
-                        >
-                          Deselect
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {selectedMicroNiche.primaryKeywords.map((kw, idx) => (
-                        <span
-                          key={idx}
-                          className="text-[10px] font-medium bg-white text-indigo-900 px-2 py-0.5 rounded-md border border-indigo-200 font-mono"
-                        >
-                          #{kw}
-                        </span>
-                      ))}
-                    </div>
-                    <p className="text-[10px] text-indigo-800 mt-1.5 italic">
-                      💡 <strong>AdSense Strategy:</strong> {selectedMicroNiche.guidelinesNotes}
+              {/* Job Description (Default LinkedIn Structure) */}
+              <div>
+                <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700">
+                      Job Description (Original &amp; Verbatim Content) <span className="text-rose-500">*</span>
+                    </label>
+                    <p className="text-[11px] text-slate-500">
+                      Standard LinkedIn structure default: automatically isolates paragraphs, ATS metadata, responsibilities, and qualifications.
                     </p>
                   </div>
-                ) : (
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-600 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-slate-400 shrink-0"></span>
-                      <span>
-                        <strong>Standard Manual Job:</strong> No focus preset active. Title, location, and requirements will be posted cleanly without forced niche tags.
-                      </span>
-                    </div>
-                    <span className="text-[10px] text-slate-400 italic shrink-0">
-                      (Click any preset above only if you wish to apply targeted keywords)
-                    </span>
-                  </div>
-                )}
-
-                {/* Generate Button & Feedback */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
                   <button
                     type="button"
-                    onClick={handleGenerateSeoJd}
-                    className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+                    onClick={handleCleanAndFormatLinkedInJd}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-800 hover:text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-300 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer shadow-xs"
+                    title="Automatically decode HTML entities, clean ATS tracking headers, split concatenated bullets, and populate Responsibilities and Qualifications in LinkedIn style"
                   >
-                    <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-                    <span>Generate AdSense-Compliant Editorial JD</span>
+                    <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+                    <span>✨ Auto-Format LinkedIn Structure</span>
                   </button>
-                  <span className="text-[11px] text-slate-500 text-center sm:text-right">
-                    Generates 150+ words of authentic editorial review, structured checklist &amp; requirements.
-                  </span>
                 </div>
 
                 {seoJdSuccessMsg && (
-                  <div className="p-2.5 bg-emerald-50 border border-emerald-300 rounded-xl text-xs text-emerald-800 flex items-center gap-2 animate-fade-in shadow-2xs">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <div className="mb-2 p-2.5 bg-sky-50 border border-sky-200 rounded-xl text-xs text-sky-900 flex items-center gap-2 animate-fade-in shadow-2xs">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 flex-shrink-0" />
                     <span className="font-medium">{seoJdSuccessMsg}</span>
                   </div>
                 )}
-              </div>
 
-              {/* Unparaphrased Description */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5 flex-wrap gap-2">
-                  <label className="block text-xs font-bold text-slate-700">
-                    Job Description (Original &amp; Editorial Content) <span className="text-rose-500">*</span>
-                  </label>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={handleApplyMicrosoftPattern}
-                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-700 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
-                      title="Apply verified Microsoft reference pattern (manual-1791385515589): authentic role context + 6x6 technical responsibilities and qualifications"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>📋 Apply Microsoft Pattern (1791385515589)</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleCleanAndFormatLinkedInJd}
-                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-sky-800 hover:text-sky-900 bg-sky-50 hover:bg-sky-100 border border-sky-300 px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
-                      title="Automatically decode HTML entities, clean ATS tracking headers, split concatenated bullets, and populate Responsibilities and Qualifications in LinkedIn style"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-                      <span>✨ Auto-Format LinkedIn Structure</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleInsertGoogleFirstParagraph}
-                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
-                      title="Insert or refresh natural editorial lead paragraph (Google Ranking & AdSense policy compliant)"
-                    >
-                      <Zap className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>⚡ Insert Editorial Lead Paragraph</span>
-                    </button>
-                  </div>
-                </div>
                 <textarea
-                  rows={6}
+                  rows={7}
                   required
-                  placeholder="Paste verbatim job description or use 'Generate AdSense-Compliant Editorial JD' above..."
+                  placeholder="Paste verbatim job description or ATS requisition text here..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed"
                 />
                 <div className="flex items-center justify-between text-[11px] text-slate-500 mt-1">
                   <span>
-                    Word count: <strong>{description.split(/\s+/).filter(Boolean).length} words</strong>{' '}
-                    {description.split(/\s+/).filter(Boolean).length >= 150 ? (
-                      <span className="text-emerald-600 font-semibold">(✅ Meets AdSense Helpful Content length)</span>
-                    ) : (
-                      <span className="text-amber-600">(⚠️ Suggest 150+ words for AdSense indexing)</span>
-                    )}
+                    Word count: <strong>{description.split(/\s+/).filter(Boolean).length} words</strong>
                   </span>
-                  <span className="text-[10px] text-slate-400">Preserves original requirements without thin content penalties</span>
+                  <span className="text-[10px] text-slate-400">Authentic employer requirements formatted into clean LinkedIn structure</span>
                 </div>
               </div>
 

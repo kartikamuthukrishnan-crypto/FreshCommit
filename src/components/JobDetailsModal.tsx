@@ -13,7 +13,7 @@ import {
   stripSyntheticSpamBoilerplate
 } from '../utils/textHumanizer';
 import { cleanHtml, getRoleMarketBenchmark, isCssOrNoiseLine } from '../utils/jobExtractor';
-import { parseJobDescription } from '../utils/jobDescriptionParser';
+import { parseJobDescription, formatProseParagraphs } from '../utils/jobDescriptionParser';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
 import {
@@ -613,7 +613,12 @@ export const JobDetailsModal: React.FC<JobDetailsModalProps> = ({ job, onClose, 
 
                 if (combinedParagraphs.length === 0) {
                   const cleanFallback = stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''));
-                  return <p className="leading-relaxed whitespace-pre-line">{cleanFallback}</p>;
+                  const fallbackParas = formatProseParagraphs(cleanFallback);
+                  return fallbackParas.map((para, idx) => (
+                    <p key={idx} className="leading-relaxed">
+                      {para}
+                    </p>
+                  ));
                 }
 
                 return combinedParagraphs.map((para, idx) => (

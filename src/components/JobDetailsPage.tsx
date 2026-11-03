@@ -19,7 +19,7 @@ import { CAREER_ARTICLES } from '../data/careerArticles';
 import { getContextualArticlesForJob } from '../utils/relatedJobsMatcher';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
-import { parseJobDescription } from '../utils/jobDescriptionParser';
+import { parseJobDescription, formatProseParagraphs } from '../utils/jobDescriptionParser';
 import {
   MapPin,
   DollarSign,
@@ -822,7 +822,12 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                         ));
                       }
                       const cleanFallback = stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''));
-                      return <p className="leading-relaxed">{cleanFallback}</p>;
+                      const fallbackList = formatProseParagraphs(cleanFallback);
+                      return fallbackList.map((para, idx) => (
+                        <p key={idx} className="leading-relaxed">
+                          {para}
+                        </p>
+                      ));
                     })()}
                   </div>
                 </div>
