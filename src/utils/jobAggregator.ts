@@ -1001,6 +1001,99 @@ export function expireAllEditorialLeadJobs(jobs: JobPosting[]): {
 }
 
 /**
+ * Accurately determines if a job posting was formatted with or derived from
+ * "📋 Apply Microsoft Pattern (1791385515589)" (including the reference job itself and any listing using its 6x6 spec).
+ */
+export function isJobUsingMicrosoftPattern(job: Partial<JobPosting> | null | undefined): boolean {
+  if (!job) return false;
+  if (job.id === 'manual-1791385515589') return true;
+
+  const normalize = (s: string) =>
+    (s || '')
+      .replace(/[\u2010\u2011\u2012\u2013\u2014\u2015]/g, '-')
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/\s+/g, ' ')
+      .toLowerCase();
+
+  const d = normalize(job.description || '');
+  const resps = (job.responsibilities || []).map(normalize);
+  const quals = (job.qualifications || []).map(normalize);
+  const allText = [d, ...resps, ...quals].join(' ');
+
+  // 1. Signature responsibilities from handleApplyMicrosoftPattern:
+  if (
+    allText.includes("power microsoft's core cloud infrastructure") ||
+    allText.includes('power microsofts core cloud infrastructure')
+  ) {
+    return true;
+  }
+  if (
+    allText.includes('design and consume restful apis, grpc services, and event-driven architectures utilizing kafka') ||
+    (allText.includes('restful apis, grpc services') && allText.includes('utilizing kafka or message queues'))
+  ) {
+    return true;
+  }
+  if (
+    allText.includes('diagnose production latency bottlenecks, optimize database query execution plans')
+  ) {
+    return true;
+  }
+  if (
+    allText.includes('participate in rotational operational health monitoring, analyzing telemetry dashboards')
+  ) {
+    return true;
+  }
+
+  // 2. Signature qualifications and descriptions:
+  if (
+    allText.includes('solid comprehension of object-oriented design patterns, data structures, and relational databases') &&
+    allText.includes('strong problem-solving instincts, keen attention to software reliability, and team-first collaboration mindset')
+  ) {
+    return true;
+  }
+
+  if (
+    d.includes('cloud-scale services and platform components used in security-critical and highly') &&
+    d.includes('apply secure-by-design principles throughout the development lifecycle')
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Bulk marks all jobs that used "📋 Apply Microsoft Pattern (1791385515589)" as EXPIRED
+ */
+export function expireAllMicrosoftPatternJobs(jobs: JobPosting[]): {
+  updatedJobs: JobPosting[];
+  expiredCount: number;
+  expiredJobIds: string[];
+} {
+  const expiredJobIds: string[] = [];
+  const updatedJobs = jobs.map((j) => {
+    if (isJobUsingMicrosoftPattern(j)) {
+      if (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01') {
+        expiredJobIds.push(j.id);
+        return {
+          ...j,
+          status: 'EXPIRED' as const,
+          validThrough: '2025-01-01',
+          healthStatus: 'DEAD_LINK' as const
+        };
+      }
+    }
+    return j;
+  });
+
+  return {
+    updatedJobs,
+    expiredCount: expiredJobIds.length,
+    expiredJobIds
+  };
+}
+
+/**
  * Determines whether a job posting is expired based on either:
  * 1. Explicit status !== 'ACTIVE'
  * 2. validThrough date is earlier than today's date (auto-vanishing cutoff)

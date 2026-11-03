@@ -9,6 +9,8 @@ import {
   expireAllJobPulseJobs,
   isJobUsingEditorialLeadParagraph,
   expireAllEditorialLeadJobs,
+  isJobUsingMicrosoftPattern,
+  expireAllMicrosoftPatternJobs,
   isJobExpired,
   getDaysUntilExpiration,
   checkDuplicateJob,
@@ -992,6 +994,36 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       );
     } catch (e) {
       console.warn('Cloud sync error for editorial lead expiration:', e);
+      alert(`✅ Marked ${expiredCount} listings as EXPIRED locally; syncing with Firestore in background.`);
+    }
+  };
+
+  const activeMicrosoftPatternJobs = jobs.filter(
+    (j) => isJobUsingMicrosoftPattern(j) && (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01')
+  );
+
+  const handleExpireAllMicrosoftPatternJobs = async () => {
+    if (activeMicrosoftPatternJobs.length === 0) {
+      alert('All listings that used "📋 Apply Microsoft Pattern (1791385515589)" are already expired.');
+      return;
+    }
+    if (
+      !confirm(
+        `Are you sure you want to mark all ${activeMicrosoftPatternJobs.length} active job(s) using "📋 Apply Microsoft Pattern (1791385515589)" as EXPIRED?`
+      )
+    ) {
+      return;
+    }
+    const { updatedJobs, expiredCount } = expireAllMicrosoftPatternJobs(jobs);
+    setJobs(updatedJobs);
+    try {
+      const expiredToSave = updatedJobs.filter((j) => isJobUsingMicrosoftPattern(j));
+      await batchSaveJobsToCloud(expiredToSave);
+      alert(
+        `✅ Successfully expired ${expiredCount} listing(s) that used "📋 Apply Microsoft Pattern (1791385515589)" and synchronized with Firestore!`
+      );
+    } catch (e) {
+      console.warn('Cloud sync error for Microsoft pattern expiration:', e);
       alert(`✅ Marked ${expiredCount} listings as EXPIRED locally; syncing with Firestore in background.`);
     }
   };
@@ -3445,6 +3477,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 >
                   <AlertTriangle className="w-3.5 h-3.5" />
                   <span>Expire Editorial Lead Jobs ({activeEditorialLeadJobs.length})</span>
+                </button>
+              )}
+
+              {activeMicrosoftPatternJobs.length > 0 && (
+                <button
+                  onClick={handleExpireAllMicrosoftPatternJobs}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
+                  title="Expire all jobs that used '📋 Apply Microsoft Pattern (1791385515589)'"
+                >
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>Expire Microsoft Pattern Jobs ({activeMicrosoftPatternJobs.length})</span>
                 </button>
               )}
             </div>

@@ -24,7 +24,12 @@ import { HomeEditorialContent } from './components/HomeEditorialContent';
 import { FeaturedEditorialSection } from './components/FeaturedEditorialSection';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
-import { isJobExpired, isJobPulseExtractedJob, isJobUsingEditorialLeadParagraph } from './utils/jobAggregator';
+import {
+  isJobExpired,
+  isJobPulseExtractedJob,
+  isJobUsingEditorialLeadParagraph,
+  isJobUsingMicrosoftPattern
+} from './utils/jobAggregator';
 import { getFocusKeywordForJob, stripSyntheticSpamBoilerplate } from './utils/textHumanizer';
 import { disableAnalyticsForAdmin, trackPageView } from './utils/analytics';
 import {
@@ -137,7 +142,11 @@ export default function App() {
                 seen.add(item.id);
                 const cleanedDesc = stripSyntheticSpamBoilerplate(item.description || '');
                 let finalItem = cleanedDesc !== item.description ? { ...item, description: cleanedDesc } : item;
-                if (isJobPulseExtractedJob(finalItem) || isJobUsingEditorialLeadParagraph(finalItem)) {
+                if (
+                  isJobPulseExtractedJob(finalItem) ||
+                  isJobUsingEditorialLeadParagraph(finalItem) ||
+                  isJobUsingMicrosoftPattern(finalItem)
+                ) {
                   finalItem = {
                     ...finalItem,
                     status: 'EXPIRED',
@@ -160,7 +169,11 @@ export default function App() {
     return INITIAL_JOBS.map((j) => {
       const cleaned = stripSyntheticSpamBoilerplate(j.description || '');
       let finalJob = cleaned !== j.description ? { ...j, description: cleaned } : j;
-      if (isJobPulseExtractedJob(finalJob) || isJobUsingEditorialLeadParagraph(finalJob)) {
+      if (
+        isJobPulseExtractedJob(finalJob) ||
+        isJobUsingEditorialLeadParagraph(finalJob) ||
+        isJobUsingMicrosoftPattern(finalJob)
+      ) {
         finalJob = {
           ...finalJob,
           status: 'EXPIRED',
@@ -212,7 +225,11 @@ export default function App() {
         const sanitizedCloudJobs = cloudJobs.map((j) => {
           const isPulse = isJobPulseExtractedJob(j);
           const isEditorial = isJobUsingEditorialLeadParagraph(j);
-          if ((isPulse || isEditorial) && (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01')) {
+          const isMicrosoft = isJobUsingMicrosoftPattern(j);
+          if (
+            (isPulse || isEditorial || isMicrosoft) &&
+            (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01')
+          ) {
             const updated = {
               ...j,
               status: 'EXPIRED' as const,
