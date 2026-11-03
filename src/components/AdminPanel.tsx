@@ -7,6 +7,8 @@ import {
   syncSmartRecruitersJobs,
   isJobPulseExtractedJob,
   expireAllJobPulseJobs,
+  isJobUsingEditorialLeadParagraph,
+  expireAllEditorialLeadJobs,
   isJobExpired,
   getDaysUntilExpiration,
   checkDuplicateJob,
@@ -964,6 +966,36 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
   };
 
+  const activeEditorialLeadJobs = jobs.filter(
+    (j) => isJobUsingEditorialLeadParagraph(j) && (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01')
+  );
+
+  const handleExpireAllEditorialLeadJobs = async () => {
+    if (activeEditorialLeadJobs.length === 0) {
+      alert('All listings that used "⚡ Insert Editorial Lead Paragraph" are already expired.');
+      return;
+    }
+    if (
+      !confirm(
+        `Are you sure you want to mark all ${activeEditorialLeadJobs.length} active job(s) using "⚡ Insert Editorial Lead Paragraph" as EXPIRED?`
+      )
+    ) {
+      return;
+    }
+    const { updatedJobs, expiredCount } = expireAllEditorialLeadJobs(jobs);
+    setJobs(updatedJobs);
+    try {
+      const expiredToSave = updatedJobs.filter((j) => isJobUsingEditorialLeadParagraph(j));
+      await batchSaveJobsToCloud(expiredToSave);
+      alert(
+        `✅ Successfully expired ${expiredCount} listing(s) that used "⚡ Insert Editorial Lead Paragraph" and synchronized with Firestore!`
+      );
+    } catch (e) {
+      console.warn('Cloud sync error for editorial lead expiration:', e);
+      alert(`✅ Marked ${expiredCount} listings as EXPIRED locally; syncing with Firestore in background.`);
+    }
+  };
+
   const handleCleanAndFormatLinkedInJd = () => {
     if (!description.trim()) {
       alert('Please paste or write a job description in the box first.');
@@ -980,11 +1012,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     if (parsed.responsibilities.length > 0) {
       setResponsibilitiesText(parsed.responsibilities.join('\n'));
     }
-    if (parsed.qualifications.length > 0) {
-      setQualificationsText(parsed.qualifications.join('\n'));
+    const combinedQuals = [
+      ...parsed.qualifications,
+      ...(parsed.preferredQualifications.length > 0 ? parsed.preferredQualifications : [])
+    ];
+    if (combinedQuals.length > 0) {
+      setQualificationsText(combinedQuals.join('\n'));
     }
-    setSeoJdSuccessMsg('✨ Transformed into clean LinkedIn structure! Decoded entities, separated responsibilities & qualifications, and stripped ATS headers.');
-    setTimeout(() => setSeoJdSuccessMsg(''), 5000);
+    setSeoJdSuccessMsg(`✨ Transformed into clean LinkedIn structure! (${parsed.responsibilities.length} responsibilities, ${combinedQuals.length} qualifications, clean paragraphs, ATS headers isolated)`);
+    setTimeout(() => setSeoJdSuccessMsg(''), 6000);
   };
 
   const handleDeleteJob = (id: string) => {
@@ -3398,6 +3434,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   <span>{jpExpiring ? 'Purging JobPulse...' : `Purge All JobPulse Jobs (${jobPulseJobs.length})`}</span>
+                </button>
+              )}
+
+              {activeEditorialLeadJobs.length > 0 && (
+                <button
+                  onClick={handleExpireAllEditorialLeadJobs}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
+                  title="Expire all jobs that used '⚡ Insert Editorial Lead Paragraph'"
+                >
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>Expire Editorial Lead Jobs ({activeEditorialLeadJobs.length})</span>
                 </button>
               )}
             </div>

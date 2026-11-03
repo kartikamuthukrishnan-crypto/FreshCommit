@@ -796,29 +796,79 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
               )}
 
               {/* About Role & Company Prose */}
-              <div className="space-y-4">
-                <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
-                  <span>About the Role &amp; Team</span>
-                </h3>
-                <div className="text-xs sm:text-sm text-[#3c4043] leading-relaxed font-normal space-y-3.5">
-                  {(() => {
-                    const combinedParagraphs = [
-                      ...parsedJd.aboutCompany,
-                      ...parsedJd.aboutRole
-                    ].filter((p) => p && p.trim().length > 0);
-
-                    if (combinedParagraphs.length === 0) {
+              <div className="space-y-6">
+                {/* About Role / Mission */}
+                <div className="space-y-3">
+                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-[#1a73e8]" />
+                    <span>Role Mission &amp; Overview</span>
+                  </h3>
+                  <div className="text-xs sm:text-sm text-[#3c4043] leading-relaxed font-normal space-y-3">
+                    {(() => {
+                      const roleParas = parsedJd.aboutRole.filter((p) => p && p.trim().length > 0);
+                      if (roleParas.length > 0) {
+                        return roleParas.map((para, idx) => (
+                          <p key={idx} className="leading-relaxed">
+                            {para}
+                          </p>
+                        ));
+                      }
+                      const fallbackParas = parsedJd.aboutCompany.filter((p) => p && p.trim().length > 0);
+                      if (fallbackParas.length > 0) {
+                        return fallbackParas.map((para, idx) => (
+                          <p key={idx} className="leading-relaxed">
+                            {para}
+                          </p>
+                        ));
+                      }
                       const cleanFallback = stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''));
                       return <p className="leading-relaxed">{cleanFallback}</p>;
-                    }
-
-                    return combinedParagraphs.map((para, idx) => (
-                      <p key={idx} className="leading-relaxed">
-                        {para}
-                      </p>
-                    ));
-                  })()}
+                    })()}
+                  </div>
                 </div>
+
+                {/* About Company (when distinct from role) */}
+                {parsedJd.aboutCompany.length > 0 && parsedJd.aboutRole.length > 0 && (
+                  <div className="pt-4 border-t border-[#f1f3f4] space-y-2.5">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#202124] flex items-center gap-2">
+                      <Building2 className="w-3.5 h-3.5 text-[#5f6368]" />
+                      <span>About {job.company}</span>
+                    </h4>
+                    <div className="text-xs sm:text-sm text-[#4b5563] leading-relaxed space-y-2.5">
+                      {parsedJd.aboutCompany.map((para, idx) => (
+                        <p key={idx} className="leading-relaxed">
+                          {para}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Team Culture & Work Environment Callout */}
+                {parsedJd.companyCulture && parsedJd.companyCulture.length > 0 && (
+                  <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50/60 to-blue-50/40 border border-indigo-100/80 space-y-2">
+                    <h4 className="text-xs font-bold text-indigo-900 flex items-center gap-1.5 uppercase tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Team Culture &amp; Opportunity</span>
+                    </h4>
+                    <div className="text-xs text-indigo-950/80 leading-relaxed space-y-2 font-normal">
+                      {parsedJd.companyCulture.map((para, idx) => (
+                        <p key={idx}>{para}</p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Inlined Compensation Guidance (if parsed) */}
+                {parsedJd.compensationText && (
+                  <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200/80 flex items-start gap-2.5 text-xs text-emerald-900">
+                    <DollarSign className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-semibold block text-emerald-950">Employer Compensation Note</span>
+                      <p className="mt-0.5 text-emerald-800 leading-relaxed">{parsedJd.compensationText}</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Key Responsibilities */}

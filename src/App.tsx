@@ -24,9 +24,9 @@ import { HomeEditorialContent } from './components/HomeEditorialContent';
 import { FeaturedEditorialSection } from './components/FeaturedEditorialSection';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { AppTab } from './types';
-import { trackPageView, disableAnalyticsForAdmin } from './utils/analytics';
-import { isJobExpired, isJobPulseExtractedJob } from './utils/jobAggregator';
+import { isJobExpired, isJobPulseExtractedJob, isJobUsingEditorialLeadParagraph } from './utils/jobAggregator';
 import { getFocusKeywordForJob, stripSyntheticSpamBoilerplate } from './utils/textHumanizer';
+import { disableAnalyticsForAdmin, trackPageView } from './utils/analytics';
 import {
   subscribeToLiveJobs,
   batchSaveJobsToCloud,
@@ -137,7 +137,7 @@ export default function App() {
                 seen.add(item.id);
                 const cleanedDesc = stripSyntheticSpamBoilerplate(item.description || '');
                 let finalItem = cleanedDesc !== item.description ? { ...item, description: cleanedDesc } : item;
-                if (isJobPulseExtractedJob(finalItem)) {
+                if (isJobPulseExtractedJob(finalItem) || isJobUsingEditorialLeadParagraph(finalItem)) {
                   finalItem = {
                     ...finalItem,
                     status: 'EXPIRED',
@@ -160,7 +160,7 @@ export default function App() {
     return INITIAL_JOBS.map((j) => {
       const cleaned = stripSyntheticSpamBoilerplate(j.description || '');
       let finalJob = cleaned !== j.description ? { ...j, description: cleaned } : j;
-      if (isJobPulseExtractedJob(finalJob)) {
+      if (isJobPulseExtractedJob(finalJob) || isJobUsingEditorialLeadParagraph(finalJob)) {
         finalJob = {
           ...finalJob,
           status: 'EXPIRED',
@@ -208,17 +208,25 @@ export default function App() {
     // Subscribe to live cloud jobs (Firestore is authoritative source of truth)
     const unsubscribeJobs = subscribeToLiveJobs((cloudJobs) => {
       if (cloudJobs && cloudJobs.length > 0) {
+        const expiredToSync: JobPosting[] = [];
         const sanitizedCloudJobs = cloudJobs.map((j) => {
-          if (isJobPulseExtractedJob(j) && (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01')) {
-            return {
+          const isPulse = isJobPulseExtractedJob(j);
+          const isEditorial = isJobUsingEditorialLeadParagraph(j);
+          if ((isPulse || isEditorial) && (j.status !== 'EXPIRED' || !j.validThrough || j.validThrough >= '2026-01-01')) {
+            const updated = {
               ...j,
               status: 'EXPIRED' as const,
               validThrough: '2025-01-01',
               healthStatus: 'DEAD_LINK' as const
             };
+            expiredToSync.push(updated);
+            return updated;
           }
           return j;
         });
+        if (expiredToSync.length > 0) {
+          batchSaveJobsToCloud(expiredToSync).catch((err) => console.warn('Could not sync expired jobs to cloud:', err));
+        }
         setJobs(sanitizedCloudJobs);
         try {
           localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(sanitizedCloudJobs));

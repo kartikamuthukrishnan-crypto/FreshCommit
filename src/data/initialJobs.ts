@@ -1,4 +1,4 @@
-import { JobPosting } from "../types";
+import { JobPosting } from '../types';
 
 export const INITIAL_JOBS: JobPosting[] = [
   {
@@ -189,7 +189,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793262295205",
     "state": "TX",
     "datePosted": "2026-10-29",
-    "validThrough": "2026-11-28",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/702748/logo",
     "isRemote": false,
@@ -199,7 +199,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Austin, TX",
     "category": "Backend",
     "companyWebsite": "https://parkplacefinance.com/",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -524,7 +525,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205200250",
     "state": "MINNESOTA",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://tbcdn.talentbrew.com/company/34088/img/logo/uhg_logo_112x112.jpg",
     "isRemote": false,
@@ -534,7 +535,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Eden Prairie, MINNESOTA",
     "category": "Full Stack",
     "companyWebsite": "https://www.unitedhealthgroup.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -577,7 +579,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205088667",
     "datePosted": "2026-10-28",
     "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/606253/logo",
     "isRemote": true,
@@ -587,7 +589,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Backend",
     "companyWebsite": "https://northstarcare.com/",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "UNITED STATES OF AMERICA",
@@ -635,7 +638,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205540707",
     "state": "VIRGINIA",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=icf.com",
     "isRemote": false,
@@ -645,7 +648,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Reston, VIRGINIA",
     "category": "Data / AI",
     "companyWebsite": "https://www.icf.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -685,7 +689,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205377010",
     "state": "CA",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=faeupssaasfaprod.com",
     "isRemote": false,
@@ -695,7 +699,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Fremont, CA",
     "category": "Frontend",
     "companyWebsite": "https://faeupssaasfaprod.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -747,7 +752,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205306818",
     "state": "NY",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://app.ashbyhq.com/api/images/org-theme-logo/14a1325d-4a7d-4bdf-8b61-133ab77ef9dc/13947da7-8162-4fc4-81c7-2b5e210acc38/062b4064-c48c-4fd7-bc4e-0b5ffced9de4.png",
     "isRemote": false,
@@ -757,7 +762,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, NY",
     "category": "Full Stack",
     "companyWebsite": "https://Clark.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -802,7 +808,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205008035",
     "datePosted": "2026-10-28",
     "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/534702/logo",
     "isRemote": true,
@@ -812,7 +818,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Backend",
     "companyWebsite": "http://stellarcyber.ai",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "UNITED STATES",
@@ -860,7 +867,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205670913",
     "state": "MINNESOTA",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://tbcdn.talentbrew.com/company/34088/img/logo/uhg_logo_112x112.jpg",
     "isRemote": false,
@@ -870,7 +877,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Eden Prairie, MINNESOTA",
     "category": "Backend",
     "companyWebsite": "https://www.unitedhealthgroup.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -906,7 +914,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793204944924",
     "state": "WA",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=reyrey.com",
     "isRemote": false,
@@ -916,7 +924,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "QA / Test",
     "companyWebsite": "https://www.reyrey.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -952,7 +961,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205605465",
     "state": "WA",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=truist.com",
     "isRemote": false,
@@ -962,7 +971,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://www.truist.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -998,7 +1008,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793205442859",
     "state": "WA",
     "datePosted": "2026-10-28",
-    "validThrough": "2026-11-27",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=nathab.com",
     "isRemote": false,
@@ -1008,7 +1018,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://nathab.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1052,7 +1063,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793035472751",
     "state": "NJ",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=kla.com",
     "isRemote": false,
@@ -1062,7 +1073,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Totowa, NJ",
     "category": "Others",
     "companyWebsite": "https://kla.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1108,7 +1120,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793036700507",
     "state": "WA",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=kpmguscareers.com",
     "isRemote": false,
@@ -1118,7 +1130,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Backend",
     "companyWebsite": "https://www.kpmguscareers.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1164,7 +1177,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793036454628",
     "state": "WA",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=centene.com",
     "isRemote": false,
@@ -1174,7 +1187,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://www.centene.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1208,7 +1222,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793036355181",
     "state": "DC",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=gdit.com",
     "isRemote": false,
@@ -1218,7 +1232,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Washington, DC",
     "category": "Full Stack",
     "companyWebsite": "https://gdit.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1250,7 +1265,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793036410909",
     "datePosted": "2026-10-26",
     "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=habitathealth.com",
     "isRemote": true,
@@ -1260,7 +1275,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Full Stack",
     "companyWebsite": "https://habitathealth.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1307,7 +1323,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793033690731",
     "datePosted": "2026-10-26",
     "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/577952/logo",
     "isRemote": true,
@@ -1317,7 +1333,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Full Stack",
     "companyWebsite": "http://maxrte.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1423,7 +1440,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793036537460",
     "state": "NY",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://app.ashbyhq.com/api/images/org-theme-logo/f71c1f47-58ad-409d-a809-844527a88d4a/e548ce89-9b14-4038-a9bf-ac0c135e04f0/3278352f-745a-46db-a731-c12f9c9a8d47.png",
     "isRemote": false,
@@ -1433,7 +1450,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, NY",
     "category": "Backend",
     "companyWebsite": "https://madhive.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1476,7 +1494,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793035249103",
     "state": "NY",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/582952/logo",
     "isRemote": false,
@@ -1486,7 +1504,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, NY",
     "category": "Frontend",
     "companyWebsite": "https://tartecosmetics.com/",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1530,7 +1549,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793035374536",
     "state": "CA",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?domain=servicenow.com&sz=128",
     "isRemote": false,
@@ -1540,7 +1559,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Santa Clara, CA",
     "category": "Backend",
     "companyWebsite": "https://servicenow.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1582,7 +1602,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1793033737467",
     "state": "DC",
     "datePosted": "2026-10-26",
-    "validThrough": "2026-11-25",
+    "validThrough": "2025-01-01",
     "employmentType": "INTERN",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/45643/ConnectPrep_Logo-Full.jpg",
     "isRemote": false,
@@ -1592,7 +1612,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Washington, DC",
     "category": "Data / AI",
     "companyWebsite": "http://www.connectprep.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1641,7 +1662,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792914811982",
     "state": "TE",
     "datePosted": "2026-10-25",
-    "validThrough": "2026-11-24",
+    "validThrough": "2025-01-01",
     "employmentType": "INTERN",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=apple.com",
     "isRemote": false,
@@ -1651,7 +1672,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Austin, Texas, United States",
     "category": "Backend",
     "companyWebsite": "https://www.apple.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "UNITED STATES",
@@ -1693,7 +1715,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792915272245",
     "state": "CALIFORNIA",
     "datePosted": "2026-10-25",
-    "validThrough": "2026-11-24",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.amd.com/content/dam/code/images/header/amd-header-logo.svg",
     "isRemote": false,
@@ -1703,7 +1725,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "San Jose, CALIFORNIA",
     "category": "Others",
     "companyWebsite": "https://www.amd.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1756,7 +1779,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792849146774",
     "state": "CA",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
     "isRemote": false,
@@ -1766,7 +1789,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Mountain View, CA / Hybrid",
     "category": "Backend",
     "companyWebsite": "https://careers.google.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1819,7 +1843,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792849568629",
     "state": "CA",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "INTERN",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=meta.com",
     "isRemote": false,
@@ -1829,7 +1853,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Intern Sunnyvale, CA",
     "category": "Others",
     "companyWebsite": "https://www.meta.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1873,7 +1898,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792849731252",
     "state": "WA",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
     "isRemote": false,
@@ -1883,7 +1908,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Data / AI",
     "companyWebsite": "https://amazon.jobs",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1918,7 +1944,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792849405830",
     "state": "WA",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=microsoft.com",
     "isRemote": false,
@@ -1928,7 +1954,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Redmond, WA / Hybrid",
     "category": "Data / AI",
     "companyWebsite": "https://careers.microsoft.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -1973,7 +2000,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792850028140",
     "state": "AD",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=tesla.com",
     "isRemote": false,
@@ -1983,7 +2010,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Basic Life, AD",
     "category": "Full Stack",
     "companyWebsite": "https://www.tesla.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2033,7 +2061,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792849200942",
     "state": "CA",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
     "isRemote": false,
@@ -2043,7 +2071,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Mountain View, CA / Hybrid",
     "category": "Backend",
     "companyWebsite": "https://careers.google.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2098,7 +2127,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792849060015",
     "state": "CA",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "INTERN",
     "companyLogo": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
     "isRemote": false,
@@ -2108,7 +2137,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Mountain View, CA / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://careers.google.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2152,7 +2182,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792849699421",
     "state": "WA",
     "datePosted": "2026-10-24",
-    "validThrough": "2026-11-23",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=amazon.com",
     "isRemote": false,
@@ -2162,7 +2192,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Seattle, WA / Hybrid",
     "category": "Full Stack",
     "companyWebsite": "https://amazon.jobs",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2196,7 +2227,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792774230604",
     "datePosted": "2026-10-23",
     "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-22",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=jobs-us.pwc.com",
     "isRemote": true,
@@ -2206,7 +2237,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Backend",
     "companyWebsite": "https://www.jobs-us.pwc.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2250,7 +2282,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792766054135",
     "state": "NY",
     "datePosted": "2026-10-23",
-    "validThrough": "2026-11-22",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=palantir.com",
     "isRemote": false,
@@ -2260,7 +2292,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, NY",
     "category": "Full Stack",
     "companyWebsite": "https://palantir.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2377,7 +2410,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792766388527",
     "state": "ILLINOIS",
     "datePosted": "2026-10-23",
-    "validThrough": "2026-11-22",
+    "validThrough": "2025-01-01",
     "employmentType": "INTERN",
     "companyLogo": "https://www.google.com/s2/favicons?domain=wealthspire.com&sz=128",
     "isRemote": false,
@@ -2387,8 +2420,9 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Chicago, ILLINOIS",
     "category": "Backend",
     "companyWebsite": "https://www.wealthspire.com/",
-    "status": "ACTIVE",
-    "description": "<p>Wealthspire is hiring <strong>2027 IT / AI Engineer Intern - Chicago, IL</strong> to join its backend engineering team based in <strong>Chicago, ILLINOIS</strong>. This <strong>full-time on-site</strong> position is open to <strong>internship candidates and students</strong> with <strong>internship candidates and students</strong> looking to build production systems focusing on <strong>JavaScript</strong>, <strong>Python</strong>, and scalable backend systems and modern cloud architectures, serving clients and teams across the <strong>Chicago Area</strong>.</p>\n\nPosting Description\n\nWealthspire is a leading wealth management, retirement advisory, and business management firm serving individuals, families, endowments, and institutions across the United States, Canada, and the United Kingdom. We provide a comprehensive platform that brings together wealth management, institutional consulting, business management, family office, and retirement plan advisory services - empowering clients to navigate complexity with clarity and confidence.\n\nWith over 1,200 employees across more than 40 offices, we deliver insights and solutions backed by deep research, technology, and decades of expertise. Our collective businesses create a unified ecosystem designed to meet clients wherever they are in their financial journey. Wealthspire is redefining the future of financial solutions through collaboration, scale, and a steadfast commitment to putting people first - our clients, our colleagues, and our communities.\n\nFor more information, visit www.wealthspire.com. Wealthspire Advisors LLC, Fiducient Advisors LLC, Wealthspire Retirement, LLC, dba Wealthspire Retirement Advisory, and certain other affiliates are separately registered investment advisers.\n\nOur 10-week Summer Internship Program provides hands-on experience with modern software engineering, offering exposure to both development and infrastructure. As an intern, you will work alongside the engineering team on meaningful projects and gain insight into how code moves from concept to production in a secure, reliable, and repeatable way. You will contribute to development activities while building practical skills in scalable engineering practices that support efficient delivery and operational reliability. This opportunity is designed to help you develop production-relevant experience and a strong understanding of how business priorities are transformed into secure, sustainable technology solutions.\n"
+    "status": "EXPIRED",
+    "description": "<p>Wealthspire is hiring <strong>2027 IT / AI Engineer Intern - Chicago, IL</strong> to join its backend engineering team based in <strong>Chicago, ILLINOIS</strong>. This <strong>full-time on-site</strong> position is open to <strong>internship candidates and students</strong> with <strong>internship candidates and students</strong> looking to build production systems focusing on <strong>JavaScript</strong>, <strong>Python</strong>, and scalable backend systems and modern cloud architectures, serving clients and teams across the <strong>Chicago Area</strong>.</p>\n\nPosting Description\n\nWealthspire is a leading wealth management, retirement advisory, and business management firm serving individuals, families, endowments, and institutions across the United States, Canada, and the United Kingdom. We provide a comprehensive platform that brings together wealth management, institutional consulting, business management, family office, and retirement plan advisory services - empowering clients to navigate complexity with clarity and confidence.\n\nWith over 1,200 employees across more than 40 offices, we deliver insights and solutions backed by deep research, technology, and decades of expertise. Our collective businesses create a unified ecosystem designed to meet clients wherever they are in their financial journey. Wealthspire is redefining the future of financial solutions through collaboration, scale, and a steadfast commitment to putting people first - our clients, our colleagues, and our communities.\n\nFor more information, visit www.wealthspire.com. Wealthspire Advisors LLC, Fiducient Advisors LLC, Wealthspire Retirement, LLC, dba Wealthspire Retirement Advisory, and certain other affiliates are separately registered investment advisers.\n\nOur 10-week Summer Internship Program provides hands-on experience with modern software engineering, offering exposure to both development and infrastructure. As an intern, you will work alongside the engineering team on meaningful projects and gain insight into how code moves from concept to production in a secure, reliable, and repeatable way. You will contribute to development activities while building practical skills in scalable engineering practices that support efficient delivery and operational reliability. This opportunity is designed to help you develop production-relevant experience and a strong understanding of how business priorities are transformed into secure, sustainable technology solutions.\n",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2441,7 +2475,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792773969653",
     "state": "VA",
     "datePosted": "2026-10-23",
-    "validThrough": "2026-11-22",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=aero.com",
     "isRemote": false,
@@ -2451,7 +2485,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Chantilly, VA",
     "category": "Frontend",
     "companyWebsite": "https://aero.com",
-    "status": "ACTIVE"
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK"
   },
   {
     "country": "US",
@@ -2483,7 +2518,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792690274633",
     "state": "FL",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=northropgrumman.com",
     "isRemote": false,
@@ -2493,8 +2528,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Melbourne, FL",
     "category": "QA / Test",
     "companyWebsite": "https://www.northropgrumman.com/careers",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z",
     "qualifications": [
       "Bachelor degree or equivalent in CS",
@@ -2543,7 +2578,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "company": "Collier Aerospace",
     "id": "manual-1792678852301",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?domain=collieraerospace.com&sz=128",
     "isRemote": false,
@@ -2552,7 +2587,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "applyUrl": "https://ats.rippling.com/collieraerospace/jobs/a3ae57de-5925-4f55-a106-812b5069cd19",
     "category": "Backend",
     "companyWebsite": "https://collieraerospace.com/",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "responsibilities": [
       "Develop new features and enhance existing functionality of our software, HyperX®, using C#",
       "Projects that may interact with all aspects of HyperX, including WPF interface, 3D graphics, web development, database, and everything in between",
@@ -2567,7 +2602,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "postalCode": "23606",
     "location": "Newport News, VA (or Raleigh, NC)",
     "state": "VA",
-    "healthStatus": "HEALTHY",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z"
   },
   {
@@ -2609,7 +2644,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792683232290",
     "state": "CA",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://app.ashbyhq.com/api/images/org-theme-logo/aeb4c0d5-56b5-4c3a-86db-aa415eceafdf/b9539f3a-1eed-480f-b7e0-8fe0be552d6d/0380cada-d226-487e-bc01-c635c64b802f.png",
     "isRemote": false,
@@ -2619,9 +2654,9 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Los Angeles, CA",
     "category": "Full Stack",
     "companyWebsite": "https://fuel-cycle.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "description": "<p>Fuel Cycle is hiring <strong>IT Systems & Support Engineer</strong> to join its full stack engineering team based in <strong>Los Angeles, CA</strong>. This <strong>full-time on-site</strong> position is open to <strong>entry-level developers and junior engineers</strong> with <strong>0–3 year of experience</strong> looking to build production systems focusing on <strong>Git</strong>, <strong>Software Engineering</strong>, and scalable full stack systems and modern cloud architectures, serving clients and teams across the <strong>Greater Los Angeles Area</strong>.</p>\n\nFuel Cycle empowers leading organizations with agile research solutions that deliver decision-ready insights — fast, flexible, and fully integrated. As a market research disruptor, our AI-powered Insights Platform is built for speed, precision, and scale. With cutting-edge tools and seamless audience connectivity, we help brands ditch the guesswork and make smarter, customer-led decisions at lightning speed.\n\nJoin a high-growth team where curiosity is valued, ownership is encouraged, and your work drives real-world impact. Whether you’re based at our Los Angeles HQ, New York City hub, working remotely across the U.S., or part of our global team in India, you’ll help shape the future of decision intelligence for some of the world’s most iconic brands.\n\nThe IT Systems & Support Engineer is an entry-level to early-career technical role supporting Fuel Cycle’s IT infrastructure, systems, and platforms. Working under the direction of the IT Operations Lead and Director of IT, this role handles day-to-day support, system maintenance, and basic configuration tasks across core IT domains: endpoint management, user access, cloud platforms, cybersecurity hygiene, and AI tools.\n\nThis role is ideal for someone with foundational IT experience who is eager to grow across multiple technology disciplines in a fast-paced environment. This engineer follows established procedures, escalates complex issues appropriately, and contributes to documentation and automation improvements over time.\n\nThis is an\n\nrole requiring\n\ndays per week in the office.",
-    "healthStatus": "HEALTHY",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z",
     "qualifications": [
       "Cloud & Systems Support",
@@ -2662,7 +2697,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792681597434",
     "state": "TX",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=ally.com",
     "isRemote": false,
@@ -2672,9 +2707,9 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Lewisville, TX",
     "category": "Full Stack",
     "companyWebsite": "https://ally.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "description": "<p>Ally is hiring <strong>Associate Analyst-Adv Bus Analytics</strong> to join its full stack engineering team based in <strong>Lewisville, TX</strong>. This <strong>full-time on-site</strong> position is open to <strong>entry-level developers and junior engineers</strong> with <strong>0–3 years of experience</strong> looking to build production systems focusing on <strong>Python</strong>, <strong>SQL</strong>, and scalable full stack systems and modern cloud architectures.</p>\n\nAlly Financial only succeeds when its people do - and that’s more than some cliché people put on job postings. We love this stuff! We see our people as, well, people - with interests, families, friends, dreams, and causes that are all important to them. Our focus is on the health and safety of our teammates as well as work-life balance and diversity and inclusion. From generous benefits to a variety of employee resource groups, we strive to build paths that encourage employees to stretch themselves professionally. We want to help you grow, develop, and learn new things. You’re constantly evolving, so shouldn’t your opportunities be, too?\n\nWork Schedule : Ally designates roles as (1) fully on-site, (2) hybrid, or (3) fully remote. Hybrid roles are generally expected to be in the office a certain number of days per week as indicated by your manager. Your hiring manager will discuss this role's specific work requirements with you during the hiring process. All work requirements are subject to change at any time based on leader discretion and/or business need.\n\nThe Associate Analyst, Analytics primary responsibilities will include extensive data-based analysis to monitor portfolio credit risk across channels.\n\nThe ideal candidate must be passionate about delivering results, must be an innovative and strategic thinker, willing to challenge status quo, can learn quickly, is self-motivated, detail oriented, and can sift through voluminous amounts of information to pinpoint which items are relevant to understanding Business results. They will be able to apply knowledge of business and balanced judgment in interpretation of data (analytics). The Work Itself\n\nAs a part of the Governance and Early Delinquency Portfolio Monitoring team, your responsibilities will include:\n\nSupport extensive data-based analysis to identify and recommend opportunities targeted towards portfolio monitoring and managing credit risk across channels.\n\nTo provide timely and accurate analysis that drives business objectives and goals.\n\nAbility to Perform analysis to drive change within the business\n\nIdentify, quantify, and propose expansion/curtailment recommendations\n\nSupport analytics projects which require technical skills in SQL/Python and the ability to navigate data ambiguity\n\nPerform ad hoc analysis and quickly provide results and recommendations\n\nEngage in a culture of Diversity and Inclusion",
-    "healthStatus": "HEALTHY",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z",
     "qualifications": [
       "Bachelor degree preferred",
@@ -2788,7 +2823,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792689496274",
     "state": "MA",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/353676/logo",
     "isRemote": false,
@@ -2798,8 +2833,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Frederick, Maryland, United States",
     "category": "Data / AI",
     "companyWebsite": "http://www.albireoenergy.com/",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z",
     "qualifications": [
       "+ years of experience in field automation, building automation systems (BAS), controls, electrical systems, EPMS, or related industries.",
@@ -2907,7 +2942,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792690053985",
     "state": "NY",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://fdetimes.net/logos/palantir.png",
     "isRemote": false,
@@ -2917,9 +2952,9 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "New York, NY",
     "category": "Backend",
     "companyWebsite": "https://www.fdetimes.net",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "description": "<p>Palantir is hiring <strong>Forward Deployed Reliability Engineer</strong> to join its backend engineering team based in <strong>New York, NY</strong>. This <strong>full-time on-site</strong> position is open to <strong>entry-level developers and junior engineers</strong> with <strong>0–3 years of experience</strong> looking to build production systems focusing on <strong>Python</strong>, <strong>Java</strong>, and scalable backend systems and modern cloud architectures, serving clients and teams across the <strong>Greater New York City Area</strong>.</p>\n\nPalantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more.\n\nAs a Forward Deployed Reliability Engineer (FDRE), you ensure stability and reliability of mission-critical workflows built on Palantir software. You gather signal by going on call — resolving problems before the customer is impacted — and use those learnings to drive product change, shape our internal tooling, and refine our operational processes such that we provide an increasing quality of service to more and more customers.\n\nYour approach is hands-on and pragmatic: you’ll rapidly address issues as they arise with quick and effective solutions and advocate for workflow or product improvements after the immediate issue is resolved. You are energized by engaging directly with problems, from writing a script to automate a manual task, to finding creative workarounds, or building a case for a product enhancement. You don’t just fix issues— you look for opportunities to simplify, automate, and make the entire system more resilient.\n\nAn FDRE synthesizes learnings from support into best practices for others to follow. These are captured into documentation and shared with the team and broader organization. In this way, you raise the bar for reliability and efficiency across Palantir.",
-    "healthStatus": "HEALTHY",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z"
   },
   {
@@ -2971,7 +3006,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "company": "Htcinc",
     "id": "manual-1792681112735",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://www.google.com/s2/favicons?sz=128&domain=htcinc.com",
     "isRemote": false,
@@ -2980,7 +3015,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "applyUrl": "https://www.htcinc.com/job-detail/?jobcode=245780&board=177&board_type=30",
     "category": "Data / AI",
     "companyWebsite": "https://www.htcinc.com",
-    "status": "ACTIVE",
+    "status": "EXPIRED",
     "experienceLevel": "Entry Level",
     "city": "Louisville",
     "postalCode": "40201",
@@ -2989,7 +3024,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "state": "KY",
     "title": "Manufacturing IT Support Engineer",
     "description": "<p>Htcinc is hiring <strong>Manufacturing IT Support Engineer</strong> to join its data / ai engineering team based in <strong>Louisville, KY</strong>. This <strong>full-time on-site</strong> position is open to <strong>entry-level developers and junior engineers</strong> with <strong>0–3 year of experience</strong> looking to build production systems focusing on <strong>Scripting</strong>, <strong>Azure</strong>, and scalable data / ai systems and modern cloud architectures.</p>\n\nWe are seeking a Manufacturing IT Support Engineer to provide technical support for IT applications, infrastructure, operating systems, and end-user productivity tools in a manufacturing environment. The role involves troubleshooting technical issues, supporting plant-floor systems, maintaining network and server infrastructure, and collaborating with cross-functional IT and business teams to ensure reliable manufacturing operations.\n\nThe ideal candidate will have a strong interest in IT operations, manufacturing technology, and continuous improvement, along with the ability to work in a fast-paced, multi-shift production environment.",
-    "healthStatus": "HEALTHY",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z"
   },
   {
@@ -3159,7 +3194,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792682917699",
     "state": "CA",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://secured-assets.ripplingcdn.com/us1/ats/6408957728b869b1c7948ee5/ats_public/eae717623b1a485caeef96e1a90c5cb1-sensitive.jpg?Expires=1792768920&Signature=ib8GSUPgkeI~rZbt2ELAD3ZQ7G2S01ngQW53g7L8vwMMuVXuRye~awL5HAIeIjhIrcZVD4nV~jUiHTPgVgj3UvJcYHLLBdJCdEZGApmaedzpPo0cpMWS6Ft1LxLUCV2aAod5Iz8sRUweiw3Bc-hvrb7j58Ze-jfx0pDwJEkGCDYuNxL1ZoeqEuYDViGKxXxAAs-fniUjMfIUgFCvZijaUzW9ZJ5RYW6Au84w5CVyydNurYq7SbpvGDsLQAF4r2l82qr3BaeG7P4wU3gd~ODk2A~RGtHz~uhNEoaMJV1KT6quKQuMhJK1KVBJm3fLepLd8ugKN9RE3ImYLDWeNrr~yw__&Key-Pair-Id=K2SM3GXN9F9XGM",
     "isRemote": false,
@@ -3169,8 +3204,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Menlo Park, CA",
     "category": "Backend",
     "companyWebsite": "https://phoenixai.com",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z"
   },
   {
@@ -3208,7 +3243,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792689411971",
     "datePosted": "2026-10-22",
     "applicantLocationRequirements": "US",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/580793/logo",
     "isRemote": true,
@@ -3218,8 +3253,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Remote (US)",
     "category": "Full Stack",
     "companyWebsite": "https://it1.com/",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z"
   },
   {
@@ -3257,7 +3292,7 @@ export const INITIAL_JOBS: JobPosting[] = [
     "id": "manual-1792688955564",
     "state": "VA",
     "datePosted": "2026-10-22",
-    "validThrough": "2026-11-21",
+    "validThrough": "2025-01-01",
     "employmentType": "FULL_TIME",
     "companyLogo": "https://workablehr.s3.amazonaws.com/uploads/account/logo/687359/logo",
     "isRemote": false,
@@ -3267,8 +3302,8 @@ export const INITIAL_JOBS: JobPosting[] = [
     "location": "Ashburn, VA",
     "category": "Full Stack",
     "companyWebsite": "https://www.gritterfrancona.com/",
-    "status": "ACTIVE",
-    "healthStatus": "HEALTHY",
+    "status": "EXPIRED",
+    "healthStatus": "DEAD_LINK",
     "lastHealthCheckedAt": "2026-10-23T13:31:52.923Z"
   },
   {
