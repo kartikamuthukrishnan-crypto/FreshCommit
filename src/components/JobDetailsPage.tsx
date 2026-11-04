@@ -503,258 +503,9 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                   </span>
                 )}
               </div>
-
-              {/* ATS Keyword Matcher Prompt Banner */}
-              {!isExpired && (
-                <div
-                  onClick={(e) => handleOpenAtsMatcherInNewTab(e)}
-                  className="mt-5 pt-4 border-t border-[#f1f3f4] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-emerald-50/90 to-teal-50/50 border border-emerald-200/90 rounded-2xl p-4 shadow-2xs hover:border-emerald-300 hover:shadow-xs transition-all cursor-pointer group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                      <FileSearch className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2 flex-wrap">
-                        <span className="group-hover:text-emerald-700 transition-colors">Check Resume Match for This Role</span>
-                        <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
-                          Under 3 Seconds
-                        </span>
-                      </div>
-                      <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 flex items-center gap-1.5 flex-wrap">
-                        <span>Free automated scan: detects missing skills &amp; ATS filter-out risks.</span>
-                        <span className="text-emerald-700 font-semibold">(Opens in new tab ↗)</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <a
-                    href="/career-tools#ats-matcher"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleOpenAtsMatcherInNewTab(e);
-                    }}
-                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer flex-shrink-0 no-underline"
-                    title="Open ATS Matcher in new tab"
-                  >
-                    <span>Scan My Resume</span>
-                    <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
-                  </a>
-                </div>
-              )}
             </div>
 
-            {/* In-Article Leaderboard Ad if configured */}
-            {adConfig.enabled && adConfig.inFeedAd && (
-              <div className="my-4">
-                <AdSlot type="in-feed" config={adConfig} />
-              </div>
-            )}
 
-            {/* Editorial FreshCommits Edge (if present) */}
-            {edgeData.hasEdge && (
-              <div className="bg-gradient-to-br from-indigo-50/70 via-blue-50/40 to-white rounded-2xl border border-indigo-100 p-6 sm:p-7 shadow-xs space-y-4">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-2 text-indigo-900 font-semibold text-base sm:text-lg">
-                    <Sparkles className="w-5 h-5 text-indigo-600" />
-                    <span>The FreshCommits Editorial Take</span>
-                  </div>
-                  <span className="text-[11px] font-semibold bg-indigo-100/80 text-indigo-800 px-2.5 py-0.5 rounded-full border border-indigo-200">
-                    Lead Engineer Analysis
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-normal bg-white/70 p-3.5 rounded-xl border border-indigo-50 shadow-2xs">
-                  {edgeData.careerTake}
-                </p>
-                {edgeData.checklistItems.length > 0 && (
-                  <div className="pt-3 border-t border-indigo-100">
-                    <div className="flex items-center justify-between mb-2.5 flex-wrap gap-1">
-                      <span className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        💡 Candidate Preparation Checklist:
-                      </span>
-                      <span className="text-[11px] text-slate-500 font-medium">
-                        Click items to track prep ({Object.values(checkedPrepItems).filter(Boolean).length}/{edgeData.checklistItems.length})
-                      </span>
-                    </div>
-                    <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
-                      {edgeData.checklistItems.map((item, idx) => {
-                        const isDone = Boolean(checkedPrepItems[idx]);
-                        return (
-                          <li
-                            key={idx}
-                            onClick={() => setCheckedPrepItems((prev) => ({ ...prev, [idx]: !prev[idx] }))}
-                            className={`flex items-start gap-2.5 p-2 rounded-xl border transition-all cursor-pointer select-none ${
-                              isDone
-                                ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
-                                : 'bg-white/80 hover:bg-white border-slate-200/80 text-slate-800 hover:border-indigo-200 shadow-2xs'
-                            }`}
-                          >
-                            <div
-                              className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center flex-shrink-0 transition-colors ${
-                                isDone ? 'bg-emerald-600 text-white' : 'border border-slate-300 bg-white'
-                              }`}
-                            >
-                              {isDone && <Check className="w-3 h-3 stroke-[3]" />}
-                            </div>
-                            <span className={isDone ? 'line-through opacity-85' : ''}>
-                              {item.replace(/^•\s*/, '')}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-
-                    {/* Direct Project Blueprint Recommendation */}
-                    <div className="pt-2">
-                      <a
-                        href="/project-blueprints"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between gap-3 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200/80 rounded-xl hover:border-indigo-300 transition-all group"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <span className="text-base">🚀</span>
-                          <div className="text-xs">
-                            <span className="font-bold text-indigo-950 block">
-                              Need a Commercial Project on Your Resume for this Role?
-                            </span>
-                            <span className="text-indigo-700 text-[11px]">
-                              Build the verified {job.category || 'Engineering'} Blueprint to stand out in technical screens.
-                            </span>
-                          </div>
-                        </div>
-                        <span className="text-xs font-bold text-indigo-700 group-hover:text-indigo-900 flex items-center gap-1 flex-shrink-0">
-                          <span>View Blueprint</span>
-                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                {/* Market Benchmark & Salary Intelligence */}
-                <div className="pt-3 border-t border-indigo-100 flex items-start gap-3 bg-white/80 p-3.5 rounded-xl border border-indigo-50 shadow-2xs">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 flex-shrink-0 mt-0.5">
-                    <DollarSign className="w-4 h-4 stroke-[2.5]" />
-                  </div>
-                  <div className="space-y-1 text-xs text-slate-700 w-full">
-                    <div className="flex flex-wrap items-center justify-between gap-1.5">
-                      <span className="font-bold text-slate-900">
-                        Market Benchmark &amp; Salary Intelligence (0–2 YoE)
-                      </span>
-                      {benchmark.tierLabel && (
-                        <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100/70">
-                          {benchmark.tierLabel}
-                        </span>
-                      )}
-                    </div>
-
-                    {job.salary && job.salary.min > 0 ? (
-                      <div className="text-slate-600 leading-relaxed space-y-1">
-                        <p>
-                          Verified Employer Compensation: <strong className="text-emerald-700">{formatSalary(job.salary)}</strong>.
-                        </p>
-                        <p className="text-slate-500 text-[11px]">
-                          Verified industry standard for {benchmark.roleLabel} in {benchmark.tierLabel}:{' '}
-                          <strong className="text-slate-700 font-semibold">
-                            {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
-                          </strong>
-                          {benchmark.unit === 'YEAR' && (
-                            <span className="text-slate-400"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()})</span>
-                          )}.
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="text-slate-600 leading-relaxed space-y-1">
-                        <p>
-                          Employer did not disclose compensation in requisition.
-                        </p>
-                        <p className="text-slate-600">
-                          FreshCommits 0–2 YoE market benchmark for {benchmark.roleLabel} in <span className="font-medium text-slate-800">{benchmark.tierLabel}</span>:{' '}
-                          <strong className="text-emerald-700">
-                            {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
-                          </strong>
-                          {benchmark.unit === 'YEAR' && (
-                            <span className="text-slate-500 text-[11px]"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()}/yr)</span>
-                          )}.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* 🎯 Round 1 Interview Drill & Winning Formula */}
-                <div className="pt-3 border-t border-indigo-100/90 space-y-2.5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">
-                      🎯
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
-                        Round 1 Interview Drill &amp; Winning Formula
-                      </h4>
-                      <p className="text-[11px] text-slate-500">
-                        The practical engineering question tested in first-round technical screens for this role.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-xl border border-slate-200/90 p-4 space-y-3 shadow-2xs">
-                    {/* The Question */}
-                    <div>
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100 inline-block mb-1">
-                        1. The Core Question
-                      </span>
-                      <p className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug">
-                        &ldquo;{interviewDrill.question}&rdquo;
-                      </p>
-                    </div>
-
-                    {/* What They're Really Testing */}
-                    <div>
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80 inline-block mb-1">
-                        2. What the Interviewer is Really Testing
-                      </span>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        {interviewDrill.testingObjective}
-                      </p>
-                    </div>
-
-                    {/* The Winning Answer Formula */}
-                    <div>
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block mb-1">
-                        3. The Winning Answer Formula
-                      </span>
-                      <p className="text-xs text-slate-700 leading-relaxed font-medium bg-slate-50 p-2.5 rounded-lg border border-slate-200/70">
-                        &ldquo;{interviewDrill.winningAnswerFormula}&rdquo;
-                      </p>
-                    </div>
-
-                    {/* The Interviewer's Verdict (The Result) */}
-                    <div className="pt-2 border-t border-slate-100 flex items-start gap-2 bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200/80">
-                      <span className="text-xs mt-0.5">💡</span>
-                      <div className="text-xs text-emerald-950 leading-relaxed">
-                        <strong className="text-emerald-900">The Result / Interviewer Perspective:</strong>{' '}
-                        <span>{interviewDrill.interviewerVerdict}</span>
-                      </div>
-                    </div>
-
-                    {/* Interactive 5-Round Mock Interview Launch Button */}
-                    <button
-                      type="button"
-                      onClick={() => setIsMockModalOpen(true)}
-                      className="w-full mt-2.5 py-3 px-4 bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:shadow-lg"
-                    >
-                      <Sparkles className="w-4 h-4 text-amber-300" />
-                      <span>Launch 5-Round Mock Interview for {job.company} (Interactive Simulator)</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* Full Authentic Job Description (LinkedIn-Grade Structured Layout) */}
             <div className="bg-white rounded-2xl border border-[#dadce0] p-6 sm:p-8 shadow-xs space-y-7">
@@ -1052,20 +803,259 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                   </a>
                 )}
 
+              </div>
+            </div>
+
+            {/* ATS Keyword Matcher Prompt Banner (Directly Below Apply Box) */}
+            {!isExpired && (
+              <div
+                onClick={(e) => handleOpenAtsMatcherInNewTab(e)}
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-emerald-50/90 to-teal-50/50 border border-emerald-200/90 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer group"
+              >
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                    <FileSearch className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2 flex-wrap">
+                      <span className="group-hover:text-emerald-700 transition-colors">Check Resume Match for This Role</span>
+                      <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                        Under 3 Seconds
+                      </span>
+                    </div>
+                    <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 flex items-center gap-1.5 flex-wrap">
+                      <span>Free automated scan: detects missing skills &amp; ATS filter-out risks.</span>
+                      <span className="text-emerald-700 font-semibold">(Opens in new tab ↗)</span>
+                    </p>
+                  </div>
+                </div>
+
                 <a
                   href="/career-tools#ats-matcher"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={handleOpenAtsMatcherInNewTab}
-                  className="w-full text-center text-xs font-bold py-2.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-2.5 shadow-2xs no-underline"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenAtsMatcherInNewTab(e);
+                  }}
+                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer flex-shrink-0 no-underline"
                   title="Open ATS Matcher in new tab"
                 >
-                  <FileSearch className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Check Resume ATS Match (Under 3 Seconds)</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-emerald-600 ml-0.5" />
+                  <span>Scan My Resume</span>
+                  <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
                 </a>
               </div>
-            </div>
+            )}
+
+            {/* In-Article Leaderboard Ad if configured */}
+            {adConfig.enabled && adConfig.inFeedAd && (
+              <div className="my-2">
+                <AdSlot type="in-feed" config={adConfig} />
+              </div>
+            )}
+
+            {/* Editorial FreshCommits Edge & Preparation Toolkit (Directly Below Apply Box) */}
+            {edgeData.hasEdge && (
+              <div className="bg-gradient-to-br from-indigo-50/70 via-blue-50/40 to-white rounded-2xl border border-indigo-100 p-6 sm:p-7 shadow-xs space-y-4">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2 text-indigo-900 font-semibold text-base sm:text-lg">
+                    <Sparkles className="w-5 h-5 text-indigo-600" />
+                    <span>The FreshCommits Editorial Take</span>
+                  </div>
+                  <span className="text-[11px] font-semibold bg-indigo-100/80 text-indigo-800 px-2.5 py-0.5 rounded-full border border-indigo-200">
+                    Lead Engineer Analysis
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-normal bg-white/70 p-3.5 rounded-xl border border-indigo-50 shadow-2xs">
+                  {edgeData.careerTake}
+                </p>
+                {edgeData.checklistItems.length > 0 && (
+                  <div className="pt-3 border-t border-indigo-100">
+                    <div className="flex items-center justify-between mb-2.5 flex-wrap gap-1">
+                      <span className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        💡 Candidate Preparation Checklist:
+                      </span>
+                      <span className="text-[11px] text-slate-500 font-medium">
+                        Click items to track prep ({Object.values(checkedPrepItems).filter(Boolean).length}/{edgeData.checklistItems.length})
+                      </span>
+                    </div>
+                    <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+                      {edgeData.checklistItems.map((item, idx) => {
+                        const isDone = Boolean(checkedPrepItems[idx]);
+                        return (
+                          <li
+                            key={idx}
+                            onClick={() => setCheckedPrepItems((prev) => ({ ...prev, [idx]: !prev[idx] }))}
+                            className={`flex items-start gap-2.5 p-2 rounded-xl border transition-all cursor-pointer select-none ${
+                              isDone
+                                ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
+                                : 'bg-white/80 hover:bg-white border-slate-200/80 text-slate-800 hover:border-indigo-200 shadow-2xs'
+                            }`}
+                          >
+                            <div
+                              className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center flex-shrink-0 transition-colors ${
+                                isDone ? 'bg-emerald-600 text-white' : 'border border-slate-300 bg-white'
+                              }`}
+                            >
+                              {isDone && <Check className="w-3 h-3 stroke-[3]" />}
+                            </div>
+                            <span className={isDone ? 'line-through opacity-85' : ''}>
+                              {item.replace(/^•\s*/, '')}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+
+                    {/* Direct Project Blueprint Recommendation */}
+                    <div className="pt-2">
+                      <a
+                        href="/project-blueprints"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between gap-3 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200/80 rounded-xl hover:border-indigo-300 transition-all group"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-base">🚀</span>
+                          <div className="text-xs">
+                            <span className="font-bold text-indigo-950 block">
+                              Need a Commercial Project on Your Resume for this Role?
+                            </span>
+                            <span className="text-indigo-700 text-[11px]">
+                              Build the verified {job.category || 'Engineering'} Blueprint to stand out in technical screens.
+                            </span>
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold text-indigo-700 group-hover:text-indigo-900 flex items-center gap-1 flex-shrink-0">
+                          <span>View Blueprint</span>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {/* Market Benchmark & Salary Intelligence */}
+                <div className="pt-3 border-t border-indigo-100 flex items-start gap-3 bg-white/80 p-3.5 rounded-xl border border-indigo-50 shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 flex-shrink-0 mt-0.5">
+                    <DollarSign className="w-4 h-4 stroke-[2.5]" />
+                  </div>
+                  <div className="space-y-1 text-xs text-slate-700 w-full">
+                    <div className="flex flex-wrap items-center justify-between gap-1.5">
+                      <span className="font-bold text-slate-900">
+                        Market Benchmark &amp; Salary Intelligence (0–2 YoE)
+                      </span>
+                      {benchmark.tierLabel && (
+                        <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100/70">
+                          {benchmark.tierLabel}
+                        </span>
+                      )}
+                    </div>
+
+                    {job.salary && job.salary.min > 0 ? (
+                      <div className="text-slate-600 leading-relaxed space-y-1">
+                        <p>
+                          Verified Employer Compensation: <strong className="text-emerald-700">{formatSalary(job.salary)}</strong>.
+                        </p>
+                        <p className="text-slate-500 text-[11px]">
+                          Verified industry standard for {benchmark.roleLabel} in {benchmark.tierLabel}:{' '}
+                          <strong className="text-slate-700 font-semibold">
+                            {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
+                          </strong>
+                          {benchmark.unit === 'YEAR' && (
+                            <span className="text-slate-400"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()})</span>
+                          )}.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="text-slate-600 leading-relaxed space-y-1">
+                        <p>
+                          Employer did not disclose compensation in requisition.
+                        </p>
+                        <p className="text-slate-600">
+                          FreshCommits 0–2 YoE market benchmark for {benchmark.roleLabel} in <span className="font-medium text-slate-800">{benchmark.tierLabel}</span>:{' '}
+                          <strong className="text-emerald-700">
+                            {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
+                          </strong>
+                          {benchmark.unit === 'YEAR' && (
+                            <span className="text-slate-500 text-[11px]"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()}/yr)</span>
+                          )}.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* 🎯 Round 1 Interview Drill & Winning Formula */}
+                <div className="pt-3 border-t border-indigo-100/90 space-y-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                      🎯
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
+                        Round 1 Interview Drill &amp; Winning Formula
+                      </h4>
+                      <p className="text-[11px] text-slate-500">
+                        The practical engineering question tested in first-round technical screens for this role.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl border border-slate-200/90 p-4 space-y-3 shadow-2xs">
+                    {/* The Question */}
+                    <div>
+                      <span className="text-[10px] font-bold tracking-wider uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100 inline-block mb-1">
+                        1. The Core Question
+                      </span>
+                      <p className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug">
+                        &ldquo;{interviewDrill.question}&rdquo;
+                      </p>
+                    </div>
+
+                    {/* What They're Really Testing */}
+                    <div>
+                      <span className="text-[10px] font-bold tracking-wider uppercase text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80 inline-block mb-1">
+                        2. What the Interviewer is Really Testing
+                      </span>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {interviewDrill.testingObjective}
+                      </p>
+                    </div>
+
+                    {/* The Winning Answer Formula */}
+                    <div>
+                      <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block mb-1">
+                        3. The Winning Answer Formula
+                      </span>
+                      <p className="text-xs text-slate-700 leading-relaxed font-medium bg-slate-50 p-2.5 rounded-lg border border-slate-200/70">
+                        &ldquo;{interviewDrill.winningAnswerFormula}&rdquo;
+                      </p>
+                    </div>
+
+                    {/* The Interviewer's Verdict (The Result) */}
+                    <div className="pt-2 border-t border-slate-100 flex items-start gap-2 bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200/80">
+                      <span className="text-xs mt-0.5">💡</span>
+                      <div className="text-xs text-emerald-950 leading-relaxed">
+                        <strong className="text-emerald-900">The Result / Interviewer Perspective:</strong>{' '}
+                        <span>{interviewDrill.interviewerVerdict}</span>
+                      </div>
+                    </div>
+
+                    {/* Interactive 5-Round Mock Interview Launch Button */}
+                    <button
+                      type="button"
+                      onClick={() => setIsMockModalOpen(true)}
+                      className="w-full mt-2.5 py-3 px-4 bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:shadow-lg"
+                    >
+                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <span>Launch 5-Round Mock Interview for {job.company} (Interactive Simulator)</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Sidebar (4 columns) */}
