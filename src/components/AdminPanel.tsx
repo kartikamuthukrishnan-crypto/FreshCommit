@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel, EmploymentType } from '../types';
+import { compareJobsLatestFirst } from '../utils/jobSorting';
 import { resolveCompanyLogo } from '../utils/logoHelper';
 import {
   generateFingerprint,
@@ -1260,7 +1261,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         (job.category && job.category.toLowerCase().includes(q))
       );
     })
-    .sort((a, b) => getJobSortTimestamp(b) - getJobSortTimestamp(a));
+    .sort(compareJobsLatestFirst);
 
   const totalManagePages = Math.max(1, Math.ceil(filteredManageJobs.length / managePageSize));
   const activeManagePage = Math.min(manageCurrentPage, totalManagePages);

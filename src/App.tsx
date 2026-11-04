@@ -86,39 +86,8 @@ const DEFAULT_ADSENSE_CONFIG: AdSenseConfig = {
   footerAd: true,
 };
 
-/**
- * Resolves job timestamp for accurate reverse chronological sorting (latest first)
- */
-export const getJobTimestamp = (job: JobPosting): number => {
-  if (!job) return 0;
-  // 1. Try datePosted (e.g. 2026-09-26, 2026-09-25)
-  if (job.datePosted) {
-    const time = new Date(job.datePosted).getTime();
-    if (!isNaN(time) && time > 0) {
-      // Disambiguate jobs posted on the same date with ID timestamp if present
-      const idMatch = job.id?.match(/\b(\d{10,13})\b/);
-      if (idMatch) {
-        const idTime = Number(idMatch[1]);
-        if (!isNaN(idTime) && idTime > 1600000000000) {
-          return idTime;
-        }
-      }
-      return time;
-    }
-  }
-  // 2. ID timestamp (e.g. manual-1790319626129)
-  const idMatch = job.id?.match(/\b(\d{10,13})\b/);
-  if (idMatch) {
-    const idTime = Number(idMatch[1]);
-    if (!isNaN(idTime) && idTime > 1600000000000) return idTime;
-  }
-  // 3. Fallback to lastHealthCheckedAt
-  if (job.lastHealthCheckedAt) {
-    const time = new Date(job.lastHealthCheckedAt).getTime();
-    if (!isNaN(time) && time > 0) return time;
-  }
-  return 0;
-};
+export { getJobTimestamp, compareJobsLatestFirst } from './utils/jobSorting';
+import { getJobTimestamp, compareJobsLatestFirst } from './utils/jobSorting';
 
 export default function App() {
   // 1. Persistent State for Jobs (authoritative verified listings)
@@ -949,7 +918,7 @@ export default function App() {
     if (!Array.isArray(jobs)) return [];
     return jobs
       .filter((job) => !isJobExpired(job))
-      .sort((a, b) => getJobTimestamp(b) - getJobTimestamp(a));
+      .sort(compareJobsLatestFirst);
   }, [jobs]);
 
   // Filtering & Sorting Logic over active jobs (Latest jobs always on top by default)
@@ -1065,10 +1034,8 @@ export default function App() {
         const salB = b.salary?.max || b.salary?.min || 0;
         if (salB !== salA) return salB - salA;
       }
-      // Default: Latest jobs on top (newest datePosted / creation timestamp first)
-      const diff = getJobTimestamp(b) - getJobTimestamp(a);
-      if (diff !== 0) return diff;
-      return (b.id || '').localeCompare(a.id || '');
+      // Default: Latest jobs on top (deterministic millisecond timestamp + ID tie-breaker)
+      return compareJobsLatestFirst(a, b);
     });
   }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, minSalary, savedOnly, savedJobIds, sortBy]);
 

@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 import firebaseConfig from '../firebaseConfig';
 import { JobPosting, AdSenseConfig } from '../types';
+import { compareJobsLatestFirst } from '../utils/jobSorting';
 
 // Silence internal Firestore connection retry logs when offline or connecting
 try {
@@ -134,8 +135,8 @@ export function subscribeToLiveJobs(onUpdate: (jobs: JobPosting[]) => void): () 
       snapshot.forEach((docSnap) => {
         liveJobs.push({ ...(docSnap.data() as JobPosting), id: docSnap.id });
       });
-      // Sort newest posted date first
-      liveJobs.sort((a, b) => new Date(b.datePosted || '').getTime() - new Date(a.datePosted || '').getTime());
+      // Sort newest posted date & creation timestamp first (deterministic)
+      liveJobs.sort(compareJobsLatestFirst);
       onUpdate(liveJobs);
     },
     (error) => {

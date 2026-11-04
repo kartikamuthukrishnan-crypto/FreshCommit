@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { JobPosting, AdSenseConfig, JobCategory, ExperienceLevel } from '../types';
+import { compareJobsLatestFirst } from '../utils/jobSorting';
 import { JobCard } from './JobCard';
 import { AdSlot } from './AdSlot';
 import {
@@ -181,9 +182,9 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
     };
   }, [jobs]);
 
-  // Active jobs filter
+  // Active jobs filter (strictly newest first)
   const activeJobs = useMemo(() => {
-    return jobs.filter((j) => j.status === 'ACTIVE');
+    return jobs.filter((j) => j.status === 'ACTIVE').sort(compareJobsLatestFirst);
   }, [jobs]);
 
   // Multi-facet filtering
@@ -265,12 +266,10 @@ export const JobDirectoryView: React.FC<JobDirectoryViewProps> = ({
       if (sortBy === 'salary') {
         const salA = a.salary?.max || a.salary?.min || 0;
         const salB = b.salary?.max || b.salary?.min || 0;
-        return salB - salA;
+        if (salB !== salA) return salB - salA;
       }
-      // Default: Latest posted date
-      const dateA = new Date(a.datePosted || 0).getTime();
-      const dateB = new Date(b.datePosted || 0).getTime();
-      return dateB - dateA;
+      // Default: Latest jobs on top (deterministic millisecond timestamp + ID tie-breaker)
+      return compareJobsLatestFirst(a, b);
     });
   }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, savedOnly, sortBy, savedJobIds]);
 

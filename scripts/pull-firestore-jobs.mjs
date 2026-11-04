@@ -248,11 +248,34 @@ async function pullFirestoreJobs() {
 
   console.log(`Successfully fetched and parsed ${cloudJobs.length} valid jobs from Firestore!`);
 
-  // Sort latest first
+  function getJobTimestamp(job) {
+    if (!job) return 0;
+    const idMatch = job.id?.match(/\b(\d{10,13})\b/);
+    const idTime = idMatch ? Number(idMatch[1]) : 0;
+    const hasValidIdTime = !isNaN(idTime) && idTime > 1600000000000;
+    if (job.datePosted) {
+      const dateParts = String(job.datePosted).trim().split(/[-/]/);
+      let dateTime = 0;
+      if (dateParts.length === 3) {
+        dateTime = Date.UTC(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
+      } else {
+        dateTime = new Date(job.datePosted).getTime();
+      }
+      if (!isNaN(dateTime) && dateTime > 0) {
+        if (hasValidIdTime && idTime >= dateTime - 86400000 * 2) return idTime;
+        return dateTime + (hasValidIdTime ? (idTime % 86400000) : 0);
+      }
+    }
+    if (hasValidIdTime) return idTime;
+    return 0;
+  }
+
+  // Sort latest first (deterministic)
   cloudJobs.sort((a, b) => {
-    const timeA = new Date(a.datePosted || '2026-01-01').getTime() || 0;
-    const timeB = new Date(b.datePosted || '2026-01-01').getTime() || 0;
-    return timeB - timeA;
+    const timeA = getJobTimestamp(a);
+    const timeB = getJobTimestamp(b);
+    if (timeB !== timeA) return timeB - timeA;
+    return String(b.id || '').localeCompare(String(a.id || ''));
   });
 
   // 1. Write to src/data/initialJobs.ts
