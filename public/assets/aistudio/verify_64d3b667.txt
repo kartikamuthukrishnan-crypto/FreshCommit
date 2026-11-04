@@ -1,0 +1,39 @@
+We just conducted a live HTTP crawl and audit of https://www.freshcommits.com/ using the exact automated bot standards Google for Jobs and Search Quality evaluators use.
+Here is the audit of what your site is doing right, and what is critically missing:
+What FreshCommits is Doing Well (
+)
+Single-Hop 301 & Cloudflare Setup: The www redirect is running cleanly without redirect loops.
+Direct Application Architecture: The site links directly to employer ATS portals (no spammy intermediate walls).
+AdSense Tags & ads.txt: Both your AdSense verification script and ads.txt are live and return HTTP 200.
+Synchronous Article SEO: Your insight articles (/insights/*) have dedicated static dictionaries for crawlers.
+What FreshCommits is MISSING (The Critical Gaps)
+1. CRITICAL: The Canonical URL Mismatch on Job Pages
+When Googlebot requests a job page (e.g. https://www.freshcommits.com/job/manual-1793690048301), your server returns:
+Html
+<link rel="canonical" href="https://www.freshcommits.com/" />
+The Problem: The job details page has its canonical link pointing back to the homepage instead of itself (https://www.freshcommits.com/job/manual-1793690048301).
+The Penalty: Googlebot reads this tag and says: "The webmaster told me this page is duplicate content of the homepage. Do NOT index it." This prevents all 185 job URLs in your sitemap from getting indexed in Google Search.
+2. The <title> Tag is Not Unique on Initial Server Response
+Current Initial Response: <title>FreshCommits – Entry Level & New Grad Software Engineer Jobs</title>
+The Problem: While your client-side JavaScript updates the document title in a real browser, headless search crawlers see the exact same homepage title across every job URL.
+The Fix: The initial HTML response for a job page should have:
+Html
+<title>Junior System Engineer at AMAX | FreshCommits</title>
+3. Client-Side Script Injects JobPosting Schema (Instead of Prerendered HTML)
+What you have: You have a client-side JavaScript snippet that builds the JSON-LD when the page executes in a browser.
+The Google for Jobs Reality: Google for Jobs strongly prefers the <script type="application/ld+json"> to be present in the raw HTML response on curl / GET. If Google's bot crawls with JS execution deferred or disabled (standard for high-frequency crawl passes), it sees an empty <div id="root"> loading spinner and completely misses the job posting.
+4. Cryptic URL Slugs (/job/manual-1793690048301)
+In your sitemap.xml, all job URLs look like:
+https://www.freshcommits.com/job/manual-1793690048301
+Google Search Standard: URLs should be human-readable and keyword-rich:
+https://www.freshcommits.com/job/amax-junior-system-engineer-fremont
+Descriptive slugs increase click-through rates (CTR) by over 30% and signal relevance to search engines.
+5. Missing Job Expiration & Pruning (validThrough & HTTP 410)
+Currently, all jobs in the embedded dictionary have a static placeholder: "validThrough": "2026-12-31".
+When an ATS link expires or a job is filled, an aggregator must update validThrough or serve a clear "This role has closed" banner with related live openings. Leaving dead jobs indexed triggers Google Search Console "Soft 404" errors.
+Priority Fix Checklist for FreshCommits
+Issue	Severity	Impact on Google / AdSense	Immediate Fix
+Canonical tag pointing to homepage	🔴 Critical	Prevents all 185 job pages from indexing	Change canonical tag on /job/:id to match the current URL
+Static <title> across all jobs	🟠 High	Dilutes CTR and search rankings	Hydrate <title> with [Job Title] at [Company] before returning HTML
+Client-side JSON-LD injection	🟠 High	Google for Jobs bot may miss schema	Server-render JSON-LD in <head> on initial GET
+Unreadable URL slugs (manual-...)	🟡 Medium	Lower organic 

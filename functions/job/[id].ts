@@ -173,86 +173,97 @@ export const onRequest: any = async (context: any) => {
           safeValidThrough = d.toISOString().split('T')[0];
         }
 
-        // Build Google JobPosting Schema
-        const schema: Record<string, any> = {
-          '@context': 'https://schema.org',
-          '@type': 'JobPosting',
-          title: job.title,
-          description: formatDescription(job),
-          identifier: {
-            '@type': 'PropertyValue',
-            name: job.company,
-            value: job.id,
-          },
-          datePosted: safeDatePosted,
-          validThrough: safeValidThrough,
-          employmentType: job.employmentType || 'FULL_TIME',
-          url: `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`,
-          directApply: true,
-          hiringOrganization: {
-            '@type': 'Organization',
-            name: job.company,
-            sameAs: job.companyWebsite || undefined,
-            logo: job.companyLogo || undefined,
-          },
-          experienceRequirements: {
-            '@type': 'OccupationalExperienceRequirements',
-            monthsOfExperience: (job.maxYearsExperience || 1) * 12,
-          },
-        };
+        const isExpired = job.status === 'EXPIRED' || (job.validThrough && new Date(job.validThrough) < today);
+        const canonicalUrl = `https://www.freshcommits.com/job/${encodeURIComponent(job.id || jobId)}`;
 
-        if (job.applyUrl) {
-          schema.sameAs = job.applyUrl;
-        }
-
-        if (job.salary && job.salary.min > 0 && job.salary.max >= job.salary.min) {
-          const isYearly = job.salary.unit === 'YEAR' || job.salary.min >= 500 || (job.salary.max && job.salary.max >= 500);
-          schema.baseSalary = {
-            '@type': 'MonetaryAmount',
-            currency: job.salary.currency || 'USD',
-            value: {
-              '@type': 'QuantitativeValue',
-              minValue: job.salary.min,
-              maxValue: job.salary.max || job.salary.min,
-              unitText: isYearly ? 'YEAR' : 'HOUR',
+        // Build Google JobPosting Schema (only for active jobs)
+        let schemaJson = '';
+        if (!isExpired) {
+          const schema: Record<string, any> = {
+            '@context': 'https://schema.org',
+            '@type': 'JobPosting',
+            title: job.title,
+            description: formatDescription(job),
+            identifier: {
+              '@type': 'PropertyValue',
+              name: job.company,
+              value: job.id,
+            },
+            datePosted: safeDatePosted,
+            validThrough: safeValidThrough,
+            employmentType: job.employmentType || 'FULL_TIME',
+            url: canonicalUrl,
+            directApply: true,
+            hiringOrganization: {
+              '@type': 'Organization',
+              name: job.company,
+              sameAs: job.companyWebsite || undefined,
+              logo: job.companyLogo || undefined,
+            },
+            experienceRequirements: {
+              '@type': 'OccupationalExperienceRequirements',
+              monthsOfExperience: (job.maxYearsExperience || 1) * 12,
             },
           };
-        }
 
-        if (job.isRemote) {
-          schema.jobLocationType = 'TELECOMMUTE';
-          schema.applicantLocationRequirements = {
-            '@type': 'Country',
-            name: countryName,
-          };
-        } else {
-          let cleanLoc = String(job.location || '')
-            .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in)\s+/i, '')
-            .trim();
-          const rawLocParts = cleanLoc.split(',');
-          let rawCity = String(job.city || rawLocParts[0]?.trim() || 'New York')
-            .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in)\s+/i, '')
-            .replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '')
-            .trim();
-          if (rawLocParts.length > 1 && rawLocParts[0].trim()) {
-            rawCity = rawLocParts[0].trim().replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '').trim();
+          if (job.applyUrl) {
+            schema.sameAs = job.applyUrl;
           }
-          let rawState = (rawLocParts[1]?.trim() || job.state || 'NY').replace(/\s*\/.*$/, '').replace(/[^A-Za-z\s]/g, '').trim();
-          if (!rawState) rawState = 'NY';
-          schema.jobLocation = {
-            '@type': 'Place',
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: rawCity,
-              addressRegion: rawState,
-              addressCountry: countryCode,
-            },
-          };
+
+          if (job.salary && job.salary.min > 0 && job.salary.max >= job.salary.min) {
+            const isYearly = job.salary.unit === 'YEAR' || job.salary.min >= 500 || (job.salary.max && job.salary.max >= 500);
+            schema.baseSalary = {
+              '@type': 'MonetaryAmount',
+              currency: job.salary.currency || 'USD',
+              value: {
+                '@type': 'QuantitativeValue',
+                minValue: job.salary.min,
+                maxValue: job.salary.max || job.salary.min,
+                unitText: isYearly ? 'YEAR' : 'HOUR',
+              },
+            };
+          }
+
+          if (job.isRemote) {
+            schema.jobLocationType = 'TELECOMMUTE';
+            schema.applicantLocationRequirements = {
+              '@type': 'Country',
+              name: countryName,
+            };
+          } else {
+            let cleanLoc = String(job.location || '')
+              .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in)\s+/i, '')
+              .trim();
+            const rawLocParts = cleanLoc.split(',');
+            let rawCity = String(job.city || rawLocParts[0]?.trim() || 'New York')
+              .replace(/^(?:(?:[a-z0-9&.\-\s]+['’])?s\s+)?(?:office\s+(?:is\s+)?located\s+in|headquarters\s+(?:is\s+)?located\s+in|located\s+in|based\s+in|headquartered\s+in|our\s+office\s+is\s+in)\s+/i, '')
+              .replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '')
+              .trim();
+            if (rawLocParts.length > 1 && rawLocParts[0].trim()) {
+              rawCity = rawLocParts[0].trim().replace(/^(?:s\s+)?office\s+is\s+located\s+in\s+/i, '').trim();
+            }
+            let rawState = (rawLocParts[1]?.trim() || job.state || 'NY').replace(/\s*\/.*$/, '').replace(/[^A-Za-z\s]/g, '').trim();
+            if (!rawState) rawState = 'NY';
+            schema.jobLocation = {
+              '@type': 'Place',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: rawCity,
+                addressRegion: rawState,
+                addressCountry: countryCode,
+              },
+            };
+          }
+
+          schemaJson = JSON.stringify(schema, null, 2);
         }
 
-        const schemaJson = JSON.stringify(schema, null, 2);
-        const titleText = `${job.title} at ${job.company} (${job.experienceLevel || '0–2 YoE'}) – FreshCommits`;
-        const metaDesc = `Apply directly for ${job.title} at ${job.company} in ${job.location || 'Remote'}. Verified early-career software engineering opportunity with direct company application.`;
+        const titleText = isExpired
+          ? `[Position Closed] ${job.title} at ${job.company} – FreshCommits`
+          : `${job.title} at ${job.company} (${job.experienceLevel || '0–2 YoE'}) – FreshCommits`;
+        const metaDesc = isExpired
+          ? `This early-career software engineering position at ${job.company} has closed. Explore verified active 0–2 YoE developer jobs on FreshCommits.`
+          : `Apply directly for ${job.title} at ${job.company} in ${job.location || 'Remote'}. Verified early-career software engineering opportunity with direct company application.`;
 
         // Transform HTML using Cloudflare Pages HTMLRewriter
         let schemaInserted = false;
@@ -261,7 +272,7 @@ export const onRequest: any = async (context: any) => {
             element(t: any) {
               t.setInnerContent(titleText);
               // Guaranteed insertion directly after <title> (present in all HTML responses)
-              if (!schemaInserted) {
+              if (!schemaInserted && schemaJson) {
                 schemaInserted = true;
                 t.after(
                   `\n<script id="google-job-posting-schema" type="application/ld+json">\n${schemaJson}\n</script>\n`,
@@ -272,12 +283,31 @@ export const onRequest: any = async (context: any) => {
           })
           .on('head', {
             element(head: any) {
-              if (!schemaInserted) {
+              if (!schemaInserted && schemaJson) {
                 schemaInserted = true;
                 head.append(
                   `\n<script id="google-job-posting-schema" type="application/ld+json">\n${schemaJson}\n</script>\n`,
                   { html: true }
                 );
+              }
+            },
+          })
+          .on('link[rel="canonical"]', {
+            element(l: any) {
+              l.setAttribute('href', canonicalUrl);
+            },
+          })
+          .on('meta[property="og:url"]', {
+            element(m: any) {
+              m.setAttribute('content', canonicalUrl);
+            },
+          })
+          .on('meta[name="robots"]', {
+            element(r: any) {
+              if (isExpired) {
+                r.setAttribute('content', 'noindex, follow');
+              } else {
+                r.setAttribute('content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
               }
             },
           })
@@ -299,8 +329,36 @@ export const onRequest: any = async (context: any) => {
           .transform(response);
       }
     }
+
+    // Fallback canonical rewrite if Firestore job doc not found
+    return new (globalThis as any).HTMLRewriter()
+      .on('link[rel="canonical"]', {
+        element(l: any) {
+          l.setAttribute('href', `https://www.freshcommits.com/job/${encodeURIComponent(jobId)}`);
+        },
+      })
+      .on('meta[property="og:url"]', {
+        element(m: any) {
+          m.setAttribute('content', `https://www.freshcommits.com/job/${encodeURIComponent(jobId)}`);
+        },
+      })
+      .transform(response);
   } catch (e) {
-    // Graceful fallback to static response
+    // Graceful fallback to static response with self-referencing canonical
+    try {
+      return new (globalThis as any).HTMLRewriter()
+        .on('link[rel="canonical"]', {
+          element(l: any) {
+            l.setAttribute('href', `https://www.freshcommits.com/job/${encodeURIComponent(jobId)}`);
+          },
+        })
+        .on('meta[property="og:url"]', {
+          element(m: any) {
+            m.setAttribute('content', `https://www.freshcommits.com/job/${encodeURIComponent(jobId)}`);
+          },
+        })
+        .transform(response);
+    } catch {}
   }
 
   return response;
