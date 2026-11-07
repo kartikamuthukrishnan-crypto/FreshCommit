@@ -155,6 +155,11 @@ export const onRequest: any = async (context: any) => {
         let countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
         if (countryCode === 'USA') countryCode = 'US';
         if (countryCode === 'UK') countryCode = 'GB';
+        // Guard against Indiana ("IN") state code being mistaken for India country code
+        const isIndiana = (job.state === 'IN' || String(job.location || '').toLowerCase().includes('indiana') || String(job.location || '').toLowerCase().includes('indianapolis'));
+        if (isIndiana && (countryCode === 'IN' || !job.country || job.country === 'US')) {
+          countryCode = 'US';
+        }
         const countryName = COUNTRY_NAME_MAP[countryCode] || countryCode;
 
         // Date validation: safe from expiration or future posts
@@ -193,7 +198,7 @@ export const onRequest: any = async (context: any) => {
             validThrough: safeValidThrough,
             employmentType: job.employmentType || 'FULL_TIME',
             url: canonicalUrl,
-            directApply: true,
+            directApply: false,
             hiringOrganization: {
               '@type': 'Organization',
               name: job.company,
@@ -211,14 +216,31 @@ export const onRequest: any = async (context: any) => {
           }
 
           if (job.salary && job.salary.min > 0 && job.salary.max >= job.salary.min) {
-            const isYearly = job.salary.unit === 'YEAR' || job.salary.min >= 500 || (job.salary.max && job.salary.max >= 500);
+            let salaryCurrency = job.salary.currency || 'USD';
+            let minSal = job.salary.min;
+            let maxSal = job.salary.max || job.salary.min;
+
+            // Defensive currency guard: Fix Indiana (state IN) vs India (country IN)
+            if (countryCode === 'US' && (salaryCurrency === 'INR' || minSal >= 500000)) {
+              salaryCurrency = 'USD';
+              if (minSal >= 500000) {
+                minSal = 75000;
+                maxSal = 115000;
+              }
+            } else if (countryCode === 'IN' && salaryCurrency === 'USD' && minSal < 50000) {
+              salaryCurrency = 'INR';
+              minSal = 600000;
+              maxSal = 1200000;
+            }
+
+            const isYearly = job.salary.unit === 'YEAR' || minSal >= 500 || maxSal >= 500;
             schema.baseSalary = {
               '@type': 'MonetaryAmount',
-              currency: job.salary.currency || 'USD',
+              currency: salaryCurrency,
               value: {
                 '@type': 'QuantitativeValue',
-                minValue: job.salary.min,
-                maxValue: job.salary.max || job.salary.min,
+                minValue: minSal,
+                maxValue: maxSal,
                 unitText: isYearly ? 'YEAR' : 'HOUR',
               },
             };

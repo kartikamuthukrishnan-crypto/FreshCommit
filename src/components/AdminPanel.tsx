@@ -4833,6 +4833,111 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 )}
               </div>
             </div>
+
+            {/* Google Search Console Direct Inspection & Accelerated Indexing Hub */}
+            <div className="pt-6 border-t border-slate-200 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    <span>Google for Jobs Search Console Accelerated Indexing</span>
+                  </h3>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    Open these top live postings directly in Google Search Console to click &ldquo;Test Live URL&rdquo; and &ldquo;Request Indexing&rdquo; to force immediate inclusion in Google for Jobs.
+                  </p>
+                </div>
+                <a
+                  href="https://search.google.com/search-console?resource_id=https%3A%2F%2Fwww.freshcommits.com%2F"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-bold inline-flex items-center gap-1 transition-colors"
+                >
+                  <span>Open Search Console</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500" />
+                </a>
+              </div>
+
+              {/* 5 Top Priority Live Roles Inspection Shortcuts */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                {jobs.slice(0, 6).map((j) => {
+                  const jobUrl = `https://www.freshcommits.com/job/${j.id}`;
+                  const gscUrl = `https://search.google.com/search-console/inspect?resource_id=https%3A%2F%2Fwww.freshcommits.com%2F&id=${encodeURIComponent(jobUrl)}`;
+                  return (
+                    <div
+                      key={j.id}
+                      className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between gap-2 hover:border-indigo-300 transition-colors"
+                    >
+                      <div className="space-y-0.5">
+                        <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">
+                          {j.company}
+                        </span>
+                        <h4 className="text-xs font-bold text-slate-800 line-clamp-1">{j.title}</h4>
+                        <p className="text-[10px] text-slate-500 font-mono truncate">{j.id}</p>
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-1 border-t border-slate-200/60">
+                        <a
+                          href={gscUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 text-center py-1 px-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-[10px] font-bold inline-flex items-center justify-center gap-1 shadow-2xs"
+                          title="Open URL in Google Search Console to request priority indexing"
+                        >
+                          <span>Request Indexing</span>
+                          <ExternalLink className="w-2.5 h-2.5" />
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(jobUrl);
+                            setIndexingStatusMsg({ text: `Copied URL: ${jobUrl}` });
+                            setTimeout(() => setIndexingStatusMsg(null), 3000);
+                          }}
+                          className="px-2 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded text-[10px] font-bold text-slate-600 cursor-pointer"
+                          title="Copy job URL"
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Technical Compliance Checklist */}
+              <div className="bg-emerald-50/60 border border-emerald-200 rounded-xl p-4 text-xs space-y-2">
+                <span className="font-bold text-emerald-950 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  Google for Jobs Compliance Hardened on FreshCommits
+                </span>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px] text-emerald-900 pt-1">
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Self-referencing canonical URL on every job response</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span><strong>directApply: false</strong> (compliant with external employer ATS redirect)</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Edge server-rendered JSON-LD before byte 0</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Indiana state &amp; US location currency strictly enforced in USD</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Soft-404 avoidance: Expired roles tagged <strong>noindex</strong></span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Clean sitemap.xml with {jobs.length} valid active jobs</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       )}

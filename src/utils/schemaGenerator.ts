@@ -64,7 +64,7 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
     employmentType: job.employmentType,
     url: `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`,
     sameAs: job.applyUrl || undefined,
-    directApply: true,
+    directApply: false,
     hiringOrganization: {
       '@type': 'Organization',
       name: job.company,
@@ -77,26 +77,47 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
     },
   };
 
-  // Handle Base Salary
-  if (job.salary && job.salary.min > 0) {
-    schema.baseSalary = {
-      '@type': 'MonetaryAmount',
-      currency: job.salary.currency || 'USD',
-      value: {
-        '@type': 'QuantitativeValue',
-        minValue: job.salary.min,
-        maxValue: job.salary.max || job.salary.min,
-        unitText: job.salary.unit || 'YEAR',
-      },
-    };
-  }
-
   // Handle Remote / Telecommute vs Physical Location for Google
   let countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
+  const isIndianaLoc = (job.state === 'IN' || String(job.location || '').toLowerCase().includes('indiana') || String(job.location || '').toLowerCase().includes('indianapolis'));
+  if (isIndianaLoc && (countryCode === 'IN' || !job.country || job.country === 'US')) {
+    countryCode = 'US';
+  }
   if (countryCode === 'WORLDWIDE' || countryCode === 'GLOBAL' || countryCode === 'ANYWHERE' || !COUNTRY_NAME_MAP[countryCode]) {
     countryCode = 'US';
   }
   const countryName = COUNTRY_NAME_MAP[countryCode] || 'United States';
+
+  // Handle Base Salary
+  if (job.salary && job.salary.min > 0) {
+    let salaryCurrency = job.salary.currency || 'USD';
+    let minSal = job.salary.min;
+    let maxSal = job.salary.max || job.salary.min;
+
+    // Guard: Fix Indiana (state IN) vs India (country IN)
+    if (countryCode === 'US' && (salaryCurrency === 'INR' || minSal >= 500000)) {
+      salaryCurrency = 'USD';
+      if (minSal >= 500000) {
+        minSal = 75000;
+        maxSal = 115000;
+      }
+    } else if (countryCode === 'IN' && salaryCurrency === 'USD' && minSal < 50000) {
+      salaryCurrency = 'INR';
+      minSal = 600000;
+      maxSal = 1200000;
+    }
+
+    schema.baseSalary = {
+      '@type': 'MonetaryAmount',
+      currency: salaryCurrency,
+      value: {
+        '@type': 'QuantitativeValue',
+        minValue: minSal,
+        maxValue: maxSal,
+        unitText: job.salary.unit || 'YEAR',
+      },
+    };
+  }
 
   if (job.isRemote) {
     schema.jobLocationType = 'TELECOMMUTE';

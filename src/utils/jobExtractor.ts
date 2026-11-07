@@ -1264,7 +1264,10 @@ export function getRoleMarketBenchmark(
 
   // 1. Detect Country Context
   let detectedCountry = rawCountry || 'US';
-  if (!rawCountry || rawCountry === 'US' || rawCountry === 'USA' || rawCountry === 'UNITED STATES') {
+  if (rawCountry === 'IN' && (loc.includes('indiana') || loc.includes('indianapolis') || /,\s*in\b/.test(loc) || loc.includes('fort wayne') || loc.includes('bloomington'))) {
+    detectedCountry = 'US';
+  }
+  if (!rawCountry || rawCountry === 'US' || rawCountry === 'USA' || rawCountry === 'UNITED STATES' || detectedCountry === 'US') {
     if (loc.includes('canada') || loc.includes('toronto') || loc.includes('vancouver') || loc.includes('montreal') || loc.includes('waterloo') || loc.includes('ottawa') || loc.includes(', bc') || loc.includes(', on') || loc.includes(', qc')) {
       detectedCountry = 'CA';
     } else if (loc.includes('united kingdom') || loc.includes('england') || loc.includes('scotland') || loc.includes('london') || loc.includes('manchester') || loc.includes('cambridge') || loc.includes('oxford') || loc.includes('edinburgh') || loc.includes('bristol') || loc.includes(', uk') || loc.includes(', gb')) {
