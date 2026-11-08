@@ -4834,38 +4834,66 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </div>
             </div>
 
-            {/* Google Search Console Direct Inspection & Accelerated Indexing Hub */}
+            {/* Google Search Console & Rich Results Testing Hub */}
             <div className="pt-6 border-t border-slate-200 space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    <span>Google for Jobs Search Console Accelerated Indexing</span>
+                    <span>Google for Jobs Indexing &amp; Live Inspection Hub</span>
                   </h3>
                   <p className="text-[11px] text-slate-500 mt-0.5">
-                    Open these top live postings directly in Google Search Console to click &ldquo;Test Live URL&rdquo; and &ldquo;Request Indexing&rdquo; to force immediate inclusion in Google for Jobs.
+                    Google Search Console requires pasting URLs into its top inspection bar (direct query links return Google 404). Use <strong>Test Rich Results</strong> for instant 1-click Googlebot validation, or <strong>Copy &amp; Open GSC</strong>.
                   </p>
                 </div>
-                <a
-                  href="https://search.google.com/search-console?resource_id=https%3A%2F%2Fwww.freshcommits.com%2F"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-bold inline-flex items-center gap-1 transition-colors"
-                >
-                  <span>Open Search Console</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500" />
-                </a>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://search.google.com/test/rich-results"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-lg text-[11px] font-bold inline-flex items-center gap-1 transition-colors"
+                  >
+                    <span>Rich Results Test</span>
+                    <ExternalLink className="w-3 h-3 text-emerald-600" />
+                  </a>
+                  <a
+                    href="https://search.google.com/search-console"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-bold inline-flex items-center gap-1 transition-colors"
+                  >
+                    <span>Open Search Console</span>
+                    <ExternalLink className="w-3 h-3 text-slate-500" />
+                  </a>
+                </div>
               </div>
 
-              {/* 5 Top Priority Live Roles Inspection Shortcuts */}
+              {/* Informative Guidance Box */}
+              <div className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-3 text-[11px] text-amber-900 flex items-start gap-2.5">
+                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <span className="font-bold block text-amber-950">How to Request Indexing in Google Search Console without 404 Errors:</span>
+                  <p className="text-amber-800 leading-relaxed">
+                    Google restricts its URL Inspection tool so third-party links cannot inject raw URLs via query parameters (which causes Google&rsquo;s <em>&ldquo;404: The requested URL was not found on this server&rdquo;</em>).
+                    To request indexing:
+                  </p>
+                  <ol className="list-decimal list-inside space-y-0.5 text-amber-900 font-medium pl-1">
+                    <li>Click <strong>&ldquo;Copy &amp; Open GSC&rdquo;</strong> below (this copies the exact job URL and opens Search Console).</li>
+                    <li>Click the <strong>top inspection search bar</strong> in Google Search Console (<em>&ldquo;Inspect any URL in freshcommits.com&rdquo;</em>).</li>
+                    <li>Paste (<kbd className="px-1 py-0.5 bg-white border border-amber-300 rounded text-[10px] font-mono">Ctrl+V</kbd> / <kbd className="px-1 py-0.5 bg-white border border-amber-300 rounded text-[10px] font-mono">Cmd+V</kbd>) and press <kbd className="px-1 py-0.5 bg-white border border-amber-300 rounded text-[10px] font-mono">Enter</kbd> &rarr; click <strong>&ldquo;Request Indexing&rdquo;</strong>.</li>
+                  </ol>
+                </div>
+              </div>
+
+              {/* Top Priority Live Roles Inspection Shortcuts */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                 {jobs.slice(0, 6).map((j) => {
                   const jobUrl = `https://www.freshcommits.com/job/${j.id}`;
-                  const gscUrl = `https://search.google.com/search-console/inspect?resource_id=https%3A%2F%2Fwww.freshcommits.com%2F&id=${encodeURIComponent(jobUrl)}`;
+                  const richResultsUrl = `https://search.google.com/test/rich-results?url=${encodeURIComponent(jobUrl)}`;
                   return (
                     <div
                       key={j.id}
-                      className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between gap-2 hover:border-indigo-300 transition-colors"
+                      className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between gap-2.5 hover:border-indigo-300 transition-colors"
                     >
                       <div className="space-y-0.5">
                         <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200">
@@ -4875,29 +4903,57 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         <p className="text-[10px] text-slate-500 font-mono truncate">{j.id}</p>
                       </div>
 
-                      <div className="flex items-center gap-2 pt-1 border-t border-slate-200/60">
-                        <a
-                          href={gscUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 text-center py-1 px-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-[10px] font-bold inline-flex items-center justify-center gap-1 shadow-2xs"
-                          title="Open URL in Google Search Console to request priority indexing"
-                        >
-                          <span>Request Indexing</span>
-                          <ExternalLink className="w-2.5 h-2.5" />
-                        </a>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            navigator.clipboard.writeText(jobUrl);
-                            setIndexingStatusMsg({ text: `Copied URL: ${jobUrl}` });
-                            setTimeout(() => setIndexingStatusMsg(null), 3000);
-                          }}
-                          className="px-2 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded text-[10px] font-bold text-slate-600 cursor-pointer"
-                          title="Copy job URL"
-                        >
-                          Copy
-                        </button>
+                      <div className="space-y-1.5 pt-1.5 border-t border-slate-200/60">
+                        <div className="flex items-center gap-1.5">
+                          {/* 1-Click Googlebot Rich Results Test (Never 404s) */}
+                          <a
+                            href={richResultsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 text-center py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold inline-flex items-center justify-center gap-1 shadow-2xs transition-colors"
+                            title="Test live URL with Googlebot & view Google for Jobs rich card preview"
+                          >
+                            <span>Test Rich Results</span>
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </a>
+
+                          {/* Copy URL & Open Search Console */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(jobUrl);
+                              setIndexingStatusMsg({
+                                text: `📋 Copied ${jobUrl}! Paste it into the Google Search Console top inspection bar and press Enter.`
+                              });
+                              window.open('https://search.google.com/search-console', '_blank', 'noopener,noreferrer');
+                            }}
+                            className="flex-1 py-1.5 px-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-[10px] font-bold inline-flex items-center justify-center gap-1 shadow-2xs transition-colors cursor-pointer"
+                            title="Copies job URL to clipboard and opens Google Search Console"
+                          >
+                            <span>Copy &amp; Open GSC</span>
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </button>
+                        </div>
+
+                        {/* Optional 1-Click Push via Indexing API if Credentials Saved */}
+                        {indexingConfig.clientEmail && (
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              setIndexingStatusMsg({ text: `Pushing ${jobUrl} to Googlebot...` });
+                              const res = await publishUrlToGoogle(jobUrl, 'URL_UPDATED');
+                              if (res.success) {
+                                setIndexingStatusMsg({ text: `✅ Pushed ${j.title} to Googlebot (${res.notificationTime})` });
+                              } else {
+                                setIndexingStatusMsg({ text: `❌ ${res.message}`, isError: true });
+                              }
+                            }}
+                            className="w-full py-1 px-2 bg-white hover:bg-slate-100 border border-slate-200 rounded text-[10px] font-semibold text-slate-700 inline-flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                          >
+                            <Zap className="w-2.5 h-2.5 text-amber-500" />
+                            <span>Push via Indexing API</span>
+                          </button>
+                        )}
                       </div>
                     </div>
                   );
