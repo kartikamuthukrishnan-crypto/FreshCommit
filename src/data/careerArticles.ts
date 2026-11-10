@@ -47,8 +47,10 @@ import { UNICORNS_FINTECH_EARLY_CAREER_ARTICLE } from './articles/unicornsFintec
 import { REMOTE_SCALE_UP_EARLY_CAREER_ARTICLE } from './articles/remoteScaleUpEarlyCareerArticle';
 import { TECH_RECRUITING_SEASON_CALENDAR_ARTICLE } from './articles/techRecruitingSeasonCalendarArticle';
 import { ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE } from './articles/entryLevelSweJobsNoExperienceArticle';
+import { BEST_TECH_STACKS_ENTRY_LEVEL_ARTICLE } from './articles/bestTechStacksEntryLevelArticle';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
+  BEST_TECH_STACKS_ENTRY_LEVEL_ARTICLE,
   TECH_RECRUITING_SEASON_CALENDAR_ARTICLE,
   ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE,
   FAANG_ZERO_EXPERIENCE_EMPLOYERS_ARTICLE,

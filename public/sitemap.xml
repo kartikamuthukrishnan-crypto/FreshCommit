@@ -76,6 +76,12 @@
 
   <!-- Editorial Career Insights Guides -->
   <url>
+    <loc>https://www.freshcommits.com/insights/best-tech-stacks-entry-level-software-engineers-2026</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/insights/tech-recruiting-season-entry-level-hiring-calendar-2026</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
