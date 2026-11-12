@@ -48,8 +48,10 @@ import { REMOTE_SCALE_UP_EARLY_CAREER_ARTICLE } from './articles/remoteScaleUpEa
 import { TECH_RECRUITING_SEASON_CALENDAR_ARTICLE } from './articles/techRecruitingSeasonCalendarArticle';
 import { ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE } from './articles/entryLevelSweJobsNoExperienceArticle';
 import { BEST_TECH_STACKS_ENTRY_LEVEL_ARTICLE } from './articles/bestTechStacksEntryLevelArticle';
+import { CONTRACT_TO_HIRE_TECH_STAFFING_ARTICLE } from './articles/contractToHireTechStaffingArticle';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
+  CONTRACT_TO_HIRE_TECH_STAFFING_ARTICLE,
   BEST_TECH_STACKS_ENTRY_LEVEL_ARTICLE,
   TECH_RECRUITING_SEASON_CALENDAR_ARTICLE,
   ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE,
