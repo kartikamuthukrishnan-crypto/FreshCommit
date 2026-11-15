@@ -9,6 +9,7 @@ import {
   stripSyntheticWrapperSections,
   formatDisclosedSalary,
   resolveWorkMode,
+  formatRelativePostedAge,
 } from '../utils/jobSanitizer';
 
 interface JobCardProps {
@@ -27,8 +28,9 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
   const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
 
   const isRecent = () => {
-    if (!job.datePosted) return false;
-    const postDate = new Date(job.datePosted);
+    const raw = job.postedAt || job.datePosted;
+    if (!raw) return false;
+    const postDate = new Date(raw);
     if (isNaN(postDate.getTime())) return false;
     const diffDays = (Date.now() - postDate.getTime()) / (1000 * 3600 * 24);
     return diffDays >= 0 && diffDays <= 4;
@@ -186,9 +188,12 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onTogg
       {/* Footer */}
       <div className="flex items-center justify-between pt-3.5 border-t border-[#f1f3f4] gap-2">
         <div className="flex flex-col gap-0.5 text-[11px] text-[#5f6368]">
-          <span className="inline-flex items-center gap-1 tabular-nums">
+          <span
+            className="inline-flex items-center gap-1 tabular-nums"
+            title={job.datePosted ? `Published ${job.datePosted}` : undefined}
+          >
             <Calendar className="w-3 h-3 text-[#80868b]" />
-            <span>{job.datePosted || 'Recent'}</span>
+            <span>{formatRelativePostedAge(job.datePosted, job.postedAt)}</span>
           </span>
           <span className="font-medium text-[#3c4043]">
             {job.experienceLevel === 'Internship'

@@ -7,6 +7,8 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "favicons": "node scripts/generate-favicons.mjs",
     "sync-jobs": "node scripts/pull-firestore-jobs.mjs",
+    "sync:jobs": "node scripts/sync-ats-jobs.mjs",
+    "sync:jobs:dry": "DRY_RUN=true node scripts/sync-ats-jobs.mjs",
     "sync-articles": "node scripts/sync-html-articles.mjs",
     "build": "node scripts/pull-firestore-jobs.mjs && node scripts/sync-html-articles.mjs && vite build && node scripts/validate-build.mjs",
     "preview": "vite preview",

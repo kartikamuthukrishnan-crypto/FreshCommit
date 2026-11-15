@@ -1,0 +1,60 @@
+name: Automated 6-Hour ATS Job Sync
+
+on:
+  schedule:
+    # Run every 6 hours at minute 17 to avoid top-of-hour API throttling
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run ATS sync without writing to Firestore or committing changes'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: freshcommits-ats-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-ats-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run 6-Hour ATS Job Sync & Lifecycle Check
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          MAX_NEW_JOBS_PER_RUN: '25'
+          MAX_PER_COMPANY: '3'
+          MAX_AGE_DAYS: '45'
+        run: node scripts/sync-ats-jobs.mjs
+
+      - name: Refresh public/data/jobs.json and public/sitemap.xml
+        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
+        run: node scripts/pull-firestore-jobs.mjs
+
+      - name: Commit and push updated static feed & sitemap
+        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
+        run: |
+          if git diff --quiet public/data/jobs.json public/sitemap.xml; then
+            echo "No changes to jobs.json or sitemap.xml."
+            exit 0
+          fi
+          git config user.name "freshcommits-sync-bot"
+          git config user.email "sync-bot@freshcommits.com"
+          git add public/data/jobs.json public/sitemap.xml
+          git commit -m "chore(sync): 6-hour ATS job feed & sitemap refresh [skip ci]" || exit 0
+          git push

@@ -8,6 +8,14 @@ import { JobPosting } from '../types';
 export const getJobTimestamp = (job: JobPosting): number => {
   if (!job) return 0;
 
+  // 0. Check explicit full ISO postedAt timestamp (e.g. from official ATS sync)
+  if (job.postedAt) {
+    const postedTime = Date.parse(job.postedAt);
+    if (!isNaN(postedTime) && postedTime > 1600000000000) {
+      return postedTime;
+    }
+  }
+
   // 1. Check for explicit 10-13 digit millisecond timestamp in ID (e.g. manual-1793801026859)
   const idMatch = job.id?.match(/\b(\d{10,13})\b/);
   const idTime = idMatch ? Number(idMatch[1]) : 0;

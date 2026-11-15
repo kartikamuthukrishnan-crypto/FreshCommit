@@ -170,6 +170,12 @@ function sanitizeJobRecord(jobObj) {
 
 function getJobTimestamp(job) {
   if (!job) return 0;
+  if (job.postedAt) {
+    const postedTime = Date.parse(job.postedAt);
+    if (!isNaN(postedTime) && postedTime > 1600000000000) {
+      return postedTime;
+    }
+  }
   const idMatch = job.id?.match(/\b(\d{10,13})\b/);
   const idTime = idMatch ? Number(idMatch[1]) : 0;
   const hasValidIdTime = !isNaN(idTime) && idTime > 1600000000000;

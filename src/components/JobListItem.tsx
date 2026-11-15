@@ -8,6 +8,7 @@ import {
   stripSyntheticWrapperSections,
   formatDisclosedSalary,
   resolveWorkMode,
+  formatRelativePostedAge,
 } from '../utils/jobSanitizer';
 
 interface JobListItemProps {
@@ -30,8 +31,9 @@ export const JobListItem: React.FC<JobListItemProps> = ({
   const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
 
   const isRecent = () => {
-    if (!job.datePosted) return false;
-    const postDate = new Date(job.datePosted);
+    const raw = job.postedAt || job.datePosted;
+    if (!raw) return false;
+    const postDate = new Date(raw);
     if (isNaN(postDate.getTime())) return false;
     const diffDays = (Date.now() - postDate.getTime()) / (1000 * 3600 * 24);
     return diffDays >= 0 && diffDays <= 4;
@@ -162,9 +164,12 @@ export const JobListItem: React.FC<JobListItemProps> = ({
                 {salaryLabel}
               </span>
             )}
-            <span className="inline-flex items-center gap-1 text-[11px] text-[#5f6368] tabular-nums">
+            <span
+              className="inline-flex items-center gap-1 text-[11px] text-[#5f6368] tabular-nums"
+              title={job.datePosted ? `Published ${job.datePosted}` : undefined}
+            >
               <Calendar className="w-3 h-3 text-[#80868b]" />
-              <span>{job.datePosted || 'Recent'}</span>
+              <span>{formatRelativePostedAge(job.datePosted, job.postedAt)}</span>
             </span>
           </div>
 

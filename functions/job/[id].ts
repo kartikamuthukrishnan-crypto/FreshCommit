@@ -188,7 +188,7 @@ export const onRequest: any = async (context: any) => {
   const { request, params, env, next } = context;
 
   let jobId = decodeURIComponent(String(params?.id || '')).trim().split(/[\s%]+/)[0];
-  const idMatch = jobId.match(/(manual-\d+|job-[a-z0-9-]+|ext-[a-z0-9-]+|sync-[a-z0-9-]+|sr-[a-z0-9-]+)/i);
+  const idMatch = jobId.match(/(manual-\d+|job-[a-z0-9_-]+|ext-[a-z0-9_-]+|sync-[a-z0-9_-]+|sr-[a-z0-9_-]+)/i);
   if (idMatch) jobId = idMatch[1];
 
   const userAgent = request.headers.get('user-agent') || '';

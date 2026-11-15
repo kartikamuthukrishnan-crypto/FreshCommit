@@ -555,6 +555,46 @@ export function resolveWorkMode(job: Pick<JobPosting, 'workMode' | 'isRemote' | 
 }
 
 /**
+ * Formats a job's real publish timestamp into a crisp candidate-friendly relative age
+ * (e.g., "Just now", "3h ago", "2d ago", or "Nov 15") without mutating underlying dates.
+ */
+export function formatRelativePostedAge(datePosted?: string, postedAt?: string): string {
+  const raw = postedAt || datePosted;
+  if (!raw) return 'Recent';
+
+  let ts = 0;
+  if (postedAt) {
+    const parsed = Date.parse(postedAt);
+    if (!isNaN(parsed)) ts = parsed;
+  }
+  if (!ts && datePosted) {
+    const parts = String(datePosted).trim().split(/[-/]/);
+    if (parts.length === 3) {
+      ts = Date.UTC(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), 12, 0, 0);
+    } else {
+      const parsed = Date.parse(datePosted);
+      if (!isNaN(parsed)) ts = parsed;
+    }
+  }
+
+  if (!ts || isNaN(ts)) return datePosted || 'Recent';
+
+  const diffMs = Date.now() - ts;
+  if (diffMs < 0) return datePosted || 'Today';
+
+  const diffHours = Math.floor(diffMs / 3600000);
+  if (postedAt && diffHours < 1) return 'Just now';
+  if (postedAt && diffHours < 24) return `${diffHours}h ago`;
+
+  const diffDays = Math.floor(diffMs / 86400000);
+  if (diffDays === 0) return 'Today';
+  if (diffDays === 1) return '1d ago';
+  if (diffDays < 14) return `${diffDays}d ago`;
+
+  return datePosted || new Date(ts).toISOString().split('T')[0];
+}
+
+/**
  * Sanitizes an entire JobPosting record cleanly for storage/rendering
  */
 export function sanitizeJobPosting(job: JobPosting): JobPosting {
