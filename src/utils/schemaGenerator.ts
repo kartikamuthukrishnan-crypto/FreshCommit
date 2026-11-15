@@ -1,5 +1,10 @@
 import { JobPosting, SchemaValidationResult } from '../types';
 import { cleanLocationString, cleanCityString } from './textHumanizer';
+import {
+  sanitizeJobTitle,
+  sanitizeAtsHtml,
+  formatPlainTextJobDescription,
+} from './jobSanitizer';
 
 /**
  * Standard country code to formal name mapping for Google Search Central JobPosting schema
@@ -22,21 +27,23 @@ const COUNTRY_NAME_MAP: Record<string, string> = {
 
 /**
  * Normalizes job title to conform strictly to Google for Jobs guidelines:
+ * - Strips UI/icon noise (e.g. star_rate, New)
  * - Strips promotional parentheticals like (Early Career), (New Grad), (Entry Level), [0-1 YoE], (Remote), (Urgent)
  * - Strips trailing location/remote noise like " – Remote" or " - Hybrid"
  * - Converts "(Junior) Software Engineer" to "Junior Software Engineer"
  * - Keeps the clean, canonical industry job title for 100% deduplication clustering
  */
 export function normalizeJobTitleForGoogle(rawTitle: string): string {
-  if (!rawTitle) return 'Software Engineer';
-  let clean = rawTitle
+  const sanitized = sanitizeJobTitle(rawTitle);
+  if (!sanitized) return 'Software Engineer';
+  const clean = sanitized
     .replace(/\s*[\(\[](?:early career|new grad(?:uate)?|entry[\s-]level|0-1 years?|0-2 years?|urgent(?:ly hiring)?|hiring now|remote|hybrid|on-site|onsite|austin|san francisco|nyc|new york)[\)\]]/gi, '')
     .replace(/\s*[\u2013\u2014-]\s*(?:Remote|Hybrid|On-site|Onsite|Austin|NYC)$/gi, '')
     .replace(/^\((?:junior|jr\.?)\)\s*/i, 'Junior ')
     .replace(/\s{2,}/g, ' ')
     .trim();
 
-  return clean || rawTitle.trim();
+  return clean || sanitized;
 }
 
 /**
@@ -44,9 +51,6 @@ export function normalizeJobTitleForGoogle(rawTitle: string): string {
  * to Google Search Central guidelines (https://developers.google.com/search/docs/appearance/structured-data/job-posting)
  */
 export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
-  // Google for Jobs Algorithm Compliance:
-  // Title MUST be the authentic, concise job title without promotional keywords or editorial tags.
-  // This guarantees exact cosine-similarity clustering with the primary ATS listing.
   const schemaTitle = normalizeJobTitleForGoogle(job.title || 'Software Engineer');
 
   const schema: Record<string, any> = {
@@ -88,13 +92,12 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
   }
   const countryName = COUNTRY_NAME_MAP[countryCode] || 'United States';
 
-  // Handle Base Salary
-  if (job.salary && job.salary.min > 0) {
+  // Handle Base Salary (only when disclosed / positive min)
+  if (job.salaryDisclosed !== false && job.salary && job.salary.min > 0) {
     let salaryCurrency = job.salary.currency || 'USD';
     let minSal = job.salary.min;
     let maxSal = job.salary.max || job.salary.min;
 
-    // Guard: Fix Indiana (state IN) vs India (country IN)
     if (countryCode === 'US' && (salaryCurrency === 'INR' || minSal >= 500000)) {
       salaryCurrency = 'USD';
       if (minSal >= 500000) {
@@ -153,6 +156,46 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
 }
 
 /**
+ * Generates combined JSON-LD @graph containing JobPosting + BreadcrumbList
+ */
+export function generateJobDetailGraphSchema(job: JobPosting): Record<string, any> {
+  const jobSchema = generateJobPostingSchema(job);
+  const { '@context': _ctx, ...jobNode } = jobSchema;
+  const canonicalUrl = `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`;
+  const cleanTitle = sanitizeJobTitle(job.title || 'Software Engineer');
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      jobNode,
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'All Jobs',
+            item: 'https://www.freshcommits.com/jobs',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: job.category || 'Engineering',
+            item: 'https://www.freshcommits.com/jobs',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: cleanTitle,
+            item: canonicalUrl,
+          },
+        ],
+      },
+    ],
+  };
+}
+
+/**
  * Returns complete HTML script tag ready for Google Rich Results Test `< > CODE` tab
  */
 export function generateJobPostingHtmlSnippet(job: JobPosting): string {
@@ -161,106 +204,30 @@ export function generateJobPostingHtmlSnippet(job: JobPosting): string {
 }
 
 /**
- * Formats the authentic employer job description into compliant HTML as required by Google Search.
- * Strictly adheres to Google for Jobs guidelines:
- * - Verbatim employer text, responsibilities, and qualifications
- * - No promotional editorial commentary or non-job marketing text
- * - Clean HTML tags (<p>, <ul>, <li>, <strong>)
+ * Formats authentic employer job description into compliant HTML as required by Google Search.
+ * Strictly uses sanitized employer HTML when available, or clean formatted paragraphs + lists.
  */
 function formatHtmlDescription(job: JobPosting): string {
-  let raw = job.description || '';
-
-  // 1. If stored description contains editorial take, extract authentic employer text
-  if (raw.includes('🏢 Role Overview:')) {
-    raw = raw.split('🏢 Role Overview:')[1]?.trim() || raw;
-  } else if (raw.includes('🎯 The FreshCommits Career Take:')) {
-    if (raw.includes('💡 Candidate Preparation Checklist:')) {
-      const parts = raw.split('💡 Candidate Preparation Checklist:');
-      const afterChecklist = parts[1] || '';
-      // If there is another section or original text after checklist
-      const lines = afterChecklist.split('\n').filter(Boolean);
-      const nonBulletIdx = lines.findIndex(l => !l.trim().startsWith('•') && !l.trim().startsWith('-') && !l.trim().startsWith('*'));
-      if (nonBulletIdx !== -1) {
-        raw = lines.slice(nonBulletIdx).join('\n');
-      } else {
-        raw = `Official early-career software engineering requisition for ${job.title} at ${job.company}.`;
-      }
+  if (job.descriptionHtml) {
+    const cleanHtml = sanitizeAtsHtml(job.descriptionHtml);
+    if (cleanHtml && cleanHtml.length > 60) {
+      return cleanHtml;
     }
   }
 
-  // 2. Strip leading scraping artifacts
-  raw = raw
-    .replace(/^Description\s*\n+/i, '')
-    .replace(/^Position Summary\s*\n+/i, '')
-    .replace(/^About (?:The Role|Us|The Job|The Company)\s*[:\n]+/i, '')
-    .trim();
+  const formatted = formatPlainTextJobDescription(
+    job.description || '',
+    job.responsibilities || [],
+    job.qualifications || []
+  );
 
-  // 3. Format description paragraphs
-  const cleanDesc = escapeHtml(raw)
-    .split(/\n\s*\n/)
-    .map(p => p.trim())
-    .filter(Boolean)
-    .map(p => `<p>${p.replace(/\n/g, '<br />')}</p>`)
-    .join('');
-
-  let html = cleanDesc || `<p>Apply directly for ${escapeHtml(job.title)} at ${escapeHtml(job.company)}.</p>`;
-
-  const descLower = raw.toLowerCase();
-
-  // 4. Append authentic responsibilities (filtered for quality)
-  if (job.responsibilities && job.responsibilities.length > 0) {
-    const validResp = job.responsibilities
-      .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
-      .filter((r) => {
-        if (!r || r.length < 10) return false;
-        const low = r.toLowerCase();
-        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are|description|position summary)[:\s]*$/i.test(low)) return false;
-        if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
-        if (/^about us[:\s]/i.test(low)) return false;
-        if (/^who we are[:\s]/i.test(low)) return false;
-        if (/^we are looking for\b/i.test(low)) return false;
-        // Avoid duplicating if the exact sentence is already in the main description
-        if (descLower.includes(low.slice(0, 50))) return false;
-        return true;
-      });
-
-    if (validResp.length > 0) {
-      html += `<p><strong>Key Responsibilities:</strong></p><ul>`;
-      for (const item of validResp) {
-        html += `<li>${escapeHtml(item)}</li>`;
-      }
-      html += `</ul>`;
-    }
+  if (formatted.html && formatted.html.length > 20) {
+    return formatted.html;
   }
 
-  // 5. Append authentic qualifications (filtered for quality)
-  if (job.qualifications && job.qualifications.length > 0) {
-    const validQual = job.qualifications
-      .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
-      .filter((q) => {
-        if (!q || q.length < 10) return false;
-        const low = q.toLowerCase();
-        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us|description|position summary)[:\s]*$/i.test(low)) return false;
-        if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
-        if (descLower.includes(low.slice(0, 50))) return false;
-        return true;
-      });
-
-    if (validQual.length > 0) {
-      html += `<p><strong>Qualifications &amp; Requirements:</strong></p><ul>`;
-      for (const item of validQual) {
-        html += `<li>${escapeHtml(item)}</li>`;
-      }
-      html += `</ul>`;
-    }
-  }
-
-  // 6. Append tech stack if provided
-  if (job.skills && job.skills.length > 0) {
-    html += `<p><strong>Core Tech Stack:</strong> ${job.skills.map(escapeHtml).join(', ')}</p>`;
-  }
-
-  return html;
+  const title = escapeHtml(sanitizeJobTitle(job.title || 'Software Engineer'));
+  const company = escapeHtml(job.company || 'the employer');
+  return `<p>Apply directly for ${title} at ${company}.</p>`;
 }
 
 function escapeHtml(str: string): string {

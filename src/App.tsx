@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
-import { JobPosting, AdSenseConfig, SyncLog, JobCategory, ExperienceLevel } from './types';
+import { JobPosting, AdSenseConfig, SyncLog } from './types';
 import { INITIAL_JOBS } from './data/initialJobs';
 import { CAREER_ARTICLES } from './data/careerArticles';
 import { Navbar } from './components/Navbar';
 import { JobCard } from './components/JobCard';
+import { JobListItem } from './components/JobListItem';
+import {
+  JobFeedControls,
+  JobFilterState,
+  ViewModeOption,
+  applyJobFiltersAndSort,
+} from './components/JobFeedControls';
 import { JobDetailsPage } from './components/JobDetailsPage';
+import { sanitizeJobPosting, sanitizeJobTitle } from './utils/jobSanitizer';
 const JobDirectoryView = lazy(() => import('./components/JobDirectoryView').then((m) => ({ default: m.JobDirectoryView })));
 const AdminPanel = lazy(() => import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel })));
 const SalaryGuideView = lazy(() => import('./components/OriginalGuides').then((m) => ({ default: m.SalaryGuideView })));
@@ -109,8 +117,7 @@ export default function App() {
                                  item.id === 'manual-1791997615288';
               if (!isThinStub) {
                 seen.add(item.id);
-                const cleanedDesc = stripSyntheticSpamBoilerplate(item.description || '');
-                let finalItem = cleanedDesc !== item.description ? { ...item, description: cleanedDesc } : item;
+                let finalItem = sanitizeJobPosting(item);
                 if (
                   isJobPulseExtractedJob(finalItem) ||
                   isJobUsingEditorialLeadParagraph(finalItem) ||
@@ -135,23 +142,7 @@ export default function App() {
     } catch (e) {
       console.warn('Could not read saved jobs from localStorage', e);
     }
-    return INITIAL_JOBS.map((j) => {
-      const cleaned = stripSyntheticSpamBoilerplate(j.description || '');
-      let finalJob = cleaned !== j.description ? { ...j, description: cleaned } : j;
-      if (
-        isJobPulseExtractedJob(finalJob) ||
-        isJobUsingEditorialLeadParagraph(finalJob) ||
-        isJobUsingMicrosoftPattern(finalJob)
-      ) {
-        finalJob = {
-          ...finalJob,
-          status: 'EXPIRED',
-          validThrough: '2025-01-01',
-          healthStatus: 'DEAD_LINK'
-        };
-      }
-      return finalJob;
-    });
+    return INITIAL_JOBS.map((j) => sanitizeJobPosting(j));
   });
 
   // 2. Persistent State for AdSense Config
@@ -182,16 +173,44 @@ export default function App() {
     return DEFAULT_ADSENSE_CONFIG;
   });
 
-  // 3. Connect real-time Firestore synchronization for all global visitors
+  // 3. Hydrate static /data/jobs.json cache immediately + connect real-time Firestore synchronization
+  const cloudJobsLoadedRef = useRef(false);
   useEffect(() => {
-    // Health check on boot
+    let mounted = true;
     testFirebaseConnection();
+
+    // Async static jobs hydration (keeps initial JS bundle lightweight)
+    fetch('/data/jobs.json')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((staticList) => {
+        if (!mounted || !Array.isArray(staticList) || staticList.length === 0) return;
+        const sanitizedStatic = staticList.filter((j) => j && j.id).map(sanitizeJobPosting);
+        if (!cloudJobsLoadedRef.current) {
+          setJobs((prev) => (prev.length === 0 ? sanitizedStatic : prev));
+        }
+
+        // Hydrate active /job/:id deep link immediately if selectedJob isn't resolved yet
+        try {
+          const pathMatch = window.location.pathname.match(/^\/(?:jobs|job)\/([^/?#]+)/i);
+          const urlParams = new URLSearchParams(window.location.search);
+          const targetId = pathMatch?.[1] ? decodeURIComponent(pathMatch[1]) : (urlParams.get('job') || urlParams.get('jobId'));
+          if (targetId) {
+            const matched = sanitizedStatic.find((j) => j.id.toLowerCase() === targetId.trim().toLowerCase());
+            if (matched) {
+              setSelectedJob((curr) => curr || matched);
+            }
+          }
+        } catch {}
+      })
+      .catch(() => {});
 
     // Subscribe to live cloud jobs (Firestore is authoritative source of truth)
     const unsubscribeJobs = subscribeToLiveJobs((cloudJobs) => {
       if (cloudJobs && cloudJobs.length > 0) {
+        cloudJobsLoadedRef.current = true;
         const expiredToSync: JobPosting[] = [];
-        const sanitizedCloudJobs = cloudJobs.map((j) => {
+        const sanitizedCloudJobs = cloudJobs.map((rawJob) => {
+          const j = sanitizeJobPosting(rawJob);
           const isPulse = isJobPulseExtractedJob(j);
           const isEditorial = isJobUsingEditorialLeadParagraph(j);
           const isMicrosoft = isJobUsingMicrosoftPattern(j);
@@ -220,30 +239,22 @@ export default function App() {
           // ignore
         }
 
-        // If the user or crawler navigated to a specific ?job= that just arrived from Firestore, select it
         try {
           const urlParams = new URLSearchParams(window.location.search);
           const targetJobId = urlParams.get('job') || urlParams.get('jobId');
           if (targetJobId) {
-            const matchedCloudJob = cloudJobs.find((j) => j.id.toLowerCase() === targetJobId.toLowerCase());
+            const matchedCloudJob = sanitizedCloudJobs.find((j) => j.id.toLowerCase() === targetJobId.toLowerCase());
             if (matchedCloudJob) {
               setSelectedJob(matchedCloudJob);
-              const focus = getFocusKeywordForJob(matchedCloudJob);
-              document.title = `${matchedCloudJob.title} at ${matchedCloudJob.company} (${focus.displayTag}) – FreshCommits`;
+              document.title = `${sanitizeJobTitle(matchedCloudJob.title)} at ${matchedCloudJob.company} | FreshCommits`;
             }
           }
         } catch {
           // ignore
         }
-      } else {
-        // Cloud is currently empty, seed it with our initial jobs so visitors immediately see listings
-        if (jobs && jobs.length > 0) {
-          batchSaveJobsToCloud(jobs).catch((e) => console.warn('Could not auto-seed cloud jobs:', e));
-        }
       }
     });
 
-    // Subscribe to live AdSense settings
     const unsubscribeAds = subscribeToAdConfig((cloudAdConfig) => {
       if (cloudAdConfig) {
         setAdConfig((prev) => ({ ...prev, ...cloudAdConfig }));
@@ -251,6 +262,7 @@ export default function App() {
     });
 
     return () => {
+      mounted = false;
       unsubscribeJobs();
       unsubscribeAds();
     };
@@ -556,25 +568,26 @@ export default function App() {
 
   // Dedicated Job Selection Handlers with zero-cost pushState URL routing & double-click protection
   const lastJobSelectTimeRef = useRef<number>(0);
-  const handleSelectJob = (job: JobPosting, openInNewTab = true) => {
+  const handleSelectJob = (job: JobPosting, openInNewTab = false) => {
     const now = Date.now();
-    if (now - lastJobSelectTimeRef.current < 450) {
-      return; // prevent duplicate clicks or rapid double-events
+    if (now - lastJobSelectTimeRef.current < 350) {
+      return;
     }
     lastJobSelectTimeRef.current = now;
 
+    const cleanJob = sanitizeJobPosting(job);
     try {
-      sessionStorage.setItem(`job_${job.id}`, JSON.stringify(job));
-      sessionStorage.setItem('freshcommit_last_job', JSON.stringify(job));
+      sessionStorage.setItem(`job_${cleanJob.id}`, JSON.stringify(cleanJob));
+      sessionStorage.setItem('freshcommit_last_job', JSON.stringify(cleanJob));
     } catch (_) {}
 
     if (openInNewTab) {
-      window.open(`/job/${job.id}`, '_blank', 'noopener,noreferrer');
+      window.open(`/job/${cleanJob.id}`, '_blank', 'noopener,noreferrer');
     } else {
-      setSelectedJob(job);
+      setSelectedJob(cleanJob);
       try {
-        window.history.pushState({ jobId: job.id }, '', `/job/${job.id}`);
-        document.title = `${job.title} at ${job.company} (${job.experienceLevel}) – FreshCommits`;
+        window.history.pushState({ jobId: cleanJob.id }, '', `/job/${cleanJob.id}`);
+        document.title = `${sanitizeJobTitle(cleanJob.title)} at ${cleanJob.company} | FreshCommits`;
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (e) {
         console.warn('Failed updating job URL', e);
@@ -809,15 +822,37 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isAdminAuthenticated]);
 
-  // Search & Filters
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedHub, setSelectedHub] = useState<string>('All');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedExperience, setSelectedExperience] = useState<string>('All');
-  const [remoteOnly, setRemoteOnly] = useState(false);
-  const [stemOptOnly, setStemOptOnly] = useState(false);
-  const [minSalary, setMinSalary] = useState<number>(0);
-  const [savedOnly, setSavedOnly] = useState(false);
+  // Search & JobPulse Filters State
+  const [filterState, setFilterState] = useState<JobFilterState>({
+    searchQuery: '',
+    selectedHub: 'All',
+    selectedCategory: 'All',
+    workMode: 'All',
+    experience: 'All',
+    workAuth: 'All',
+    postedWithin: 'any',
+    sortBy: 'latest',
+    savedOnly: false,
+  });
+  const [viewMode, setViewMode] = useState<ViewModeOption>('list');
+
+  const updateFilters = (patch: Partial<JobFilterState>) => {
+    setFilterState((prev) => ({ ...prev, ...patch }));
+  };
+
+  const resetAllFilters = () => {
+    setFilterState({
+      searchQuery: '',
+      selectedHub: 'All',
+      selectedCategory: 'All',
+      workMode: 'All',
+      experience: 'All',
+      workAuth: 'All',
+      postedWithin: 'any',
+      sortBy: 'latest',
+      savedOnly: false,
+    });
+  };
 
   // Saved Jobs Bookmarking state (Stored in LocalStorage)
   const [savedJobIds, setSavedJobIds] = useState<string[]>(() => {
@@ -844,18 +879,15 @@ export default function App() {
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(9); // 9 jobs per page (perfect 3x3 grid)
+  const [pageSize, setPageSize] = useState<number>(12);
 
-  // Reset to page 1 whenever any search, filter, or category changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, minSalary, pageSize, savedOnly]);
+  }, [filterState, pageSize]);
 
-  // Google Search & AdSense Bot Protection:
-  // Apply "noindex, follow" to dynamic search and filter combinations to eliminate "thin / duplicate content" flags,
-  // while keeping the canonical homepage ('/') and pure tab views fully indexed.
+  // Bot & Duplicate Content Protection on filtered views
   useEffect(() => {
-    if (selectedJob) return; // Dedicated job pages manage their own robots meta
+    if (selectedJob) return;
 
     let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
     if (!robotsMeta) {
@@ -865,14 +897,14 @@ export default function App() {
     }
 
     const hasActiveFilters =
-      Boolean(searchQuery.trim()) ||
-      selectedHub !== 'All' ||
-      selectedCategory !== 'All' ||
-      selectedExperience !== 'All' ||
-      remoteOnly ||
-      stemOptOnly ||
-      minSalary > 0 ||
-      savedOnly ||
+      Boolean(filterState.searchQuery.trim()) ||
+      filterState.selectedHub !== 'All' ||
+      filterState.selectedCategory !== 'All' ||
+      filterState.workMode !== 'All' ||
+      filterState.experience !== 'All' ||
+      filterState.workAuth !== 'All' ||
+      filterState.postedWithin !== 'any' ||
+      filterState.savedOnly ||
       currentPage > 1;
 
     if (hasActiveFilters || activeTab === 'admin') {
@@ -880,40 +912,9 @@ export default function App() {
     } else {
       robotsMeta.content = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
     }
-  }, [
-    selectedJob,
-    searchQuery,
-    selectedHub,
-    selectedCategory,
-    selectedExperience,
-    remoteOnly,
-    stemOptOnly,
-    minSalary,
-    savedOnly,
-    currentPage,
-    activeTab
-  ]);
+  }, [selectedJob, filterState, currentPage, activeTab]);
 
-  // Global & Regional Tech Hubs
-  const TECH_HUBS = [
-    { label: 'All Locations & Remote', value: 'All' },
-    { label: '🇺🇸 All US Roles & Hubs', value: 'US' },
-    { label: '🌍 Remote (Worldwide / Global)', value: 'Worldwide' },
-    { label: 'Remote (Any Remote)', value: 'Remote' },
-    { label: 'SF Bay Area, CA', value: 'San Francisco' },
-    { label: 'New York, NY', value: 'New York' },
-    { label: 'Seattle, WA', value: 'Seattle' },
-    { label: 'Austin, TX', value: 'Austin' },
-    { label: 'Boston, MA', value: 'Boston' },
-    { label: 'London, UK & Europe', value: 'London' },
-    { label: 'Bengaluru / India', value: 'India' },
-    { label: 'Toronto & Canada', value: 'Toronto' },
-    { label: 'Singapore & APAC', value: 'Singapore' },
-  ];
-
-  const [sortBy, setSortBy] = useState<'latest' | 'salary'>('latest');
-
-  // Active (Non-Expired) Jobs: Automatically vanish jobs whose validThrough date has passed or status !== 'ACTIVE'
+  // Active (Non-Expired) Jobs
   const activeJobs = useMemo(() => {
     if (!Array.isArray(jobs)) return [];
     return jobs
@@ -921,125 +922,11 @@ export default function App() {
       .sort(compareJobsLatestFirst);
   }, [jobs]);
 
-  // Filtering & Sorting Logic over active jobs (Latest jobs always on top by default)
+  // Filtered & Sorted Jobs
   const filteredJobs = useMemo(() => {
-    const list = activeJobs.filter((job) => {
-      // Text search
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase();
-        const matchesTitle = job.title ? job.title.toLowerCase().includes(query) : false;
-        const matchesCompany = job.company ? job.company.toLowerCase().includes(query) : false;
-        const matchesSkills = Array.isArray(job.skills) ? job.skills.some((s) => s && s.toLowerCase().includes(query)) : false;
-        const matchesDesc = job.description ? job.description.toLowerCase().includes(query) : false;
-        const matchesAts =
-          (job.atsProvider && job.atsProvider.toLowerCase().includes(query)) ||
-          (job.source && job.source.toLowerCase().includes(query));
-        if (!matchesTitle && !matchesCompany && !matchesSkills && !matchesDesc && !matchesAts) {
-          return false;
-        }
-      }
+    return applyJobFiltersAndSort(activeJobs, filterState, savedJobIds);
+  }, [activeJobs, filterState, savedJobIds]);
 
-      // Hub / Location
-      if (selectedHub !== 'All') {
-        if (selectedHub === 'Remote') {
-          if (!job.isRemote) return false;
-        } else if (selectedHub === 'Worldwide') {
-          const loc = (job.location || '').toLowerCase();
-          const req = (job.applicantLocationRequirements || '').toLowerCase();
-          if (
-            !loc.includes('worldwide') &&
-            !loc.includes('global') &&
-            !loc.includes('anywhere') &&
-            !req.includes('worldwide') &&
-            !req.includes('global') &&
-            !req.includes('anywhere')
-          ) {
-            return false;
-          }
-        } else if (selectedHub === 'US') {
-          const loc = (job.location || '').toLowerCase();
-          const country = (job.country || '').toLowerCase();
-          const isUS =
-            country === 'us' ||
-            country === 'united states' ||
-            country === 'usa' ||
-            loc.includes('united states') ||
-            loc.includes('us ') ||
-            loc.includes(', us') ||
-            loc.includes(', ca') ||
-            loc.includes(', ny') ||
-            loc.includes(', wa') ||
-            loc.includes(', tx') ||
-            loc.includes(', ma') ||
-            loc.includes(', il') ||
-            loc.includes(', co') ||
-            loc.includes('san francisco') ||
-            loc.includes('new york') ||
-            loc.includes('seattle') ||
-            loc.includes('austin') ||
-            loc.includes('boston') ||
-            loc.includes('us remote') ||
-            loc.includes('remote - us');
-          if (!isUS) return false;
-        } else {
-          const query = selectedHub.toLowerCase();
-          const locMatch =
-            (job.location && job.location.toLowerCase().includes(query)) ||
-            (job.city && job.city.toLowerCase().includes(query)) ||
-            (job.country && job.country.toLowerCase().includes(query)) ||
-            (job.state && job.state.toLowerCase().includes(query));
-          if (!locMatch) return false;
-        }
-      }
-
-      // Category
-      if (selectedCategory !== 'All') {
-        const matchesCat =
-          job.category === selectedCategory ||
-          (selectedCategory === 'Others' && (job.category === 'Others' || job.category === 'Other'));
-        if (!matchesCat) return false;
-      }
-
-      // Experience Level
-      if (selectedExperience !== 'All' && job.experienceLevel !== selectedExperience) {
-        return false;
-      }
-
-      // Remote only
-      if (remoteOnly && !job.isRemote) {
-        return false;
-      }
-
-      // STEM OPT / E-Verify only
-      if (stemOptOnly && !job.stemOptEVerified) {
-        return false;
-      }
-
-      // Minimum Salary
-      if (minSalary > 0 && (!job.salary || (typeof job.salary.min === 'number' && job.salary.min < minSalary))) {
-        return false;
-      }
-
-      // Bookmarked / Saved Only
-      if (savedOnly && !savedJobIds.includes(job.id)) {
-        return false;
-      }
-
-      return true;
-    });
-
-    return list.sort((a, b) => {
-      if (sortBy === 'salary') {
-        const salA = a.salary?.max || a.salary?.min || 0;
-        const salB = b.salary?.max || b.salary?.min || 0;
-        if (salB !== salA) return salB - salA;
-      }
-      // Default: Latest jobs on top (deterministic millisecond timestamp + ID tie-breaker)
-      return compareJobsLatestFirst(a, b);
-    });
-  }, [activeJobs, searchQuery, selectedHub, selectedCategory, selectedExperience, remoteOnly, stemOptOnly, minSalary, savedOnly, savedJobIds, sortBy]);
-
-  // Derived Pagination Calculations
   const totalPages = Math.max(1, Math.ceil(filteredJobs.length / pageSize));
   const safeCurrentPage = Math.min(currentPage, totalPages);
   const startIndex = (safeCurrentPage - 1) * pageSize;
@@ -1094,8 +981,8 @@ export default function App() {
               </div>
             )}
 
-            {/* Google AdSense Style Hero Section */}
-            <section className="bg-white border-b border-[#dadce0] pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            {/* Compact Hero Section */}
+            <section className="bg-white border-b border-[#dadce0] pt-9 pb-11 px-4 sm:px-6 lg:px-8 overflow-hidden">
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
                   {/* Left Column: Bold Typography & CTAs */}
@@ -1460,283 +1347,105 @@ export default function App() {
               onViewAllGuides={() => handleTabChange('insights')}
             />
 
-            {/* Google-Style Search & Filter Console Section */}
-            <section id="job-feed-section" className="bg-[#F0F8FF] border-b border-[#dadce0] py-8 px-4 sm:px-6 lg:px-8 scroll-mt-20">
-              <div className="max-w-4xl mx-auto">
-                {/* Search Bar Container */}
-                <div className="bg-white border-2 border-slate-400 hover:border-[#1a73e8] focus-within:border-[#1a73e8] focus-within:ring-4 focus-within:ring-[#1a73e8]/20 shadow-sm rounded-full px-5 py-3.5 flex items-center gap-3 transition-all mb-4">
-                  <Search className="w-5 h-5 text-[#1a73e8] shrink-0" />
-                  <input
-                    id="job-search-input"
-                    type="text"
-                    placeholder="Search software jobs, skills (React, Python, Go, Rust), or companies..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full text-sm sm:text-base text-[#202124] placeholder-slate-500 bg-transparent focus:outline-none font-medium"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery('')}
-                      className="text-xs text-[#5f6368] hover:text-[#202124] px-2.5 py-1 rounded-full hover:bg-[#f1f3f4] cursor-pointer font-medium"
-                    >
-                      Clear
-                    </button>
-                  )}
-                </div>
-
-                {/* Filter Pills & Selectors (Even and Centered) */}
-                <div className="flex flex-col items-center justify-center gap-3 w-full">
-                  {/* Primary Chips: Centered */}
-                  <div className="flex items-center justify-center gap-2 flex-wrap w-full">
-                    <button
-                      onClick={() => setSelectedExperience('All')}
-                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center ${
-                        selectedExperience === 'All'
-                          ? 'bg-[#1a73e8] text-white shadow-xs'
-                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
-                      }`}
-                    >
-                      All Openings ({activeJobs.length})
-                    </button>
-                    <button
-                      onClick={() => setSelectedExperience('Entry Level')}
-                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center ${
-                        selectedExperience === 'Entry Level'
-                          ? 'bg-[#1a73e8] text-white shadow-xs'
-                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
-                      }`}
-                    >
-                      Entry/Early Career
-                    </button>
-                    <button
-                      onClick={() => setSelectedExperience('Internship')}
-                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
-                        selectedExperience === 'Internship'
-                          ? 'bg-[#1a73e8] text-white shadow-xs'
-                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
-                      }`}
-                    >
-                      <span>🎓 Internships</span>
-                    </button>
-                    <button
-                      onClick={() => setSelectedHub(selectedHub === 'US' ? 'All' : 'US')}
-                      className={`h-9 px-3.5 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
-                        selectedHub === 'US'
-                          ? 'bg-[#1a73e8] text-white shadow-xs font-bold'
-                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
-                      }`}
-                    >
-                      <span>🇺🇸 US Roles</span>
-                    </button>
-                    <button
-                      onClick={() => setSelectedHub(selectedHub === 'Worldwide' ? 'All' : 'Worldwide')}
-                      className={`h-9 px-3.5 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
-                        selectedHub === 'Worldwide'
-                          ? 'bg-emerald-600 text-white shadow-xs font-bold'
-                          : 'bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-50'
-                      }`}
-                    >
-                      <Globe className="w-3 h-3 text-emerald-600" />
-                      <span>🌍 Worldwide Remote</span>
-                    </button>
-                    <button
-                      onClick={() => setStemOptOnly(!stemOptOnly)}
-                      className={`h-9 px-3.5 rounded-full text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
-                        stemOptOnly
-                          ? 'bg-teal-700 text-white shadow-xs font-bold ring-2 ring-teal-300'
-                          : 'bg-white border border-teal-200 text-teal-800 hover:bg-teal-50 hover:border-teal-300'
-                      }`}
-                      title="Filter positions eligible for F-1 STEM OPT 24-month extension at USCIS E-Verified employers"
-                    >
-                      <ShieldCheck className={`w-3.5 h-3.5 ${stemOptOnly ? 'text-white' : 'text-teal-600'}`} />
-                      <span>🎓 STEM OPT • E-Verify {stemOptOnly ? '✓' : ''}</span>
-                    </button>
-                    <button
-                      onClick={() => setSavedOnly(!savedOnly)}
-                      className={`h-9 px-4 rounded-full text-xs font-medium transition-all inline-flex items-center justify-center gap-1.5 cursor-pointer ${
-                        savedOnly
-                          ? 'bg-[#f9ab00] text-[#202124] shadow-xs'
-                          : 'bg-white border border-[#dadce0] text-[#5f6368] hover:text-[#202124] hover:bg-[#f1f3f4]'
-                      }`}
-                    >
-                      <Bookmark className={`w-3.5 h-3.5 ${savedOnly ? 'fill-current' : ''}`} />
-                      <span>Saved ({savedJobIds.length})</span>
-                    </button>
-                  </div>
-
-                  {/* Dropdowns & Modifiers: Centered & Even Height */}
-                  <div className="flex items-center justify-center gap-2 flex-wrap w-full">
-                    <select
-                      id="select-hub"
-                      value={selectedHub}
-                      onChange={(e) => setSelectedHub(e.target.value)}
-                      className="h-9 px-3.5 rounded-full text-xs font-medium border border-[#dadce0] bg-white text-[#3c4043] focus:outline-none focus:border-[#1a73e8] cursor-pointer hover:bg-[#f8f9fa] transition-colors"
-                    >
-                      {TECH_HUBS.map((hub) => (
-                        <option key={hub.value} value={hub.value}>
-                          {hub.label}
-                        </option>
-                      ))}
-                    </select>
-
-                    <select
-                      id="select-category"
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="h-9 px-3.5 rounded-full text-xs font-medium border border-[#dadce0] bg-white text-[#3c4043] focus:outline-none focus:border-[#1a73e8] cursor-pointer hover:bg-[#f8f9fa] transition-colors"
-                    >
-                      <option value="All">All Roles</option>
-                      <option value="Full Stack">Full Stack</option>
-                      <option value="Frontend">Frontend</option>
-                      <option value="Backend">Backend</option>
-                      <option value="Mobile">Mobile</option>
-                      <option value="DevOps / Cloud">DevOps</option>
-                      <option value="Data / AI">Data / AI</option>
-                      <option value="QA / Test">QA / Automation</option>
-                      <option value="Others">Others</option>
-                    </select>
-
-                    <label className="h-9 inline-flex items-center gap-2 px-3.5 rounded-full border border-[#dadce0] bg-white text-xs font-medium text-[#3c4043] cursor-pointer hover:bg-[#f8f9fa] transition-colors select-none">
-                      <input
-                        type="checkbox"
-                        checked={remoteOnly}
-                        onChange={(e) => setRemoteOnly(e.target.checked)}
-                        className="rounded text-[#1a73e8] focus:ring-[#1a73e8] w-3.5 h-3.5"
-                      />
-                      <span>Remote Only</span>
-                    </label>
-                  </div>
-                </div>
+            {/* JobPulse-Grade Search & Filter Console Section */}
+            <section id="job-feed-section" className="bg-[#F0F8FF] border-b border-[#dadce0] py-6 px-4 sm:px-6 lg:px-8 scroll-mt-20">
+              <div className="max-w-7xl mx-auto">
+                <JobFeedControls
+                  state={filterState}
+                  onChange={updateFilters}
+                  onReset={resetAllFilters}
+                  viewMode={viewMode}
+                  onViewModeChange={setViewMode}
+                  savedCount={savedJobIds.length}
+                  searchInputId="job-search-input"
+                />
               </div>
             </section>
 
-            {/* Job Listings Grid & In-Feed Ads */}
+            {/* Job Listings Feed & In-Feed Ads */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900">
-                    {selectedExperience === 'Internship' 
-                      ? '🎓 Summer 2026/2027 Tech Internships' 
-                      : selectedHub === 'All' 
-                        ? 'Latest Opportunities' 
-                        : `${selectedHub} Engineering Positions`}
+                  <h2 className="text-lg font-bold text-[#202124]">
+                    {filterState.experience !== 'All'
+                      ? `${filterState.experience} Opportunities`
+                      : filterState.selectedHub === 'All'
+                      ? 'Latest Opportunities'
+                      : `${filterState.selectedHub} Engineering Positions`}
                   </h2>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-[#5f6368] tabular-nums">
                     {filteredJobs.length > 0
-                      ? `Showing ${startIndex + 1}–${endIndex} of ${filteredJobs.length} verified ${selectedExperience === 'Internship' ? 'internships' : 'positions'}`
+                      ? `Showing ${startIndex + 1}–${endIndex} of ${filteredJobs.length} open positions`
                       : '0 positions found'}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3 self-end sm:self-center flex-wrap">
-                  {/* Sort Selector: Latest / Highest Salary */}
-                  <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                    <span className="hidden sm:inline">Sort:</span>
-                    <select
-                      id="select-job-sort"
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value as 'latest' | 'salary')}
-                      className="px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-[#1a73e8] cursor-pointer"
-                      title="Sort jobs"
-                    >
-                      <option value="latest">Latest First</option>
-                      <option value="salary">Highest Salary</option>
-                    </select>
-                  </div>
-
-                  {/* Page Size Selector */}
                   {filteredJobs.length > 6 && (
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                    <div className="flex items-center gap-1.5 text-xs text-[#5f6368]">
                       <span className="hidden sm:inline">Per page:</span>
                       <select
                         id="select-page-size"
                         value={pageSize}
                         onChange={(e) => setPageSize(Number(e.target.value))}
-                        className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:ring-2 focus:ring-emerald-500"
+                        className="px-2.5 py-1 bg-white border border-[#dadce0] rounded-lg text-xs font-medium text-[#3c4043] focus:outline-none focus:border-[#1a73e8]"
                         title="Jobs per page"
                       >
-                        <option value={6}>6</option>
                         <option value={9}>9</option>
                         <option value={12}>12</option>
                         <option value={18}>18</option>
+                        <option value={24}>24</option>
                       </select>
                     </div>
-                  )}
-
-                  {/* Reset filters if applied */}
-                  {(searchQuery || selectedHub !== 'All' || selectedCategory !== 'All' || selectedExperience !== 'All' || remoteOnly) && (
-                    <button
-                      onClick={() => {
-                        setSearchQuery('');
-                        setSelectedHub('All');
-                        setSelectedCategory('All');
-                        setSelectedExperience('All');
-                        setRemoteOnly(false);
-                        setMinSalary(0);
-                      }}
-                      className="text-xs font-semibold text-emerald-700 hover:text-emerald-800"
-                    >
-                      Clear All Filters
-                    </button>
                   )}
                 </div>
               </div>
 
               {filteredJobs.length === 0 ? (
                 <div className="space-y-8 my-6">
-                  {/* Zero-Result Sentinel: Conversion & Retention Hub */}
-                  <div className="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 border border-slate-800 shadow-lg text-center max-w-2xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-semibold mb-3 border border-indigo-400/30">
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                      <span>Pipeline Sentinel: 0–2 YoE Verification in Progress</span>
+                  <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#dadce0] shadow-2xs text-center max-w-2xl mx-auto">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#e8f0fe] text-[#1a73e8] rounded-md text-xs font-semibold mb-3">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>No Exact Match</span>
                     </div>
-                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
-                      New openings for {searchQuery ? `"${searchQuery}"` : selectedCategory !== 'All' ? selectedCategory : 'this search'} are being verified
+                    <h3 className="text-lg sm:text-xl font-bold text-[#202124] mb-2">
+                      No open 0–2 YoE roles match {filterState.searchQuery ? `"${filterState.searchQuery}"` : 'your active filters'}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto mb-6 leading-relaxed">
-                      We strictly filter out fake staffing listings and ghost jobs. While our next batch of direct ATS requisitions is reviewed, run your resume through our free tools or explore top active early-career roles below.
+                    <p className="text-xs sm:text-sm text-[#5f6368] max-w-lg mx-auto mb-5 leading-relaxed">
+                      Try broadening your location, experience level, or keyword filters — or browse our latest open positions below.
                     </p>
 
                     <div className="flex flex-wrap items-center justify-center gap-3">
                       <button
-                        onClick={() => {
-                          setSearchQuery('');
-                          setSelectedHub('All');
-                          setSelectedCategory('All');
-                          setSelectedExperience('All');
-                          setRemoteOnly(false);
-                          setSavedOnly(false);
-                        }}
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-sm"
+                        type="button"
+                        onClick={resetAllFilters}
+                        className="px-4 py-2 bg-[#1a73e8] hover:bg-[#1557b0] text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
                       >
-                        🔄 View All Open Positions
+                        Clear All Filters
                       </button>
                       <button
-                        onClick={() => {
-                          window.open('?view=tools', '_blank');
-                        }}
-                        className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl transition-all cursor-pointer border border-white/20 flex items-center gap-1.5"
+                        type="button"
+                        onClick={() => handleTabChange('tools')}
+                        className="px-4 py-2 bg-white hover:bg-[#f8f9fa] text-[#3c4043] text-xs font-semibold rounded-lg transition-colors cursor-pointer border border-[#dadce0] inline-flex items-center gap-1.5"
                       >
-                        <FileSearch className="w-3.5 h-3.5 text-indigo-400" />
-                        <span>Check Resume ATS Match (Free)</span>
+                        <FileSearch className="w-3.5 h-3.5 text-[#1a73e8]" />
+                        <span>Check Resume ATS Match</span>
                       </button>
                     </div>
                   </div>
 
-                  {/* Fallback Active Openings: Never leaves Google or candidate with zero cards */}
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-emerald-600" />
-                        <h4 className="text-sm font-bold text-slate-900">
-                          Verified Early-Career Openings Hiring Now (0–2 YoE)
+                        <TrendingUp className="w-4 h-4 text-[#1a73e8]" />
+                        <h4 className="text-sm font-bold text-[#202124]">
+                          Latest Early-Career Openings (0–2 YoE)
                         </h4>
                       </div>
-                      <span className="text-xs text-slate-500 font-medium">Direct Requisitions</span>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {jobs.filter((j) => j.status === 'ACTIVE').slice(0, 3).map((job) => (
-                        <JobCard
+                    <div className="space-y-3">
+                      {activeJobs.slice(0, 3).map((job) => (
+                        <JobListItem
                           key={job.id}
                           job={job}
                           onSelect={handleSelectJob}
@@ -1749,31 +1458,10 @@ export default function App() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {/* Grid of Job Cards with In-Feed Ad insertion */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {paginatedJobs.slice(0, 6).map((job) => (
-                      <JobCard
-                        key={job.id}
-                        job={job}
-                        onSelect={handleSelectJob}
-                        isSaved={savedJobIds.includes(job.id)}
-                        onToggleSave={handleToggleSaveJob}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Compliant In-Feed Ad Unit (Inserted seamlessly between job cards with clear margin) */}
-                  {adConfig.enabled && adConfig.inFeedAd && (
-                    <div className="py-2">
-                      <AdSlot type="in-feed" config={adConfig} />
-                    </div>
-                  )}
-
-                  {/* Remaining Job Cards for current page */}
-                  {paginatedJobs.length > 6 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {paginatedJobs.slice(6).map((job) => (
-                        <JobCard
+                  {viewMode === 'list' ? (
+                    <div className="space-y-3">
+                      {paginatedJobs.slice(0, 6).map((job) => (
+                        <JobListItem
                           key={job.id}
                           job={job}
                           onSelect={handleSelectJob}
@@ -1781,6 +1469,56 @@ export default function App() {
                           onToggleSave={handleToggleSaveJob}
                         />
                       ))}
+
+                      {adConfig.enabled && adConfig.inFeedAd && (
+                        <div className="py-2">
+                          <AdSlot type="in-feed" config={adConfig} />
+                        </div>
+                      )}
+
+                      {paginatedJobs.slice(6).map((job) => (
+                        <JobListItem
+                          key={job.id}
+                          job={job}
+                          onSelect={handleSelectJob}
+                          isSaved={savedJobIds.includes(job.id)}
+                          onToggleSave={handleToggleSaveJob}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {paginatedJobs.slice(0, 6).map((job) => (
+                          <JobCard
+                            key={job.id}
+                            job={job}
+                            onSelect={handleSelectJob}
+                            isSaved={savedJobIds.includes(job.id)}
+                            onToggleSave={handleToggleSaveJob}
+                          />
+                        ))}
+                      </div>
+
+                      {adConfig.enabled && adConfig.inFeedAd && (
+                        <div className="py-2">
+                          <AdSlot type="in-feed" config={adConfig} />
+                        </div>
+                      )}
+
+                      {paginatedJobs.length > 6 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                          {paginatedJobs.slice(6).map((job) => (
+                            <JobCard
+                              key={job.id}
+                              job={job}
+                              onSelect={handleSelectJob}
+                              isSaved={savedJobIds.includes(job.id)}
+                              onToggleSave={handleToggleSaveJob}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -1905,9 +1643,9 @@ export default function App() {
               onToggleSaveJob={handleToggleSaveJob}
               onNavigateTab={handleTabChange}
               onOpenArticle={handleOpenArticle}
-              initialCategory={selectedCategory}
-              initialHub={selectedHub}
-              initialSearch={searchQuery}
+              initialCategory={filterState.selectedCategory}
+              initialHub={filterState.selectedHub}
+              initialSearch={filterState.searchQuery}
             />
           )}
 
@@ -1939,7 +1677,7 @@ export default function App() {
             <ProjectBlueprintsView
               onNavigateJobs={(category) => {
                 if (category) {
-                  setSelectedCategory(category);
+                  updateFilters({ selectedCategory: category });
                 }
                 handleTabChange('jobs');
               }}

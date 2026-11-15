@@ -35,11 +35,13 @@ export interface JobPosting {
   salary: SalaryRange;
   salaryDisclosed?: boolean;
   description: string;
+  descriptionHtml?: string;
   responsibilities: string[];
   qualifications: string[];
   skills: string[];
   applyUrl: string;
   datePosted: string; // ISO format: YYYY-MM-DD
+  postedAt?: string; // Optional full ISO timestamp
   validThrough: string; // ISO format: YYYY-MM-DD
   source: JobSource;
   atsProvider?: string; // e.g. "SmartRecruiters", "Greenhouse", "Lever", "Ashby"
@@ -50,7 +52,11 @@ export interface JobPosting {
   fingerprint: string; // company-title-location for strict deduplication
   viewsCount: number;
   featured?: boolean;
+  workMode?: 'Remote' | 'Hybrid' | 'On-site';
   stemOptEVerified?: boolean; // True when company is enrolled in USCIS E-Verify and role qualifies for F-1 STEM OPT extension
+  eVerify?: boolean;
+  visaSponsorship?: boolean;
+  usCitizenOnly?: boolean;
   closedReportCount?: number; // Count of candidates who reported this role closed/expired
   healthStatus?: 'HEALTHY' | 'DEAD_LINK' | 'CANDIDATE_REPORTED' | 'CHECKING';
   lastHealthCheckedAt?: string; // ISO string

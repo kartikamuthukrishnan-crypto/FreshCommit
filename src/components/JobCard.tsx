@@ -1,8 +1,15 @@
 import React from 'react';
 import { JobPosting } from '../types';
-import { MapPin, DollarSign, Calendar, Globe, CheckCircle2, ArrowRight, Bookmark, ExternalLink, ShieldCheck } from 'lucide-react';
+import { MapPin, Calendar, Bookmark, ChevronRight, ShieldCheck } from 'lucide-react';
 import { SocialShare } from './SocialShare';
 import { resolveCompanyLogo } from '../utils/logoHelper';
+import {
+  sanitizeJobTitle,
+  stripUiAndIconNoise,
+  stripSyntheticWrapperSections,
+  formatDisclosedSalary,
+  resolveWorkMode,
+} from '../utils/jobSanitizer';
 
 interface JobCardProps {
   job: JobPosting;
@@ -13,221 +20,198 @@ interface JobCardProps {
 }
 
 export const JobCard: React.FC<JobCardProps> = ({ job, onSelect, isSaved, onToggleSave }) => {
-  const getCurrencySymbol = (curr?: string) => {
-    switch (curr?.toUpperCase()) {
-      case 'GBP': return '£';
-      case 'EUR': return '€';
-      case 'CAD': return 'CA$';
-      case 'INR': return '₹';
-      case 'AUD': return 'A$';
-      default: return '$';
-    }
-  };
+  const cleanTitle = sanitizeJobTitle(job.title) || job.title;
+  const cleanSnippet = stripUiAndIconNoise(stripSyntheticWrapperSections(job.description || ''));
+  const salaryLabel = formatDisclosedSalary(job.salary, job.salaryDisclosed);
+  const workMode = resolveWorkMode(job);
+  const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
 
-  const formatSalary = (salary: JobPosting['salary']) => {
-    if (!salary || salary.min <= 0) return 'Salary Undisclosed';
-    const sym = getCurrencySymbol(salary.currency);
-    if (salary.unit === 'HOUR') {
-      const maxH = salary.max && salary.max !== salary.min ? `–${sym}${salary.max}` : '';
-      return `${sym}${salary.min}${maxH} / hr`;
-    }
-    if (salary.unit === 'MONTH') {
-      const maxM = salary.max && salary.max !== salary.min ? `–${sym}${salary.max.toLocaleString()}` : '';
-      return `${sym}${salary.min.toLocaleString()}${maxM} / mo`;
-    }
-    const minK = Math.round(salary.min / 1000);
-    const maxK = salary.max ? Math.round(salary.max / 1000) : minK;
-    return `${sym}${minK}k – ${sym}${maxK}k / yr`;
-  };
-
-  const isNew = () => {
+  const isRecent = () => {
+    if (!job.datePosted) return false;
     const postDate = new Date(job.datePosted);
-    const now = new Date();
-    const diffDays = (now.getTime() - postDate.getTime()) / (1000 * 3600 * 24);
-    return diffDays <= 5;
+    if (isNaN(postDate.getTime())) return false;
+    const diffDays = (Date.now() - postDate.getTime()) / (1000 * 3600 * 24);
+    return diffDays >= 0 && diffDays <= 4;
+  };
+
+  const handleOpenJob = (e: React.MouseEvent) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+    e.preventDefault();
+    try {
+      sessionStorage.setItem(`job_${job.id}`, JSON.stringify(job));
+      sessionStorage.setItem('freshcommit_last_job', JSON.stringify(job));
+    } catch {}
+    onSelect(job);
   };
 
   return (
-    <div
+    <article
       id={`job-card-${job.id}`}
       onClick={() => onSelect(job)}
-      className="group relative bg-white rounded-2xl border border-[#dadce0] hover:border-[#bdc1c6] hover:shadow-md transition-all p-5 sm:p-6 flex flex-col justify-between cursor-pointer"
+      className="group relative bg-white rounded-2xl border border-[#dadce0] hover:border-[#1a73e8]/60 hover:shadow-md transition-all p-5 flex flex-col justify-between cursor-pointer"
     >
       <div>
-        {/* Top Header: Company + Badges */}
-        <div className="flex items-start justify-between gap-3 mb-3.5">
-          <div className="flex items-center gap-3">
-            {(() => {
-              const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
-              return (
-                <img
-                  src={safeLogo}
-                  alt={`${job.company} logo`}
-                  referrerPolicy="no-referrer"
-                  className="w-12 h-12 rounded-xl object-contain p-1 border border-[#dadce0] bg-white flex-shrink-0"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      job.company
-                    )}&background=0F172A&color=fff&size=128&bold=true`;
-                  }}
-                />
-              );
-            })()}
-            <div>
+        {/* Top Header: Company + Bookmark */}
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <img
+              src={safeLogo}
+              alt={`${job.company} logo`}
+              referrerPolicy="no-referrer"
+              className="w-11 h-11 rounded-xl object-contain p-1 border border-[#e8eaed] bg-white flex-shrink-0"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                  job.company
+                )}&background=0F172A&color=fff&size=128&bold=true`;
+              }}
+            />
+            <div className="min-w-0">
               <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-semibold text-[#202124] text-sm">{job.company}</span>
-                {job.source === 'EMPLOYER_POST' || job.source === 'MANUAL_ADMIN' ? (
-                  <span className="inline-flex items-center gap-0.5 text-[10px] text-[#137333] font-medium bg-[#e6f4ea] px-2 py-0.5 rounded-full border border-[#ceead6]">
-                    <CheckCircle2 className="w-2.5 h-2.5" /> Curated
-                  </span>
-                ) : null}
-                {job.atsVerified && (
-                  <span className="inline-flex items-center gap-0.5 text-[10px] text-[#1a73e8] font-medium bg-[#e8f0fe] px-2 py-0.5 rounded-full border border-[#d2e3fc]" title="Requisition confirmed live on official direct feed">
-                    <CheckCircle2 className="w-2.5 h-2.5" /> Verified
-                  </span>
-                )}
-                {isNew() && (
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full border border-[#d2e3fc]">
+                <span className="font-semibold text-[#202124] text-sm truncate">{job.company}</span>
+                {isRecent() && (
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-md">
                     New
                   </span>
                 )}
-                {job.stemOptEVerified && (
-                  <span
-                    className="inline-flex items-center gap-0.5 text-[10px] text-teal-800 font-semibold bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200"
-                    title="Company is enrolled in USCIS E-Verify and role qualifies for F-1 STEM OPT extension"
-                  >
-                    <ShieldCheck className="w-2.5 h-2.5 text-teal-600" />
-                    <span>STEM OPT • E-Verify</span>
-                  </span>
-                )}
               </div>
-              <div className="flex items-center gap-2 text-xs text-[#5f6368] mt-1">
-                <span className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5 text-xs text-[#5f6368] mt-0.5 flex-wrap">
+                <span className="inline-flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5 text-[#80868b]" />
-                  {job.location}
+                  <span>{job.location || 'United States'}</span>
                 </span>
-                {job.isRemote && (
-                  (() => {
-                    const loc = (job.location || '').toLowerCase();
-                    const req = (job.applicantLocationRequirements || '').toLowerCase();
-                    const isWorldwide = loc.includes('worldwide') || loc.includes('global') || loc.includes('anywhere') || req.includes('worldwide') || req.includes('global');
-                    if (isWorldwide) {
-                      return (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">
-                          <Globe className="w-2.5 h-2.5 text-emerald-600" /> Worldwide Remote
-                        </span>
-                      );
-                    }
-                    return (
-                      <span className="inline-flex items-center gap-1 text-[11px] text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded-full font-medium">
-                        <Globe className="w-2.5 h-2.5" /> Remote
-                      </span>
-                    );
-                  })()
-                )}
+                <span aria-hidden="true" className="text-[#dadce0]">&middot;</span>
+                <span
+                  className={`font-medium ${
+                    workMode === 'Remote'
+                      ? 'text-[#137333]'
+                      : workMode === 'Hybrid'
+                      ? 'text-[#1a73e8]'
+                      : 'text-[#5f6368]'
+                  }`}
+                >
+                  {workMode}
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Bookmark Action */}
-          <div className="flex items-center gap-1.5 flex-shrink-0">
-            {onToggleSave && (
-              <button
-                type="button"
-                onClick={(e) => onToggleSave(job.id, e)}
-                title={isSaved ? 'Remove from saved jobs' : 'Save job'}
-                className={`p-2 rounded-full border transition-all cursor-pointer ${
-                  isSaved
-                    ? 'bg-[#fef7e0] border-[#f9ab00] text-[#b06000]'
-                    : 'bg-white border-[#dadce0] text-[#5f6368] hover:text-[#1a73e8] hover:border-[#1a73e8]'
-                }`}
-              >
-                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f9ab00] text-[#f9ab00]' : ''}`} />
-              </button>
-            )}
-          </div>
+          {onToggleSave && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleSave(job.id, e);
+              }}
+              title={isSaved ? 'Remove from saved jobs' : 'Save job'}
+              aria-label={isSaved ? 'Remove from saved jobs' : 'Save job'}
+              className={`p-2 rounded-lg border transition-colors cursor-pointer flex-shrink-0 ${
+                isSaved
+                  ? 'bg-[#fef7e0] border-[#f9ab00] text-[#b06000]'
+                  : 'bg-white border-[#dadce0] text-[#5f6368] hover:text-[#1a73e8] hover:border-[#1a73e8]'
+              }`}
+            >
+              <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#f9ab00] text-[#f9ab00]' : ''}`} />
+            </button>
+          )}
         </div>
 
-        {/* Job Title */}
-        <h3
-          className="text-base sm:text-lg font-medium text-[#202124] group-hover:text-[#1a73e8] transition-colors cursor-pointer mb-2 line-clamp-2"
-        >
-          {job.title}
+        {/* Clean Job Title */}
+        <h3 className="text-base sm:text-[17px] font-semibold text-[#202124] group-hover:text-[#1a73e8] transition-colors mb-2 line-clamp-2 leading-snug">
+          <a
+            href={`/job/${encodeURIComponent(job.id)}`}
+            onClick={handleOpenJob}
+            className="no-underline text-inherit hover:text-[#1a73e8]"
+          >
+            {cleanTitle}
+          </a>
         </h3>
 
-        {/* Snippet */}
-        <p className="text-xs sm:text-sm text-[#5f6368] line-clamp-2 mb-3.5 leading-relaxed font-normal">
-          {job.description}
-        </p>
+        {/* Clean Snippet */}
+        {cleanSnippet && (
+          <p className="text-xs sm:text-[13px] text-[#5f6368] line-clamp-2 mb-3 leading-relaxed font-normal">
+            {cleanSnippet}
+          </p>
+        )}
 
-        {/* Salary & Attributes Bar */}
-        <div className="flex items-center gap-2 text-xs font-medium mb-3.5 flex-wrap">
-          <span className="flex items-center gap-1 text-[#1a73e8] bg-[#e8f0fe] px-3 py-1 rounded-full border border-[#d2e3fc] font-medium">
-            <DollarSign className="w-3.5 h-3.5" />
-            {formatSalary(job.salary)}
-          </span>
-          {job.stemOptEVerified && (
-            <span className="inline-flex items-center gap-1 text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200 text-xs font-semibold" title="USCIS E-Verify Enrolled Employer • Eligible for F-1 STEM OPT 24-Month Extension">
-              <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
-              <span>STEM OPT • E-Verify</span>
-            </span>
-          )}
-        </div>
+        {/* Disclosed Compensation & Work Auth (only rendered when explicitly present) */}
+        {(salaryLabel || job.stemOptEVerified || job.eVerify || job.visaSponsorship || job.usCitizenOnly) && (
+          <div className="flex items-center gap-2 text-xs font-medium mb-3 flex-wrap">
+            {salaryLabel && (
+              <span className="text-[#137333] bg-[#e6f4ea] px-2.5 py-1 rounded-md border border-[#ceead6] font-semibold tabular-nums">
+                {salaryLabel}
+              </span>
+            )}
+            {(job.stemOptEVerified || job.eVerify) && (
+              <span
+                className="inline-flex items-center gap-1 text-teal-800 bg-teal-50 px-2.5 py-1 rounded-md border border-teal-200 text-[11px] font-semibold"
+                title="Company enrolled in USCIS E-Verify / STEM OPT eligible"
+              >
+                <ShieldCheck className="w-3 h-3 text-teal-600" />
+                <span>{job.stemOptEVerified ? 'STEM OPT · E-Verify' : 'E-Verify'}</span>
+              </span>
+            )}
+            {job.visaSponsorship && (
+              <span className="text-[11px] font-semibold text-[#1a73e8] bg-[#e8f0fe] px-2.5 py-1 rounded-md border border-[#d2e3fc]">
+                Visa Sponsorship
+              </span>
+            )}
+            {job.usCitizenOnly && (
+              <span className="text-[11px] font-semibold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
+                US Citizen Only
+              </span>
+            )}
+          </div>
+        )}
 
-        {/* Skills Tags */}
-        <div className="flex items-center gap-1.5 flex-wrap mb-4">
-          {job.skills.slice(0, 5).map((skill, idx) => (
-            <span
-              key={idx}
-              className="text-[11px] bg-[#f8f9fa] text-[#5f6368] border border-[#e8eaed] px-2.5 py-0.5 rounded-full font-medium"
-            >
-              {skill}
-            </span>
-          ))}
-          {job.skills.length > 5 && (
-            <span className="text-[11px] text-[#80868b] px-1 font-medium">
-              +{job.skills.length - 5}
-            </span>
-          )}
-        </div>
+        {/* Top Skills */}
+        {job.skills && job.skills.length > 0 && (
+          <div className="flex items-center gap-1.5 flex-wrap mb-4">
+            {job.skills.slice(0, 4).map((skill, idx) => (
+              <span
+                key={idx}
+                className="text-[11px] bg-[#f8f9fa] text-[#5f6368] border border-[#e8eaed] px-2 py-0.5 rounded-md font-medium"
+              >
+                {skill}
+              </span>
+            ))}
+            {job.skills.length > 4 && (
+              <span className="text-[11px] text-[#80868b] px-1 font-medium">
+                +{job.skills.length - 4}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Action Footer */}
-      <div className="flex items-end justify-between pt-3.5 border-t border-[#f1f3f4] gap-2">
-        <div className="flex flex-col gap-1.5">
-          <div className="flex items-center gap-1.5 text-xs text-[#5f6368]">
-            <Calendar className="w-3.5 h-3.5 text-[#80868b]" />
-            <span className="text-[11px] font-normal">Posted {job.datePosted}</span>
-          </div>
-          {/* Entry Level Field below Date Posted */}
-          <span className="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] whitespace-nowrap w-fit">
+      {/* Footer */}
+      <div className="flex items-center justify-between pt-3.5 border-t border-[#f1f3f4] gap-2">
+        <div className="flex flex-col gap-0.5 text-[11px] text-[#5f6368]">
+          <span className="inline-flex items-center gap-1 tabular-nums">
+            <Calendar className="w-3 h-3 text-[#80868b]" />
+            <span>{job.datePosted || 'Recent'}</span>
+          </span>
+          <span className="font-medium text-[#3c4043]">
             {job.experienceLevel === 'Internship'
               ? 'Internship'
-              : 'Entry/Early Career'}
+              : job.experienceLevel === 'New Grad'
+              ? 'New Grad'
+              : 'Entry-Level'}
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
           <SocialShare job={job} compact={true} />
           <a
             id={`btn-view-apply-${job.id}`}
-            href={`/job/${job.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => {
-              e.stopPropagation();
-              try {
-                sessionStorage.setItem(`job_${job.id}`, JSON.stringify(job));
-                sessionStorage.setItem('freshcommit_last_job', JSON.stringify(job));
-              } catch (_) {}
-            }}
-            className="text-xs font-medium px-4 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer no-underline"
+            href={`/job/${encodeURIComponent(job.id)}`}
+            onClick={handleOpenJob}
+            className="text-xs font-semibold px-3.5 py-2 rounded-lg bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-colors inline-flex items-center gap-1 no-underline whitespace-nowrap"
           >
-            <span>View &amp; Apply</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <span>View Details</span>
+            <ChevronRight className="w-3.5 h-3.5" />
           </a>
         </div>
       </div>
-    </div>
+    </article>
   );
 };

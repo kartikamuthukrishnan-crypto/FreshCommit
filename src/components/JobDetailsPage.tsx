@@ -1,58 +1,40 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { JobPosting, AdSenseConfig } from '../types';
-import { generateJobPostingSchema, injectJobJsonLd } from '../utils/schemaGenerator';
+import { generateJobDetailGraphSchema, injectJobJsonLd } from '../utils/schemaGenerator';
 import { trackJobView, trackApplyClick } from '../utils/analytics';
-import { isJobExpired, getDaysUntilExpiration } from '../utils/jobAggregator';
-import {
-  humanizeCareerTake,
-  generateLeadEngineerTake,
-  generateCandidatePreparationChecklist,
-  cleanLocationString,
-  humanizeChecklistItems,
-  generateRound1InterviewDrill,
-  generateCompliantJobSummary,
-  stripSyntheticSpamBoilerplate
-} from '../utils/textHumanizer';
-import { cleanHtml, getRoleMarketBenchmark, isCssOrNoiseLine } from '../utils/jobExtractor';
+import { isJobExpired } from '../utils/jobAggregator';
+import { cleanLocationString } from '../utils/textHumanizer';
 import { resolveCompanyLogo } from '../utils/logoHelper';
 import { CAREER_ARTICLES } from '../data/careerArticles';
 import { getContextualArticlesForJob } from '../utils/relatedJobsMatcher';
 import { AdSlot } from './AdSlot';
 import { SocialShare } from './SocialShare';
-import { parseJobDescription, formatProseParagraphs } from '../utils/jobDescriptionParser';
+import {
+  sanitizeJobTitle,
+  sanitizeAtsHtml,
+  formatPlainTextJobDescription,
+  htmlToReadableText,
+  formatDisclosedSalary,
+  resolveWorkMode,
+} from '../utils/jobSanitizer';
 import {
   MapPin,
-  DollarSign,
   Calendar,
   ExternalLink,
-  CheckCircle2,
   Copy,
   Check,
-  Globe,
-  Clock,
   Bookmark,
-  Sparkles,
   Flag,
   ArrowLeft,
   ShieldCheck,
   ChevronRight,
   AlertTriangle,
   AlertCircle,
-  ArrowRight,
-  Target,
-  FileSearch,
   BookOpen,
-  Briefcase,
-  GraduationCap,
-  Gift,
   Building2,
-  ListChecks,
-  Award,
-  Info,
-  FileText,
-  CheckCheck
+  Loader2,
+  CheckCircle2,
 } from 'lucide-react';
-import { MockInterviewModal } from './MockInterviewModal';
 
 interface JobDetailsPageProps {
   job: JobPosting;
@@ -71,52 +53,167 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
   adConfig,
   isSaved = false,
   onToggleSave,
-  onSelectRelatedJob
+  onSelectRelatedJob,
 }) => {
   const [copiedUrl, setCopiedUrl] = useState(false);
+  const [copiedJd, setCopiedJd] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
-  const [checkedPrepItems, setCheckedPrepItems] = useState<Record<number, boolean>>({});
-  const [isMockModalOpen, setIsMockModalOpen] = useState(false);
+  const [isHydratingAts, setIsHydratingAts] = useState(false);
+  const [hydratedHtml, setHydratedHtml] = useState<string | null>(null);
+  const [hydratedText, setHydratedText] = useState<string | null>(null);
 
   const isExpired = isJobExpired(job) || (job.status && job.status !== 'ACTIVE');
+  const cleanTitle = sanitizeJobTitle(job.title) || job.title;
+  const workMode = resolveWorkMode(job);
+  const salaryLabel = formatDisclosedSalary(job.salary, job.salaryDisclosed);
+  const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
+  const canonicalUrl = `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`;
 
-  const benchmark = useMemo(() => {
-    return getRoleMarketBenchmark(
-      job.title,
-      job.category,
-      job.country || 'US',
-      job.location || `${job.city || ''} ${job.state || ''}`,
-      job.experienceLevel
-    );
-  }, [job.title, job.category, job.country, job.location, job.city, job.state, job.experienceLevel]);
+  const applyButtonText = job.company
+    ? job.company.length > 22
+      ? 'Apply on Company Site'
+      : `Apply - ${job.company}`
+    : 'Apply Now';
 
-  // Dynamic Title, Meta Description, Schema injection, and Canonical URL update
+  // Live 1:1 ATS description hydration on mount (only when HTML missing or stored JD is short)
   useEffect(() => {
-    trackJobView(job);
-    const schema = generateJobPostingSchema(job);
+    let cancelled = false;
+    setHydratedHtml(null);
+    setHydratedText(null);
+
+    const existingHtml = job.descriptionHtml ? sanitizeAtsHtml(job.descriptionHtml) : '';
+    if (existingHtml && existingHtml.length > 400) {
+      setHydratedHtml(existingHtml);
+      setHydratedText(htmlToReadableText(existingHtml));
+      return;
+    }
+
+    const cacheKey = `fc_ats_jd_${job.id}`;
+    try {
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed?.descriptionHtml && parsed.descriptionHtml.length > 150) {
+          setHydratedHtml(parsed.descriptionHtml);
+          setHydratedText(parsed.descriptionText || htmlToReadableText(parsed.descriptionHtml));
+          return;
+        }
+      }
+    } catch {}
+
+    const storedLen = (job.description || '').trim().length;
+    const needsHydration = !existingHtml || storedLen < 250;
+
+    if (!needsHydration || !job.applyUrl) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6500);
+    setIsHydratingAts(true);
+
+    const params = new URLSearchParams({
+      url: job.applyUrl,
+      company: job.company || '',
+      title: cleanTitle || '',
+      location: job.location || '',
+    });
+
+    fetch(`/api/jobs/${encodeURIComponent(job.id)}?${params.toString()}`, {
+      signal: controller.signal,
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        if (data.descriptionHtml && data.descriptionHtml.length > 80) {
+          const safeHtml = sanitizeAtsHtml(data.descriptionHtml);
+          const readable = data.descriptionText || htmlToReadableText(safeHtml);
+          if (safeHtml && readable.length > 60) {
+            setHydratedHtml(safeHtml);
+            setHydratedText(readable);
+            try {
+              sessionStorage.setItem(
+                cacheKey,
+                JSON.stringify({ descriptionHtml: safeHtml, descriptionText: readable })
+              );
+            } catch {}
+          }
+        }
+      })
+      .catch(() => {
+        // Keep stored fallback silently if ATS blocks or times out
+      })
+      .finally(() => {
+        clearTimeout(timeoutId);
+        if (!cancelled) setIsHydratingAts(false);
+      });
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
+  }, [job.id, job.applyUrl, job.descriptionHtml, job.description, job.company, job.location, cleanTitle]);
+
+  // Resolved formatted job description (hydrated ATS HTML -> stored sanitized HTML -> formatted plain text)
+  const resolvedDescription = useMemo(() => {
+    if (hydratedHtml && hydratedHtml.length > 80) {
+      return {
+        html: hydratedHtml,
+        text: hydratedText || htmlToReadableText(hydratedHtml),
+      };
+    }
+
+    if (job.descriptionHtml) {
+      const cleanHtml = sanitizeAtsHtml(job.descriptionHtml);
+      if (cleanHtml && cleanHtml.length > 80) {
+        return {
+          html: cleanHtml,
+          text: htmlToReadableText(cleanHtml),
+        };
+      }
+    }
+
+    const formatted = formatPlainTextJobDescription(
+      job.description || '',
+      job.responsibilities || [],
+      job.qualifications || []
+    );
+
+    return {
+      html:
+        formatted.html ||
+        `<p>Official early-career software engineering requisition for ${cleanTitle} at ${job.company}.</p>`,
+      text: formatted.text,
+    };
+  }, [hydratedHtml, hydratedText, job.descriptionHtml, job.description, job.responsibilities, job.qualifications, cleanTitle, job.company]);
+
+  // Dynamic Title, Meta Description, Canonical, Robots & JSON-LD Schema injection
+  useEffect(() => {
+    const hydratedJob: JobPosting = hydratedHtml
+      ? { ...job, descriptionHtml: hydratedHtml, description: resolvedDescription.text || job.description }
+      : job;
+
+    trackJobView(hydratedJob);
+    const schema = generateJobDetailGraphSchema(hydratedJob);
     const cleanup = injectJobJsonLd(schema);
 
-    // Save previous metadata
     const originalTitle = document.title;
     const metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
     const originalDesc = metaDesc ? metaDesc.content : '';
 
-    // Update title and meta description dynamically with long-tail keywords
-    const hasLongTail = /(?:entry[\s-]level|0[\s-]2|junior|new\s*grad|intern|graduate|fresher)/i.test(job.title);
-    const expTag = hasLongTail ? '' : (job.experienceLevel === 'Internship' ? ' (Internship)' : (job.experienceLevel === 'New Grad' ? ' (2026 New Grad)' : ' (0–2 YoE / Entry Level)'));
-    document.title = `${job.title}${expTag} at ${job.company} – Direct ATS Apply | FreshCommits`;
+    document.title = `${cleanTitle} at ${job.company} | FreshCommits`;
     if (metaDesc) {
-      metaDesc.content = `Apply directly for ${job.title} at ${job.company} in ${job.location || 'Remote'}. Verified early-career software engineering opportunity with direct employer ATS link (0–2 YoE, no ghost jobs). Free ATS resume match checker included.`;
+      const snippet = (resolvedDescription.text || '').replace(/\s+/g, ' ').slice(0, 150).trim();
+      metaDesc.content = `${cleanTitle} at ${job.company} (${job.location || 'Remote'}). ${snippet}`;
     }
 
-    // Update canonical link to canonical job URL
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     const originalHref = canonical ? canonical.href : 'https://www.freshcommits.com/';
     if (canonical) {
-      canonical.href = `https://www.freshcommits.com/job/${job.id}`;
+      canonical.href = canonicalUrl;
     }
 
-    // Dynamic Robots Meta Tag: Keep active jobs indexable, but tell Google not to index expired positions
     let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
     if (!robotsMeta) {
       robotsMeta = document.createElement('meta');
@@ -124,33 +221,35 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
       document.head.appendChild(robotsMeta);
     }
     const originalRobots = robotsMeta.content || 'index, follow';
-    if (isExpired) {
-      robotsMeta.content = 'noindex, follow';
-    } else {
-      robotsMeta.content = 'index, follow, max-image-preview:large';
-    }
-
-    // Scroll to top on mount
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    robotsMeta.content = isExpired
+      ? 'noindex, follow'
+      : 'index, follow, max-image-preview:large';
 
     return () => {
       cleanup();
       document.title = originalTitle;
       if (metaDesc) metaDesc.content = originalDesc;
-      if (canonical) {
-        canonical.href = originalHref;
-      }
-      if (robotsMeta) {
-        robotsMeta.content = originalRobots;
-      }
+      if (canonical) canonical.href = originalHref;
+      if (robotsMeta) robotsMeta.content = originalRobots;
     };
-  }, [job, isExpired]);
+  }, [job, cleanTitle, canonicalUrl, isExpired, hydratedHtml, resolvedDescription.text]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [job.id]);
 
   const handleCopyUrl = () => {
-    const jobUrl = `${window.location.origin}/job/${job.id}`;
-    navigator.clipboard.writeText(jobUrl);
+    const jobUrl = `${window.location.origin}/job/${encodeURIComponent(job.id)}`;
+    navigator.clipboard.writeText(jobUrl).catch(() => {});
     setCopiedUrl(true);
     setTimeout(() => setCopiedUrl(false), 2000);
+  };
+
+  const handleCopyJd = () => {
+    const fullText = `${cleanTitle} — ${job.company}\nLocation: ${job.location || workMode}\n\n${resolvedDescription.text}`;
+    navigator.clipboard.writeText(fullText).catch(() => {});
+    setCopiedJd(true);
+    setTimeout(() => setCopiedJd(false), 2000);
   };
 
   const handleReportJob = async () => {
@@ -162,7 +261,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         const updatedJob: JobPosting = {
           ...job,
           closedReportCount: (job.closedReportCount || 0) + 1,
-          healthStatus: (job.closedReportCount || 0) + 1 >= 2 ? 'CANDIDATE_REPORTED' : job.healthStatus
+          healthStatus: (job.closedReportCount || 0) + 1 >= 2 ? 'CANDIDATE_REPORTED' : job.healthStatus,
         };
         import('../services/firebaseService').then(({ saveJobToCloud }) => {
           saveJobToCloud(updatedJob).catch((e) => console.warn('Could not update report to Firestore:', e));
@@ -174,191 +273,63 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
     setTimeout(() => setReportSubmitted(false), 6000);
   };
 
-  const applyButtonText = job.company
-    ? (job.company.length > 20 ? 'Apply on Company Site' : `Apply to ${job.company}`)
-    : 'Apply on Company Site';
+  const relatedJobs = useMemo(() => {
+    return allJobs
+      .filter(
+        (j) =>
+          j.id !== job.id &&
+          !isJobExpired(j) &&
+          (j.category === job.category || j.experienceLevel === job.experienceLevel || j.isRemote)
+      )
+      .slice(0, 3);
+  }, [allJobs, job.id, job.category, job.experienceLevel]);
 
-  // Extract curated editorial insights if present or synthesize dynamically
-
-  // Extract curated editorial insights if present or synthesize dynamically
-  const edgeData = (() => {
-    if (!job.description || !job.description.includes('🎯 The FreshCommits Career Take:')) {
-      const dynamicTake = generateLeadEngineerTake({
-        id: job.id,
-        title: job.title,
-        company: job.company,
-        category: job.category,
-        skills: job.skills
-      });
-      const dynamicChecklist = generateCandidatePreparationChecklist(job);
-      return {
-        hasEdge: true,
-        careerTake: dynamicTake,
-        checklistItems: dynamicChecklist,
-        roleOverview: generateCompliantJobSummary(job)
-      };
-    }
-    const parts = job.description.split('🏢 Role Overview:');
-    const edgeContent = parts[0] || '';
-
-    const takeMatch = edgeContent.match(/🎯 The FreshCommits Career Take:\s*([\s\S]*?)(?=💡 Candidate Preparation Checklist:|$)/i);
-    const checklistMatch = edgeContent.match(/💡 Candidate Preparation Checklist:\s*([\s\S]*?)$/i);
-
-    const rawCareerTake = takeMatch ? takeMatch[1].trim() : '';
-    const careerTake = humanizeCareerTake(rawCareerTake, job);
-    const checklistText = checklistMatch ? checklistMatch[1].trim() : '';
-    const rawChecklistItems = checklistText
-      ? checklistText
-          .split('\n')
-          .map((line) => line.replace(/^[-•*]\s*/, '').trim())
-          .filter(Boolean)
-      : [];
-
-    const checklistItems = humanizeChecklistItems(rawChecklistItems, job);
-    const cleanRoleOverview = generateCompliantJobSummary(job);
-
-    return {
-      hasEdge: true,
-      careerTake,
-      checklistItems,
-      roleOverview: cleanRoleOverview
-    };
-  })();
-
-  const cleanedResponsibilities = useMemo(() => {
-    const list = (job.responsibilities || [])
-      .map(cleanHtml)
-      .map((r) => r.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
-      .filter((line) => {
-        if (!line || line.length < 8) return false;
-        if (isCssOrNoiseLine(line)) return false;
-        const low = line.toLowerCase();
-        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*(?:do|bring)|responsibilities|key responsibilities|the role|what you will be doing|your mission|core duties|qualifications|requirements|basic qualifications|about us|who you are|who we are)[:\s]*$/i.test(low)) return false;
-        if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
-        if (/^about us[:\s]/i.test(low)) return false;
-        if (/^who we are[:\s]/i.test(low)) return false;
-        if (/^our mission[:\s]/i.test(low)) return false;
-        if (/^we are looking for\b/i.test(low)) return false;
-        if (/^(?:in this role,\s*you will|as an?\s*[^,]+,\s*you will|you will\s*(?:be responsible for)?)[:\s]*$/i.test(low)) return false;
-        return true;
-      });
-    return list;
-  }, [job.responsibilities]);
-
-  const cleanedQualifications = useMemo(() => {
-    return (job.qualifications || [])
-      .map(cleanHtml)
-      .map((q) => q.replace(/^[•\-\*–—\d\.\)]\s*/, '').trim())
-      .filter((line) => {
-        if (!line || line.length < 8) return false;
-        if (isCssOrNoiseLine(line)) return false;
-        const low = line.toLowerCase();
-        if (/^(?:what you(?:’|'| )*(?:will|'ll)?\s*bring|qualifications|requirements|basic qualifications|minimum qualifications|what we look for|who you are|about us)[:\s]*$/i.test(low)) return false;
-        if (/^about\s+[a-z0-9&.\-\s]+[:\s]/i.test(low)) return false;
-        if (/^(?:to be successful|requirements|qualifications|basic qualifications|minimum qualifications)[:\s]*$/i.test(low)) return false;
-        // Filter out corporate/legal/compliance boilerplate from technical qualifications
-        if (
-          low.includes('itar') ||
-          low.includes('export administration regulations') ||
-          low.includes('equal opportunity employer') ||
-          low.includes('eeo/aa') ||
-          low.includes('benefits:') ||
-          low.includes('principals only') ||
-          low.includes('no agencies') ||
-          low.includes('physical demands')
-        ) return false;
-        if (cleanedResponsibilities.some((r: string) => r.toLowerCase() === low)) return false;
-        return true;
-      });
-  }, [job.qualifications, cleanedResponsibilities]);
-
-  const parsedJd = useMemo(() => {
-    return parseJobDescription(
-      job.description || '',
-      cleanedResponsibilities,
-      cleanedQualifications
-    );
-  }, [job.description, cleanedResponsibilities, cleanedQualifications]);
-
-  const daysLeft = getDaysUntilExpiration(job.validThrough);
-
-  const interviewDrill = useMemo(() => {
-    return generateRound1InterviewDrill({
-      title: job.title,
-      category: job.category,
-      skills: job.skills,
-      company: job.company
-    });
-  }, [job.title, job.category, job.skills, job.company]);
-
-  const formatSalary = (salary: JobPosting['salary']) => {
-    if (!salary || salary.min <= 0) return 'Competitive compensation based on qualifications';
-    const currencySymbol = salary.currency === 'EUR' ? '€' : salary.currency === 'GBP' ? '£' : salary.currency === 'INR' ? '₹' : salary.currency === 'CAD' ? 'CA$' : '$';
-    if (salary.unit === 'HOUR') {
-      return `${currencySymbol}${salary.min}${salary.max && salary.max !== salary.min ? `–${currencySymbol}${salary.max}` : ''} / hour`;
-    }
-    if (salary.unit === 'MONTH') {
-      return `${currencySymbol}${salary.min.toLocaleString()}${salary.max && salary.max !== salary.min ? `–${currencySymbol}${salary.max.toLocaleString()}` : ''} / month`;
-    }
-    const minFormatted = salary.min >= 1000 ? `${Math.round(salary.min / 1000)}k` : `${salary.min}`;
-    const maxFormatted = salary.max && salary.max >= 1000 ? `${Math.round(salary.max / 1000)}k` : `${salary.max}`;
-    return `${currencySymbol}${minFormatted}${maxFormatted && maxFormatted !== minFormatted ? `–${currencySymbol}${maxFormatted}` : ''} / year`;
-  };
-
-  // Find 3-4 active related early-career jobs (ensuring they are active to rescue visitors on expired pages)
-  const relatedJobs = allJobs
-    .filter((j) => j.id !== job.id && !isJobExpired(j) && (j.category === job.category || j.experienceLevel === job.experienceLevel || j.isRemote))
-    .slice(0, 4);
-
-  const handleOpenAtsMatcherInNewTab = (e?: React.MouseEvent) => {
-    const textToPass = `Job Title: ${job.title}\nCompany: ${job.company}\nLocation: ${job.location || 'Remote'}\nSkills: ${(job.skills || []).join(', ')}\n\nDescription:\n${job.description || ''}\n\nResponsibilities:\n${(job.responsibilities || []).join('\n')}\n\nQualifications:\n${(job.qualifications || []).join('\n')}`;
-    try {
-      sessionStorage.setItem('freshcommits_ats_target_jd', textToPass);
-      localStorage.setItem('freshcommits_ats_target_jd', textToPass);
-    } catch {}
-    // If clicked on an element that is not directly an <a> tag with target="_blank", open programmatically
-    if (!e || (e.target as HTMLElement).tagName !== 'A') {
-      window.open('/career-tools#ats-matcher', '_blank', 'noopener,noreferrer');
-    }
-  };
+  const contextualArticles = useMemo(() => {
+    return getContextualArticlesForJob(job, CAREER_ARTICLES, 2);
+  }, [job]);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] text-[#202124]">
-      {/* Top Navigation & Breadcrumb Header */}
-      <div className="bg-white border-b border-[#dadce0] sticky top-0 z-30 shadow-xs">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2 flex-shrink-0">
+    <div className="min-h-screen bg-[#F0F8FF] text-[#202124] pb-24 lg:pb-12">
+      {/* Top Breadcrumb Bar */}
+      <div className="bg-white border-b border-[#dadce0] sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
             <button
+              type="button"
               onClick={onBack}
-              className="inline-flex items-center gap-1 text-xs sm:text-sm font-medium text-[#1a73e8] hover:text-[#1557b0] px-2.5 py-1.5 rounded-full hover:bg-[#e8f0fe] transition-colors cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#1a73e8] hover:text-[#1557b0] px-2.5 py-1.5 rounded-lg hover:bg-[#e8f0fe] transition-colors cursor-pointer whitespace-nowrap"
             >
-              <ArrowLeft className="w-4 h-4 flex-shrink-0" />
-              <span>Back</span>
-              <span className="hidden sm:inline">to all jobs</span>
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Jobs</span>
             </button>
+
             <span className="hidden md:inline text-[#dadce0]">|</span>
-            <div className="hidden md:flex items-center gap-1.5 text-xs text-[#5f6368]">
-              <a href="/" onClick={(e) => { e.preventDefault(); onBack(); }} className="hover:text-[#1a73e8] transition-colors">
-                Home
+
+            <nav aria-label="Breadcrumb" className="hidden md:flex items-center gap-1.5 text-xs text-[#5f6368] min-w-0">
+              <a
+                href="/jobs"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onBack();
+                }}
+                className="hover:text-[#1a73e8] transition-colors whitespace-nowrap"
+              >
+                All Jobs
               </a>
-              <ChevronRight className="w-3 h-3 text-[#80868b]" />
-              <a href="/jobs" onClick={(e) => { e.preventDefault(); onBack(); }} className="hover:text-[#1a73e8] transition-colors">
-                Jobs Directory
-              </a>
-              <ChevronRight className="w-3 h-3 text-[#80868b]" />
-              <span>{job.category || 'Engineering'}</span>
-              <ChevronRight className="w-3 h-3 text-[#80868b]" />
-              <span className="font-medium text-[#202124] truncate max-w-[200px]">{job.company}</span>
-            </div>
+              <ChevronRight className="w-3.5 h-3.5 text-[#80868b] flex-shrink-0" />
+              <span className="whitespace-nowrap">{job.category || 'Engineering'}</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#80868b] flex-shrink-0" />
+              <span className="font-medium text-[#202124] truncate max-w-[260px]">{cleanTitle}</span>
+            </nav>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2 flex-shrink-0">
             {onToggleSave && (
               <button
                 type="button"
                 onClick={() => onToggleSave(job.id)}
                 title={isSaved ? 'Remove from saved jobs' : 'Save job'}
-                className={`p-2 rounded-full border transition-all cursor-pointer ${
+                className={`p-2 rounded-lg border transition-colors cursor-pointer ${
                   isSaved
                     ? 'bg-[#fef7e0] border-[#f9ab00] text-[#b06000]'
                     : 'bg-white border-[#dadce0] text-[#5f6368] hover:text-[#1a73e8] hover:border-[#1a73e8]'
@@ -368,12 +339,20 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
               </button>
             )}
 
-            <SocialShare job={job} compact={true} />
+            <button
+              type="button"
+              onClick={handleCopyUrl}
+              title="Copy job link"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#dadce0] bg-white hover:bg-[#f8f9fa] text-xs font-medium text-[#3c4043] cursor-pointer"
+            >
+              {copiedUrl ? <Check className="w-3.5 h-3.5 text-[#137333]" /> : <Copy className="w-3.5 h-3.5 text-[#5f6368]" />}
+              <span>{copiedUrl ? 'Copied Link' : 'Copy Link'}</span>
+            </button>
 
             {isExpired ? (
-              <span className="text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 border border-slate-300 flex items-center gap-1.5 shadow-2xs whitespace-nowrap">
+              <span className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-300 inline-flex items-center gap-1.5">
                 <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
-                <span>Closed</span>
+                <span>Position Closed</span>
               </span>
             ) : (
               <a
@@ -381,36 +360,36 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackApplyClick(job)}
-                className="text-xs sm:text-sm font-medium px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center gap-1.5 shadow-xs cursor-pointer no-underline whitespace-nowrap"
+                className="text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-colors inline-flex items-center gap-1.5 no-underline whitespace-nowrap"
               >
-                <span>Apply</span>
-                <span className="hidden sm:inline">on Company Site</span>
-                <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>{applyButtonText}</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
           </div>
         </div>
       </div>
 
-      {/* Main Content Layout */}
+      {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {/* Expired Job Preservation Banner */}
+        {/* Expired Banner for Human Visitors */}
         {isExpired && (
-          <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+          <div className="mb-6 p-4 sm:p-5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
                 <h2 className="text-sm sm:text-base font-bold text-amber-950">
-                  This requisition at {job.company} has been filled or closed
+                  Position Closed — {job.company}
                 </h2>
-                <p className="text-xs sm:text-sm text-amber-800 mt-0.5 leading-relaxed">
-                  The original application window has passed. We retain this job overview, interview preparation notes, and salary benchmarks for career research. Browse our verified active early-career roles below.
+                <p className="text-xs sm:text-sm text-amber-800 mt-0.5">
+                  This requisition is no longer accepting new applications. Explore active early-career openings in the sidebar or return to all jobs.
                 </p>
               </div>
             </div>
             <button
+              type="button"
               onClick={onBack}
-              className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs sm:text-sm whitespace-nowrap shadow-xs transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs sm:text-sm whitespace-nowrap cursor-pointer"
             >
               Browse Active Jobs
             </button>
@@ -418,300 +397,152 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-          {/* Main Job Article (8 columns) */}
+          {/* Left 2/3 Column */}
           <div className="lg:col-span-8 space-y-6">
-            {/* Primary Job Header Card */}
-            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 sm:p-8 shadow-xs">
-              <div className="flex items-start gap-4 mb-4">
-                {/* Company Logo / Avatar */}
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl border border-[#e8eaed] bg-white p-2 flex items-center justify-center flex-shrink-0 shadow-2xs">
-                  {(() => {
-                    const safeLogo = resolveCompanyLogo(job.company, job.companyLogo, job.companyWebsite);
-                    return (
-                      <img
-                        src={safeLogo}
-                        alt={`${job.company} logo`}
-                        className="w-full h-full object-contain rounded-lg"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                            job.company
-                          )}&background=0F172A&color=fff&size=128&bold=true`;
-                        }}
-                      />
-                    );
-                  })()}
-                </div>
+            {/* Hero Header Card */}
+            <section className="bg-white rounded-2xl border border-[#dadce0] p-6 sm:p-7 shadow-2xs space-y-5">
+              <div className="flex items-start gap-4">
+                <img
+                  src={safeLogo}
+                  alt={`${job.company} logo`}
+                  referrerPolicy="no-referrer"
+                  className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-contain p-1.5 border border-[#e8eaed] bg-white flex-shrink-0"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      job.company
+                    )}&background=0F172A&color=fff&size=128&bold=true`;
+                  }}
+                />
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <span className="font-semibold text-base sm:text-lg text-[#202124]">{job.company}</span>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#137333] bg-[#e6f4ea] px-2.5 py-0.5 rounded-full border border-[#ceead6]">
-                      <CheckCircle2 className="w-3 h-3 text-[#137333]" />
-                      Employer Verified
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">
-                      <ShieldCheck className="w-3 h-3 text-indigo-600" />
-                      Google for Jobs Indexed
-                    </span>
-                    {job.isRemote && (
-                      <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#1a73e8] bg-[#e8f0fe] px-2.5 py-0.5 rounded-full border border-[#d2e3fc]">
-                        <Globe className="w-3 h-3" />
-                        Remote Option
-                      </span>
-                    )}
-                    {job.stemOptEVerified && (
-                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200" title="Employer is enrolled in USCIS E-Verify and eligible for F-1 STEM OPT 24-month extension">
-                        <ShieldCheck className="w-3 h-3 text-teal-600" />
-                        STEM OPT • E-Verified
-                      </span>
-                    )}
+                  <div className="text-sm sm:text-base font-semibold text-[#1a73e8] mb-1">
+                    {job.company}
                   </div>
-
-                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#202124] tracking-tight leading-snug">
-                    {job.title}
+                  <h1 className="text-xl sm:text-2xl lg:text-[28px] font-bold text-[#202124] tracking-tight leading-snug">
+                    {cleanTitle}
                   </h1>
+
+                  {/* Key Metadata Row */}
+                  <div className="flex items-center gap-x-3 gap-y-1.5 flex-wrap text-xs sm:text-sm text-[#5f6368] mt-3">
+                    <span className="inline-flex items-center gap-1">
+                      <MapPin className="w-4 h-4 text-[#80868b]" />
+                      <span>{cleanLocationString(job.location || 'United States')}</span>
+                    </span>
+                    <span aria-hidden="true" className="text-[#dadce0]">&middot;</span>
+                    <span className="font-medium text-[#3c4043]">{workMode}</span>
+                    <span aria-hidden="true" className="text-[#dadce0]">&middot;</span>
+                    <span className="font-medium text-[#3c4043]">
+                      {job.experienceLevel === 'Internship'
+                        ? 'Internship'
+                        : job.experienceLevel === 'New Grad'
+                        ? 'New Grad'
+                        : 'Entry-Level'}
+                    </span>
+                    {salaryLabel && (
+                      <>
+                        <span aria-hidden="true" className="text-[#dadce0]">&middot;</span>
+                        <span className="font-semibold text-[#137333] tabular-nums">
+                          {salaryLabel}
+                        </span>
+                      </>
+                    )}
+                    <span aria-hidden="true" className="text-[#dadce0]">&middot;</span>
+                    <span className="inline-flex items-center gap-1 tabular-nums">
+                      <Calendar className="w-3.5 h-3.5 text-[#80868b]" />
+                      <span>Posted {job.datePosted || 'Recently'}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              {/* Badges, Location, Salary, Date Posted */}
-              <div className="flex items-center gap-y-2 gap-x-4 text-xs sm:text-sm text-[#5f6368] flex-wrap pt-2 border-t border-[#f1f3f4]">
-                <div className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-[#80868b]" />
-                  <span>{cleanLocationString(job.location)}</span>
+              {/* Action Bar */}
+              <div className="pt-4 border-t border-[#f1f3f4] flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  {!isExpired && (
+                    <a
+                      href={job.applyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => trackApplyClick(job)}
+                      className="px-5 py-2.5 rounded-lg bg-[#1a73e8] hover:bg-[#1557b0] text-white text-sm font-semibold transition-colors inline-flex items-center gap-2 no-underline"
+                    >
+                      <span>{applyButtonText}</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+
+                  {onToggleSave && (
+                    <button
+                      type="button"
+                      onClick={() => onToggleSave(job.id)}
+                      className={`px-4 py-2.5 rounded-lg border text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
+                        isSaved
+                          ? 'bg-[#fef7e0] border-[#f9ab00] text-[#b06000]'
+                          : 'bg-white border-[#dadce0] text-[#3c4043] hover:bg-[#f8f9fa]'
+                      }`}
+                    >
+                      <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-[#f9ab00]' : ''}`} />
+                      <span>{isSaved ? 'Saved' : 'Save'}</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleCopyUrl}
+                    className="px-4 py-2.5 rounded-lg border border-[#dadce0] bg-white hover:bg-[#f8f9fa] text-xs sm:text-sm font-medium text-[#3c4043] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    {copiedUrl ? <Check className="w-4 h-4 text-[#137333]" /> : <Copy className="w-4 h-4 text-[#5f6368]" />}
+                    <span>{copiedUrl ? 'Copied' : 'Copy Link'}</span>
+                  </button>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-[#137333] font-medium">
-                  <DollarSign className="w-4 h-4" />
-                  <span>{formatSalary(job.salary)}</span>
-                </div>
-
-                <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-[#80868b]" />
-                  <span>Posted {job.datePosted}</span>
-                </div>
-
-                {/* Experience Badge */}
-                <span className="inline-flex items-center text-xs font-medium px-3 py-1 rounded-full bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0]">
-                  {job.experienceLevel === 'Internship' ? 'Internship' : 'Entry/Early Career'}
-                </span>
-
-                {/* STEM OPT E-Verify Attribute */}
-                {job.stemOptEVerified && (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
-                    <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
-                    <span>STEM OPT Eligible (E-Verify)</span>
-                  </span>
-                )}
+                <SocialShare job={job} compact={true} />
               </div>
-            </div>
+            </section>
 
-
-
-            {/* Full Authentic Job Description (LinkedIn-Grade Structured Layout) */}
-            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 sm:p-8 shadow-xs space-y-7">
-              {/* Header Bar */}
-              <div className="flex items-center justify-between flex-wrap gap-2 pb-4 border-b border-[#f1f3f4]">
-                <div>
-                  <h2 className="text-base sm:text-lg font-bold text-[#202124] flex items-center gap-2">
-                    <Building2 className="w-5 h-5 text-[#1a73e8]" />
-                    <span>Official Job Requisition from {job.company}</span>
+            {/* Authentic Job Description Card */}
+            <section className="bg-white rounded-2xl border border-[#dadce0] p-6 sm:p-8 shadow-2xs space-y-5">
+              <div className="flex items-center justify-between gap-3 pb-4 border-b border-[#f1f3f4] flex-wrap">
+                <div className="flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-[#1a73e8]" />
+                  <h2 className="text-base sm:text-lg font-bold text-[#202124]">
+                    Job Description
                   </h2>
-                  <p className="text-xs text-[#5f6368] mt-0.5">
-                    Authentic employer requirements, structured team context &bull; 0–2 YoE verified
-                  </p>
+                  {isHydratingAts && (
+                    <span className="inline-flex items-center gap-1 text-xs text-[#5f6368] ml-2">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[#1a73e8]" />
+                      <span>Loading full details...</span>
+                    </span>
+                  )}
                 </div>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#137333] bg-[#e6f4ea] px-3 py-1 rounded-full border border-[#ceead6]">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#137333]" />
-                  Employer Verified
-                </span>
+
+                <button
+                  type="button"
+                  onClick={handleCopyJd}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#dadce0] bg-[#f8f9fa] hover:bg-[#f1f3f4] text-xs font-medium text-[#3c4043] transition-colors cursor-pointer"
+                >
+                  {copiedJd ? <Check className="w-3.5 h-3.5 text-[#137333]" /> : <Copy className="w-3.5 h-3.5 text-[#5f6368]" />}
+                  <span>{copiedJd ? 'Copied JD' : 'Copy JD'}</span>
+                </button>
               </div>
 
-              {/* ATS Requisition Specifications Grid (when parsed from automated ATS dumps) */}
-              {parsedJd.atsMetadata.length > 0 && (
-                <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-4 space-y-2.5">
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    <FileText className="w-4 h-4 text-slate-500" />
-                    <span>ATS Requisition Specifications</span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs pt-1">
-                    {parsedJd.atsMetadata.map((meta, idx) => (
-                      <div key={idx} className="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
-                        <span className="text-[11px] font-semibold text-slate-400 block">{meta.label}</span>
-                        <span className="font-medium text-slate-800 text-xs mt-0.5 block truncate" title={meta.value}>
-                          {meta.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Clean Sanitized ATS HTML or Formatted Plain Text */}
+              <div
+                className="text-sm text-[#3c4043] leading-relaxed break-words
+                  [&_p]:mb-3.5 [&_p]:leading-relaxed
+                  [&_h2]:text-base [&_h2]:sm:text-lg [&_h2]:font-bold [&_h2]:text-[#202124] [&_h2]:mt-6 [&_h2]:mb-2.5
+                  [&_h3]:text-sm [&_h3]:sm:text-base [&_h3]:font-bold [&_h3]:text-[#202124] [&_h3]:mt-5 [&_h3]:mb-2
+                  [&_h4]:text-sm [&_h4]:font-semibold [&_h4]:text-[#202124] [&_h4]:mt-4 [&_h4]:mb-1.5
+                  [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_ul]:mb-4
+                  [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:space-y-1.5 [&_ol]:mb-4
+                  [&_li]:leading-relaxed
+                  [&_strong]:font-semibold [&_strong]:text-[#202124]
+                  [&_b]:font-semibold [&_b]:text-[#202124]
+                  [&_a]:text-[#1a73e8] [&_a]:underline [&_a]:break-all"
+                dangerouslySetInnerHTML={{ __html: resolvedDescription.html }}
+              />
 
-              {/* About Role & Company Prose */}
-              <div className="space-y-6">
-                {/* About Role / Mission */}
-                <div className="space-y-3">
-                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-[#1a73e8]" />
-                    <span>Role Mission &amp; Overview</span>
-                  </h3>
-                  <div className="text-xs sm:text-sm text-[#3c4043] leading-relaxed font-normal space-y-3">
-                    {(() => {
-                      const roleParas = parsedJd.aboutRole.filter((p) => p && p.trim().length > 0);
-                      if (roleParas.length > 0) {
-                        return roleParas.map((para, idx) => (
-                          <p key={idx} className="leading-relaxed">
-                            {para}
-                          </p>
-                        ));
-                      }
-                      const fallbackParas = parsedJd.aboutCompany.filter((p) => p && p.trim().length > 0);
-                      if (fallbackParas.length > 0) {
-                        return fallbackParas.map((para, idx) => (
-                          <p key={idx} className="leading-relaxed">
-                            {para}
-                          </p>
-                        ));
-                      }
-                      const cleanFallback = stripSyntheticSpamBoilerplate(cleanHtml(edgeData.roleOverview || job.description || ''));
-                      const fallbackList = formatProseParagraphs(cleanFallback);
-                      return fallbackList.map((para, idx) => (
-                        <p key={idx} className="leading-relaxed">
-                          {para}
-                        </p>
-                      ));
-                    })()}
-                  </div>
-                </div>
-
-                {/* About Company (when distinct from role) */}
-                {parsedJd.aboutCompany.length > 0 && parsedJd.aboutRole.length > 0 && (
-                  <div className="pt-4 border-t border-[#f1f3f4] space-y-2.5">
-                    <h4 className="text-xs sm:text-sm font-bold text-[#202124] flex items-center gap-2">
-                      <Building2 className="w-3.5 h-3.5 text-[#5f6368]" />
-                      <span>About {job.company}</span>
-                    </h4>
-                    <div className="text-xs sm:text-sm text-[#4b5563] leading-relaxed space-y-2.5">
-                      {parsedJd.aboutCompany.map((para, idx) => (
-                        <p key={idx} className="leading-relaxed">
-                          {para}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Team Culture & Work Environment Callout */}
-                {parsedJd.companyCulture && parsedJd.companyCulture.length > 0 && (
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50/60 to-blue-50/40 border border-indigo-100/80 space-y-2">
-                    <h4 className="text-xs font-bold text-indigo-900 flex items-center gap-1.5 uppercase tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>Team Culture &amp; Opportunity</span>
-                    </h4>
-                    <div className="text-xs text-indigo-950/80 leading-relaxed space-y-2 font-normal">
-                      {parsedJd.companyCulture.map((para, idx) => (
-                        <p key={idx}>{para}</p>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Inlined Compensation Guidance (if parsed) */}
-                {parsedJd.compensationText && (
-                  <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200/80 flex items-start gap-2.5 text-xs text-emerald-900">
-                    <DollarSign className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-semibold block text-emerald-950">Employer Compensation Note</span>
-                      <p className="mt-0.5 text-emerald-800 leading-relaxed">{parsedJd.compensationText}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Key Responsibilities */}
-              {parsedJd.responsibilities.length > 0 && (
-                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
-                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-[#1a73e8]" />
-                    <span>What You&apos;ll Do (Key Responsibilities)</span>
-                  </h3>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    {parsedJd.responsibilities.map((resp: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full bg-blue-50 text-[#1a73e8] border border-blue-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold">
-                          ✓
-                        </span>
-                        <span className="pt-0.5">{resp}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Qualifications & Requirements */}
-              {parsedJd.qualifications.length > 0 && (
-                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
-                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
-                    <ListChecks className="w-4 h-4 text-[#137333]" />
-                    <span>Basic Qualifications &amp; Prerequisites</span>
-                  </h3>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    {parsedJd.qualifications.map((qual: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full bg-emerald-50 text-[#137333] border border-emerald-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold">
-                          ✓
-                        </span>
-                        <span className="pt-0.5">{qual}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Preferred Qualifications (if parsed) */}
-              {parsedJd.preferredQualifications.length > 0 && (
-                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
-                  <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
-                    <Award className="w-4 h-4 text-purple-600" />
-                    <span>Preferred Qualifications &amp; Bonus Points</span>
-                  </h3>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    {parsedJd.preferredQualifications.map((pref: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold">
-                          ★
-                        </span>
-                        <span className="pt-0.5">{pref}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Benefits & Compensation Perks */}
-              {parsedJd.benefits.length > 0 && (
-                <div className="pt-5 border-t border-[#f1f3f4] space-y-3">
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <h3 className="text-sm sm:text-base font-bold text-[#202124] flex items-center gap-2">
-                      <Gift className="w-4 h-4 text-rose-600" />
-                      <span>Benefits, Healthcare &amp; Perks</span>
-                    </h3>
-                    <span className="text-[11px] text-[#5f6368]">Verified in Employer Listing</span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                    {parsedJd.benefits.map((benefit, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-[#202124] font-medium shadow-2xs"
-                      >
-                        <CheckCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                        <span>{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Skills & Tech Stack */}
+              {/* Skills / Tags */}
               {job.skills && job.skills.length > 0 && (
                 <div className="pt-5 border-t border-[#f1f3f4] space-y-2.5">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-[#5f6368]">
@@ -721,7 +552,7 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                     {job.skills.map((skill, idx) => (
                       <span
                         key={idx}
-                        className="text-xs bg-[#f8f9fa] text-[#3c4043] border border-[#dadce0] px-3 py-1 rounded-full font-medium"
+                        className="text-xs bg-[#f8f9fa] text-[#3c4043] border border-[#e8eaed] px-2.5 py-1 rounded-md font-medium"
                       >
                         {skill}
                       </span>
@@ -730,392 +561,106 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                 </div>
               )}
 
-              {/* Equal Employment Opportunity / Legal Disclaimers (subdued footer card) */}
-              {parsedJd.eeoStatement && (
-                <div className="pt-5 border-t border-[#f1f3f4]">
-                  <div className="p-4 bg-slate-50/70 rounded-xl border border-slate-200 text-slate-500 space-y-1.5">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
-                      <Info className="w-3.5 h-3.5" />
-                      <span>Equal Opportunity &amp; Compliance Statement</span>
-                    </div>
-                    <p className="text-[11px] leading-relaxed text-slate-500">
-                      {parsedJd.eeoStatement}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Direct Verification & Application Guarantee Box */}
-            <div className="bg-[#e8f0fe]/50 border border-[#d2e3fc] rounded-2xl p-6 sm:p-7 shadow-xs space-y-4">
-              <div className="flex items-start gap-3">
-                <ShieldCheck className="w-6 h-6 text-[#1a73e8] flex-shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <h3 className="text-sm sm:text-base font-bold text-[#1a73e8]">
-                    Verified Direct Employer Routing
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-                    This requisition is verified for <strong>≤ 2 years of experience</strong> or paid internships. You are applying directly on <strong>{job.company}</strong>'s official career portal. No recruiter intermediaries, resume harvesting, or third-party marketing signups.
-                  </p>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-[#d2e3fc] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#5f6368]">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5 text-[#80868b]" />
-                  <span>
-                    Valid through: <strong>{job.validThrough || 'Open until filled'}</strong>
-                    {daysLeft !== null && daysLeft > 0 && ` (${daysLeft} days remaining)`}
-                  </span>
-                </div>
-
+              {/* Bottom Apply & Report Footer */}
+              <div className="pt-5 border-t border-[#f1f3f4] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <button
                   type="button"
                   onClick={handleReportJob}
                   disabled={reportSubmitted}
-                  className="text-[11px] text-[#80868b] hover:text-[#d93025] flex items-center gap-1 transition-colors cursor-pointer"
+                  className="text-xs text-[#5f6368] hover:text-[#d93025] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
-                  <Flag className="w-3 h-3" />
-                  <span>{reportSubmitted ? '✓ Report recorded for review' : 'Report expired or invalid listing'}</span>
+                  <Flag className="w-3.5 h-3.5" />
+                  <span>{reportSubmitted ? 'Report submitted — thank you' : 'Report expired or invalid listing'}</span>
                 </button>
-              </div>
 
-              {/* Bottom Apply CTA Banner */}
-              <div className="pt-2">
-                {isExpired ? (
-                  <button
-                    onClick={onBack}
-                    className="w-full text-center text-sm font-medium py-3.5 px-6 rounded-xl bg-amber-600 hover:bg-amber-700 text-white transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
-                  >
-                    <AlertCircle className="w-4 h-4" />
-                    <span>Position Closed – View All Active Roles</span>
-                  </button>
-                ) : (
+                {!isExpired && (
                   <a
                     href={job.applyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackApplyClick(job)}
-                    className="w-full text-center text-sm font-medium py-3.5 px-6 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-2 shadow-xs no-underline"
+                    className="px-6 py-3 rounded-lg bg-[#1a73e8] hover:bg-[#1557b0] text-white text-sm font-semibold transition-colors inline-flex items-center justify-center gap-2 no-underline"
                   >
                     <span>{applyButtonText}</span>
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
-
               </div>
-            </div>
+            </section>
 
-            {/* ATS Keyword Matcher Prompt Banner (Directly Below Apply Box) */}
-            {!isExpired && (
-              <div
-                onClick={(e) => handleOpenAtsMatcherInNewTab(e)}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-emerald-50/90 to-teal-50/50 border border-emerald-200/90 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer group"
-              >
-                <div className="flex items-center gap-3.5">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                    <FileSearch className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2 flex-wrap">
-                      <span className="group-hover:text-emerald-700 transition-colors">Check Resume Match for This Role</span>
-                      <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
-                        Under 3 Seconds
-                      </span>
-                    </div>
-                    <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 flex items-center gap-1.5 flex-wrap">
-                      <span>Free automated scan: detects missing skills &amp; ATS filter-out risks.</span>
-                      <span className="text-emerald-700 font-semibold">(Opens in new tab ↗)</span>
-                    </p>
-                  </div>
-                </div>
-
-                <a
-                  href="/career-tools#ats-matcher"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOpenAtsMatcherInNewTab(e);
-                  }}
-                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer flex-shrink-0 no-underline"
-                  title="Open ATS Matcher in new tab"
-                >
-                  <span>Scan My Resume</span>
-                  <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
-                </a>
-              </div>
-            )}
-
-            {/* In-Article Leaderboard Ad if configured */}
+            {/* In-Feed AdSlot */}
             {adConfig.enabled && adConfig.inFeedAd && (
               <div className="my-2">
                 <AdSlot type="in-feed" config={adConfig} />
               </div>
             )}
-
-            {/* Editorial FreshCommits Edge & Preparation Toolkit (Directly Below Apply Box) */}
-            {edgeData.hasEdge && (
-              <div className="bg-gradient-to-br from-indigo-50/70 via-blue-50/40 to-white rounded-2xl border border-indigo-100 p-6 sm:p-7 shadow-xs space-y-4">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-2 text-indigo-900 font-semibold text-base sm:text-lg">
-                    <Sparkles className="w-5 h-5 text-indigo-600" />
-                    <span>The FreshCommits Editorial Take</span>
-                  </div>
-                  <span className="text-[11px] font-semibold bg-indigo-100/80 text-indigo-800 px-2.5 py-0.5 rounded-full border border-indigo-200">
-                    Lead Engineer Analysis
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-normal bg-white/70 p-3.5 rounded-xl border border-indigo-50 shadow-2xs">
-                  {edgeData.careerTake}
-                </p>
-                {edgeData.checklistItems.length > 0 && (
-                  <div className="pt-3 border-t border-indigo-100">
-                    <div className="flex items-center justify-between mb-2.5 flex-wrap gap-1">
-                      <span className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        💡 Candidate Preparation Checklist:
-                      </span>
-                      <span className="text-[11px] text-slate-500 font-medium">
-                        Click items to track prep ({Object.values(checkedPrepItems).filter(Boolean).length}/{edgeData.checklistItems.length})
-                      </span>
-                    </div>
-                    <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
-                      {edgeData.checklistItems.map((item, idx) => {
-                        const isDone = Boolean(checkedPrepItems[idx]);
-                        return (
-                          <li
-                            key={idx}
-                            onClick={() => setCheckedPrepItems((prev) => ({ ...prev, [idx]: !prev[idx] }))}
-                            className={`flex items-start gap-2.5 p-2 rounded-xl border transition-all cursor-pointer select-none ${
-                              isDone
-                                ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
-                                : 'bg-white/80 hover:bg-white border-slate-200/80 text-slate-800 hover:border-indigo-200 shadow-2xs'
-                            }`}
-                          >
-                            <div
-                              className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center flex-shrink-0 transition-colors ${
-                                isDone ? 'bg-emerald-600 text-white' : 'border border-slate-300 bg-white'
-                              }`}
-                            >
-                              {isDone && <Check className="w-3 h-3 stroke-[3]" />}
-                            </div>
-                            <span className={isDone ? 'line-through opacity-85' : ''}>
-                              {item.replace(/^•\s*/, '')}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-
-                    {/* Direct Project Blueprint Recommendation */}
-                    <div className="pt-2">
-                      <a
-                        href="/project-blueprints"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between gap-3 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200/80 rounded-xl hover:border-indigo-300 transition-all group"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <span className="text-base">🚀</span>
-                          <div className="text-xs">
-                            <span className="font-bold text-indigo-950 block">
-                              Need a Commercial Project on Your Resume for this Role?
-                            </span>
-                            <span className="text-indigo-700 text-[11px]">
-                              Build the verified {job.category || 'Engineering'} Blueprint to stand out in technical screens.
-                            </span>
-                          </div>
-                        </div>
-                        <span className="text-xs font-bold text-indigo-700 group-hover:text-indigo-900 flex items-center gap-1 flex-shrink-0">
-                          <span>View Blueprint</span>
-                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                {/* Market Benchmark & Salary Intelligence */}
-                <div className="pt-3 border-t border-indigo-100 flex items-start gap-3 bg-white/80 p-3.5 rounded-xl border border-indigo-50 shadow-2xs">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 flex-shrink-0 mt-0.5">
-                    <DollarSign className="w-4 h-4 stroke-[2.5]" />
-                  </div>
-                  <div className="space-y-1 text-xs text-slate-700 w-full">
-                    <div className="flex flex-wrap items-center justify-between gap-1.5">
-                      <span className="font-bold text-slate-900">
-                        Market Benchmark &amp; Salary Intelligence (0–2 YoE)
-                      </span>
-                      {benchmark.tierLabel && (
-                        <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100/70">
-                          {benchmark.tierLabel}
-                        </span>
-                      )}
-                    </div>
-
-                    {job.salary && job.salary.min > 0 ? (
-                      <div className="text-slate-600 leading-relaxed space-y-1">
-                        <p>
-                          Verified Employer Compensation: <strong className="text-emerald-700">{formatSalary(job.salary)}</strong>.
-                        </p>
-                        <p className="text-slate-500 text-[11px]">
-                          Verified industry standard for {benchmark.roleLabel} in {benchmark.tierLabel}:{' '}
-                          <strong className="text-slate-700 font-semibold">
-                            {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
-                          </strong>
-                          {benchmark.unit === 'YEAR' && (
-                            <span className="text-slate-400"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()})</span>
-                          )}.
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="text-slate-600 leading-relaxed space-y-1">
-                        <p>
-                          Employer did not disclose compensation in requisition.
-                        </p>
-                        <p className="text-slate-600">
-                          FreshCommits 0–2 YoE market benchmark for {benchmark.roleLabel} in <span className="font-medium text-slate-800">{benchmark.tierLabel}</span>:{' '}
-                          <strong className="text-emerald-700">
-                            {benchmark.currency} {benchmark.min.toLocaleString()} – {benchmark.max.toLocaleString()} / {benchmark.unit?.toLowerCase() || 'year'}
-                          </strong>
-                          {benchmark.unit === 'YEAR' && (
-                            <span className="text-slate-500 text-[11px]"> (Median: ~{benchmark.currency} {benchmark.percentile50.toLocaleString()}/yr)</span>
-                          )}.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* 🎯 Round 1 Interview Drill & Winning Formula */}
-                <div className="pt-3 border-t border-indigo-100/90 space-y-2.5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">
-                      🎯
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
-                        Round 1 Interview Drill &amp; Winning Formula
-                      </h4>
-                      <p className="text-[11px] text-slate-500">
-                        The practical engineering question tested in first-round technical screens for this role.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-xl border border-slate-200/90 p-4 space-y-3 shadow-2xs">
-                    {/* The Question */}
-                    <div>
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100 inline-block mb-1">
-                        1. The Core Question
-                      </span>
-                      <p className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug">
-                        &ldquo;{interviewDrill.question}&rdquo;
-                      </p>
-                    </div>
-
-                    {/* What They're Really Testing */}
-                    <div>
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80 inline-block mb-1">
-                        2. What the Interviewer is Really Testing
-                      </span>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        {interviewDrill.testingObjective}
-                      </p>
-                    </div>
-
-                    {/* The Winning Answer Formula */}
-                    <div>
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block mb-1">
-                        3. The Winning Answer Formula
-                      </span>
-                      <p className="text-xs text-slate-700 leading-relaxed font-medium bg-slate-50 p-2.5 rounded-lg border border-slate-200/70">
-                        &ldquo;{interviewDrill.winningAnswerFormula}&rdquo;
-                      </p>
-                    </div>
-
-                    {/* The Interviewer's Verdict (The Result) */}
-                    <div className="pt-2 border-t border-slate-100 flex items-start gap-2 bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200/80">
-                      <span className="text-xs mt-0.5">💡</span>
-                      <div className="text-xs text-emerald-950 leading-relaxed">
-                        <strong className="text-emerald-900">The Result / Interviewer Perspective:</strong>{' '}
-                        <span>{interviewDrill.interviewerVerdict}</span>
-                      </div>
-                    </div>
-
-                    {/* Interactive 5-Round Mock Interview Launch Button */}
-                    <button
-                      type="button"
-                      onClick={() => setIsMockModalOpen(true)}
-                      className="w-full mt-2.5 py-3 px-4 bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:shadow-lg"
-                    >
-                      <Sparkles className="w-4 h-4 text-amber-300" />
-                      <span>Launch 5-Round Mock Interview for {job.company} (Interactive Simulator)</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Sidebar (4 columns) */}
-          <div className="lg:col-span-4 space-y-6">
-            {/* Quick Job Overview Card */}
-            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-xs space-y-4">
+          {/* Right 1/3 Sidebar */}
+          <aside className="lg:col-span-4 space-y-6">
+            {/* Job Summary Card */}
+            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-2xs space-y-4">
               <h3 className="text-sm font-bold uppercase tracking-wider text-[#202124]">
-                Job Overview
+                Job Summary
               </h3>
 
-              <div className="space-y-3.5 text-xs sm:text-sm">
-                <div>
-                  <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Employer</span>
-                  <span className="font-semibold text-[#202124]">{job.company}</span>
+              <dl className="space-y-3 text-xs sm:text-sm">
+                <div className="flex items-start justify-between gap-2">
+                  <dt className="text-[#5f6368]">Company</dt>
+                  <dd className="font-semibold text-[#202124] text-right">{job.company}</dd>
                 </div>
-
-                <div>
-                  <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Experience</span>
-                  <span className="font-medium text-[#202124]">
-                    {job.experienceLevel === 'Internship' ? 'Internship' : 'Entry/Early Career'}
-                  </span>
+                <div className="flex items-start justify-between gap-2">
+                  <dt className="text-[#5f6368]">Location</dt>
+                  <dd className="font-medium text-[#202124] text-right">
+                    {cleanLocationString(job.location || 'United States')}
+                  </dd>
                 </div>
-
-                <div>
-                  <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Employment Type</span>
-                  <span className="font-medium text-[#202124]">
-                    {job.employmentType === 'FULL_TIME' ? 'Full Time' : job.employmentType === 'INTERN' ? 'Internship' : job.employmentType}
-                  </span>
+                <div className="flex items-start justify-between gap-2">
+                  <dt className="text-[#5f6368]">Work Mode</dt>
+                  <dd className="font-medium text-[#202124] text-right">{workMode}</dd>
                 </div>
-
-                <div>
-                  <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Location</span>
-                  <span className="font-medium text-[#202124]">{job.location}</span>
+                <div className="flex items-start justify-between gap-2">
+                  <dt className="text-[#5f6368]">Experience</dt>
+                  <dd className="font-medium text-[#202124] text-right">
+                    {job.experienceLevel === 'Internship'
+                      ? 'Internship'
+                      : job.experienceLevel === 'New Grad'
+                      ? 'New Grad'
+                      : 'Entry-Level (0–2 YoE)'}
+                  </dd>
                 </div>
-
-                <div>
-                  <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Compensation</span>
-                  <span className="font-semibold text-[#137333]">{formatSalary(job.salary)}</span>
+                <div className="flex items-start justify-between gap-2">
+                  <dt className="text-[#5f6368]">Employment</dt>
+                  <dd className="font-medium text-[#202124] text-right">
+                    {job.employmentType === 'FULL_TIME'
+                      ? 'Full-time'
+                      : job.employmentType === 'INTERN'
+                      ? 'Internship'
+                      : job.employmentType || 'Full-time'}
+                  </dd>
                 </div>
-
-                <div>
-                  <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Date Posted</span>
-                  <span className="font-medium text-[#202124]">{job.datePosted}</span>
+                {salaryLabel && (
+                  <div className="flex items-start justify-between gap-2">
+                    <dt className="text-[#5f6368]">Compensation</dt>
+                    <dd className="font-semibold text-[#137333] text-right tabular-nums">{salaryLabel}</dd>
+                  </div>
+                )}
+                <div className="flex items-start justify-between gap-2">
+                  <dt className="text-[#5f6368]">Posted</dt>
+                  <dd className="font-medium text-[#202124] text-right tabular-nums">
+                    {job.datePosted || 'Recently'}
+                  </dd>
                 </div>
+              </dl>
 
-                <div>
-                  <span className="block text-[11px] text-[#5f6368] font-medium uppercase">Application Channel</span>
-                  <span className="font-medium text-[#202124]">Official Company Portal</span>
-                </div>
-              </div>
-
-              {/* Direct Apply Button in Sidebar (Desktop Only) */}
               <div className="pt-2 hidden lg:block">
                 {isExpired ? (
                   <button
+                    type="button"
                     onClick={onBack}
-                    className="w-full text-center text-xs sm:text-sm font-medium py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+                    className="w-full py-2.5 px-4 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold transition-colors cursor-pointer"
                   >
-                    <AlertCircle className="w-3.5 h-3.5" />
-                    <span>Browse Active Jobs</span>
+                    Browse Active Jobs
                   </button>
                 ) : (
                   <a
@@ -1123,148 +668,176 @@ export const JobDetailsPage: React.FC<JobDetailsPageProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackApplyClick(job)}
-                    className="w-full text-center text-xs sm:text-sm font-medium py-3 px-4 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white transition-all flex items-center justify-center gap-1.5 shadow-xs no-underline"
+                    className="w-full py-2.5 px-4 rounded-lg bg-[#1a73e8] hover:bg-[#1557b0] text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2 no-underline"
                   >
                     <span>{applyButtonText}</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
               </div>
             </div>
 
-            {/* Share this Job Card */}
-            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-xs space-y-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-[#202124]">
-                Share this Opening
-              </h3>
-              <p className="text-xs text-[#5f6368]">
-                Help a fellow early-career engineer or student find this opportunity:
-              </p>
-              <div className="pt-1">
-                <SocialShare job={job} compact={false} />
+            {/* Work Authorization Card */}
+            <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-2xs space-y-3">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#1a73e8]" />
+                <h3 className="text-sm font-bold uppercase tracking-wider text-[#202124]">
+                  Work Authorization
+                </h3>
               </div>
-              <div className="pt-2 border-t border-[#f1f3f4]">
-                <button
-                  onClick={handleCopyUrl}
-                  className="w-full text-xs font-medium py-2 px-3 rounded-lg border border-[#dadce0] bg-[#f8f9fa] hover:bg-[#f1f3f4] text-[#3c4043] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  {copiedUrl ? <Check className="w-3.5 h-3.5 text-[#137333]" /> : <Copy className="w-3.5 h-3.5 text-[#80868b]" />}
-                  <span>{copiedUrl ? 'Copied Link!' : 'Copy Permanent Job Link'}</span>
-                </button>
-              </div>
+
+              {(job.stemOptEVerified || job.eVerify || job.visaSponsorship || job.usCitizenOnly) ? (
+                <ul className="space-y-2 text-xs text-[#3c4043]">
+                  {(job.stemOptEVerified || job.eVerify) && (
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0" />
+                      <span>
+                        {job.stemOptEVerified
+                          ? 'STEM OPT Eligible (USCIS E-Verify)'
+                          : 'USCIS E-Verify Enrolled Employer'}
+                      </span>
+                    </li>
+                  )}
+                  {job.visaSponsorship && (
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#1a73e8] flex-shrink-0" />
+                      <span>Visa Sponsorship Mentioned</span>
+                    </li>
+                  )}
+                  {job.usCitizenOnly && (
+                    <li className="flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                      <span>US Citizenship Required</span>
+                    </li>
+                  )}
+                </ul>
+              ) : (
+                <p className="text-xs text-[#5f6368] leading-relaxed">
+                  Check the official application portal for specific work authorization and sponsorship eligibility requirements.
+                </p>
+              )}
             </div>
 
-            {/* Sidebar Ad Slot */}
+            {/* Sidebar AdSlot */}
             {adConfig.enabled && adConfig.detailSidebarAd && (
               <div className="my-2">
                 <AdSlot type="sidebar" config={adConfig} />
               </div>
             )}
 
-            {/* Related Early Career Jobs */}
+            {/* Similar Jobs */}
             {relatedJobs.length > 0 && (
-              <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-xs space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-[#202124]">
-                    {isExpired ? 'Recommended Active Openings' : 'Similar Opportunities'}
-                  </h3>
-                  {isExpired && (
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                      Active Now
-                    </span>
-                  )}
-                </div>
-                <div className="space-y-3">
-                  {relatedJobs.map((relJob) => (
-                    <div
-                      key={relJob.id}
-                      onClick={() => onSelectRelatedJob ? onSelectRelatedJob(relJob) : window.open(`/job/${relJob.id}`, '_blank')}
-                      className="p-3 rounded-xl border border-[#f1f3f4] hover:border-[#1a73e8] bg-[#f8f9fa] hover:bg-white transition-all cursor-pointer group"
-                    >
-                      <span className="text-[11px] font-semibold text-[#5f6368] group-hover:text-[#1a73e8] block">
-                        {relJob.company}
-                      </span>
-                      <h4 className="text-xs font-bold text-[#202124] group-hover:text-[#1a73e8] line-clamp-1 mb-1">
-                        {relJob.title}
-                      </h4>
-                      <div className="flex items-center justify-between text-[11px] text-[#80868b]">
-                        <span>{relJob.location}</span>
-                        <span className="text-[#137333] font-medium">{formatSalary(relJob.salary)}</span>
-                      </div>
-                    </div>
-                  ))}
+              <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-2xs space-y-3.5">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-[#202124]">
+                  {isExpired ? 'Active Similar Jobs' : 'Similar Jobs'}
+                </h3>
+                <div className="space-y-2.5">
+                  {relatedJobs.map((rel) => {
+                    const relTitle = sanitizeJobTitle(rel.title) || rel.title;
+                    const relSalary = formatDisclosedSalary(rel.salary, rel.salaryDisclosed);
+                    return (
+                      <a
+                        key={rel.id}
+                        href={`/job/${encodeURIComponent(rel.id)}`}
+                        onClick={(e) => {
+                          if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+                          e.preventDefault();
+                          if (onSelectRelatedJob) {
+                            onSelectRelatedJob(rel);
+                          } else {
+                            window.location.href = `/job/${encodeURIComponent(rel.id)}`;
+                          }
+                        }}
+                        className="block p-3.5 rounded-xl border border-[#e8eaed] hover:border-[#1a73e8] bg-[#f8f9fa] hover:bg-white transition-colors no-underline group"
+                      >
+                        <div className="text-xs font-semibold text-[#1a73e8]">{rel.company}</div>
+                        <div className="text-sm font-semibold text-[#202124] group-hover:text-[#1a73e8] line-clamp-1 mt-0.5">
+                          {relTitle}
+                        </div>
+                        <div className="flex items-center justify-between text-[11px] text-[#5f6368] mt-1.5 gap-2">
+                          <span className="truncate">{rel.location || resolveWorkMode(rel)}</span>
+                          {relSalary && (
+                            <span className="text-[#137333] font-semibold tabular-nums flex-shrink-0">
+                              {relSalary}
+                            </span>
+                          )}
+                        </div>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
-            {/* Internal Linking Mesh: Relevant Career Field Guides for this Role */}
-            {(() => {
-              const contextualArticles = getContextualArticlesForJob(job, CAREER_ARTICLES, 2);
-              if (contextualArticles.length === 0) return null;
-
-              return (
-                <div className="bg-gradient-to-br from-emerald-50/60 to-white rounded-2xl border border-emerald-200 p-5 shadow-2xs space-y-3.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <BookOpen className="w-4 h-4 text-emerald-700" />
-                      <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-900">
-                        Interview &amp; Strategy Guides
-                      </h3>
-                    </div>
-                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-200">
-                      Peer-Reviewed &amp; Verified
-                    </span>
-                  </div>
-
-                  <p className="text-[11px] text-slate-600 leading-relaxed">
-                    Peer-reviewed engineering field guides tailored to prepare for {job.category?.toLowerCase() || 'technical'} screening rounds:
-                  </p>
-
-                  <div className="space-y-2.5">
-                    {contextualArticles.map((art) => (
-                      <a
-                        key={art.id}
-                        href={`/insights/${art.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 rounded-xl border border-emerald-200/80 bg-white hover:border-emerald-500 hover:shadow-xs transition-all block group text-left no-underline"
-                      >
-                        <div className="flex items-center justify-between text-[10px] text-emerald-700 font-bold mb-1">
-                          <span>{art.tag}</span>
-                          <span className="text-slate-400 font-medium">{art.readTime}</span>
-                        </div>
-                        <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
-                          {art.title}
-                        </h4>
-                        <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
-                          <span>By {art.author.name}</span>
-                          <span className="text-emerald-700 font-bold flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
-                            Read Guide &rarr;
-                          </span>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-
-                  <div className="pt-1">
-                    <a
-                      href="/insights"
-                      className="text-center block text-[11px] font-bold text-emerald-800 hover:text-emerald-900 py-1.5 hover:underline"
-                    >
-                      Browse all {CAREER_ARTICLES.length} Technical Guides &rarr;
-                    </a>
-                  </div>
+            {/* Contextual Editorial Field Guides */}
+            {contextualArticles.length > 0 && (
+              <div className="bg-white rounded-2xl border border-[#dadce0] p-6 shadow-2xs space-y-3">
+                <div className="flex items-center gap-1.5">
+                  <BookOpen className="w-4 h-4 text-[#1a73e8]" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#202124]">
+                    Career &amp; Interview Guides
+                  </h3>
                 </div>
-              );
-            })()}
-          </div>
+                <div className="space-y-2.5">
+                  {contextualArticles.map((art) => (
+                    <a
+                      key={art.id}
+                      href={`/insights/${art.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-3 rounded-xl border border-[#e8eaed] hover:border-[#1a73e8] bg-[#f8f9fa] hover:bg-white transition-colors no-underline group"
+                    >
+                      <div className="text-[11px] font-semibold text-[#1a73e8]">{art.tag}</div>
+                      <div className="text-xs font-bold text-[#202124] group-hover:text-[#1a73e8] line-clamp-2 mt-0.5 leading-snug">
+                        {art.title}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
         </div>
       </main>
 
-      {/* 5-Round Mock Interview Modal Simulator */}
-      {isMockModalOpen && (
-        <MockInterviewModal job={job} onClose={() => setIsMockModalOpen(false)} />
-      )}
+      {/* Sticky Mobile Apply Bar */}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xs border-t border-[#dadce0] px-4 py-2.5 flex items-center justify-between gap-3">
+        {onToggleSave && (
+          <button
+            type="button"
+            onClick={() => onToggleSave(job.id)}
+            aria-label={isSaved ? 'Remove from saved jobs' : 'Save job'}
+            className={`p-2.5 rounded-lg border transition-colors cursor-pointer ${
+              isSaved
+                ? 'bg-[#fef7e0] border-[#f9ab00] text-[#b06000]'
+                : 'bg-white border-[#dadce0] text-[#5f6368]'
+            }`}
+          >
+            <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-[#f9ab00]' : ''}`} />
+          </button>
+        )}
+
+        {isExpired ? (
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex-1 py-2.5 px-4 rounded-lg bg-amber-600 text-white text-sm font-semibold text-center cursor-pointer"
+          >
+            Position Closed — Browse Jobs
+          </button>
+        ) : (
+          <a
+            href={job.applyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackApplyClick(job)}
+            className="flex-1 py-2.5 px-4 rounded-lg bg-[#1a73e8] hover:bg-[#1557b0] text-white text-sm font-semibold flex items-center justify-center gap-2 no-underline"
+          >
+            <span className="truncate">{applyButtonText}</span>
+            <ExternalLink className="w-4 h-4 flex-shrink-0" />
+          </a>
+        )}
+      </div>
     </div>
   );
 };
