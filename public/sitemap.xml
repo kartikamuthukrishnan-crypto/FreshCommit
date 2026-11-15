@@ -154,6 +154,84 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/insights/live-coding-pair-programming-under-pressure</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/high-impact-github-projects-entry-level</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/tech-cover-letter-blueprint-recruiters-read</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/linkedin-cold-outreach-engineering-managers</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/frontend-engineer-roadmap-essential-skills</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/best-tech-stacks-entry-level-software-engineers-2026</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/contract-to-hire-tech-staffing-agencies-junior-swe-2026</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/fortune-500-consulting-enterprise-entry-level-swe-2026</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/entry-level-software-engineer-jobs-no-experience-2026</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/ai-engineering-llm-integration-junior-swe</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/sql-mastery-query-tuning-junior-backend</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/engineering-mentorship-evaluation-matrix</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/top-tech-employers-hiring-0-experience-us-2026</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/insights/cs-vs-self-taught-vs-bootcamp-2026</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -184,31 +262,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/insights/live-coding-pair-programming-under-pressure</loc>
+    <loc>https://www.freshcommits.com/insights/remote-first-scale-up-entry-level-swe-2026</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/insights/high-impact-github-projects-entry-level</loc>
-    <lastmod>2026-11-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/insights/tech-cover-letter-blueprint-recruiters-read</loc>
-    <lastmod>2026-11-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/insights/linkedin-cold-outreach-engineering-managers</loc>
-    <lastmod>2026-11-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/insights/frontend-engineer-roadmap-essential-skills</loc>
+    <loc>https://www.freshcommits.com/insights/software-engineering-internship-2027-guide</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -244,19 +304,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/insights/ai-engineering-llm-integration-junior-swe</loc>
-    <lastmod>2026-11-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/insights/sql-mastery-query-tuning-junior-backend</loc>
-    <lastmod>2026-11-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/insights/engineering-mentorship-evaluation-matrix</loc>
+    <loc>https://www.freshcommits.com/insights/tech-recruiting-season-entry-level-hiring-calendar-2026</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -281,6 +329,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/typescript-enterprise-patterns-react-node</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/insights/unicorns-fintech-entry-level-swe-2026</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>

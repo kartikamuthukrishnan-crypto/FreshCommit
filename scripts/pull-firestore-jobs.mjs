@@ -214,14 +214,12 @@ function generateSitemap(cloudJobs) {
     { loc: 'https://www.freshcommits.com/disclaimer/', priority: '0.60', changefreq: 'monthly' }
   ];
 
+  const articlesDir = path.join(rootDir, 'src', 'data', 'articles');
   const articleFiles = [
     path.join(rootDir, 'src', 'data', 'careerArticles.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'pathwaysAndInterviews.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'applicationAndOutreach.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'specializedAndWorkplace.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'expandedFlagshipArticles.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'technicalMasteryArticles.ts'),
-    path.join(rootDir, 'src', 'data', 'articles', 'usSearchDominanceArticles.ts')
+    ...(fs.existsSync(articlesDir)
+      ? fs.readdirSync(articlesDir).filter((f) => f.endsWith('.ts')).map((f) => path.join(articlesDir, f))
+      : [])
   ];
   const allArticleIds = [];
   for (const f of articleFiles) {
