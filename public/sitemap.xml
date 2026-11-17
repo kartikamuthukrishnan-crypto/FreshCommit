@@ -3,79 +3,79 @@
   <!-- Core Application & Index Hubs -->
   <url>
     <loc>https://www.freshcommits.com/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/jobs</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/salary-guide</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/project-blueprints</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/career-tools</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/tools</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/about/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/contact/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/privacy/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/privacy-policy/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/terms/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/disclaimer/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
@@ -83,342 +83,354 @@
   <!-- Editorial Career Insights Guides -->
   <url>
     <loc>https://www.freshcommits.com/insights/zero-experience-software-engineering-resume</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/beating-1000-applicant-tech-job-market</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/take-home-coding-challenge-playbook</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/git-hygiene-day-one</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/rsu-base-equity-decoded</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/standout-portfolio-architecture</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/reverse-interviewing-engineering-teams</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/junior-swe-resume-ats-formula</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/entry-level-system-design</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/acing-technical-screens</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/first-90-days-onboarding</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/production-observability-debugging</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/live-coding-pair-programming-under-pressure</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/high-impact-github-projects-entry-level</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/tech-cover-letter-blueprint-recruiters-read</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/linkedin-cold-outreach-engineering-managers</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/frontend-engineer-roadmap-essential-skills</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/best-tech-stacks-entry-level-software-engineers-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/contract-to-hire-tech-staffing-agencies-junior-swe-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/fortune-500-consulting-enterprise-entry-level-swe-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/entry-level-software-engineer-jobs-no-experience-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/ai-engineering-llm-integration-junior-swe</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/sql-mastery-query-tuning-junior-backend</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/engineering-mentorship-evaluation-matrix</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/top-tech-employers-hiring-0-experience-us-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/cs-vs-self-taught-vs-bootcamp-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/tech-apprenticeships-new-grad-programs</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/non-cs-stem-transition-software-engineer</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/entry-level-coding-interview-dsa-benchmarks</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/behavioral-tech-interviews-star-method</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/remote-first-scale-up-entry-level-swe-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/software-engineering-internship-2027-guide</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/break-into-entry-level-data-engineering</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/entry-level-cybersecurity-soc-vs-pentester</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/junior-devops-cloud-role-beyond-certifications</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/stand-out-entry-level-remote-software-engineer</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/common-mistakes-new-grad-engineers-avoid</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/tech-recruiting-season-entry-level-hiring-calendar-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/docker-containerization-production-junior-guide</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/cicd-github-actions-testing-pipeline-entry-level</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/api-design-rest-graphql-standards-junior-swe</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/typescript-enterprise-patterns-react-node</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/unicorns-fintech-entry-level-swe-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/workday-ats-resume-formatting-junior-swe-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/entry-level-swe-salary-negotiation-scripts-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/ai-assisted-coding-interviews-junior-swe-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/tech-background-checks-employment-verification-junior-swe</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/how-to-spot-ghost-tech-jobs-junior-developer-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/stem-opt-f1-visa-junior-swe-h1b-sponsorship-guide-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/how-to-land-entry-level-swe-jobs-requiring-experience-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/entry-level-swe-application-funnel-daily-routine-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/us-tech-hubs-entry-level-swe-salary-cost-of-living-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/junior-developer-90-day-probation-pip-survival-guide-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/junior-developer-portfolio-projects-that-get-hired-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/how-to-pass-codesignal-gca-tech-online-assessments-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.freshcommits.com/insights/junior-software-engineer-system-design-lld-blueprint-2026</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-roblox-8384186</loc>
+    <lastmod>2026-11-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5213093007</loc>
+    <lastmod>2026-11-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5296601007</loc>
     <lastmod>2026-11-16</lastmod>
@@ -433,6 +445,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-robinhood-8385931</loc>
+    <lastmod>2026-11-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5295936007</loc>
     <lastmod>2026-11-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -463,6 +481,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-ramp-6e717b06-6613-42ad-a1ee-f852a305fa37</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-smartrecruiters-servicenow-744000161548289</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -541,6 +565,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-stripe-8384287</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-lever-zoox-0f42ac76-3821-4805-8b59-446477d1e1db</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -654,6 +684,12 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-brex-8936403002</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-roblox-8356764</loc>
     <lastmod>2026-11-11</lastmod>
     <changefreq>daily</changefreq>
@@ -672,6 +708,12 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-smartrecruiters-westerndigital-744000160975819</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-vanta-383e20b0-b2c5-4c4f-9406-46f0a671a7bc</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>daily</changefreq>
@@ -679,6 +721,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-dropbox-8328534</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-lever-palantir-eb496d6a-a960-43d3-a09b-e3843052f54e</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -727,12 +775,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/manual-1794290752637</loc>
-    <lastmod>2026-11-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-ashby-cursor-06675830-9b99-4347-8436-8110ca9c99a4</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -936,6 +978,12 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-ashby-notion-43ffba97-b64a-4c6a-ac13-c803253c9413</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-cohere-735f26a3-9456-49e2-8f84-23804534cfe4</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>daily</changefreq>
@@ -1063,6 +1111,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-twitch-8931343002</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-twitch-8929545002</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1224,6 +1278,24 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-ashby-ramp-d8925f84-562f-470c-a5bd-4f6c20009361</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-ashby-elevenlabs-10e6475e-67ef-4621-8718-7b087c354651</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-ashby-plaid-9d8a139c-8f99-4049-b7bd-8de693820d7b</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-anthropic-5468947008</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>daily</changefreq>
@@ -1285,6 +1357,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-stripe-8328662</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-stripe-8333074</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1380,7 +1458,19 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-stripe-8332676</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-databricks-8829039002</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-rubrik-8267709</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1398,7 +1488,19 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-ashby-baseten-ed8ab178-e7a4-4524-8714-7ef55d574c7d</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/manual-1793036650132</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-twitch-8917377002</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1411,6 +1513,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-gitlab-8771512002</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-waymo-8287385</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1477,6 +1585,12 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-openai-5ef10e09-2b3f-41de-b77c-829787302101</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-ashby-openai-1441816f-6429-426e-8f6d-8e5930a818f9</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1782,6 +1896,12 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-gitlab-8889193002</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-doordashusa-8192190</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>daily</changefreq>
@@ -1789,6 +1909,18 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-doordashusa-8191886</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-doordashusa-8161616</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-doordashusa-8138486</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1873,6 +2005,18 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-lyft-8817974002</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-affirm-8010617003</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-twilio-8026211</loc>
     <lastmod>2026-10-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
