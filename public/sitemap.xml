@@ -420,48 +420,6 @@
 
   <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->
   <url>
-    <loc>https://www.freshcommits.com/job/sync-smartrecruiters-servicenow-744000162380039</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-smartrecruiters-westerndigital-744000162353069</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5300647007</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-smartrecruiters-boschgroup-744000162350848</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-smartrecruiters-boschgroup-744000162347249</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-lever-palantir-e8bfc01c-620c-4b6a-b3f8-cd275228db06</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-twilio-8385593</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-airbnb-8360478</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>daily</changefreq>
@@ -480,12 +438,6 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-airbnb-8397762</loc>
-    <lastmod>2026-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-toast-8359240</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>daily</changefreq>
@@ -499,12 +451,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-twilio-8396809</loc>
-    <lastmod>2026-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5274037007</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -534,25 +480,19 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5298282007</loc>
-    <lastmod>2026-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-elevenlabs-0547cf3a-856f-4db2-8307-73db634c4096</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-roblox-8384186</loc>
-    <lastmod>2026-11-16</lastmod>
+    <loc>https://www.freshcommits.com/job/sync-smartrecruiters-boschgroup-744000162099143</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-ashby-posthog-1464036f-94d5-4dbd-aef8-fe99246a26d4</loc>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-roblox-8384186</loc>
     <lastmod>2026-11-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -589,18 +529,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-ramp-6e717b06-6613-42ad-a1ee-f852a305fa37</loc>
-    <lastmod>2026-11-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-lever-zoox-895ed1fe-9547-40d1-aec5-ffed2a2f82e3</loc>
-    <lastmod>2026-11-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-lever-zoox-839d987e-2236-4efe-8753-ee208b8d4e29</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1332,25 +1260,7 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-lever-palantir-6b4b087c-4fc6-476d-9e72-e1bc6ac6c62a</loc>
-    <lastmod>2026-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-elevenlabs-10e6475e-67ef-4621-8718-7b087c354651</loc>
-    <lastmod>2026-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-ashby-elevenlabs-1b90a2b2-1352-458d-b2b7-3900f6e02df5</loc>
-    <lastmod>2026-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-ashby-elevenlabs-3abf96ca-2937-4290-9d23-5208aece08b2</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1536,12 +1446,6 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-roblox-8283641</loc>
-    <lastmod>2026-10-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-affirm-8040751003</loc>
     <lastmod>2026-10-27</lastmod>
     <changefreq>daily</changefreq>
@@ -1573,12 +1477,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-twitch-8917377002</loc>
-    <lastmod>2026-10-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-roblox-8259453</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1686,12 +1584,6 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-ashby-baseten-7428d7cc-36d7-4d02-b19a-bd558fba6751</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-openai-5ef10e09-2b3f-41de-b77c-829787302101</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>daily</changefreq>
@@ -1746,12 +1638,6 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-ashby-baseten-64bdba5c-8cf6-473f-814c-1e86c8c66681</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/manual-1792603963894</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>daily</changefreq>
@@ -1795,12 +1681,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-gusto-8257486</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-doordashusa-8304878</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1944,12 +1824,6 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-doordashusa-8283735</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-gitlab-8889193002</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>daily</changefreq>
@@ -1957,12 +1831,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-waymo-8279620</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-doordashusa-8192190</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -2018,18 +1886,6 @@
   <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-waymo-8262154</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-twitch-8879673002</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-stripe-8243617</loc>
-    <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>

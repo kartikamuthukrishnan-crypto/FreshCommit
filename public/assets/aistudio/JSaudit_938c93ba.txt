@@ -1,0 +1,61 @@
+Acting as the Google for Jobs Policy & Structured Data Review Lead, here is my formal audit of https://www.freshcommits.com/ based on live inspection of your HTTP responses, robots.txt, sitemap.xml, /data/jobs.json, Googlebot-rendered /job/* pages, and client-side SPA schema logic.
+Audit Verdict: HOLD — Not Approved for Full Indexing Trust Until Critical Fixes Are Made
+FreshCommits already implements several important foundations (clean JobPosting JSON-LD on server-rendered job pages, directApply: false, HTTP 410 Gone on expired jobs, and clear trust pages like /about/, /contact/, and /privacy/).
+However, 3 critical blockers and 4 policy/quality warnings currently risk Structured Data Manual Actions, Rich Result disqualification, or algorithmic demotion in favor of direct employer ATS listings.
+1. Critical Blockers (Must Fix Before Approval)
+1.1 Dynamic Rendering Divergence & Remote jobLocation Fabrication
+What I observed:
+Requesting /job/sync-greenhouse-twitch-8943553002 as Googlebot returns a 15,890-byte static SSR HTML page with the job description in <body> and @graph (JobPosting + BreadcrumbList).
+Requesting the exact same URL as a standard Chrome browser returns a 381,489-byte React SPA shell (Loading verified 0–2 YoE software engineer jobs…) that hydrates via client-side JS (injectSchema() in <head>).
+The dangerous mismatch: On remote jobs where city is null (e.g., /job/sync-greenhouse-airbnb-8386083, Remote, USA), the Googlebot SSR JSON-LD properly uses jobLocationType: "TELECOMMUTE" + applicantLocationRequirements and omits jobLocation. However, your client-side injectSchema() script still runs for non-SSR/SPA views and fabricates a fake physical jobLocation ("San Francisco", "CA" for US or "Belfast", "Northern Ireland" for GB) whenever location contains "remote".
+Google for Jobs Policy Risk: Google deprecated Dynamic Rendering and actively flags Structured Data / Content Parity mismatches and fabricated physical addresses on remote-only jobs.
+Required Fix:
+Serve the same unified SSR HTML + hydrated app to both users and Googlebot.
+Remove the "San Francisco, CA" / "Belfast" fallback in injectSchema() for TELECOMMUTE jobs—only emit jobLocation if the role genuinely has a physical/hybrid office.
+1.2 Expired (410) Jobs Still in sitemap.xml & Dead Employer applyUrls
+What I observed:
+Out of 172 jobs in /data/jobs.json, 17 listings have validThrough earlier than 2026-11-18 (e.g., manual-1792256934221, validThrough: "2026-11-16").
+Positively, visiting /job/manual-1792256934221 correctly returns HTTP 410 Gone.
+Negatively: All 17 expired 410 URLs are still listed in /sitemap.xml and remain marked "status": "ACTIVE" inside /data/jobs.json.
+Live destination link rot: Testing active listings showed broken/stale apply targets:
+sync-greenhouse-airbnb-8386083 (https://careers.airbnb.com/positions/8386083?gh_jid=8386083) returns 404 Not Found on Airbnb's site.
+manual-1794582783500 (Eeho Oracle Cloud job 345087) redirects to a generic job search portal instead of the specific job requisition.
+Google for Jobs Policy Risk: Leaving filled/404 employer jobs active and submitting 410 URLs in sitemap.xml triggers Expired Job & Broken Application Path quality demotions. Since Greenhouse/Ashby/Workday already feed Google directly, Google's deduplication engine will suppress FreshCommits whenever your freshness lags behind the employer's ATS.
+Required Fix:
+Automatically prune any job with validThrough < today or a 410 status from sitemap.xml and /data/jobs.json.
+Run a scheduled ATS link-liveness verifier (checking for 404s, "position closed" text, or redirects to generic /jobsearch pages) and auto-expire dead jobs immediately.
+1.3 Non-www vs. www Canonical Split (No Server-Side 301)
+What I observed:
+https://freshcommits.com/ returns HTTP 200 OK and relies on a client-side JavaScript redirect (window.location.replace(...)) to move users to https://www.freshcommits.com/.
+On the homepage, <link rel="canonical"> points to https://www.freshcommits.com/, while default-website-schema JSON-LD sets "url": "https://freshcommits.com/" (non-www), and robots.txt declares both https://www.freshcommits.com/sitemap.xml and https://freshcommits.com/sitemap.xml.
+Required Fix:
+Configure a Cloudflare/server-level HTTP 301 permanent redirect from freshcommits.com/* → www.freshcommits.com/*, standardize all JSON-LD URLs to https://www.freshcommits.com/, and keep only the www sitemap in robots.txt.
+2. High-Priority Policy & Schema Warnings
+hiringOrganization.logo Relies on google.com/s2/favicons:
+Current JSON-LD sets "logo": "https://www.google.com/s2/favicons?domain=twitch.tv&sz=128".
+Google recommends official, stably hosted brand logos (minimum 112×112px). Hotlinking Google's undocumented s2/favicons endpoint often returns low-res favicons or generic globe icons and should be replaced with cached/verified company logo assets (or omitted if a clean logo isn't available).
+Silent Salary Rewriting in injectSchema():
+Your client-side script contains a fallback: if (countryCode === 'US' && (sCurr === 'INR' || sMin >= 500000)) { sCurr = 'USD'; if (sMin >= 500000) { sMin = 75000; sMax = 115000; } }.
+Never silently rewrite salary values to hardcoded defaults ($75,000–$115,000) in JSON-LD—if the structured salary does not match what is displayed on the page, it violates Misleading Compensation / Parity rules. Fix currency normalization at database ingestion time, or omit baseSalary when currency/units are uncertain.
+Hardcoded monthsOfExperience: 24:
+Currently, any job with maxYearsExperience of 1 or 2 outputs "monthsOfExperience": 24 (2 years), even when the visible SSR badge reads Experience: Entry Level. Use the exact minimum/maximum months from the job post, or omit experienceRequirements if it's a 0–2 YoE range rather than forcing 24 months on 0–1 YoE new-grad roles.
+Data Hygiene on country and state Fields:
+/data/jobs.json mixes "US" (149), "UNITED STATES" (16), "UNITED STATES OF AMERICA" (4), and "USA" (2), and puts "USA" inside state for some remote listings (Airbnb). Normalize all country values to strict ISO 3166-1 alpha-2 codes at ingestion.
+3. What You Are Doing Right (Keep These)
+HTTP 410 Gone for expired job URLs (gold standard for Google for Jobs removal).
+Accurate directApply: false on external ATS links, with a clear, unobstructed Apply - [Company] link near the top of the SSR page.
+Clean robots.txt crawl-budget rules blocking ?search=*, ?admin=*, and ?view=admin.
+Authentic editorial & trust pages (/about/, /contact/, /privacy/, /terms/, /disclaimer/) and original career guides, which establish strong aggregator legitimacy.
+Pre-Reapproval Action Checklist
+
+Replace freshcommits.com JS redirect with an edge 301 redirect to www.freshcommits.com and unify JSON-LD/sitemap URLs.
+
+Remove fake "San Francisco, CA" / "Belfast" jobLocation fallbacks and hardcoded $75k–$115k salary rewrites from injectSchema().
+
+Unify SSR and client rendering so Googlebot and users receive identical JobPosting JSON-LD and visible page content.
+
+Exclude expired (validThrough < today / 410) jobs from sitemap.xml and /data/jobs.json.
+
+Add automated ATS link-liveness checks to catch 404s (e.g., expired Greenhouse/Airbnb requisitions) and generic portal redirects before Google crawls them.
+
+Replace google.com/s2/favicons in hiringOrganization.logo with verified high-res company logos.

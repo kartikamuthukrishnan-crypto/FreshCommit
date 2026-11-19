@@ -46,12 +46,70 @@ export function normalizeJobTitleForGoogle(rawTitle: string): string {
   return clean || sanitized;
 }
 
+const ISO_COUNTRY_ALIASES: Record<string, string> = {
+  US: 'US',
+  USA: 'US',
+  'U.S.': 'US',
+  'UNITED STATES': 'US',
+  'UNITED STATES OF AMERICA': 'US',
+  GB: 'GB',
+  UK: 'GB',
+  'UNITED KINGDOM': 'GB',
+  CA: 'CA',
+  CANADA: 'CA',
+  IN: 'IN',
+  INDIA: 'IN',
+  DE: 'DE',
+  GERMANY: 'DE',
+  AU: 'AU',
+  AUSTRALIA: 'AU',
+  FR: 'FR',
+  FRANCE: 'FR',
+  IE: 'IE',
+  IRELAND: 'IE',
+  NL: 'NL',
+  NETHERLANDS: 'NL',
+  SG: 'SG',
+  SINGAPORE: 'SG',
+  NZ: 'NZ',
+  'NEW ZEALAND': 'NZ',
+};
+
+function normalizeIsoCountry(raw?: string): string {
+  const key = String(raw || '').trim().toUpperCase();
+  return ISO_COUNTRY_ALIASES[key] || (COUNTRY_NAME_MAP[key] ? key : 'US');
+}
+
+function isVerifiedSchemaLogoUrl(url?: string): boolean {
+  if (!url) return false;
+  const trimmed = url.trim();
+  if (!trimmed.startsWith('https://')) return false;
+  const lower = trimmed.toLowerCase();
+  if (
+    lower.includes('google.com/s2/favicons') ||
+    lower.includes('ui-avatars.com') ||
+    lower.includes('logo.clearbit.com')
+  ) {
+    return false;
+  }
+  return true;
+}
+
 /**
  * Generates official Google JobPosting JSON-LD structured data conforming
  * to Google Search Central guidelines (https://developers.google.com/search/docs/appearance/structured-data/job-posting)
  */
 export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
   const schemaTitle = normalizeJobTitleForGoogle(job.title || 'Software Engineer');
+
+  const hiringOrg: Record<string, any> = {
+    '@type': 'Organization',
+    name: job.company,
+    sameAs: job.companyWebsite || undefined,
+  };
+  if (isVerifiedSchemaLogoUrl(job.companyLogo)) {
+    hiringOrg.logo = job.companyLogo;
+  }
 
   const schema: Record<string, any> = {
     '@context': 'https://schema.org',
@@ -69,46 +127,35 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
     url: `https://www.freshcommits.com/job/${encodeURIComponent(job.id)}`,
     sameAs: job.applyUrl || undefined,
     directApply: false,
-    hiringOrganization: {
-      '@type': 'Organization',
-      name: job.company,
-      sameAs: job.companyWebsite || undefined,
-      logo: job.companyLogo || undefined,
-    },
-    experienceRequirements: {
-      '@type': 'OccupationalExperienceRequirements',
-      monthsOfExperience: (job.maxYearsExperience === 0 ? 0 : (job.maxYearsExperience <= 2 ? 24 : job.maxYearsExperience * 12)),
-    },
+    hiringOrganization: hiringOrg,
   };
 
-  // Handle Remote / Telecommute vs Physical Location for Google
-  let countryCode = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
-  const isIndianaLoc = (job.state === 'IN' || String(job.location || '').toLowerCase().includes('indiana') || String(job.location || '').toLowerCase().includes('indianapolis'));
-  if (isIndianaLoc && (countryCode === 'IN' || !job.country || job.country === 'US')) {
-    countryCode = 'US';
+  // Emit exact monthsOfExperience only when unambiguous (0 for Internship/0 YoE, 12 for strict 1 YoE)
+  if (job.maxYearsExperience === 0 || job.experienceLevel === 'Internship') {
+    schema.experienceRequirements = {
+      '@type': 'OccupationalExperienceRequirements',
+      monthsOfExperience: 0,
+    };
+  } else if (job.maxYearsExperience === 1) {
+    schema.experienceRequirements = {
+      '@type': 'OccupationalExperienceRequirements',
+      monthsOfExperience: 12,
+    };
   }
-  if (countryCode === 'WORLDWIDE' || countryCode === 'GLOBAL' || countryCode === 'ANYWHERE' || !COUNTRY_NAME_MAP[countryCode]) {
-    countryCode = 'US';
-  }
+
+  // Handle Remote / Telecommute vs Physical Location cleanly
+  const countryCode = normalizeIsoCountry(job.applicantLocationRequirements || job.country || 'US');
   const countryName = COUNTRY_NAME_MAP[countryCode] || 'United States';
 
-  // Handle Base Salary (only when disclosed / positive min)
-  if (job.salaryDisclosed !== false && job.salary && job.salary.min > 0) {
-    let salaryCurrency = job.salary.currency || 'USD';
-    let minSal = job.salary.min;
-    let maxSal = job.salary.max || job.salary.min;
-
-    if (countryCode === 'US' && (salaryCurrency === 'INR' || minSal >= 500000)) {
-      salaryCurrency = 'USD';
-      if (minSal >= 500000) {
-        minSal = 75000;
-        maxSal = 115000;
-      }
-    } else if (countryCode === 'IN' && salaryCurrency === 'USD' && minSal < 50000) {
-      salaryCurrency = 'INR';
-      minSal = 600000;
-      maxSal = 1200000;
-    }
+  // Emit baseSalary strictly matching displayed compensation (no silent rewriting)
+  if (job.salaryDisclosed !== false && job.salary && typeof job.salary.min === 'number' && job.salary.min > 0) {
+    const salaryCurrency = (job.salary.currency || 'USD').toUpperCase();
+    const minSal = job.salary.min;
+    const maxSal = job.salary.max && job.salary.max >= minSal ? job.salary.max : minSal;
+    const unitText =
+      job.salary.unit === 'HOUR' && minSal >= 1000
+        ? 'YEAR'
+        : job.salary.unit || 'YEAR';
 
     schema.baseSalary = {
       '@type': 'MonetaryAmount',
@@ -117,7 +164,7 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
         '@type': 'QuantitativeValue',
         minValue: minSal,
         maxValue: maxSal,
-        unitText: job.salary.unit || 'YEAR',
+        unitText,
       },
     };
   }
@@ -130,26 +177,32 @@ export function generateJobPostingSchema(job: JobPosting): Record<string, any> {
     };
   } else {
     const cleanLoc = cleanLocationString(String(job.location || ''));
-    const rawLocParts = cleanLoc.split(',');
-    let rawCity = cleanCityString(String(job.city || rawLocParts[0]?.trim() || 'New York'));
-    if (rawLocParts.length > 1 && rawLocParts[0].trim()) {
-      rawCity = cleanCityString(rawLocParts[0].trim());
-    }
-    let rawState = (rawLocParts[1]?.trim() || job.state || 'NY').replace(/\s*\/.*$/, '').replace(/[^A-Za-z\s]/g, '').trim();
-    if (!rawState) rawState = 'NY';
+    const rawLocParts = cleanLoc.split(',').map((s) => s.trim()).filter(Boolean);
+    const badStateTokens = /^(?:us|usa|united states|united states of america|remote|global|worldwide)$/i;
 
-    schema.jobLocation = {
-      '@type': 'Place',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: rawCity,
-        addressRegion: rawState,
-        addressCountry: countryCode === 'GB' ? 'GB' : (job.country || 'US'),
-        postalCode: (job.postalCode && String(job.postalCode).trim())
-          ? String(job.postalCode).trim()
-          : (rawCity.toLowerCase().includes('san francisco') || rawState === 'CA' ? '94105' : undefined),
-      },
-    };
+    const rawCity = cleanCityString(String(job.city || rawLocParts[0] || ''));
+    const candidateState = String(job.state || rawLocParts[1] || '')
+      .replace(/\s*\/.*$/, '')
+      .replace(/[^A-Za-z\s]/g, '')
+      .trim();
+    const cleanState = candidateState && !badStateTokens.test(candidateState) ? candidateState : undefined;
+    const addressCountry = normalizeIsoCountry(job.country || countryCode);
+
+    if (rawCity && !badStateTokens.test(rawCity)) {
+      schema.jobLocation = {
+        '@type': 'Place',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: rawCity,
+          addressRegion: cleanState,
+          addressCountry,
+          postalCode:
+            job.postalCode && String(job.postalCode).trim()
+              ? String(job.postalCode).trim()
+              : undefined,
+        },
+      };
+    }
   }
 
   return schema;

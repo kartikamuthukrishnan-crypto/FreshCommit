@@ -23,4 +23,3 @@ Disallow: /*?view=admin
 
 # Direct sitemap index for search engines & job crawlers
 Sitemap: https://www.freshcommits.com/sitemap.xml
-Sitemap: https://freshcommits.com/sitemap.xml

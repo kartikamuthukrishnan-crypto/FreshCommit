@@ -42,6 +42,11 @@ jobs:
           MAX_AGE_DAYS: '45'
         run: node scripts/sync-ats-jobs.mjs
 
+      - name: Verify Employer Apply Links & Prune Dead/Expired Jobs
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: node scripts/verify-job-links.mjs
+
       - name: Refresh public/data/jobs.json and public/sitemap.xml
         if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
         run: node scripts/pull-firestore-jobs.mjs

@@ -449,7 +449,7 @@ export default function App() {
 
       if (targetJobId) {
         targetJobId = targetJobId.trim();
-        const idMatch = targetJobId.match(/(manual-\d+|job-[a-z0-9-]+|ext-[a-z0-9-]+|sync-[a-z0-9-]+)/i);
+        const idMatch = targetJobId.match(/(manual-\d+|job-[a-z0-9_-]+|ext-[a-z0-9_-]+|sync-[a-z0-9_-]+|sr-[a-z0-9_-]+)/i);
         if (idMatch) {
           targetJobId = idMatch[1];
         } else {
@@ -457,7 +457,13 @@ export default function App() {
         }
         const lowerTarget = targetJobId.toLowerCase();
 
-        // 0. Check sessionStorage for instant 0-cost retrieval (0ms latency, 0 database reads)
+        // 0. Prioritize edge SSR preloaded job for strict 1:1 SSR/hydration parity
+        const preloaded = (window as any).__PRELOADED_JOB__;
+        if (preloaded && preloaded.id && preloaded.id.toLowerCase() === lowerTarget) {
+          return sanitizeJobPosting(preloaded);
+        }
+
+        // 1. Check sessionStorage for instant 0-cost retrieval (0ms latency, 0 database reads)
         try {
           const sessionRaw = sessionStorage.getItem(`job_${targetJobId}`) || sessionStorage.getItem('freshcommit_last_job');
           if (sessionRaw) {
@@ -467,12 +473,6 @@ export default function App() {
             }
           }
         } catch (_) {}
-
-        // 1. Check preloaded job from index.html direct crawler hydration
-        const preloaded = (window as any).__PRELOADED_JOB__;
-        if (preloaded && preloaded.id && preloaded.id.toLowerCase() === lowerTarget) {
-          return preloaded;
-        }
 
         // 2. Check INITIAL_JOBS
         const inInitial = INITIAL_JOBS.find((j) => j.id.toLowerCase() === lowerTarget);

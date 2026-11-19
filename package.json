@@ -9,6 +9,8 @@
     "sync-jobs": "node scripts/pull-firestore-jobs.mjs",
     "sync:jobs": "node scripts/sync-ats-jobs.mjs",
     "sync:jobs:dry": "DRY_RUN=true node scripts/sync-ats-jobs.mjs",
+    "verify:links": "node scripts/verify-job-links.mjs",
+    "verify:links:dry": "DRY_RUN=true node scripts/verify-job-links.mjs",
     "sync-articles": "node scripts/sync-html-articles.mjs",
     "build": "node scripts/pull-firestore-jobs.mjs && node scripts/sync-html-articles.mjs && vite build && node scripts/validate-build.mjs",
     "preview": "vite preview",

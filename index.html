@@ -102,7 +102,7 @@
     <meta name="twitter:creator" content="@Jishaka4" />
     <meta name="twitter:title" content="FreshCommits – Entry Level & New Grad Software Engineer Jobs" />
     <meta name="twitter:description" content="Curated entry-level, new grad, and junior software engineering jobs across US &amp; global tech hubs and remote on FreshCommits.com." />
-    <meta name="twitter:image" content="https://freshcommits.com/og-image.svg" />
+    <meta name="twitter:image" content="https://www.freshcommits.com/og-image.svg" />
     <meta name="twitter:image:alt" content="FreshCommits Entry Level & New Grad SWE Careers" />
 
     <!-- Instant Search Crawler JobPosting Schema Hydration for Google Rich Results & Crawlers -->
@@ -2366,19 +2366,29 @@
 
           // Sanitize jobId: strip accidental trailing spaces, URL encoded tokens, or copy-paste text
           jobId = jobId.trim();
-          var idMatch = jobId.match(/(manual-\d+|job-[a-z0-9-]+|ext-[a-z0-9-]+|sync-[a-z0-9-]+)/i);
+          var idMatch = jobId.match(/(manual-\d+|job-[a-z0-9_-]+|ext-[a-z0-9_-]+|sync-[a-z0-9_-]+|sr-[a-z0-9_-]+)/i);
           if (idMatch) {
             jobId = idMatch[1];
           } else {
             jobId = jobId.split(/[\s%]+/)[0];
           }
 
-          // Country mapping for Google Search Central JobPosting schema
+          // Country mapping for Google Search Central JobPosting schema (strict ISO 3166-1 alpha-2)
+          var COUNTRY_ALIAS = {
+            'US': 'US', 'USA': 'US', 'U.S.': 'US', 'UNITED STATES': 'US', 'UNITED STATES OF AMERICA': 'US',
+            'GB': 'GB', 'UK': 'GB', 'UNITED KINGDOM': 'GB',
+            'CA': 'CA', 'CANADA': 'CA',
+            'IN': 'IN', 'INDIA': 'IN',
+            'DE': 'DE', 'GERMANY': 'DE',
+            'AU': 'AU', 'AUSTRALIA': 'AU',
+            'FR': 'FR', 'FRANCE': 'FR',
+            'IE': 'IE', 'IRELAND': 'IE',
+            'NL': 'NL', 'NETHERLANDS': 'NL',
+            'SG': 'SG', 'SINGAPORE': 'SG'
+          };
           var COUNTRY_MAP = {
             'US': 'United States',
-            'USA': 'United States',
             'GB': 'United Kingdom',
-            'UK': 'United Kingdom',
             'CA': 'Canada',
             'IN': 'India',
             'DE': 'Germany',
@@ -2487,57 +2497,70 @@
             return html;
           }
 
+          function isVerifiedSchemaLogo(url) {
+            if (!url || typeof url !== 'string') return false;
+            var low = url.trim().toLowerCase();
+            if (low.indexOf('https://') !== 0) return false;
+            if (low.indexOf('google.com/s2/favicons') !== -1 || low.indexOf('ui-avatars.com') !== -1 || low.indexOf('logo.clearbit.com') !== -1) {
+              return false;
+            }
+            return true;
+          }
+
           function injectSchema(job) {
             if (!job || !job.title || !job.company) return;
-            if (job.status === 'EXPIRED') {
+            if (job.status === 'EXPIRED' || (job.validThrough && job.validThrough < new Date().toISOString().split('T')[0])) {
               var rMeta = document.querySelector('meta[name="robots"]');
               if (rMeta) rMeta.setAttribute('content', 'noindex, follow');
               return;
             }
             var rawReq = (job.applicantLocationRequirements || job.country || 'US').trim().toUpperCase();
-            var countryCode = rawReq;
-            // Google Schema strictly requires an official ISO country entity for applicantLocationRequirements.
-            // When marked Worldwide / Global, anchor to US as the primary telecommute legal baseline.
-            if (countryCode === 'WORLDWIDE' || countryCode === 'GLOBAL' || countryCode === 'ANYWHERE' || !COUNTRY_MAP[countryCode]) {
-              countryCode = 'US';
-            }
+            var countryCode = COUNTRY_ALIAS[rawReq] || (COUNTRY_MAP[rawReq] ? rawReq : 'US');
             var countryName = COUNTRY_MAP[countryCode] || 'United States';
+
+            var hiringOrg = {
+              "@type": "Organization",
+              "name": job.company,
+              "sameAs": job.companyWebsite || undefined
+            };
+            if (isVerifiedSchemaLogo(job.companyLogo)) {
+              hiringOrg.logo = job.companyLogo;
+            }
 
             var s = {
               "@context": "https://schema.org",
               "@type": "JobPosting",
               "title": job.title,
-              "description": formatDescription(job),
+              "description": (job.descriptionHtml && job.descriptionHtml.length > 80) ? job.descriptionHtml : formatDescription(job),
               "identifier": {
                 "@type": "PropertyValue",
                 "name": job.company,
                 "value": job.id || jobId
               },
               "datePosted": job.datePosted || new Date().toISOString().split('T')[0],
-              "validThrough": job.validThrough || "2026-12-31",
+              "validThrough": job.validThrough || undefined,
               "employmentType": job.employmentType || "FULL_TIME",
               "directApply": false,
-              "hiringOrganization": {
-                "@type": "Organization",
-                "name": job.company,
-                "sameAs": job.companyWebsite || undefined,
-                "logo": job.companyLogo || undefined
-              },
-              "experienceRequirements": {
-                "@type": "OccupationalExperienceRequirements",
-                "monthsOfExperience": (job.maxYearsExperience === 0 ? 0 : (job.maxYearsExperience <= 2 ? 24 : job.maxYearsExperience * 12))
-              }
+              "hiringOrganization": hiringOrg
             };
+            if (job.maxYearsExperience === 0 || job.experienceLevel === 'Internship') {
+              s.experienceRequirements = {
+                "@type": "OccupationalExperienceRequirements",
+                "monthsOfExperience": 0
+              };
+            } else if (job.maxYearsExperience === 1) {
+              s.experienceRequirements = {
+                "@type": "OccupationalExperienceRequirements",
+                "monthsOfExperience": 12
+              };
+            }
             s.url = 'https://www.freshcommits.com/job/' + encodeURIComponent(job.id || jobId);
             if (job.applyUrl) s.sameAs = job.applyUrl;
-            if (job.salary && job.salary.min > 0) {
-              var sCurr = job.salary.currency || "USD";
+            if (job.salaryDisclosed !== false && job.salary && job.salary.min > 0) {
+              var sCurr = (job.salary.currency || "USD").toUpperCase();
               var sMin = job.salary.min;
-              var sMax = job.salary.max || job.salary.min;
-              if (countryCode === 'US' && (sCurr === 'INR' || sMin >= 500000)) {
-                sCurr = 'USD';
-                if (sMin >= 500000) { sMin = 75000; sMax = 115000; }
-              }
+              var sMax = (job.salary.max && job.salary.max >= sMin) ? job.salary.max : sMin;
+              var sUnit = (job.salary.unit === 'HOUR' && sMin >= 1000) ? 'YEAR' : (job.salary.unit || "YEAR");
               s.baseSalary = {
                 "@type": "MonetaryAmount",
                 "currency": sCurr,
@@ -2545,7 +2568,7 @@
                   "@type": "QuantitativeValue",
                   "minValue": sMin,
                   "maxValue": sMax,
-                  "unitText": job.salary.unit || "YEAR"
+                  "unitText": sUnit
                 }
               };
             }
@@ -2555,31 +2578,27 @@
                 "@type": "Country",
                 "name": countryName
               };
-              var locality = job.city || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[0].trim() : (countryCode === 'GB' ? 'Belfast' : 'San Francisco'));
-              var region = job.state || (job.location && !job.location.toLowerCase().includes('remote') ? job.location.split(',')[1]?.trim() : (countryCode === 'GB' ? 'Northern Ireland' : 'CA'));
-              var cleanCountry = (job.country && job.country.length === 2 && COUNTRY_MAP[job.country.toUpperCase()]) ? job.country.toUpperCase() : 'US';
-              s.jobLocation = {
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": locality,
-                  "addressRegion": region,
-                  "addressCountry": cleanCountry,
-                  "postalCode": job.postalCode || undefined
-                }
-              };
             } else {
-              var cleanCountry = (job.country && job.country.length === 2 && COUNTRY_MAP[job.country.toUpperCase()]) ? job.country.toUpperCase() : 'US';
-              s.jobLocation = {
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": job.city || (job.location ? job.location.split(',')[0].trim() : "San Francisco"),
-                  "addressRegion": job.state || (job.location ? job.location.split(',')[1]?.trim() : "CA"),
-                  "addressCountry": cleanCountry,
-                  "postalCode": job.postalCode || undefined
-                }
-              };
+              var rawCountry = (job.country || countryCode || 'US').trim().toUpperCase();
+              var cleanCountry = COUNTRY_ALIAS[rawCountry] || (COUNTRY_MAP[rawCountry] ? rawCountry : 'US');
+              var locStr = String(job.location || '').trim();
+              var locParts = locStr.split(',');
+              var badLocRe = /^(?:us|usa|united states|united states of america|remote|global|worldwide)$/i;
+              var locality = (job.city || (locParts[0] || '')).trim();
+              var rawRegion = (job.state || (locParts[1] || '')).replace(/\s*\/.*$/, '').replace(/[^A-Za-z\s]/g, '').trim();
+              var region = (rawRegion && !badLocRe.test(rawRegion)) ? rawRegion : undefined;
+              if (locality && !badLocRe.test(locality)) {
+                s.jobLocation = {
+                  "@type": "Place",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": locality,
+                    "addressRegion": region,
+                    "addressCountry": cleanCountry,
+                    "postalCode": job.postalCode || undefined
+                  }
+                };
+              }
             }
 
             // Strict singleton assignment: prevent duplicate JobPosting schema injection
@@ -2655,6 +2674,11 @@
                 mainEl.prepend(art);
               }
             } catch (e) {}
+          }
+
+          // Step 0: If edge SSR (/functions/job/[id].ts) already preloaded the job & @graph schema, short-circuit cleanly
+          if (window.__PRELOADED_JOB__ && document.getElementById('google-job-posting-schema')) {
+            return;
           }
 
           // Step 1: Immediate synchronous check from embedded registry (zero crawler latency)
@@ -2769,23 +2793,23 @@
       "@graph": [
         {
           "@type": "WebSite",
-          "@id": "https://freshcommits.com/#website",
+          "@id": "https://www.freshcommits.com/#website",
           "name": "FreshCommits",
           "alternateName": "FreshCommits.com",
-          "url": "https://freshcommits.com/",
+          "url": "https://www.freshcommits.com/",
           "description": "Curated 0-2 YoE entry-level and new grad software engineering job directory with direct company links, salary indices, and interactive technical career tools.",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://freshcommits.com/jobs?q={search_term_string}",
+            "target": "https://www.freshcommits.com/jobs?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         },
         {
           "@type": "Organization",
-          "@id": "https://freshcommits.com/#organization",
+          "@id": "https://www.freshcommits.com/#organization",
           "name": "FreshCommits",
-          "url": "https://freshcommits.com/",
-          "logo": "https://freshcommits.com/og-image.svg",
+          "url": "https://www.freshcommits.com/",
+          "logo": "https://www.freshcommits.com/og-image.svg",
           "sameAs": [
             "https://x.com/Jishaka4",
             "https://www.linkedin.com/company/freshcommits",

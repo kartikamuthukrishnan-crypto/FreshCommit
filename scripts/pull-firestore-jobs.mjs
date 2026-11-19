@@ -116,12 +116,84 @@ function stripSyntheticWrappers(input) {
   return text.replace(/\n{3,}/g, '\n\n').trim();
 }
 
+const COUNTRY_ALIAS_MAP = {
+  US: 'US',
+  USA: 'US',
+  'U.S.': 'US',
+  'U.S.A.': 'US',
+  'UNITED STATES': 'US',
+  'UNITED STATES OF AMERICA': 'US',
+  GB: 'GB',
+  UK: 'GB',
+  'UNITED KINGDOM': 'GB',
+  CA: 'CA',
+  CANADA: 'CA',
+  IN: 'IN',
+  INDIA: 'IN',
+  DE: 'DE',
+  GERMANY: 'DE',
+  AU: 'AU',
+  AUSTRALIA: 'AU',
+  FR: 'FR',
+  FRANCE: 'FR',
+  IE: 'IE',
+  IRELAND: 'IE',
+  NL: 'NL',
+  NETHERLANDS: 'NL',
+  SG: 'SG',
+  SINGAPORE: 'SG',
+  NZ: 'NZ',
+  'NEW ZEALAND': 'NZ',
+};
+
+const BAD_STATE_TOKENS = /^(?:us|usa|u\.s\.|united states|united states of america|remote|global|worldwide)$/i;
+
+function normalizeCountryCode(raw) {
+  const key = String(raw || '').trim().toUpperCase();
+  if (!key) return 'US';
+  if (COUNTRY_ALIAS_MAP[key]) return COUNTRY_ALIAS_MAP[key];
+  if (/^[A-Z]{2}$/.test(key)) return key;
+  return 'US';
+}
+
+function isJobExpiredRecord(jobObj, todayIso) {
+  if (!jobObj) return true;
+  if (jobObj.status && jobObj.status !== 'ACTIVE') return true;
+  if (jobObj.validThrough && /^\d{4}-\d{2}-\d{2}/.test(String(jobObj.validThrough))) {
+    const vt = String(jobObj.validThrough).slice(0, 10);
+    if (vt < todayIso) return true;
+  }
+  return false;
+}
+
 function sanitizeJobRecord(jobObj) {
   if (!jobObj) return jobObj;
   jobObj.title = stripUiNoise(jobObj.title || '', true) || jobObj.title;
   jobObj.location = stripUiNoise(jobObj.location || '', false) || jobObj.location;
   if (jobObj.description) {
     jobObj.description = stripUiNoise(stripSyntheticWrappers(jobObj.description), false);
+  }
+
+  // Strict ISO 3166-1 alpha-2 normalization for country & applicantLocationRequirements
+  jobObj.country = normalizeCountryCode(jobObj.country || jobObj.applicantLocationRequirements || 'US');
+  if (jobObj.applicantLocationRequirements) {
+    const reqUp = String(jobObj.applicantLocationRequirements).trim().toUpperCase();
+    if (reqUp !== 'WORLDWIDE' && reqUp !== 'GLOBAL') {
+      jobObj.applicantLocationRequirements = normalizeCountryCode(reqUp);
+    }
+  }
+
+  // Strip country names & remote tokens mistakenly stored in state/city
+  if (jobObj.state && BAD_STATE_TOKENS.test(String(jobObj.state).trim())) {
+    delete jobObj.state;
+  }
+  if (jobObj.city && BAD_STATE_TOKENS.test(String(jobObj.city).trim())) {
+    delete jobObj.city;
+  }
+
+  // Normalize obvious annual salary mislabelled with unit HOUR
+  if (jobObj.salary && typeof jobObj.salary.min === 'number' && jobObj.salary.unit === 'HOUR' && jobObj.salary.min >= 1000) {
+    jobObj.salary.unit = 'YEAR';
   }
 
   // Clean dead Clearbit URLs and ensure crisp favicon or avatar
@@ -247,17 +319,19 @@ function generateSitemap(cloudJobs) {
   }
 
   sitemapXml += '\n  <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->\n';
+  let activeSitemapJobs = 0;
   for (const job of cloudJobs) {
-    if (!job || !job.id || job.status === 'DRAFT' || job.status === 'EXPIRED') continue;
+    if (!job || !job.id || isJobExpiredRecord(job, today)) continue;
     const jobDate = job.datePosted || today;
     sitemapXml += `  <url>\n    <loc>https://www.freshcommits.com/job/${job.id}</loc>\n    <lastmod>${jobDate}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.95</priority>\n  </url>\n`;
+    activeSitemapJobs++;
   }
 
   sitemapXml += '</urlset>\n';
 
   const sitemapPath = path.join(rootDir, 'public', 'sitemap.xml');
   fs.writeFileSync(sitemapPath, sitemapXml, 'utf8');
-  console.log(`Generated public/sitemap.xml with ${staticRoutes.length + uniqueArticleIds.length + cloudJobs.length} URLs!`);
+  console.log(`Generated public/sitemap.xml with ${staticRoutes.length + uniqueArticleIds.length + activeSitemapJobs} URLs!`);
 }
 
 async function pullFirestoreJobs() {
@@ -299,8 +373,10 @@ async function pullFirestoreJobs() {
     throw new Error(`Failed to query Firestore: ${res.status} ${res.statusText}`);
   }
 
+  const todayIso = new Date().toISOString().split('T')[0];
   const queryResults = await res.json();
   const cloudJobs = [];
+  let prunedExpiredCount = 0;
 
   for (const item of queryResults) {
     if (!item.document || !item.document.fields) continue;
@@ -315,12 +391,17 @@ async function pullFirestoreJobs() {
 
     sanitizeJobRecord(jobObj);
 
+    if (isJobExpiredRecord(jobObj, todayIso)) {
+      prunedExpiredCount++;
+      continue;
+    }
+
     if (jobObj.title && jobObj.company && jobObj.applyUrl) {
       cloudJobs.push(jobObj);
     }
   }
 
-  console.log(`Successfully fetched and sanitized ${cloudJobs.length} valid jobs from Firestore!`);
+  console.log(`Successfully fetched and sanitized ${cloudJobs.length} active jobs (pruned ${prunedExpiredCount} expired/past-validThrough records)!`);
 
   cloudJobs.sort((a, b) => {
     const timeA = getJobTimestamp(a);

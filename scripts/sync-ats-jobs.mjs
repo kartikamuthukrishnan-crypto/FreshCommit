@@ -504,10 +504,12 @@ function parseLocationParts(locationStr, isRemote) {
   const parts = cleaned.split(',').map((s) => s.trim()).filter(Boolean);
   let city = parts[0] || undefined;
   let state = parts[1] || undefined;
-  if (state && state.length > 24) state = undefined;
+  if (state && (/^(?:us|usa|u\.s\.|united states|united states of america|remote|global|worldwide)$/i.test(state) || state.length > 24)) {
+    state = undefined;
+  }
   return {
     location: cleaned,
-    city: isRemote && /^remote$/i.test(city || '') ? undefined : city,
+    city: isRemote && /^(?:remote|us|usa|united states)$/i.test(city || '') ? undefined : city,
     state,
     country: 'US',
     applicantLocationRequirements: 'US',
