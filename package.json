@@ -11,6 +11,8 @@
     "sync:jobs:dry": "DRY_RUN=true node scripts/sync-ats-jobs.mjs",
     "verify:links": "node scripts/verify-job-links.mjs",
     "verify:links:dry": "DRY_RUN=true node scripts/verify-job-links.mjs",
+    "indexing:notify": "node scripts/notify-google-indexing.mjs",
+    "community:export": "node scripts/generate-community-exports.mjs",
     "sync-articles": "node scripts/sync-html-articles.mjs",
     "build": "node scripts/pull-firestore-jobs.mjs && node scripts/sync-html-articles.mjs && vite build && node scripts/validate-build.mjs",
     "preview": "vite preview",

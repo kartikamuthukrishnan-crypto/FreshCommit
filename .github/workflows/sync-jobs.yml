@@ -27,12 +27,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: '24'
+
+      - name: Reset transient indexing delta queue
+        run: rm -f .sync-indexing-queue.json
 
       - name: Run 6-Hour ATS Job Sync & Lifecycle Check
         env:
@@ -51,15 +54,46 @@ jobs:
         if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
         run: node scripts/pull-firestore-jobs.mjs
 
-      - name: Commit and push updated static feed & sitemap
+      - name: Generate Open-Source GitHub Jobs Table & Weekly Community Drops
+        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
+        run: node scripts/generate-community-exports.mjs
+
+      - name: Notify Google Indexing API (URL_UPDATED & URL_DELETED)
+        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
+        env:
+          GOOGLE_INDEXING_SA_JSON: ${{ secrets.GOOGLE_INDEXING_SA_JSON }}
+          MAX_INDEXING_PER_RUN: '100'
+        run: node scripts/notify-google-indexing.mjs
+
+      - name: Commit and push updated feed, sitemap & community exports
         if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
         run: |
-          if git diff --quiet public/data/jobs.json public/sitemap.xml; then
-            echo "No changes to jobs.json or sitemap.xml."
+          if git diff --quiet public/data/jobs.json public/sitemap.xml community/GITHUB_JOBS_README.md community/WEEKLY_DROP.md; then
+            echo "No changes to feed, sitemap, or community exports."
             exit 0
           fi
           git config user.name "freshcommits-sync-bot"
           git config user.email "sync-bot@freshcommits.com"
-          git add public/data/jobs.json public/sitemap.xml
-          git commit -m "chore(sync): 6-hour ATS job feed & sitemap refresh [skip ci]" || exit 0
+          git add public/data/jobs.json public/sitemap.xml community/GITHUB_JOBS_README.md community/WEEKLY_DROP.md
+          git commit -m "chore(sync): 6-hour ATS job feed, sitemap & community exports [skip ci]" || exit 0
+          git pull --rebase origin main || true
           git push
+
+      - name: Mirror Open-Source Jobs Table to Public GitHub Repo (Optional)
+        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' && secrets.PUBLIC_JOBS_REPO != '' && secrets.PUBLIC_JOBS_REPO_TOKEN != '' }}
+        env:
+          PUBLIC_JOBS_REPO: ${{ secrets.PUBLIC_JOBS_REPO }}
+          PUBLIC_JOBS_REPO_TOKEN: ${{ secrets.PUBLIC_JOBS_REPO_TOKEN }}
+        run: |
+          rm -rf /tmp/public-jobs-repo
+          git clone "https://x-access-token:${PUBLIC_JOBS_REPO_TOKEN}@github.com/${PUBLIC_JOBS_REPO}.git" /tmp/public-jobs-repo
+          cp community/GITHUB_JOBS_README.md /tmp/public-jobs-repo/README.md
+          git -C /tmp/public-jobs-repo config user.name "freshcommits-sync-bot"
+          git -C /tmp/public-jobs-repo config user.email "sync-bot@freshcommits.com"
+          if git -C /tmp/public-jobs-repo diff --quiet README.md; then
+            echo "Public jobs repo README.md is already up to date."
+            exit 0
+          fi
+          git -C /tmp/public-jobs-repo add README.md
+          git -C /tmp/public-jobs-repo commit -m "chore: refresh verified US 0-2 YoE SWE jobs & 2027 internships"
+          git -C /tmp/public-jobs-repo push

@@ -7,3 +7,5 @@ coverage/
 .env*
 !.env.example
 bun.lock*
+.sync-indexing-queue.json
+

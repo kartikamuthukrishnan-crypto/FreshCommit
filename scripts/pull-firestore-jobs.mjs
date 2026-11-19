@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { fetchWithRetry } from './lib/retry-and-queue.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -343,7 +344,7 @@ async function pullFirestoreJobs() {
 
   let res;
   try {
-    res = await fetch(
+    res = await fetchWithRetry(
       'https://firestore.googleapis.com/v1/projects/centered-module-9smzh/databases/ai-studio-juniordevhubentr-9fce9c23-e540-412e-ae3f-aca1eaf015f5/documents:runQuery',
       {
         method: 'POST',
@@ -353,7 +354,8 @@ async function pullFirestoreJobs() {
             from: [{ collectionId: 'jobs' }],
           },
         }),
-      }
+      },
+      { timeoutMs: 20000, maxAttempts: 4, baseDelayMs: 2000, label: 'Firestore runQuery (pull)' }
     );
   } catch (err) {
     res = { ok: false, status: 0, statusText: err?.message || 'Network error' };

@@ -1,4 +1,9 @@
 import { fileURLToPath } from 'node:url';
+import {
+  fetchWithRetry,
+  canonicalJobUrl,
+  appendIndexingQueue,
+} from './lib/retry-and-queue.mjs';
 
 const FIRESTORE_PROJECT = 'centered-module-9smzh';
 const FIRESTORE_DB = 'ai-studio-juniordevhubentr-9fce9c23-e540-412e-ae3f-aca1eaf015f5';
@@ -83,7 +88,7 @@ async function fetchWithTimeout(url, init = {}, ms = TIMEOUT_MS) {
 }
 
 async function loadAllFirestoreJobs() {
-  const res = await fetchWithTimeout(
+  const res = await fetchWithRetry(
     `${FIRESTORE_BASE}:runQuery`,
     {
       method: 'POST',
@@ -94,7 +99,7 @@ async function loadAllFirestoreJobs() {
         },
       }),
     },
-    15000
+    { timeoutMs: 20000, maxAttempts: 4, baseDelayMs: 2000, label: 'Firestore runQuery (verify-links)' }
   );
   if (!res.ok) throw new Error(`Firestore runQuery failed: ${res.status}`);
   const rows = await res.json();
@@ -113,14 +118,14 @@ async function loadAllFirestoreJobs() {
 }
 
 async function patchFirestoreJob(job) {
-  const res = await fetchWithTimeout(
+  const res = await fetchWithRetry(
     `${FIRESTORE_BASE}/jobs/${encodeURIComponent(job.id)}`,
     {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(toFirestoreDocument(job)),
     },
-    10000
+    { timeoutMs: 12000, maxAttempts: 3, baseDelayMs: 1200, label: `Firestore PATCH ${job.id}` }
   );
   if (!res.ok) {
     const txt = await res.text().catch(() => '');
@@ -287,6 +292,7 @@ async function main() {
   }
 
   let updatedCount = 0;
+  const deletedUrls = [];
   const nowIso = new Date().toISOString();
   for (const { job } of deadJobs) {
     try {
@@ -297,9 +303,14 @@ async function main() {
         lastHealthCheckedAt: nowIso,
       });
       updatedCount++;
+      deletedUrls.push(canonicalJobUrl(job.id));
     } catch (err) {
       console.error(`[LinkVerify] Failed to expire ${job.id}:`, err.message);
     }
+  }
+
+  if (deletedUrls.length > 0) {
+    appendIndexingQueue({ deletedUrls });
   }
 
   console.log(`[LinkVerify] Marked ${updatedCount}/${deadJobs.length} dead/expired jobs as EXPIRED in Firestore.`);

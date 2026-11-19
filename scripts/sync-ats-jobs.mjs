@@ -1,6 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  fetchWithRetry,
+  canonicalJobUrl,
+  appendIndexingQueue,
+} from './lib/retry-and-queue.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -94,7 +99,7 @@ async function fetchWithTimeout(url, init = {}, timeoutMs = FETCH_TIMEOUT_MS) {
 }
 
 async function loadExistingFirestoreJobs() {
-  const res = await fetchWithTimeout(
+  const res = await fetchWithRetry(
     `${FIRESTORE_BASE}:runQuery`,
     {
       method: 'POST',
@@ -105,7 +110,7 @@ async function loadExistingFirestoreJobs() {
         },
       }),
     },
-    15000
+    { timeoutMs: 20000, maxAttempts: 4, baseDelayMs: 2000, label: 'Firestore runQuery (sync)' }
   );
 
   if (!res.ok) {
@@ -134,14 +139,14 @@ async function writeFirestoreJob(job) {
   const payload = { ...job };
   delete payload._docId;
 
-  const res = await fetchWithTimeout(
+  const res = await fetchWithRetry(
     `${FIRESTORE_BASE}/jobs/${encodeURIComponent(docId)}`,
     {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(toFirestoreDocument(payload)),
     },
-    10000
+    { timeoutMs: 12000, maxAttempts: 3, baseDelayMs: 1200, label: `Firestore PATCH ${docId}` }
   );
 
   if (!res.ok) {
@@ -1208,23 +1213,31 @@ async function main() {
 
   // 5. Commit live writes to Firestore
   let writtenNew = 0;
+  const updatedUrls = [];
   for (const job of selectedNewJobs) {
     try {
       await writeFirestoreJob(job);
       writtenNew++;
+      updatedUrls.push(canonicalJobUrl(job.id));
     } catch (err) {
       console.error(`[Sync] Failed to write new job ${job.id}:`, err.message);
     }
   }
 
   let writtenExpired = 0;
+  const deletedUrls = [];
   for (const expJob of expiredToUpdate) {
     try {
       await writeFirestoreJob(expJob);
       writtenExpired++;
+      deletedUrls.push(canonicalJobUrl(expJob.id));
     } catch (err) {
       console.error(`[Sync] Failed to mark expired job ${expJob.id}:`, err.message);
     }
+  }
+
+  if (updatedUrls.length > 0 || deletedUrls.length > 0) {
+    appendIndexingQueue({ updatedUrls, deletedUrls });
   }
 
   console.log(`\n[Sync] Completed live writes: +${writtenNew} added, ${writtenExpired} marked EXPIRED.`);
