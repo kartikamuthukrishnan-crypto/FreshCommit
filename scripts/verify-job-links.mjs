@@ -190,20 +190,24 @@ async function checkJobLinkLiveness(job, todayIso) {
     const u = new URL(targetUrl);
     const host = u.hostname.toLowerCase();
     const ghJid = u.searchParams.get('gh_jid');
-    const ghBoardSlug =
-      job.syncSourceId && job.syncSourceId.startsWith('gh-')
-        ? job.syncSourceId.slice(3)
-        : u.pathname.match(/^\/(?:v1\/boards\/)?([^/]+)\/jobs\/\d+/i)?.[1];
+    const syncGhMatch = String(job.id || '').match(/^sync-greenhouse-([a-z0-9_-]+)-(\d+)$/i);
+    const urlGhMatch = host.includes('greenhouse.io')
+      ? u.pathname.match(/^\/(?:v1\/boards\/)?([^/]+)\/jobs\/(\d+)/i)
+      : null;
+    const ghBoardSlug = syncGhMatch?.[1] || urlGhMatch?.[1] || null;
+    const ghId = syncGhMatch?.[2] || urlGhMatch?.[2] || ghJid || null;
 
-    // 2. Direct Greenhouse API confirmation when available
-    if ((host.includes('greenhouse.io') || ghJid) && ghBoardSlug && (ghJid || u.pathname.match(/\/jobs\/(\d+)/))) {
-      const ghId = ghJid || u.pathname.match(/\/jobs\/(\d+)/)[1];
+    // 2. Direct Greenhouse API confirmation ONLY when we have a verified board slug + numeric job ID
+    if (ghBoardSlug && ghId) {
       const apiResp = await fetchWithTimeout(
         `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(ghBoardSlug)}/jobs/${encodeURIComponent(ghId)}`,
         { headers: { Accept: 'application/json' } }
       );
       if (apiResp.status === 404 || apiResp.status === 410) {
-        return { alive: false, reason: `Greenhouse API HTTP ${apiResp.status}` };
+        return { alive: false, reason: `Greenhouse API HTTP ${apiResp.status} (${ghBoardSlug})` };
+      }
+      if (apiResp.ok) {
+        return { alive: true };
       }
     }
 

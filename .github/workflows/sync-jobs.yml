@@ -68,7 +68,7 @@ jobs:
       - name: Commit and push updated feed, sitemap & community exports
         if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
         run: |
-          if git diff --quiet public/data/jobs.json public/sitemap.xml community/GITHUB_JOBS_README.md community/WEEKLY_DROP.md; then
+          if [ -z "$(git status --porcelain public/data/jobs.json public/sitemap.xml community/GITHUB_JOBS_README.md community/WEEKLY_DROP.md)" ]; then
             echo "No changes to feed, sitemap, or community exports."
             exit 0
           fi
@@ -80,17 +80,21 @@ jobs:
           git push
 
       - name: Mirror Open-Source Jobs Table to Public GitHub Repo (Optional)
-        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' && secrets.PUBLIC_JOBS_REPO != '' && secrets.PUBLIC_JOBS_REPO_TOKEN != '' }}
+        if: ${{ (github.event.inputs.dry_run || 'false') != 'true' }}
         env:
           PUBLIC_JOBS_REPO: ${{ secrets.PUBLIC_JOBS_REPO }}
           PUBLIC_JOBS_REPO_TOKEN: ${{ secrets.PUBLIC_JOBS_REPO_TOKEN }}
         run: |
+          if [ -z "${PUBLIC_JOBS_REPO}" ] || [ -z "${PUBLIC_JOBS_REPO_TOKEN}" ]; then
+            echo "PUBLIC_JOBS_REPO or PUBLIC_JOBS_REPO_TOKEN not configured — skipping public repo mirror."
+            exit 0
+          fi
           rm -rf /tmp/public-jobs-repo
           git clone "https://x-access-token:${PUBLIC_JOBS_REPO_TOKEN}@github.com/${PUBLIC_JOBS_REPO}.git" /tmp/public-jobs-repo
           cp community/GITHUB_JOBS_README.md /tmp/public-jobs-repo/README.md
           git -C /tmp/public-jobs-repo config user.name "freshcommits-sync-bot"
           git -C /tmp/public-jobs-repo config user.email "sync-bot@freshcommits.com"
-          if git -C /tmp/public-jobs-repo diff --quiet README.md; then
+          if [ -z "$(git -C /tmp/public-jobs-repo status --porcelain README.md)" ]; then
             echo "Public jobs repo README.md is already up to date."
             exit 0
           fi
