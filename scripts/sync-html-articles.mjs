@@ -18,9 +18,16 @@ async function syncArticles() {
   const articles = JSON.parse(articlesJson);
   console.log(`Loaded ${articles.length} articles.`);
 
+  const todayIso = new Date().toISOString().split('T')[0];
   const syncArticlesObj = {};
   for (const art of articles) {
     if (!art || !art.id) continue;
+    const faqItems = (art.sections || [])
+      .filter((sec) => sec && typeof sec.heading === 'string' && /^Q:\s*/i.test(sec.heading.trim()) && Array.isArray(sec.content) && sec.content.length > 0)
+      .map((sec) => ({
+        q: sec.heading.trim().replace(/^Q:\s*/i, ''),
+        a: sec.content.join(' ').trim()
+      }));
     syncArticlesObj[art.id] = {
       id: art.id,
       title: art.title,
@@ -29,8 +36,9 @@ async function syncArticles() {
       tag: art.tag,
       readTime: art.readTime,
       publishedDate: art.publishedDate,
-      lastUpdatedDate: art.lastUpdatedDate || 'October 2026',
+      lastUpdatedDate: art.lastUpdatedDate || 'November 2026',
       highlights: art.highlights || [],
+      faqs: faqItems,
       author: {
         name: art.author.name,
         role: art.author.role,
@@ -80,8 +88,7 @@ async function syncArticles() {
             if (twDesc) twDesc.content = art.summary;
 
             function applyArticleLd() {
-              var schema = {
-                "@context": "https://schema.org",
+              var articleNode = {
                 "@type": "TechArticle",
                 "headline": art.title,
                 "description": art.summary,
@@ -89,8 +96,8 @@ async function syncArticles() {
                   "@type": "WebPage",
                   "@id": canonicalUrl
                 },
-                "datePublished": "2026-09-01T08:00:00Z",
-                "dateModified": "2026-10-06T12:00:00Z",
+                "datePublished": "2026-11-20T08:00:00Z",
+                "dateModified": "${todayIso}T12:00:00Z",
                 "inLanguage": "en-US",
                 "author": {
                   "@type": "Person",
@@ -117,7 +124,7 @@ async function syncArticles() {
                 }
               };
               if (art.reviewer) {
-                schema.reviewedBy = {
+                articleNode.reviewedBy = {
                   "@type": "Person",
                   "name": art.reviewer.name,
                   "jobTitle": art.reviewer.role,
@@ -130,6 +137,33 @@ async function syncArticles() {
                   }
                 };
               }
+              var schemaPayload;
+              if (art.faqs && art.faqs.length > 0) {
+                var faqEntities = [];
+                for (var fi = 0; fi < art.faqs.length; fi++) {
+                  faqEntities.push({
+                    "@type": "Question",
+                    "name": art.faqs[fi].q,
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": art.faqs[fi].a
+                    }
+                  });
+                }
+                schemaPayload = {
+                  "@context": "https://schema.org",
+                  "@graph": [
+                    articleNode,
+                    {
+                      "@type": "FAQPage",
+                      "mainEntity": faqEntities
+                    }
+                  ]
+                };
+              } else {
+                articleNode["@context"] = "https://schema.org";
+                schemaPayload = articleNode;
+              }
               var scriptEl = document.getElementById('google-article-eeat-schema');
               if (!scriptEl) {
                 scriptEl = document.createElement('script');
@@ -137,7 +171,7 @@ async function syncArticles() {
                 scriptEl.type = 'application/ld+json';
                 document.head.appendChild(scriptEl);
               }
-              scriptEl.textContent = JSON.stringify(schema, null, 2);
+              scriptEl.textContent = JSON.stringify(schemaPayload, null, 2);
             }
 
             if (document.readyState === 'loading') {

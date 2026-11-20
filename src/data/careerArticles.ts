@@ -50,8 +50,10 @@ import { ENTRY_LEVEL_SWE_JOBS_NO_EXPERIENCE_ARTICLE } from './articles/entryLeve
 import { BEST_TECH_STACKS_ENTRY_LEVEL_ARTICLE } from './articles/bestTechStacksEntryLevelArticle';
 import { CONTRACT_TO_HIRE_TECH_STAFFING_ARTICLE } from './articles/contractToHireTechStaffingArticle';
 import { SOFTWARE_ENGINEERING_INTERNSHIP_2027_ARTICLE } from './articles/softwareEngineeringInternship2027Article';
+import { SOFTWARE_ENGINEER_EMPLOYMENT_GAP_ARTICLE } from './articles/softwareEngineerEmploymentGapArticle';
 
 export const CAREER_ARTICLES: CareerArticle[] = [
+  SOFTWARE_ENGINEER_EMPLOYMENT_GAP_ARTICLE,
   SOFTWARE_ENGINEERING_INTERNSHIP_2027_ARTICLE,
   CONTRACT_TO_HIRE_TECH_STAFFING_ARTICLE,
   BEST_TECH_STACKS_ENTRY_LEVEL_ARTICLE,
