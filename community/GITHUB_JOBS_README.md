@@ -10,12 +10,12 @@
 
 | Metric | Verified Value |
 | :--- | :--- |
-| **Active 0–2 YoE Openings** | **285** across **133** employers |
-| **Added in Last 7 Days** | **40** fresh openings |
-| **Full-Time Entry / New Grad** | **218** roles (Median disclosed midpoint: **$154,500/yr**) |
+| **Active 0–2 YoE Openings** | **288** across **133** employers |
+| **Added in Last 7 Days** | **43** fresh openings |
+| **Full-Time Entry / New Grad** | **221** roles (Median disclosed midpoint: **$154,000/yr**) |
 | **2027 Internships & Co-ops** | **67** roles (Median disclosed hourly: **$37/hr**) |
 | **Salary Transparency Rate** | **70%** include verified employer pay bands |
-| **Work Mode Split** | 178 On-site · 34 Hybrid · 73 Remote (US) |
+| **Work Mode Split** | 181 On-site · 34 Hybrid · 73 Remote (US) |
 
 ---
 
@@ -37,9 +37,12 @@
 | **Anduril** | [RF Integration Systems Engineer, Early Career](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303550007) | Costa Mesa, California | $117k–$150k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303550007?gh_jid=5303550007) |
 | **Anduril** | [Mission Systems Engineer, Early Career](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303479007) | Costa Mesa, California | $117k–$150k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303479007?gh_jid=5303479007) |
 | **Anthropic** | [Research Engineer, Beneficial Deployments](https://www.freshcommits.com/job/sync-greenhouse-anthropic-5485188008) | San Francisco, CA | — | 2026-11-20 | [Direct ATS](https://job-boards.greenhouse.io/anthropic/jobs/5485188008) |
+| **Anduril** | [Fielded Site Reliability Engineer](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303412007) | Waltham, Massachusetts | $124k–$164k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303412007?gh_jid=5303412007) |
+| **Anduril** | [Site Reliability Engineer](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303411007) | Waltham, Massachusetts | $124k–$164k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303411007?gh_jid=5303411007) |
 | **Vercel** | [Software Engineer, Runtimes](https://www.freshcommits.com/job/sync-greenhouse-vercel-6150691004) | Hybrid - San Francisco | — | 2026-11-19 | [Direct ATS](https://job-boards.greenhouse.io/vercel/jobs/6150691004) |
 | **Baseten** | [Software Engineer - Inference Product](https://www.freshcommits.com/job/sync-ashby-baseten-fddec35f-9dbc-4344-b1df-b8ff6e05472a) | San Francisco | $200k–$400k/yr | 2026-11-19 | [Direct ATS](https://jobs.ashbyhq.com/baseten/fddec35f-9dbc-4344-b1df-b8ff6e05472a) |
 | **Notion** | [Software Engineer, Collections Infra](https://www.freshcommits.com/job/sync-ashby-notion-0fb1f7e2-ffe4-433c-a27d-62fa7f1d880f) | San Francisco, California | $150k–$168k/yr | 2026-11-19 | [Direct ATS](https://jobs.ashbyhq.com/notion/0fb1f7e2-ffe4-433c-a27d-62fa7f1d880f) |
+| **Anduril** | [Avionics Systems Engineer, Space](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5300687007) | Costa Mesa, California | $147k–$196k/yr | 2026-11-19 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5300687007?gh_jid=5300687007) |
 | **Ramp** | [Research Engineer, Agentic Systems](https://www.freshcommits.com/job/sync-ashby-ramp-f90d32c1-7c10-4161-8913-075e1b423697) | Remote (Remote (US)) | $204k–$352k/yr | 2026-11-18 | [Direct ATS](https://jobs.ashbyhq.com/ramp/f90d32c1-7c10-4161-8913-075e1b423697) |
 | **Zoox** | [Contract Student Worker - Data Scientist (20 hrs wk)](https://www.freshcommits.com/job/sync-lever-zoox-c6d372ce-1203-4d34-bd3e-f637e7d23483) | Foster City, CA | — | 2026-11-18 | [Direct ATS](https://jobs.lever.co/zoox/c6d372ce-1203-4d34-bd3e-f637e7d23483) |
 | **Western Digital** | [Spring 2027 Intern - Software Engineering](https://www.freshcommits.com/job/sync-smartrecruiters-westerndigital-744000162353069) | Irvine, CA | — | 2026-11-18 | [Direct ATS](https://jobs.smartrecruiters.com/WesternDigital/744000162353069-spring-2027-intern-software-engineering) |
@@ -60,9 +63,6 @@
 | **Anduril** | [Vulnerability Security Engineer](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5298282007) | Remote, US | $114k–$196k/yr | 2026-11-17 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5298282007?gh_jid=5298282007) |
 | **ElevenLabs** | [Full-Stack Engineer - ElevenMusic](https://www.freshcommits.com/job/sync-ashby-elevenlabs-0547cf3a-856f-4db2-8307-73db634c4096) | Remote, US | — | 2026-11-17 | [Direct ATS](https://jobs.ashbyhq.com/ElevenLabs/0547cf3a-856f-4db2-8307-73db634c4096) |
 | **Roblox** | [[2027] Data Scientist - PhD Early Career - Safety](https://www.freshcommits.com/job/sync-greenhouse-roblox-8384186) | San Mateo, CA | $186k–$221k/yr | 2026-11-16 | [Direct ATS](https://careers.roblox.com/jobs/8384186?gh_jid=8384186) |
-| **Robinhood** | [Software Engineer, Backend - Government Products](https://www.freshcommits.com/job/sync-greenhouse-robinhood-8385931) | Menlo Park, CA (+1) | $166k–$195k/yr | 2026-11-16 | [Direct ATS](https://boards.greenhouse.io/robinhood/jobs/8385931?t=gh_src=&gh_jid=8385931) |
-| **Replit** | [Software Engineer, Enterprise](https://www.freshcommits.com/job/sync-ashby-replit-b7f12834-78d2-424d-bf83-0c942815fbf7) | Foster City, CA | $180k–$320k/yr | 2026-11-16 | [Direct ATS](https://jobs.ashbyhq.com/replit/b7f12834-78d2-424d-bf83-0c942815fbf7) |
-| **Fanuc** | [Software Developer](https://www.freshcommits.com/job/manual-1794744041539) | Remote (US) | $81k–$131k/yr | 2026-11-15 | [Direct ATS](https://myjobs.adp.com/fanuc/cx/job-details) |
 
 ---
 
@@ -140,7 +140,7 @@
 
 ---
 
-## Entry-Level & New Grad Full-Time Roles — 0–2 YoE (218)
+## Entry-Level & New Grad Full-Time Roles — 0–2 YoE (221)
 
 | Company | Role & Details | Location | Disclosed Pay | Posted | Apply |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -158,9 +158,12 @@
 | **Anduril** | [RF Integration Systems Engineer, Early Career](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303550007) | Costa Mesa, California | $117k–$150k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303550007?gh_jid=5303550007) |
 | **Anduril** | [Mission Systems Engineer, Early Career](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303479007) | Costa Mesa, California | $117k–$150k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303479007?gh_jid=5303479007) |
 | **Anthropic** | [Research Engineer, Beneficial Deployments](https://www.freshcommits.com/job/sync-greenhouse-anthropic-5485188008) | San Francisco, CA | — | 2026-11-20 | [Direct ATS](https://job-boards.greenhouse.io/anthropic/jobs/5485188008) |
+| **Anduril** | [Fielded Site Reliability Engineer](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303412007) | Waltham, Massachusetts | $124k–$164k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303412007?gh_jid=5303412007) |
+| **Anduril** | [Site Reliability Engineer](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5303411007) | Waltham, Massachusetts | $124k–$164k/yr | 2026-11-20 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5303411007?gh_jid=5303411007) |
 | **Vercel** | [Software Engineer, Runtimes](https://www.freshcommits.com/job/sync-greenhouse-vercel-6150691004) | Hybrid - San Francisco | — | 2026-11-19 | [Direct ATS](https://job-boards.greenhouse.io/vercel/jobs/6150691004) |
 | **Baseten** | [Software Engineer - Inference Product](https://www.freshcommits.com/job/sync-ashby-baseten-fddec35f-9dbc-4344-b1df-b8ff6e05472a) | San Francisco | $200k–$400k/yr | 2026-11-19 | [Direct ATS](https://jobs.ashbyhq.com/baseten/fddec35f-9dbc-4344-b1df-b8ff6e05472a) |
 | **Notion** | [Software Engineer, Collections Infra](https://www.freshcommits.com/job/sync-ashby-notion-0fb1f7e2-ffe4-433c-a27d-62fa7f1d880f) | San Francisco, California | $150k–$168k/yr | 2026-11-19 | [Direct ATS](https://jobs.ashbyhq.com/notion/0fb1f7e2-ffe4-433c-a27d-62fa7f1d880f) |
+| **Anduril** | [Avionics Systems Engineer, Space](https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5300687007) | Costa Mesa, California | $147k–$196k/yr | 2026-11-19 | [Direct ATS](https://boards.greenhouse.io/andurilindustries/jobs/5300687007?gh_jid=5300687007) |
 | **Ramp** | [Research Engineer, Agentic Systems](https://www.freshcommits.com/job/sync-ashby-ramp-f90d32c1-7c10-4161-8913-075e1b423697) | Remote (Remote (US)) | $204k–$352k/yr | 2026-11-18 | [Direct ATS](https://jobs.ashbyhq.com/ramp/f90d32c1-7c10-4161-8913-075e1b423697) |
 | **Palantir** | [Information Systems Security Engineer](https://www.freshcommits.com/job/sync-lever-palantir-e8bfc01c-620c-4b6a-b3f8-cd275228db06) | Palo Alto, CA | $100k–$174k/yr | 2026-11-18 | [Direct ATS](https://jobs.lever.co/palantir/e8bfc01c-620c-4b6a-b3f8-cd275228db06) |
 | **Twilio** | [Software Engineer - Platform Engineering](https://www.freshcommits.com/job/sync-greenhouse-twilio-8385593) | Remote - US | $109k–$136k/yr | 2026-11-18 | [Direct ATS](https://job-boards.greenhouse.io/twilio/jobs/8385593) |
@@ -281,9 +284,6 @@
 | **Tsc** | [Software Engineer I](https://www.freshcommits.com/job/manual-1793469498825) | Huntsville, AL | — | 2026-10-31 | [Direct ATS](https://tsc.wd12.myworkdayjobs.com/en-US/TSC-Careers/job/Huntsville-AL-Discovery/Software-Engineer-I_JR2897) |
 | **GitLab** | [Data Scientist, Enterprise Analytics](https://www.freshcommits.com/job/sync-greenhouse-gitlab-8922013002) | Remote (US) | $86k–$176k/yr | 2026-10-30 | [Direct ATS](https://job-boards.greenhouse.io/gitlab/jobs/8922013002) |
 | **Roblox** | [Software Engineer, Discovery UX](https://www.freshcommits.com/job/sync-greenhouse-roblox-8304210) | San Mateo, CA | $153k–$197k/yr | 2026-10-30 | [Direct ATS](https://careers.roblox.com/jobs/8304210?gh_jid=8304210) |
-| **Morningstar** | [Associate Software Engineer (Central Tech AI)](https://www.freshcommits.com/job/manual-1793374086823) | Chicago, IL | $105k–$142k/yr | 2026-10-30 | [Direct ATS](https://morningstar.wd5.myworkdayjobs.com/morningstar/job/Chicago/Associate-Software-Engineer--Central-Tech-AI-_REQ-059108) |
-| **The Mitre Corporation** | [Associate Data Scientist](https://www.freshcommits.com/job/manual-1793373802935) | McLean, VIRGINIA | $80k–$100k/yr | 2026-10-30 | [Direct ATS](https://careers.mitre.org/us/en/job/MITRUSR117872EXTERNALENUS/Associate-Data-Scientist) |
-| **Bugcrowd** | [Customer Support Engineer](https://www.freshcommits.com/job/manual-1793373605368) | Remote (US) | $60k–$74k/yr | 2026-10-30 | [Direct ATS](https://job-boards.greenhouse.io/bugcrowd/jobs/8334498) |
 
 ---
 
