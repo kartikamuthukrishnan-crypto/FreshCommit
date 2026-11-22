@@ -1,4 +1,4 @@
-# Weekly Fresh-Job Drops & Data Insights (2026-11-21)
+# Weekly Fresh-Job Drops & Data Insights (2026-11-22)
 
 Ready-to-post community drops generated automatically from **285 verified active US 0–2 YoE roles** (dead links pruned before generation).
 
@@ -7,21 +7,21 @@ Ready-to-post community drops generated automatically from **285 verified active
 ## 1. Reddit Post (r/csMajors / r/cscareerquestions)
 
 **Suggested Title:**
-`[2026-11-21 Data] Analyzed 285 live US Entry-Level & 2027 Intern SWE openings across 138 direct ATS boards (71% disclose pay)`
+`[2026-11-22 Data] Analyzed 285 live US Entry-Level & 2027 Intern SWE openings across 133 direct ATS boards (70% disclose pay)`
 
 **Body (copy & paste):**
 
 ```markdown
-We audit direct employer ATS boards (Greenhouse, Ashby, Lever, SmartRecruiters) every 6 hours for strict 0–2 YoE US software roles and automatically prune 404/closed postings. Here is this week's snapshot (2026-11-21):
+We audit direct employer ATS boards (Greenhouse, Ashby, Lever, SmartRecruiters) every 6 hours for strict 0–2 YoE US software roles and automatically prune 404/closed postings. Here is this week's snapshot (2026-11-22):
 
-### Market Snapshot (2026-11-21)
-- **Active 0–2 YoE US roles:** 285 across 138 companies (38 posted in the last 7 days)
-- **Full-Time New Grad / Entry-Level:** 216 — median disclosed base midpoint: **$154,500/yr**
-- **2027 Internships / Co-ops:** 69 — median disclosed pay: **$35/hr**
-- **Pay transparency:** 71% of live postings include verified salary bands
-- **Work mode split:** 63% On-site · 12% Hybrid · 26% Remote (US)
-- **Most active employers this week:** Roblox (14), Palantir (12), Twitch (11), ElevenLabs (11), Zoox (9), Baseten (8), Waymo (8), DoorDash (8)
-- **Top requested stack:** Python (137), Go (90), Java (64), AWS (57), C++ (57), JavaScript (51)
+### Market Snapshot (2026-11-22)
+- **Active 0–2 YoE US roles:** 285 across 133 companies (40 posted in the last 7 days)
+- **Full-Time New Grad / Entry-Level:** 218 — median disclosed base midpoint: **$154,500/yr**
+- **2027 Internships / Co-ops:** 67 — median disclosed pay: **$37/hr**
+- **Pay transparency:** 70% of live postings include verified salary bands
+- **Work mode split:** 62% On-site · 12% Hybrid · 26% Remote (US)
+- **Most active employers this week:** Roblox (14), Zoox (12), Palantir (12), Twitch (11), ElevenLabs (11), Anduril (9), Baseten (8), Waymo (8)
+- **Top requested stack:** Python (138), Go (89), Java (63), C++ (60), AWS (56), JavaScript (49)
 
 ### 12 Freshest Verified Openings (Direct ATS Links)
 
@@ -50,16 +50,16 @@ Happy to pull salary or wave breakdowns for specific companies/roles if anyone w
 ## 2. LinkedIn Post
 
 ```text
-Weekly US Entry-Level & 2027 SWE Hiring Pulse (2026-11-21)
+Weekly US Entry-Level & 2027 SWE Hiring Pulse (2026-11-22)
 
-We scanned 138 direct employer ATS boards today and filtered strictly for 0–2 YoE engineering roles (removing expired links and senior 3+ YoE clutter).
+We scanned 133 direct employer ATS boards today and filtered strictly for 0–2 YoE engineering roles (removing expired links and senior 3+ YoE clutter).
 
 Here is what the live numbers show right now:
-• 285 verified active roles (38 added in the last 7 days)
-• 216 Full-Time Entry-Level / New Grad roles (median disclosed base midpoint: $154,500/yr)
-• 69 Summer/Spring 2027 Internships (median disclosed pay: $35/hr)
-• 71% publish verified compensation bands
-• Top hiring teams this week: Roblox, Palantir, Twitch, ElevenLabs, Zoox
+• 285 verified active roles (40 added in the last 7 days)
+• 218 Full-Time Entry-Level / New Grad roles (median disclosed base midpoint: $154,500/yr)
+• 67 Summer/Spring 2027 Internships (median disclosed pay: $37/hr)
+• 70% publish verified compensation bands
+• Top hiring teams this week: Roblox, Zoox, Palantir, Twitch, ElevenLabs
 
 5 fresh openings live right now:
 → Anthropic — Research Engineer, Finetuning (San Francisco, CA | New York City, …)
@@ -78,12 +78,12 @@ All 285 verified roles + direct ATS links: https://www.freshcommits.com/jobs
 ## 3. X / Twitter Drop
 
 ```text
-US 0–2 YoE Tech Hiring Pulse (2026-11-21):
+US 0–2 YoE Tech Hiring Pulse (2026-11-22):
 
-• 285 verified live ATS roles (38 added this week)
-• 216 New Grad / Entry-Level (median disclosed: $154,500/yr)
-• 69 2027 Internships
-• 71% disclose salary bands
+• 285 verified live ATS roles (40 added this week)
+• 218 New Grad / Entry-Level (median disclosed: $154,500/yr)
+• 67 2027 Internships
+• 70% disclose salary bands
 
 Freshest drops:
 - Anthropic: Research Engineer, Finetuning (San Francisco, CA | New York City, …)
