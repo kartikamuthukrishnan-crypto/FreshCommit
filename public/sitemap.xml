@@ -426,6 +426,30 @@
 
   <!-- Verified Job Postings (Google Search & Google for Jobs Direct Indexing) -->
   <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-rubrik-8314058</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5287086007</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-stripe-8414532</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-stripe-8394936</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-render-566c3a20-bfc3-4ba0-a6f4-d378e05a5525</loc>
     <lastmod>2026-11-24</lastmod>
     <changefreq>daily</changefreq>
@@ -1032,6 +1056,18 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5290228007</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.freshcommits.com/job/sync-greenhouse-andurilindustries-5290223007</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://www.freshcommits.com/job/sync-greenhouse-coinbase-8278991</loc>
     <lastmod>2026-11-09</lastmod>
     <changefreq>daily</changefreq>
@@ -1118,12 +1154,6 @@
   <url>
     <loc>https://www.freshcommits.com/job/manual-1794239773449</loc>
     <lastmod>2026-09-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-chime-8904126002</loc>
-    <lastmod>2026-11-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
@@ -1267,12 +1297,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/manual-1793877970631</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/manual-1793877856679</loc>
     <lastmod>2026-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -1771,12 +1795,6 @@
   </url>
   <url>
     <loc>https://www.freshcommits.com/job/sync-ashby-openai-b73e46a6-881a-4413-835a-94b9d5f35d2f</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://www.freshcommits.com/job/sync-greenhouse-databricks-8910846002</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
