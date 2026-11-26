@@ -1,13 +1,13 @@
 # Weekly Fresh-Job Drops & Data Insights (2026-11-26)
 
-Ready-to-post community drops generated automatically from **316 verified active US 0–2 YoE roles** (dead links pruned before generation).
+Ready-to-post community drops generated automatically from **317 verified active US 0–2 YoE roles** (dead links pruned before generation).
 
 ---
 
 ## 1. Reddit Post (r/csMajors / r/cscareerquestions)
 
 **Suggested Title:**
-`[2026-11-26 Data] Analyzed 316 live US Entry-Level & 2027 Intern SWE openings across 131 direct ATS boards (73% disclose pay)`
+`[2026-11-26 Data] Analyzed 317 live US Entry-Level & 2027 Intern SWE openings across 131 direct ATS boards (74% disclose pay)`
 
 **Body (copy & paste):**
 
@@ -15,13 +15,13 @@ Ready-to-post community drops generated automatically from **316 verified active
 We audit direct employer ATS boards (Greenhouse, Ashby, Lever, SmartRecruiters) every 6 hours for strict 0–2 YoE US software roles and automatically prune 404/closed postings. Here is this week's snapshot (2026-11-26):
 
 ### Market Snapshot (2026-11-26)
-- **Active 0–2 YoE US roles:** 316 across 131 companies (44 posted in the last 7 days)
-- **Full-Time New Grad / Entry-Level:** 251 — median disclosed base midpoint: **$156,775/yr**
+- **Active 0–2 YoE US roles:** 317 across 131 companies (44 posted in the last 7 days)
+- **Full-Time New Grad / Entry-Level:** 252 — median disclosed base midpoint: **$157,500/yr**
 - **2027 Internships / Co-ops:** 65 — median disclosed pay: **$37/hr**
-- **Pay transparency:** 73% of live postings include verified salary bands
-- **Work mode split:** 66% On-site · 12% Hybrid · 23% Remote (US)
-- **Most active employers this week:** Anduril (31), Roblox (14), Zoox (12), Palantir (12), Twitch (11), ElevenLabs (11), Baseten (10), Stripe (10)
-- **Top requested stack:** Python (151), Go (98), C++ (67), Java (62), AWS (57), JavaScript (50)
+- **Pay transparency:** 74% of live postings include verified salary bands
+- **Work mode split:** 66% On-site · 12% Hybrid · 22% Remote (US)
+- **Most active employers this week:** Anduril (34), Roblox (14), Zoox (12), Palantir (12), Twitch (11), Baseten (10), Stripe (10), ElevenLabs (10)
+- **Top requested stack:** Python (153), Go (98), C++ (69), Java (63), AWS (59), JavaScript (50)
 
 ### 12 Freshest Verified Openings (Direct ATS Links)
 
@@ -40,7 +40,7 @@ We audit direct employer ATS boards (Greenhouse, Ashby, Lever, SmartRecruiters) 
 | Render | [Software Engineer, Platform Security (All Levels)](https://www.freshcommits.com/job/sync-ashby-render-566c3a20-bfc3-4ba0-a6f4-d378e05a5525) | Remote (Remote: United States) | $170k–$290k/yr | 2026-11-24 |
 | Dropbox | [Security Engineer, Offensive Security](https://www.freshcommits.com/job/sync-greenhouse-dropbox-8328568) | Remote - US: Select locations | $194k–$262k/yr | 2026-11-23 |
 
-Full searchable list (all 316 roles, updated every 6h with dead-link checks): https://www.freshcommits.com/jobs
+Full searchable list (all 317 roles, updated every 6h with dead-link checks): https://www.freshcommits.com/jobs
 
 Happy to pull salary or wave breakdowns for specific companies/roles if anyone wants them in the comments.
 ```
@@ -55,10 +55,10 @@ Weekly US Entry-Level & 2027 SWE Hiring Pulse (2026-11-26)
 We scanned 131 direct employer ATS boards today and filtered strictly for 0–2 YoE engineering roles (removing expired links and senior 3+ YoE clutter).
 
 Here is what the live numbers show right now:
-• 316 verified active roles (44 added in the last 7 days)
-• 251 Full-Time Entry-Level / New Grad roles (median disclosed base midpoint: $156,775/yr)
+• 317 verified active roles (44 added in the last 7 days)
+• 252 Full-Time Entry-Level / New Grad roles (median disclosed base midpoint: $157,500/yr)
 • 65 Summer/Spring 2027 Internships (median disclosed pay: $37/hr)
-• 73% publish verified compensation bands
+• 74% publish verified compensation bands
 • Top hiring teams this week: Anduril, Roblox, Zoox, Palantir, Twitch
 
 5 fresh openings live right now:
@@ -68,7 +68,7 @@ Here is what the live numbers show right now:
 → Coinbase — Security Engineer Intern (Hybrid - New York, NY)
 → Reddit — Software Engineer, Ads (San Francisco, CA, $165k–$230k/yr)
 
-All 316 verified roles + direct ATS links: https://www.freshcommits.com/jobs
+All 317 verified roles + direct ATS links: https://www.freshcommits.com/jobs
 
 #SoftwareEngineering #NewGrad #EntryLevelJobs #CSInternships #TechHiring
 ```
@@ -80,10 +80,10 @@ All 316 verified roles + direct ATS links: https://www.freshcommits.com/jobs
 ```text
 US 0–2 YoE Tech Hiring Pulse (2026-11-26):
 
-• 316 verified live ATS roles (44 added this week)
-• 251 New Grad / Entry-Level (median disclosed: $156,775/yr)
+• 317 verified live ATS roles (44 added this week)
+• 252 New Grad / Entry-Level (median disclosed: $157,500/yr)
 • 65 2027 Internships
-• 73% disclose salary bands
+• 74% disclose salary bands
 
 Freshest drops:
 - Discord: Data Engineer ($160k–$200k/yr)

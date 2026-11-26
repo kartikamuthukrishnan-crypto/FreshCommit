@@ -10,12 +10,12 @@
 
 | Metric | Verified Value |
 | :--- | :--- |
-| **Active 0–2 YoE Openings** | **316** across **131** employers |
+| **Active 0–2 YoE Openings** | **317** across **131** employers |
 | **Added in Last 7 Days** | **44** fresh openings |
-| **Full-Time Entry / New Grad** | **251** roles (Median disclosed midpoint: **$156,775/yr**) |
+| **Full-Time Entry / New Grad** | **252** roles (Median disclosed midpoint: **$157,500/yr**) |
 | **2027 Internships & Co-ops** | **65** roles (Median disclosed hourly: **$37/hr**) |
-| **Salary Transparency Rate** | **73%** include verified employer pay bands |
-| **Work Mode Split** | 207 On-site · 37 Hybrid · 72 Remote (US) |
+| **Salary Transparency Rate** | **74%** include verified employer pay bands |
+| **Work Mode Split** | 210 On-site · 37 Hybrid · 70 Remote (US) |
 
 ---
 
@@ -138,7 +138,7 @@
 
 ---
 
-## Entry-Level & New Grad Full-Time Roles — 0–2 YoE (251)
+## Entry-Level & New Grad Full-Time Roles — 0–2 YoE (252)
 
 | Company | Role & Details | Location | Disclosed Pay | Posted | Apply |
 | :--- | :--- | :--- | :--- | :--- | :--- |
