@@ -6,16 +6,16 @@
 
 ---
 
-### Live Market Snapshot (2026-11-26)
+### Live Market Snapshot (2026-11-27)
 
 | Metric | Verified Value |
 | :--- | :--- |
-| **Active 0–2 YoE Openings** | **317** across **131** employers |
-| **Added in Last 7 Days** | **44** fresh openings |
-| **Full-Time Entry / New Grad** | **252** roles (Median disclosed midpoint: **$157,500/yr**) |
+| **Active 0–2 YoE Openings** | **320** across **131** employers |
+| **Added in Last 7 Days** | **40** fresh openings |
+| **Full-Time Entry / New Grad** | **255** roles (Median disclosed midpoint: **$157,500/yr**) |
 | **2027 Internships & Co-ops** | **65** roles (Median disclosed hourly: **$37/hr**) |
 | **Salary Transparency Rate** | **74%** include verified employer pay bands |
-| **Work Mode Split** | 210 On-site · 37 Hybrid · 70 Remote (US) |
+| **Work Mode Split** | 213 On-site · 37 Hybrid · 70 Remote (US) |
 
 ---
 
@@ -138,7 +138,7 @@
 
 ---
 
-## Entry-Level & New Grad Full-Time Roles — 0–2 YoE (252)
+## Entry-Level & New Grad Full-Time Roles — 0–2 YoE (255)
 
 | Company | Role & Details | Location | Disclosed Pay | Posted | Apply |
 | :--- | :--- | :--- | :--- | :--- | :--- |
